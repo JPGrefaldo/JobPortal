@@ -28,6 +28,7 @@ class SignupFeatureTest extends TestCase
             'phone'                 => $fakerUser->phone,
             'receive_text'          => 1,
             'terms'                 => 1,
+            '_token'                => csrf_token()
         ];
 
         Hash::shouldReceive('make')->once()->andReturn('hashed_password');
@@ -47,6 +48,9 @@ class SignupFeatureTest extends TestCase
             'confirmed'         => 0,
         ]);
         // @todo: assert that the user has a crew role
+//        $user = User::where('email', $fakerUser->email)->first();
+//
+//        $this->assertTrue($user->hasRole(Role::CREW));
         // @todo: assert that the user is synced with the site
         // @todo: assert that the user has settings depending on the receive_text
     }
