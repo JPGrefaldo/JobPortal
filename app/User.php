@@ -31,4 +31,25 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * Roles many to many relationship
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'user_roles');
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return bool
+     */
+    public function hasRole($name)
+    {
+        return $this->roles()->get()
+            ->contains('name', $name);
+    }
 }

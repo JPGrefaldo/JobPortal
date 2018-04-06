@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Services\AuthServices;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Events\Registered;
@@ -91,7 +92,13 @@ class RegisterController extends Controller
     {
         $this->validator($request->all())->validate();
 
-        event(new Registered($user = $this->create($request->all())));
+        /** @var AuthServices $authServices */
+        $user = $this->create($request->all());
+        $authServices = app(AuthServices::class);
+
+        $authServices->createCrew($user);
+
+        event(new Registered($user));
 
         return $this->registered($request, $user)
             ?: redirect($this->redirectPath());

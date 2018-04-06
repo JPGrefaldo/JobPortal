@@ -39,6 +39,7 @@ class SignupFeatureTest extends TestCase
         $response = $this->post('signup/crew', $data);
 
         $response->assertRedirect('login');
+
         $this->assertDatabaseHas('users', [
             'first_name'        => $fakerUser->first_name,
             'last_name'         => $fakerUser->last_name,
@@ -49,23 +50,14 @@ class SignupFeatureTest extends TestCase
             'status'            => 1,
             'confirmed'         => 0,
         ]);
-        // @todo: assert that the user has a crew role
-        $this->assertDatabaseHas('roles', [
-            'name' => Role::CREW
-        ]);
-//        $user = User::where('email', $fakerUser->email)->first();
-//
-//        $this->assertTrue($user->hasRole(Role::CREW));
+
+        // assert that the user has a crew role
+        $user = User::where('email', $fakerUser->email)->first();
+
+        $this->assertTrue($user->hasRole(Role::CREW));
+
         // @todo: assert that the user is synced with the site
         // @todo: assert that the user has settings depending on the receive_text
-    }
-
-    /** @test */
-    public function role_seed()
-    {
-        $this->assertDatabaseHas('roles', [
-            'name' => Role::CREW
-        ]);
     }
 
     /**
