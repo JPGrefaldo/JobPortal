@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Services\AuthServices;
+use App\Site;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Events\Registered;
@@ -94,9 +95,10 @@ class RegisterController extends Controller
 
         /** @var AuthServices $authServices */
         $user = $this->create($request->all());
+        $site = Site::where('hostname', $request->getHost())->first();
         $authServices = app(AuthServices::class);
 
-        $authServices->createCrew($user);
+        $authServices->createCrew($user, $site);
 
         event(new Registered($user));
 

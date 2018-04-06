@@ -56,7 +56,10 @@ class SignupFeatureTest extends TestCase
 
         $this->assertTrue($user->hasRole(Role::CREW));
 
-        // @todo: assert that the user is synced with the site
+        // assert that the user is in the current site
+        $site = $this->getCurrentSite();
+
+        $this->assertTrue($user->hasSite($site->hostname));
         // @todo: assert that the user has settings depending on the receive_text
     }
 

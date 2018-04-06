@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUserRolesTable extends Migration
+class CreateSitesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateUserRolesTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_roles', function (Blueprint $table) {
+        Schema::create('sites', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned()->references('id')->on('users');
-            $table->integer('role_id')->unsigned()->references('id')->on('roles');
+            $table->string('name');
+            $table->string('hostname')->unique();
+            $table->boolean('forward_to_site_id')->default(0);
+            $table->smallInteger('status')->default(1);
             $table->timestamps();
-            $table->unique(['user_id', 'role_id']);
         });
     }
 
@@ -29,6 +30,6 @@ class CreateUserRolesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_roles');
+        Schema::dropIfExists('sites');
     }
 }

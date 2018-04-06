@@ -42,6 +42,12 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class, 'user_roles');
     }
 
+
+    public function sites()
+    {
+        return $this->belongsToMany(Site::class, 'user_sites');
+    }
+
     /**
      * @param string $name
      *
@@ -51,5 +57,16 @@ class User extends Authenticatable
     {
         return $this->roles()->get()
             ->contains('name', $name);
+    }
+
+    /**
+     * @param string $hostname
+     *
+     * @return bool
+     */
+    public function hasSite($hostname)
+    {
+        return $this->sites()->get()
+            ->contains('hostname', $hostname);
     }
 }
