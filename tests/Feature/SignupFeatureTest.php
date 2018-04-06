@@ -2,17 +2,19 @@
 
 namespace Tests\Feature;
 
+use App\Role;
 use App\User;
 use Illuminate\Support\Facades\Hash;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidFactory;
+use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class SignupFeatureTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, SeedDatabaseAfterRefresh;
 
     /** @test */
     public function crew()
@@ -48,11 +50,22 @@ class SignupFeatureTest extends TestCase
             'confirmed'         => 0,
         ]);
         // @todo: assert that the user has a crew role
+        $this->assertDatabaseHas('roles', [
+            'name' => Role::CREW
+        ]);
 //        $user = User::where('email', $fakerUser->email)->first();
 //
 //        $this->assertTrue($user->hasRole(Role::CREW));
         // @todo: assert that the user is synced with the site
         // @todo: assert that the user has settings depending on the receive_text
+    }
+
+    /** @test */
+    public function role_seed()
+    {
+        $this->assertDatabaseHas('roles', [
+            'name' => Role::CREW
+        ]);
     }
 
     /**
