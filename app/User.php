@@ -33,7 +33,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * Roles many to many relationship
+     * roles many to many relationship
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
@@ -42,10 +42,24 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class, 'user_roles');
     }
 
-
+    /**
+     * sites many to many relationship
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function sites()
     {
         return $this->belongsToMany(Site::class, 'user_sites');
+    }
+
+    /**
+     * user_notification_settings relationship
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function notificationSettings()
+    {
+        return $this->hasOne(UserNotificationSetting::class);
     }
 
     /**

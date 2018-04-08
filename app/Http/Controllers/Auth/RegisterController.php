@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Services\AuthServices;
+use App\Services\UsersServices;
 use App\Site;
 use App\User;
 use App\Http\Controllers\Controller;
@@ -73,14 +74,20 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        /** @var UsersServices $service */
+        $service = app(UsersServices::class);
+        $userData = [
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
             'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'phone' => $data['phone'],
-            'confirmation_code' => Uuid::uuid4()
-        ]);
+            'password' => $data['password'],
+            'phone' => $data['phone']
+        ];
+        $notificationSettingsData = [
+            'receive_sms' => $data['receive_text']
+        ];
+
+        return $service->create($userData, $notificationSettingsData);
     }
 
     /**

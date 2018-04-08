@@ -34,7 +34,6 @@ class SignupFeatureTest extends TestCase
         ];
 
         Hash::shouldReceive('make')->once()->andReturn('hashed_password');
-        $this->mockUUID($fakerUser->confirmation_code);
 
         $response = $this->post('signup/crew', $data);
 
@@ -46,27 +45,35 @@ class SignupFeatureTest extends TestCase
             'email'             => $fakerUser->email,
             'phone'             => $fakerUser->phone,
             'password'          => 'hashed_password',
-            'confirmation_code' => $fakerUser->confirmation_code,
             'status'            => 1,
             'confirmed'         => 0,
         ]);
 
-        // assert that the user has a crew role
+        // assert that the user has settings depending on the receive_text
         $user = User::where('email', $fakerUser->email)->first();
 
+        $this->assertArraySubset(
+            [
+                'receive_email_notification' => 1,
+                'receive_other_emails'       => 1,
+                'receive_sms'                => 1,
+            ],
+            $user->notificationSettings->toArray()
+        );
+
+        // assert that the user has a crew role
         $this->assertTrue($user->hasRole(Role::CREW));
 
         // assert that the user is in the current site
         $site = $this->getCurrentSite();
 
         $this->assertTrue($user->hasSite($site->hostname));
-        // @todo: assert that the user has settings depending on the receive_text
     }
 
     /**
      * @param string $stringUuid
      */
-    private function mockUUID($stringUuid)
+    /*private function mockUUID($stringUuid)
     {
         $uuid = Uuid::fromString($stringUuid);
         $factoryMock = \Mockery::mock(UuidFactory::class . '[uuid4]', [
@@ -74,5 +81,5 @@ class SignupFeatureTest extends TestCase
         ]);
 
         Uuid::setFactory($factoryMock);
-    }
+    }*/
 }
