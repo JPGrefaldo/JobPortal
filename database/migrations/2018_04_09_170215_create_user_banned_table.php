@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSitesTable extends Migration
+class CreateUserBannedTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateSitesTable extends Migration
      */
     public function up()
     {
-        Schema::create('sites', function (Blueprint $table) {
+        Schema::create('user_banned', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->string('hostname')->unique();
-            $table->integer('forward_to_site_id')->default(0);
-            $table->smallInteger('status')->default(1);
+            $table->integer('user_id')->unsigned()->references('id')->on('users')->onDelete('cascade');
+            $table->text('reason')->default('');
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ class CreateSitesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sites');
+        Schema::dropIfExists('user_banned');
     }
 }

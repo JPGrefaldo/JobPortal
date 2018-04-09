@@ -15,7 +15,7 @@ class CreateUserNotificationSettingsTable extends Migration
     {
         Schema::create('user_notification_settings', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned()->references('id')->on('users');
+            $table->integer('user_id')->unsigned()->references('id')->on('users')->onDelete('cascade');
             $table->boolean('receive_email_notification')->default(1);
             $table->boolean('receive_other_emails')->default(1);
             $table->boolean('receive_sms')->default(1);
