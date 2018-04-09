@@ -37,5 +37,6 @@ class AuthServicesTest extends TestCase
 
         $this->assertTrue($user->hasRole(Role::CREW));
         $this->assertTrue($user->hasSite($site->hostname));
+        $this->assertNotEmpty($user->emailVerificationCode->code);
     }
 }

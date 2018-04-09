@@ -2,9 +2,11 @@
 
 namespace Tests\Feature;
 
+use App\Mail\ConfirmUserAccount;
 use App\Role;
 use App\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidFactory;
 use Tests\Support\SeedDatabaseAfterRefresh;
@@ -19,7 +21,9 @@ class SignupFeatureTest extends TestCase
     /** @test */
     public function crew()
     {
-        $fakerUser = factory(User::class)->make();
+        Mail::fake();
+
+        $fakerUser = factory(User::class)->make(['email' => 'champoyradoo@gmail.com']);
         $data = [
             'first_name'            => $fakerUser->first_name,
             'last_name'             => $fakerUser->last_name,
@@ -68,18 +72,13 @@ class SignupFeatureTest extends TestCase
         $site = $this->getCurrentSite();
 
         $this->assertTrue($user->hasSite($site->hostname));
+
+        // assert that the user has an email confirmation token
+        $this->assertNotEmpty($user->emailVerificationCode->code);
+
+        // assert that an email has been sent for verification
+        Mail::assertSent(ConfirmUserAccount::class, function($mail) use ($user) {
+            return $mail->user->id === $user->id;
+        });
     }
-
-    /**
-     * @param string $stringUuid
-     */
-    /*private function mockUUID($stringUuid)
-    {
-        $uuid = Uuid::fromString($stringUuid);
-        $factoryMock = \Mockery::mock(UuidFactory::class . '[uuid4]', [
-            'uuid4' => $uuid
-        ]);
-
-        Uuid::setFactory($factoryMock);
-    }*/
 }

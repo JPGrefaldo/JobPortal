@@ -63,6 +63,16 @@ class User extends Authenticatable
     }
 
     /**
+     * email_verification_tokens relationship
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function emailVerificationCode()
+    {
+        return $this->hasOne(EmailVerificationCode::class);
+    }
+
+    /**
      * @param string $name
      *
      * @return bool
