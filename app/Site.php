@@ -6,8 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Site extends Model
 {
-    protected $fillable = [
-        'name',
-        'hostname'
-    ];
+    /**
+     * The protected attributes
+     *
+     * @var array
+     */
+    protected $guarded = ['id'];
 }

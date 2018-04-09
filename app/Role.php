@@ -11,11 +11,11 @@ class Role extends Model
     const ADMIN = 'Admin';
 
     /**
-     * The attributes that are mass assignable.
+     * The protected attributes
      *
      * @var array
      */
-    protected $fillable = ['name'];
+    protected $guarded = ['id'];
 
     /**
      * Users many to many relationship

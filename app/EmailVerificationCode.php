@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class EmailVerificationCode extends Model
 {
     /**
+     * The protected attributes
+     *
      * @var array
      */
-    protected $fillable = ['code'];
+    protected $guarded = ['id'];
 }

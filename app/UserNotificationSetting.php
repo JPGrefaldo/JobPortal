@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class UserNotificationSetting extends Model
 {
     /**
+     * The protected attributes
+     *
      * @var array
      */
-    protected $fillable = [
-        'receive_sms'
-    ];
+    protected $guarded = ['id'];
 }
