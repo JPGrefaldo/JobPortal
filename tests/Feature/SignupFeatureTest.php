@@ -21,7 +21,7 @@ class SignupFeatureTest extends TestCase
     {
         Mail::fake();
 
-        $fakerUser = factory(User::class)->make(['email' => 'champoyradoo@gmail.com']);
+        $fakerUser = factory(User::class)->make();
         $data = [
             'first_name'            => $fakerUser->first_name,
             'last_name'             => $fakerUser->last_name,
@@ -78,5 +78,29 @@ class SignupFeatureTest extends TestCase
         Mail::assertSent(ConfirmUserAccount::class, function($mail) use ($user) {
             return $mail->user->id === $user->id;
         });
+    }
+
+    /** @test */
+    public function crew_invalid_data()
+    {
+        Mail::fake();
+
+        $fakerUser = factory(User::class)->make();
+        $data = [
+            'first_name'            => $fakerUser->first_name,
+            'last_name'             => $fakerUser->last_name,
+            'email'                 => 'invalid_email',
+            'email_confirmation'    => 'invalid_email',
+            'password'              => 'some_password',
+            'password_confirmation' => 'some_password',
+            'phone'                 => $fakerUser->phone,
+            'receive_text'          => 1,
+            'terms'                 => 1,
+            '_token'                => csrf_token()
+        ];
+
+        $response = $this->post('signup/crew', $data);
+
+        $response->assertSessionHasErrors(['email']);
     }
 }

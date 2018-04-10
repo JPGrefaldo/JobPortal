@@ -12,4 +12,14 @@ class EmailVerificationCode extends Model
      * @var array
      */
     protected $guarded = ['id'];
+
+    /**
+     * users relationship
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

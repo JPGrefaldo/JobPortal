@@ -67,6 +67,21 @@ class User extends Authenticatable
     }
 
     /**
+     * @return bool
+     */
+    public function isConfirmed()
+    {
+        return ($this->confirmed === 1);
+    }
+
+    public function confirm()
+    {
+        $this->update([
+            'confirmed' => 1
+        ]);
+    }
+
+    /**
      * @param string $name
      *
      * @return bool
