@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Site extends Model
+class UserBanned extends Model
 {
     /**
      * The protected attributes
@@ -13,13 +13,15 @@ class Site extends Model
      */
     protected $guarded = ['id'];
 
+    protected $table = 'user_banned';
+
     /**
      * Users many to many relationship
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function users()
+    public function user()
     {
-        return $this->belongsToMany(User::class, 'user_sites');
+        return $this->hasOne(User::class, 'id', 'user_id');
     }
 }
