@@ -7,8 +7,6 @@ use App\Utils\UrlUtils;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 
-include __DIR__ . DIRECTORY_SEPARATOR . 'TestHelperFunctions.php';
-
 abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
