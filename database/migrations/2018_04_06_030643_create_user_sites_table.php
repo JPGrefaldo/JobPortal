@@ -15,9 +15,10 @@ class CreateUserSitesTable extends Migration
     {
         Schema::create('user_sites', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned()->references('id')->on('users');
-            $table->integer('site_id')->unsigned()->references('id')->on('sites');
+            $table->integer('user_id')->unsigned()->references('id')->on('users')->onDelete('cascade');
+            $table->integer('site_id')->unsigned()->references('id')->on('sites')->onDelete('cascade');
             $table->timestamps();
+
             $table->unique(['user_id', 'site_id']);
         });
     }

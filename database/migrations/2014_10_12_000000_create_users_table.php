@@ -23,7 +23,11 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->smallInteger('status')->default(1);
             $table->boolean('confirmed')->default(0);
+
             $table->timestamps();
+
+            $table->index('status');
+            $table->index('confirmed');
         });
     }
 
