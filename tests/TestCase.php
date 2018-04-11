@@ -9,6 +9,11 @@ use Tests\Support\SeedDatabaseAfterRefresh;
 
 abstract class TestCase extends BaseTestCase
 {
+    /**
+     * @var null | \App\Site
+     */
+    private static $site = null;
+
     use CreatesApplication;
 
     /**
@@ -32,9 +37,13 @@ abstract class TestCase extends BaseTestCase
      */
     protected function getCurrentSite()
     {
-        return Site::where(
-            'hostname',
-            UrlUtils::getHostNameFromBaseUrl(env('APP_URL'))
-        )->first();
+        if (! self::$site) {
+            self::$site = Site::where(
+                'hostname',
+                UrlUtils::getHostNameFromBaseUrl(env('APP_URL'))
+            )->first();
+        }
+
+        return self::$site;
     }
 }
