@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUserBannedTable extends Migration
+class CreateCrewSocialTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,18 @@ class CreateUserBannedTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_banned', function (Blueprint $table) {
+        Schema::create('crew_social', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned()
-                  ->foreign('user_id')
+            $table->integer('crew_id')->unsigned()
+                  ->foreign('crew_id')
                   ->references('id')
-                  ->on('users')
+                  ->on('crews')
                   ->onDelete('cascade');
-            $table->text('reason')->default('');
+            $table->integer('social_link_types_id')->unsigned()
+                  ->foreign('social_link_types_id')
+                  ->references('id')
+                  ->on('social_link_types')
+                  ->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -32,6 +36,6 @@ class CreateUserBannedTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_banned');
+        Schema::dropIfExists('crew_social');
     }
 }
