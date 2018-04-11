@@ -39,9 +39,11 @@ class UserSignupController extends Controller
             ],
             ['receive_sms' => $data['receive_text']]
         );
-        $site = Site::where('hostname', $request->getHost())->first();
 
-        app(AuthServices::class)->createCrew($user, $site);
+        app(AuthServices::class)->createCrew(
+            $user,
+            $request->session()->get('site')
+        );
 
         event(new Registered($user));
 
