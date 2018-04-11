@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUserSitesTable extends Migration
+class CreateCrewPositionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,21 +13,21 @@ class CreateUserSitesTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_sites', function (Blueprint $table) {
+        Schema::create('crew_positions', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned()
-                  ->foreign('user_id')
+            $table->integer('crew_id')->unsigned()
+                  ->foreign('crew_id')
                   ->references('id')
-                  ->on('users')
+                  ->on('crews')
                   ->onDelete('cascade');
-            $table->integer('site_id')->unsigned()
-                  ->foreign('site_id')
+            $table->integer('position_id')->unsigned()
+                  ->foreign('position_id')
                   ->references('id')
-                  ->on('sites')
+                  ->on('positions')
                   ->onDelete('cascade');
+            $table->text('details');
+            $table->text('union_description');
             $table->timestamps();
-
-            $table->unique(['user_id', 'site_id']);
         });
     }
 
@@ -38,6 +38,6 @@ class CreateUserSitesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_sites');
+        Schema::dropIfExists('crew_positions');
     }
 }
