@@ -12,4 +12,12 @@ class CrewGear extends Model
      * @var array
      */
     protected $guarded = ['id'];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function crew()
+    {
+        return $this->belongsTo(Crew::class);
+    }
 }

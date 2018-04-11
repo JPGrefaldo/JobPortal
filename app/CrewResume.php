@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CrewPosition extends Model
+class CrewResume extends Model
 {
     /**
      * The protected attributes
