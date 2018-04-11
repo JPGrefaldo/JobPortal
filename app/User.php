@@ -67,11 +67,29 @@ class User extends Authenticatable
     }
 
     /**
+     * user_banned relationship
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function banned()
+    {
+        return $this->hasOne(UserBanned::class);
+    }
+
+    /**
      * @return bool
      */
     public function isConfirmed()
     {
         return ($this->confirmed === 1);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isActive()
+    {
+        return ($this->status === 1);
     }
 
     public function confirm()
