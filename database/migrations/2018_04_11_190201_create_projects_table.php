@@ -17,10 +17,11 @@ class CreateProjectsTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->text('description');
+            $table->text('production_name');
             $table->boolean('production_name_public')->default(true);
             $table->smallInteger('status')->default(1);
-            $table->integer('project_types_id')->unsigned()
-                  ->foreign('project_types_id')
+            $table->integer('project_type_id')->unsigned()
+                  ->foreign('project_type_id')
                   ->references('id')
                   ->on('project_types')
                   ->onDelete('cascade');
