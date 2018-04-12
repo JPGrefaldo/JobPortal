@@ -14,6 +14,16 @@ class Project extends Model
     protected $guarded = ['id'];
 
     /**
+     * @var array
+     */
+    protected $casts = [
+        'id'                     => 'integer',
+        'project_type_id'        => 'integer',
+        'status'                 => 'integer',
+        'production_name_public' => 'boolean',
+    ];
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function type()

@@ -12,4 +12,11 @@ class Position extends Model
      * @var array
      */
     protected $guarded = ['id'];
+
+    /**
+     * @var array
+     */
+    protected $casts = [
+        'id'      => 'integer',
+    ];
 }
