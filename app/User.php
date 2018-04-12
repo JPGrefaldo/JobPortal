@@ -81,7 +81,7 @@ class User extends Authenticatable
      */
     public function isConfirmed()
     {
-        return ($this->confirmed === 1);
+        return ($this->confirmed == 1);
     }
 
     /**
@@ -89,7 +89,7 @@ class User extends Authenticatable
      */
     public function isActive()
     {
-        return ($this->status === 1);
+        return ($this->status == 1);
     }
 
     public function confirm()
