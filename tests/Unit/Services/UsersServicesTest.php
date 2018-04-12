@@ -96,4 +96,14 @@ class UsersServicesTest extends TestCase
             $user->notificationSettings->toArray()
         );
     }
+
+    /** @test */
+    public function format_phone()
+    {
+        $this->assertEquals(
+            '(123) 456-7891',
+            $this->service->formatPhone('1234567891')
+
+        );
+    }
 }

@@ -73,15 +73,19 @@ class SignupFeatureTest extends TestCase
             'last_name'   => $fakeUser->last_name,
             'email'       => 'invalid_email',
             'password'    => 'some_password',
-            'phone'       => $fakeUser->phone,
+            'phone'       => '+345344545446',
             'receive_sms' => 1,
-            'type'        => Role::CREW,
+            'type'        => Role::ADMIN,
             '_token'      => csrf_token(),
         ];
 
         $response = $this->post('signup', $data);
 
-        $response->assertSessionHasErrors(['email']);
+        $response->assertSessionHasErrors([
+            'email',
+            'phone' => 'The phone must be a valid US cell phone number.',
+            'type' => 'Invalid type.'
+        ]);
     }
 
     private function assertSignupSuccess($response, $data)

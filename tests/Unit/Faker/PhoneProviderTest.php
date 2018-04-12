@@ -3,6 +3,7 @@
 namespace Tests\Unit\Faker;
 
 use App\Faker\PhoneProvider;
+use App\Utils\StrUtils;
 use Faker\Generator;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -21,7 +22,7 @@ class PhoneProviderTest extends TestCase
     /** @test */
     public function test_phone_number()
     {
-        $number = $this->faker->phoneNumber;
+        $number = StrUtils::stripNonNumeric($this->faker->phoneNumber);
 
         $this->assertEquals('10', strlen($number));
         $this->assertTrue(ctype_digit($number));

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserSignupRequest;
 use App\Services\AuthServices;
 use App\Services\UsersServices;
 use App\Site;
@@ -11,23 +12,16 @@ use Illuminate\Http\Request;
 class UserSignupController extends Controller
 {
     /**
-     * Handle post request to signup crew
+     * Handle post request to signup
      *
-     * @param \Illuminate\Http\Request $request
+     * @param \App\Http\Requests\UserSignupRequest $request
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Exception
      */
-    public function signup(Request $request)
+    public function signup(UserSignupRequest $request)
     {
-        $data = $request->validate([
-            'first_name'   => 'required|string|max:255',
-            'last_name'    => 'required|string|max:255',
-            'email'        => 'required|string|email|max:255|unique:users',
-            'password'     => 'required|string|min:6',
-            'phone'        => 'required|string|max:15',
-            'receive_sms'  => 'sometimes|numeric',
-            'type'         => 'required|string'
-        ]);
+        $data = $request->validated();
 
         $user = app(UsersServices::class)->create(
             array_only($data, [
@@ -35,7 +29,7 @@ class UserSignupController extends Controller
                 'last_name',
                 'email',
                 'password',
-                'phone'
+                'phone',
             ]),
             array_only($data, 'receive_sms')
         );
