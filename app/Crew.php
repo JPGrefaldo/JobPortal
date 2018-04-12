@@ -14,6 +14,14 @@ class Crew extends Model
     protected $guarded = ['id'];
 
     /**
+     * @var array
+     */
+    protected $casts = [
+        'id'      => 'integer',
+        'user_id' => 'integer',
+    ];
+
+    /**
      * Users many to many relationship
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne

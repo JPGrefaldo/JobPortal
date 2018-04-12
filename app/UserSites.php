@@ -17,4 +17,12 @@ class UserSites extends Pivot
      * @var string
      */
     protected $table = 'user_sites';
+
+    /**
+     * @var array
+     */
+    protected $casts = [
+        'id'      => 'integer',
+        'site_id' => 'integer',
+    ];
 }
