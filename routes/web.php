@@ -18,7 +18,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/signup', 'Auth\RegisterController@showRegistrationForm');
-Route::post('/signup/crew', 'UserSignupController@createCrew');
+Route::post('/signup', 'UserSignupController@signup');
 
 Route::get('/verify/email/{code}', 'VerifyEmailController@verify');
 

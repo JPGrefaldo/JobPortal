@@ -17,30 +17,31 @@ class UserSignupController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function createCrew(Request $request)
+    public function signup(Request $request)
     {
         $data = $request->validate([
             'first_name'   => 'required|string|max:255',
             'last_name'    => 'required|string|max:255',
-            'email'        => 'required|string|email|confirmed|max:255|unique:users',
-            'password'     => 'required|string|min:6|confirmed',
+            'email'        => 'required|string|email|max:255|unique:users',
+            'password'     => 'required|string|min:6',
             'phone'        => 'required|string|max:15',
-            'receive_text' => 'required|numeric',
-            'terms'        => 'required|numeric',
+            'receive_sms'  => 'sometimes|numeric',
+            'type'         => 'required|string'
         ]);
 
         $user = app(UsersServices::class)->create(
-            [
-                'first_name' => $data['first_name'],
-                'last_name'  => $data['last_name'],
-                'email'      => $data['email'],
-                'password'   => $data['password'],
-                'phone'      => $data['phone'],
-            ],
-            ['receive_sms' => $data['receive_text']]
+            array_only($data, [
+                'first_name',
+                'last_name',
+                'email',
+                'password',
+                'phone'
+            ]),
+            array_only($data, 'receive_sms')
         );
 
-        app(AuthServices::class)->createCrew(
+        app(AuthServices::class)->createByRoleName(
+            $data['type'],
             $user,
             $request->session()->get('site')
         );

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Role;
 use App\Services\AuthServices;
 use App\User;
 use Tests\Support\SeedDatabaseAfterRefresh;
@@ -18,7 +19,7 @@ class VerifyEmailFeatureTest extends TestCase
     {
         $user = factory(User::class)->create(['confirmed' => 0]);
         $site = $this->getCurrentSite();
-        app(AuthServices::class)->createCrew($user, $site);
+        app(AuthServices::class)->createByRoleName(Role::CREW, $user, $site);
 
         $response = $this->get('verify/email/' . $user->emailVerificationCode->code);
 
@@ -56,7 +57,11 @@ class VerifyEmailFeatureTest extends TestCase
     {
         $user = factory(User::class)->create();
         $site = $this->getCurrentSite();
-        app(AuthServices::class)->createCrew($user, $site);
+        app(AuthServices::class)->createByRoleName(
+            Role::CREW,
+            $user,
+            $site
+        );
 
         $response = $this->get('verify/email/' . $user->emailVerificationCode->code);
 
