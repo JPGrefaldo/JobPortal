@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserSignupRequest;
 use App\Services\AuthServices;
 use App\Services\UsersServices;
 use App\Site;
@@ -11,36 +12,30 @@ use Illuminate\Http\Request;
 class UserSignupController extends Controller
 {
     /**
-     * Handle post request to signup crew
+     * Handle post request to signup
      *
-     * @param \Illuminate\Http\Request $request
+     * @param \App\Http\Requests\UserSignupRequest $request
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Exception
      */
-    public function createCrew(Request $request)
+    public function signup(UserSignupRequest $request)
     {
-        $data = $request->validate([
-            'first_name'   => 'required|string|max:255',
-            'last_name'    => 'required|string|max:255',
-            'email'        => 'required|string|email|confirmed|max:255|unique:users',
-            'password'     => 'required|string|min:6|confirmed',
-            'phone'        => 'required|string|max:15',
-            'receive_text' => 'required|numeric',
-            'terms'        => 'required|numeric',
-        ]);
+        $data = $request->validated();
 
         $user = app(UsersServices::class)->create(
-            [
-                'first_name' => $data['first_name'],
-                'last_name'  => $data['last_name'],
-                'email'      => $data['email'],
-                'password'   => $data['password'],
-                'phone'      => $data['phone'],
-            ],
-            ['receive_sms' => $data['receive_text']]
+            array_only($data, [
+                'first_name',
+                'last_name',
+                'email',
+                'password',
+                'phone',
+            ]),
+            array_only($data, 'receive_sms')
         );
 
-        app(AuthServices::class)->createCrew(
+        app(AuthServices::class)->createByRoleName(
+            $data['type'],
             $user,
             $request->session()->get('site')
         );

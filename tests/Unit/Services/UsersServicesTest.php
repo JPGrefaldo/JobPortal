@@ -79,9 +79,7 @@ class UsersServicesTest extends TestCase
             'password'   => 'some_password',
             'phone'      => $fakerUser->phone,
         ];
-        $notificationSettingsData = [
-            'receive_sms' => 0
-        ];
+        $notificationSettingsData = [];
 
         $this->service->create($userData, $notificationSettingsData);
 
@@ -94,6 +92,16 @@ class UsersServicesTest extends TestCase
                 'receive_sms'                => 0,
             ],
             $user->notificationSettings->toArray()
+        );
+    }
+
+    /** @test */
+    public function format_phone()
+    {
+        $this->assertEquals(
+            '(123) 456-7891',
+            $this->service->formatPhone('1234567891')
+
         );
     }
 }

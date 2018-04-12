@@ -12,12 +12,19 @@ use Illuminate\Support\Str;
 class AuthServices
 {
     /**
+     * @param string $roleName
      * @param User $user
      * @param Site $site
+     *
+     * @throws \Exception
      */
-    public function createCrew(User $user, Site $site)
+    public function createByRoleName($roleName, User $user, Site $site)
     {
-        $role = Role::whereName(Role::CREW)->first();
+        $role = Role::whereName($roleName)->first();
+
+        if (! $role) {
+            throw new \Exception('Role not found');
+        }
 
         $user->roles()->save($role);
         $user->sites()->save($site);

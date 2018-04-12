@@ -28,12 +28,12 @@ class AuthServicesTest extends TestCase
     }
 
     /** @test */
-    public function create_crew()
+    public function create_by_role_name()
     {
         $user = factory(User::class)->create();
         $site = $this->getCurrentSite();
 
-        $this->service->createCrew($user, $site);
+        $this->service->createByRoleName(Role::CREW, $user, $site);
 
         $this->assertTrue($user->hasRole(Role::CREW));
         $this->assertTrue($user->hasSite($site->hostname));

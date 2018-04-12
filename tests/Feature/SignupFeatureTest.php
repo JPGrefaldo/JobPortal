@@ -21,55 +21,104 @@ class SignupFeatureTest extends TestCase
     {
         Mail::fake();
 
-        $fakerUser = factory(User::class)->make();
+        $fakeUser = factory(User::class)->make();
         $data = [
-            'first_name'            => $fakerUser->first_name,
-            'last_name'             => $fakerUser->last_name,
-            'email'                 => $fakerUser->email,
-            'email_confirmation'    => $fakerUser->email,
-            'password'              => 'some_password',
-            'password_confirmation' => 'some_password',
-            'phone'                 => $fakerUser->phone,
-            'receive_text'          => 1,
-            'terms'                 => 1,
-            '_token'                => csrf_token()
+            'first_name'  => $fakeUser->first_name,
+            'last_name'   => $fakeUser->last_name,
+            'email'       => $fakeUser->email,
+            'password'    => 'password',
+            'phone'       => $fakeUser->phone,
+            'receive_sms' => 1,
+            'type'        => Role::CREW,
+            '_token'      => csrf_token(),
         ];
 
         Hash::shouldReceive('make')->once()->andReturn('hashed_password');
 
-        $response = $this->post('signup/crew', $data);
+        $response = $this->post('signup', $data);
 
+        $this->assertSignupSuccess($response, $data);
+    }
+
+    /** @test */
+    public function producer()
+    {
+        Mail::fake();
+
+        $fakeUser = factory(User::class)->make();
+        $data = [
+            'first_name'  => $fakeUser->first_name,
+            'last_name'   => $fakeUser->last_name,
+            'email'       => $fakeUser->email,
+            'password'    => 'password',
+            'phone'       => $fakeUser->phone,
+            'type'        => Role::PRODUCER,
+            'receive_sms' => 1,
+            '_token'      => csrf_token(),
+        ];
+
+        Hash::shouldReceive('make')->once()->andReturn('hashed_password');
+
+        $response = $this->post('signup', $data);
+
+        $this->assertSignupSuccess($response, $data);
+    }
+
+    /** @test */
+    public function invalid_data()
+    {
+        $fakeUser = factory(User::class)->make();
+        $data = [
+            'first_name'  => $fakeUser->first_name,
+            'last_name'   => $fakeUser->last_name,
+            'email'       => 'invalid_email',
+            'password'    => 'some_password',
+            'phone'       => '+345344545446',
+            'receive_sms' => 1,
+            'type'        => Role::ADMIN,
+            '_token'      => csrf_token(),
+        ];
+
+        $response = $this->post('signup', $data);
+
+        $response->assertSessionHasErrors([
+            'email',
+            'phone' => 'The phone must be a valid US cell phone number.',
+            'type' => 'Invalid type.'
+        ]);
+    }
+
+    private function assertSignupSuccess($response, $data)
+    {
         $response->assertRedirect('login');
 
+        // assert that the user has been created and had the correct user settings
         $this->assertDatabaseHas('users', [
-            'first_name'        => $fakerUser->first_name,
-            'last_name'         => $fakerUser->last_name,
-            'email'             => $fakerUser->email,
-            'phone'             => $fakerUser->phone,
-            'password'          => 'hashed_password',
-            'status'            => 1,
-            'confirmed'         => 0,
+            'first_name' => $data['first_name'],
+            'last_name'  => $data['last_name'],
+            'email'      => $data['email'],
+            'phone'      => $data['phone'],
+            'password'   => 'hashed_' . $data['password'],
+            'status'     => 1,
+            'confirmed'  => 0,
         ]);
 
-        // assert that the user has settings depending on the receive_text
-        $user = User::where('email', $fakerUser->email)->first();
+        $user = User::where('email', $data['email'])->first();
 
         $this->assertArraySubset(
             [
                 'receive_email_notification' => 1,
                 'receive_other_emails'       => 1,
-                'receive_sms'                => 1,
+                'receive_sms'                => $data['receive_sms'] ?: 0,
             ],
             $user->notificationSettings->toArray()
         );
 
-        // assert that the user has a crew role
-        $this->assertTrue($user->hasRole(Role::CREW));
+        // assert that the user has the correct role
+        $this->assertTrue($user->hasRole($data['type']));
 
         // assert that the user is in the current site
-        $site = $this->getCurrentSite();
-
-        $this->assertTrue($user->hasSite($site->hostname));
+        $this->assertTrue($user->sites->contains($this->getCurrentSite()));
 
         // assert that the user has an email confirmation token
         $this->assertNotEmpty($user->emailVerificationCode->code);
@@ -78,29 +127,5 @@ class SignupFeatureTest extends TestCase
         Mail::assertSent(ConfirmUserAccount::class, function($mail) use ($user) {
             return $mail->user->id === $user->id;
         });
-    }
-
-    /** @test */
-    public function crew_invalid_data()
-    {
-        Mail::fake();
-
-        $fakerUser = factory(User::class)->make();
-        $data = [
-            'first_name'            => $fakerUser->first_name,
-            'last_name'             => $fakerUser->last_name,
-            'email'                 => 'invalid_email',
-            'email_confirmation'    => 'invalid_email',
-            'password'              => 'some_password',
-            'password_confirmation' => 'some_password',
-            'phone'                 => $fakerUser->phone,
-            'receive_text'          => 1,
-            'terms'                 => 1,
-            '_token'                => csrf_token()
-        ];
-
-        $response = $this->post('signup/crew', $data);
-
-        $response->assertSessionHasErrors(['email']);
     }
 }
