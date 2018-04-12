@@ -26,6 +26,8 @@ class UsersServices
             'phone'      => $this->formatPhone($userData['phone']),
         ]);
 
+        $notificationSettingsData['receive_sms'] = $notificationSettingsData['receive_sms'] ?? 0;
+
         $user->notificationSettings()->create($notificationSettingsData);
 
         return $user;

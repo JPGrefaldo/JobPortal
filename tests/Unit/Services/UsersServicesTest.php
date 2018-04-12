@@ -79,9 +79,7 @@ class UsersServicesTest extends TestCase
             'password'   => 'some_password',
             'phone'      => $fakerUser->phone,
         ];
-        $notificationSettingsData = [
-            'receive_sms' => 0
-        ];
+        $notificationSettingsData = [];
 
         $this->service->create($userData, $notificationSettingsData);
 
