@@ -14,6 +14,13 @@ class Site extends Model
     protected $guarded = ['id'];
 
     /**
+     * @var array
+     */
+    protected $casts = [
+        'id'      => 'integer',
+    ];
+
+    /**
      * Users many to many relationship
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany

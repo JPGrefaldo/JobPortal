@@ -16,6 +16,14 @@ class UserBanned extends Model
     protected $table = 'user_banned';
 
     /**
+     * @var array
+     */
+    protected $casts = [
+        'id'      => 'integer',
+        'user_id' => 'integer',
+    ];
+
+    /**
      * Users many to many relationship
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

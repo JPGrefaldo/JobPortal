@@ -14,6 +14,14 @@ class CrewPosition extends Model
     protected $guarded = ['id'];
 
     /**
+     * @var array
+     */
+    protected $casts = [
+        'id'      => 'integer',
+        'crew_id' => 'integer',
+    ];
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function crew()

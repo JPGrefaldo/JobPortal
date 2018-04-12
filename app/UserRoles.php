@@ -17,4 +17,12 @@ class UserRoles extends Pivot
      * @var string
      */
     protected $table = 'user_roles';
+
+    /**
+     * @var array
+     */
+    protected $casts = [
+        'id'      => 'integer',
+        'role_id' => 'integer',
+    ];
 }

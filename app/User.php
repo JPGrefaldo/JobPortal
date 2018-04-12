@@ -27,6 +27,15 @@ class User extends Authenticatable
     ];
 
     /**
+     * @var array
+     */
+    protected $casts = [
+        'id'        => 'integer',
+        'status'    => 'integer',
+        'confirmed' => 'boolean',
+    ];
+
+    /**
      * roles many to many relationship
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -95,7 +104,7 @@ class User extends Authenticatable
     public function confirm()
     {
         $this->update([
-            'confirmed' => 1
+            'confirmed' => 1,
         ]);
     }
 
@@ -107,7 +116,7 @@ class User extends Authenticatable
     public function hasRole($name)
     {
         return $this->roles()->get()
-            ->contains('name', $name);
+                    ->contains('name', $name);
     }
 
     /**
@@ -118,6 +127,6 @@ class User extends Authenticatable
     public function hasSite($hostname)
     {
         return $this->sites()->get()
-            ->contains('hostname', $hostname);
+                    ->contains('hostname', $hostname);
     }
 }
