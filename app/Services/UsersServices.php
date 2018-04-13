@@ -4,7 +4,7 @@
 namespace App\Services;
 
 
-use App\User;
+use App\Models\User;
 use App\Utils\StrUtils;
 use Illuminate\Support\Facades\Hash;
 
@@ -14,7 +14,7 @@ class UsersServices
      * @param array $userData
      * @param array $notificationSettingsData
      *
-     * @return \App\User
+     * @return \App\Models\User
      */
     public function create(array $userData, array $notificationSettingsData)
     {

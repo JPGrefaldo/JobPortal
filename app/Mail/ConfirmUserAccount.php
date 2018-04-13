@@ -2,7 +2,7 @@
 
 namespace App\Mail;
 
-use App\User;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -14,14 +14,14 @@ class ConfirmUserAccount extends Mailable
     use Queueable, SerializesModels;
 
     /**
-     * @var \App\User
+     * @var \App\Models\User
      */
     public $user;
 
     /**
      * Create a new message instance.
      *
-     * @param \App\User $user
+     * @param \App\Models\User $user
      */
     public function __construct(User $user)
     {

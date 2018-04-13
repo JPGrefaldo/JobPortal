@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Site;
+use App\Models\Site;
 use App\Utils\UrlUtils;
 
 class SitesTableSeeder extends Seeder

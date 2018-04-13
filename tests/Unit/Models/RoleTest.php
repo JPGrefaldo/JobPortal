@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Services;
 
-use App\Role;
-use App\User;
-use App\UserRoles;
+use App\Models\Role;
+use App\Models\User;
+use App\Models\UserRoles;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;

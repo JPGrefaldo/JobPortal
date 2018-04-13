@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserSignupRequest;
 use App\Services\AuthServices;
 use App\Services\UsersServices;
-use App\Site;
+use App\Models\Site;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 

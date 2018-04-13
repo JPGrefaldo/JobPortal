@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\EmailVerificationCode;
+use App\Models\EmailVerificationCode;
 use App\Session\FlashMessage;
 use Illuminate\Http\Request;
 
