@@ -7,6 +7,7 @@ namespace App\Services;
 use App\User;
 use App\Utils\StrUtils;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class UsersServices
 {
@@ -19,6 +20,7 @@ class UsersServices
     public function create(array $userData, array $notificationSettingsData)
     {
         $user = User::create([
+            'uuid'       => Str::uuid(),
             'first_name' => $userData['first_name'],
             'last_name'  => $userData['last_name'],
             'email'      => $userData['email'],

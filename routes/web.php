@@ -25,5 +25,5 @@ Route::get('/verify/email/{code}', 'VerifyEmailController@verify');
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::middleware(['auth', 'crew'])->group(function() {
-    // Route::post('/crew/edit')
+     Route::post('/crews/create', 'CrewsController@store');
 });
