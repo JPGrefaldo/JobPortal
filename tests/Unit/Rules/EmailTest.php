@@ -7,7 +7,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class YouTubeTest extends TestCase
+class EmailTest extends TestCase
 {
     /** @test */
     public function valid_email()
