@@ -21,7 +21,7 @@ class CrewsFeatureTest extends TestCase
     public function create()
     {
         Storage::fake();
-
+        
         $user = factory(User::class)->create();
         app(AuthServices::class)->createByRoleName(
             Role::CREW,
@@ -29,13 +29,10 @@ class CrewsFeatureTest extends TestCase
             $this->getCurrentSite()
         );
 
-        $photo = UploadedFile::fake()->image('photo.png');
-        $resume = UploadedFile::fake()->create('resume.pdf');
-
         $data = [
-            'bio' => 'some bio',
-            'photo' => $photo,
-            'resume' => $resume
+            'bio'    => 'some bio',
+            'photo'  => UploadedFile::fake()->image('photo.png'),
+            'resume' => UploadedFile::fake()->create('resume.pdf'),
         ];
 
         $response = $this->actingAs($user)->post('crews/create', $data);
@@ -44,17 +41,9 @@ class CrewsFeatureTest extends TestCase
 
         $crew = Crew::where('user_id', $user->id)->first();
 
-        $this->assertInstanceof(Crew::class, $crew);
+        $this->assertEquals($data['bio'], $crew->bio);
 
-        $this->assertEquals('some bio', $crew->bio);
-        $this->assertEquals(
-            'photos/' . $user->uuid .  '/' . $photo->hashName(),
-            $crew->photo
-        );
-        $this->assertEquals(
-            'resumes/' . $user->uuid.  '/' . $resume->hashName(),
-            $crew->resumes->first()->url
-        );
+        $resume = $crew->resumes->first();
 
         Storage::assertExists($crew->photo);
         Storage::assertExists($crew->resumes->first()->url);
