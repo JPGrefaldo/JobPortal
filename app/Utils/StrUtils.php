@@ -15,4 +15,32 @@ class StrUtils
     {
         return preg_replace("/[^0-9]/", "", $string);
     }
+
+    public static function cleanYouTube($string)
+    {
+        $string = str_replace(['http://', 'https://', 'watch?v='], '', $string);
+        $string = str_replace('player.vimeo.com/video/www.youtube.com', 'www.youtube.com', $string);
+        $string = str_replace('youtu.be', 'www.youtube.com', $string);
+
+        if (($pos = strpos($string, '&')) !== false) {
+            $string = substr($string, 0, $pos);
+        }
+        if (($pos = strpos($string, '?')) !== false) {
+            if (strpos($string, 'playlist?list') === false) {
+                $string = substr($string, 0, $pos);
+            }
+        }
+        if (($pos = strpos($string, '#')) !== false) {
+            $string = substr($string, 0, $pos);
+        }
+        if (strpos($string, 'channel') != false) {
+            $string = str_replace('embed/', '', $string);
+        } else {
+            if (substr($string, 16, 5) != 'embed') {
+                $string = substr($string, 0, 15) . '/embed/' . substr($string, 16);
+            }
+        }
+
+        return 'https://' . $string;
+    }
 }
