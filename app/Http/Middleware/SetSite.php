@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Site;
+use App\Models\Site;
 use Closure;
 
 class SetSite

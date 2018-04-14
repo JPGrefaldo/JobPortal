@@ -2,9 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Services\UsersServices;
-use App\User;
-use App\UserBanned;
+use App\Models\User;
+use App\Models\UserBanned;
 use Illuminate\Support\Facades\Hash;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;

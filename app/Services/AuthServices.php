@@ -4,9 +4,9 @@
 namespace App\Services;
 
 
-use App\Role;
-use App\Site;
-use App\User;
+use App\Models\Role;
+use App\Models\Site;
+use App\Models\User;
 use Illuminate\Support\Str;
 
 class AuthServices

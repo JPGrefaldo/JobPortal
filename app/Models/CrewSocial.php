@@ -1,10 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class UserBanned extends Model
+class CrewSocial extends Model
 {
     /**
      * The protected attributes
@@ -13,23 +13,20 @@ class UserBanned extends Model
      */
     protected $guarded = ['id'];
 
-    protected $table = 'user_banned';
-
     /**
      * @var array
      */
     protected $casts = [
         'id'      => 'integer',
-        'user_id' => 'integer',
+        'crew_id' => 'integer',
+        'social_link_types_id' => 'integer',
     ];
 
     /**
-     * Users many to many relationship
-     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function user()
+    public function crew()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Crew::class);
     }
 }

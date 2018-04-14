@@ -1,10 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ProjectType extends Model
+class CrewReel extends Model
 {
     /**
      * The protected attributes
@@ -18,5 +18,14 @@ class ProjectType extends Model
      */
     protected $casts = [
         'id'      => 'integer',
+        'crew_id' => 'integer',
     ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function crew()
+    {
+        return $this->belongsTo(Crew::class);
+    }
 }

@@ -2,7 +2,7 @@
 
 namespace Tests;
 
-use App\Site;
+use App\Models\Site;
 use App\Utils\UrlUtils;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Tests\Support\SeedDatabaseAfterRefresh;
@@ -10,7 +10,7 @@ use Tests\Support\SeedDatabaseAfterRefresh;
 abstract class TestCase extends BaseTestCase
 {
     /**
-     * @var null | \App\Site
+     * @var null | \App\Models\Site
      */
     private static $site = null;
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CrewGear extends Model
+class Site extends Model
 {
     /**
      * The protected attributes
@@ -18,14 +18,15 @@ class CrewGear extends Model
      */
     protected $casts = [
         'id'      => 'integer',
-        'crew_id' => 'integer',
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * Users many to many relationship
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function crew()
+    public function users()
     {
-        return $this->belongsTo(Crew::class);
+        return $this->belongsToMany(User::class, 'user_sites');
     }
 }

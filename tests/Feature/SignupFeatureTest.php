@@ -3,8 +3,8 @@
 namespace Tests\Feature;
 
 use App\Mail\ConfirmUserAccount;
-use App\Role;
-use App\User;
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Tests\Support\SeedDatabaseAfterRefresh;

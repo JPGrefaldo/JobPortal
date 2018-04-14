@@ -3,7 +3,7 @@
 namespace Tests\Unit\Services;
 
 use App\Services\UsersServices;
-use App\User;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;

@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Services;
 
-use App\User;
-use App\UserBanned;
+use App\Models\User;
+use App\Models\UserBanned;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
