@@ -2,6 +2,7 @@
 
 namespace App\Rules;
 
+use Cache;
 use Illuminate\Contracts\Validation\Rule;
 
 class Email implements Rule
@@ -66,8 +67,10 @@ class Email implements Rule
             return true;
         }
 
-        $mxhosts = [];
-        return ((getmxrr($domain, $mxhosts) == true) && ! empty($mxhosts));
+        return Cache::rememberForever('valid_mx_' . $domain, function() use ($domain) {
+            $mxhosts = [];
+            return ((getmxrr($domain, $mxhosts) == true) && ! empty($mxhosts));
+        });
     }
 
     /**
