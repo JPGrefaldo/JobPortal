@@ -4,9 +4,9 @@
 namespace App\Services;
 
 
-use App\Crew;
-use App\CrewResume;
-use App\User;
+use App\Models\Crew;
+use App\Models\CrewResume;
+use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 
 class CrewsServices

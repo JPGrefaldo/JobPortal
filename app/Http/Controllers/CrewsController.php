@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Crew;
-use App\CrewResume;
 use App\Services\CrewsServices;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

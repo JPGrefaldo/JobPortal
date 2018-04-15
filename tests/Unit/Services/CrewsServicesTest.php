@@ -2,10 +2,10 @@
 
 namespace Tests\Unit\Services;
 
-use App\Role;
+use App\Models\Role;
 use App\Services\AuthServices;
 use App\Services\CrewsServices;
-use App\User;
+use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Tests\Support\SeedDatabaseAfterRefresh;
