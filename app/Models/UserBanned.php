@@ -1,10 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class EmailVerificationCode extends Model
+class UserBanned extends Model
 {
     /**
      * The protected attributes
@@ -13,8 +13,18 @@ class EmailVerificationCode extends Model
      */
     protected $guarded = ['id'];
 
+    protected $table = 'user_banned';
+
     /**
-     * users relationship
+     * @var array
+     */
+    protected $casts = [
+        'id'      => 'integer',
+        'user_id' => 'integer',
+    ];
+
+    /**
+     * Users many to many relationship
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

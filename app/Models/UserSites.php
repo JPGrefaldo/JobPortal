@@ -1,10 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class SocialType extends Model
+class UserSites extends Pivot
 {
     /**
      * The protected attributes
@@ -14,9 +14,15 @@ class SocialType extends Model
     protected $guarded = ['id'];
 
     /**
+     * @var string
+     */
+    protected $table = 'user_sites';
+
+    /**
      * @var array
      */
     protected $casts = [
         'id'      => 'integer',
+        'site_id' => 'integer',
     ];
 }

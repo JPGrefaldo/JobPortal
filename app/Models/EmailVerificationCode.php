@@ -1,10 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CrewReel extends Model
+class EmailVerificationCode extends Model
 {
     /**
      * The protected attributes
@@ -14,18 +14,12 @@ class CrewReel extends Model
     protected $guarded = ['id'];
 
     /**
-     * @var array
-     */
-    protected $casts = [
-        'id'      => 'integer',
-        'crew_id' => 'integer',
-    ];
-
-    /**
+     * users relationship
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function crew()
+    public function user()
     {
-        return $this->belongsTo(Crew::class);
+        return $this->belongsTo(User::class);
     }
 }

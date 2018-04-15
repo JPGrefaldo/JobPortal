@@ -2,9 +2,9 @@
 
 namespace Tests\Feature;
 
-use App\Role;
+use App\Models\Role;
 use App\Services\AuthServices;
-use App\User;
+use App\Models\User;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;

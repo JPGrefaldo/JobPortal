@@ -1,10 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CrewPosition extends Model
+class CrewGear extends Model
 {
     /**
      * The protected attributes

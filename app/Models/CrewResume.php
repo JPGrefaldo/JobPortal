@@ -1,10 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CrewSocial extends Model
+class CrewResume extends Model
 {
     /**
      * The protected attributes
@@ -19,7 +19,6 @@ class CrewSocial extends Model
     protected $casts = [
         'id'      => 'integer',
         'crew_id' => 'integer',
-        'social_link_types_id' => 'integer',
     ];
 
     /**

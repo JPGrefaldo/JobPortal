@@ -1,10 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Database\Eloquent\Model;
 
-class UserSites extends Pivot
+class ProjectType extends Model
 {
     /**
      * The protected attributes
@@ -14,15 +14,9 @@ class UserSites extends Pivot
     protected $guarded = ['id'];
 
     /**
-     * @var string
-     */
-    protected $table = 'user_sites';
-
-    /**
      * @var array
      */
     protected $casts = [
         'id'      => 'integer',
-        'site_id' => 'integer',
     ];
 }

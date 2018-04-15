@@ -4,15 +4,12 @@ namespace App\Http\Controllers\Auth;
 
 use App\Services\AuthServices;
 use App\Services\UsersServices;
-use App\Site;
-use App\User;
+use App\Models\Site;
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use Ramsey\Uuid\Uuid;
 
 class RegisterController extends Controller
 {
