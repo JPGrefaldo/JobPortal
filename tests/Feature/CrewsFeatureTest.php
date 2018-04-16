@@ -82,7 +82,7 @@ class CrewsFeatureTest extends TestCase
 
         $response->assertSessionHasErrors(
             [
-                'socials.youtube.value' => 'Youtube must be a valid YouTube URL.'
+                'socials.youtube.value' => 'youtube must be a valid YouTube URL.'
             ]
         );
     }
