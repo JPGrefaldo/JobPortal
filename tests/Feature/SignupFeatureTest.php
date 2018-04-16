@@ -14,24 +14,19 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class SignupFeatureTest extends TestCase
 {
-    use RefreshDatabase, SeedDatabaseAfterRefresh;
+    use RefreshDatabase, SeedDatabaseAfterRefresh, WithFaker;
 
     /** @test */
     public function crew()
     {
         Mail::fake();
 
-        $fakeUser = factory(User::class)->make();
-        $data = [
-            'first_name'  => $fakeUser->first_name,
-            'last_name'   => $fakeUser->last_name,
-            'email'       => $fakeUser->email,
+        $data = array_merge($this->makeFakeUser()->toArray(), [
             'password'    => 'password',
-            'phone'       => $fakeUser->phone,
             'receive_sms' => 1,
             'type'        => Role::CREW,
             '_token'      => csrf_token(),
-        ];
+        ]);
 
         Hash::shouldReceive('make')->once()->andReturn('hashed_password');
 
@@ -45,17 +40,12 @@ class SignupFeatureTest extends TestCase
     {
         Mail::fake();
 
-        $fakeUser = factory(User::class)->make();
-        $data = [
-            'first_name'  => $fakeUser->first_name,
-            'last_name'   => $fakeUser->last_name,
-            'email'       => $fakeUser->email,
+        $data = array_merge($this->makeFakeUser()->toArray(), [
             'password'    => 'password',
-            'phone'       => $fakeUser->phone,
-            'type'        => Role::PRODUCER,
             'receive_sms' => 1,
+            'type'        => Role::PRODUCER,
             '_token'      => csrf_token(),
-        ];
+        ]);
 
         Hash::shouldReceive('make')->once()->andReturn('hashed_password');
 
@@ -67,24 +57,21 @@ class SignupFeatureTest extends TestCase
     /** @test */
     public function invalid_data()
     {
-        $fakeUser = factory(User::class)->make();
-        $data = [
-            'first_name'  => $fakeUser->first_name,
-            'last_name'   => $fakeUser->last_name,
+        $data = array_merge($this->makeFakeUser()->toArray(), [
             'email'       => 'invalid_email',
-            'password'    => 'some_password',
+            'password'    => 'password',
             'phone'       => '+345344545446',
             'receive_sms' => 1,
             'type'        => Role::ADMIN,
             '_token'      => csrf_token(),
-        ];
+        ]);
 
         $response = $this->post('signup', $data);
 
         $response->assertSessionHasErrors([
             'email',
             'phone' => 'The phone must be a valid US cell phone number.',
-            'type' => 'Invalid type.'
+            'type'  => 'Invalid type.',
         ]);
     }
 
@@ -124,8 +111,15 @@ class SignupFeatureTest extends TestCase
         $this->assertNotEmpty($user->emailVerificationCode->code);
 
         // assert that an email has been sent for verification
-        Mail::assertSent(ConfirmUserAccount::class, function($mail) use ($user) {
+        Mail::assertSent(ConfirmUserAccount::class, function ($mail) use ($user) {
             return $mail->user->id === $user->id;
         });
+    }
+
+    private function makeFakeUser()
+    {
+        return factory(User::class)->make([
+            'email' => $this->faker->freeEmail,
+        ]);
     }
 }
