@@ -25,6 +25,7 @@ class CreateCrewSocialTable extends Migration
                   ->references('id')
                   ->on('social_link_types')
                   ->onDelete('cascade');
+            $table->string('url');
             $table->timestamps();
         });
     }

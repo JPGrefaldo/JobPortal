@@ -6,7 +6,9 @@ namespace App\Services;
 
 use App\Models\Crew;
 use App\Models\CrewResume;
+use App\Models\CrewSocial;
 use App\Models\User;
+use App\Utils\StrUtils;
 use Illuminate\Support\Facades\Storage;
 
 class CrewsServices
@@ -48,7 +50,7 @@ class CrewsServices
      *
      * @param array $data
      *
-     * @return \App\Crew
+     * @return \App\Models\Crew
      */
     public function create(array $data)
     {
@@ -66,7 +68,7 @@ class CrewsServices
     /**
      * @param array $data
      *
-     * @return \App\CrewResume
+     * @return \App\Models\CrewResume
      */
     public function createGeneralResume(array $data)
     {
@@ -79,5 +81,17 @@ class CrewsServices
         Storage::put($resume->url, file_get_contents($data['resume']));
 
         return $resume;
+    }
+
+    public function createSocials(array $data, Crew $crew)
+    {
+        $youtube = new CrewSocial([
+            'social_link_types_id' => $data['youtube']['id'],
+            'url'                  => StrUtils::cleanYouTube($data['youtube']['url']),
+        ]);
+
+        $crew->social()->saveMany([
+            $youtube
+        ]);
     }
 }

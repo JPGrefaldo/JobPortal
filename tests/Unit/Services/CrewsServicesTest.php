@@ -8,6 +8,7 @@ use App\Services\CrewsServices;
 use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Tests\Support\Data\SocialLinkTypeID;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -105,5 +106,33 @@ class CrewsServicesTest extends TestCase
         ]);
 
         Storage::assertExists($resume->url);
+    }
+
+    /** @test */
+    public function create_socials()
+    {
+        Storage::fake();
+
+        $user = factory(User::class)->create();
+        $crew = $this->service->create([
+            'user_id'   => $user->id,
+            'bio'       => 'some bio',
+            'photo'     => UploadedFile::fake()->image('photo.png'),
+            'photo_dir' => $user->uiid,
+        ]);
+        $data = [
+            'youtube' => [
+                'url' => 'https://www.youtube.com/watch?v=2-_rLbU6zJo',
+                'id' => SocialLinkTypeID::YOUTUBE
+            ]
+        ];
+
+        $this->service->createSocials($data, $crew);
+
+        $this->assertDatabaseHas('crew_social', [
+            'crew_id' => $crew->id,
+            'social_link_types_id' => $data['youtube']['id'],
+            'url' => 'https://www.youtube.com/embed/2-_rLbU6zJo'
+        ]);
     }
 }
