@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\Role;
+use App\Rules\Email;
 use App\Rules\Phone;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -29,7 +30,7 @@ class UserSignupRequest extends FormRequest
         return [
             'first_name'  => 'required|string|max:255',
             'last_name'   => 'required|string|max:255',
-            'email'       => 'required|string|email|max:255|unique:users',
+            'email'       => ['required', 'string', 'max:255', 'unique:users', new Email()],
             'password'    => 'required|string|min:6',
             'phone'       => ['required', 'string', new Phone()],
             'receive_sms' => 'sometimes|numeric',
