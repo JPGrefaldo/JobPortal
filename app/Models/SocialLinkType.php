@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SocialType extends Model
+class SocialLinkType extends Model
 {
     /**
      * The protected attributes
@@ -17,6 +17,6 @@ class SocialType extends Model
      * @var array
      */
     protected $casts = [
-        'id'      => 'integer',
+        'id' => 'integer',
     ];
 }
