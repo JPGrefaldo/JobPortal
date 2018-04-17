@@ -41,6 +41,7 @@ class CrewsServicesTest extends TestCase
             'bio'    => 'some bio',
             'photo'  => UploadedFile::fake()->image('photo.png'),
             'resume' => UploadedFile::fake()->create('resume.pdf'),
+            'socials' => []
         ];
 
         $crew = $this->service->processCreate($data, $user);
@@ -60,10 +61,10 @@ class CrewsServicesTest extends TestCase
 
         $user = factory(User::class)->create();
         $data = [
-            'user_id' => $user->id,
-            'bio' => 'some bio',
-            'photo' => UploadedFile::fake()->image('photo.png'),
-            'photo_dir' => $user->uiid
+            'user_id'   => $user->id,
+            'bio'       => 'some bio',
+            'photo'     => UploadedFile::fake()->image('photo.png'),
+            'photo_dir' => $user->uiid,
         ];
 
         $crew = $this->service->create($data);
@@ -72,7 +73,8 @@ class CrewsServicesTest extends TestCase
             'id'      => $crew->id,
             'user_id' => $data['user_id'],
             'bio'     => $data['bio'],
-            'photo'   => 'photos/' . $data['photo_dir'] .  '/' . $data['photo']->hashName()
+            'photo'   => 'photos/'.$data['photo_dir'].'/'
+                .$data['photo']->hashName(),
         ]);
 
         Storage::assertExists($crew->photo);
@@ -101,8 +103,9 @@ class CrewsServicesTest extends TestCase
         $this->assertDatabaseHas('crew_resumes', [
             'id'      => $resume->id,
             'crew_id' => $user->id,
-            'url'     => 'resumes/' . $data['resume_dir'] .  '/' . $data['resume']->hashName(),
-            'general' => 1
+            'url'     => 'resumes/'.$data['resume_dir'].'/'
+                .$data['resume']->hashName(),
+            'general' => 1,
         ]);
 
         Storage::assertExists($resume->url);
@@ -121,18 +124,22 @@ class CrewsServicesTest extends TestCase
             'photo_dir' => $user->uiid,
         ]);
         $data = [
-            'youtube' => [
+            'facebook' => [
+                'url' => 'https://www.facebook.com/castingcallsamerica/',
+                'id'  => SocialLinkTypeID::FACEBOOK,
+            ],
+            'youtube'  => [
                 'url' => 'https://www.youtube.com/watch?v=2-_rLbU6zJo',
-                'id' => SocialLinkTypeID::YOUTUBE
-            ]
+                'id'  => SocialLinkTypeID::YOUTUBE,
+            ],
         ];
 
         $this->service->createSocials($data, $crew);
 
         $this->assertDatabaseHas('crew_social', [
-            'crew_id' => $crew->id,
-            'social_link_types_id' => $data['youtube']['id'],
-            'url' => 'https://www.youtube.com/embed/2-_rLbU6zJo'
+            'crew_id'             => $crew->id,
+            'social_link_type_id' => $data['youtube']['id'],
+            'url'                 => 'https://www.youtube.com/embed/2-_rLbU6zJo',
         ]);
     }
 }

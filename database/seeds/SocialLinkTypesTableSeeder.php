@@ -20,6 +20,7 @@ class SocialLinkTypesTableSeeder extends Seeder
             'IMDB',
             'Tumblr',
             'Vimeo',
+            'Instagram',
             'Personal Website'
         ];
 

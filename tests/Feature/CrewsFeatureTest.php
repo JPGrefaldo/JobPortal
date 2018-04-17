@@ -9,6 +9,7 @@ use App\Services\AuthServices;
 use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Tests\Support\Data\SocialLinkTypeID;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -35,8 +36,41 @@ class CrewsFeatureTest extends TestCase
             'photo'   => UploadedFile::fake()->image('photo.png'),
             'resume'  => UploadedFile::fake()->create('resume.pdf'),
             'socials' => [
-                'facebook' => [
-
+                'facebook'         => [
+                    'url' => 'https://www.facebook.com/castingcallsamerica/',
+                    'id'  => SocialLinkTypeID::FACEBOOK,
+                ],
+                'twitter'          => [
+                    'url' => 'https://twitter.com/casting_america',
+                    'id'  => SocialLinkTypeID::TWITTER,
+                ],
+                'youtube'          => [
+                    'url' => 'https://www.youtube.com/channel/UCHBOnWRvXSZ2xzBXyoDnCJw',
+                    'id'  => SocialLinkTypeID::YOUTUBE,
+                ],
+                'google_plus'      => [
+                    'url' => 'https://plus.google.com/+marvel',
+                    'id'  => SocialLinkTypeID::GOOGLE_PLUS,
+                ],
+                'imdb'             => [
+                    'url' => 'http://www.imdb.com/name/nm0000134/',
+                    'id'  => SocialLinkTypeID::IMDB,
+                ],
+                'tumblr'           => [
+                    'url' => 'http://test.tumblr.com',
+                    'id'  => SocialLinkTypeID::TUMBLR,
+                ],
+                'vimeo'            => [
+                    'url' => 'https://vimeo.com/mackevision',
+                    'id'  => SocialLinkTypeID::VIMEO,
+                ],
+                'instagram'        => [
+                    'url' => 'https://www.instagram.com/castingamerica/',
+                    'id'  => SocialLinkTypeID::INSTAGRAM,
+                ],
+                'personal_website' => [
+                    'url' => 'https://castingcallsamerica.com',
+                    'id'  => SocialLinkTypeID::PERSONAL_WEBSITE,
                 ],
             ],
         ];
@@ -53,6 +87,33 @@ class CrewsFeatureTest extends TestCase
 
         Storage::assertExists($crew->photo);
         Storage::assertExists($crew->resumes->first()->url);
+
+        // assert that the socials has been created
+        $crew->load('social.socialLinkType');
+
+        $this->assertCount(9, $crew->social);
+
+        foreach (array_keys($data['socials']) as $idx => $key) {
+            // check if the crew social data is correct
+            $crewSocial = $crew->social->get($idx);
+
+            $this->assertEquals(
+                [
+                    $data['socials'][$key]['id'],
+                    $data['socials'][$key]['url'],
+                ],
+                [
+                    $crewSocial->social_link_type_id,
+                    $crewSocial->url,
+                ]
+            );
+
+            // check if the social link type is correct
+            $this->assertEquals(
+                str_replace('_', ' ', $key),
+                strtolower($crewSocial->socialLinkType->name)
+            );
+        }
     }
 
     /** @test */

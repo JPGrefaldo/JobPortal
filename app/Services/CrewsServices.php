@@ -26,8 +26,8 @@ class CrewsServices
         $crew = $this->create(
             array_merge(
                 [
-                    'user_id' => $user->id,
-                    'photo_dir' => $user->uuid
+                    'user_id'   => $user->id,
+                    'photo_dir' => $user->uuid,
                 ],
                 array_only($data, ['bio', 'photo'])
             ),
@@ -38,9 +38,11 @@ class CrewsServices
             $this->createGeneralResume([
                 'crew_id'    => $crew->id,
                 'resume'     => $data['resume'],
-                'resume_dir' => $user->uuid
+                'resume_dir' => $user->uuid,
             ]);
         }
+
+        $this->createSocials($data['socials'], $crew);
 
         return $crew;
     }
@@ -57,7 +59,8 @@ class CrewsServices
         $crew = Crew::create([
             'user_id' => $data['user_id'],
             'bio'     => $data['bio'],
-            'photo'   => 'photos/' . $data['photo_dir'] . '/' . $data['photo']->hashName(),
+            'photo'   => 'photos/'.$data['photo_dir'].'/'
+                .$data['photo']->hashName(),
         ]);
 
         Storage::put($crew->photo, file_get_contents($data['photo']));
@@ -74,8 +77,9 @@ class CrewsServices
     {
         $resume = CrewResume::create([
             'crew_id' => $data['crew_id'],
-            'url'     => 'resumes/' .  $data['resume_dir'] . '/' . $data['resume']->hashName(),
-            'general' => 1
+            'url'     => 'resumes/'.$data['resume_dir'].'/'
+                .$data['resume']->hashName(),
+            'general' => 1,
         ]);
 
         Storage::put($resume->url, file_get_contents($data['resume']));
@@ -83,15 +87,27 @@ class CrewsServices
         return $resume;
     }
 
-    public function createSocials(array $data, Crew $crew)
+    /**
+     * @param array $socialData
+     * @param Crew  $crew
+     */
+    public function createSocials(array $socialData, Crew $crew)
     {
-        $youtube = new CrewSocial([
-            'social_link_types_id' => $data['youtube']['id'],
-            'url'                  => StrUtils::cleanYouTube($data['youtube']['url']),
-        ]);
+        $crewSocials = [];
 
-        $crew->social()->saveMany([
-            $youtube
-        ]);
+        if (! empty($socialData['youtube']['url'])) {
+            $socialData['youtube']['url'] = StrUtils::cleanYouTube($socialData['youtube']['url']);
+        }
+
+        foreach ($socialData as $data) {
+            if ($data['url'] != '') {
+                $crewSocials[] = new CrewSocial([
+                    'social_link_type_id' => $data['id'],
+                    'url'                 => $data['url'],
+                ]);
+            }
+        }
+
+        $crew->social()->saveMany($crewSocials);
     }
 }
