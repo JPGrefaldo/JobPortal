@@ -34,7 +34,7 @@ class CrewsServices
             $user
         );
 
-        if (! empty($data['resume'])) {
+        if (!empty($data['resume'])) {
             $this->createGeneralResume([
                 'crew_id'    => $crew->id,
                 'resume'     => $data['resume'],
@@ -56,9 +56,11 @@ class CrewsServices
      */
     public function create(array $data)
     {
+        $data['bio'] = $data['bio'] ?: '';
+
         $crew = Crew::create([
             'user_id' => $data['user_id'],
-            'bio'     => (string) $data['bio'],
+            'bio'     => $data['bio'],
             'photo'   => 'photos/' . $data['photo_dir'] . '/' . $data['photo']->hashName(),
         ]);
 
@@ -76,8 +78,7 @@ class CrewsServices
     {
         $resume = CrewResume::create([
             'crew_id' => $data['crew_id'],
-            'url'     => 'resumes/' . $data['resume_dir'] . '/'
-                . $data['resume']->hashName(),
+            'url'     => 'resumes/' . $data['resume_dir'] . '/' . $data['resume']->hashName(),
             'general' => 1,
         ]);
 

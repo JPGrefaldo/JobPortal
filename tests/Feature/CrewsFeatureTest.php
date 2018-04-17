@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\Models\Crew;
 use App\Models\Role;
-use App\Rules\YouTube;
 use App\Services\AuthServices;
 use App\Models\User;
 use Illuminate\Http\UploadedFile;
@@ -213,27 +212,35 @@ class CrewsFeatureTest extends TestCase
                 ],
                 'twitter'          => [
                     'url' => 'https://invalid-twitter.com/invalid',
+                    'id'  => SocialLinkTypeID::TWITTER,
                 ],
                 'youtube'          => [
                     'url' => 'https://invalid-youtube.com/invalid',
+                    'id'  => SocialLinkTypeID::YOUTUBE,
                 ],
                 'google_plus'      => [
                     'url' => 'https://invalid-gplus.com/invalid',
+                    'id'  => SocialLinkTypeID::GOOGLE_PLUS,
                 ],
                 'imdb'             => [
                     'url' => 'https://invalid-imdb.com/invalid',
+                    'id'  => SocialLinkTypeID::IMDB,
                 ],
                 'tumblr'           => [
                     'url' => 'https://invalid-tumblr.test/invalid',
+                    'id'  => SocialLinkTypeID::TUMBLR,
                 ],
                 'vimeo'            => [
                     'url' => 'https://invalid-vimeo.com/invalid',
+                    'id'  => SocialLinkTypeID::VIMEO,
                 ],
                 'instagram'        => [
                     'url' => 'https://invalid-instagram.com/invalid',
+                    'id'  => SocialLinkTypeID::INSTAGRAM,
                 ],
                 'personal_website' => [
                     'url' => 'http://mysite.test',
+                    'id'  => SocialLinkTypeID::PERSONAL_WEBSITE,
                 ],
             ],
         ];
@@ -242,6 +249,7 @@ class CrewsFeatureTest extends TestCase
 
         $response->assertSessionHasErrors(
             [
+                'socials.facebook.id'          => 'The socials.facebook.id field is required.',
                 'socials.facebook.url'         => 'facebook must be a valid Facebook URL.',
                 'socials.twitter.url'          => 'twitter must be a valid Twitter URL.',
                 'socials.youtube.url'          => 'youtube must be a valid YouTube URL.',
