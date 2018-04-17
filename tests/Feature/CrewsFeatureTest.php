@@ -117,6 +117,81 @@ class CrewsFeatureTest extends TestCase
     }
 
     /** @test */
+    public function create_not_required()
+    {
+        Storage::fake();
+
+        $user = factory(User::class)->create();
+        app(AuthServices::class)->createByRoleName(
+            Role::CREW,
+            $user,
+            $this->getCurrentSite()
+        );
+
+        $data = [
+            'bio'     => '',
+            'photo'   => UploadedFile::fake()->image('photo.png'),
+            'resume'  => '',
+            'socials' => [
+                'facebook'         => [
+                    'url' => '',
+                    'id'  => SocialLinkTypeID::FACEBOOK,
+                ],
+                'twitter'          => [
+                    'url' => '',
+                    'id'  => SocialLinkTypeID::TWITTER,
+                ],
+                'youtube'          => [
+                    'url' => '',
+                    'id'  => SocialLinkTypeID::YOUTUBE,
+                ],
+                'google_plus'      => [
+                    'url' => '',
+                    'id'  => SocialLinkTypeID::GOOGLE_PLUS,
+                ],
+                'imdb'             => [
+                    'url' => '',
+                    'id'  => SocialLinkTypeID::IMDB,
+                ],
+                'tumblr'           => [
+                    'url' => '',
+                    'id'  => SocialLinkTypeID::TUMBLR,
+                ],
+                'vimeo'            => [
+                    'url' => '',
+                    'id'  => SocialLinkTypeID::VIMEO,
+                ],
+                'instagram'        => [
+                    'url' => '',
+                    'id'  => SocialLinkTypeID::INSTAGRAM,
+                ],
+                'personal_website' => [
+                    'url' => '',
+                    'id'  => SocialLinkTypeID::PERSONAL_WEBSITE,
+                ],
+            ],
+        ];
+
+        $response = $this->actingAs($user)->post('crews/create', $data);
+
+        $response->assertSuccessful();
+
+        // assert crew data
+        $crew = Crew::where('user_id', $user->id)->first();
+
+        $this->assertEquals('', $crew->bio);
+
+        // assert photo
+        Storage::assertExists($crew->photo);
+
+        // assert that there are no resumes
+        $this->assertCount(0, $crew->resumes);
+
+        // assert that no socials has been created
+        $this->assertCount(0, $crew->social);
+    }
+
+    /** @test */
     public function invalid_data()
     {
         Storage::fake();
