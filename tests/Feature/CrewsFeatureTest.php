@@ -78,13 +78,15 @@ class CrewsFeatureTest extends TestCase
 
         $response->assertSuccessful();
 
+        // assert crew data
         $crew = Crew::where('user_id', $user->id)->first();
 
         $this->assertEquals($data['bio'], $crew->bio);
-
+        Storage::assertExists($crew->photo);
+        // assert general resume
         $resume = $crew->resumes->first();
 
-        Storage::assertExists($crew->photo);
+        $this->assertEquals(1, $resume->general);
         Storage::assertExists($crew->resumes->first()->url);
 
         // assert that the socials has been created
