@@ -2,10 +2,9 @@
 
 namespace App\Rules;
 
-use App\Utils\StrUtils;
 use Illuminate\Contracts\Validation\Rule;
 
-class YouTube implements Rule
+class IMDB implements Rule
 {
     /**
      * Create a new rule instance.
@@ -20,13 +19,14 @@ class YouTube implements Rule
     /**
      * Determine if the validation rule passes.
      *
-     * @param  string  $attribute
+     * @param  string $attribute
      * @param  mixed  $value
+     *
      * @return bool
      */
     public function passes($attribute, $value)
     {
-        return (substr(StrUtils::cleanYouTube($value), 0, 24) === 'https://www.youtube.com/');
+        return (substr($value, 0, 25) === 'http://www.imdb.com/name/');
     }
 
     /**
@@ -36,6 +36,6 @@ class YouTube implements Rule
      */
     public function message()
     {
-        return ':attribute must be a valid YouTube URL.';
+        return ':attribute must be a valid IMDB URL.';
     }
 }

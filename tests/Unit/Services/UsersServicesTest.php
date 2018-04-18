@@ -55,9 +55,12 @@ class UsersServicesTest extends TestCase
             'confirmed'  => 0,
         ]);
 
-        // assert that the user has user settings
         $user = User::where('email', $fakerUser->email)->first();
 
+        // assert the the user has a UUID
+        $this->assertEquals(36, strlen($user->uuid));
+
+        // assert that the user has user settings
         $this->assertArraySubset(
             [
                 'receive_email_notification' => 1,

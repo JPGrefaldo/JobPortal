@@ -20,11 +20,12 @@ class CreateCrewSocialTable extends Migration
                   ->references('id')
                   ->on('crews')
                   ->onDelete('cascade');
-            $table->integer('social_link_types_id')->unsigned()
-                  ->foreign('social_link_types_id')
+            $table->integer('social_link_type_id')->unsigned()
+                  ->foreign('social_link_type_id')
                   ->references('id')
                   ->on('social_link_types')
                   ->onDelete('cascade');
+            $table->string('url');
             $table->timestamps();
         });
     }

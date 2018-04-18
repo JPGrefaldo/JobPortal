@@ -2,10 +2,9 @@
 
 namespace App\Rules;
 
-use App\Utils\StrUtils;
 use Illuminate\Contracts\Validation\Rule;
 
-class YouTube implements Rule
+class Twitter implements Rule
 {
     /**
      * Create a new rule instance.
@@ -14,7 +13,6 @@ class YouTube implements Rule
      */
     public function __construct()
     {
-        //
     }
 
     /**
@@ -26,7 +24,7 @@ class YouTube implements Rule
      */
     public function passes($attribute, $value)
     {
-        return (substr(StrUtils::cleanYouTube($value), 0, 24) === 'https://www.youtube.com/');
+        return (substr($value,0, 20) === 'https://twitter.com/');
     }
 
     /**
@@ -36,6 +34,6 @@ class YouTube implements Rule
      */
     public function message()
     {
-        return ':attribute must be a valid YouTube URL.';
+        return ':attribute must be a valid Twitter URL.';
     }
 }

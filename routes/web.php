@@ -23,3 +23,7 @@ Route::post('/signup', 'UserSignupController@signup');
 Route::get('/verify/email/{code}', 'VerifyEmailController@verify');
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::middleware(['auth', 'crew'])->group(function() {
+     Route::post('/crews/create', 'CrewsController@store');
+});

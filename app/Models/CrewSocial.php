@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class CrewSocial extends Model
 {
+    protected $table = 'crew_social';
+
     /**
      * The protected attributes
      *
@@ -28,5 +30,15 @@ class CrewSocial extends Model
     public function crew()
     {
         return $this->belongsTo(Crew::class);
+    }
+
+    /**
+     * social_link_types_relationship
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function socialLinkType()
+    {
+        return $this->belongsTo(SocialLinkType::class);
     }
 }

@@ -15,6 +15,7 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
+            $table->uuid('uuid');
             $table->string('first_name');
             $table->string('last_name');
             $table->string('email')->unique();
@@ -26,6 +27,7 @@ class CreateUsersTable extends Migration
 
             $table->timestamps();
 
+            $table->index('uuid');
             $table->index('status');
             $table->index('confirmed');
         });

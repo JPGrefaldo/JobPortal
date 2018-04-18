@@ -2,10 +2,9 @@
 
 namespace App\Rules;
 
-use App\Utils\StrUtils;
 use Illuminate\Contracts\Validation\Rule;
 
-class YouTube implements Rule
+class Tumblr implements Rule
 {
     /**
      * Create a new rule instance.
@@ -26,7 +25,17 @@ class YouTube implements Rule
      */
     public function passes($attribute, $value)
     {
-        return (substr(StrUtils::cleanYouTube($value), 0, 24) === 'https://www.youtube.com/');
+        $url = parse_url($value);
+
+        if (! $url) {
+            return false;
+        }
+
+        if (preg_match('/\.tumblr\.com$/', $url['host'])) {
+            return true;
+        }
+
+        return with(new TLDR())->passes($attribute, $url['host']);
     }
 
     /**
@@ -36,6 +45,6 @@ class YouTube implements Rule
      */
     public function message()
     {
-        return ':attribute must be a valid YouTube URL.';
+        return ':attribute must be a valid Tumblr URL.';
     }
 }

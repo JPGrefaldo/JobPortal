@@ -37,6 +37,6 @@ class YouTubeTest extends TestCase
         ]);
 
         $this->assertFalse($result->passes());
-        $this->assertEquals('The youtube must be a valid YouTube URL.', $result->errors()->first());
+        $this->assertEquals('youtube must be a valid YouTube URL.', $result->errors()->first());
     }
 }
