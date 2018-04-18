@@ -6,6 +6,7 @@ use App\Models\Crew;
 use App\Models\Role;
 use App\Services\AuthServices;
 use App\Models\User;
+use App\Services\CrewsServices;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Tests\Support\Data\SocialLinkTypeID;
@@ -74,7 +75,7 @@ class CrewsFeatureTest extends TestCase
             ],
         ];
 
-        $response = $this->actingAs($user)->post('crews/create', $data);
+        $response = $this->actingAs($user)->post('/crews', $data);
 
         $response->assertSuccessful();
 
@@ -173,7 +174,7 @@ class CrewsFeatureTest extends TestCase
             ],
         ];
 
-        $response = $this->actingAs($user)->post('crews/create', $data);
+        $response = $this->actingAs($user)->post('/crews', $data);
 
         $response->assertSuccessful();
 
@@ -193,7 +194,7 @@ class CrewsFeatureTest extends TestCase
     }
 
     /** @test */
-    public function invalid_data()
+    public function create_invalid_data()
     {
         Storage::fake();
 
@@ -247,7 +248,7 @@ class CrewsFeatureTest extends TestCase
             ],
         ];
 
-        $response = $this->actingAs($user)->post('crews/create', $data);
+        $response = $this->actingAs($user)->post('/crews', $data);
 
         $response->assertSessionHasErrors(
             [
@@ -263,5 +264,136 @@ class CrewsFeatureTest extends TestCase
                 'socials.personal_website.url' => 'The personal website is invalid.',
             ]
         );
+    }
+
+    /** @test */
+    public function update()
+    {
+        Storage::fake();
+
+        $user = $this->getCrewUser();
+        $crew = $this->getCrew($user);
+
+        $data = [
+            'bio'     => 'updated bio',
+            'photo'   => UploadedFile::fake()->image('new-photo.png'),
+            'resume'  => UploadedFile::fake()->create('new-resume.pdf'),
+            'socials' => [
+                'facebook'         => [
+                    'url' => 'https://www.facebook.com/new-castingcallsamerica/',
+                    'id'  => SocialLinkTypeID::FACEBOOK,
+                ],
+                'twitter'          => [
+                    'url' => 'https://twitter.com/new-casting_america',
+                    'id'  => SocialLinkTypeID::TWITTER,
+                ],
+                'youtube'          => [
+                    'url' => 'https://www.youtube.com/channel/UCHBOnWRvXSZ2xzBXyoDnCJwNEW',
+                    'id'  => SocialLinkTypeID::YOUTUBE,
+                ],
+                'google_plus'      => [
+                    'url' => 'https://plus.google.com/+marvel-new',
+                    'id'  => SocialLinkTypeID::GOOGLE_PLUS,
+                ],
+                'imdb'             => [
+                    'url' => 'http://www.imdb.com/name/nm0000134/-updated',
+                    'id'  => SocialLinkTypeID::IMDB,
+                ],
+                'tumblr'           => [
+                    'url' => 'http://new-updated.tumblr.com',
+                    'id'  => SocialLinkTypeID::TUMBLR,
+                ],
+                'vimeo'            => [
+                    'url' => 'https://vimeo.com/new-mackevision',
+                    'id'  => SocialLinkTypeID::VIMEO,
+                ],
+                'instagram'        => [
+                    'url' => 'https://www.instagram.com/new-castingamerica/',
+                    'id'  => SocialLinkTypeID::INSTAGRAM,
+                ],
+                'personal_website' => [
+                    'url' => 'https://new-castingcallsamerica.com',
+                    'id'  => SocialLinkTypeID::PERSONAL_WEBSITE,
+                ],
+            ],
+        ];
+
+        $response = $this->actingAs($user)->put('/crews/' . $crew->id, $data);
+
+        $response->assertSuccessful();
+
+        $oldPhoto = $crew->photo;
+
+        $crew->refresh();
+
+        $this->assertEquals(
+            'updated bio',
+            $crew->bio
+        );
+
+        Storage::assertMissing($oldPhoto);
+        Storage::assertExists($crew->photo);
+    }
+
+    protected function getCrewUser()
+    {
+        $user = factory(User::class)->create();
+
+        app(AuthServices::class)->createByRoleName(
+            Role::CREW,
+            $user,
+            $this->getCurrentSite()
+        );
+
+        return $user;
+    }
+
+    protected function getCrew(User $user)
+    {
+        $crew = app(CrewsServices::class)->processCreate([
+            'bio'     => 'some bio',
+            'photo'   => UploadedFile::fake()->image('photo.png'),
+            'resume'  => UploadedFile::fake()->create('resume.pdf'),
+            'socials' => [
+                'facebook'         => [
+                    'url' => 'https://www.facebook.com/castingcallsamerica/',
+                    'id'  => SocialLinkTypeID::FACEBOOK,
+                ],
+                'twitter'          => [
+                    'url' => 'https://twitter.com/casting_america',
+                    'id'  => SocialLinkTypeID::TWITTER,
+                ],
+                'youtube'          => [
+                    'url' => 'https://www.youtube.com/channel/UCHBOnWRvXSZ2xzBXyoDnCJw',
+                    'id'  => SocialLinkTypeID::YOUTUBE,
+                ],
+                'google_plus'      => [
+                    'url' => 'https://plus.google.com/+marvel',
+                    'id'  => SocialLinkTypeID::GOOGLE_PLUS,
+                ],
+                'imdb'             => [
+                    'url' => 'http://www.imdb.com/name/nm0000134/',
+                    'id'  => SocialLinkTypeID::IMDB,
+                ],
+                'tumblr'           => [
+                    'url' => 'http://test.tumblr.com',
+                    'id'  => SocialLinkTypeID::TUMBLR,
+                ],
+                'vimeo'            => [
+                    'url' => 'https://vimeo.com/mackevision',
+                    'id'  => SocialLinkTypeID::VIMEO,
+                ],
+                'instagram'        => [
+                    'url' => 'https://www.instagram.com/castingamerica/',
+                    'id'  => SocialLinkTypeID::INSTAGRAM,
+                ],
+                'personal_website' => [
+                    'url' => 'https://castingcallsamerica.com',
+                    'id'  => SocialLinkTypeID::PERSONAL_WEBSITE,
+                ],
+            ],
+        ], $user);
+
+        return $crew;
     }
 }

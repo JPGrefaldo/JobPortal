@@ -4,6 +4,7 @@
 namespace App\Services;
 
 
+use App\Data\StoragePath;
 use App\Models\Crew;
 use App\Models\CrewResume;
 use App\Models\CrewSocial;
@@ -109,5 +110,58 @@ class CrewsServices
         }
 
         $crew->social()->saveMany($crewSocials);
+    }
+
+    /**
+     * @param array $data
+     * @param Crew  $crew
+     */
+    public function processUpdate(array $data, Crew $crew)
+    {
+        $crew = $this->update(
+            array_only($data, ['bio']),
+            $data['photo'],
+            $crew
+        );
+    }
+
+    /**
+     * @param array                              $data
+     * @param \Illuminate\Http\UploadedFile|null $photo
+     * @param Crew                               $crew
+     */
+    public function update(array $data, $photo, Crew $crew)
+    {
+        $data     = $this->prepareCrewData(
+            $data,
+            StoragePath::createPhotoFromUploadedFile($crew->user->uuid, $photo)
+        );
+        $oldPhoto = $crew->photo;
+
+        $crew->update($data);
+
+        if (empty($data['photo'])) {
+            return;
+        }
+
+        Storage::delete($oldPhoto);
+        Storage::put($crew->photo, file_get_contents($photo));
+    }
+
+    /**
+     * @param array $data
+     * @param \App\Data\StoragePath|null $imagePath
+     *
+     * @return array
+     */
+    public function prepareCrewData(array $data, $imagePath)
+    {
+        $data['bio'] = $data['bio'] ?: '';
+
+        if ($imagePath) {
+            $data['photo'] = $imagePath->get();
+        }
+
+        return $data;
     }
 }
