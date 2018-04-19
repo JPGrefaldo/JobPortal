@@ -254,7 +254,7 @@ class CrewsServicesTest extends TestCase
         ]);
         $data         = [
             'bio'   => 'new bio',
-            'photo' =>  null,
+            'photo' => null,
         ];
         $oldCrewPhoto = $crew->photo;
 
@@ -337,6 +337,76 @@ class CrewsServicesTest extends TestCase
     }
 
     /** @test */
+    public function update_crew_general_resume()
+    {
+        Storage::fake();
+
+        $user       = factory(User::class)->create();
+        $crew       = $this->service->processCreate(
+            [
+                'bio'     => 'some bio',
+                'photo'   => UploadedFile::fake()->image('photo.png'),
+                'resume'  => UploadedFile::fake()->create('resume.pdf'),
+                'socials' => [],
+            ],
+            $user
+        );
+        $resume     = $crew->resumes->where('general', 1)->first();
+        $resumeFile = UploadedFile::fake()->create('new-resume.pdf');
+
+        $this->service->updateGeneralResume($resumeFile, $crew);
+
+        // assert that the old resume file does not exist anymore
+        Storage::assertMissing($resume->url);
+
+        // assert data
+        $resume->refresh();
+
+        $this->assertArraySubset(
+            [
+                'url'     => 'resumes/' . $user->uuid . '/' . $resumeFile->hashName(),
+                'crew_id' => $crew->id,
+                'general' => 1,
+            ],
+            $resume->toArray()
+        );
+
+        Storage::assertExists($resume->url);
+    }
+
+    /** @test */
+    public function update_crew_general_resume_not_exists()
+    {
+        $this->markTestIncomplete('not implemented');
+        Storage::fake();
+
+        $user = factory(User::class)->create();
+        $crew = $this->service->create([
+            'user_id'   => $user->id,
+            'bio'       => 'some bio',
+            'photo'     => UploadedFile::fake()->image('photo.png'),
+            'photo_dir' => $user->uiid,
+        ]);
+
+        $resumeFile = UploadedFile::fake()->create('new-resume.pdf');
+
+        $this->service->updateGeneralResume($resumeFile, $crew);
+
+        $resume = $crew->resumes->where('general', 1)->first();
+
+        $this->assertArraySubset(
+            [
+                'url'     => 'resumes/' . $user->uuid . '/' . $resumeFile->hashName(),
+                'crew_id' => $crew->id,
+                'general' => 1,
+            ],
+            $resume->toArray()
+        );
+
+        Storage::assertExists($resume->url);
+    }
+
+    /** @test */
     public function prepare_crew_data()
     {
         $data      = ['bio' => 'some bio'];
@@ -387,6 +457,22 @@ class CrewsServicesTest extends TestCase
         $this->assertEquals(
             ['bio' => '',],
             $result
+        );
+    }
+
+    /** @test */
+    public function prepare_general_resume_data()
+    {
+        $resumeData = [
+            'file' => UploadedFile::fake()->create('resume.pdf'),
+            'dir'  => 'f5972b6f-5f55-49d2-8a79-e2c20cf39122',
+        ];
+
+        $this->assertEquals(
+            [
+                'url' => 'resumes/f5972b6f-5f55-49d2-8a79-e2c20cf39122/' . $resumeData['file']->hashName(),
+            ],
+            $this->service->prepareGeneralResumeData($resumeData)
         );
     }
 }
