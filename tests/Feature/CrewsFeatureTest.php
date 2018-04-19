@@ -322,19 +322,99 @@ class CrewsFeatureTest extends TestCase
 
         $response->assertSuccessful();
 
-        $oldPhoto = $crew->photo;
+        $oldCrewPhoto = $crew->photo;
 
         $crew->refresh();
 
-        $this->assertEquals(
-            'updated bio',
-            $crew->bio
+        $this->assertArraySubset(
+            [
+                'bio'   => 'updated bio',
+                'photo' => 'photos/' . $user->uuid . '/' . $data['photo']->hashName(),
+            ],
+            $crew->toArray()
         );
 
-        Storage::assertMissing($oldPhoto);
+        // assert storage
+        Storage::assertMissing($oldCrewPhoto);
         Storage::assertExists($crew->photo);
     }
 
+    /** @test */
+    public function update_without_photo()
+    {
+        Storage::fake();
+
+        $user = $this->getCrewUser();
+        $crew = $this->getCrew($user);
+
+        $data = [
+            'bio'     => 'updated bio',
+            'photo'   => null,
+            'resume'  => UploadedFile::fake()->create('new-resume.pdf'),
+            'socials' => [
+                'facebook'         => [
+                    'url' => 'https://www.facebook.com/new-castingcallsamerica/',
+                    'id'  => SocialLinkTypeID::FACEBOOK,
+                ],
+                'twitter'          => [
+                    'url' => 'https://twitter.com/new-casting_america',
+                    'id'  => SocialLinkTypeID::TWITTER,
+                ],
+                'youtube'          => [
+                    'url' => 'https://www.youtube.com/channel/UCHBOnWRvXSZ2xzBXyoDnCJwNEW',
+                    'id'  => SocialLinkTypeID::YOUTUBE,
+                ],
+                'google_plus'      => [
+                    'url' => 'https://plus.google.com/+marvel-new',
+                    'id'  => SocialLinkTypeID::GOOGLE_PLUS,
+                ],
+                'imdb'             => [
+                    'url' => 'http://www.imdb.com/name/nm0000134/-updated',
+                    'id'  => SocialLinkTypeID::IMDB,
+                ],
+                'tumblr'           => [
+                    'url' => 'http://new-updated.tumblr.com',
+                    'id'  => SocialLinkTypeID::TUMBLR,
+                ],
+                'vimeo'            => [
+                    'url' => 'https://vimeo.com/new-mackevision',
+                    'id'  => SocialLinkTypeID::VIMEO,
+                ],
+                'instagram'        => [
+                    'url' => 'https://www.instagram.com/new-castingamerica/',
+                    'id'  => SocialLinkTypeID::INSTAGRAM,
+                ],
+                'personal_website' => [
+                    'url' => 'https://new-castingcallsamerica.com',
+                    'id'  => SocialLinkTypeID::PERSONAL_WEBSITE,
+                ],
+            ],
+        ];
+
+        $response = $this->actingAs($user)->put('/crews/' . $crew->id, $data);
+
+        $response->assertSuccessful();
+
+        $oldCrewPhoto = $crew->photo;
+
+        $crew->refresh();
+
+        $this->assertArraySubset(
+            [
+                'bio'   => 'updated bio',
+                'photo' => $oldCrewPhoto,
+            ],
+            $crew->toArray()
+        );
+
+        // assert storage
+        Storage::assertExists($oldCrewPhoto);
+    }
+
+    /**
+     * @return \App\Models\User
+     * @throws \Exception
+     */
     protected function getCrewUser()
     {
         $user = factory(User::class)->create();
@@ -348,6 +428,11 @@ class CrewsFeatureTest extends TestCase
         return $user;
     }
 
+    /**
+     * @param \App\Models\User $user
+     *
+     * @return \App\Models\Crew
+     */
     protected function getCrew(User $user)
     {
         $crew = app(CrewsServices::class)->processCreate([

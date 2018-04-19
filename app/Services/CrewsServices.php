@@ -10,6 +10,7 @@ use App\Models\CrewResume;
 use App\Models\CrewSocial;
 use App\Models\User;
 use App\Utils\StrUtils;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
 class CrewsServices
@@ -115,6 +116,8 @@ class CrewsServices
     /**
      * @param array $data
      * @param Crew  $crew
+     *
+     * @return Crew
      */
     public function processUpdate(array $data, Crew $crew)
     {
@@ -123,43 +126,53 @@ class CrewsServices
             $data['photo'],
             $crew
         );
-    }
 
-    /**
-     * @param array                              $data
-     * @param \Illuminate\Http\UploadedFile|null $photo
-     * @param Crew                               $crew
-     */
-    public function update(array $data, $photo, Crew $crew)
-    {
-        $data     = $this->prepareCrewData(
-            $data,
-            StoragePath::createPhotoFromUploadedFile($crew->user->uuid, $photo)
-        );
-        $oldPhoto = $crew->photo;
-
-        $crew->update($data);
-
-        if (empty($data['photo'])) {
-            return;
-        }
-
-        Storage::delete($oldPhoto);
-        Storage::put($crew->photo, file_get_contents($photo));
+        return $crew;
     }
 
     /**
      * @param array $data
-     * @param \App\Data\StoragePath|null $imagePath
+     * @param null|\Illuminate\Http\UploadedFile $photoFile
+     * @param \App\Models\Crew  $crew
+     *
+     * @return \App\Models\Crew
+     */
+    public function update(array $data, $photoFile, Crew $crew)
+    {
+        $hasPhoto  = ($photoFile instanceof UploadedFile);
+        $photoData = [
+            'file' => $photoFile,
+            'dir'  => ($hasPhoto) ? $crew->user->uuid : '',
+        ];
+        $data      = $this->prepareCrewData($data, $photoData);
+
+        if ($hasPhoto) {
+            // delete old photo
+            Storage::delete($crew->photo);
+            Storage::put($data['photo'], file_get_contents($photoFile));
+        }
+
+        $crew->update($data);
+
+        return $crew;
+    }
+
+    /**
+     * @param array $data
+     * @param array $photoData
      *
      * @return array
      */
-    public function prepareCrewData(array $data, $imagePath)
+    public function prepareCrewData(array $data, array $photoData)
     {
         $data['bio'] = $data['bio'] ?: '';
 
-        if ($imagePath) {
-            $data['photo'] = $imagePath->get();
+        if ($photoData['file'] instanceof UploadedFile) {
+            $data['photo'] = StoragePath::BASE_PHOTO
+                . '/'
+                . $photoData['dir']
+                . '/'
+                . $photoData['file']->hashName();
         }
 
         return $data;

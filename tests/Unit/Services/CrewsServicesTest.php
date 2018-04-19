@@ -2,12 +2,14 @@
 
 namespace Tests\Unit\Services;
 
+use App\Data\StoragePath;
 use App\Models\Role;
 use App\Services\AuthServices;
 use App\Services\CrewsServices;
 use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Tests\Support\Data\SocialLinkTypeID;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
@@ -202,5 +204,189 @@ class CrewsServicesTest extends TestCase
             'social_link_type_id' => $data['youtube']['id'],
             'url'                 => 'https://www.youtube.com/embed/2-_rLbU6zJo',
         ]);
+    }
+
+    /** @test */
+    public function process_update()
+    {
+        Storage::fake();
+
+        $user         = factory(User::class)->create();
+        $crew         = $this->service->create([
+            'user_id'   => $user->id,
+            'bio'       => 'some bio',
+            'photo'     => UploadedFile::fake()->image('photo.png'),
+            'photo_dir' => $user->uiid,
+        ]);
+        $data         = [
+            'bio'   => 'new bio',
+            'photo' => UploadedFile::fake()->image('photo-new.png'),
+        ];
+        $oldCrewPhoto = $crew->photo;
+
+        $crew = $this->service->processUpdate($data, $crew);
+
+        // assert data
+        $this->assertArraySubset(
+            [
+                'bio'   => 'new bio',
+                'photo' => 'photos/' . $user->uuid . '/' . $data['photo']->hashName(),
+            ],
+            $crew->toArray()
+        );
+
+        // assert storage
+        Storage::assertExists($crew->photo);
+        Storage::assertMissing($oldCrewPhoto);
+    }
+
+    /** @test */
+    public function process_update_without_photo()
+    {
+        Storage::fake();
+
+        $user         = factory(User::class)->create();
+        $crew         = $this->service->create([
+            'user_id'   => $user->id,
+            'bio'       => 'some bio',
+            'photo'     => UploadedFile::fake()->image('photo.png'),
+            'photo_dir' => $user->uiid,
+        ]);
+        $data         = [
+            'bio'   => 'new bio',
+            'photo' =>  null,
+        ];
+        $oldCrewPhoto = $crew->photo;
+
+        $crew = $this->service->processUpdate($data, $crew);
+
+        // assert data
+        $this->assertArraySubset(
+            [
+                'bio'   => 'new bio',
+                'photo' => $oldCrewPhoto,
+            ],
+            $crew->toArray()
+        );
+
+        // assert storage
+        Storage::assertExists($oldCrewPhoto);
+    }
+
+    /** @test */
+    public function update()
+    {
+        Storage::fake();
+
+        $user      = factory(User::class)->create();
+        $crew      = $this->service->create([
+            'user_id'   => $user->id,
+            'bio'       => 'some bio',
+            'photo'     => UploadedFile::fake()->image('photo.png'),
+            'photo_dir' => $user->uiid,
+        ]);
+        $data      = ['bio' => 'new bio'];
+        $photoFile = UploadedFile::fake()->image('photo-new.png');
+        $oldPhoto  = $crew->photo;
+
+        $crew = $this->service->update($data, $photoFile, $crew);
+
+        // assert data
+        $this->assertArraySubset(
+            [
+                'bio'   => 'new bio',
+                'photo' => 'photos/' . $user->uuid . '/' . $photoFile->hashName(),
+            ],
+            $crew->toArray()
+        );
+
+        // assert storage
+        Storage::assertExists($crew->photo);
+        Storage::assertMissing($oldPhoto);
+    }
+
+    /** @test */
+    public function update_without_photo()
+    {
+        Storage::fake();
+
+        $user      = factory(User::class)->create();
+        $crew      = $this->service->create([
+            'user_id'   => $user->id,
+            'bio'       => 'some bio',
+            'photo'     => UploadedFile::fake()->image('photo.png'),
+            'photo_dir' => $user->uiid,
+        ]);
+        $data      = ['bio' => 'new bio'];
+        $photoFile = null;
+        $oldPhoto  = $crew->photo;
+
+        $crew = $this->service->update($data, $photoFile, $crew);
+
+        // assert data
+        $this->assertArraySubset(
+            [
+                'bio'   => 'new bio',
+                'photo' => $oldPhoto,
+            ],
+            $crew->toArray()
+        );
+
+        // assert storage
+        Storage::assertExists($crew->photo);
+    }
+
+    /** @test */
+    public function prepare_crew_data()
+    {
+        $data      = ['bio' => 'some bio'];
+        $photoData = [
+            'file' => UploadedFile::fake()->image('photo.png'),
+            'dir'  => 'f5972b6f-5f55-49d2-8a79-e2c20cf39122',
+        ];
+
+        $result = $this->service->prepareCrewData($data, $photoData);
+
+        $this->assertEquals(
+            [
+                'bio'   => 'some bio',
+                'photo' => 'photos/f5972b6f-5f55-49d2-8a79-e2c20cf39122/' . $photoData['file']->hashName(),
+            ],
+            $result
+        );
+    }
+
+    /** @test */
+    public function prepare_crew_data_without_photo()
+    {
+        $data      = ['bio' => 'some bio'];
+        $photoData = [
+            'file' => null,
+            'dir'  => '',
+        ];
+
+        $result = $this->service->prepareCrewData($data, $photoData);
+
+        $this->assertEquals(
+            ['bio' => 'some bio',],
+            $result
+        );
+    }
+
+    /** @test */
+    public function prepare_crew_data_bio_is_null()
+    {
+        $data      = ['bio' => null];
+        $photoData = [
+            'file' => null,
+            'dir'  => '',
+        ];
+
+        $result = $this->service->prepareCrewData($data, $photoData);
+
+        $this->assertEquals(
+            ['bio' => '',],
+            $result
+        );
     }
 }
