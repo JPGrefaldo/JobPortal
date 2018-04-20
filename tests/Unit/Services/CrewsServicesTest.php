@@ -2,19 +2,14 @@
 
 namespace Tests\Unit\Services;
 
-use App\Data\StoragePath;
-use App\Models\Role;
-use App\Services\AuthServices;
-use App\Services\CrewsServices;
 use App\Models\User;
+use App\Services\CrewsServices;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use Tests\Support\Data\SocialLinkTypeID;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CrewsServicesTest extends TestCase
 {
@@ -214,12 +209,7 @@ class CrewsServicesTest extends TestCase
         Storage::fake();
 
         $crew     = $this->service->processCreate(
-            [
-                'bio'     => 'some bio',
-                'photo'   => UploadedFile::fake()->image('photo.png'),
-                'resume'  => UploadedFile::fake()->create('resume.pdf'),
-                'socials' => [],
-            ],
+            $this->getProcessCreateData(),
             factory(User::class)->create()
         );
         $resume   = $crew->resumes->where('general', 1)->first();
@@ -227,18 +217,14 @@ class CrewsServicesTest extends TestCase
             'photo'  => $crew->photo,
             'resume' => $resume->url,
         ];
-        $data     = [
-            'bio'    => 'new bio',
-            'photo'  => UploadedFile::fake()->image('photo-new.png'),
-            'resume' => UploadedFile::fake()->create('new-resume.pdf'),
-        ];
+        $data     = $this->getProcessUpdateData();
 
         $crew = $this->service->processUpdate($data, $crew);
 
         // assert crew
         $this->assertArraySubset(
             [
-                'bio'   => 'new bio',
+                'bio'   => 'updated bio',
                 'photo' => 'photos/' . $crew->user->uuid . '/' . $data['photo']->hashName(),
             ],
             $crew->toArray()
@@ -260,6 +246,50 @@ class CrewsServicesTest extends TestCase
         );
         Storage::assertMissing($oldFiles['resume']);
         Storage::assertExists($resume->url);
+
+        // assert socials
+        $this->assertCount(9, $crew->social);
+        $this->assertArraySubset(
+            [
+                [
+                    'url'                 => 'https://www.facebook.com/new-castingcallsamerica/',
+                    'social_link_type_id' => SocialLinkTypeID::FACEBOOK,
+                ],
+                [
+                    'url'                 => 'https://twitter.com/new-casting_america',
+                    'social_link_type_id' => SocialLinkTypeID::TWITTER,
+                ],
+                [
+                    'url'                 => 'https://www.youtube.com/channel/UCHBOnWRvXSZ2xzBXyoDnCJwNEW',
+                    'social_link_type_id' => SocialLinkTypeID::YOUTUBE,
+                ],
+                [
+                    'url'                 => 'https://plus.google.com/+marvel-new',
+                    'social_link_type_id' => SocialLinkTypeID::GOOGLE_PLUS,
+                ],
+                [
+                    'url'                 => 'http://www.imdb.com/name/nm0000134/-updated',
+                    'social_link_type_id' => SocialLinkTypeID::IMDB,
+                ],
+                [
+                    'url'                 => 'http://new-updated.tumblr.com',
+                    'social_link_type_id' => SocialLinkTypeID::TUMBLR,
+                ],
+                [
+                    'url'                 => 'https://vimeo.com/new-mackevision',
+                    'social_link_type_id' => SocialLinkTypeID::VIMEO,
+                ],
+                [
+                    'url'                 => 'https://www.instagram.com/new-castingamerica/',
+                    'social_link_type_id' => SocialLinkTypeID::INSTAGRAM,
+                ],
+                [
+                    'url'                 => 'https://new-castingcallsamerica.com',
+                    'social_link_type_id' => SocialLinkTypeID::PERSONAL_WEBSITE,
+                ],
+            ],
+            $crew->social->toArray()
+        );
     }
 
     /** @test */
@@ -275,9 +305,10 @@ class CrewsServicesTest extends TestCase
             'photo_dir' => $user->uiid,
         ]);
         $data         = [
-            'bio'    => 'new bio',
-            'photo'  => null,
-            'resume' => null,
+            'bio'     => 'new bio',
+            'photo'   => null,
+            'resume'  => null,
+            'socials' => [],
         ];
         $oldCrewPhoto = $crew->photo;
 
@@ -294,6 +325,63 @@ class CrewsServicesTest extends TestCase
 
         // assert storage
         Storage::assertExists($oldCrewPhoto);
+    }
+
+    /** @test */
+    public function process_update_incomplete_socials()
+    {
+        Storage::fake();
+
+        $crew     = $this->service->processCreate(
+            $this->getProcessCreateData(),
+            factory(User::class)->create()
+        );
+        $resume   = $crew->resumes->where('general', 1)->first();
+        $oldFiles = [
+            'photo'  => $crew->photo,
+            'resume' => $resume->url,
+        ];
+        $data     = $this->getProcessUpdateData();
+
+        $data['socials']['youtube']['url']          = null;
+        $data['socials']['personal_website']['url'] = null;
+
+        $crew = $this->service->processUpdate($data, $crew);
+
+        $this->assertCount(7, $crew->social);
+        $this->assertArraySubset(
+            [
+                [
+                    'url'                 => 'https://www.facebook.com/new-castingcallsamerica/',
+                    'social_link_type_id' => SocialLinkTypeID::FACEBOOK,
+                ],
+                [
+                    'url'                 => 'https://twitter.com/new-casting_america',
+                    'social_link_type_id' => SocialLinkTypeID::TWITTER,
+                ],
+                [
+                    'url'                 => 'https://plus.google.com/+marvel-new',
+                    'social_link_type_id' => SocialLinkTypeID::GOOGLE_PLUS,
+                ],
+                [
+                    'url'                 => 'http://www.imdb.com/name/nm0000134/-updated',
+                    'social_link_type_id' => SocialLinkTypeID::IMDB,
+                ],
+                [
+                    'url'                 => 'http://new-updated.tumblr.com',
+                    'social_link_type_id' => SocialLinkTypeID::TUMBLR,
+                ],
+                [
+                    'url'                 => 'https://vimeo.com/new-mackevision',
+                    'social_link_type_id' => SocialLinkTypeID::VIMEO,
+                ],
+                [
+                    'url'                 => 'https://www.instagram.com/new-castingamerica/',
+                    'social_link_type_id' => SocialLinkTypeID::INSTAGRAM,
+                ],
+            ],
+            $crew->social->toArray()
+        );
     }
 
     /** @test */
@@ -496,5 +584,214 @@ class CrewsServicesTest extends TestCase
             ],
             $this->service->prepareGeneralResumeData($resumeData)
         );
+    }
+
+    /** @test */
+    public function update_socials()
+    {
+        Storage::fake();
+
+        $user = factory(User::class)->create();
+        $crew = $this->service->processCreate($this->getProcessCreateData(), $user);
+        $data = $this->getProcessUpdateData()['socials'];
+
+        $this->service->updateSocials($data, $crew);
+
+        $this->assertCount(9, $crew->social);
+        $this->assertArraySubset(
+            [
+                [
+                    'url'                 => 'https://www.facebook.com/new-castingcallsamerica/',
+                    'social_link_type_id' => SocialLinkTypeID::FACEBOOK,
+                ],
+                [
+                    'url'                 => 'https://twitter.com/new-casting_america',
+                    'social_link_type_id' => SocialLinkTypeID::TWITTER,
+                ],
+                [
+                    'url'                 => 'https://www.youtube.com/channel/UCHBOnWRvXSZ2xzBXyoDnCJwNEW',
+                    'social_link_type_id' => SocialLinkTypeID::YOUTUBE,
+                ],
+                [
+                    'url'                 => 'https://plus.google.com/+marvel-new',
+                    'social_link_type_id' => SocialLinkTypeID::GOOGLE_PLUS,
+                ],
+                [
+                    'url'                 => 'http://www.imdb.com/name/nm0000134/-updated',
+                    'social_link_type_id' => SocialLinkTypeID::IMDB,
+                ],
+                [
+                    'url'                 => 'http://new-updated.tumblr.com',
+                    'social_link_type_id' => SocialLinkTypeID::TUMBLR,
+                ],
+                [
+                    'url'                 => 'https://vimeo.com/new-mackevision',
+                    'social_link_type_id' => SocialLinkTypeID::VIMEO,
+                ],
+                [
+                    'url'                 => 'https://www.instagram.com/new-castingamerica/',
+                    'social_link_type_id' => SocialLinkTypeID::INSTAGRAM,
+                ],
+                [
+                    'url'                 => 'https://new-castingcallsamerica.com',
+                    'social_link_type_id' => SocialLinkTypeID::PERSONAL_WEBSITE,
+                ],
+            ],
+            $crew->social->toArray()
+        );
+    }
+
+    /** @test */
+    public function update_socials_incomplete()
+    {
+        Storage::fake();
+
+        $user = factory(User::class)->create();
+        $crew = $this->service->processCreate($this->getProcessCreateData(), $user);
+        $data = $this->getProcessUpdateData()['socials'];
+
+        $data['youtube']['url']          = null;
+        $data['personal_website']['url'] = null;
+
+        $this->service->updateSocials($data, $crew);
+
+        $this->assertCount(7, $crew->social);
+        $this->assertArraySubset(
+            [
+                [
+                    'url'                 => 'https://www.facebook.com/new-castingcallsamerica/',
+                    'social_link_type_id' => SocialLinkTypeID::FACEBOOK,
+                ],
+                [
+                    'url'                 => 'https://twitter.com/new-casting_america',
+                    'social_link_type_id' => SocialLinkTypeID::TWITTER,
+                ],
+                [
+                    'url'                 => 'https://plus.google.com/+marvel-new',
+                    'social_link_type_id' => SocialLinkTypeID::GOOGLE_PLUS,
+                ],
+                [
+                    'url'                 => 'http://www.imdb.com/name/nm0000134/-updated',
+                    'social_link_type_id' => SocialLinkTypeID::IMDB,
+                ],
+                [
+                    'url'                 => 'http://new-updated.tumblr.com',
+                    'social_link_type_id' => SocialLinkTypeID::TUMBLR,
+                ],
+                [
+                    'url'                 => 'https://vimeo.com/new-mackevision',
+                    'social_link_type_id' => SocialLinkTypeID::VIMEO,
+                ],
+                [
+                    'url'                 => 'https://www.instagram.com/new-castingamerica/',
+                    'social_link_type_id' => SocialLinkTypeID::INSTAGRAM,
+                ],
+            ],
+            $crew->social->toArray()
+        );
+    }
+
+    /**
+     * @param array $customData
+     *
+     * @return array
+     */
+    public function getProcessCreateData($customData = [])
+    {
+        return array_merge([
+            'bio'     => 'some bio',
+            'photo'   => UploadedFile::fake()->image('photo.png'),
+            'resume'  => UploadedFile::fake()->create('resume.pdf'),
+            'socials' => [
+                'facebook'         => [
+                    'url' => 'https://www.facebook.com/castingcallsamerica/',
+                    'id'  => SocialLinkTypeID::FACEBOOK,
+                ],
+                'twitter'          => [
+                    'url' => 'https://twitter.com/casting_america',
+                    'id'  => SocialLinkTypeID::TWITTER,
+                ],
+                'youtube'          => [
+                    'url' => 'https://www.youtube.com/channel/UCHBOnWRvXSZ2xzBXyoDnCJw',
+                    'id'  => SocialLinkTypeID::YOUTUBE,
+                ],
+                'google_plus'      => [
+                    'url' => 'https://plus.google.com/+marvel',
+                    'id'  => SocialLinkTypeID::GOOGLE_PLUS,
+                ],
+                'imdb'             => [
+                    'url' => 'http://www.imdb.com/name/nm0000134/',
+                    'id'  => SocialLinkTypeID::IMDB,
+                ],
+                'tumblr'           => [
+                    'url' => 'http://test.tumblr.com',
+                    'id'  => SocialLinkTypeID::TUMBLR,
+                ],
+                'vimeo'            => [
+                    'url' => 'https://vimeo.com/mackevision',
+                    'id'  => SocialLinkTypeID::VIMEO,
+                ],
+                'instagram'        => [
+                    'url' => 'https://www.instagram.com/castingamerica/',
+                    'id'  => SocialLinkTypeID::INSTAGRAM,
+                ],
+                'personal_website' => [
+                    'url' => 'https://castingcallsamerica.com',
+                    'id'  => SocialLinkTypeID::PERSONAL_WEBSITE,
+                ],
+            ],
+        ], $customData);
+    }
+
+    /**
+     * @param array $customData
+     *
+     * @return array
+     */
+    public function getProcessUpdateData($customData = [])
+    {
+        return array_merge([
+            'bio'     => 'updated bio',
+            'photo'   => UploadedFile::fake()->image('new-photo.png'),
+            'resume'  => UploadedFile::fake()->create('new-resume.pdf'),
+            'socials' => [
+                'facebook'         => [
+                    'url' => 'https://www.facebook.com/new-castingcallsamerica/',
+                    'id'  => SocialLinkTypeID::FACEBOOK,
+                ],
+                'twitter'          => [
+                    'url' => 'https://twitter.com/new-casting_america',
+                    'id'  => SocialLinkTypeID::TWITTER,
+                ],
+                'youtube'          => [
+                    'url' => 'https://www.youtube.com/channel/UCHBOnWRvXSZ2xzBXyoDnCJwNEW',
+                    'id'  => SocialLinkTypeID::YOUTUBE,
+                ],
+                'google_plus'      => [
+                    'url' => 'https://plus.google.com/+marvel-new',
+                    'id'  => SocialLinkTypeID::GOOGLE_PLUS,
+                ],
+                'imdb'             => [
+                    'url' => 'http://www.imdb.com/name/nm0000134/-updated',
+                    'id'  => SocialLinkTypeID::IMDB,
+                ],
+                'tumblr'           => [
+                    'url' => 'http://new-updated.tumblr.com',
+                    'id'  => SocialLinkTypeID::TUMBLR,
+                ],
+                'vimeo'            => [
+                    'url' => 'https://vimeo.com/new-mackevision',
+                    'id'  => SocialLinkTypeID::VIMEO,
+                ],
+                'instagram'        => [
+                    'url' => 'https://www.instagram.com/new-castingamerica/',
+                    'id'  => SocialLinkTypeID::INSTAGRAM,
+                ],
+                'personal_website' => [
+                    'url' => 'https://new-castingcallsamerica.com',
+                    'id'  => SocialLinkTypeID::PERSONAL_WEBSITE,
+                ],
+            ],
+        ], $customData);
     }
 }

@@ -135,6 +135,8 @@ class CrewsServices
             $this->updateGeneralResume($data['resume'], $crew);
         }
 
+        $this->updateSocials($data['socials'], $crew);
+
         return $crew;
     }
 
@@ -229,5 +231,18 @@ class CrewsServices
                 . '/' . $resumeData['dir']
                 . '/' . $resumeData['file']->hashName(),
         ];
+    }
+
+    /**
+     * @param array            $socialData
+     * @param \App\Models\Crew $crew
+     *
+     * @throws \Exception
+     */
+    public function updateSocials(array $socialData, Crew $crew)
+    {
+        CrewSocial::where('crew_id', $crew->id)->delete();
+
+        $this->createSocials($socialData, $crew);
     }
 }

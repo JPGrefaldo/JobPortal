@@ -311,6 +311,50 @@ class CrewsFeatureTest extends TestCase
         );
         Storage::assertMissing($oldFiles['resume']);
         Storage::assertExists($resume->url);
+
+        // assert socials
+        $this->assertCount(9, $crew->social);
+        $this->assertArraySubset(
+            [
+                [
+                    'url'                 => 'https://www.facebook.com/new-castingcallsamerica/',
+                    'social_link_type_id' => SocialLinkTypeID::FACEBOOK,
+                ],
+                [
+                    'url'                 => 'https://twitter.com/new-casting_america',
+                    'social_link_type_id' => SocialLinkTypeID::TWITTER,
+                ],
+                [
+                    'url'                 => 'https://www.youtube.com/channel/UCHBOnWRvXSZ2xzBXyoDnCJwNEW',
+                    'social_link_type_id' => SocialLinkTypeID::YOUTUBE,
+                ],
+                [
+                    'url'                 => 'https://plus.google.com/+marvel-new',
+                    'social_link_type_id' => SocialLinkTypeID::GOOGLE_PLUS,
+                ],
+                [
+                    'url'                 => 'http://www.imdb.com/name/nm0000134/-updated',
+                    'social_link_type_id' => SocialLinkTypeID::IMDB,
+                ],
+                [
+                    'url'                 => 'http://new-updated.tumblr.com',
+                    'social_link_type_id' => SocialLinkTypeID::TUMBLR,
+                ],
+                [
+                    'url'                 => 'https://vimeo.com/new-mackevision',
+                    'social_link_type_id' => SocialLinkTypeID::VIMEO,
+                ],
+                [
+                    'url'                 => 'https://www.instagram.com/new-castingamerica/',
+                    'social_link_type_id' => SocialLinkTypeID::INSTAGRAM,
+                ],
+                [
+                    'url'                 => 'https://new-castingcallsamerica.com',
+                    'social_link_type_id' => SocialLinkTypeID::PERSONAL_WEBSITE,
+                ],
+            ],
+            $crew->social->toArray()
+        );
     }
 
     /** @test */
@@ -361,6 +405,57 @@ class CrewsFeatureTest extends TestCase
             $resume->toArray()
         );
         Storage::assertExists($resume->url);
+    }
+
+
+    /** @test */
+    public function update_incomplete_socials()
+    {
+        Storage::fake();
+
+        $user = $this->getCrewUser();
+        $crew = $this->getCrew($user, ['resume' => null]);
+        $data = $this->getUpdateData();
+
+        $data['socials']['youtube']['url']          = '';
+        $data['socials']['personal_website']['url'] = '';
+
+        $response = $this->actingAs($user)->put('/crews/' . $crew->id, $data);
+
+        $this->assertCount(7, $crew->social);
+        $this->assertArraySubset(
+            [
+                [
+                    'url'                 => 'https://www.facebook.com/new-castingcallsamerica/',
+                    'social_link_type_id' => SocialLinkTypeID::FACEBOOK,
+                ],
+                [
+                    'url'                 => 'https://twitter.com/new-casting_america',
+                    'social_link_type_id' => SocialLinkTypeID::TWITTER,
+                ],
+                [
+                    'url'                 => 'https://plus.google.com/+marvel-new',
+                    'social_link_type_id' => SocialLinkTypeID::GOOGLE_PLUS,
+                ],
+                [
+                    'url'                 => 'http://www.imdb.com/name/nm0000134/-updated',
+                    'social_link_type_id' => SocialLinkTypeID::IMDB,
+                ],
+                [
+                    'url'                 => 'http://new-updated.tumblr.com',
+                    'social_link_type_id' => SocialLinkTypeID::TUMBLR,
+                ],
+                [
+                    'url'                 => 'https://vimeo.com/new-mackevision',
+                    'social_link_type_id' => SocialLinkTypeID::VIMEO,
+                ],
+                [
+                    'url'                 => 'https://www.instagram.com/new-castingamerica/',
+                    'social_link_type_id' => SocialLinkTypeID::INSTAGRAM,
+                ],
+            ],
+            $crew->social->toArray()
+        );
     }
 
     /**

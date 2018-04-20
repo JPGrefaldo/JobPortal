@@ -19,9 +19,9 @@ class CrewSocial extends Model
      * @var array
      */
     protected $casts = [
-        'id'      => 'integer',
-        'crew_id' => 'integer',
-        'social_link_types_id' => 'integer',
+        'id'                  => 'integer',
+        'crew_id'             => 'integer',
+        'social_link_type_id' => 'integer',
     ];
 
     /**
