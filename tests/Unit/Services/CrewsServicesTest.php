@@ -123,23 +123,22 @@ class CrewsServicesTest extends TestCase
     {
         Storage::fake();
 
-        $user = factory(User::class)->create();
-        $data = [
-            'user_id'   => $user->id,
-            'bio'       => 'some bio',
-            'photo'     => UploadedFile::fake()->image('photo.png'),
-            'photo_dir' => $user->uiid,
-        ];
+        $user      = factory(User::class)->create();
+        $data      = ['bio' => 'some bio',];
+        $photoFile = UploadedFile::fake()->image('photo.png');
 
-        $crew = $this->service->create($data);
+        $crew = $this->service->create($data, $photoFile, $user);
 
-        $this->assertDatabaseHas('crews', [
-            'id'      => $crew->id,
-            'user_id' => $data['user_id'],
-            'bio'     => $data['bio'],
-            'photo'   => 'photos/' . $data['photo_dir'] . '/' . $data['photo']->hashName(),
-        ]);
+        // assert data
+        $this->assertArraySubset(
+            [
+                'bio'   => 'some bio',
+                'photo' => 'photos/' . $user->uuid . '/' . $photoFile->hashName(),
+            ],
+            $crew->toArray()
+        );
 
+        // assert storage
         Storage::assertExists($crew->photo);
     }
 
@@ -149,12 +148,11 @@ class CrewsServicesTest extends TestCase
         Storage::fake();
 
         $user       = factory(User::class)->create();
-        $crew       = $this->service->create([
-            'user_id'   => $user->id,
-            'bio'       => 'some bio',
-            'photo'     => UploadedFile::fake()->image('photo.png'),
-            'photo_dir' => $user->uiid,
-        ]);
+        $crew       = $this->service->create(
+            ['bio' => 'some bio'],
+            UploadedFile::fake()->image('photo.png'),
+            $user
+        );
         $resumeFile = UploadedFile::fake()->create('resume.pdf');
 
         $this->service->createGeneralResume($resumeFile, $crew);
@@ -181,12 +179,11 @@ class CrewsServicesTest extends TestCase
         Storage::fake();
 
         $user = factory(User::class)->create();
-        $crew = $this->service->create([
-            'user_id'   => $user->id,
-            'bio'       => 'some bio',
-            'photo'     => UploadedFile::fake()->image('photo.png'),
-            'photo_dir' => $user->uiid,
-        ]);
+        $crew = $this->service->create(
+            ['bio' => 'some bio'],
+            UploadedFile::fake()->image('photo.png'),
+            $user
+        );
         $data = [
             'youtube' => [
                 'url' => 'https://www.youtube.com/watch?v=2-_rLbU6zJo',
@@ -298,12 +295,11 @@ class CrewsServicesTest extends TestCase
         Storage::fake();
 
         $user         = factory(User::class)->create();
-        $crew         = $this->service->create([
-            'user_id'   => $user->id,
-            'bio'       => 'some bio',
-            'photo'     => UploadedFile::fake()->image('photo.png'),
-            'photo_dir' => $user->uiid,
-        ]);
+        $crew         = $this->service->create(
+            ['bio' => 'some bio'],
+            UploadedFile::fake()->image('photo.png'),
+            $user
+        );
         $data         = [
             'bio'     => 'new bio',
             'photo'   => null,
@@ -390,16 +386,14 @@ class CrewsServicesTest extends TestCase
         Storage::fake();
 
         $user      = factory(User::class)->create();
-        $crew      = $this->service->create([
-            'user_id'   => $user->id,
-            'bio'       => 'some bio',
-            'photo'     => UploadedFile::fake()->image('photo.png'),
-            'photo_dir' => $user->uiid,
-        ]);
+        $crew      = $this->service->create(
+            ['bio' => 'some bio'],
+            UploadedFile::fake()->image('photo.png'),
+            $user
+        );
         $data      = ['bio' => 'new bio'];
         $photoFile = UploadedFile::fake()->image('photo-new.png');
         $oldPhoto  = $crew->photo;
-
 
         $crew = $this->service->update($data, $photoFile, $crew);
 
@@ -423,12 +417,11 @@ class CrewsServicesTest extends TestCase
         Storage::fake();
 
         $user      = factory(User::class)->create();
-        $crew      = $this->service->create([
-            'user_id'   => $user->id,
-            'bio'       => 'some bio',
-            'photo'     => UploadedFile::fake()->image('photo.png'),
-            'photo_dir' => $user->uiid,
-        ]);
+        $crew      = $this->service->create(
+            ['bio' => 'some bio'],
+            UploadedFile::fake()->image('photo.png'),
+            $user
+        );
         $data      = ['bio' => 'new bio'];
         $photoFile = null;
         $oldPhoto  = $crew->photo;
@@ -491,12 +484,11 @@ class CrewsServicesTest extends TestCase
         Storage::fake();
 
         $user = factory(User::class)->create();
-        $crew = $this->service->create([
-            'user_id'   => $user->id,
-            'bio'       => 'some bio',
-            'photo'     => UploadedFile::fake()->image('photo.png'),
-            'photo_dir' => $user->uiid,
-        ]);
+        $crew = $this->service->create(
+            ['bio' => 'some bio'],
+            UploadedFile::fake()->image('photo.png'),
+            $user
+        );
 
         $resumeFile = UploadedFile::fake()->create('new-resume.pdf');
 

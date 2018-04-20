@@ -18,25 +18,20 @@ class CrewsServices
     /**
      * Create crew and all its relations from the request data
      *
-     * @param array $data
-     * @param User  $user
+     * @param array            $data
+     * @param \App\Models\User $user
      *
-     * @return Crew
+     * @return \App\Services\CrewsServices
      */
     public function processCreate(array $data, User $user)
     {
         $crew = $this->create(
-            array_merge(
-                [
-                    'user_id'   => $user->id,
-                    'photo_dir' => $user->uuid,
-                ],
-                array_only($data, ['bio', 'photo'])
-            ),
+            array_only($data, ['bio']),
+            $data['photo'],
             $user
         );
 
-        if (!empty($data['resume'])) {
+        if ($data['resume'] instanceof UploadedFile) {
             $this->createGeneralResume($data['resume'], $crew);
         }
 
@@ -48,23 +43,25 @@ class CrewsServices
     /**
      * Create crew
      *
-     * @param array $data
+     * @param array                         $data
+     * @param \Illuminate\Http\UploadedFile $photoFile
+     * @param \App\Models\User              $user
      *
      * @return \App\Models\Crew
      */
-    public function create(array $data)
+    public function create(array $data, UploadedFile $photoFile, User $user)
     {
-        $data['bio'] = $data['bio'] ?: '';
+        $data = array_merge(
+            $this->prepareCrewData($data, [
+                'file' => $photoFile,
+                'dir'  => $user->uuid
+            ]),
+            ['user_id' => $user->id]
+        );
 
-        $crew = Crew::create([
-            'user_id' => $data['user_id'],
-            'bio'     => $data['bio'],
-            'photo'   => 'photos/' . $data['photo_dir'] . '/' . $data['photo']->hashName(),
-        ]);
+        Storage::put($data['photo'], file_get_contents($photoFile));
 
-        Storage::put($crew->photo, file_get_contents($data['photo']));
-
-        return $crew;
+        return Crew::create($data);
     }
 
     /**
@@ -94,8 +91,8 @@ class CrewsServices
     }
 
     /**
-     * @param array $socialData
-     * @param Crew  $crew
+     * @param array            $socialData
+     * @param \App\Models\Crew $crew
      */
     public function createSocials(array $socialData, Crew $crew)
     {
@@ -118,10 +115,13 @@ class CrewsServices
     }
 
     /**
-     * @param array $data
-     * @param Crew  $crew
+     * Update crew and all its relations from the request data
      *
-     * @return Crew
+     * @param array            $data
+     * @param \App\Models\Crew $crew
+     *
+     * @return \App\Models\Crew
+     * @throws \Exception
      */
     public function processUpdate(array $data, Crew $crew)
     {
