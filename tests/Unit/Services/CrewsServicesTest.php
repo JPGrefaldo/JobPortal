@@ -337,10 +337,10 @@ class CrewsServicesTest extends TestCase
             'photo'  => $crew->photo,
             'resume' => $resume->url,
         ];
-        $data     = $this->getProcessUpdateData();
-
-        $data['socials']['youtube']['url']          = null;
-        $data['socials']['personal_website']['url'] = null;
+        $data     = $this->getProcessUpdateData([
+            'socials.youtube.url'          => null,
+            'socials.personal_website.url' => null,
+        ]);
 
         $crew = $this->service->processUpdate($data, $crew);
 
@@ -585,7 +585,7 @@ class CrewsServicesTest extends TestCase
 
         $user = factory(User::class)->create();
         $crew = $this->service->processCreate($this->getProcessCreateData(), $user);
-        $data = $this->getProcessUpdateData()['socials'];
+        $data = array_get($this->getProcessUpdateData(), 'socials');
 
         $this->service->updateSocials($data, $crew);
 
@@ -640,10 +640,13 @@ class CrewsServicesTest extends TestCase
 
         $user = factory(User::class)->create();
         $crew = $this->service->processCreate($this->getProcessCreateData(), $user);
-        $data = $this->getProcessUpdateData()['socials'];
-
-        $data['youtube']['url']          = null;
-        $data['personal_website']['url'] = null;
+        $data = array_get(
+            $this->getProcessUpdateData([
+                'socials.youtube.url'          => null,
+                'socials.personal_website.url' => null,
+            ]),
+            'socials'
+        );
 
         $this->service->updateSocials($data, $crew);
 
@@ -690,7 +693,7 @@ class CrewsServicesTest extends TestCase
      */
     public function getProcessCreateData($customData = [])
     {
-        return array_merge([
+        $data = [
             'bio'     => 'some bio',
             'photo'   => UploadedFile::fake()->image('photo.png'),
             'resume'  => UploadedFile::fake()->create('resume.pdf'),
@@ -732,7 +735,13 @@ class CrewsServicesTest extends TestCase
                     'id'  => SocialLinkTypeID::PERSONAL_WEBSITE,
                 ],
             ],
-        ], $customData);
+        ];
+
+        foreach ($customData as $key => $value) {
+            array_set($data, $key, $value);
+        }
+
+        return $data;
     }
 
     /**
@@ -742,7 +751,7 @@ class CrewsServicesTest extends TestCase
      */
     public function getProcessUpdateData($customData = [])
     {
-        return array_merge([
+        $data = [
             'bio'     => 'updated bio',
             'photo'   => UploadedFile::fake()->image('new-photo.png'),
             'resume'  => UploadedFile::fake()->create('new-resume.pdf'),
@@ -784,6 +793,12 @@ class CrewsServicesTest extends TestCase
                     'id'  => SocialLinkTypeID::PERSONAL_WEBSITE,
                 ],
             ],
-        ], $customData);
+        ];
+
+        foreach ($customData as $key => $value) {
+            array_set($data, $key, $value);
+        }
+
+        return $data;
     }
 }

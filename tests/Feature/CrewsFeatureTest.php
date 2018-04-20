@@ -415,10 +415,10 @@ class CrewsFeatureTest extends TestCase
 
         $user = $this->getCrewUser();
         $crew = $this->getCrew($user, ['resume' => null]);
-        $data = $this->getUpdateData();
-
-        $data['socials']['youtube']['url']          = '';
-        $data['socials']['personal_website']['url'] = '';
+        $data = $this->getUpdateData([
+            'socials.youtube.url'          => '',
+            'socials.personal_website.url' => '',
+        ]);
 
         $response = $this->actingAs($user)->put('/crews/' . $crew->id, $data);
 
@@ -484,7 +484,7 @@ class CrewsFeatureTest extends TestCase
      */
     protected function getCrew(User $user, array $customData = [])
     {
-        $data = array_merge([
+        $data = [
             'bio'     => 'some bio',
             'photo'   => UploadedFile::fake()->image('photo.png'),
             'resume'  => UploadedFile::fake()->create('resume.pdf'),
@@ -526,7 +526,11 @@ class CrewsFeatureTest extends TestCase
                     'id'  => SocialLinkTypeID::PERSONAL_WEBSITE,
                 ],
             ],
-        ], $customData);
+        ];
+
+        foreach ($customData as $key => $value) {
+            array_set($data, $key, $value);
+        }
 
         $crew = app(CrewsServices::class)->processCreate($data, $user);
 
@@ -540,7 +544,7 @@ class CrewsFeatureTest extends TestCase
      */
     public function getUpdateData($customData = [])
     {
-        return array_merge([
+        $data = [
             'bio'     => 'updated bio',
             'photo'   => UploadedFile::fake()->image('new-photo.png'),
             'resume'  => UploadedFile::fake()->create('new-resume.pdf'),
@@ -582,6 +586,12 @@ class CrewsFeatureTest extends TestCase
                     'id'  => SocialLinkTypeID::PERSONAL_WEBSITE,
                 ],
             ],
-        ], $customData);
+        ];
+
+        foreach ($customData as $key => $value) {
+            array_set($data, $key, $value);
+        }
+
+        return $data;
     }
 }
