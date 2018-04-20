@@ -37,11 +37,7 @@ class CrewsServices
         );
 
         if (!empty($data['resume'])) {
-            $this->createGeneralResume([
-                'crew_id'    => $crew->id,
-                'resume'     => $data['resume'],
-                'resume_dir' => $user->uuid,
-            ]);
+            $this->createGeneralResume($data['resume'], $crew);
         }
 
         $this->createSocials($data['socials'], $crew);
@@ -72,19 +68,27 @@ class CrewsServices
     }
 
     /**
-     * @param array $data
+     * @param \Illuminate\Http\UploadedFile $resumeFile
+     * @param \App\Models\Crew              $crew
      *
      * @return \App\Models\CrewResume
      */
-    public function createGeneralResume(array $data)
+    public function createGeneralResume(UploadedFile $resumeFile, Crew $crew)
     {
-        $resume = CrewResume::create([
-            'crew_id' => $data['crew_id'],
-            'url'     => 'resumes/' . $data['resume_dir'] . '/' . $data['resume']->hashName(),
-            'general' => 1,
-        ]);
+        $data = array_merge(
+            $this->prepareGeneralResumeData([
+                'file' => $resumeFile,
+                'dir'  => $crew->user->uuid,
+            ]),
+            ['general' => 1]
+        );
 
-        Storage::put($resume->url, file_get_contents($data['resume']));
+
+        Storage::put($data['url'], file_get_contents($resumeFile));
+
+        $resume = new CrewResume($data);
+
+        $crew->resumes()->save($resume);
 
         return $resume;
     }
@@ -127,6 +131,10 @@ class CrewsServices
             $crew
         );
 
+        if ($data['resume'] instanceof UploadedFile) {
+            $this->updateGeneralResume($data['resume'], $crew);
+        }
+
         return $crew;
     }
 
@@ -147,8 +155,7 @@ class CrewsServices
         $data      = $this->prepareCrewData($data, $photoData);
 
         if ($hasPhoto) {
-            // delete old photo
-            Storage::delete($crew->photo);
+            Storage::delete($crew->photo); // delete old photo
             Storage::put($data['photo'], file_get_contents($photoFile));
         }
 
@@ -180,24 +187,28 @@ class CrewsServices
 
     /**
      * @param \Illuminate\Http\UploadedFile $resumeFile
-     * @param Crew                          $crew
+     * @param \App\Models\Crew $crew
      *
-     * @return \Illuminate\Database\Eloquent\Model|null|object|void|static
+     * @return \App\Models\CrewResume
      */
-    public function updateGeneralResume($resumeFile, Crew $crew)
+    public function updateGeneralResume(UploadedFile $resumeFile, Crew $crew)
     {
-        $resume = CrewResume::where('crew_id', $crew->id)->where('general', 1)->first();
+        $resume = CrewResume::where('crew_id', $crew->id)
+            ->where('general', 1)
+            ->first();
 
         if (!$resume) {
-            $this->createGeneralResume();
-            return;
+            $resume = $this->createGeneralResume($resumeFile, $crew);
+
+            return $resume;
         }
+
         $data = $this->prepareGeneralResumeData([
             'file' => $resumeFile,
             'dir'  => $crew->user->uuid,
         ]);
 
-        // delete the old resume
+        // delete the old resume and store the new one
         Storage::delete($resume->url);
         Storage::put($data['url'], file_get_contents($resumeFile));
 
