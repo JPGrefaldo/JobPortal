@@ -35,6 +35,7 @@ class CrewsFeatureTest extends TestCase
             'bio'     => 'some bio',
             'photo'   => UploadedFile::fake()->image('photo.png'),
             'resume'  => UploadedFile::fake()->create('resume.pdf'),
+            'reel'    => 'http://www.youtube.com/embed/G8S81CEBdNs',
             'socials' => [
                 'facebook'         => [
                     'url' => 'https://www.facebook.com/castingcallsamerica/',
@@ -116,6 +117,18 @@ class CrewsFeatureTest extends TestCase
                 strtolower($crewSocial->socialLinkType->name)
             );
         }
+
+        // assert general reel has been created
+        $reel = $crew->reels->where('general', 1)->first();
+
+        $this->assertArraySubset(
+            [
+                'crew_id' => $crew->id,
+                'url'     => 'https://www.youtube.com/embed/G8S81CEBdNs',
+                'general' => 1,
+            ],
+            $reel->toArray()
+        );
     }
 
     /** @test */
@@ -134,6 +147,7 @@ class CrewsFeatureTest extends TestCase
             'bio'     => '',
             'photo'   => UploadedFile::fake()->image('photo.png'),
             'resume'  => '',
+            'reel'    => '',
             'socials' => [
                 'facebook'         => [
                     'url' => '',
@@ -209,6 +223,7 @@ class CrewsFeatureTest extends TestCase
             'bio'     => '',
             'photo'   => UploadedFile::fake()->image('photo.png'),
             'resume'  => UploadedFile::fake()->create('resume.pdf'),
+            'reel'    => 'https://some-invalid-reel.com',
             'socials' => [
                 'facebook'         => [
                     'url' => 'https://invalid-facebook.com/invalid',
@@ -252,6 +267,7 @@ class CrewsFeatureTest extends TestCase
 
         $response->assertSessionHasErrors(
             [
+                'reel'                         => 'The reel must be a valid Reel.',
                 'socials.facebook.id'          => 'The socials.facebook.id field is required.',
                 'socials.facebook.url'         => 'facebook must be a valid Facebook URL.',
                 'socials.twitter.url'          => 'twitter must be a valid Twitter URL.',
@@ -488,6 +504,7 @@ class CrewsFeatureTest extends TestCase
             'bio'     => 'some bio',
             'photo'   => UploadedFile::fake()->image('photo.png'),
             'resume'  => UploadedFile::fake()->create('resume.pdf'),
+            'reel'    => 'http://www.youtube.com/embed/G8S81CEBdNs',
             'socials' => [
                 'facebook'         => [
                     'url' => 'https://www.facebook.com/castingcallsamerica/',

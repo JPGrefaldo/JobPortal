@@ -6,6 +6,7 @@ namespace App\Services;
 
 use App\Data\StoragePath;
 use App\Models\Crew;
+use App\Models\CrewReel;
 use App\Models\CrewResume;
 use App\Models\CrewSocial;
 use App\Models\User;
@@ -35,6 +36,13 @@ class CrewsServices
             $this->createGeneralResume($data['resume'], $crew);
         }
 
+        if ($data['reel']) {
+            app(CrewReelsServices::class)->createGeneral([
+                'crew_id' => $crew->id,
+                'url'     => $data['reel']
+            ]);
+        }
+
         $this->createSocials($data['socials'], $crew);
 
         return $crew;
@@ -54,7 +62,7 @@ class CrewsServices
         $data = array_merge(
             $this->prepareCrewData($data, [
                 'file' => $photoFile,
-                'dir'  => $user->uuid
+                'dir'  => $user->uuid,
             ]),
             ['user_id' => $user->id]
         );
@@ -189,7 +197,7 @@ class CrewsServices
 
     /**
      * @param \Illuminate\Http\UploadedFile $resumeFile
-     * @param \App\Models\Crew $crew
+     * @param \App\Models\Crew              $crew
      *
      * @return \App\Models\CrewResume
      */
