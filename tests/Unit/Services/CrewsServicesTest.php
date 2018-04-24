@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Services;
 
+use App\Models\Crew;
 use App\Models\User;
 use App\Services\CrewsServices;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -25,6 +26,8 @@ class CrewsServicesTest extends TestCase
         parent::setUp();
 
         $this->service = app(CrewsServices::class);
+
+        Storage::fake();
     }
 
     /** @test */
@@ -642,6 +645,54 @@ class CrewsServicesTest extends TestCase
                 ],
             ],
             $crew->social->toArray()
+        );
+    }
+
+    /** @test */
+    public function create_general_reel()
+    {
+        $crew = factory(Crew::class)->create();
+        $data = [
+            'url'     => 'http://www.youtube.com/embed/G8S81CEBdNs',
+            'crew_id' => $crew->id,
+        ];
+
+        $this->service->createGeneralReel($data);
+
+        // assert general reel data
+        $reel = $crew->reels->where('general', 1)->first();
+
+        $this->assertArraySubset(
+            [
+                'crew_id' => $data['crew_id'],
+                'url'     => 'https://www.youtube.com/embed/G8S81CEBdNs',
+                'general' => 1,
+            ],
+            $reel->toArray()
+        );
+    }
+
+    /** @test */
+    public function clean_reel_url()
+    {
+        // youtube
+        $this->assertEquals(
+            'https://www.youtube.com/embed/G8S81CEBdNs',
+            $this->service->cleanReelUrl('https://www.youtube.com/embed/G8S81CEBdNs')
+        );
+        $this->assertEquals(
+            'https://www.youtube.com/embed/2-_rLbU6zJo',
+            $this->service->cleanReelUrl('https://www.youtube.com/watch?v=2-_rLbU6zJo')
+        );
+
+        // vimeo
+        $this->assertEquals(
+            'https://player.vimeo.com/video/230046783',
+            $this->service->cleanReelUrl('https://vimeo.com/230046783')
+        );
+        $this->assertEquals(
+            'https://player.vimeo.com/video/230046783',
+            $this->service->cleanReelUrl('https://player.vimeo.com/video/230046783')
         );
     }
 

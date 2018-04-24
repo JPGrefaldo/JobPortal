@@ -24,57 +24,8 @@ class CrewsFeatureTest extends TestCase
     {
         Storage::fake();
 
-        $user = factory(User::class)->create();
-        app(AuthServices::class)->createByRoleName(
-            Role::CREW,
-            $user,
-            $this->getCurrentSite()
-        );
-
-        $data = [
-            'bio'     => 'some bio',
-            'photo'   => UploadedFile::fake()->image('photo.png'),
-            'resume'  => UploadedFile::fake()->create('resume.pdf'),
-            'reel'    => 'http://www.youtube.com/embed/G8S81CEBdNs',
-            'socials' => [
-                'facebook'         => [
-                    'url' => 'https://www.facebook.com/castingcallsamerica/',
-                    'id'  => SocialLinkTypeID::FACEBOOK,
-                ],
-                'twitter'          => [
-                    'url' => 'https://twitter.com/casting_america',
-                    'id'  => SocialLinkTypeID::TWITTER,
-                ],
-                'youtube'          => [
-                    'url' => 'https://www.youtube.com/channel/UCHBOnWRvXSZ2xzBXyoDnCJw',
-                    'id'  => SocialLinkTypeID::YOUTUBE,
-                ],
-                'google_plus'      => [
-                    'url' => 'https://plus.google.com/+marvel',
-                    'id'  => SocialLinkTypeID::GOOGLE_PLUS,
-                ],
-                'imdb'             => [
-                    'url' => 'http://www.imdb.com/name/nm0000134/',
-                    'id'  => SocialLinkTypeID::IMDB,
-                ],
-                'tumblr'           => [
-                    'url' => 'http://test.tumblr.com',
-                    'id'  => SocialLinkTypeID::TUMBLR,
-                ],
-                'vimeo'            => [
-                    'url' => 'https://vimeo.com/mackevision',
-                    'id'  => SocialLinkTypeID::VIMEO,
-                ],
-                'instagram'        => [
-                    'url' => 'https://www.instagram.com/castingamerica/',
-                    'id'  => SocialLinkTypeID::INSTAGRAM,
-                ],
-                'personal_website' => [
-                    'url' => 'https://castingcallsamerica.com',
-                    'id'  => SocialLinkTypeID::PERSONAL_WEBSITE,
-                ],
-            ],
-        ];
+        $user = $this->getCrewUser();
+        $data = $this->getCreateData();
 
         $response = $this->actingAs($user)->post('/crews', $data);
 
@@ -205,6 +156,9 @@ class CrewsFeatureTest extends TestCase
 
         // assert that no socials has been created
         $this->assertCount(0, $crew->social);
+
+        // assert that no reels has been created
+        $this->assertCount(0, $crew->reels);
     }
 
     /** @test */
@@ -279,6 +233,28 @@ class CrewsFeatureTest extends TestCase
                 'socials.instagram.url'        => 'instagram must be a valid Instagram URL.',
                 'socials.personal_website.url' => 'The personal website is invalid.',
             ]
+        );
+    }
+
+    /** @test */
+    public function create_vimeo_reel_cleaned()
+    {
+        $user = $this->getCrewUser();
+        $data = $this->getCreateData(['reel' => 'https://vimeo.com/230046783']);
+
+        $response = $this->actingAs($user)->post('/crews', $data);
+
+        // assert general reel has been created
+        $crew = Crew::where('user_id', $user->id)->first();
+        $reel = $crew->reels->where('general', 1)->first();
+
+        $this->assertArraySubset(
+            [
+                'crew_id' => $crew->id,
+                'url'     => 'https://player.vimeo.com/video/230046783',
+                'general' => 1,
+            ],
+            $reel->toArray()
         );
     }
 
@@ -492,6 +468,67 @@ class CrewsFeatureTest extends TestCase
     }
 
     /**
+     * @param array $customData
+     *
+     * @return array
+     */
+    public function getCreateData($customData = [])
+    {
+        $data = [
+            'bio'     => 'some bio',
+            'photo'   => UploadedFile::fake()->image('photo.png'),
+            'resume'  => UploadedFile::fake()->create('resume.pdf'),
+            'reel'    => 'http://www.youtube.com/embed/G8S81CEBdNs',
+            'socials' => [
+                'facebook'         => [
+                    'url' => 'https://www.facebook.com/castingcallsamerica/',
+                    'id'  => SocialLinkTypeID::FACEBOOK,
+                ],
+                'twitter'          => [
+                    'url' => 'https://twitter.com/casting_america',
+                    'id'  => SocialLinkTypeID::TWITTER,
+                ],
+                'youtube'          => [
+                    'url' => 'https://www.youtube.com/channel/UCHBOnWRvXSZ2xzBXyoDnCJw',
+                    'id'  => SocialLinkTypeID::YOUTUBE,
+                ],
+                'google_plus'      => [
+                    'url' => 'https://plus.google.com/+marvel',
+                    'id'  => SocialLinkTypeID::GOOGLE_PLUS,
+                ],
+                'imdb'             => [
+                    'url' => 'http://www.imdb.com/name/nm0000134/',
+                    'id'  => SocialLinkTypeID::IMDB,
+                ],
+                'tumblr'           => [
+                    'url' => 'http://test.tumblr.com',
+                    'id'  => SocialLinkTypeID::TUMBLR,
+                ],
+                'vimeo'            => [
+                    'url' => 'https://vimeo.com/mackevision',
+                    'id'  => SocialLinkTypeID::VIMEO,
+                ],
+                'instagram'        => [
+                    'url' => 'https://www.instagram.com/castingamerica/',
+                    'id'  => SocialLinkTypeID::INSTAGRAM,
+                ],
+                'personal_website' => [
+                    'url' => 'https://castingcallsamerica.com',
+                    'id'  => SocialLinkTypeID::PERSONAL_WEBSITE,
+                ],
+            ],
+        ];
+
+        foreach ($customData as $key => $value) {
+            array_set($data, $key, $value);
+        }
+
+        return $data;
+    }
+
+    /**
+     * @todo delete
+     *
      * @param \App\Models\User $user
      *
      * @param array            $customData

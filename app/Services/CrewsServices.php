@@ -37,9 +37,9 @@ class CrewsServices
         }
 
         if ($data['reel']) {
-            app(CrewReelsServices::class)->createGeneral([
+            $this->createGeneralReel([
+                'url'     => $data['reel'],
                 'crew_id' => $crew->id,
-                'url'     => $data['reel']
             ]);
         }
 
@@ -120,6 +120,53 @@ class CrewsServices
         }
 
         $crew->social()->saveMany($crewSocials);
+    }
+
+
+    /**
+     * @param array $data
+     *
+     * @return $this|\Illuminate\Database\Eloquent\Model
+     */
+    public function createGeneralReel(array $data)
+    {
+        $data = array_merge(
+            $this->prepareGeneralReelData($data),
+            ['general' => 1]
+        );
+
+        return CrewReel::create($data);
+    }
+
+    /**
+     * @param array $data
+     *
+     * @return array
+     *
+     */
+    public function prepareGeneralReelData(array $data)
+    {
+        $data['url'] = $this->cleanReelUrl($data['url']);
+
+        return $data;
+    }
+
+    /**
+     * Clean youtube or vimeo URL
+     *
+     * @param string $url
+     *
+     * @return string
+     */
+    public function cleanReelUrl(string $url)
+    {
+        $youtubeUrl = StrUtils::cleanYouTube($url);
+
+        if (parse_url($youtubeUrl, PHP_URL_HOST) === 'www.youtube.com') {
+            return $youtubeUrl;
+        }
+
+        return SocialLinksServices::cleanVimeo($url);
     }
 
     /**
