@@ -126,7 +126,7 @@ class CrewsServices
     /**
      * @param array $data
      *
-     * @return $this|\Illuminate\Database\Eloquent\Model
+     * @return \App\Models\CrewReel
      */
     public function createGeneralReel(array $data)
     {
@@ -188,6 +188,13 @@ class CrewsServices
 
         if ($data['resume'] instanceof UploadedFile) {
             $this->updateGeneralResume($data['resume'], $crew);
+        }
+
+        if ($data['reel']) {
+            $this->updateGeneralReel(
+                ['url' => $data['reel']],
+                $crew
+            );
         }
 
         $this->updateSocials($data['socials'], $crew);
@@ -299,5 +306,27 @@ class CrewsServices
         CrewSocial::where('crew_id', $crew->id)->delete();
 
         $this->createSocials($socialData, $crew);
+    }
+
+    /**
+     * @param array            $data
+     * @param \App\Models\Crew $crew
+     *
+     * @return \App\Models\CrewReel
+     */
+    public function updateGeneralReel(array $data, Crew $crew)
+    {
+        $reel = CrewReel::whereCrewId($crew->id)->whereGeneral(1)->first();
+
+        if (! $reel) {
+            return $this->createGeneralReel(array_merge(
+                $data,
+                ['crew_id' => $crew->id]
+            ));
+        }
+
+        $reel->update($this->prepareGeneralReelData($data));
+
+        return $reel;
     }
 }

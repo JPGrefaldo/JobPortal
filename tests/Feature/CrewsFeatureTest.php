@@ -266,6 +266,7 @@ class CrewsFeatureTest extends TestCase
         $user     = $this->getCrewUser();
         $crew     = $this->getCrew($user);
         $resume   = $crew->resumes->where('general', 1)->first();
+        $reel     = $crew->reels->where('general', 1)->first();
         $oldFiles = [
             'photo'  => $crew->photo,
             'resume' => $resume->url,
@@ -303,6 +304,18 @@ class CrewsFeatureTest extends TestCase
         );
         Storage::assertMissing($oldFiles['resume']);
         Storage::assertExists($resume->url);
+
+        // assert reel
+        $reel->refresh();
+
+        $this->assertArraySubset(
+            [
+                'crew_id' => $crew->id,
+                'url'     => 'https://www.youtube.com/embed/WI5AF1DCQlc',
+                'general' => 1,
+            ],
+            $reel->toArray()
+        );
 
         // assert socials
         $this->assertCount(9, $crew->social);
@@ -450,6 +463,30 @@ class CrewsFeatureTest extends TestCase
         );
     }
 
+    /** @test */
+    public function update_without_reel()
+    {
+        Storage::fake();
+
+        $user = $this->getCrewUser();
+        $crew = $this->getCrew($user, ['reel' => null]);
+        $data = $this->getUpdateData();
+
+        $response = $this->actingAs($user)->put('/crews/' . $crew->id, $data);
+
+        // assert data
+        $reel = $crew->reels->where('general', 1)->first();
+
+        $this->assertArraySubset(
+            [
+                'crew_id' => $crew->id,
+                'url'     => 'https://www.youtube.com/embed/WI5AF1DCQlc',
+                'general' => 1,
+            ],
+            $reel->toArray()
+        );
+    }
+
     /**
      * @return \App\Models\User
      * @throws \Exception
@@ -537,50 +574,7 @@ class CrewsFeatureTest extends TestCase
      */
     protected function getCrew(User $user, array $customData = [])
     {
-        $data = [
-            'bio'     => 'some bio',
-            'photo'   => UploadedFile::fake()->image('photo.png'),
-            'resume'  => UploadedFile::fake()->create('resume.pdf'),
-            'reel'    => 'http://www.youtube.com/embed/G8S81CEBdNs',
-            'socials' => [
-                'facebook'         => [
-                    'url' => 'https://www.facebook.com/castingcallsamerica/',
-                    'id'  => SocialLinkTypeID::FACEBOOK,
-                ],
-                'twitter'          => [
-                    'url' => 'https://twitter.com/casting_america',
-                    'id'  => SocialLinkTypeID::TWITTER,
-                ],
-                'youtube'          => [
-                    'url' => 'https://www.youtube.com/channel/UCHBOnWRvXSZ2xzBXyoDnCJw',
-                    'id'  => SocialLinkTypeID::YOUTUBE,
-                ],
-                'google_plus'      => [
-                    'url' => 'https://plus.google.com/+marvel',
-                    'id'  => SocialLinkTypeID::GOOGLE_PLUS,
-                ],
-                'imdb'             => [
-                    'url' => 'http://www.imdb.com/name/nm0000134/',
-                    'id'  => SocialLinkTypeID::IMDB,
-                ],
-                'tumblr'           => [
-                    'url' => 'http://test.tumblr.com',
-                    'id'  => SocialLinkTypeID::TUMBLR,
-                ],
-                'vimeo'            => [
-                    'url' => 'https://vimeo.com/mackevision',
-                    'id'  => SocialLinkTypeID::VIMEO,
-                ],
-                'instagram'        => [
-                    'url' => 'https://www.instagram.com/castingamerica/',
-                    'id'  => SocialLinkTypeID::INSTAGRAM,
-                ],
-                'personal_website' => [
-                    'url' => 'https://castingcallsamerica.com',
-                    'id'  => SocialLinkTypeID::PERSONAL_WEBSITE,
-                ],
-            ],
-        ];
+        $data = $this->getCreateData();
 
         foreach ($customData as $key => $value) {
             array_set($data, $key, $value);
@@ -602,6 +596,7 @@ class CrewsFeatureTest extends TestCase
             'bio'     => 'updated bio',
             'photo'   => UploadedFile::fake()->image('new-photo.png'),
             'resume'  => UploadedFile::fake()->create('new-resume.pdf'),
+            'reel'    => 'https://www.youtube.com/embed/WI5AF1DCQlc',
             'socials' => [
                 'facebook'         => [
                     'url' => 'https://www.facebook.com/new-castingcallsamerica/',

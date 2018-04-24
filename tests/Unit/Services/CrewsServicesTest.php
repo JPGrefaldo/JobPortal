@@ -3,6 +3,7 @@
 namespace Tests\Unit\Services;
 
 use App\Models\Crew;
+use App\Models\CrewReel;
 use App\Models\User;
 use App\Services\CrewsServices;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -265,6 +266,7 @@ class CrewsServicesTest extends TestCase
             'bio'     => 'new bio',
             'photo'   => null,
             'resume'  => null,
+            'reel'    => null,
             'socials' => [],
         ];
         $oldCrewPhoto = $crew->photo;
@@ -696,6 +698,52 @@ class CrewsServicesTest extends TestCase
         );
     }
 
+    /** @test */
+    public function update_general_reel()
+    {
+        $crew = factory(Crew::class)->create();
+
+        $crew->reels()->save(factory(CrewReel::class)->make());
+
+        $reel = $crew->reels->where('general', 1)->first();
+        $data = ['url' => 'https://www.youtube.com/embed/WI5AF1DCQlc'];
+
+        $this->service->updateGeneralReel($data, $crew);
+
+        // assert updated data
+        $reel->refresh();
+
+        $this->assertArraySubset(
+            [
+                'crew_id' => $crew->id,
+                'url'     => 'https://www.youtube.com/embed/WI5AF1DCQlc',
+                'general' => 1,
+            ],
+            $reel->toArray()
+        );
+    }
+
+    /** @test */
+    public function update_general_reel_not_exists()
+    {
+        $crew = factory(Crew::class)->create();
+        $data = ['url' => 'https://www.youtube.com/embed/WI5AF1DCQlc'];
+
+        $this->service->updateGeneralReel($data, $crew);
+
+        // assert data
+        $reel = $crew->reels->where('general', 1)->first();
+
+        $this->assertArraySubset(
+            [
+                'crew_id' => $crew->id,
+                'url'     => 'https://www.youtube.com/embed/WI5AF1DCQlc',
+                'general' => 1,
+            ],
+            $reel->toArray()
+        );
+    }
+
     /**
      * @param array $customData
      *
@@ -766,6 +814,7 @@ class CrewsServicesTest extends TestCase
             'bio'     => 'updated bio',
             'photo'   => UploadedFile::fake()->image('new-photo.png'),
             'resume'  => UploadedFile::fake()->create('new-resume.pdf'),
+            'reel'    => null,
             'socials' => [
                 'facebook'         => [
                     'url' => 'https://www.facebook.com/new-castingcallsamerica/',
