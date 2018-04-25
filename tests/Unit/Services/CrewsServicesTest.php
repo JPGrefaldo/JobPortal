@@ -4,6 +4,8 @@ namespace Tests\Unit\Services;
 
 use App\Models\Crew;
 use App\Models\CrewReel;
+use App\Models\CrewResume;
+use App\Models\CrewSocial;
 use App\Models\User;
 use App\Services\CrewsServices;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -27,8 +29,6 @@ class CrewsServicesTest extends TestCase
         parent::setUp();
 
         $this->service = app(CrewsServices::class);
-
-        Storage::fake();
     }
 
     /** @test */
@@ -37,47 +37,141 @@ class CrewsServicesTest extends TestCase
         Storage::fake();
 
         $user = factory(User::class)->create();
-
-        $data = $this->getProcessCreateData();
+        $data = [
+            'bio'     => 'some bio',
+            'photo'   => UploadedFile::fake()->image('photo.png'),
+            'resume'  => UploadedFile::fake()->create('resume.pdf'),
+            'reel'    => 'http://www.youtube.com/embed/G8S81CEBdNs',
+            'socials' => [
+                'facebook'         => [
+                    'url' => 'https://www.facebook.com/castingcallsamerica/',
+                    'id'  => SocialLinkTypeID::FACEBOOK,
+                ],
+                'twitter'          => [
+                    'url' => 'https://twitter.com/casting_america',
+                    'id'  => SocialLinkTypeID::TWITTER,
+                ],
+                'youtube'          => [
+                    'url' => 'https://www.youtube.com/channel/UCHBOnWRvXSZ2xzBXyoDnCJw',
+                    'id'  => SocialLinkTypeID::YOUTUBE,
+                ],
+                'google_plus'      => [
+                    'url' => 'https://plus.google.com/+marvel',
+                    'id'  => SocialLinkTypeID::GOOGLE_PLUS,
+                ],
+                'imdb'             => [
+                    'url' => 'http://www.imdb.com/name/nm0000134/',
+                    'id'  => SocialLinkTypeID::IMDB,
+                ],
+                'tumblr'           => [
+                    'url' => 'http://test.tumblr.com',
+                    'id'  => SocialLinkTypeID::TUMBLR,
+                ],
+                'vimeo'            => [
+                    'url' => 'https://vimeo.com/mackevision',
+                    'id'  => SocialLinkTypeID::VIMEO,
+                ],
+                'instagram'        => [
+                    'url' => 'https://www.instagram.com/castingamerica/',
+                    'id'  => SocialLinkTypeID::INSTAGRAM,
+                ],
+                'personal_website' => [
+                    'url' => 'https://castingcallsamerica.com',
+                    'id'  => SocialLinkTypeID::PERSONAL_WEBSITE,
+                ],
+            ],
+        ];
 
         // assert crew data
         $crew = $this->service->processCreate($data, $user);
 
-        $this->assertEquals($data['bio'], $crew->bio);
+        $this->assertArraySubset(
+            [
+                'bio'   => 'some bio',
+                'photo' => 'photos/' . $user->uuid . '/' . $data['photo']->hashName(),
+            ],
+            $crew->toArray()
+        );
         Storage::assertExists($crew->photo);
 
         // assert general resume
-        $resume = $crew->resumes->first();
+        $resume = $crew->resumes->where('general', 1)->first();
 
-        $this->assertEquals(1, $resume->general);
-        Storage::assertExists($crew->resumes->first()->url);
+        $this->assertArraySubset(
+            [
+                'url'     => 'resumes/' . $user->uuid . '/' . $data['resume']->hashName(),
+                'crew_id' => $crew->id,
+                'general' => 1,
+            ],
+            $resume->toArray()
+        );
+
+        Storage::assertExists($resume->url);
+
+        // assert general reel has been created
+        $reel = $crew->reels->where('general', 1)->first();
+
+        $this->assertArraySubset(
+            [
+                'crew_id' => $crew->id,
+                'url'     => 'https://www.youtube.com/embed/G8S81CEBdNs',
+                'general' => 1,
+            ],
+            $reel->toArray()
+        );
 
         // assert that the socials has been created
-        $crew->load('social.socialLinkType');
-
         $this->assertCount(9, $crew->social);
-
-        foreach (array_keys($data['socials']) as $idx => $key) {
-            // check if the crew social data is correct
-            $crewSocial = $crew->social->get($idx);
-
-            $this->assertEquals(
+        $this->assertArraySubset(
+            [
                 [
-                    $data['socials'][$key]['id'],
-                    $data['socials'][$key]['url'],
+                    'crew_id'             => $crew->id,
+                    'url'                 => 'https://www.facebook.com/castingcallsamerica/',
+                    'social_link_type_id' => SocialLinkTypeID::FACEBOOK,
                 ],
                 [
-                    $crewSocial->social_link_type_id,
-                    $crewSocial->url,
-                ]
-            );
-
-            // check if the social link type is correct
-            $this->assertEquals(
-                str_replace('_', ' ', $key),
-                strtolower($crewSocial->socialLinkType->name)
-            );
-        }
+                    'crew_id'             => $crew->id,
+                    'url'                 => 'https://twitter.com/casting_america',
+                    'social_link_type_id' => SocialLinkTypeID::TWITTER,
+                ],
+                [
+                    'crew_id'             => $crew->id,
+                    'url'                 => 'https://www.youtube.com/channel/UCHBOnWRvXSZ2xzBXyoDnCJw',
+                    'social_link_type_id' => SocialLinkTypeID::YOUTUBE,
+                ],
+                [
+                    'crew_id'             => $crew->id,
+                    'url'                 => 'https://plus.google.com/+marvel',
+                    'social_link_type_id' => SocialLinkTypeID::GOOGLE_PLUS,
+                ],
+                [
+                    'crew_id'             => $crew->id,
+                    'url'                 => 'http://www.imdb.com/name/nm0000134/',
+                    'social_link_type_id' => SocialLinkTypeID::IMDB,
+                ],
+                [
+                    'crew_id'             => $crew->id,
+                    'url'                 => 'http://test.tumblr.com',
+                    'social_link_type_id' => SocialLinkTypeID::TUMBLR,
+                ],
+                [
+                    'crew_id'             => $crew->id,
+                    'url'                 => 'https://vimeo.com/mackevision',
+                    'social_link_type_id' => SocialLinkTypeID::VIMEO,
+                ],
+                [
+                    'crew_id'             => $crew->id,
+                    'url'                 => 'https://www.instagram.com/castingamerica/',
+                    'social_link_type_id' => SocialLinkTypeID::INSTAGRAM,
+                ],
+                [
+                    'crew_id'             => $crew->id,
+                    'url'                 => 'https://castingcallsamerica.com',
+                    'social_link_type_id' => SocialLinkTypeID::PERSONAL_WEBSITE,
+                ],
+            ],
+            $crew->social->toArray()
+        );
     }
 
     /** @test */
@@ -99,8 +193,6 @@ class CrewsServicesTest extends TestCase
             ],
             $crew->toArray()
         );
-
-        // assert storage
         Storage::assertExists($crew->photo);
     }
 
@@ -109,12 +201,7 @@ class CrewsServicesTest extends TestCase
     {
         Storage::fake();
 
-        $user       = factory(User::class)->create();
-        $crew       = $this->service->create(
-            ['bio' => 'some bio'],
-            UploadedFile::fake()->image('photo.png'),
-            $user
-        );
+        $crew       = factory(Crew::class)->create();
         $resumeFile = UploadedFile::fake()->create('resume.pdf');
 
         $this->service->createGeneralResume($resumeFile, $crew);
@@ -124,7 +211,7 @@ class CrewsServicesTest extends TestCase
 
         $this->assertArraySubset(
             [
-                'url'     => 'resumes/' . $user->uuid . '/' . $resumeFile->hashName(),
+                'url'     => 'resumes/' . $crew->user->uuid . '/' . $resumeFile->hashName(),
                 'crew_id' => $crew->id,
                 'general' => 1,
             ],
@@ -140,26 +227,98 @@ class CrewsServicesTest extends TestCase
     {
         Storage::fake();
 
-        $user = factory(User::class)->create();
-        $crew = $this->service->create(
-            ['bio' => 'some bio'],
-            UploadedFile::fake()->image('photo.png'),
-            $user
-        );
+        $crew = factory(Crew::class)->create();
         $data = [
-            'youtube' => [
-                'url' => 'https://www.youtube.com/watch?v=2-_rLbU6zJo',
+            'facebook'         => [
+                'url' => 'https://www.facebook.com/castingcallsamerica/',
+                'id'  => SocialLinkTypeID::FACEBOOK,
+            ],
+            'twitter'          => [
+                'url' => 'https://twitter.com/casting_america',
+                'id'  => SocialLinkTypeID::TWITTER,
+            ],
+            'youtube'          => [
+                'url' => 'https://www.youtube.com/channel/UCHBOnWRvXSZ2xzBXyoDnCJw',
                 'id'  => SocialLinkTypeID::YOUTUBE,
+            ],
+            'google_plus'      => [
+                'url' => 'https://plus.google.com/+marvel',
+                'id'  => SocialLinkTypeID::GOOGLE_PLUS,
+            ],
+            'imdb'             => [
+                'url' => 'http://www.imdb.com/name/nm0000134/',
+                'id'  => SocialLinkTypeID::IMDB,
+            ],
+            'tumblr'           => [
+                'url' => 'http://test.tumblr.com',
+                'id'  => SocialLinkTypeID::TUMBLR,
+            ],
+            'vimeo'            => [
+                'url' => 'https://vimeo.com/mackevision',
+                'id'  => SocialLinkTypeID::VIMEO,
+            ],
+            'instagram'        => [
+                'url' => 'https://www.instagram.com/castingamerica/',
+                'id'  => SocialLinkTypeID::INSTAGRAM,
+            ],
+            'personal_website' => [
+                'url' => 'https://castingcallsamerica.com',
+                'id'  => SocialLinkTypeID::PERSONAL_WEBSITE,
             ],
         ];
 
         $this->service->createSocials($data, $crew);
 
-        $this->assertDatabaseHas('crew_social', [
-            'crew_id'             => $crew->id,
-            'social_link_type_id' => $data['youtube']['id'],
-            'url'                 => 'https://www.youtube.com/embed/2-_rLbU6zJo',
-        ]);
+        $this->assertArraySubset(
+            [
+                [
+                    'crew_id'             => $crew->id,
+                    'url'                 => 'https://www.facebook.com/castingcallsamerica/',
+                    'social_link_type_id' => SocialLinkTypeID::FACEBOOK,
+                ],
+                [
+                    'crew_id'             => $crew->id,
+                    'url'                 => 'https://twitter.com/casting_america',
+                    'social_link_type_id' => SocialLinkTypeID::TWITTER,
+                ],
+                [
+                    'crew_id'             => $crew->id,
+                    'url'                 => 'https://www.youtube.com/channel/UCHBOnWRvXSZ2xzBXyoDnCJw',
+                    'social_link_type_id' => SocialLinkTypeID::YOUTUBE,
+                ],
+                [
+                    'crew_id'             => $crew->id,
+                    'url'                 => 'https://plus.google.com/+marvel',
+                    'social_link_type_id' => SocialLinkTypeID::GOOGLE_PLUS,
+                ],
+                [
+                    'crew_id'             => $crew->id,
+                    'url'                 => 'http://www.imdb.com/name/nm0000134/',
+                    'social_link_type_id' => SocialLinkTypeID::IMDB,
+                ],
+                [
+                    'crew_id'             => $crew->id,
+                    'url'                 => 'http://test.tumblr.com',
+                    'social_link_type_id' => SocialLinkTypeID::TUMBLR,
+                ],
+                [
+                    'crew_id'             => $crew->id,
+                    'url'                 => 'https://vimeo.com/mackevision',
+                    'social_link_type_id' => SocialLinkTypeID::VIMEO,
+                ],
+                [
+                    'crew_id'             => $crew->id,
+                    'url'                 => 'https://www.instagram.com/castingamerica/',
+                    'social_link_type_id' => SocialLinkTypeID::INSTAGRAM,
+                ],
+                [
+                    'crew_id'             => $crew->id,
+                    'url'                 => 'https://castingcallsamerica.com',
+                    'social_link_type_id' => SocialLinkTypeID::PERSONAL_WEBSITE,
+                ],
+            ],
+            $crew->social->toArray()
+        );
     }
 
     /** @test */
@@ -167,16 +326,60 @@ class CrewsServicesTest extends TestCase
     {
         Storage::fake();
 
-        $crew     = $this->service->processCreate(
-            $this->getProcessCreateData(),
-            factory(User::class)->create()
-        );
-        $resume   = $crew->resumes->where('general', 1)->first();
+        $crew   = factory(Crew::class)->states('PhotoUpload')->create();
+        $resume = factory(CrewResume::class)->states('Upload')->create(['crew_id' => $crew->id]);
+        $reel   = factory(CrewReel::class)->create(['crew_id' => $crew->id]);
+
+        factory(CrewSocial::class, 9)->create(['crew_id' => $crew->id]);
+
         $oldFiles = [
             'photo'  => $crew->photo,
             'resume' => $resume->url,
         ];
-        $data     = $this->getProcessUpdateData();
+        $data     = [
+            'bio'     => 'updated bio',
+            'photo'   => UploadedFile::fake()->image('new-photo.png'),
+            'resume'  => UploadedFile::fake()->create('new-resume.pdf'),
+            'reel'    => 'https://www.youtube.com/embed/WI5AF1DCQlc',
+            'socials' => [
+                'facebook'         => [
+                    'url' => 'https://www.facebook.com/new-castingcallsamerica/',
+                    'id'  => SocialLinkTypeID::FACEBOOK,
+                ],
+                'twitter'          => [
+                    'url' => 'https://twitter.com/new-casting_america',
+                    'id'  => SocialLinkTypeID::TWITTER,
+                ],
+                'youtube'          => [
+                    'url' => 'https://www.youtube.com/channel/UCHBOnWRvXSZ2xzBXyoDnCJwNEW',
+                    'id'  => SocialLinkTypeID::YOUTUBE,
+                ],
+                'google_plus'      => [
+                    'url' => 'https://plus.google.com/+marvel-new',
+                    'id'  => SocialLinkTypeID::GOOGLE_PLUS,
+                ],
+                'imdb'             => [
+                    'url' => 'http://www.imdb.com/name/nm0000134/-updated',
+                    'id'  => SocialLinkTypeID::IMDB,
+                ],
+                'tumblr'           => [
+                    'url' => 'http://new-updated.tumblr.com',
+                    'id'  => SocialLinkTypeID::TUMBLR,
+                ],
+                'vimeo'            => [
+                    'url' => 'https://vimeo.com/new-mackevision',
+                    'id'  => SocialLinkTypeID::VIMEO,
+                ],
+                'instagram'        => [
+                    'url' => 'https://www.instagram.com/new-castingamerica/',
+                    'id'  => SocialLinkTypeID::INSTAGRAM,
+                ],
+                'personal_website' => [
+                    'url' => 'https://new-castingcallsamerica.com',
+                    'id'  => SocialLinkTypeID::PERSONAL_WEBSITE,
+                ],
+            ],
+        ];
 
         $crew = $this->service->processUpdate($data, $crew);
 
@@ -252,108 +455,11 @@ class CrewsServicesTest extends TestCase
     }
 
     /** @test */
-    public function process_update_without_photo()
-    {
-        Storage::fake();
-
-        $user         = factory(User::class)->create();
-        $crew         = $this->service->create(
-            ['bio' => 'some bio'],
-            UploadedFile::fake()->image('photo.png'),
-            $user
-        );
-        $data         = [
-            'bio'     => 'new bio',
-            'photo'   => null,
-            'resume'  => null,
-            'reel'    => null,
-            'socials' => [],
-        ];
-        $oldCrewPhoto = $crew->photo;
-
-        $crew = $this->service->processUpdate($data, $crew);
-
-        // assert data
-        $this->assertArraySubset(
-            [
-                'bio'   => 'new bio',
-                'photo' => $oldCrewPhoto,
-            ],
-            $crew->toArray()
-        );
-
-        // assert storage
-        Storage::assertExists($oldCrewPhoto);
-    }
-
-    /** @test */
-    public function process_update_incomplete_socials()
-    {
-        Storage::fake();
-
-        $crew     = $this->service->processCreate(
-            $this->getProcessCreateData(),
-            factory(User::class)->create()
-        );
-        $resume   = $crew->resumes->where('general', 1)->first();
-        $oldFiles = [
-            'photo'  => $crew->photo,
-            'resume' => $resume->url,
-        ];
-        $data     = $this->getProcessUpdateData([
-            'socials.youtube.url'          => null,
-            'socials.personal_website.url' => null,
-        ]);
-
-        $crew = $this->service->processUpdate($data, $crew);
-
-        $this->assertCount(7, $crew->social);
-        $this->assertArraySubset(
-            [
-                [
-                    'url'                 => 'https://www.facebook.com/new-castingcallsamerica/',
-                    'social_link_type_id' => SocialLinkTypeID::FACEBOOK,
-                ],
-                [
-                    'url'                 => 'https://twitter.com/new-casting_america',
-                    'social_link_type_id' => SocialLinkTypeID::TWITTER,
-                ],
-                [
-                    'url'                 => 'https://plus.google.com/+marvel-new',
-                    'social_link_type_id' => SocialLinkTypeID::GOOGLE_PLUS,
-                ],
-                [
-                    'url'                 => 'http://www.imdb.com/name/nm0000134/-updated',
-                    'social_link_type_id' => SocialLinkTypeID::IMDB,
-                ],
-                [
-                    'url'                 => 'http://new-updated.tumblr.com',
-                    'social_link_type_id' => SocialLinkTypeID::TUMBLR,
-                ],
-                [
-                    'url'                 => 'https://vimeo.com/new-mackevision',
-                    'social_link_type_id' => SocialLinkTypeID::VIMEO,
-                ],
-                [
-                    'url'                 => 'https://www.instagram.com/new-castingamerica/',
-                    'social_link_type_id' => SocialLinkTypeID::INSTAGRAM,
-                ],
-            ],
-            $crew->social->toArray()
-        );
-    }
-
-    /** @test */
     public function update()
     {
         Storage::fake();
 
-        $user      = factory(User::class)->create();
-        $crew      = $this->service->create(
-            ['bio' => 'some bio'],
-            UploadedFile::fake()->image('photo.png'),
-            $user
-        );
+        $crew      = factory(Crew::class)->states('PhotoUpload')->create();
         $data      = ['bio' => 'new bio'];
         $photoFile = UploadedFile::fake()->image('photo-new.png');
         $oldPhoto  = $crew->photo;
@@ -364,7 +470,7 @@ class CrewsServicesTest extends TestCase
         $this->assertArraySubset(
             [
                 'bio'   => 'new bio',
-                'photo' => 'photos/' . $user->uuid . '/' . $photoFile->hashName(),
+                'photo' => 'photos/' . $crew->user->uuid . '/' . $photoFile->hashName(),
             ],
             $crew->toArray()
         );
@@ -379,12 +485,7 @@ class CrewsServicesTest extends TestCase
     {
         Storage::fake();
 
-        $user      = factory(User::class)->create();
-        $crew      = $this->service->create(
-            ['bio' => 'some bio'],
-            UploadedFile::fake()->image('photo.png'),
-            $user
-        );
+        $crew      = factory(Crew::class)->states('PhotoUpload')->create();
         $data      = ['bio' => 'new bio'];
         $photoFile = null;
         $oldPhoto  = $crew->photo;
@@ -401,7 +502,7 @@ class CrewsServicesTest extends TestCase
         );
 
         // assert storage
-        Storage::assertExists($crew->photo);
+        Storage::assertExists($oldPhoto);
     }
 
     /** @test */
@@ -409,36 +510,24 @@ class CrewsServicesTest extends TestCase
     {
         Storage::fake();
 
-        $user       = factory(User::class)->create();
-        $crew       = $this->service->processCreate(
-            [
-                'bio'     => 'some bio',
-                'photo'   => UploadedFile::fake()->image('photo.png'),
-                'resume'  => UploadedFile::fake()->create('resume.pdf'),
-                'reel'    => null,
-                'socials' => [],
-            ],
-            $user
-        );
-        $resume     = $crew->resumes->where('general', 1)->first();
-        $resumeFile = UploadedFile::fake()->create('new-resume.pdf');
+        $crew         = factory(Crew::class)->create();
+        $resume       = factory(CrewResume::class)->states('Upload')->create(['crew_id' => $crew->id]);
+        $oldResumeUrl = $resume->url;
+        $resumeFile   = UploadedFile::fake()->create('new-resume.pdf');
 
         $this->service->updateGeneralResume($resumeFile, $crew);
-
-        // assert that the old resume file does not exist anymore
-        Storage::assertMissing($resume->url);
-
         // assert data
         $resume->refresh();
 
         $this->assertArraySubset(
             [
-                'url'     => 'resumes/' . $user->uuid . '/' . $resumeFile->hashName(),
+                'url'     => 'resumes/' . $crew->user->uuid . '/' . $resumeFile->hashName(),
                 'crew_id' => $crew->id,
                 'general' => 1,
             ],
             $resume->toArray()
         );
+        Storage::assertMissing($oldResumeUrl);
         Storage::assertExists($resume->url);
     }
 
@@ -447,13 +536,7 @@ class CrewsServicesTest extends TestCase
     {
         Storage::fake();
 
-        $user = factory(User::class)->create();
-        $crew = $this->service->create(
-            ['bio' => 'some bio'],
-            UploadedFile::fake()->image('photo.png'),
-            $user
-        );
-
+        $crew       = factory(Crew::class)->create();
         $resumeFile = UploadedFile::fake()->create('new-resume.pdf');
 
         $this->service->updateGeneralResume($resumeFile, $crew);
@@ -462,13 +545,12 @@ class CrewsServicesTest extends TestCase
 
         $this->assertArraySubset(
             [
-                'url'     => 'resumes/' . $user->uuid . '/' . $resumeFile->hashName(),
+                'url'     => 'resumes/' . $crew->user->uuid . '/' . $resumeFile->hashName(),
                 'crew_id' => $crew->id,
                 'general' => 1,
             ],
             $resume->toArray()
         );
-
         Storage::assertExists($resume->url);
     }
 
@@ -547,9 +629,48 @@ class CrewsServicesTest extends TestCase
     {
         Storage::fake();
 
-        $user = factory(User::class)->create();
-        $crew = $this->service->processCreate($this->getProcessCreateData(), $user);
-        $data = array_get($this->getProcessUpdateData(), 'socials');
+        $crew = factory(Crew::class)->create();
+
+        factory(CrewSocial::class, 9)->create(['crew_id' => $crew->id]);
+
+        $data = [
+            'facebook'         => [
+                'url' => 'https://www.facebook.com/new-castingcallsamerica/',
+                'id'  => SocialLinkTypeID::FACEBOOK,
+            ],
+            'twitter'          => [
+                'url' => 'https://twitter.com/new-casting_america',
+                'id'  => SocialLinkTypeID::TWITTER,
+            ],
+            'youtube'          => [
+                'url' => 'https://www.youtube.com/channel/UCHBOnWRvXSZ2xzBXyoDnCJwNEW',
+                'id'  => SocialLinkTypeID::YOUTUBE,
+            ],
+            'google_plus'      => [
+                'url' => 'https://plus.google.com/+marvel-new',
+                'id'  => SocialLinkTypeID::GOOGLE_PLUS,
+            ],
+            'imdb'             => [
+                'url' => 'http://www.imdb.com/name/nm0000134/-updated',
+                'id'  => SocialLinkTypeID::IMDB,
+            ],
+            'tumblr'           => [
+                'url' => 'http://new-updated.tumblr.com',
+                'id'  => SocialLinkTypeID::TUMBLR,
+            ],
+            'vimeo'            => [
+                'url' => 'https://vimeo.com/new-mackevision',
+                'id'  => SocialLinkTypeID::VIMEO,
+            ],
+            'instagram'        => [
+                'url' => 'https://www.instagram.com/new-castingamerica/',
+                'id'  => SocialLinkTypeID::INSTAGRAM,
+            ],
+            'personal_website' => [
+                'url' => 'https://new-castingcallsamerica.com',
+                'id'  => SocialLinkTypeID::PERSONAL_WEBSITE,
+            ],
+        ];
 
         $this->service->updateSocials($data, $crew);
 
@@ -591,59 +712,6 @@ class CrewsServicesTest extends TestCase
                 [
                     'url'                 => 'https://new-castingcallsamerica.com',
                     'social_link_type_id' => SocialLinkTypeID::PERSONAL_WEBSITE,
-                ],
-            ],
-            $crew->social->toArray()
-        );
-    }
-
-    /** @test */
-    public function update_socials_incomplete()
-    {
-        Storage::fake();
-
-        $user = factory(User::class)->create();
-        $crew = $this->service->processCreate($this->getProcessCreateData(), $user);
-        $data = array_get(
-            $this->getProcessUpdateData([
-                'socials.youtube.url'          => null,
-                'socials.personal_website.url' => null,
-            ]),
-            'socials'
-        );
-
-        $this->service->updateSocials($data, $crew);
-
-        $this->assertCount(7, $crew->social);
-        $this->assertArraySubset(
-            [
-                [
-                    'url'                 => 'https://www.facebook.com/new-castingcallsamerica/',
-                    'social_link_type_id' => SocialLinkTypeID::FACEBOOK,
-                ],
-                [
-                    'url'                 => 'https://twitter.com/new-casting_america',
-                    'social_link_type_id' => SocialLinkTypeID::TWITTER,
-                ],
-                [
-                    'url'                 => 'https://plus.google.com/+marvel-new',
-                    'social_link_type_id' => SocialLinkTypeID::GOOGLE_PLUS,
-                ],
-                [
-                    'url'                 => 'http://www.imdb.com/name/nm0000134/-updated',
-                    'social_link_type_id' => SocialLinkTypeID::IMDB,
-                ],
-                [
-                    'url'                 => 'http://new-updated.tumblr.com',
-                    'social_link_type_id' => SocialLinkTypeID::TUMBLR,
-                ],
-                [
-                    'url'                 => 'https://vimeo.com/new-mackevision',
-                    'social_link_type_id' => SocialLinkTypeID::VIMEO,
-                ],
-                [
-                    'url'                 => 'https://www.instagram.com/new-castingamerica/',
-                    'social_link_type_id' => SocialLinkTypeID::INSTAGRAM,
                 ],
             ],
             $crew->social->toArray()
@@ -702,10 +770,7 @@ class CrewsServicesTest extends TestCase
     public function update_general_reel()
     {
         $crew = factory(Crew::class)->create();
-
-        $crew->reels()->save(factory(CrewReel::class)->make());
-
-        $reel = $crew->reels->where('general', 1)->first();
+        $reel = factory(CrewReel::class)->create(['crew_id' => $crew->id]);
         $data = ['url' => 'https://www.youtube.com/embed/WI5AF1DCQlc'];
 
         $this->service->updateGeneralReel($data, $crew);
@@ -742,123 +807,5 @@ class CrewsServicesTest extends TestCase
             ],
             $reel->toArray()
         );
-    }
-
-    /**
-     * @param array $customData
-     *
-     * @return array
-     */
-    public function getProcessCreateData($customData = [])
-    {
-        $data = [
-            'bio'     => 'some bio',
-            'photo'   => UploadedFile::fake()->image('photo.png'),
-            'resume'  => UploadedFile::fake()->create('resume.pdf'),
-            'reel'    => 'http://www.youtube.com/embed/G8S81CEBdNs',
-            'socials' => [
-                'facebook'         => [
-                    'url' => 'https://www.facebook.com/castingcallsamerica/',
-                    'id'  => SocialLinkTypeID::FACEBOOK,
-                ],
-                'twitter'          => [
-                    'url' => 'https://twitter.com/casting_america',
-                    'id'  => SocialLinkTypeID::TWITTER,
-                ],
-                'youtube'          => [
-                    'url' => 'https://www.youtube.com/channel/UCHBOnWRvXSZ2xzBXyoDnCJw',
-                    'id'  => SocialLinkTypeID::YOUTUBE,
-                ],
-                'google_plus'      => [
-                    'url' => 'https://plus.google.com/+marvel',
-                    'id'  => SocialLinkTypeID::GOOGLE_PLUS,
-                ],
-                'imdb'             => [
-                    'url' => 'http://www.imdb.com/name/nm0000134/',
-                    'id'  => SocialLinkTypeID::IMDB,
-                ],
-                'tumblr'           => [
-                    'url' => 'http://test.tumblr.com',
-                    'id'  => SocialLinkTypeID::TUMBLR,
-                ],
-                'vimeo'            => [
-                    'url' => 'https://vimeo.com/mackevision',
-                    'id'  => SocialLinkTypeID::VIMEO,
-                ],
-                'instagram'        => [
-                    'url' => 'https://www.instagram.com/castingamerica/',
-                    'id'  => SocialLinkTypeID::INSTAGRAM,
-                ],
-                'personal_website' => [
-                    'url' => 'https://castingcallsamerica.com',
-                    'id'  => SocialLinkTypeID::PERSONAL_WEBSITE,
-                ],
-            ],
-        ];
-
-        foreach ($customData as $key => $value) {
-            array_set($data, $key, $value);
-        }
-
-        return $data;
-    }
-
-    /**
-     * @param array $customData
-     *
-     * @return array
-     */
-    public function getProcessUpdateData($customData = [])
-    {
-        $data = [
-            'bio'     => 'updated bio',
-            'photo'   => UploadedFile::fake()->image('new-photo.png'),
-            'resume'  => UploadedFile::fake()->create('new-resume.pdf'),
-            'reel'    => null,
-            'socials' => [
-                'facebook'         => [
-                    'url' => 'https://www.facebook.com/new-castingcallsamerica/',
-                    'id'  => SocialLinkTypeID::FACEBOOK,
-                ],
-                'twitter'          => [
-                    'url' => 'https://twitter.com/new-casting_america',
-                    'id'  => SocialLinkTypeID::TWITTER,
-                ],
-                'youtube'          => [
-                    'url' => 'https://www.youtube.com/channel/UCHBOnWRvXSZ2xzBXyoDnCJwNEW',
-                    'id'  => SocialLinkTypeID::YOUTUBE,
-                ],
-                'google_plus'      => [
-                    'url' => 'https://plus.google.com/+marvel-new',
-                    'id'  => SocialLinkTypeID::GOOGLE_PLUS,
-                ],
-                'imdb'             => [
-                    'url' => 'http://www.imdb.com/name/nm0000134/-updated',
-                    'id'  => SocialLinkTypeID::IMDB,
-                ],
-                'tumblr'           => [
-                    'url' => 'http://new-updated.tumblr.com',
-                    'id'  => SocialLinkTypeID::TUMBLR,
-                ],
-                'vimeo'            => [
-                    'url' => 'https://vimeo.com/new-mackevision',
-                    'id'  => SocialLinkTypeID::VIMEO,
-                ],
-                'instagram'        => [
-                    'url' => 'https://www.instagram.com/new-castingamerica/',
-                    'id'  => SocialLinkTypeID::INSTAGRAM,
-                ],
-                'personal_website' => [
-                    'url' => 'https://new-castingcallsamerica.com',
-                    'id'  => SocialLinkTypeID::PERSONAL_WEBSITE,
-                ],
-            ],
-        ];
-
-        foreach ($customData as $key => $value) {
-            array_set($data, $key, $value);
-        }
-
-        return $data;
     }
 }
