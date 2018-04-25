@@ -12,9 +12,9 @@ class RolesTableSeeder extends Seeder
      */
     public function run()
     {
+        Role::create(['name' => Role::ADMIN]);
         Role::create(['name' => Role::PRODUCER]);
         Role::create(['name' => Role::CREW]);
-        Role::create(['name' => Role::ADMIN]);
 
         $this->command->info('Role table seeded!');
     }

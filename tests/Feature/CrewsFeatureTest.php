@@ -6,9 +6,7 @@ use App\Models\Crew;
 use App\Models\CrewReel;
 use App\Models\CrewResume;
 use App\Models\CrewSocial;
-use App\Models\Role;
 use App\Models\User;
-use App\Services\AuthServices;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -25,7 +23,7 @@ class CrewsFeatureTest extends TestCase
     {
         Storage::fake();
 
-        $user = $this->getCrewUser();
+        $user = $this->createCrewUser();
         $data = $this->getCreateData();
 
         $response = $this->actingAs($user)->post('/crews', $data);
@@ -127,7 +125,7 @@ class CrewsFeatureTest extends TestCase
     {
         Storage::fake();
 
-        $user = $this->getCrewUser();
+        $user = $this->createCrewUser();
         $data = $this->getCreateData([
             'bio'                          => '',
             'resume'                       => '',
@@ -174,7 +172,7 @@ class CrewsFeatureTest extends TestCase
     {
         Storage::fake();
 
-        $user = $this->getCrewUser();
+        $user = $this->createCrewUser();
         $data = $this->getCreateData([
             'photo'                        => UploadedFile::fake()->create('image.php'),
             'resume'                       => UploadedFile::fake()->create('resume.php'),
@@ -217,7 +215,7 @@ class CrewsFeatureTest extends TestCase
     {
         Storage::fake();
 
-        $user = $this->getCrewUser();
+        $user = $this->createCrewUser();
         $data = $this->getCreateData([
             'reel'                => 'https://www.youtube.com/watch?v=2-_rLbU6zJo',
             'socials.youtube.url' => 'https://www.youtube.com/watch?v=G8S81CEBdNs',
@@ -256,7 +254,7 @@ class CrewsFeatureTest extends TestCase
     {
         Storage::fake();
 
-        $user = $this->getCrewUser();
+        $user = $this->createCrewUser();
         $data = $this->getCreateData(['reel' => 'https://vimeo.com/230046783']);
 
         $response = $this->actingAs($user)->post('/crews', $data);
@@ -292,7 +290,7 @@ class CrewsFeatureTest extends TestCase
     {
         Storage::fake();
 
-        $user   = $this->getCrewUser();
+        $user   = $this->createCrewUser();
         $crew   = factory(Crew::class)->states('PhotoUpload')->create(['user_id' => $user->id]);
         $resume = factory(CrewResume::class)->states('Upload')->create(['crew_id' => $crew->id]);
         $reel   = factory(CrewReel::class)->create(['crew_id' => $crew->id]);
@@ -405,7 +403,7 @@ class CrewsFeatureTest extends TestCase
     {
         Storage::fake();
 
-        $user = $this->getCrewUser();
+        $user = $this->createCrewUser();
         $crew = factory(Crew::class)->create(['user_id' => $user->id]);
         $data = $this->getUpdateData();
 
@@ -495,7 +493,7 @@ class CrewsFeatureTest extends TestCase
     {
         Storage::fake();
 
-        $user         = $this->getCrewUser();
+        $user         = $this->createCrewUser();
         $crew         = factory(Crew::class)->states('PhotoUpload')->create(['user_id' => $user->id]);
         $oldCrewPhoto = $crew->photo;
         $data         = $data = $this->getUpdateData(['photo' => '']);
@@ -522,7 +520,7 @@ class CrewsFeatureTest extends TestCase
     {
         Storage::fake();
 
-        $user = $this->getCrewUser();
+        $user = $this->createCrewUser();
         $crew = factory(Crew::class)->create(['user_id' => $user->id]);
         $data = $this->getUpdateData([
             'socials.youtube.url'          => '',
@@ -572,7 +570,7 @@ class CrewsFeatureTest extends TestCase
     {
         Storage::fake();
 
-        $user = $this->getCrewUser();
+        $user = $this->createCrewUser();
         $crew = factory(Crew::class)->create(['user_id' => $user->id]);
         $reel = factory(CrewReel::class)->create(['crew_id' => $crew->id]);
 
@@ -613,7 +611,7 @@ class CrewsFeatureTest extends TestCase
     {
         Storage::fake();
 
-        $user = $this->getCrewUser();
+        $user = $this->createCrewUser();
         $crew = factory(Crew::class)->create(['user_id' => $user->id]);
         $reel = factory(CrewReel::class)->create(['crew_id' => $crew->id]);
         $data = $this->getUpdateData(['reel' => 'https://vimeo.com/230046783']);
@@ -639,7 +637,7 @@ class CrewsFeatureTest extends TestCase
     {
         Storage::fake();
 
-        $user = $this->getCrewUser();
+        $user = $this->createCrewUser();
         $crew = factory(Crew::class)->create(['user_id' => $user->id]);
         $data = $this->getUpdateData([
             'photo'                        => UploadedFile::fake()->create('image.php'),
@@ -683,7 +681,7 @@ class CrewsFeatureTest extends TestCase
     {
         Storage::fake();
 
-        $user = $this->getCrewUser();
+        $user = $this->createCrewUser();
         $data = $this->getUpdateData();
 
         $response = $this->actingAs($user)->put('/crews/5', $data);
@@ -701,23 +699,6 @@ class CrewsFeatureTest extends TestCase
 
         $response->assertRedirect('login');
         $this->assertGuest();
-    }
-
-    /**
-     * @return \App\Models\User
-     * @throws \Exception
-     */
-    protected function getCrewUser()
-    {
-        $user = factory(User::class)->create();
-
-        app(AuthServices::class)->createByRoleName(
-            Role::CREW,
-            $user,
-            $this->getCurrentSite()
-        );
-
-        return $user;
     }
 
     /**
