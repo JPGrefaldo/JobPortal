@@ -3,10 +3,12 @@
 namespace Tests\Feature;
 
 use App\Models\Crew;
+use App\Models\CrewReel;
+use App\Models\CrewResume;
+use App\Models\CrewSocial;
 use App\Models\Role;
 use App\Services\AuthServices;
 use App\Models\User;
-use App\Services\CrewsServices;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Tests\Support\Data\SocialLinkTypeID;
@@ -29,45 +31,31 @@ class CrewsFeatureTest extends TestCase
 
         $response = $this->actingAs($user)->post('/crews', $data);
 
-        $response->assertSuccessful();
-
         // assert crew data
         $crew = Crew::where('user_id', $user->id)->first();
 
-        $this->assertEquals($data['bio'], $crew->bio);
+        $this->assertArraySubset(
+            [
+                'bio'   => 'some bio',
+                'photo' => 'photos/' . $user->uuid . '/' . $data['photo']->hashName(),
+            ],
+            $crew->toArray()
+        );
         Storage::assertExists($crew->photo);
+
         // assert general resume
-        $resume = $crew->resumes->first();
+        $resume = $crew->resumes->where('general', 1)->first();
 
-        $this->assertEquals(1, $resume->general);
-        Storage::assertExists($crew->resumes->first()->url);
+        $this->assertArraySubset(
+            [
+                'url'     => 'resumes/' . $user->uuid . '/' . $data['resume']->hashName(),
+                'crew_id' => $crew->id,
+                'general' => 1,
+            ],
+            $resume->toArray()
+        );
 
-        // assert that the socials has been created
-        $crew->load('social.socialLinkType');
-
-        $this->assertCount(9, $crew->social);
-
-        foreach (array_keys($data['socials']) as $idx => $key) {
-            // check if the crew social data is correct
-            $crewSocial = $crew->social->get($idx);
-
-            $this->assertEquals(
-                [
-                    $data['socials'][$key]['id'],
-                    $data['socials'][$key]['url'],
-                ],
-                [
-                    $crewSocial->social_link_type_id,
-                    $crewSocial->url,
-                ]
-            );
-
-            // check if the social link type is correct
-            $this->assertEquals(
-                str_replace('_', ' ', $key),
-                strtolower($crewSocial->socialLinkType->name)
-            );
-        }
+        Storage::assertExists($resume->url);
 
         // assert general reel has been created
         $reel = $crew->reels->where('general', 1)->first();
@@ -80,6 +68,59 @@ class CrewsFeatureTest extends TestCase
             ],
             $reel->toArray()
         );
+
+        // assert that the socials has been created
+        $this->assertCount(9, $crew->social);
+        $this->assertArraySubset(
+            [
+                [
+                    'crew_id'             => $crew->id,
+                    'url'                 => 'https://www.facebook.com/castingcallsamerica/',
+                    'social_link_type_id' => SocialLinkTypeID::FACEBOOK,
+                ],
+                [
+                    'crew_id'             => $crew->id,
+                    'url'                 => 'https://twitter.com/casting_america',
+                    'social_link_type_id' => SocialLinkTypeID::TWITTER,
+                ],
+                [
+                    'crew_id'             => $crew->id,
+                    'url'                 => 'https://www.youtube.com/channel/UCHBOnWRvXSZ2xzBXyoDnCJw',
+                    'social_link_type_id' => SocialLinkTypeID::YOUTUBE,
+                ],
+                [
+                    'crew_id'             => $crew->id,
+                    'url'                 => 'https://plus.google.com/+marvel',
+                    'social_link_type_id' => SocialLinkTypeID::GOOGLE_PLUS,
+                ],
+                [
+                    'crew_id'             => $crew->id,
+                    'url'                 => 'http://www.imdb.com/name/nm0000134/',
+                    'social_link_type_id' => SocialLinkTypeID::IMDB,
+                ],
+                [
+                    'crew_id'             => $crew->id,
+                    'url'                 => 'http://test.tumblr.com',
+                    'social_link_type_id' => SocialLinkTypeID::TUMBLR,
+                ],
+                [
+                    'crew_id'             => $crew->id,
+                    'url'                 => 'https://vimeo.com/mackevision',
+                    'social_link_type_id' => SocialLinkTypeID::VIMEO,
+                ],
+                [
+                    'crew_id'             => $crew->id,
+                    'url'                 => 'https://www.instagram.com/castingamerica/',
+                    'social_link_type_id' => SocialLinkTypeID::INSTAGRAM,
+                ],
+                [
+                    'crew_id'             => $crew->id,
+                    'url'                 => 'https://castingcallsamerica.com',
+                    'social_link_type_id' => SocialLinkTypeID::PERSONAL_WEBSITE,
+                ]   ,
+            ],
+            $crew->social->toArray()
+        );
     }
 
     /** @test */
@@ -87,57 +128,21 @@ class CrewsFeatureTest extends TestCase
     {
         Storage::fake();
 
-        $user = factory(User::class)->create();
-        app(AuthServices::class)->createByRoleName(
-            Role::CREW,
-            $user,
-            $this->getCurrentSite()
-        );
-
-        $data = [
-            'bio'     => '',
-            'photo'   => UploadedFile::fake()->image('photo.png'),
-            'resume'  => '',
-            'reel'    => '',
-            'socials' => [
-                'facebook'         => [
-                    'url' => '',
-                    'id'  => SocialLinkTypeID::FACEBOOK,
-                ],
-                'twitter'          => [
-                    'url' => '',
-                    'id'  => SocialLinkTypeID::TWITTER,
-                ],
-                'youtube'          => [
-                    'url' => '',
-                    'id'  => SocialLinkTypeID::YOUTUBE,
-                ],
-                'google_plus'      => [
-                    'url' => '',
-                    'id'  => SocialLinkTypeID::GOOGLE_PLUS,
-                ],
-                'imdb'             => [
-                    'url' => '',
-                    'id'  => SocialLinkTypeID::IMDB,
-                ],
-                'tumblr'           => [
-                    'url' => '',
-                    'id'  => SocialLinkTypeID::TUMBLR,
-                ],
-                'vimeo'            => [
-                    'url' => '',
-                    'id'  => SocialLinkTypeID::VIMEO,
-                ],
-                'instagram'        => [
-                    'url' => '',
-                    'id'  => SocialLinkTypeID::INSTAGRAM,
-                ],
-                'personal_website' => [
-                    'url' => '',
-                    'id'  => SocialLinkTypeID::PERSONAL_WEBSITE,
-                ],
-            ],
-        ];
+        $user = $this->getCrewUser();
+        $data = $this->getCreateData([
+            'bio'                          => '',
+            'resume'                       => '',
+            'reel'                         => '',
+            'socials.facebook.url'         => '',
+            'socials.twitter.url'          => '',
+            'socials.youtube.url'          => '',
+            'socials.google_plus.url'      => '',
+            'socials.imdb.url'             => '',
+            'socials.tumblr.url'           => '',
+            'socials.vimeo.url'            => '',
+            'socials.instagram.url'        => '',
+            'socials.personal_website.url' => '',
+        ]);
 
         $response = $this->actingAs($user)->post('/crews', $data);
 
@@ -146,19 +151,23 @@ class CrewsFeatureTest extends TestCase
         // assert crew data
         $crew = Crew::where('user_id', $user->id)->first();
 
-        $this->assertEquals('', $crew->bio);
-
-        // assert photo
+        $this->assertArraySubset(
+            [
+                'bio'   => '',
+                'photo' => 'photos/' . $user->uuid . '/' . $data['photo']->hashName(),
+            ],
+            $crew->toArray()
+        );
         Storage::assertExists($crew->photo);
 
         // assert that there are no resumes
         $this->assertCount(0, $crew->resumes);
 
-        // assert that no socials has been created
-        $this->assertCount(0, $crew->social);
-
         // assert that no reels has been created
         $this->assertCount(0, $crew->reels);
+
+        // assert that no socials has been created
+        $this->assertCount(0, $crew->social);
     }
 
     /** @test */
@@ -166,61 +175,29 @@ class CrewsFeatureTest extends TestCase
     {
         Storage::fake();
 
-        $user = factory(User::class)->create();
-        app(AuthServices::class)->createByRoleName(
-            Role::CREW,
-            $user,
-            $this->getCurrentSite()
-        );
-
-        $data = [
-            'bio'     => '',
-            'photo'   => UploadedFile::fake()->image('photo.png'),
-            'resume'  => UploadedFile::fake()->create('resume.pdf'),
-            'reel'    => 'https://some-invalid-reel.com',
-            'socials' => [
-                'facebook'         => [
-                    'url' => 'https://invalid-facebook.com/invalid',
-                ],
-                'twitter'          => [
-                    'url' => 'https://invalid-twitter.com/invalid',
-                    'id'  => SocialLinkTypeID::TWITTER,
-                ],
-                'youtube'          => [
-                    'url' => 'https://invalid-youtube.com/invalid',
-                    'id'  => SocialLinkTypeID::YOUTUBE,
-                ],
-                'google_plus'      => [
-                    'url' => 'https://invalid-gplus.com/invalid',
-                    'id'  => SocialLinkTypeID::GOOGLE_PLUS,
-                ],
-                'imdb'             => [
-                    'url' => 'https://invalid-imdb.com/invalid',
-                    'id'  => SocialLinkTypeID::IMDB,
-                ],
-                'tumblr'           => [
-                    'url' => 'https://invalid-tumblr.test/invalid',
-                    'id'  => SocialLinkTypeID::TUMBLR,
-                ],
-                'vimeo'            => [
-                    'url' => 'https://invalid-vimeo.com/invalid',
-                    'id'  => SocialLinkTypeID::VIMEO,
-                ],
-                'instagram'        => [
-                    'url' => 'https://invalid-instagram.com/invalid',
-                    'id'  => SocialLinkTypeID::INSTAGRAM,
-                ],
-                'personal_website' => [
-                    'url' => 'http://mysite.test',
-                    'id'  => SocialLinkTypeID::PERSONAL_WEBSITE,
-                ],
-            ],
-        ];
+        $user = $this->getCrewUser();
+        $data = $this->getCreateData([
+            'photo'                        => 'asdasd',
+            'resume'                       => 'asdasd',
+            'reel'                         => 'https://some-invalid-reel.com',
+            'socials.facebook.url'         => 'https://invalid-facebook.com/invalid',
+            'socials.facebook.id'          => '',
+            'socials.twitter.url'          => 'https://invalid-twitter.com/invalid',
+            'socials.youtube.url'          => 'https://invalid-youtube.com/invalid',
+            'socials.google_plus.url'      => 'https://invalid-gplus.com/invalid',
+            'socials.imdb.url'             => 'https://invalid-imdb.com/invalid',
+            'socials.tumblr.url'           => 'https://invalid-tumblr.test/invalid',
+            'socials.vimeo.url'            => 'https://invalid-vimeo.com/invalid',
+            'socials.instagram.url'        => 'https://invalid-instagram.com/invalid',
+            'socials.personal_website.url' => 'http://mysite.test',
+        ]);
 
         $response = $this->actingAs($user)->post('/crews', $data);
 
         $response->assertSessionHasErrors(
             [
+                'photo',
+                'resume',
                 'reel'                         => 'The reel must be a valid Reel.',
                 'socials.facebook.id'          => 'The socials.facebook.id field is required.',
                 'socials.facebook.url'         => 'facebook must be a valid Facebook URL.',
@@ -239,6 +216,8 @@ class CrewsFeatureTest extends TestCase
     /** @test */
     public function create_vimeo_reel_cleaned()
     {
+        Storage::fake();
+
         $user = $this->getCrewUser();
         $data = $this->getCreateData(['reel' => 'https://vimeo.com/230046783']);
 
@@ -263,10 +242,13 @@ class CrewsFeatureTest extends TestCase
     {
         Storage::fake();
 
-        $user     = $this->getCrewUser();
-        $crew     = $this->getCrew($user);
-        $resume   = $crew->resumes->where('general', 1)->first();
-        $reel     = $crew->reels->where('general', 1)->first();
+        $user   = $this->getCrewUser();
+        $crew   = factory(Crew::class)->states('PhotoUpload')->create(['user_id' => $user->id]);
+        $resume = factory(CrewResume::class)->states('Upload')->create(['crew_id' => $crew->id]);
+        $reel   = factory(CrewReel::class)->create(['crew_id' => $crew->id]);
+
+        factory(CrewSocial::class, 9)->create(['crew_id' => $crew->id]);
+
         $oldFiles = [
             'photo'  => $crew->photo,
             'resume' => $resume->url,
@@ -274,9 +256,6 @@ class CrewsFeatureTest extends TestCase
         $data     = $this->getUpdateData();
 
         $response = $this->actingAs($user)->put('/crews/' . $crew->id, $data);
-
-        // assert response
-        $response->assertSuccessful();
 
         // assert crew data
         $crew->refresh();
@@ -322,38 +301,47 @@ class CrewsFeatureTest extends TestCase
         $this->assertArraySubset(
             [
                 [
+                    'crew_id'             => $crew->id,
                     'url'                 => 'https://www.facebook.com/new-castingcallsamerica/',
                     'social_link_type_id' => SocialLinkTypeID::FACEBOOK,
                 ],
                 [
+                    'crew_id'             => $crew->id,
                     'url'                 => 'https://twitter.com/new-casting_america',
                     'social_link_type_id' => SocialLinkTypeID::TWITTER,
                 ],
                 [
+                    'crew_id'             => $crew->id,
                     'url'                 => 'https://www.youtube.com/channel/UCHBOnWRvXSZ2xzBXyoDnCJwNEW',
                     'social_link_type_id' => SocialLinkTypeID::YOUTUBE,
                 ],
                 [
+                    'crew_id'             => $crew->id,
                     'url'                 => 'https://plus.google.com/+marvel-new',
                     'social_link_type_id' => SocialLinkTypeID::GOOGLE_PLUS,
                 ],
                 [
+                    'crew_id'             => $crew->id,
                     'url'                 => 'http://www.imdb.com/name/nm0000134/-updated',
                     'social_link_type_id' => SocialLinkTypeID::IMDB,
                 ],
                 [
+                    'crew_id'             => $crew->id,
                     'url'                 => 'http://new-updated.tumblr.com',
                     'social_link_type_id' => SocialLinkTypeID::TUMBLR,
                 ],
                 [
+                    'crew_id'             => $crew->id,
                     'url'                 => 'https://vimeo.com/new-mackevision',
                     'social_link_type_id' => SocialLinkTypeID::VIMEO,
                 ],
                 [
+                    'crew_id'             => $crew->id,
                     'url'                 => 'https://www.instagram.com/new-castingamerica/',
                     'social_link_type_id' => SocialLinkTypeID::INSTAGRAM,
                 ],
                 [
+                    'crew_id'             => $crew->id,
                     'url'                 => 'https://new-castingcallsamerica.com',
                     'social_link_type_id' => SocialLinkTypeID::PERSONAL_WEBSITE,
                 ],
@@ -363,37 +351,12 @@ class CrewsFeatureTest extends TestCase
     }
 
     /** @test */
-    public function update_without_photo()
-    {
-        Storage::fake();
-
-        $user         = $this->getCrewUser();
-        $crew         = $this->getCrew($user);
-        $oldCrewPhoto = $crew->photo;
-        $data         = $data = $this->getUpdateData(['photo' => null]);
-
-        $response = $this->actingAs($user)->put('/crews/' . $crew->id, $data);
-
-        $response->assertSuccessful();
-
-        $crew->refresh();
-
-        $this->assertArraySubset(
-            [
-                'bio'   => 'updated bio',
-                'photo' => $oldCrewPhoto,
-            ],
-            $crew->toArray()
-        );
-    }
-
-    /** @test */
-    public function update_without_existing_resume()
+    public function update_no_relations()
     {
         Storage::fake();
 
         $user = $this->getCrewUser();
-        $crew = $this->getCrew($user, ['resume' => null]);
+        $crew = factory(Crew::class)->create(['user_id' => $user->id]);
         $data = $this->getUpdateData();
 
         $response = $this->actingAs($user)->put('/crews/' . $crew->id, $data);
@@ -410,6 +373,97 @@ class CrewsFeatureTest extends TestCase
             $resume->toArray()
         );
         Storage::assertExists($resume->url);
+
+        // assert general reel
+        $reel = $crew->reels->where('general', 1)->first();
+
+        $this->assertArraySubset(
+            [
+                'crew_id' => $crew->id,
+                'url'     => 'https://www.youtube.com/embed/WI5AF1DCQlc',
+                'general' => 1,
+            ],
+            $reel->toArray()
+        );
+
+        //  assert socials
+        $this->assertCount(9, $crew->social);
+        $this->assertArraySubset(
+            [
+                [
+                    'crew_id'             => $crew->id,
+                    'url'                 => 'https://www.facebook.com/new-castingcallsamerica/',
+                    'social_link_type_id' => SocialLinkTypeID::FACEBOOK,
+                ],
+                [
+                    'crew_id'             => $crew->id,
+                    'url'                 => 'https://twitter.com/new-casting_america',
+                    'social_link_type_id' => SocialLinkTypeID::TWITTER,
+                ],
+                [
+                    'crew_id'             => $crew->id,
+                    'url'                 => 'https://www.youtube.com/channel/UCHBOnWRvXSZ2xzBXyoDnCJwNEW',
+                    'social_link_type_id' => SocialLinkTypeID::YOUTUBE,
+                ],
+                [
+                    'crew_id'             => $crew->id,
+                    'url'                 => 'https://plus.google.com/+marvel-new',
+                    'social_link_type_id' => SocialLinkTypeID::GOOGLE_PLUS,
+                ],
+                [
+                    'crew_id'             => $crew->id,
+                    'url'                 => 'http://www.imdb.com/name/nm0000134/-updated',
+                    'social_link_type_id' => SocialLinkTypeID::IMDB,
+                ],
+                [
+                    'crew_id'             => $crew->id,
+                    'url'                 => 'http://new-updated.tumblr.com',
+                    'social_link_type_id' => SocialLinkTypeID::TUMBLR,
+                ],
+                [
+                    'crew_id'             => $crew->id,
+                    'url'                 => 'https://vimeo.com/new-mackevision',
+                    'social_link_type_id' => SocialLinkTypeID::VIMEO,
+                ],
+                [
+                    'crew_id'             => $crew->id,
+                    'url'                 => 'https://www.instagram.com/new-castingamerica/',
+                    'social_link_type_id' => SocialLinkTypeID::INSTAGRAM,
+                ],
+                [
+                    'crew_id'             => $crew->id,
+                    'url'                 => 'https://new-castingcallsamerica.com',
+                    'social_link_type_id' => SocialLinkTypeID::PERSONAL_WEBSITE,
+                ],
+            ],
+            $crew->social->toArray()
+        );
+    }
+
+    /** @test */
+    public function update_without_photo()
+    {
+        Storage::fake();
+
+        $user         = $this->getCrewUser();
+        $crew         = factory(Crew::class)->states('PhotoUpload')->create(['user_id' => $user->id]);
+        $oldCrewPhoto = $crew->photo;
+        $data         = $data = $this->getUpdateData(['photo' => '']);
+
+        $response = $this->actingAs($user)->put('/crews/' . $crew->id, $data);
+
+        $response->assertSuccessful();
+
+        $crew->refresh();
+
+        $this->assertArraySubset(
+            [
+                'bio'   => 'updated bio',
+                'photo' => $oldCrewPhoto,
+            ],
+            $crew->toArray()
+        );
+        Storage::assertExists($oldCrewPhoto);
     }
 
 
@@ -419,7 +473,7 @@ class CrewsFeatureTest extends TestCase
         Storage::fake();
 
         $user = $this->getCrewUser();
-        $crew = $this->getCrew($user, ['resume' => null]);
+        $crew = factory(Crew::class)->create(['user_id' => $user->id]);
         $data = $this->getUpdateData([
             'socials.youtube.url'          => '',
             'socials.personal_website.url' => '',
@@ -460,30 +514,6 @@ class CrewsFeatureTest extends TestCase
                 ],
             ],
             $crew->social->toArray()
-        );
-    }
-
-    /** @test */
-    public function update_without_reel()
-    {
-        Storage::fake();
-
-        $user = $this->getCrewUser();
-        $crew = $this->getCrew($user, ['reel' => null]);
-        $data = $this->getUpdateData();
-
-        $response = $this->actingAs($user)->put('/crews/' . $crew->id, $data);
-
-        // assert data
-        $reel = $crew->reels->where('general', 1)->first();
-
-        $this->assertArraySubset(
-            [
-                'crew_id' => $crew->id,
-                'url'     => 'https://www.youtube.com/embed/WI5AF1DCQlc',
-                'general' => 1,
-            ],
-            $reel->toArray()
         );
     }
 
@@ -556,33 +586,7 @@ class CrewsFeatureTest extends TestCase
             ],
         ];
 
-        foreach ($customData as $key => $value) {
-            array_set($data, $key, $value);
-        }
-
-        return $data;
-    }
-
-    /**
-     * @todo delete
-     *
-     * @param \App\Models\User $user
-     *
-     * @param array            $customData
-     *
-     * @return \App\Models\Crew
-     */
-    protected function getCrew(User $user, array $customData = [])
-    {
-        $data = $this->getCreateData();
-
-        foreach ($customData as $key => $value) {
-            array_set($data, $key, $value);
-        }
-
-        $crew = app(CrewsServices::class)->processCreate($data, $user);
-
-        return $crew;
+        return $this->customizeData($data, $customData);
     }
 
     /**
@@ -637,6 +641,17 @@ class CrewsFeatureTest extends TestCase
             ],
         ];
 
+        return $this->customizeData($data, $customData);
+    }
+
+    /**
+     * @param $data
+     * @param $customData
+     *
+     * @return mixed
+     */
+    protected function customizeData($data, $customData)
+    {
         foreach ($customData as $key => $value) {
             array_set($data, $key, $value);
         }

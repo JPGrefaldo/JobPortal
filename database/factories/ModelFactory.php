@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Storage;
 |
 */
 
+/** @var $factory \Illuminate\Database\Eloquent\Factory */
+
 $factory->define(App\Models\User::class, function (Faker $faker) {
     $faker->addProvider(new \App\Faker\PhoneProvider($faker));
 
@@ -40,7 +42,7 @@ $factory->define(App\Models\Crew::class, function (Faker $faker) {
     ];
 });
 
-$factory->state(App\Models\Crew::class, 'Photo', function (Faker $faker) {
+$factory->state(App\Models\Crew::class, 'PhotoUpload', function (Faker $faker) {
     return [
         'photo' => function () use ($faker) {
             $tmpPhoto = $faker->image();
@@ -54,12 +56,45 @@ $factory->state(App\Models\Crew::class, 'Photo', function (Faker $faker) {
     ];
 });
 
+$factory->define(App\Models\CrewResume::class, function (Faker $faker) {
+    return [
+        'crew_id' => function () {
+            return factory(\App\Models\Crew::class)->create()->id;
+        },
+        'url'     => 'resumes/' . $faker->uuid . '/' . $faker->sha1 . '.pdf',
+        'general' => 1,
+    ];
+});
+
+$factory->state(App\Models\CrewResume::class, 'Upload', function (Faker $faker) {
+    return [
+        'url' => function () use ($faker) {
+            $tmpFile = \Illuminate\Http\UploadedFile::fake()->create($faker->sha1 . '.pdf');
+            $path    = 'resumes/' . $faker->uuid . '/' . $tmpFile->hashName();
+
+            Storage::put($path, file_get_contents($tmpFile));
+
+            return $path;
+        },
+    ];
+});
+
 $factory->define(App\Models\CrewReel::class, function (Faker $faker) {
     return [
         'crew_id' => function () {
             return factory(\App\Models\Crew::class)->create()->id;
         },
         'url'     => $faker->url,
-        'general' => 1
+        'general' => 1,
+    ];
+});
+
+$factory->define(App\Models\CrewSocial::class, function (Faker $faker) {
+    return [
+        'crew_id' => function () {
+            return factory(\App\Models\Crew::class)->create()->id;
+        },
+        'url'                 => $faker->url,
+        'social_link_type_id' => 1,
     ];
 });
