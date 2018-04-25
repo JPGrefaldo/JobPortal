@@ -7,15 +7,14 @@ use App\Models\CrewReel;
 use App\Models\CrewResume;
 use App\Models\CrewSocial;
 use App\Models\Role;
-use App\Services\AuthServices;
 use App\Models\User;
+use App\Services\AuthServices;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Tests\Support\Data\SocialLinkTypeID;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CrewsFeatureTest extends TestCase
 {
@@ -117,7 +116,7 @@ class CrewsFeatureTest extends TestCase
                     'crew_id'             => $crew->id,
                     'url'                 => 'https://castingcallsamerica.com',
                     'social_link_type_id' => SocialLinkTypeID::PERSONAL_WEBSITE,
-                ]   ,
+                ],
             ],
             $crew->social->toArray()
         );
@@ -177,8 +176,8 @@ class CrewsFeatureTest extends TestCase
 
         $user = $this->getCrewUser();
         $data = $this->getCreateData([
-            'photo'                        => 'asdasd',
-            'resume'                       => 'asdasd',
+            'photo'                        => UploadedFile::fake()->create('image.php'),
+            'resume'                       => UploadedFile::fake()->create('resume.php'),
             'reel'                         => 'https://some-invalid-reel.com',
             'socials.facebook.url'         => 'https://invalid-facebook.com/invalid',
             'socials.facebook.id'          => '',
@@ -196,8 +195,8 @@ class CrewsFeatureTest extends TestCase
 
         $response->assertSessionHasErrors(
             [
-                'photo',
-                'resume',
+                'photo'                        => 'The photo must be an image.',
+                'resume'                       => 'The resume must be a file of type: pdf, doc, docx.',
                 'reel'                         => 'The reel must be a valid Reel.',
                 'socials.facebook.id'          => 'The socials.facebook.id field is required.',
                 'socials.facebook.url'         => 'facebook must be a valid Facebook URL.',
@@ -210,6 +209,45 @@ class CrewsFeatureTest extends TestCase
                 'socials.instagram.url'        => 'instagram must be a valid Instagram URL.',
                 'socials.personal_website.url' => 'The personal website is invalid.',
             ]
+        );
+    }
+
+    /** @test */
+    public function create_youtube_cleaned()
+    {
+        Storage::fake();
+
+        $user = $this->getCrewUser();
+        $data = $this->getCreateData([
+            'reel'                => 'https://www.youtube.com/watch?v=2-_rLbU6zJo',
+            'socials.youtube.url' => 'https://www.youtube.com/watch?v=G8S81CEBdNs',
+        ]);
+
+        $response = $this->actingAs($user)->post('/crews', $data);
+
+        // assert general reel has been cleaned
+        $crew = Crew::where('user_id', $user->id)->first();
+        $reel = $crew->reels->where('general', 1)->first();
+
+        $this->assertArraySubset(
+            [
+                'crew_id' => $crew->id,
+                'url'     => 'https://www.youtube.com/embed/2-_rLbU6zJo',
+                'general' => 1,
+            ],
+            $reel->toArray()
+        );
+
+        // assert youtube social has been cleaned
+        $social = $crew->social()->where('social_link_type_id', SocialLinkTypeID::YOUTUBE)->first();
+
+        $this->assertArraySubset(
+            [
+                'crew_id'             => $crew->id,
+                'url'                 => 'https://www.youtube.com/embed/G8S81CEBdNs',
+                'social_link_type_id' => SocialLinkTypeID::YOUTUBE,
+            ],
+            $social->toArray()
         );
     }
 
@@ -235,6 +273,18 @@ class CrewsFeatureTest extends TestCase
             ],
             $reel->toArray()
         );
+    }
+
+    /** @test */
+    public function create_unauthorized()
+    {
+        $user = factory(User::class)->create();
+        $data = $this->getCreateData();
+
+        $response = $this->actingAs($user)->post('/crews', $data);
+
+        $response->assertRedirect('login');
+        $this->assertGuest();
     }
 
     /** @test */
@@ -515,6 +565,142 @@ class CrewsFeatureTest extends TestCase
             ],
             $crew->social->toArray()
         );
+    }
+
+    /** @test */
+    public function update_youtube_cleaned()
+    {
+        Storage::fake();
+
+        $user = $this->getCrewUser();
+        $crew = factory(Crew::class)->create(['user_id' => $user->id]);
+        $reel = factory(CrewReel::class)->create(['crew_id' => $crew->id]);
+
+        $data = $this->getUpdateData([
+            'reel'                => 'https://www.youtube.com/watch?v=2-_rLbU6zJo',
+            'socials.youtube.url' => 'https://www.youtube.com/watch?v=G8S81CEBdNs',
+        ]);
+
+        $response = $this->actingAs($user)->put('/crews/' . $crew->id, $data);
+
+        // assert general reel has been cleaned
+        $reel->refresh();
+
+        $this->assertArraySubset(
+            [
+                'crew_id' => $crew->id,
+                'url'     => 'https://www.youtube.com/embed/2-_rLbU6zJo',
+                'general' => 1,
+            ],
+            $reel->toArray()
+        );
+
+        // assert youtube social has been cleaned
+        $social = $crew->social()->where('social_link_type_id', SocialLinkTypeID::YOUTUBE)->first();
+
+        $this->assertArraySubset(
+            [
+                'crew_id'             => $crew->id,
+                'url'                 => 'https://www.youtube.com/embed/G8S81CEBdNs',
+                'social_link_type_id' => SocialLinkTypeID::YOUTUBE,
+            ],
+            $social->toArray()
+        );
+    }
+
+    /** @test */
+    public function update_vimeo_reel_cleaned()
+    {
+        Storage::fake();
+
+        $user = $this->getCrewUser();
+        $crew = factory(Crew::class)->create(['user_id' => $user->id]);
+        $reel = factory(CrewReel::class)->create(['crew_id' => $crew->id]);
+        $data = $this->getUpdateData(['reel' => 'https://vimeo.com/230046783']);
+
+        $response = $this->actingAs($user)->put('/crews/' . $crew->id, $data);
+
+        // assert general reel has been created
+        $reel->refresh();
+
+        $this->assertArraySubset(
+            [
+                'crew_id' => $crew->id,
+                'url'     => 'https://player.vimeo.com/video/230046783',
+                'general' => 1,
+            ],
+            $reel->toArray()
+        );
+    }
+
+
+    /** @test */
+    public function update_invalid_data()
+    {
+        Storage::fake();
+
+        $user = $this->getCrewUser();
+        $crew = factory(Crew::class)->create(['user_id' => $user->id]);
+        $data = $this->getUpdateData([
+            'photo'                        => UploadedFile::fake()->create('image.php'),
+            'resume'                       => UploadedFile::fake()->create('resume.php'),
+            'reel'                         => 'https://some-invalid-reel.com',
+            'socials.facebook.url'         => 'https://invalid-facebook.com/invalid',
+            'socials.facebook.id'          => '',
+            'socials.twitter.url'          => 'https://invalid-twitter.com/invalid',
+            'socials.youtube.url'          => 'https://invalid-youtube.com/invalid',
+            'socials.google_plus.url'      => 'https://invalid-gplus.com/invalid',
+            'socials.imdb.url'             => 'https://invalid-imdb.com/invalid',
+            'socials.tumblr.url'           => 'https://invalid-tumblr.test/invalid',
+            'socials.vimeo.url'            => 'https://invalid-vimeo.com/invalid',
+            'socials.instagram.url'        => 'https://invalid-instagram.com/invalid',
+            'socials.personal_website.url' => 'http://mysite.test',
+        ]);
+
+        $response = $this->actingAs($user)->put('/crews/' . $crew->id, $data);
+
+        $response->assertSessionHasErrors(
+            [
+                'photo'                        => 'The photo must be an image.',
+                'resume'                       => 'The resume must be a file of type: pdf, doc, docx.',
+                'reel'                         => 'The reel must be a valid Reel.',
+                'socials.facebook.id'          => 'The socials.facebook.id field is required.',
+                'socials.facebook.url'         => 'facebook must be a valid Facebook URL.',
+                'socials.twitter.url'          => 'twitter must be a valid Twitter URL.',
+                'socials.youtube.url'          => 'youtube must be a valid YouTube URL.',
+                'socials.google_plus.url'      => 'google plus must be a valid Google Plus URL.',
+                'socials.imdb.url'             => 'imdb must be a valid IMDB URL.',
+                'socials.tumblr.url'           => 'tumblr must be a valid Tumblr URL.',
+                'socials.vimeo.url'            => 'vimeo must be a valid Vimeo URL.',
+                'socials.instagram.url'        => 'instagram must be a valid Instagram URL.',
+                'socials.personal_website.url' => 'The personal website is invalid.',
+            ]
+        );
+    }
+
+    /** @test */
+    public function update_not_exists()
+    {
+        Storage::fake();
+
+        $user = $this->getCrewUser();
+        $data = $this->getUpdateData();
+
+        $response = $this->actingAs($user)->put('/crews/5', $data);
+
+        $response->assertStatus(404);
+    }
+
+    /** @test */
+    public function update_unauthorized()
+    {
+        $crew = factory(Crew::class)->create();
+        $data = $this->getUpdateData();
+
+        $response = $this->actingAs($crew->user)->put('/crews/' . $crew->id, $data);
+
+        $response->assertRedirect('login');
+        $this->assertGuest();
     }
 
     /**
