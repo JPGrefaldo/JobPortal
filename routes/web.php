@@ -24,6 +24,11 @@ Route::get('/verify/email/{code}', 'VerifyEmailController@verify');
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::middleware(['auth', 'crew'])->group(function() {
-     Route::post('/crews/create', 'CrewsController@store');
+Route::middleware(['auth', 'crew'])->group(function () {
+    Route::post('/crews', 'CrewsController@store');
+    Route::put('/crews/{crew}', 'CrewsController@update');
+});
+
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::put('/admin/users/ban/{user}', 'Admin\AdminUsersController@updateBan');
 });

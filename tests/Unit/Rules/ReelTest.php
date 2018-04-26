@@ -2,42 +2,30 @@
 
 namespace Tests\Unit\Rules;
 
-use App\Rules\Vimeo;
+use App\Rules\Reel;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class VimeoTest extends TestCase
+class ReelTest extends TestCase
 {
     /** @test */
-    public function valid()
+    public function valid_youtube()
     {
         $result = $this->app['validator']->make(
-            ['vimeo' => 'https://vimeo.com/mackevision'],
-            [
-                'vimeo' => [
-                    'required',
-                    'string',
-                    new Vimeo(),
-                ],
-            ]
+            ['reel' => 'https://www.youtube.com/embed/G8S81CEBdNs'],
+            ['reel' => ['required', 'string', new Reel(),],]
         );
 
         $this->assertTrue($result->passes());
     }
 
     /** @test */
-    public function valid_player()
+    public function valid_vimeo()
     {
         $result = $this->app['validator']->make(
-            ['vimeo' => 'https://player.vimeo.com/video/197535359'],
-            [
-                'vimeo' => [
-                    'required',
-                    'string',
-                    new Vimeo(),
-                ],
-            ]
+            ['reel' => 'https://player.vimeo.com/video/197535359'],
+            ['reel' => ['required', 'string', new Reel(),],]
         );
 
         $this->assertTrue($result->passes());
@@ -47,19 +35,19 @@ class VimeoTest extends TestCase
     public function invalid()
     {
         $result = $this->app['validator']->make(
-            ['vimeo' => 'https://invalid-vimeo.com/something'],
+            ['reel' => 'https://some-invalid-reel.com/invalid'],
             [
-                'vimeo' => [
+                'reel' => [
                     'required',
                     'string',
-                    new Vimeo(),
+                    new Reel(),
                 ],
             ]
         );
 
         $this->assertFalse($result->passes());
         $this->assertEquals(
-            'vimeo must be a valid Vimeo URL.',
+            'The reel must be a valid Reel.',
             $result->errors()->first()
         );
     }

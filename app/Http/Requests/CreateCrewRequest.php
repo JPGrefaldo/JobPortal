@@ -6,6 +6,7 @@ use App\Rules\Facebook;
 use App\Rules\GooglePlus;
 use App\Rules\IMDB;
 use App\Rules\Instagram;
+use App\Rules\Reel;
 use App\Rules\TLDR;
 use App\Rules\Tumblr;
 use App\Rules\Twitter;
@@ -36,6 +37,7 @@ class CreateCrewRequest extends FormRequest
             'bio'                          => 'nullable|string',
             'photo'                        => 'required|image',
             'resume'                       => 'nullable|file|mimes:pdf,doc,docx',
+            'reel'                         => ['nullable', 'string', new Reel()],
             'socials'                      => 'required|array',
             'socials.*.id'                 => 'required|numeric',
             'socials.facebook.url'         => ['nullable', 'string', new Facebook()],

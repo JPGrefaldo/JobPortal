@@ -2,11 +2,11 @@
 
 namespace App\Http\Middleware;
 
+use Illuminate\Contracts\Auth\Guard;
 use App\Models\Role;
 use Closure;
-use Illuminate\Contracts\Auth\Guard;
 
-class AuthorizeCrew
+class AuthorizeAdmin
 {
     /**
      * @var \Illuminate\Contracts\Auth\Guard
@@ -21,17 +21,14 @@ class AuthorizeCrew
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \Closure                 $next
-     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
      * @return mixed
      */
     public function handle($request, Closure $next)
     {
-        if (!$this->auth->user()->hasRole(Role::CREW)) {
-            $this->auth->logout();
-
-            return redirect()->guest('login');
+        if (!$this->auth->user()->hasRole(Role::ADMIN)) {
+            return redirect('/');
         }
 
         return $next($request);

@@ -2,10 +2,9 @@
 
 namespace App\Rules;
 
-use App\Services\SocialLinksServices;
 use Illuminate\Contracts\Validation\Rule;
 
-class Vimeo implements Rule
+class Reel implements Rule
 {
     /**
      * Create a new rule instance.
@@ -20,14 +19,14 @@ class Vimeo implements Rule
     /**
      * Determine if the validation rule passes.
      *
-     * @param  string $attribute
+     * @param  string  $attribute
      * @param  mixed  $value
-     *
      * @return bool
      */
     public function passes($attribute, $value)
     {
-        return (SocialLinksServices::cleanVimeo($value) !== '');
+        return (with(new YouTube())->passes($attribute, $value)
+            || with(new Vimeo())->passes($attribute, $value));
     }
 
     /**
@@ -37,6 +36,6 @@ class Vimeo implements Rule
      */
     public function message()
     {
-        return ':attribute must be a valid Vimeo URL.';
+        return 'The :attribute must be a valid Reel.';
     }
 }

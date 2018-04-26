@@ -5,6 +5,7 @@ namespace Tests;
 use App\Models\Site;
 use App\Utils\UrlUtils;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Tests\Support\CreatesModels;
 use Tests\Support\SeedDatabaseAfterRefresh;
 
 abstract class TestCase extends BaseTestCase
@@ -14,7 +15,7 @@ abstract class TestCase extends BaseTestCase
      */
     private static $site = null;
 
-    use CreatesApplication;
+    use CreatesApplication, CreatesModels;
 
     /**
      * Add custom setup traits
@@ -37,7 +38,7 @@ abstract class TestCase extends BaseTestCase
      */
     protected function getCurrentSite()
     {
-        if (! self::$site) {
+        if (!self::$site) {
             self::$site = Site::where(
                 'hostname',
                 UrlUtils::getHostNameFromBaseUrl(env('APP_URL'))
