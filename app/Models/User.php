@@ -98,13 +98,20 @@ class User extends Authenticatable
      */
     public function isActive()
     {
-        return ($this->status == 1);
+        return ($this->status === 1);
     }
 
     public function confirm()
     {
         $this->update([
             'confirmed' => 1,
+        ]);
+    }
+
+    public function deactivate()
+    {
+        $this->update([
+            'status' => 0,
         ]);
     }
 
