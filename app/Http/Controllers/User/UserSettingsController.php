@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Services\User\UserSettingsServices;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserSettingsController extends Controller
 {
@@ -24,5 +25,30 @@ class UserSettingsController extends Controller
             $data,
             Auth::user()->notificationSettings
         );
+    }
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     */
+    public function updatePassword(Request $request)
+    {
+        $user = Auth::user();
+        $data = $this->validate($request, [
+            'current_password' => [
+                'required',
+                'string',
+                'min:6',
+                function ($attribute, $value, $fail) use ($user) {
+                    if (!Hash::check($value, $user->password)) {
+                        return $fail('The current password is invalid.');
+                    }
+
+                    return true;
+                },
+            ],
+            'password'         => 'required|string|min:6|confirmed',
+        ]);
+
+        $user->update(['password' => Hash::make($data['password'])]);
     }
 }
