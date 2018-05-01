@@ -24,5 +24,16 @@ class UserSites extends Pivot
     protected $casts = [
         'id'      => 'integer',
         'site_id' => 'integer',
+        'user_id' => 'integer',
     ];
+
+    /**
+     * Users many to many relationship
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'user_sites');
+    }
 }

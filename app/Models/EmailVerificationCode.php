@@ -11,7 +11,17 @@ class EmailVerificationCode extends Model
      *
      * @var array
      */
-    protected $guarded = ['id'];
+    protected $guarded = [
+        'id',
+    ];
+
+    /**
+     * @var array
+     */
+    protected $casts = [
+        'id'      => 'integer',
+        'user_id' => 'integer',
+    ];
 
     /**
      * users relationship
