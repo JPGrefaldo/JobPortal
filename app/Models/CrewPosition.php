@@ -17,8 +17,9 @@ class CrewPosition extends Model
      * @var array
      */
     protected $casts = [
-        'id'      => 'integer',
-        'crew_id' => 'integer',
+        'id'          => 'integer',
+        'crew_id'     => 'integer',
+        'position_id' => 'integer',
     ];
 
     /**

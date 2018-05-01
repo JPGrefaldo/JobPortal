@@ -17,16 +17,8 @@ class Site extends Model
      * @var array
      */
     protected $casts = [
-        'id'      => 'integer',
+        'id'                 => 'integer',
+        'forward_to_site_id' => 'integer',
+        'status'             => 'integer',
     ];
-
-    /**
-     * Users many to many relationship
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function users()
-    {
-        return $this->belongsToMany(User::class, 'user_sites');
-    }
 }

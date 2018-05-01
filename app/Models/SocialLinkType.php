@@ -17,6 +17,7 @@ class SocialLinkType extends Model
      * @var array
      */
     protected $casts = [
-        'id' => 'integer',
+        'id'         => 'integer',
+        'sort_order' => 'integer',
     ];
 }

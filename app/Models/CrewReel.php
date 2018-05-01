@@ -17,8 +17,10 @@ class CrewReel extends Model
      * @var array
      */
     protected $casts = [
-        'id'      => 'integer',
-        'crew_id' => 'integer',
+        'id'               => 'integer',
+        'crew_id'          => 'integer',
+        'crew_position_id' => 'integer',
+        'general'          => 'boolean',
     ];
 
     /**

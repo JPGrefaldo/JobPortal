@@ -23,4 +23,14 @@ class UserNotificationSetting extends Model
         'receive_other_emails'       => 'boolean',
         'receive_sms'                => 'boolean',
     ];
+
+    /**
+     * Users many to many relationship
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'user_notification_settings');
+    }
 }
