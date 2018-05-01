@@ -24,6 +24,13 @@ Route::get('/verify/email/{code}', 'VerifyEmailController@verify');
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+
+Route::middleware('auth')->group(function () {
+    Route::put('/account/settings/notifications', 'User\UserSettingsController@updateNotifications');
+    Route::put('/account/settings/password', 'User\UserSettingsController@updatePassword');
+});
+
+
 Route::middleware(['auth', 'crew'])->group(function () {
     Route::post('/crews', 'CrewsController@store');
     Route::put('/crews/{crew}', 'CrewsController@update');
