@@ -14,6 +14,54 @@ class UserSettingsFeatureTest extends TestCase
     use RefreshDatabase, SeedDatabaseAfterRefresh;
 
     /** @test */
+    public function update_name()
+    {
+        $user = $this->createUser();
+        $data = [
+            'first_name' => 'AdAm james',
+            'last_name'  => 'FOrd',
+        ];
+
+        $response = $this->actingAs($user)->put('/account/settings/name', $data);
+
+        $response->assertSuccessful();
+
+        $user->refresh();
+
+        $this->assertArraySubset(
+            [
+                'first_name' => 'Adam James',
+                'last_name'  => 'Ford',
+            ],
+            $user->toArray()
+        );
+    }
+
+    /** @test */
+    public function update_name_first_name_only()
+    {
+        $user = $this->createUser();
+        $data = [
+            'first_name' => 'AdAm james',
+            'last_name'  => $user->last_name,
+        ];
+
+        $response = $this->actingAs($user)->put('/account/settings/name', $data);
+
+        $response->assertSuccessful();
+
+        $user->refresh();
+
+        $this->assertArraySubset(
+            [
+                'first_name' => 'Adam James',
+                'last_name'  => $user->last_name,
+            ],
+            $user->toArray()
+        );
+    }
+
+    /** @test */
     public function update_notifications()
     {
         $user = $this->createUser();
