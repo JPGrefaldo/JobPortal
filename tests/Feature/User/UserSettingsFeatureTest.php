@@ -62,6 +62,20 @@ class UserSettingsFeatureTest extends TestCase
     }
 
     /** @test */
+    public function update_name_invalid_data()
+    {
+        $user = $this->createUser();
+        $data = [
+            'first_name' => '123 Robot',
+            'last_name'  => '2543',
+        ];
+
+        $response = $this->actingAs($user)->put('/account/settings/name', $data);
+
+        $response->assertSessionHasErrors(['first_name', 'last_name']);
+    }
+
+    /** @test */
     public function update_notifications()
     {
         $user = $this->createUser();

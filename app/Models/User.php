@@ -140,4 +140,24 @@ class User extends Authenticatable
         return $this->sites()->get()
                     ->contains('hostname', $hostname);
     }
+
+    /**
+     * Mutator for first_name
+     *
+     * @param $value
+     */
+    public function setFirstNameAttribute($value)
+    {
+        $this->attributes['first_name'] = ucwords(strtolower($value));
+    }
+
+    /**
+     * Mutator for last_name
+     *
+     * @param $value
+     */
+    public function setLastNameAttribute($value)
+    {
+        $this->attributes['last_name'] = ucfirst(strtolower($value));
+    }
 }

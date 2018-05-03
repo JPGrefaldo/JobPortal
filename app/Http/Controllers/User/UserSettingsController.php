@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\Rules\UserRules;
 use App\Services\User\UserSettingsServices;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,25 +12,20 @@ use Spatie\Activitylog\Models\Activity;
 
 class UserSettingsController extends Controller
 {
+    /**
+     * @param \Illuminate\Http\Request $request
+     */
     public function updateName(Request $request)
     {
         $data = $this->validate($request, [
-            'first_name' => ['required', 'max:255', "regex:/^[a-z'\- ]*$/i"],
-            'last_name'  => ['required', 'max:255', "regex:/^[a-z'\- ]*$/i"],
+            'first_name' => UserRules::FIRST_NAME,
+            'last_name'  => UserRules::LAST_NAME,
         ]);
 
         Auth::user()->update([
-            'first_name' => ucwords(strtolower($data['first_name'])),
-            'last_name'  => ucwords(strtolower($data['last_name']))
+            'first_name' => $data['first_name'],
+            'last_name'  => $data['last_name'],
         ]);
-
-        /** @temp  log updates */
-        $activityLog = Activity::orderBy('id', 'desc')->first();
-        $changes = $activityLog->changes();
-
-        foreach ($changes['attributes'] as $key => $value) {
-            \Log::info('User ' . $activityLog->subject->id . ' changed ' . $key . ' from ' . $changes['old'][$key] . ' to ' . $value);
-        }
     }
 
     /**

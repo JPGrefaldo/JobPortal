@@ -46,4 +46,21 @@ class UserTest extends TestCase
         $this->assertEquals(1, $user->sites->count());
         $this->assertEquals($site->name, $user->sites->first()->name);
     }
+
+    /** @test */
+    public function mutators()
+    {
+        $user = $this->createUser();
+
+        $user->update([
+            'first_name' => 'JoHN JaMES',
+            'last_name'  => 'DOE',
+        ]);
+
+        $this->assertDatabaseHas('users', [
+            'id'         => $user->id,
+            'first_name' => 'John James',
+            'last_name'  => 'Doe',
+        ]);
+    }
 }
