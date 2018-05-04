@@ -31,7 +31,7 @@ class UserSignupRequest extends FormRequest
         return [
             'first_name'  => UserRules::firstName(),
             'last_name'   => UserRules::lastName(),
-            'email'       => ['required', 'string', 'max:255', new Email(), 'unique:users'],
+            'email'       => UserRules::email(),
             'password'    => 'required|string|min:6',
             'phone'       => ['required', 'string', new Phone()],
             'receive_sms' => 'sometimes|numeric',
