@@ -25,7 +25,7 @@ class UsersServices
             'last_name'  => $userData['last_name'],
             'email'      => $userData['email'],
             'password'   => Hash::make($userData['password']),
-            'phone'      => $this->formatPhone($userData['phone']),
+            'phone'      => $userData['phone'],
         ]);
 
         $notificationSettingsData['receive_sms'] = $notificationSettingsData['receive_sms'] ?? 0;
@@ -33,19 +33,5 @@ class UsersServices
         $user->notificationSettings()->create($notificationSettingsData);
 
         return $user;
-    }
-
-    /**
-     * @param $value
-     *
-     * @return string
-     */
-    public static function formatPhone($value)
-    {
-        return preg_replace(
-            "/([0-9]{3})([0-9]{3})([0-9]{4})/",
-            "($1) $2-$3",
-            StrUtils::stripNonNumeric($value)
-        );
     }
 }

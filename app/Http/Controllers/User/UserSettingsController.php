@@ -37,13 +37,14 @@ class UserSettingsController extends Controller
         $user = Auth::user();
         $data = $this->validate($request, [
             'email'                      => UserRules::emailUpdate($user),
+            'phone'                      => UserRules::phone(),
             'receive_email_notification' => 'bool',
             'receive_other_emails'       => 'bool',
             'receive_sms'                => 'bool',
         ]);
 
         // update user data
-        $userData = [];
+        $userData = ['phone' => $data['phone']];
 
         if (strtolower($data['email']) !== $user->email) {
             $userData['email'] = $data['email'];

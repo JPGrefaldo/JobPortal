@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Utils\StrUtils;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -169,5 +170,15 @@ class User extends Authenticatable
     public function setEmailAttribute($value)
     {
         $this->attributes['email'] = strtolower($value);
+    }
+
+    /**
+     * Mutator for last_name
+     *
+     * @param $value
+     */
+    public function setPhoneAttribute($value)
+    {
+        $this->attributes['phone'] = StrUtils::formatPhone($value);
     }
 }

@@ -6,6 +6,7 @@ namespace App\Models\Rules;
 
 use App\Models\User;
 use App\Rules\Email;
+use App\Rules\Phone;
 use Illuminate\Validation\Rule;
 
 class UserRules
@@ -66,5 +67,13 @@ class UserRules
         };
 
         return $rules;
+    }
+
+    /**
+     * @return array
+     */
+    public static function phone()
+    {
+        return ['required', 'string', new Phone()];
     }
 }

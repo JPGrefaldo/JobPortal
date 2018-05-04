@@ -56,4 +56,23 @@ class StrUtilsTest extends TestCase
             StrUtils::cleanYouTube('http://www.youtube.com/playlist?list=PLGJSQdu-6kDFdD3wJC0TG3Y5BEFNsibdc')
         );
     }
+
+    /** @test */
+    public function format_phone()
+    {
+        $this->assertEquals(
+            '(123) 456-7891',
+            StrUtils::formatPhone('1234567891')
+        );
+
+        $this->assertEquals(
+            '(201) 886-0269',
+            StrUtils::formatPhone('201-886-0269')
+        );
+
+        $this->assertEquals(
+            '(201) 886-0269',
+            StrUtils::formatPhone('201.886.0269')
+        );
+    }
 }
