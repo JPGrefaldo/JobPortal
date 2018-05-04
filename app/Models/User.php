@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\LogsActivityOnlyDirty;
 use App\Utils\StrUtils;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -9,10 +10,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class User extends Authenticatable
 {
-    use Notifiable, LogsActivity;
-
-    protected static $logAttributes = ['*'];
-    protected static $logOnlyDirty = true;
+    use Notifiable, LogsActivityOnlyDirty;
 
     /**
      * The protected attributes

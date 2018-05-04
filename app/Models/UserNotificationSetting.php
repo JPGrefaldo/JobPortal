@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\Traits\LogsActivityOnlyDirty;
 use Illuminate\Database\Eloquent\Model;
 
 class UserNotificationSetting extends Model
 {
+    use LogsActivityOnlyDirty;
+
     /**
      * The protected attributes
      *
