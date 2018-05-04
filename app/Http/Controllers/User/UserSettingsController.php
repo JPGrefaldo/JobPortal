@@ -4,12 +4,9 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Rules\UserRules;
-use App\Services\User\UserSettingsServices;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rule;
-use Spatie\Activitylog\Models\Activity;
 
 class UserSettingsController extends Controller
 {
@@ -53,10 +50,11 @@ class UserSettingsController extends Controller
         $user->update($userData);
 
         // update user notifications data
-        app(UserSettingsServices::class)->updateNotifications(
-            $data,
-            Auth::user()->notificationSettings
-        );
+        $user->notificationSettings->update([
+            'receive_email_notification' => array_get($data, 'receive_email_notification', 0),
+            'receive_other_emails'       => array_get($data, 'receive_other_emails', 0),
+            'receive_sms'                => array_get($data, 'receive_sms', 0),
+        ]);
     }
 
     /**
