@@ -76,4 +76,12 @@ class UserRules
     {
         return ['required', 'string', new Phone()];
     }
+
+    /**
+     * @return array
+     */
+    public static function password()
+    {
+        return ['required', 'string', 'min:6'];
+    }
 }

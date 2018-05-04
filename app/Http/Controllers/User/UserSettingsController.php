@@ -64,19 +64,17 @@ class UserSettingsController extends Controller
     {
         $user = Auth::user();
         $data = $this->validate($request, [
-            'current_password' => [
-                'required',
-                'string',
-                'min:6',
-                function ($attribute, $value, $fail) use ($user) {
-                    if (!Hash::check($value, $user->password)) {
-                        return $fail('The current password is invalid.');
-                    }
-
-                    return true;
-                },
-            ],
-            'password'         => 'required|string|min:6|confirmed',
+            'current_password' => array_merge(
+                UserRules::password(),
+                [
+                    function ($attribute, $value, $fail) use ($user) {
+                        return Hash::check($value, $user->password)
+                            ? true
+                            : $fail('The current password is invalid.');
+                    },
+                ]
+            ),
+            'password'         => array_merge(UserRules::password(), ['confirmed']),
         ]);
 
         $user->update(['password' => Hash::make($data['password'])]);

@@ -32,7 +32,7 @@ class UserSignupRequest extends FormRequest
             'first_name'  => UserRules::firstName(),
             'last_name'   => UserRules::lastName(),
             'email'       => UserRules::email(),
-            'password'    => 'required|string|min:6',
+            'password'    => UserRules::password(),
             'phone'       => UserRules::phone(),
             'receive_sms' => 'sometimes|numeric',
             'type'        => ['required', 'string', Rule::in([Role::CREW, Role::PRODUCER])],
