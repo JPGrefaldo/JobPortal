@@ -43,4 +43,18 @@ class StrUtils
 
         return 'https://' . $string;
     }
+
+    /**
+     * @param $value
+     *
+     * @return string
+     */
+    public static function formatPhone($value)
+    {
+        return preg_replace(
+            "/([0-9]{3})([0-9]{3})([0-9]{4})/",
+            "($1) $2-$3",
+            self::stripNonNumeric($value)
+        );
+    }
 }

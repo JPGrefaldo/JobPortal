@@ -26,6 +26,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 Route::middleware('auth')->group(function () {
+    Route::put('/account/settings/name', 'User\UserSettingsController@updateName');
     Route::put('/account/settings/notifications', 'User\UserSettingsController@updateNotifications');
     Route::put('/account/settings/password', 'User\UserSettingsController@updatePassword');
 });

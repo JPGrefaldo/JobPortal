@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\Role;
+use App\Models\Rules\UserRules;
 use App\Rules\Email;
 use App\Rules\Phone;
 use Illuminate\Foundation\Http\FormRequest;
@@ -28,11 +29,11 @@ class UserSignupRequest extends FormRequest
     public function rules()
     {
         return [
-            'first_name'  => 'required|string|max:255',
-            'last_name'   => 'required|string|max:255',
-            'email'       => ['required', 'string', 'max:255', 'unique:users', new Email()],
-            'password'    => 'required|string|min:6',
-            'phone'       => ['required', 'string', new Phone()],
+            'first_name'  => UserRules::firstName(),
+            'last_name'   => UserRules::lastName(),
+            'email'       => UserRules::email(),
+            'password'    => UserRules::password(),
+            'phone'       => UserRules::phone(),
             'receive_sms' => 'sometimes|numeric',
             'type'        => ['required', 'string', Rule::in([Role::CREW, Role::PRODUCER])],
         ];

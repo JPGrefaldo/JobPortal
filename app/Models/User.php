@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use App\Models\Traits\LogsActivityOnlyDirty;
+use App\Utils\StrUtils;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, LogsActivityOnlyDirty;
 
     /**
      * The protected attributes
@@ -135,5 +138,45 @@ class User extends Authenticatable
     {
         return $this->sites()->get()
                     ->contains('hostname', $hostname);
+    }
+
+    /**
+     * Mutator for first_name
+     *
+     * @param $value
+     */
+    public function setFirstNameAttribute($value)
+    {
+        $this->attributes['first_name'] = ucwords(strtolower($value));
+    }
+
+    /**
+     * Mutator for last_name
+     *
+     * @param $value
+     */
+    public function setLastNameAttribute($value)
+    {
+        $this->attributes['last_name'] = ucfirst(strtolower($value));
+    }
+
+    /**
+     * Mutator for last_name
+     *
+     * @param $value
+     */
+    public function setEmailAttribute($value)
+    {
+        $this->attributes['email'] = strtolower($value);
+    }
+
+    /**
+     * Mutator for last_name
+     *
+     * @param $value
+     */
+    public function setPhoneAttribute($value)
+    {
+        $this->attributes['phone'] = StrUtils::formatPhone($value);
     }
 }

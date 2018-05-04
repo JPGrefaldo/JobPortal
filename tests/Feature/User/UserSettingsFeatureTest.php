@@ -14,22 +14,144 @@ class UserSettingsFeatureTest extends TestCase
     use RefreshDatabase, SeedDatabaseAfterRefresh;
 
     /** @test */
+    public function update_name()
+    {
+        $user = $this->createUser();
+        $data = [
+            'first_name' => 'AdAm james',
+            'last_name'  => 'FOrd',
+        ];
+
+        $response = $this->actingAs($user)->put('/account/settings/name', $data);
+
+        $response->assertSuccessful();
+
+        $user->refresh();
+
+        $this->assertArraySubset(
+            [
+                'first_name' => 'Adam James',
+                'last_name'  => 'Ford',
+            ],
+            $user->toArray()
+        );
+    }
+
+    /** @test */
+    public function update_name_first_name_only()
+    {
+        $user = $this->createUser();
+        $data = [
+            'first_name' => 'AdAm james',
+            'last_name'  => $user->last_name,
+        ];
+
+        $response = $this->actingAs($user)->put('/account/settings/name', $data);
+
+        $response->assertSuccessful();
+
+        $user->refresh();
+
+        $this->assertArraySubset(
+            [
+                'first_name' => 'Adam James',
+                'last_name'  => $user->last_name,
+            ],
+            $user->toArray()
+        );
+    }
+
+    /** @test */
+    public function update_name_invalid_data()
+    {
+        $user = $this->createUser();
+        $data = [
+            'first_name' => '123 Robot',
+            'last_name'  => '2543',
+        ];
+
+        $response = $this->actingAs($user)->put('/account/settings/name', $data);
+
+        $response->assertSessionHasErrors(['first_name', 'last_name']);
+    }
+
+    /** @test */
     public function update_notifications()
     {
         $user = $this->createUser();
-
         factory(UserNotificationSetting::class)->create([
             'user_id'     => $user->id,
             'receive_sms' => 0,
         ]);
 
         $data = [
+            'email'                      => 'updateemail@gmail.com',
+            'phone'                      => '(888) 937-7238',
             'receive_email_notification' => 1,
             'receive_other_emails'       => 1,
             'receive_sms'                => 1,
         ];
 
         $response = $this->actingAs($user)->put('/account/settings/notifications', $data);
+
+        $response->assertSuccessful();
+
+        $user->refresh();
+
+        $this->assertArraySubset(
+            [
+                'email' => 'updateemail@gmail.com',
+                'phone' => '(888) 937-7238',
+            ],
+            $user->toArray()
+        );
+
+        $this->assertArraySubset(
+            [
+                'receive_email_notification' => true,
+                'receive_other_emails'       => true,
+                'receive_sms'                => true,
+            ],
+            $user->notificationSettings->toArray()
+        );
+    }
+
+    /** @test */
+    public function update_notifications_same_data()
+    {
+        $user = $this->createUser([
+            'email' => 'safe@gmail.com',
+            'phone' => '(888) 937-7238',
+        ]);
+
+        factory(UserNotificationSetting::class)->create([
+            'user_id'                    => $user->id,
+            'receive_email_notification' => 1,
+            'receive_other_emails'       => 1,
+            'receive_sms'                => 1,
+        ]);
+
+        $data = [
+            'email'                      => $user->email,
+            'phone'                      => $user->phone,
+            'receive_email_notification' => 1,
+            'receive_other_emails'       => 1,
+            'receive_sms'                => 1,
+        ];
+
+        $response = $this->actingAs($user)->put('/account/settings/notifications', $data);
+
+        $response->assertSuccessful();
+
+        $user->refresh();
+
+        $this->assertArraySubset(
+            [
+                'email' => 'safe@gmail.com',
+                'phone' => '(888) 937-7238',
+            ],
+            $user->toArray()
+        );
 
         $this->assertArraySubset(
             [
@@ -44,14 +166,17 @@ class UserSettingsFeatureTest extends TestCase
     /** @test */
     public function update_notifications_disable_all()
     {
-        $user = $this->createUser();
+        $user = $this->createUser(['email' => 'safe@gmail.com']);
 
         factory(UserNotificationSetting::class)->create([
             'user_id'     => $user->id,
             'receive_sms' => 0,
         ]);
 
-        $data = [];
+        $data = [
+            'email' => $user->email,
+            'phone' => $user->phone,
+        ];
 
         $response = $this->actingAs($user)->put('/account/settings/notifications', $data);
 
@@ -68,14 +193,18 @@ class UserSettingsFeatureTest extends TestCase
     /** @test */
     public function update_notifications_only_receive_other_emails()
     {
-        $user = $this->createUser();
+        $user = $this->createUser(['email' => 'safe@gmail.com']);
 
         factory(UserNotificationSetting::class)->create([
             'user_id'     => $user->id,
             'receive_sms' => 0,
         ]);
 
-        $data = ['receive_other_emails' => 1];
+        $data = [
+            'email'                => $user->email,
+            'phone'                => $user->phone,
+            'receive_other_emails' => 1,
+        ];
 
         $response = $this->actingAs($user)->put('/account/settings/notifications', $data);
 
@@ -100,6 +229,8 @@ class UserSettingsFeatureTest extends TestCase
         ]);
 
         $data = [
+            'email'                      => 'invalid@mail.test',
+            'phone'                      => '+6012-705 3767',
             'receive_email_notification' => 'asdasd',
             'receive_other_emails'       => 'asdasd',
             'receive_sms'                => 'asdasd',
@@ -108,9 +239,39 @@ class UserSettingsFeatureTest extends TestCase
         $response = $this->actingAs($user)->put('/account/settings/notifications', $data);
 
         $response->assertSessionHasErrors([
+            'email' => 'The email must be a valid email address.',
+            'phone' => 'The phone must be a valid US cell phone number.',
             'receive_email_notification',
             'receive_other_emails',
             'receive_sms',
+        ]);
+    }
+
+    /** @test */
+    public function update_notifications_existing_email()
+    {
+        // arrange
+        $user = $this->createUser();
+
+        factory(UserNotificationSetting::class)->create([
+            'user_id'     => $user->id,
+            'receive_sms' => 0,
+        ]);
+
+        $this->createUser(['email' => 'existingemail@gmail.com']);
+
+        $data = [
+            'email'                      => 'existingemail@gmail.com',
+            'phone'                      => $user->phone,
+            'receive_email_notification' => 1,
+            'receive_other_emails'       => 1,
+            'receive_sms'                => 1,
+        ];
+
+        $response = $this->actingAs($user)->put('/account/settings/notifications', $data);
+
+        $response->assertSessionHasErrors([
+            'email' => 'The email has already been taken.',
         ]);
     }
 

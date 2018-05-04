@@ -75,6 +75,26 @@ class SignupFeatureTest extends TestCase
         ]);
     }
 
+    /** @test */
+    public function invalid_data_duplicate_email()
+    {
+        $this->createUser(['email' => 'duplicate@gmail.com']);
+
+        $data = array_merge($this->makeFakeUser()->toArray(), [
+            'email'       => 'duplicate@gmail.com',
+            'password'    => 'password',
+            'receive_sms' => 1,
+            'type'        => Role::CREW,
+            '_token'      => csrf_token(),
+        ]);
+
+        $response = $this->post('signup', $data);
+
+        $response->assertSessionHasErrors([
+            'email' => 'The email has already been taken.'
+        ]);
+    }
+
     private function assertSignupSuccess($response, $data)
     {
         $response->assertRedirect('login');
