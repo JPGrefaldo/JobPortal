@@ -160,4 +160,14 @@ class User extends Authenticatable
     {
         $this->attributes['last_name'] = ucfirst(strtolower($value));
     }
+
+    /**
+     * Mutator for last_name
+     *
+     * @param $value
+     */
+    public function setEmailAttribute($value)
+    {
+        $this->attributes['email'] = strtolower($value);
+    }
 }

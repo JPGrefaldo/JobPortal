@@ -79,19 +79,28 @@ class UserSettingsFeatureTest extends TestCase
     public function update_notifications()
     {
         $user = $this->createUser();
-
         factory(UserNotificationSetting::class)->create([
             'user_id'     => $user->id,
             'receive_sms' => 0,
         ]);
 
         $data = [
+            'email'                      => 'updateemail@gmail.com',
             'receive_email_notification' => 1,
             'receive_other_emails'       => 1,
             'receive_sms'                => 1,
         ];
 
         $response = $this->actingAs($user)->put('/account/settings/notifications', $data);
+
+        $user->refresh();
+
+        $this->assertArraySubset(
+            [
+                'email' => 'updateemail@gmail.com',
+            ],
+            $user->toArray()
+        );
 
         $this->assertArraySubset(
             [
@@ -106,14 +115,14 @@ class UserSettingsFeatureTest extends TestCase
     /** @test */
     public function update_notifications_disable_all()
     {
-        $user = $this->createUser();
+        $user = $this->createUser(['email' => 'safe@gmail.com']);
 
         factory(UserNotificationSetting::class)->create([
             'user_id'     => $user->id,
             'receive_sms' => 0,
         ]);
 
-        $data = [];
+        $data = ['email' => $user->email,];
 
         $response = $this->actingAs($user)->put('/account/settings/notifications', $data);
 
@@ -130,14 +139,17 @@ class UserSettingsFeatureTest extends TestCase
     /** @test */
     public function update_notifications_only_receive_other_emails()
     {
-        $user = $this->createUser();
+        $user = $this->createUser(['email' => 'safe@gmail.com']);
 
         factory(UserNotificationSetting::class)->create([
             'user_id'     => $user->id,
             'receive_sms' => 0,
         ]);
 
-        $data = ['receive_other_emails' => 1];
+        $data = [
+            'email'                => $user->email,
+            'receive_other_emails' => 1,
+        ];
 
         $response = $this->actingAs($user)->put('/account/settings/notifications', $data);
 
@@ -162,6 +174,7 @@ class UserSettingsFeatureTest extends TestCase
         ]);
 
         $data = [
+            'email'                      => 'invalid@mail.test',
             'receive_email_notification' => 'asdasd',
             'receive_other_emails'       => 'asdasd',
             'receive_sms'                => 'asdasd',
@@ -170,9 +183,37 @@ class UserSettingsFeatureTest extends TestCase
         $response = $this->actingAs($user)->put('/account/settings/notifications', $data);
 
         $response->assertSessionHasErrors([
+            'email' => 'The email must be a valid email address.',
             'receive_email_notification',
             'receive_other_emails',
             'receive_sms',
+        ]);
+    }
+
+    /** @test */
+    public function update_notifications_existing_email()
+    {
+        // arrange
+        $user = $this->createUser();
+
+        factory(UserNotificationSetting::class)->create([
+            'user_id'     => $user->id,
+            'receive_sms' => 0,
+        ]);
+
+        $this->createUser(['email' => 'existingemail@gmail.com']);
+
+        $data = [
+            'email'                      => 'existingemail@gmail.com',
+            'receive_email_notification' => 1,
+            'receive_other_emails'       => 1,
+            'receive_sms'                => 1,
+        ];
+
+        $response = $this->actingAs($user)->put('/account/settings/notifications', $data);
+
+        $response->assertSessionHasErrors([
+            'email' => 'The email has already been taken.',
         ]);
     }
 

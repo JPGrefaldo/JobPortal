@@ -55,12 +55,14 @@ class UserTest extends TestCase
         $user->update([
             'first_name' => 'JoHN JaMES',
             'last_name'  => 'DOE',
+            'email'      => 'mYemaiL@gmaiL.com',
         ]);
 
         $this->assertDatabaseHas('users', [
             'id'         => $user->id,
             'first_name' => 'John James',
             'last_name'  => 'Doe',
+            'email'      => 'myemail@gmail.com',
         ]);
     }
 }

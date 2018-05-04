@@ -29,9 +29,9 @@ class UserSignupRequest extends FormRequest
     public function rules()
     {
         return [
-            'first_name'  => UserRules::FIRST_NAME,
-            'last_name'   => UserRules::LAST_NAME,
-            'email'       => ['required', 'string', 'max:255', 'unique:users', new Email()],
+            'first_name'  => UserRules::firstName(),
+            'last_name'   => UserRules::lastName(),
+            'email'       => ['required', 'string', 'max:255', new Email(), 'unique:users'],
             'password'    => 'required|string|min:6',
             'phone'       => ['required', 'string', new Phone()],
             'receive_sms' => 'sometimes|numeric',

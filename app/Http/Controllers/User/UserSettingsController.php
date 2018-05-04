@@ -8,6 +8,7 @@ use App\Services\User\UserSettingsServices;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 use Spatie\Activitylog\Models\Activity;
 
 class UserSettingsController extends Controller
@@ -18,8 +19,8 @@ class UserSettingsController extends Controller
     public function updateName(Request $request)
     {
         $data = $this->validate($request, [
-            'first_name' => UserRules::FIRST_NAME,
-            'last_name'  => UserRules::LAST_NAME,
+            'first_name' => UserRules::firstName(),
+            'last_name'  => UserRules::lastName(),
         ]);
 
         Auth::user()->update([
@@ -33,12 +34,24 @@ class UserSettingsController extends Controller
      */
     public function updateNotifications(Request $request)
     {
+        $user = Auth::user();
         $data = $this->validate($request, [
+            'email'                      => UserRules::emailUpdate($user),
             'receive_email_notification' => 'bool',
             'receive_other_emails'       => 'bool',
             'receive_sms'                => 'bool',
         ]);
 
+        // update user data
+        $userData = [];
+
+        if (strtolower($data['email']) !== $user->email) {
+            $userData['email'] = $data['email'];
+        }
+
+        $user->update($userData);
+
+        // update user notifications data
         app(UserSettingsServices::class)->updateNotifications(
             $data,
             Auth::user()->notificationSettings
