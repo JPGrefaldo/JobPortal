@@ -39,4 +39,6 @@ Route::middleware(['auth', 'crew'])->group(function () {
 
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::put('/admin/users/ban/{user}', 'Admin\AdminUsersController@updateBan');
+
+    Route::post('admin/departments', 'Admin\DepartmentsController@store');
 });

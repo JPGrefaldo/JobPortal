@@ -75,4 +75,18 @@ class StrUtilsTest extends TestCase
             StrUtils::formatPhone('201.886.0269')
         );
     }
+
+    /** @test */
+    public function convert_null()
+    {
+        $this->assertSame(
+            '',
+            StrUtils::convertNull(null)
+        );
+
+        $this->assertSame(
+            'some string',
+            StrUtils::convertNull('some string')
+        );
+    }
 }

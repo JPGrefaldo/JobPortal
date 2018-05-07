@@ -1,0 +1,52 @@
+<?php
+
+namespace Tests\Feature\Admin;
+
+use App\Models\Department;
+use Tests\Support\SeedDatabaseAfterRefresh;
+use Tests\TestCase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+
+class DepartmentsFeatureTest extends TestCase
+{
+    use RefreshDatabase, SeedDatabaseAfterRefresh;
+
+    /** @test */
+    public function test_create()
+    {
+        $user = $this->createAdmin();
+        $data = [
+            'name'        => 'Lighting',
+            'description' => 'Some Description',
+        ];
+
+        $response = $this->actingAs($user)->post('/admin/departments', $data);
+
+        $response->assertSuccessful();
+
+        $this->assertDatabaseHas('departments', [
+            'name'        => 'Lighting',
+            'description' => 'Some Description',
+        ]);
+    }
+
+    /** @test */
+    public function test_create_no_description()
+    {
+        $user = $this->createAdmin();
+        $data = [
+            'name'        => 'Lighting',
+            'description' => '',
+        ];
+
+        $response = $this->actingAs($user)->post('/admin/departments', $data);
+
+        $response->assertSuccessful();
+
+        $this->assertDatabaseHas('departments', [
+            'name'        => 'Lighting',
+            'description' => '',
+        ]);
+    }
+}

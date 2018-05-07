@@ -57,4 +57,14 @@ class StrUtils
             self::stripNonNumeric($value)
         );
     }
+
+    /**
+     * @param $value
+     *
+     * @return string
+     */
+    public static function convertNull($value)
+    {
+        return ($value === null) ? '' : $value;
+    }
 }

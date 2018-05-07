@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Models\Departments;
+use App\Models\Department;
 
 class DepartmentsTableSeeder extends Seeder
 {
@@ -12,10 +12,10 @@ class DepartmentsTableSeeder extends Seeder
      */
     public function run()
     {
-        Departments::create([
+        Department::create([
             'name' => 'Production'
         ]);
-        Departments::create([
+        Department::create([
             'name' => 'Camera'
         ]);
     }
