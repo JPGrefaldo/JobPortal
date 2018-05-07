@@ -15,6 +15,7 @@ class CreatePositionsTable extends Migration
     {
         Schema::create('positions', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('name');
             $table->integer('department_id')->unsigned()
                   ->foreign('department_id')
                   ->references('id')
