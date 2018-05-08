@@ -49,4 +49,39 @@ class DepartmentsFeatureTest extends TestCase
             'description' => '',
         ]);
     }
+
+    /** @test */
+    public function test_create_invalid_data()
+    {
+        $user = $this->createAdmin();
+        $data = [
+            'name'        => '',
+            'description' => '',
+        ];
+
+        $response = $this->actingAs($user)->post('/admin/departments', $data);
+
+        $response->assertSessionHasErrors([
+            'name' => 'The name field is required.'
+        ]);
+    }
+
+    /** @test */
+    public function test_create_duplicate_name()
+    {
+        $user = $this->createAdmin();
+
+        factory(Department::class)->create(['name' => 'Lighting']);
+
+        $data = [
+            'name'        => 'lighting',
+            'description' => '',
+        ];
+
+        $response = $this->actingAs($user)->post('/admin/departments', $data);
+
+        $response->assertSessionHasErrors([
+            'name' => 'The name has already been taken.'
+        ]);
+    }
 }

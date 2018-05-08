@@ -109,3 +109,10 @@ $factory->define(App\Models\CrewSocial::class, function (Faker $faker) {
         'social_link_type_id' => 1,
     ];
 });
+
+$factory->define(\App\Models\Department::class, function (Faker $faker) {
+    return [
+        'name' => $faker->words,
+        'description' => $faker->sentence
+    ];
+});

@@ -32,8 +32,6 @@ class DepartmentsServices
     }
 
     /**
-     * Format the data
-     *
      * @param array $data
      *
      * @return array
