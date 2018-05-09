@@ -56,11 +56,10 @@ $factory->define(App\Models\Crew::class, function (Faker $faker) {
 $factory->state(App\Models\Crew::class, 'PhotoUpload', function (Faker $faker) {
     return [
         'photo' => function () use ($faker) {
-            $tmpPhoto = $faker->image();
-            $path     = 'photos/' . $faker->uuid . '/' . basename($tmpPhoto);
+            $tmpFile = \Illuminate\Http\UploadedFile::fake()->image($faker->sha1 . '.png');
+            $path     = 'photos/' . $faker->uuid . '/' . $tmpFile->hashName();
 
-            Storage::put($path, file_get_contents($tmpPhoto));
-            unlink($tmpPhoto);
+            Storage::put($path, file_get_contents($tmpFile));
 
             return $path;
         },
