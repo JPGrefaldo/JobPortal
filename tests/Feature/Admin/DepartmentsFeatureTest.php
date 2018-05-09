@@ -51,6 +51,25 @@ class DepartmentsFeatureTest extends TestCase
     }
 
     /** @test */
+    public function test_create_formatted_name()
+    {
+        $user = $this->createAdmin();
+        $data = [
+            'name'        => 'Production sound',
+            'description' => 'Some description',
+        ];
+
+        $response = $this->actingAs($user)->post('/admin/departments', $data);
+
+        $response->assertSuccessful();
+
+        // assert that name is formatted
+        $department = Department::whereName('Production sound')->first();
+
+        $this->assertEquals('Production Sound', $department->name);
+    }
+
+    /** @test */
     public function test_create_invalid_data()
     {
         $user = $this->createAdmin();

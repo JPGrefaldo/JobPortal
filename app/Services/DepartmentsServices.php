@@ -38,6 +38,7 @@ class DepartmentsServices
      */
     public function formatData(array $data)
     {
+        $data['name']        = title_case($data['name']);
         $data['description'] = StrUtils::convertNull($data['description']);
 
         return $data;

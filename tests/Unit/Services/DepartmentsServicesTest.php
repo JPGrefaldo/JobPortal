@@ -60,26 +60,13 @@ class DepartmentsServicesTest extends TestCase
     {
         $this->assertSame(
             [
-                'name'        => 'Lighting',
-                'description' => 'Some Data',
-            ],
-            $this->service->formatData([
-                'name'        => 'Lighting',
-                'description' => 'Some Data',
-            ])
-        );
-
-        $this->assertSame(
-            [
-                'name'        => 'Lighting',
+                'name'        => 'Production Sound',
                 'description' => '',
             ],
             $this->service->formatData([
-                'name'        => 'Lighting',
+                'name'        => 'Production sound',
                 'description' => null,
             ])
         );
-
-
     }
 }
