@@ -146,7 +146,7 @@ class PositionsFeatureTest extends TestCase
             'has_union'     => 'asdasd',
         ];
 
-        $response = $this->actingAs($user)->put('admin/positions' . $position->id, $data);
+        $response = $this->actingAs($user)->put('admin/positions/' . $position->id, $data);
 
         $response->assertSessionHasErrors(
             [
