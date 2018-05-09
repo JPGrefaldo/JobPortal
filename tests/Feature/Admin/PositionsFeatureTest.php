@@ -133,4 +133,28 @@ class PositionsFeatureTest extends TestCase
 
         $response->assertRedirect('/');
     }
+
+    /** @test */
+    public function update_invalid_data()
+    {
+        $user = $this->createAdmin();
+        $position = factory(Position::class)->create();
+        $data = [
+            'name'          => '',
+            'department_id' => 999,
+            'has_gear'      => 'asdasd',
+            'has_union'     => 'asdasd',
+        ];
+
+        $response = $this->actingAs($user)->put('admin/positions' . $position->id, $data);
+
+        $response->assertSessionHasErrors(
+            [
+                'name', // is required
+                'department_id', // must exist in the departments table
+                'has_gear', // must be a boolean
+                'has_union' // must be a boolean
+            ]
+        );
+    }
 }

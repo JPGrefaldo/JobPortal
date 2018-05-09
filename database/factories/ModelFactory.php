@@ -116,3 +116,14 @@ $factory->define(\App\Models\Department::class, function (Faker $faker) {
         'description' => $faker->sentence,
     ];
 });
+
+$factory->define(\App\Models\Position::class, function (Faker $faker) {
+    return [
+        'name'          => $faker->words(2, true),
+        'department_id' => function () {
+            return factory(\App\Models\Department::class)->create()->id;
+        },
+        'has_gear'      => 0,
+        'has_union'     => 0,
+    ];
+});
