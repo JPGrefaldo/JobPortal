@@ -44,4 +44,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
         Route::post('/', 'Admin\DepartmentsController@store');
         Route::put('/{department}', 'Admin\DepartmentsController@update');
     });
+
+    Route::prefix('/admin/positions')->group(function() {
+        Route::post('/', 'Admin\PositionsController@store');
+    });
 });
