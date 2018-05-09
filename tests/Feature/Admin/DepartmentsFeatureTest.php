@@ -13,7 +13,7 @@ class DepartmentsFeatureTest extends TestCase
     use RefreshDatabase, SeedDatabaseAfterRefresh;
 
     /** @test */
-    public function test_create()
+    public function create()
     {
         $user = $this->createAdmin();
         $data = [
@@ -32,7 +32,7 @@ class DepartmentsFeatureTest extends TestCase
     }
 
     /** @test */
-    public function test_create_no_description()
+    public function create_no_description()
     {
         $user = $this->createAdmin();
         $data = [
@@ -51,7 +51,7 @@ class DepartmentsFeatureTest extends TestCase
     }
 
     /** @test */
-    public function test_create_formatted_name()
+    public function create_formatted_name()
     {
         $user = $this->createAdmin();
         $data = [
@@ -70,7 +70,7 @@ class DepartmentsFeatureTest extends TestCase
     }
 
     /** @test */
-    public function test_create_invalid_data()
+    public function create_invalid_data()
     {
         $user = $this->createAdmin();
         $data = [
@@ -86,12 +86,11 @@ class DepartmentsFeatureTest extends TestCase
     }
 
     /** @test */
-    public function test_create_duplicate_name()
+    public function create_duplicate_name()
     {
-        $user = $this->createAdmin();
-
         factory(Department::class)->create(['name' => 'Lighting']);
 
+        $user = $this->createAdmin();
         $data = [
             'name'        => 'lighting',
             'description' => '',
@@ -116,16 +115,12 @@ class DepartmentsFeatureTest extends TestCase
 
         $response = $this->actingAs($user)->put('/admin/departments/' . $department->id, $data);
 
-        tap($response, function ($response) {
-            $response->assertSuccessful();
-        });
+        $response->assertSuccessful();
 
-        tap($department->refresh(), function ($department) {
-            $this->assertArraySubset([
-                'name'        => 'New Name',
-                'description' => 'New Description',
-            ], $department->toArray());
-        });
+        $this->assertArraySubset([
+            'name'        => 'New Name',
+            'description' => 'New Description',
+        ], $department->refresh()->toArray());
     }
 
     /** @test */
@@ -140,16 +135,12 @@ class DepartmentsFeatureTest extends TestCase
 
         $response = $this->actingAs($user)->put('/admin/departments/' . $department->id, $data);
 
-        tap($response, function ($response) {
-            $response->assertSuccessful();
-        });
+        $response->assertSuccessful();
 
-        tap($department->refresh(), function ($department) {
-            $this->assertArraySubset([
-                'name'        => 'New Name',
-                'description' => '',
-            ], $department->toArray());
-        });
+        $this->assertArraySubset([
+            'name'        => 'New Name',
+            'description' => '',
+        ], $department->refresh()->toArray());
     }
 
     /** @test */
@@ -164,16 +155,12 @@ class DepartmentsFeatureTest extends TestCase
 
         $response = $this->actingAs($user)->put('/admin/departments/' . $department->id, $data);
 
-        tap($response, function ($response) {
-            $response->assertSuccessful();
-        });
+        $response->assertSuccessful();
 
-        tap($department->refresh(), function ($department) {
-            $this->assertArraySubset([
-                'name'        => 'New Name',
-                'description' => '',
-            ], $department->toArray());
-        });
+        $this->assertArraySubset([
+            'name'        => 'New Name',
+            'description' => '',
+        ], $department->refresh()->toArray());
     }
 
     /** @test */
@@ -188,16 +175,12 @@ class DepartmentsFeatureTest extends TestCase
 
         $response = $this->actingAs($user)->put('/admin/departments/' . $department->id, $data);
 
-        tap($response, function ($response) {
-            $response->assertSuccessful();
-        });
+        $response->assertSuccessful();
 
-        tap($department->refresh(), function ($department) {
-            $this->assertArraySubset([
-                'name'        => 'Same Name',
-                'description' => 'Same Description',
-            ], $department->toArray());
-        });
+        $this->assertArraySubset([
+            'name'        => 'Same Name',
+            'description' => 'Same Description',
+        ], $department->refresh()->toArray());
     }
 
     /** @test */

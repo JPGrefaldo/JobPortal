@@ -2,20 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\DepartmentsRequest;
 use App\Models\Department;
 use App\Services\DepartmentsServices;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class DepartmentsController extends Controller
 {
-    public function store(Request $request)
+    /**
+     * @param \App\Http\Requests\Admin\DepartmentsRequest $request
+     */
+    public function store(DepartmentsRequest $request)
     {
-        $data = $this->validate($request, [
-            'name'        => ['required', 'string', 'max:255', 'unique:departments'],
-            'description' => ['nullable', 'string'],
-        ]);
+        $data = $request->validated();
 
         app(DepartmentsServices::class)->create($data);
     }
