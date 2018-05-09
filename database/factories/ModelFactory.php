@@ -32,9 +32,9 @@ $factory->define(App\Models\User::class, function (Faker $faker) {
     ];
 });
 
-$factory->define(\App\Models\UserNotificationSetting::class, function(Faker $faker) {
+$factory->define(\App\Models\UserNotificationSetting::class, function (Faker $faker) {
     return [
-        'user_id' => function() {
+        'user_id'                    => function () {
             return factory(\App\Models\User::class)->create()->id;
         },
         'receive_email_notification' => 1,
@@ -102,7 +102,7 @@ $factory->define(App\Models\CrewReel::class, function (Faker $faker) {
 
 $factory->define(App\Models\CrewSocial::class, function (Faker $faker) {
     return [
-        'crew_id' => function () {
+        'crew_id'             => function () {
             return factory(\App\Models\Crew::class)->create()->id;
         },
         'url'                 => $faker->url,
@@ -112,7 +112,7 @@ $factory->define(App\Models\CrewSocial::class, function (Faker $faker) {
 
 $factory->define(\App\Models\Department::class, function (Faker $faker) {
     return [
-        'name' => $faker->words,
-        'description' => $faker->sentence
+        'name'        => $faker->words(2, true),
+        'description' => $faker->sentence,
     ];
 });

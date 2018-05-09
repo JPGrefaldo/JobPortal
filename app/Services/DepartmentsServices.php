@@ -22,6 +22,21 @@ class DepartmentsServices
     }
 
     /**
+     * @param array                  $data
+     * @param \App\Models\Department $department
+     *
+     * @return \App\Models\Department
+     */
+    public function update(array $data, Department $department)
+    {
+        $data = $this->formatData($this->filterData($data));
+
+        $department->update($data);
+
+        return $department;
+    }
+
+    /**
      * @param array $data
      *
      * @return array

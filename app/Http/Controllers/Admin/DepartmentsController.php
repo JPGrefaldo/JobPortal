@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\Admin\DepartmentsRequest;
 use App\Models\Department;
 use App\Services\DepartmentsServices;
 use Illuminate\Http\Request;
@@ -17,5 +18,16 @@ class DepartmentsController extends Controller
         ]);
 
         app(DepartmentsServices::class)->create($data);
+    }
+
+    /**
+     * @param \App\Http\Requests\Admin\DepartmentsRequest $request
+     * @param \App\Models\Department                      $department
+     */
+    public function update(DepartmentsRequest $request, Department $department)
+    {
+        $data = $request->validated();
+
+        app(DepartmentsServices::class)->update($data, $department);
     }
 }

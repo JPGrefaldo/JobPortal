@@ -81,7 +81,7 @@ class DepartmentsFeatureTest extends TestCase
         $response = $this->actingAs($user)->post('/admin/departments', $data);
 
         $response->assertSessionHasErrors([
-            'name' => 'The name field is required.'
+            'name' => 'The name field is required.',
         ]);
     }
 
@@ -100,7 +100,139 @@ class DepartmentsFeatureTest extends TestCase
         $response = $this->actingAs($user)->post('/admin/departments', $data);
 
         $response->assertSessionHasErrors([
-            'name' => 'The name has already been taken.'
+            'name' => 'The name has already been taken.',
+        ]);
+    }
+
+    /** @test */
+    public function update()
+    {
+        $user       = $this->createAdmin();
+        $department = factory(Department::class)->create();
+        $data       = [
+            'name'        => 'New Name',
+            'description' => 'New Description',
+        ];
+
+        $response = $this->actingAs($user)->put('/admin/departments/' . $department->id, $data);
+
+        tap($response, function ($response) {
+            $response->assertSuccessful();
+        });
+
+        tap($department->refresh(), function ($department) {
+            $this->assertArraySubset([
+                'name'        => 'New Name',
+                'description' => 'New Description',
+            ], $department->toArray());
+        });
+    }
+
+    /** @test */
+    public function update_no_description()
+    {
+        $user       = $this->createAdmin();
+        $department = factory(Department::class)->create();
+        $data       = [
+            'name'        => 'New Name',
+            'description' => '',
+        ];
+
+        $response = $this->actingAs($user)->put('/admin/departments/' . $department->id, $data);
+
+        tap($response, function ($response) {
+            $response->assertSuccessful();
+        });
+
+        tap($department->refresh(), function ($department) {
+            $this->assertArraySubset([
+                'name'        => 'New Name',
+                'description' => '',
+            ], $department->toArray());
+        });
+    }
+
+    /** @test */
+    public function update_formatted_name()
+    {
+        $user       = $this->createAdmin();
+        $department = factory(Department::class)->create();
+        $data       = [
+            'name'        => 'new name',
+            'description' => '',
+        ];
+
+        $response = $this->actingAs($user)->put('/admin/departments/' . $department->id, $data);
+
+        tap($response, function ($response) {
+            $response->assertSuccessful();
+        });
+
+        tap($department->refresh(), function ($department) {
+            $this->assertArraySubset([
+                'name'        => 'New Name',
+                'description' => '',
+            ], $department->toArray());
+        });
+    }
+
+    /** @test */
+    public function update_same()
+    {
+        $user       = $this->createAdmin();
+        $data       = [
+            'name'        => 'Same Name',
+            'description' => 'Same Description',
+        ];
+        $department = factory(Department::class)->create($data);
+
+        $response = $this->actingAs($user)->put('/admin/departments/' . $department->id, $data);
+
+        tap($response, function ($response) {
+            $response->assertSuccessful();
+        });
+
+        tap($department->refresh(), function ($department) {
+            $this->assertArraySubset([
+                'name'        => 'Same Name',
+                'description' => 'Same Description',
+            ], $department->toArray());
+        });
+    }
+
+    /** @test */
+    public function update_invalid_data()
+    {
+        $user       = $this->createAdmin();
+        $department = factory(Department::class)->create();
+        $data       = [
+            'name'        => '',
+            'description' => '',
+        ];
+
+        $response = $this->actingAs($user)->put('/admin/departments/' . $department->id, $data);
+
+        $response->assertSessionHasErrors([
+            'name' => 'The name field is required.',
+        ]);
+    }
+
+    /** @test */
+    public function update_duplicate_name()
+    {
+        factory(Department::class)->create(['name' => 'Lighting']);
+
+        $user       = $this->createAdmin();
+        $department = factory(Department::class)->create();
+        $data       = [
+            'name'        => 'lighting',
+            'description' => '',
+        ];
+
+        $response = $this->actingAs($user)->put('/admin/departments/' . $department->id, $data);
+
+        $response->assertSessionHasErrors([
+            'name' => 'The name has already been taken.',
         ]);
     }
 }

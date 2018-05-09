@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Services;
 
+use App\Models\Department;
 use App\Services\DepartmentsServices;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -24,9 +25,9 @@ class DepartmentsServicesTest extends TestCase
     }
 
     /** @test */
-    public function test_create()
+    public function create()
     {
-        $department = $this->service->create([
+        $this->service->create([
             'name'        => 'Lighting',
             'description' => 'Some Description',
         ]);
@@ -67,6 +68,28 @@ class DepartmentsServicesTest extends TestCase
                 'name'        => 'Production sound',
                 'description' => null,
             ])
+        );
+    }
+
+    /** @test */
+    public function update()
+    {
+        $department = factory(Department::class)->create();
+        $data       = [
+            'name'        => 'New Name',
+            'description' => 'New Description',
+        ];
+
+        $this->service->update($data, $department);
+
+        $department->refresh();
+
+        $this->assertArraySubset(
+            [
+                'name'        => 'New Name',
+                'description' => 'New Description',
+            ],
+            $department->toArray()
         );
     }
 }
