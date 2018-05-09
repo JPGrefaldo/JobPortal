@@ -20,8 +20,15 @@ class PositionsController extends Controller
         app(PositionsServices::class)->create($data);
     }
 
+    /**
+     * @param \App\Http\Requests\Admin\PositionsRequest $request
+     * @param \App\Models\Position                      $position
+     *
+     */
     public function update(PositionsRequest $request, Position $position)
     {
         $data = $request->validated();
+
+        app(PositionsServices::class)->update($data, $position);
     }
 }

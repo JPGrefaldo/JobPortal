@@ -21,6 +21,21 @@ class PositionsServices
     }
 
     /**
+     * @param array                $data
+     * @param \App\Models\Position $position
+     *
+     * @return \App\Models\Position
+     */
+    public function update(array $data, Position $position)
+    {
+        $data = $this->prepareData($this->filterData($data));
+
+        $position->update($data);
+
+        return $position;
+    }
+
+    /**
      * @param array $data
      *
      * @return array

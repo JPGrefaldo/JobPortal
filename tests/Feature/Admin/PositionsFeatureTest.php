@@ -135,6 +135,100 @@ class PositionsFeatureTest extends TestCase
     }
 
     /** @test */
+    public function update()
+    {
+        $user = $this->createAdmin();
+        $position = factory(Position::class)->create();
+        $data = [
+            'name'          => 'Updated Position',
+            'department_id' => DepartmentID::PRODUCTION,
+            'has_gear'      => 1,
+            'has_union'     => 1,
+        ];
+
+        $response = $this->actingAs($user)->put('admin/positions/' . $position->id, $data);
+
+        $response->assertSuccessful();
+
+        $this->assertArraySubset([
+            'name'          => 'Updated Position',
+            'department_id' => DepartmentID::PRODUCTION,
+            'has_gear'      => true,
+            'has_union'     => true,
+        ], $position->refresh()->toArray());
+    }
+
+    /** @test */
+    public function update_not_required()
+    {
+        $user = $this->createAdmin();
+        $position = factory(Position::class)->create();
+        $data = [
+            'name'          => 'Updated Position',
+            'department_id' => DepartmentID::PRODUCTION,
+        ];
+
+        $response = $this->actingAs($user)->put('admin/positions/' . $position->id, $data);
+
+        $response->assertSuccessful();
+
+        $this->assertArraySubset([
+            'name'          => 'Updated Position',
+            'department_id' => DepartmentID::PRODUCTION,
+            'has_gear'      => false,
+            'has_union'     => false,
+        ], $position->refresh()->toArray());
+    }
+
+    /** @test */
+    public function update_formatted_name()
+    {
+        $user = $this->createAdmin();
+        $position = factory(Position::class)->create();
+        $data = [
+            'name'          => 'updated position',
+            'department_id' => DepartmentID::PRODUCTION,
+            'has_gear'      => true,
+            'has_union'     => true,
+        ];
+
+        $response = $this->actingAs($user)->put('admin/positions/' . $position->id, $data);
+
+        $response->assertSuccessful();
+
+        $this->assertArraySubset([
+            'name'          => 'Updated Position', // name is formatted
+            'department_id' => DepartmentID::PRODUCTION,
+            'has_gear'      => true,
+            'has_union'     => true,
+        ], $position->refresh()->toArray());
+    }
+
+    /** @test */
+    public function update_same()
+    {
+        $user = $this->createAdmin();
+        $data = [
+            'name'          => 'Updated Position',
+            'department_id' => DepartmentID::PRODUCTION,
+            'has_gear'      => true,
+            'has_union'     => true,
+        ];
+        $position = factory(Position::class)->create($data);
+
+        $response = $this->actingAs($user)->put('admin/positions/' . $position->id, $data);
+
+        $response->assertSuccessful();
+
+        $this->assertArraySubset([
+            'name'          => 'Updated Position',
+            'department_id' => DepartmentID::PRODUCTION,
+            'has_gear'      => true,
+            'has_union'     => true,
+        ], $position->refresh()->toArray());
+    }
+
+    /** @test */
     public function update_invalid_data()
     {
         $user = $this->createAdmin();
@@ -156,5 +250,38 @@ class PositionsFeatureTest extends TestCase
                 'has_union' // must be a boolean
             ]
         );
+    }
+
+    /** @test */
+    public function update_not_exist()
+    {
+        $user = $this->createAdmin();
+        $data = [
+            'name'          => 'Updated Position',
+            'department_id' => DepartmentID::PRODUCTION,
+            'has_gear'      => true,
+            'has_union'     => true,
+        ];
+
+        $response = $this->actingAs($user)->put('admin/positions/999', $data);
+
+        $response->assertNotFound();
+    }
+
+    /** @test */
+    public function update_unauthorized()
+    {
+        $user = $this->createCrewUser();
+        $data = [
+            'name'          => 'Updated Position',
+            'department_id' => DepartmentID::PRODUCTION,
+            'has_gear'      => true,
+            'has_union'     => true,
+        ];
+        $position = factory(Position::class)->create($data);
+
+        $response = $this->actingAs($user)->put('admin/positions/' . $position->id, $data);
+
+        $response->assertRedirect('/');
     }
 }
