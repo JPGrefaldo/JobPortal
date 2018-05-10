@@ -56,16 +56,12 @@ class UserTest extends TestCase
          * For phone mutations see \Tests\Unit\Utils\StrUtilsTest::format_phone
          */
         $user->update([
-            'first_name' => 'JoHN JaMES',
-            'last_name'  => 'DOE',
             'email'      => 'mYemaiL@gmaiL.com',
             'phone'      => '201-886-0269',
         ]);
 
         $this->assertDatabaseHas('users', [
             'id'         => $user->id,
-            'first_name' => 'John James',
-            'last_name'  => 'Doe',
             'email'      => 'myemail@gmail.com',
             'phone'      => '(201) 886-0269'
         ]);

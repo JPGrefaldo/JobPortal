@@ -28,8 +28,8 @@ class UsersServicesTest extends TestCase
     /** @test */
     public function create()
     {
-        $fakerUser = factory(User::class)->make();
-        $userData = [
+        $fakerUser                = factory(User::class)->make();
+        $userData                 = [
             'first_name' => $fakerUser->first_name,
             'last_name'  => $fakerUser->last_name,
             'email'      => $fakerUser->email,
@@ -37,7 +37,7 @@ class UsersServicesTest extends TestCase
             'phone'      => $fakerUser->phone,
         ];
         $notificationSettingsData = [
-            'receive_sms' => 1
+            'receive_sms' => 1,
         ];
 
 
@@ -74,8 +74,8 @@ class UsersServicesTest extends TestCase
     /** @test */
     public function create_no_receive_sms()
     {
-        $fakerUser = factory(User::class)->make();
-        $userData = [
+        $fakerUser                = factory(User::class)->make();
+        $userData                 = [
             'first_name' => $fakerUser->first_name,
             'last_name'  => $fakerUser->last_name,
             'email'      => $fakerUser->email,
@@ -96,5 +96,31 @@ class UsersServicesTest extends TestCase
             ],
             $user->notificationSettings->toArray()
         );
+    }
+
+    /** @test */
+    public function update_name()
+    {
+        $user = $this->createUser();
+
+        $user = $this->service->updateName('John James', 'Doe', $user);
+
+        $this->assertArraySubset([
+            'first_name' => 'John James',
+            'last_name'  => 'Doe'
+        ], $user->refresh()->toArray());
+    }
+
+    /** @test */
+    public function update_name_formatted()
+    {
+        $user = $this->createUser();
+
+        $user = $this->service->updateName('JoHn jAMES', "O'neal", $user);
+
+        $this->assertArraySubset([
+            'first_name' => 'John James',
+            'last_name'  => "O'Neal"
+        ], $user->refresh()->toArray());
     }
 }

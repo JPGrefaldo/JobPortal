@@ -18,46 +18,42 @@ class UserSettingsFeatureTest extends TestCase
     {
         $user = $this->createUser();
         $data = [
-            'first_name' => 'AdAm james',
-            'last_name'  => 'FOrd',
+            'first_name' => 'Adam James',
+            'last_name'  => 'Ford',
         ];
 
         $response = $this->actingAs($user)->put('/account/settings/name', $data);
 
         $response->assertSuccessful();
-
-        $user->refresh();
 
         $this->assertArraySubset(
             [
                 'first_name' => 'Adam James',
                 'last_name'  => 'Ford',
             ],
-            $user->toArray()
+            $user->refresh()->toArray()
         );
     }
 
     /** @test */
-    public function update_name_first_name_only()
+    public function update_name_formatted()
     {
         $user = $this->createUser();
         $data = [
-            'first_name' => 'AdAm james',
-            'last_name'  => $user->last_name,
+            'first_name' => 'JoHn doe',
+            'last_name'  => "O'neal",
         ];
 
         $response = $this->actingAs($user)->put('/account/settings/name', $data);
 
         $response->assertSuccessful();
 
-        $user->refresh();
-
         $this->assertArraySubset(
             [
-                'first_name' => 'Adam James',
-                'last_name'  => $user->last_name,
+                'first_name' => 'JoHn jAMES',
+                'last_name'  => "O'Neal"
             ],
-            $user->toArray()
+            $user->refresh()->toArray()
         );
     }
 
@@ -72,7 +68,10 @@ class UserSettingsFeatureTest extends TestCase
 
         $response = $this->actingAs($user)->put('/account/settings/name', $data);
 
-        $response->assertSessionHasErrors(['first_name', 'last_name']);
+        $response->assertSessionHasErrors([
+            'first_name', // a-z'- and space chars are only allowed
+            'last_name' // a-z- and space chars are only allowed
+        ]);
     }
 
     /** @test */

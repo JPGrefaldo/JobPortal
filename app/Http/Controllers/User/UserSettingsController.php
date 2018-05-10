@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Rules\UserRules;
+use App\Services\UsersServices;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -20,10 +21,11 @@ class UserSettingsController extends Controller
             'last_name'  => UserRules::lastName(),
         ]);
 
-        Auth::user()->update([
-            'first_name' => $data['first_name'],
-            'last_name'  => $data['last_name'],
-        ]);
+        app(UsersServices::class)->updateName(
+            $data['first_name'],
+            $data['last_name'],
+            Auth::user()
+        );
     }
 
     /**

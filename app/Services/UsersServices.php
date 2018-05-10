@@ -34,4 +34,31 @@ class UsersServices
 
         return $user;
     }
+
+    /**
+     * @param string           $firstName
+     * @param string           $lastName
+     * @param \App\Models\User $user
+     *
+     * @return \App\Models\User
+     */
+    public function updateName(string $firstName, string $lastName, User $user)
+    {
+        $user->update([
+            'first_name' => $this->formatName($firstName),
+            'last_name'  => $this->formatName($lastName),
+        ]);
+
+        return $user;
+    }
+
+    /**
+     * @param $value
+     *
+     * @return string
+     */
+    public function formatName($value)
+    {
+        return StrUtils::formatName($value);
+    }
 }

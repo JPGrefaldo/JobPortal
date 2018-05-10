@@ -141,26 +141,6 @@ class User extends Authenticatable
     }
 
     /**
-     * Mutator for first_name
-     *
-     * @param $value
-     */
-    public function setFirstNameAttribute($value)
-    {
-        $this->attributes['first_name'] = StrUtils::formatName($value);
-    }
-
-    /**
-     * Mutator for last_name
-     *
-     * @param $value
-     */
-    public function setLastNameAttribute($value)
-    {
-        $this->attributes['last_name'] = StrUtils::formatName($value);
-    }
-
-    /**
      * Mutator for last_name
      *
      * @param $value
