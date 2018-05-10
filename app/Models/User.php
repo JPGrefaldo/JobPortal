@@ -147,7 +147,7 @@ class User extends Authenticatable
      */
     public function setFirstNameAttribute($value)
     {
-        $this->attributes['first_name'] = ucwords(strtolower($value));
+        $this->attributes['first_name'] = StrUtils::formatName($value);
     }
 
     /**
@@ -157,7 +157,7 @@ class User extends Authenticatable
      */
     public function setLastNameAttribute($value)
     {
-        $this->attributes['last_name'] = ucfirst(strtolower($value));
+        $this->attributes['last_name'] = StrUtils::formatName($value);
     }
 
     /**
