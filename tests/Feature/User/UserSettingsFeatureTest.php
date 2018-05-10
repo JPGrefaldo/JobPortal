@@ -40,7 +40,7 @@ class UserSettingsFeatureTest extends TestCase
     {
         $user = $this->createUser();
         $data = [
-            'first_name' => 'JoHn doe',
+            'first_name' => 'JoHn jAMES',
             'last_name'  => "O'neal",
         ];
 
@@ -50,7 +50,7 @@ class UserSettingsFeatureTest extends TestCase
 
         $this->assertArraySubset(
             [
-                'first_name' => 'JoHn jAMES',
+                'first_name' => 'John James',
                 'last_name'  => "O'Neal"
             ],
             $user->refresh()->toArray()
