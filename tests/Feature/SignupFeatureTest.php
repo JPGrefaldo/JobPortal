@@ -84,7 +84,7 @@ class SignupFeatureTest extends TestCase
     }
 
     /** @test */
-    public function signup_no_receive_sms()
+    public function signup_crew_no_receive_sms()
     {
         Mail::fake();
 
@@ -99,6 +99,25 @@ class SignupFeatureTest extends TestCase
         $response = $this->post('signup', $data);
 
         $this->assertSignupSuccess($response, array_merge($data, ['receive_sms' => 0]));
+    }
+
+    /** @test */
+    public function signup_producer_no_receive_sms()
+    {
+        Mail::fake();
+
+        $data = array_merge($this->makeFakeUser()->toArray(), [
+            'password'    => 'password',
+            'type'        => Role::PRODUCER,
+            '_token'      => csrf_token(),
+        ]);
+
+        Hash::shouldReceive('make')->once()->andReturn('hashed_password');
+
+        $response = $this->post('signup', $data);
+
+        // if the user is a producer receive_sms is a must
+        $this->assertSignupSuccess($response, array_merge($data, ['receive_sms' => 1]));
     }
 
     /** @test */

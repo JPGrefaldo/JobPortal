@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserSignupRequest;
+use App\Models\Role;
 use App\Models\UserNotificationSetting;
 use App\Services\AuthServices;
 use App\Services\UsersServices;
@@ -32,10 +33,9 @@ class UserSignupController extends Controller
             'phone',
         ]));
 
-        // @temp
         UserNotificationSetting::create([
             'user_id'     => $user->id,
-            'receive_sms' => array_get($data, 'receive_sms', 0),
+            'receive_sms' => ($data['type'] === Role::PRODUCER) ? 1 : array_get($data, 'receive_sms', 0),
         ]);
 
         app(AuthServices::class)->createByRoleName(
