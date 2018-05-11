@@ -139,24 +139,4 @@ class User extends Authenticatable
         return $this->sites()->get()
                     ->contains('hostname', $hostname);
     }
-
-    /**
-     * Mutator for last_name
-     *
-     * @param $value
-     */
-    public function setEmailAttribute($value)
-    {
-        $this->attributes['email'] = strtolower($value);
-    }
-
-    /**
-     * Mutator for last_name
-     *
-     * @param $value
-     */
-    public function setPhoneAttribute($value)
-    {
-        $this->attributes['phone'] = StrUtils::formatPhone($value);
-    }
 }

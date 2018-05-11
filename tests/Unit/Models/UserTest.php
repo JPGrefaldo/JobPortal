@@ -46,24 +46,4 @@ class UserTest extends TestCase
         $this->assertEquals(1, $user->sites->count());
         $this->assertEquals($site->name, $user->sites->first()->name);
     }
-
-    /** @test */
-    public function mutators()
-    {
-        $user = $this->createUser();
-
-        /**
-         * For phone mutations see \Tests\Unit\Utils\StrUtilsTest::format_phone
-         */
-        $user->update([
-            'email'      => 'mYemaiL@gmaiL.com',
-            'phone'      => '201-886-0269',
-        ]);
-
-        $this->assertDatabaseHas('users', [
-            'id'         => $user->id,
-            'email'      => 'myemail@gmail.com',
-            'phone'      => '(201) 886-0269'
-        ]);
-    }
 }

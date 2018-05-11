@@ -12,27 +12,32 @@ use Illuminate\Support\Str;
 class UsersServices
 {
     /**
-     * @param array $userData
-     * @param array $notificationSettingsData
+     * @param array $data
      *
      * @return \App\Models\User
      */
-    public function create(array $userData, array $notificationSettingsData)
+    public function create(array $data)
     {
-        $user = User::create([
-            'uuid'       => Str::uuid(),
-            'first_name' => $userData['first_name'],
-            'last_name'  => $userData['last_name'],
-            'email'      => $userData['email'],
-            'password'   => Hash::make($userData['password']),
-            'phone'      => $userData['phone'],
-        ]);
+        $data         = $this->prepareData($data);
+        $data['uuid'] = Str::uuid();
 
-        $notificationSettingsData['receive_sms'] = $notificationSettingsData['receive_sms'] ?? 0;
+        return User::create($data);
+    }
 
-        $user->notificationSettings()->create($notificationSettingsData);
+    /**
+     * @param array $data
+     *
+     * @return array
+     */
+    public function prepareData(array $data)
+    {
+        $data['first_name'] = $this->formatName($data['first_name']);
+        $data['last_name']  = $this->formatName($data['last_name']);
+        $data['email']      = $this->formatEmail($data['email']);
+        $data['password']   = $this->hashPassword($data['password']);
+        $data['phone']      = $this->formatPhone($data['phone']);
 
-        return $user;
+        return $data;
     }
 
     /**
@@ -57,8 +62,38 @@ class UsersServices
      *
      * @return string
      */
-    public function formatName($value)
+    public function formatName(string $value)
     {
         return StrUtils::formatName($value);
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return string
+     */
+    public function formatEmail(string $value)
+    {
+        return strtolower($value);
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return string
+     */
+    public function hashPassword(string $value)
+    {
+        return Hash::make($value);
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return string
+     */
+    public function formatPhone(string $value)
+    {
+        return StrUtils::formatPhone($value);
     }
 }

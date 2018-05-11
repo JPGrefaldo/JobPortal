@@ -28,74 +28,33 @@ class UsersServicesTest extends TestCase
     /** @test */
     public function create()
     {
-        $fakerUser                = factory(User::class)->make();
-        $userData                 = [
+        $fakerUser = factory(User::class)->make();
+        $data      = [
             'first_name' => $fakerUser->first_name,
             'last_name'  => $fakerUser->last_name,
             'email'      => $fakerUser->email,
             'password'   => 'some_password',
             'phone'      => $fakerUser->phone,
         ];
-        $notificationSettingsData = [
-            'receive_sms' => 1,
-        ];
-
 
         Hash::shouldReceive('make')->once()->andReturn('hashed_password');
 
-        $this->service->create($userData, $notificationSettingsData);
+        $this->service->create($data);
 
-        $this->assertDatabaseHas('users', [
+        $user = User::whereEmail($fakerUser->email)->first();
+
+        $this->assertArraySubset([
             'first_name' => $fakerUser->first_name,
             'last_name'  => $fakerUser->last_name,
             'email'      => $fakerUser->email,
             'phone'      => $fakerUser->phone,
             'password'   => 'hashed_password',
             'status'     => 1,
-            'confirmed'  => 0,
-        ]);
-
-        $user = User::where('email', $fakerUser->email)->first();
+            'confirmed'  => false,
+        ], $user->makeVisible('password')->toArray());
 
         // assert the the user has a UUID
         $this->assertEquals(36, strlen($user->uuid));
-
-        // assert that the user has user settings
-        $this->assertArraySubset(
-            [
-                'receive_email_notification' => 1,
-                'receive_other_emails'       => 1,
-                'receive_sms'                => 1,
-            ],
-            $user->notificationSettings->toArray()
-        );
-    }
-
-    /** @test */
-    public function create_no_receive_sms()
-    {
-        $fakerUser                = factory(User::class)->make();
-        $userData                 = [
-            'first_name' => $fakerUser->first_name,
-            'last_name'  => $fakerUser->last_name,
-            'email'      => $fakerUser->email,
-            'password'   => 'some_password',
-            'phone'      => $fakerUser->phone,
-        ];
-        $notificationSettingsData = [];
-
-        $this->service->create($userData, $notificationSettingsData);
-
-        $user = User::where('email', $fakerUser->email)->first();
-
-        $this->assertArraySubset(
-            [
-                'receive_email_notification' => 1,
-                'receive_other_emails'       => 1,
-                'receive_sms'                => 0,
-            ],
-            $user->notificationSettings->toArray()
-        );
     }
 
     /** @test */
@@ -107,7 +66,7 @@ class UsersServicesTest extends TestCase
 
         $this->assertArraySubset([
             'first_name' => 'John James',
-            'last_name'  => 'Doe'
+            'last_name'  => 'Doe',
         ], $user->refresh()->toArray());
     }
 
@@ -120,7 +79,7 @@ class UsersServicesTest extends TestCase
 
         $this->assertArraySubset([
             'first_name' => 'John James',
-            'last_name'  => "O'Neal"
+            'last_name'  => "O'Neal",
         ], $user->refresh()->toArray());
     }
 }
