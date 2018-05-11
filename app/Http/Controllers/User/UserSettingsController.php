@@ -43,13 +43,7 @@ class UserSettingsController extends Controller
         ]);
 
         // update user data
-        $userData = ['phone' => $data['phone']];
-
-        if (strtolower($data['email']) !== $user->email) {
-            $userData['email'] = $data['email'];
-        }
-
-        $user->update($userData);
+        app(UsersServices::class)->updateContact($data['email'], $data['phone'], $user);
 
         // update user notifications data
         $user->notificationSettings->update([

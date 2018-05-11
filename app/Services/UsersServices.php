@@ -58,6 +58,24 @@ class UsersServices
     }
 
     /**
+     * @param string           $email
+     * @param string           $phone
+     *
+     * @param \App\Models\User $user
+     *
+     * @return \App\Models\User
+     */
+    public function updateContact(string $email, string $phone, User $user)
+    {
+        $user->update([
+            'email' => $this->formatEmail($email),
+            'phone' => $this->formatPhone($phone),
+        ]);
+
+        return $user;
+    }
+
+    /**
      * @param $value
      *
      * @return string

@@ -51,7 +51,7 @@ class UserSettingsFeatureTest extends TestCase
         $this->assertArraySubset(
             [
                 'first_name' => 'John James',
-                'last_name'  => "O'Neal"
+                'last_name'  => "O'Neal",
             ],
             $user->refresh()->toArray()
         );
@@ -211,6 +211,42 @@ class UserSettingsFeatureTest extends TestCase
             [
                 'receive_email_notification' => false,
                 'receive_other_emails'       => true,
+                'receive_sms'                => false,
+            ],
+            $user->notificationSettings->toArray()
+        );
+    }
+
+    /** @test */
+    public function update_notifications_format_user_details()
+    {
+        $user = $this->createUser();
+
+        factory(UserNotificationSetting::class)->create([
+            'user_id' => $user->id,
+        ]);
+
+        $data = [
+            'email' => 'UPPER@gmail.com',
+            'phone' => '888.937.7238',
+        ];
+
+        $response = $this->actingAs($user)->put('/account/settings/notifications', $data);
+
+        $response->assertSuccessful();
+
+        $this->assertArraySubset(
+            [
+                'email' => 'upper@gmail.com',
+                'phone' => '(888) 937-7238',
+            ],
+            $user->refresh()->toArray()
+        );
+
+        $this->assertArraySubset(
+            [
+                'receive_email_notification' => false,
+                'receive_other_emails'       => false,
                 'receive_sms'                => false,
             ],
             $user->notificationSettings->toArray()
