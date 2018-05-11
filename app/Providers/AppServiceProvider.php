@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Database\SQLiteSchemaGrammar;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +14,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->setSqliteSchemaGrammarOnMigrate();
     }
 
     /**
@@ -23,6 +24,22 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+    }
+
+    /**
+     * On MySQL databases, Varchars are case insensitive on search by default.
+     * To replicate this on sqlite, we need to register a custom grammar to
+     * put COLLATE NOCASE on string types on column creation.
+     */
+    protected function setSqliteSchemaGrammarOnMigrate()
+    {
+        $this->app->afterResolving('migrator', function($migrator) {
+            /** @var \Illuminate\Database\Connection $db */
+            $db = $this->app['db.connection'];
+
+            if ($db->getDriverName() === 'sqlite') {
+                $db->setSchemaGrammar($db->withTablePrefix(new SQLiteSchemaGrammar()));
+            };
+        });
     }
 }

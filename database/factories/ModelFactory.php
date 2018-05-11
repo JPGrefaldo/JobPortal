@@ -32,9 +32,9 @@ $factory->define(App\Models\User::class, function (Faker $faker) {
     ];
 });
 
-$factory->define(\App\Models\UserNotificationSetting::class, function(Faker $faker) {
+$factory->define(\App\Models\UserNotificationSetting::class, function (Faker $faker) {
     return [
-        'user_id' => function() {
+        'user_id'                    => function () {
             return factory(\App\Models\User::class)->create()->id;
         },
         'receive_email_notification' => 1,
@@ -56,11 +56,10 @@ $factory->define(App\Models\Crew::class, function (Faker $faker) {
 $factory->state(App\Models\Crew::class, 'PhotoUpload', function (Faker $faker) {
     return [
         'photo' => function () use ($faker) {
-            $tmpPhoto = $faker->image();
-            $path     = 'photos/' . $faker->uuid . '/' . basename($tmpPhoto);
+            $tmpFile = \Illuminate\Http\UploadedFile::fake()->image($faker->sha1 . '.png');
+            $path     = 'photos/' . $faker->uuid . '/' . $tmpFile->hashName();
 
-            Storage::put($path, file_get_contents($tmpPhoto));
-            unlink($tmpPhoto);
+            Storage::put($path, file_get_contents($tmpFile));
 
             return $path;
         },
@@ -102,10 +101,28 @@ $factory->define(App\Models\CrewReel::class, function (Faker $faker) {
 
 $factory->define(App\Models\CrewSocial::class, function (Faker $faker) {
     return [
-        'crew_id' => function () {
+        'crew_id'             => function () {
             return factory(\App\Models\Crew::class)->create()->id;
         },
         'url'                 => $faker->url,
         'social_link_type_id' => 1,
+    ];
+});
+
+$factory->define(\App\Models\Department::class, function (Faker $faker) {
+    return [
+        'name'        => $faker->words(2, true),
+        'description' => $faker->sentence,
+    ];
+});
+
+$factory->define(\App\Models\Position::class, function (Faker $faker) {
+    return [
+        'name'          => $faker->words(2, true),
+        'department_id' => function () {
+            return factory(\App\Models\Department::class)->create()->id;
+        },
+        'has_gear'      => 0,
+        'has_union'     => 0,
     ];
 });
