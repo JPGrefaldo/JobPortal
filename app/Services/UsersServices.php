@@ -76,6 +76,19 @@ class UsersServices
     }
 
     /**
+     * @param string           $password
+     * @param \App\Models\User $user
+     *
+     * @return \App\Models\User
+     */
+    public function updatePassword(string $password, User $user)
+    {
+        $user->update(['password' => $this->hashPassword($password)]);
+
+        return $user;
+    }
+
+    /**
      * @param $value
      *
      * @return string

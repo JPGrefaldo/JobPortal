@@ -73,6 +73,6 @@ class UserSettingsController extends Controller
             'password'         => array_merge(UserRules::password(), ['confirmed']),
         ]);
 
-        $user->update(['password' => Hash::make($data['password'])]);
+        app(UsersServices::class)->updatePassword($data['password'], $user);
     }
 }
