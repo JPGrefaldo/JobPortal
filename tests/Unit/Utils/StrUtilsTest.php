@@ -18,10 +18,18 @@ class StrUtilsTest extends TestCase
     /** @test */
     public function clean_you_tube()
     {
-        $this->assertEquals('https://www.youtube.com/embed/G8S81CEBdNs', StrUtils::cleanYouTube('https://www.youtube.com/embed/G8S81CEBdNs'));
-        $this->assertEquals('https://www.youtube.com/embed/G8S81CEBdNs', StrUtils::cleanYouTube('http://www.youtube.com/embed/G8S81CEBdNs'));
-        $this->assertEquals('https://www.youtube.com/embed/G8S81CEBdNs', StrUtils::cleanYouTube('https://www.youtube.com/embed/G8S81CEBdNs'));
-        $this->assertEquals('https://www.youtube.com/embed/2-_rLbU6zJo', StrUtils::cleanYouTube('https://youtu.be/2-_rLbU6zJo'));
+        $this->assertEquals('https://www.youtube.com/embed/G8S81CEBdNs',
+            StrUtils::cleanYouTube('https://www.youtube.com/embed/G8S81CEBdNs')
+        );
+        $this->assertEquals('https://www.youtube.com/embed/G8S81CEBdNs',
+            StrUtils::cleanYouTube('http://www.youtube.com/embed/G8S81CEBdNs')
+        );
+        $this->assertEquals('https://www.youtube.com/embed/G8S81CEBdNs',
+            StrUtils::cleanYouTube('https://www.youtube.com/embed/G8S81CEBdNs')
+        );
+        $this->assertEquals('https://www.youtube.com/embed/2-_rLbU6zJo',
+            StrUtils::cleanYouTube('https://youtu.be/2-_rLbU6zJo')
+        );
 
         $this->assertEquals(
             'https://www.youtube.com/embed/WI5AF1DCQlc',
