@@ -50,3 +50,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
         Route::put('/{position}', 'Admin\PositionsController@update');
     });
 });
+
+Route::middleware(['auth', 'producer'])->group(function () {
+    Route::post('/producer/projects', 'Producer\ProjectsController@store');
+});
