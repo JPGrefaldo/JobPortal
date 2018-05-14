@@ -24,7 +24,7 @@ class UserRules
      */
     public static function lastName()
     {
-        return ['required', 'string', 'max:255', "regex:/^[a-z'\-]*$/i"];
+        return ['required', 'string', 'max:255', "regex:/^[a-z'\- ]*$/i"];
     }
 
     /**
