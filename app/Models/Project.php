@@ -19,6 +19,7 @@ class Project extends Model
     protected $casts = [
         'id'                     => 'integer',
         'project_type_id'        => 'integer',
+        'user_id'                => 'integer',
         'status'                 => 'integer',
         'production_name_public' => 'boolean',
     ];

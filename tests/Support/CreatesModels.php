@@ -23,7 +23,7 @@ trait CreatesModels
     /**
      * @param array $attributes
      *
-     * @return mixed
+     * @return \App\Models\User
      */
     public function createCrewUser($attributes = [])
     {
@@ -40,7 +40,7 @@ trait CreatesModels
     /**
      * @param array $attributes
      *
-     * @return mixed
+     * @return \App\Models\User
      */
     public function createAdmin($attributes = [])
     {
@@ -49,6 +49,23 @@ trait CreatesModels
         UserRoles::create([
             'user_id' => $user->id,
             'role_id' => RoleId::ADMIN
+        ]);
+
+        return $user;
+    }
+
+    /**
+     * @param array $attributes
+     *
+     * @return \App\Models\User
+     */
+    public function createProducer($attributes = [])
+    {
+        $user = $this->createUser($attributes);
+
+        UserRoles::create([
+            'user_id' => $user->id,
+            'role_id' => RoleId::PRODUCER
         ]);
 
         return $user;
