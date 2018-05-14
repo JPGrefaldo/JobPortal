@@ -18,46 +18,42 @@ class UserSettingsFeatureTest extends TestCase
     {
         $user = $this->createUser();
         $data = [
-            'first_name' => 'AdAm james',
-            'last_name'  => 'FOrd',
+            'first_name' => 'Adam James',
+            'last_name'  => 'Ford',
         ];
 
         $response = $this->actingAs($user)->put('/account/settings/name', $data);
 
         $response->assertSuccessful();
-
-        $user->refresh();
 
         $this->assertArraySubset(
             [
                 'first_name' => 'Adam James',
                 'last_name'  => 'Ford',
             ],
-            $user->toArray()
+            $user->refresh()->toArray()
         );
     }
 
     /** @test */
-    public function update_name_first_name_only()
+    public function update_name_formatted()
     {
         $user = $this->createUser();
         $data = [
-            'first_name' => 'AdAm james',
-            'last_name'  => $user->last_name,
+            'first_name' => 'JoHn jAMES',
+            'last_name'  => "O'neal",
         ];
 
         $response = $this->actingAs($user)->put('/account/settings/name', $data);
 
         $response->assertSuccessful();
 
-        $user->refresh();
-
         $this->assertArraySubset(
             [
-                'first_name' => 'Adam James',
-                'last_name'  => $user->last_name,
+                'first_name' => 'John James',
+                'last_name'  => "O'Neal",
             ],
-            $user->toArray()
+            $user->refresh()->toArray()
         );
     }
 
@@ -72,7 +68,10 @@ class UserSettingsFeatureTest extends TestCase
 
         $response = $this->actingAs($user)->put('/account/settings/name', $data);
 
-        $response->assertSessionHasErrors(['first_name', 'last_name']);
+        $response->assertSessionHasErrors([
+            'first_name', // a-z'- and space chars are only allowed
+            'last_name' // a-z- and space chars are only allowed
+        ]);
     }
 
     /** @test */
@@ -212,6 +211,42 @@ class UserSettingsFeatureTest extends TestCase
             [
                 'receive_email_notification' => false,
                 'receive_other_emails'       => true,
+                'receive_sms'                => false,
+            ],
+            $user->notificationSettings->toArray()
+        );
+    }
+
+    /** @test */
+    public function update_notifications_format_user_details()
+    {
+        $user = $this->createUser();
+
+        factory(UserNotificationSetting::class)->create([
+            'user_id' => $user->id,
+        ]);
+
+        $data = [
+            'email' => 'UPPER@gmail.com',
+            'phone' => '888.937.7238',
+        ];
+
+        $response = $this->actingAs($user)->put('/account/settings/notifications', $data);
+
+        $response->assertSuccessful();
+
+        $this->assertArraySubset(
+            [
+                'email' => 'upper@gmail.com',
+                'phone' => '(888) 937-7238',
+            ],
+            $user->refresh()->toArray()
+        );
+
+        $this->assertArraySubset(
+            [
+                'receive_email_notification' => false,
+                'receive_other_emails'       => false,
                 'receive_sms'                => false,
             ],
             $user->notificationSettings->toArray()

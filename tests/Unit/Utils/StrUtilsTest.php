@@ -97,4 +97,43 @@ class StrUtilsTest extends TestCase
             StrUtils::convertNull('some string')
         );
     }
+
+    /** @test */
+    public function format_name()
+    {
+        $this->assertSame(
+            'John',
+            StrUtils::formatName('John')
+        );
+
+        $this->assertSame(
+            'John James',
+            StrUtils::formatName('John jAmeS')
+        );
+
+        $this->assertSame(
+            'Jean-Luc',
+            StrUtils::formatName('JeAn-luc')
+        );
+
+        $this->assertSame(
+            "D'Amore",
+            StrUtils::formatName("D'amore")
+        );
+
+        $this->assertSame(
+            "D'Angelo Jean-Claude",
+            StrUtils::formatName("D'angelo Jean-claude")
+        );
+
+        $this->assertSame(
+            "D'Angelo O'Reilly",
+            StrUtils::formatName("D'angelo O'reilly")
+        );
+
+        $this->assertSame(
+            "D'Angelo Jean-Luc Jean-Claude",
+            StrUtils::formatName("D'angelo Jean-luc Jean-claude")
+        );
+    }
 }

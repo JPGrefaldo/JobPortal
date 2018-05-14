@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserSignupRequest;
+use App\Models\Role;
+use App\Models\UserNotificationSetting;
 use App\Services\AuthServices;
 use App\Services\UsersServices;
 use App\Models\Site;
@@ -23,21 +25,22 @@ class UserSignupController extends Controller
     {
         $data = $request->validated();
 
-        $user = app(UsersServices::class)->create(
-            array_only($data, [
-                'first_name',
-                'last_name',
-                'email',
-                'password',
-                'phone',
-            ]),
-            array_only($data, 'receive_sms')
-        );
+        $user = app(UsersServices::class)->create(array_only($data, [
+            'first_name',
+            'last_name',
+            'email',
+            'password',
+            'phone',
+        ]));
 
+        UserNotificationSetting::create([
+            'user_id'     => $user->id,
+            'receive_sms' => ($data['type'] === Role::PRODUCER) ? 1 : array_get($data, 'receive_sms', 0),
+        ]);
         app(AuthServices::class)->createByRoleName(
             $data['type'],
             $user,
-            $request->session()->get('site')
+            session('site')
         );
 
         event(new Registered($user));

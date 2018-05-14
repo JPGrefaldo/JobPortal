@@ -12,26 +12,119 @@ use Illuminate\Support\Str;
 class UsersServices
 {
     /**
-     * @param array $userData
-     * @param array $notificationSettingsData
+     * @param array $data
      *
      * @return \App\Models\User
      */
-    public function create(array $userData, array $notificationSettingsData)
+    public function create(array $data)
     {
-        $user = User::create([
-            'uuid'       => Str::uuid(),
-            'first_name' => $userData['first_name'],
-            'last_name'  => $userData['last_name'],
-            'email'      => $userData['email'],
-            'password'   => Hash::make($userData['password']),
-            'phone'      => $userData['phone'],
+        $data         = $this->prepareData($data);
+        $data['uuid'] = Str::uuid();
+
+        return User::create($data);
+    }
+
+    /**
+     * @param array $data
+     *
+     * @return array
+     */
+    public function prepareData(array $data)
+    {
+        $data['first_name'] = $this->formatName($data['first_name']);
+        $data['last_name']  = $this->formatName($data['last_name']);
+        $data['email']      = $this->formatEmail($data['email']);
+        $data['password']   = $this->hashPassword($data['password']);
+        $data['phone']      = $this->formatPhone($data['phone']);
+
+        return $data;
+    }
+
+    /**
+     * @param string           $firstName
+     * @param string           $lastName
+     * @param \App\Models\User $user
+     *
+     * @return \App\Models\User
+     */
+    public function updateName(string $firstName, string $lastName, User $user)
+    {
+        $user->update([
+            'first_name' => $this->formatName($firstName),
+            'last_name'  => $this->formatName($lastName),
         ]);
 
-        $notificationSettingsData['receive_sms'] = $notificationSettingsData['receive_sms'] ?? 0;
+        return $user;
+    }
 
-        $user->notificationSettings()->create($notificationSettingsData);
+    /**
+     * @param string           $email
+     * @param string           $phone
+     *
+     * @param \App\Models\User $user
+     *
+     * @return \App\Models\User
+     */
+    public function updateContact(string $email, string $phone, User $user)
+    {
+        $user->update([
+            'email' => $this->formatEmail($email),
+            'phone' => $this->formatPhone($phone),
+        ]);
 
         return $user;
+    }
+
+    /**
+     * @param string           $password
+     * @param \App\Models\User $user
+     *
+     * @return \App\Models\User
+     */
+    public function updatePassword(string $password, User $user)
+    {
+        $user->update(['password' => $this->hashPassword($password)]);
+
+        return $user;
+    }
+
+    /**
+     * @param $value
+     *
+     * @return string
+     */
+    public function formatName(string $value)
+    {
+        return StrUtils::formatName($value);
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return string
+     */
+    public function formatEmail(string $value)
+    {
+        return strtolower($value);
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return string
+     */
+    public function hashPassword(string $value)
+    {
+        return Hash::make($value);
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return string
+     */
+    public function formatPhone(string $value)
+    {
+        return StrUtils::formatPhone($value);
     }
 }

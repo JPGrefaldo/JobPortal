@@ -67,4 +67,28 @@ class StrUtils
     {
         return ($value === null) ? '' : $value;
     }
+
+    /**
+     * @param $value
+     *
+     * @return string
+     */
+    public static function formatName($value)
+    {
+        $value = ucwords(strtolower($value));
+
+        if (!preg_match_all("/('|\-)[a-z]/", $value, $matches)) {
+            return $value;
+        }
+
+        foreach ($matches[0] as $match) {
+            $value = str_replace(
+                $match,
+                strtoupper($match),
+                $value
+            );
+        }
+
+        return $value;
+    }
 }

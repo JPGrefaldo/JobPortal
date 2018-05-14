@@ -55,6 +55,71 @@ class SignupFeatureTest extends TestCase
     }
 
     /** @test */
+    public function formatted()
+    {
+        Mail::fake();
+
+        $data = array_merge($this->makeFakeUser()->toArray(), [
+            'first_name' => 'john',
+            'last_name'  => 'doe',
+            'email'      => 'UPPER@gmail.com',
+            'phone'      => '1234567890',
+            'password'    => 'password',
+            'receive_sms' => 1,
+            'type'        => Role::CREW,
+            '_token'      => csrf_token(),
+        ]);
+
+        Hash::shouldReceive('make')->once()->andReturn('hashed_password');
+
+        $response = $this->post('signup', $data);
+
+        $this->assertSignupSuccess($response, array_merge($data, [
+            'first_name' => 'John',
+            'last_name'  => 'Doe',
+            'email'      => 'upper@gmail.com',
+            'phone'     => '(123) 456-7890'
+        ]));
+    }
+
+    /** @test */
+    public function signup_crew_no_receive_sms()
+    {
+        Mail::fake();
+
+        $data = array_merge($this->makeFakeUser()->toArray(), [
+            'password'    => 'password',
+            'type'        => Role::CREW,
+            '_token'      => csrf_token(),
+        ]);
+
+        Hash::shouldReceive('make')->once()->andReturn('hashed_password');
+
+        $response = $this->post('signup', $data);
+
+        $this->assertSignupSuccess($response, array_merge($data, ['receive_sms' => 0]));
+    }
+
+    /** @test */
+    public function signup_producer_no_receive_sms()
+    {
+        Mail::fake();
+
+        $data = array_merge($this->makeFakeUser()->toArray(), [
+            'password'    => 'password',
+            'type'        => Role::PRODUCER,
+            '_token'      => csrf_token(),
+        ]);
+
+        Hash::shouldReceive('make')->once()->andReturn('hashed_password');
+
+        $response = $this->post('signup', $data);
+
+        // if the user is a producer receive_sms is a must
+        $this->assertSignupSuccess($response, array_merge($data, ['receive_sms' => 1]));
+    }
+
+    /** @test */
     public function invalid_data()
     {
         $data = array_merge($this->makeFakeUser()->toArray(), [
@@ -91,32 +156,38 @@ class SignupFeatureTest extends TestCase
         $response = $this->post('signup', $data);
 
         $response->assertSessionHasErrors([
-            'email' => 'The email has already been taken.'
+            'email' => 'The email has already been taken.',
         ]);
     }
 
+    /**
+     * @param $response
+     * @param $data
+     */
     private function assertSignupSuccess($response, $data)
     {
         $response->assertRedirect('login');
 
         // assert that the user has been created and had the correct user settings
-        $this->assertDatabaseHas('users', [
+        $user = User::where('email', $data['email'])->first();
+
+        $this->assertArraySubset([
             'first_name' => $data['first_name'],
             'last_name'  => $data['last_name'],
             'email'      => $data['email'],
             'phone'      => $data['phone'],
             'password'   => 'hashed_' . $data['password'],
             'status'     => 1,
-            'confirmed'  => 0,
-        ]);
+            'confirmed'  => false,
+        ], $user->makeVisible('password')->toArray());
 
-        $user = User::where('email', $data['email'])->first();
+        $this->assertEquals(36, strlen($user->uuid));
 
         $this->assertArraySubset(
             [
-                'receive_email_notification' => 1,
-                'receive_other_emails'       => 1,
-                'receive_sms'                => $data['receive_sms'] ?: 0,
+                'receive_email_notification' => true,
+                'receive_other_emails'       => true,
+                'receive_sms'                => $data['receive_sms'],
             ],
             $user->notificationSettings->toArray()
         );
@@ -139,7 +210,7 @@ class SignupFeatureTest extends TestCase
     private function makeFakeUser()
     {
         return factory(User::class)->make([
-            'email' => $this->faker->freeEmail,
+            'email' => $this->faker->freeEmail
         ]);
     }
 }
