@@ -59,12 +59,11 @@ class SignupFeatureTest extends TestCase
     {
         Mail::fake();
 
-        $data = array_merge($this->makeFakeUser([
+        $data = array_merge($this->makeFakeUser()->toArray(), [
             'first_name' => 'john',
             'last_name'  => 'doe',
             'email'      => 'UPPER@gmail.com',
             'phone'      => '1234567890',
-        ])->toArray(), [
             'password'    => 'password',
             'receive_sms' => 1,
             'type'        => Role::CREW,
@@ -208,10 +207,10 @@ class SignupFeatureTest extends TestCase
         });
     }
 
-    private function makeFakeUser($attributes = [])
+    private function makeFakeUser()
     {
-        $attributes['email'] = $attributes['email'] ?? $this->faker->freeEmail;
-
-        return factory(User::class)->make($attributes);
+        return factory(User::class)->make([
+            'email' => $this->faker->freeEmail
+        ]);
     }
 }

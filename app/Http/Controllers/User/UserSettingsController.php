@@ -35,17 +35,14 @@ class UserSettingsController extends Controller
     {
         $user = Auth::user();
         $data = $this->validate($request, [
-            'email'                      => UserRules::emailUpdate($user),
+            'email'                      => UserRules::email($user->id),
             'phone'                      => UserRules::phone(),
             'receive_email_notification' => 'bool',
             'receive_other_emails'       => 'bool',
             'receive_sms'                => 'bool',
         ]);
 
-        // update user data
         app(UsersServices::class)->updateContact($data['email'], $data['phone'], $user);
-
-        // update user notifications data
         $user->notificationSettings->update([
             'receive_email_notification' => array_get($data, 'receive_email_notification', 0),
             'receive_other_emails'       => array_get($data, 'receive_other_emails', 0),

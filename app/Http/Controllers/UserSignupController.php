@@ -37,11 +37,10 @@ class UserSignupController extends Controller
             'user_id'     => $user->id,
             'receive_sms' => ($data['type'] === Role::PRODUCER) ? 1 : array_get($data, 'receive_sms', 0),
         ]);
-
         app(AuthServices::class)->createByRoleName(
             $data['type'],
             $user,
-            $request->session()->get('site')
+            session('site')
         );
 
         event(new Registered($user));
