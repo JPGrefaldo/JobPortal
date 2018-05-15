@@ -17,7 +17,8 @@ class DatabaseSeeder extends Seeder
              SocialLinkTypesTableSeeder::class,
              DepartmentsTableSeeder::class,
              PositionsTableSeeder::class,
-             ProjectTypesTableSeeder::class
+             ProjectTypesTableSeeder::class,
+             PayTypesTableSeeder::class
          ]);
     }
 }

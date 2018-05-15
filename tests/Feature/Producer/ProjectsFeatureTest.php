@@ -3,6 +3,8 @@
 namespace Tests\Feature\Producer;
 
 use App\Models\Project;
+use Tests\Support\Data\PayTypeID;
+use Tests\Support\Data\PositionID;
 use Tests\Support\Data\ProjectTypeID;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
@@ -24,6 +26,20 @@ class ProjectsFeatureTest extends TestCase
             'project_type_id'        => ProjectTypeID::TV,
             'description'            => 'Some Description',
             'location'               => 'Some Location',
+            'jobs'                   => [
+                PositionID::CAMERA_OPERATOR => [
+                    'persons_needed'       => '2',
+                    'gear_provided'        => 'Some Gear Provided',
+                    'gear_needed'          => 'Some Gear Needed',
+                    'pay_rate'             => '16',
+                    'pay_rate_type_id'     => PayTypeID::PER_HOUR,
+                    'dates_needed'         => '6/15/2018 - 6/25/2018',
+                    'notes'                => 'Some Note',
+                    'travel_expenses_paid' => 1,
+                    'rush_call'            => 1,
+                    'position_id'          => PositionID::CAMERA_OPERATOR,
+                ],
+            ],
         ];
 
         $response = $this->actingAs($user)->post('producer/projects', $data);
@@ -42,6 +58,82 @@ class ProjectsFeatureTest extends TestCase
             'status'                 => 0,
             'user_id'                => $user->id,
         ], $project->toArray());
+
+        // assert jobs
+        $this->assertArraySubset([
+            'persons_needed'       => 2,
+            'gear_provided'        => 'Some Gear Provided',
+            'gear_needed'          => 'Some Gear Needed',
+            'pay_rate'             => 16.00,
+            'pay_type_id'          => PayTypeID::PER_HOUR,
+            'dates_needed'         => '6/15/2018 - 6/25/2018',
+            'notes'                => 'Some Note',
+            'travel_expenses_paid' => true,
+            'rush_call'            => true,
+            'position_id'          => PositionID::CAMERA_OPERATOR,
+            'status'               => 0,
+        ], $project->jobs->first()->toArray());
+    }
+
+    /** @test */
+    public function create_non_pay_rate()
+    {
+        $user = $this->createProducer();
+        $data = [
+            'title'                  => 'Some Title',
+            'production_name'        => 'Some Production Name',
+            'production_name_public' => 1,
+            'project_type_id'        => ProjectTypeID::TV,
+            'description'            => 'Some Description',
+            'location'               => 'Some Location',
+            'jobs'                   => [
+                PositionID::CAMERA_OPERATOR => [
+                    'persons_needed'       => '2',
+                    'gear_provided'        => 'Some Gear Provided',
+                    'gear_needed'          => 'Some Gear Needed',
+                    'pay_rate'             => '0',
+                    'pay_rate_type_id'     => PayTypeID::PER_HOUR,
+                    'pay_type_id'          => PayTypeID::DOE,
+                    'dates_needed'         => '6/15/2018 - 6/25/2018',
+                    'notes'                => 'Some Note',
+                    'travel_expenses_paid' => 1,
+                    'rush_call'            => 1,
+                    'position_id'          => PositionID::CAMERA_OPERATOR,
+                ],
+            ],
+        ];
+
+        $response = $this->actingAs($user)->post('producer/projects', $data);
+
+        $response->assertSuccessful();
+
+        $project = Project::whereTitle('Some Title')->whereUserId($user->id)->first();
+
+        $this->assertArraySubset([
+            'title'                  => 'Some Title',
+            'production_name'        => 'Some Production Name',
+            'production_name_public' => true,
+            'project_type_id'        => ProjectTypeID::TV,
+            'description'            => 'Some Description',
+            'location'               => 'Some Location',
+            'status'                 => 0,
+            'user_id'                => $user->id,
+        ], $project->toArray());
+
+        // assert jobs
+        $this->assertArraySubset([
+            'persons_needed'       => 2,
+            'gear_provided'        => 'Some Gear Provided',
+            'gear_needed'          => 'Some Gear Needed',
+            'pay_rate'             => 0.00,
+            'pay_type_id'          => PayTypeID::DOE,
+            'dates_needed'         => '6/15/2018 - 6/25/2018',
+            'notes'                => 'Some Note',
+            'travel_expenses_paid' => true,
+            'rush_call'            => true,
+            'position_id'          => PositionID::CAMERA_OPERATOR,
+            'status'               => 0,
+        ], $project->jobs->first()->toArray());
     }
 
     /** @test */
@@ -55,6 +147,7 @@ class ProjectsFeatureTest extends TestCase
             'project_type_id'        => ProjectTypeID::TV,
             'description'            => 'Some Description',
             'location'               => '',
+            'jobs'                   => [],
         ];
 
         $response = $this->actingAs($user)->post('producer/projects', $data);
