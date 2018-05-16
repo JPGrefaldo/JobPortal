@@ -20,6 +20,7 @@ class PositionsTableSeeder extends Seeder
         Position::create([
             'name'          => '1st Assistant Director',
             'department_id' => $this->departmentIds['Production'],
+            'has_many'      => 0
         ]);
         Position::create([
             'name'          => 'Camera Operator',

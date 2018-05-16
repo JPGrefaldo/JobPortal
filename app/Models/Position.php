@@ -21,5 +21,6 @@ class Position extends Model
         'department_id' => 'integer',
         'has_gear'      => 'boolean',
         'has_union'     => 'boolean',
+        'has_many'      => 'boolean'
     ];
 }

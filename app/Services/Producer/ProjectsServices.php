@@ -10,32 +10,36 @@ use App\Models\User;
 
 class ProjectsServices
 {
-    public function processCreate(array $input, User $user)
+    /**
+     * @param array            $input
+     * @param \App\Models\User $user
+     *
+     * @return \App\Models\Project
+     */
+    public function create(array $input, User $user)
     {
-        $project = $this->create(array_only($input, [
+        $data = array_only($input, [
             'title',
             'production_name',
             'production_name_public',
             'project_type_id',
             'description',
             'location',
-        ]), $user);
+        ]);
 
-        foreach ($input['jobs'] as $data) {
-            $this->createJob($data, $project);
-        }
-    }
-
-    public function create(array $data, User $user)
-    {
         $data['user_id'] = $user->id;
 
         return Project::create($data);
     }
 
-    public function createJob($input, Project $project)
+    /**
+     * @param array               $input
+     * @param \App\Models\Project $project
+     *
+     * @return $this|\Illuminate\Database\Eloquent\Model
+     */
+    public function createJob(array $input, Project $project)
     {
-        /** @temp */
         $data = array_only($input, [
             'persons_needed',
             'gear_provided',
@@ -49,10 +53,10 @@ class ProjectsServices
         ]);
 
         $data['project_id']  = $project->id;
-        $data['pay_type_id'] = (float)$data['pay_rate'] > 0
+        $data['pay_type_id'] = floatval($data['pay_rate']) > 0
             ? $input['pay_rate_type_id']
             : $input['pay_type_id'];
 
-        ProjectJob::create($data);
+        return ProjectJob::create($data);
     }
 }

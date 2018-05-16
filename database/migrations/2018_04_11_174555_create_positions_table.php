@@ -23,6 +23,7 @@ class CreatePositionsTable extends Migration
                   ->onDelete('cascade');
             $table->boolean('has_gear')->default(false);
             $table->boolean('has_union')->default(false);
+            $table->boolean('has_many')->default(true);
             $table->timestamps();
         });
     }

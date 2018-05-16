@@ -22,7 +22,7 @@ class ProjectJob extends Model
         'pay_rate'             => 'float',
         'rush_call'            => 'boolean',
         'travel_expenses_paid' => 'boolean',
-        'remote'               => 'remote',
+        'remote'               => 'boolean',
         'status'               => 'integer',
         'project_id'           => 'integer',
         'position_id'          => 'integer',

@@ -5,14 +5,17 @@ namespace App\Http\Controllers\Producer;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Producer\CreateProjectRequest;
 use App\Services\Producer\ProjectsServices;
-use Illuminate\Support\Facades\Auth;
 
 class ProjectsController extends Controller
 {
     public function store(CreateProjectRequest $request)
     {
-        $input = $request->validated();
+        $input   = $request->validated();
+        $service = app(ProjectsServices::class);
+        $project = $service->create($input, auth()->user());
 
-        app(ProjectsServices::class)->processCreate($input, Auth::user());
+        foreach ($input['jobs'] as $jobInput) {
+            $service->createJob($jobInput, $project);
+        }
     }
 }
