@@ -144,7 +144,7 @@ class ProjectsFeatureTest extends TestCase
 
         $this->assertArraySubset([
             ['site_id' => $data['sites'][0]],
-            ['site_id' => $data['sites'][1]]
+            ['site_id' => $data['sites'][1]],
         ], $project->remotes->toArray());
     }
 
@@ -159,6 +159,7 @@ class ProjectsFeatureTest extends TestCase
             'project_type_id'        => ProjectTypeID::TV,
             'description'            => 'Some Description',
             'location'               => 'Some Location',
+            'sites'                  => [],
             'jobs'                   => [
                 PositionID::CAMERA_OPERATOR => [
                     'persons_needed'       => '2',
@@ -219,6 +220,7 @@ class ProjectsFeatureTest extends TestCase
             'project_type_id'        => ProjectTypeID::TV,
             'description'            => 'Some Description',
             'location'               => 'Some Location',
+            'sites'                  => [],
             'jobs'                   => [
                 PositionID::FIRST_ASSISTANT_DIRECTOR => [
                     'pay_rate'             => '20',
@@ -275,6 +277,7 @@ class ProjectsFeatureTest extends TestCase
             'project_type_id'        => ProjectTypeID::TV,
             'description'            => 'Some Description',
             'location'               => 'Some Location',
+            'sites'                  => [],
             'jobs'                   => [
                 PositionID::CAMERA_OPERATOR          => [
                     'persons_needed'       => '2',
@@ -359,6 +362,7 @@ class ProjectsFeatureTest extends TestCase
             'project_type_id'        => ProjectTypeID::TV,
             'description'            => 'Some Description',
             'location'               => '',
+            'sites'                  => [],
             'jobs'                   => [],
         ];
 
