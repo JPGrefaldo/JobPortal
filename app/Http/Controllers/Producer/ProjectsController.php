@@ -10,12 +10,12 @@ class ProjectsController extends Controller
 {
     public function store(CreateProjectRequest $request)
     {
-        $input   = $request->validated();
-        $service = app(ProjectsServices::class);
-        $project = $service->create($input, auth()->user());
+        $input = $request->validated();
 
-        foreach ($input['jobs'] as $jobInput) {
-            $service->createJob($jobInput, $project);
-        }
+        app(ProjectsServices::class)->create(
+            $request->validated(),
+            auth()->user(),
+            session('site')
+        );
     }
 }

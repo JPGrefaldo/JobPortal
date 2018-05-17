@@ -35,8 +35,16 @@ class Project extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
+    public function remotes()
+    {
+        return $this->hasMany(RemoteProject::class, 'project_id', 'id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function jobs()
     {
-        return $this->hasMany(ProjectJob::class);
+        return $this->hasMany(ProjectJob::class, 'project_id', 'id');
     }
 }

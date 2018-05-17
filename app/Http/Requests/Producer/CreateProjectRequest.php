@@ -30,6 +30,8 @@ class CreateProjectRequest extends FormRequest
             'project_type_id'             => 'required|numeric|exists:project_types,id',
             'description'                 => 'required|string|min:3',
             'location'                    => 'nullable|string',
+            'sites'                       => 'present|array',
+            'sites.*'                     => 'numeric|exists:sites,id',
             'jobs'                        => 'present|array',
             'jobs.*.persons_needed'       => 'sometimes|required|numeric|min:1',
             'jobs.*.gear_provided'        => 'sometimes|nullable|string',

@@ -133,6 +133,15 @@ $factory->define(\App\Models\ProjectType::class, function (Faker $faker) {
     ];
 });
 
+$factory->define(\App\Models\Site::class, function (Faker $faker) {
+    return [
+        'name'               => $faker->domainWord,
+        'hostname'           => $faker->domainName,
+        'forward_to_site_id' => 0,
+        'status'             => 1
+    ];
+});
+
 $factory->define(\App\Models\Project::class, function (Faker $faker) {
     return [
         'title'                  => $faker->words(3, true),
@@ -143,6 +152,9 @@ $factory->define(\App\Models\Project::class, function (Faker $faker) {
         },
         'user_id'                => function () {
             return factory(\App\Models\User::class)->create()->id;
+        },
+        'site_id' => function() {
+            return factory(\App\Models\Site::class)->create()->id;
         },
         'description'            => $faker->sentence,
         'location'               => $faker->address,

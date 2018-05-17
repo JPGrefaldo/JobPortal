@@ -3,6 +3,8 @@
 namespace Tests\Unit\Services\Producer;
 
 use App\Models\Project;
+use App\Models\RemoteProject;
+use App\Models\Site;
 use App\Services\Producer\ProjectsServices;
 use Tests\Support\Data\PayTypeID;
 use Tests\Support\Data\PositionID;
@@ -29,7 +31,7 @@ class ProjectsServicesTest extends TestCase
     }
 
     /** @test */
-    public function create()
+    public function create_project()
     {
         $input = [
             'title'                  => 'Some Title',
@@ -40,8 +42,9 @@ class ProjectsServicesTest extends TestCase
             'location'               => 'Some Location',
         ];
         $user  = $this->createUser();
+        $site  = $this->getCurrentSite();
 
-        $project = $this->service->create($input, $user);
+        $project = $this->service->createProject($input, $user, $site);
 
         $this->assertArraySubset([
             'title'                  => 'Some Title',
@@ -52,11 +55,12 @@ class ProjectsServicesTest extends TestCase
             'location'               => 'Some Location',
             'status'                 => 0,
             'user_id'                => $user->id,
+            'site_id'                => $site->id,
         ], $project->refresh()->toArray());
     }
 
     /** @test */
-    public function create_invalid_input()
+    public function create_project_invalid_input()
     {
         $input = [
             'title'                  => 'Some Title',
@@ -68,8 +72,9 @@ class ProjectsServicesTest extends TestCase
             'status'                 => 1 // status will not be updated
         ];
         $user  = $this->createUser();
+        $site  = $this->getCurrentSite();
 
-        $project = $this->service->create($input, $user);
+        $project = $this->service->createProject($input, $user, $site);
 
         $this->assertArraySubset([
             'title'                  => 'Some Title',
@@ -80,7 +85,63 @@ class ProjectsServicesTest extends TestCase
             'location'               => 'Some Location',
             'status'                 => 0,
             'user_id'                => $user->id,
+            'site_id'                => $site->id,
         ], $project->refresh()->toArray());
+    }
+
+    /** @test */
+    public function create_remote_projects()
+    {
+        $site        = $this->getCurrentSite();
+        $project     = factory(Project::class)->create(['site_id' => $site->id]);
+        $remoteSites = [
+            factory(Site::class)->create()->id,
+            factory(Site::class)->create()->id
+        ];
+
+        $this->service->createRemoteProjects($remoteSites, $project, $site);
+
+        $remoteProjects = RemoteProject::where('project_id', $project->id)->get();
+
+        $this->assertCount(2, $remoteProjects);
+
+        $this->assertArraySubset([
+            [
+                'project_id' => $project->id,
+                'site_id'    => $remoteSites[0],
+            ],
+            [
+                'project_id' => $project->id,
+                'site_id'    => $remoteSites[1],
+            ],
+        ], $remoteProjects->toArray());
+    }
+
+    /** @test */
+    public function create_remote_projects_remove_current_site()
+    {
+        $site          = $this->getCurrentSite();
+        $project       = factory(Project::class)->create(['site_id' => $site->id]);
+        $remoteSites   = [$site->id];
+        $remoteSites[] = factory(Site::class)->create()->id;
+        $remoteSites[] = factory(Site::class)->create()->id;
+
+        $this->service->createRemoteProjects($remoteSites, $project, $site);
+
+        $remoteProjects = RemoteProject::where('project_id', $project->id)->get();
+
+        $this->assertCount(2, $remoteProjects);
+
+        $this->assertArraySubset([
+            [
+                'project_id' => $project->id,
+                'site_id'    => $remoteSites[1],
+            ],
+            [
+                'project_id' => $project->id,
+                'site_id'    => $remoteSites[2],
+            ],
+        ], $remoteProjects->toArray());
     }
 
     /** @test */
@@ -156,7 +217,7 @@ class ProjectsServicesTest extends TestCase
     /** @test */
     public function create_job_has_no_gear_and_no_persons_needed()
     {
-        $input = [
+        $input   = [
             'pay_rate'             => '20',
             'pay_rate_type_id'     => PayTypeID::PER_HOUR,
             'dates_needed'         => '6/15/2018 - 6/25/2018',

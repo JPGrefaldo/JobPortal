@@ -30,6 +30,11 @@ class CreateProjectsTable extends Migration
                 ->references('id')
                 ->on('users')
                 ->onDelete('cascade');
+            $table->integer('site_id')->unsigned()
+                ->foreign('site_id')
+                ->references('id')
+                ->on('sites')
+                ->onDelete('cascade');
             $table->string('location')->nullable();
             $table->timestamps();
         });
