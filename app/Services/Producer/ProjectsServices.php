@@ -80,7 +80,7 @@ class ProjectsServices
     public function createJobs(array $jobInput, Project $project)
     {
         foreach ($jobInput as $input) {
-            $this->createJob($jobInput, $project);
+            $this->createJob($input, $project);
         }
     }
 
