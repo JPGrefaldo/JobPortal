@@ -57,7 +57,7 @@ $factory->state(App\Models\Crew::class, 'PhotoUpload', function (Faker $faker) {
     return [
         'photo' => function () use ($faker) {
             $tmpFile = \Illuminate\Http\UploadedFile::fake()->image($faker->sha1 . '.png');
-            $path     = 'photos/' . $faker->uuid . '/' . $tmpFile->hashName();
+            $path    = 'photos/' . $faker->uuid . '/' . $tmpFile->hashName();
 
             Storage::put($path, file_get_contents($tmpFile));
 
@@ -124,5 +124,40 @@ $factory->define(\App\Models\Position::class, function (Faker $faker) {
         },
         'has_gear'      => 0,
         'has_union'     => 0,
+    ];
+});
+
+$factory->define(\App\Models\ProjectType::class, function (Faker $faker) {
+    return [
+        'name' => $faker->words(2, true),
+    ];
+});
+
+$factory->define(\App\Models\Site::class, function (Faker $faker) {
+    return [
+        'name'               => $faker->domainWord,
+        'hostname'           => $faker->domainName,
+        'forward_to_site_id' => 0,
+        'status'             => 1
+    ];
+});
+
+$factory->define(\App\Models\Project::class, function (Faker $faker) {
+    return [
+        'title'                  => $faker->words(3, true),
+        'production_name'        => $faker->word(3, true),
+        'production_name_public' => $faker->boolean,
+        'project_type_id'        => function () {
+            return factory(\App\Models\ProjectType::class)->create()->id;
+        },
+        'user_id'                => function () {
+            return factory(\App\Models\User::class)->create()->id;
+        },
+        'site_id' => function() {
+            return factory(\App\Models\Site::class)->create()->id;
+        },
+        'description'            => $faker->sentence,
+        'location'               => $faker->address,
+        'status'                 => 0,
     ];
 });

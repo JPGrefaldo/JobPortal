@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ProjectType extends Model
+class PayType extends Model
 {
     /**
      * The protected attributes
@@ -17,6 +17,7 @@ class ProjectType extends Model
      * @var array
      */
     protected $casts = [
-        'id' => 'integer',
+        'id'       => 'integer',
+        'has_rate' => 'boolean',
     ];
 }

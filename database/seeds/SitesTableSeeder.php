@@ -14,8 +14,8 @@ class SitesTableSeeder extends Seeder
     public function run()
     {
         Site::create([
-            'name' => env('APP_NAME'),
-            'hostname' => UrlUtils::getHostNameFromBaseUrl(env('APP_URL'))
+            'name'     => config('app.name'),
+            'hostname' => UrlUtils::getHostNameFromBaseUrl(config('app.url')),
         ]);
 
         $this->command->info('Current site seeded');

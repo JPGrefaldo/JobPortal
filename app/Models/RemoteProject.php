@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ProjectType extends Model
+class RemoteProject extends Model
 {
     /**
      * The protected attributes
@@ -17,6 +17,8 @@ class ProjectType extends Model
      * @var array
      */
     protected $casts = [
-        'id' => 'integer',
+        'id'         => 'integer',
+        'project_id' => 'integer',
+        'site_id'    => 'integer',
     ];
 }

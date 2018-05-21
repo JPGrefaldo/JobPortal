@@ -19,6 +19,7 @@ class Project extends Model
     protected $casts = [
         'id'                     => 'integer',
         'project_type_id'        => 'integer',
+        'user_id'                => 'integer',
         'status'                 => 'integer',
         'production_name_public' => 'boolean',
     ];
@@ -29,5 +30,21 @@ class Project extends Model
     public function type()
     {
         return $this->hasOne(ProjectType::class, 'id', 'project_type_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function remotes()
+    {
+        return $this->hasMany(RemoteProject::class, 'project_id', 'id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function jobs()
+    {
+        return $this->hasMany(ProjectJob::class, 'project_id', 'id');
     }
 }
