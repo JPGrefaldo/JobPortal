@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Producer;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Producer\CreateProjectRequest;
+use App\Http\Requests\Producer\UpdateProjectRequest;
+use App\Models\Project;
 use App\Services\Producer\ProjectsServices;
 
 class ProjectsController extends Controller
@@ -20,5 +22,10 @@ class ProjectsController extends Controller
             auth()->user(),
             session('site')
         );
+    }
+
+    public function update(UpdateProjectRequest $request, Project $project)
+    {
+        $input = $request->validated();
     }
 }
