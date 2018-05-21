@@ -105,7 +105,7 @@ class ProjectsServices
         ]);
 
         $data['project_id']  = $project->id;
-        $data['pay_type_id'] = floatval($data['pay_rate']) > 0
+        $data['pay_type_id'] = (floatval($data['pay_rate']) > 0)
             ? $input['pay_rate_type_id']
             : $input['pay_type_id'];
 

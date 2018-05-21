@@ -8,6 +8,9 @@ use App\Services\Producer\ProjectsServices;
 
 class ProjectsController extends Controller
 {
+    /**
+     * @param \App\Http\Requests\Producer\CreateProjectRequest $request
+     */
     public function store(CreateProjectRequest $request)
     {
         $input = $request->validated();
