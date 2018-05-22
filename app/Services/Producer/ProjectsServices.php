@@ -111,4 +111,40 @@ class ProjectsServices
 
         return ProjectJob::create($data);
     }
+
+    public function update(array $input, Project $project, Site $site)
+    {
+        $project = $this->updateProject($input, $project);
+
+        $this->updateRemoteProjects($input['sites'], $project, $site);
+    }
+
+    public function updateProject(array $input, Project $project)
+    {
+        $project->update($this->prepareData($input));
+
+        return $project;
+    }
+
+    public function updateRemoteProjects(array $remoteSites, Project $project, Site $site)
+    {
+        $this->createRemoteProjects($remoteSites, $project, $site);
+    }
+
+    /**
+     * @param array $input
+     *
+     * @return array
+     */
+    public function prepareData(array $input)
+    {
+        return array_only($input, [
+            'title',
+            'production_name',
+            'production_name_public',
+            'project_type_id',
+            'description',
+            'location',
+        ]);
+    }
 }

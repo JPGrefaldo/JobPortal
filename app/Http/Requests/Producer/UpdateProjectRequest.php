@@ -24,7 +24,13 @@ class UpdateProjectRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'title'                  => 'required|string|min:3',
+            'production_name'        => 'required|string|min:3',
+            'production_name_public' => 'required|bool',
+            'project_type_id'        => 'required|numeric|exists:project_types,id',
+            'description'            => 'required|string|min:3',
+            'location'               => 'nullable|string',
+            'sites'                  => 'present|array'
         ];
     }
 }

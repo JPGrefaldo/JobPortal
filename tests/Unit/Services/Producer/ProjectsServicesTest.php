@@ -279,4 +279,34 @@ class ProjectsServicesTest extends TestCase
             'status'               => 0,
         ], $job->refresh()->toArray());
     }
+
+    /** @test */
+    public function update_project()
+    {
+        $project = factory(Project::class)->create();
+        $input = [
+            'title'                  => 'Updated Title',
+            'production_name'        => 'Updated Production Name',
+            'production_name_public' => 1,
+            'project_type_id'        => ProjectTypeID::TV,
+            'description'            => 'Updated Description',
+            'location'               => 'Updated Location',
+        ];
+
+        $this->service->updateProject($input, $project);
+
+        $this->assertArraySubset([
+            'title'                  => 'Updated Title',
+            'production_name'        => 'Updated Production Name',
+            'production_name_public' => 1,
+            'project_type_id'        => ProjectTypeID::TV,
+            'description'            => 'Updated Description',
+            'location'               => 'Updated Location',
+        ], $project->refresh()->toArray());
+    }
+
+    public function update_remote_projects()
+    {
+
+    }
 }

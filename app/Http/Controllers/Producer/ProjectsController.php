@@ -27,5 +27,7 @@ class ProjectsController extends Controller
     public function update(UpdateProjectRequest $request, Project $project)
     {
         $input = $request->validated();
+
+        app(ProjectsServices::class)->update($input, $project, session('site'));
     }
 }
