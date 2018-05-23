@@ -17,6 +17,41 @@ class UpdateProjectJobTest extends TestCase
     use RefreshDatabase, SeedDatabaseAfterRefresh;
 
     /** @test */
+    public function update()
+    {
+        $this->markTestIncomplete();
+        $user = $this->createProducer();
+        $job  = $this->createJob($user, ['position_id' => PositionID::CAMERA_OPERATOR]);
+        $data = [
+            'persons_needed'       => '3',
+            'gear_provided'        => 'Updated Gear Provided',
+            'gear_needed'          => 'Updated Gear Needed',
+            'pay_rate'             => '17',
+            'pay_rate_type_id'     => PayTypeID::PER_HOUR,
+            'dates_needed'         => '6/15/2018 - 6/25/2018',
+            'notes'                => 'Updated Notes',
+            'travel_expenses_paid' => '1',
+            'rush_call'            => '0',
+        ];
+
+        $response = $this->actingAs($user)->put('/producer/jobs/' . $job->id, $data);
+
+        $response->assertSuccessful();
+
+        $this->assertArraySubset([
+            'persons_needed'       => 3,
+            'gear_provided'        => 'Updated Gear Provided',
+            'gear_needed'          => 'Updated Gear Needed',
+            'pay_rate'             => '17',
+            'pay_rate_type_id'     => PayTypeID::PER_HOUR,
+            'dates_needed'         => '6/15/2018 - 6/25/2018',
+            'notes'                => 'Updated Notes',
+            'travel_expenses_paid' => true,
+            'rush_call'            => false,
+        ], $job->toArray()->refresh());
+    }
+
+    /** @test */
     public function update_invalid_required()
     {
         $user = $this->createProducer();
