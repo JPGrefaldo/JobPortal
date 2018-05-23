@@ -96,7 +96,7 @@ class ProjectsServicesTest extends TestCase
         $project     = factory(Project::class)->create(['site_id' => $site->id]);
         $remoteSites = [
             factory(Site::class)->create()->id,
-            factory(Site::class)->create()->id
+            factory(Site::class)->create()->id,
         ];
 
         $this->service->createRemoteProjects($remoteSites, $project, $site);
@@ -284,7 +284,7 @@ class ProjectsServicesTest extends TestCase
     public function update_project()
     {
         $project = factory(Project::class)->create();
-        $input = [
+        $input   = [
             'title'                  => 'Updated Title',
             'production_name'        => 'Updated Production Name',
             'production_name_public' => 1,
@@ -305,8 +305,77 @@ class ProjectsServicesTest extends TestCase
         ], $project->refresh()->toArray());
     }
 
-    public function update_remote_projects()
+    /** @test */
+    public function update_remote_projects_no_existing_remotes()
     {
+        $site        = $this->getCurrentSite();
+        $project     = factory(Project::class)->create(['site_id' => $site->id]);
+        $remoteSites = [
+            factory(Site::class)->create()->id,
+            factory(Site::class)->create()->id,
+        ];
 
+        $this->service->updateRemoteProjects($remoteSites, $project, $site);
+
+        $this->assertCount(2, $project->remotes);
+        $this->assertArraySubset([
+            ['site_id' => $remoteSites[0]],
+            ['site_id' => $remoteSites[1]],
+        ], $project->remotes->toArray());
+    }
+
+    /** @test */
+    public function update_remote_projects_does_not_include_current_site()
+    {
+        $site        = $this->getCurrentSite();
+        $project     = factory(Project::class)->create(['site_id' => $site->id]);
+        $remoteSites = [
+            $site->id,
+            factory(Site::class)->create()->id,
+            factory(Site::class)->create()->id,
+        ];
+
+        $this->service->updateRemoteProjects($remoteSites, $project, $site);
+
+        $this->assertCount(2, $project->remotes);
+        $this->assertArraySubset([
+            ['site_id' => $remoteSites[1]],
+            ['site_id' => $remoteSites[2]],
+        ], $project->remotes->toArray());
+    }
+
+    /** @test */
+    public function update_remote_projects_with_existing_remotes()
+    {
+        $site          = $this->getCurrentSite();
+        $project       = factory(Project::class)->create(['site_id' => $site->id]);
+        $remoteProject = factory(RemoteProject::class)->create(['project_id' => $project->id]);
+        $remoteSites   = [
+            $remoteProject->site_id,
+            factory(Site::class)->create()->id,
+            factory(Site::class)->create()->id,
+        ];
+
+        $this->service->updateRemoteProjects($remoteSites, $project, $site);
+
+        $this->assertCount(3, $project->remotes);
+        $this->assertArraySubset([
+            ['site_id' => $remoteSites[0]],
+            ['site_id' => $remoteSites[1]],
+            ['site_id' => $remoteSites[2]],
+        ], $project->remotes->toArray());
+    }
+
+    /** @test */
+    public function update_remote_projects_delete_all_existing_remotes()
+    {
+        $site          = $this->getCurrentSite();
+        $project       = factory(Project::class)->create(['site_id' => $site->id]);
+        $remoteProject = factory(RemoteProject::class)->create(['project_id' => $project->id]);
+        $remoteSites   = [];
+
+        $this->service->updateRemoteProjects($remoteSites, $project, $site);
+
+        $this->assertCount(0, $project->remotes);
     }
 }

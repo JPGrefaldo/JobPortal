@@ -58,14 +58,7 @@ class ProjectsServices
      */
     public function createProject(array $input, User $user, Site $site)
     {
-        $data = array_only($input, [
-            'title',
-            'production_name',
-            'production_name_public',
-            'project_type_id',
-            'description',
-            'location',
-        ]);
+        $data = $this->prepareData($input);
 
         $data['user_id'] = $user->id;
         $data['site_id'] = $site->id;
@@ -112,13 +105,29 @@ class ProjectsServices
         return ProjectJob::create($data);
     }
 
+    /**
+     * @param array               $input
+     * @param \App\Models\Project $project
+     * @param \App\Models\Site    $site
+     *
+     * @return \App\Models\Project
+     * @throws \Exception
+     */
     public function update(array $input, Project $project, Site $site)
     {
         $project = $this->updateProject($input, $project);
 
         $this->updateRemoteProjects($input['sites'], $project, $site);
+
+        return $project;
     }
 
+    /**
+     * @param array               $input
+     * @param \App\Models\Project $project
+     *
+     * @return \App\Models\Project
+     */
     public function updateProject(array $input, Project $project)
     {
         $project->update($this->prepareData($input));
@@ -126,8 +135,17 @@ class ProjectsServices
         return $project;
     }
 
+    /**
+     * @param array               $remoteSites
+     * @param \App\Models\Project $project
+     * @param \App\Models\Site    $site
+     *
+     * @throws \Exception
+     */
     public function updateRemoteProjects(array $remoteSites, Project $project, Site $site)
     {
+        RemoteProject::where('project_id', $project->id)->delete();
+
         $this->createRemoteProjects($remoteSites, $project, $site);
     }
 

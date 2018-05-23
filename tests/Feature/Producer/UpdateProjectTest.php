@@ -21,10 +21,7 @@ class UpdateProjectTest extends TestCase
     {
         $user        = $this->createProducer();
         $project     = $this->createProject($user);
-        $remoteSites = [
-            factory(Site::class)->create()->id,
-            factory(Site::class)->create()->id
-        ];
+        $remoteSites = factory(Site::class, 2)->create();
         $data        = [
             'title'                  => 'Updated Title',
             'production_name'        => 'Updated Production Name',
@@ -32,7 +29,10 @@ class UpdateProjectTest extends TestCase
             'project_type_id'        => ProjectTypeID::TV,
             'description'            => 'Updated Description',
             'location'               => 'Updated Location',
-            'sites'                  => $remoteSites,
+            'sites'                  => [
+                $remoteSites[0]->id,
+                $remoteSites[1]->id,
+            ],
         ];
 
         $response = $this->actingAs($user)->put('/producer/projects/' . $project->id, $data);
@@ -50,35 +50,99 @@ class UpdateProjectTest extends TestCase
 
         $this->assertCount(2, $project->remotes);
         $this->assertArraySubset([
-            ['site_id' => $remoteSites[0]],
-            ['site_id' => $remoteSites[1]]
+            ['site_id' => $remoteSites[0]->id],
+            ['site_id' => $remoteSites[1]->id],
+        ], $project->remotes->toArray());
+    }
+
+    /** @test */
+    public function update_no_location()
+    {
+        $user    = $this->createProducer();
+        $project = $this->createProject($user);
+        $data    = [
+            'title'                  => 'Updated Title',
+            'production_name'        => 'Updated Production Name',
+            'production_name_public' => 1,
+            'project_type_id'        => ProjectTypeID::TV,
+            'description'            => 'Updated Description',
+            'location'               => '',
+            'sites'                  => [],
+        ];
+
+        $response = $this->actingAs($user)->put('/producer/projects/' . $project->id, $data);
+
+        $response->assertSuccessful();
+
+        $this->assertArraySubset([
+            'title'                  => 'Updated Title',
+            'production_name'        => 'Updated Production Name',
+            'production_name_public' => 1,
+            'project_type_id'        => ProjectTypeID::TV,
+            'description'            => 'Updated Description',
+            'location'               => null,
+        ], $project->refresh()->toArray());
+    }
+
+    /** @test */
+    public function update_remotes_does_not_include_current_site()
+    {
+        $user        = $this->createProducer();
+        $project     = $this->createProject($user);
+        $remoteSites = factory(Site::class, 2)->create();
+        $data        = [
+            'title'                  => 'Updated Title',
+            'production_name'        => 'Updated Production Name',
+            'production_name_public' => 1,
+            'project_type_id'        => ProjectTypeID::TV,
+            'description'            => 'Updated Description',
+            'location'               => 'Updated Location',
+            'sites'                  => [
+                $this->getCurrentSite()->id,
+                $remoteSites[0]->id,
+                $remoteSites[1]->id,
+            ],
+        ];
+
+        $response = $this->actingAs($user)->put('/producer/projects/' . $project->id, $data);
+
+        $response->assertSuccessful();
+
+        $this->assertArraySubset([
+            'title'                  => 'Updated Title',
+            'production_name'        => 'Updated Production Name',
+            'production_name_public' => 1,
+            'project_type_id'        => ProjectTypeID::TV,
+            'description'            => 'Updated Description',
+            'location'               => 'Updated Location',
+        ], $project->refresh()->toArray());
+
+        $this->assertCount(2, $project->remotes);
+        $this->assertArraySubset([
+            ['site_id' => $remoteSites[0]->id],
+            ['site_id' => $remoteSites[1]->id],
         ], $project->remotes->toArray());
     }
 
     /** @test */
     public function update_with_existing_remotes()
     {
-        $this->markTestIncomplete();
-
-        $user        = $this->createProducer();
-        $project     = $this->createProject($user);
-
-        $project->remotes()->save(
-            factory(RemoteProject::class)->make()
-        );
-
-        $remoteSites = [
-            factory(Site::class)->create(),
-            factory(Site::class)->create()
-        ];
-        $data        = [
+        $user          = $this->createProducer();
+        $project       = $this->createProject($user);
+        $remoteProject = factory(RemoteProject::class)->create(['project_id' => $project->id]);
+        $remoteSites   = factory(Site::class, 2)->create();
+        $data          = [
             'title'                  => 'Updated Title',
             'production_name'        => 'Updated Production Name',
             'production_name_public' => 1,
             'project_type_id'        => ProjectTypeID::TV,
             'description'            => 'Updated Description',
             'location'               => 'Updated Location',
-            'sites'                  => $remoteSites,
+            'sites'                  => [
+                $remoteProject->site_id,
+                $remoteSites[0]->id,
+                $remoteSites[1]->id,
+            ],
         ];
 
         $response = $this->actingAs($user)->put('/producer/projects/' . $project->id, $data);
@@ -94,26 +158,85 @@ class UpdateProjectTest extends TestCase
             'location'               => 'Updated Location',
         ], $project->refresh()->toArray());
 
-        $this->assertCount(2, $project->remotes);
+        $this->assertCount(3, $project->remotes);
         $this->assertArraySubset([
-            ['site_id' => $remoteSites[0]],
-            ['site_id' => $remoteSites[1]]
+            ['site_id' => $remoteProject->site_id],
+            ['site_id' => $remoteSites[0]->id],
+            ['site_id' => $remoteSites[1]->id],
         ], $project->remotes->toArray());
     }
 
     /** @test */
-    public function update_invalid()
+    public function update_remove_all_existing_remotes()
+    {
+        $user           = $this->createProducer();
+        $project        = $this->createProject($user);
+        $remoteProjects = factory(RemoteProject::class, 2)->create(['project_id' => $project->id]);
+        $data           = [
+            'title'                  => 'Updated Title',
+            'production_name'        => 'Updated Production Name',
+            'production_name_public' => 1,
+            'project_type_id'        => ProjectTypeID::TV,
+            'description'            => 'Updated Description',
+            'location'               => 'Updated Location',
+            'sites'                  => [],
+        ];
+
+        $response = $this->actingAs($user)->put('/producer/projects/' . $project->id, $data);
+
+        $response->assertSuccessful();
+
+        $this->assertArraySubset([
+            'title'                  => 'Updated Title',
+            'production_name'        => 'Updated Production Name',
+            'production_name_public' => 1,
+            'project_type_id'        => ProjectTypeID::TV,
+            'description'            => 'Updated Description',
+            'location'               => 'Updated Location',
+        ], $project->refresh()->toArray());
+
+        $this->assertCount(0, $project->remotes);
+    }
+
+    /** @test */
+    public function update_invalid_required()
     {
         $user    = $this->createProducer();
         $project = $this->createProject($user);
+        $data    = [
+            'title'                  => '',
+            'production_name'        => '',
+            'production_name_public' => '',
+            'project_type_id'        => '',
+            'description'            => '',
+            'location'               => '',
+        ];
 
-        $data = [
+        $response = $this->actingAs($user)->put('/producer/projects/' . $project->id, $data);
+
+        $response->assertSessionHasErrors([
+            'title',
+            'production_name',
+            'production_name_public',
+            'project_type_id',
+            'description',
+            'sites',
+        ]);
+    }
+
+    /** @test */
+    public function update_invalid_data()
+    {
+        $user    = $this->createProducer();
+        $project = $this->createProject($user);
+        $data    = [
             'title'                  => 'as',
             'production_name'        => 'as',
             'production_name_public' => 'asdasdas',
             'project_type_id'        => 999,
             'description'            => 'as',
             'location'               => '',
+            'sites'                  => [998, 999],
         ];
 
         $response = $this->actingAs($user)->put('/producer/projects/' . $project->id, $data);
@@ -124,7 +247,7 @@ class UpdateProjectTest extends TestCase
             'production_name_public', // must be a boolean
             'project_type_id', // must exist on the project_types table
             'description', // min 3 chars
-            'sites' // is required
+            'sites.*' // must exist on the sites table
         ]);
     }
 

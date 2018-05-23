@@ -18,16 +18,26 @@ class ProjectsController extends Controller
         $input = $request->validated();
 
         app(ProjectsServices::class)->create(
-            $request->validated(),
+            $input,
             auth()->user(),
             session('site')
         );
     }
 
+    /**
+     * @param \App\Http\Requests\Producer\UpdateProjectRequest $request
+     * @param \App\Models\Project                              $project
+     *
+     * @throws \Exception
+     */
     public function update(UpdateProjectRequest $request, Project $project)
     {
         $input = $request->validated();
 
-        app(ProjectsServices::class)->update($input, $project, session('site'));
+        app(ProjectsServices::class)->update(
+            $input,
+            $project,
+            session('site')
+        );
     }
 }

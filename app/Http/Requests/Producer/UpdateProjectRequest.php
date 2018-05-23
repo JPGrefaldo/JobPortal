@@ -30,7 +30,8 @@ class UpdateProjectRequest extends FormRequest
             'project_type_id'        => 'required|numeric|exists:project_types,id',
             'description'            => 'required|string|min:3',
             'location'               => 'nullable|string',
-            'sites'                  => 'present|array'
+            'sites'                  => 'present|array',
+            'sites.*'                => 'numeric|exists:sites,id'
         ];
     }
 }
