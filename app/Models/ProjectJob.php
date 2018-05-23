@@ -28,4 +28,9 @@ class ProjectJob extends Model
         'position_id'          => 'integer',
         'pay_type_id'          => 'integer'
     ];
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class, 'project_id',  'id');
+    }
 }

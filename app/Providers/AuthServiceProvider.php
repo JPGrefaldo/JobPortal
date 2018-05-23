@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Models\Project;
+use App\Models\ProjectJob;
+use App\Policies\ProjectJobPolicy;
 use App\Policies\ProjectPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -15,7 +17,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        Project::class => ProjectPolicy::class
+        Project::class    => ProjectPolicy::class,
+        ProjectJob::class => ProjectJobPolicy::class,
     ];
 
     /**
@@ -26,7 +29,5 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-
-        //
     }
 }
