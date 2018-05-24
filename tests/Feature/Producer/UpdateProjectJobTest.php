@@ -278,10 +278,10 @@ class UpdateProjectJobTest extends TestCase
     public function update_unauthorized_user()
     {
         $user    = $this->createProducer();
-        $project = factory(ProjectJob::class)->create();
+        $job = factory(ProjectJob::class)->create();
         $data    = [];
 
-        $response = $this->actingAs($user)->put('/producer/jobs/' . $project->id, $data);
+        $response = $this->actingAs($user)->put('/producer/jobs/' . $job->id, $data);
 
         $response->assertForbidden();
     }
