@@ -29,7 +29,7 @@ class UpdateProjectJobRequest extends FormRequest
             'gear_needed'          => 'sometimes|nullable|string',
             'pay_rate'             => 'numeric',
             'pay_rate_type_id'     => 'numeric|exists:pay_types,id',
-            'pay_type_id'          => 'required_if:jobs.*.pay_rate,0|numeric|exists:pay_types,id',
+            'pay_type_id'          => 'required_if:pay_rate,0|numeric|exists:pay_types,id',
             'dates_needed'         => 'required|string',
             'notes'                => 'required|string|min:3',
             'travel_expenses_paid' => 'required|bool',
