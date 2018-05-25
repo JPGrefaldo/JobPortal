@@ -216,8 +216,11 @@ class ProjectJobsServiceTest extends TestCase
             'travel_expenses_paid' => '1',
             'rush_call'            => '0',
             'status'               => '1',
+            'position_id'          => PositionID::FIRST_ASSISTANT_DIRECTOR,
         ];
-        $job   = factory(ProjectJob::class)->create();
+        $job   = factory(ProjectJob::class)->create([
+            'position_id' => PositionID::CAMERA_OPERATOR,
+        ]);
 
         $this->service->update($input, $job);
 
@@ -231,6 +234,7 @@ class ProjectJobsServiceTest extends TestCase
             'notes'                => 'Updated Notes',
             'travel_expenses_paid' => true,
             'rush_call'            => false,
+            'position_id'          => PositionID::CAMERA_OPERATOR
         ], $job->refresh()->toArray());
     }
 
@@ -323,6 +327,7 @@ class ProjectJobsServiceTest extends TestCase
                 'notes'                => 'Updated Notes',
                 'travel_expenses_paid' => '1',
                 'rush_call'            => '0',
+                'position_id'          => '5',
                 'status'               => '1',
                 'project_id'           => '2',
             ])

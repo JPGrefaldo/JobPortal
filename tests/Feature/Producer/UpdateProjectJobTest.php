@@ -69,6 +69,7 @@ class UpdateProjectJobTest extends TestCase
             'notes'                => 'Updated Notes',
             'travel_expenses_paid' => '1',
             'rush_call'            => '0',
+            'position_id'          => PositionID::FIRST_ASSISTANT_DIRECTOR,
             'status'               => '1',
         ];
 
@@ -86,6 +87,7 @@ class UpdateProjectJobTest extends TestCase
             'notes'                => 'Updated Notes',
             'travel_expenses_paid' => true,
             'rush_call'            => false,
+            'position_id'          => PositionID::CAMERA_OPERATOR
         ], $job->refresh()->toArray());
     }
 

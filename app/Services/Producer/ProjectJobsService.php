@@ -76,7 +76,6 @@ class ProjectJobsService
             'notes',
             'travel_expenses_paid',
             'rush_call',
-            'position_id',
         ]);
     }
 
