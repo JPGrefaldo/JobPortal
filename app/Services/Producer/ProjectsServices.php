@@ -72,37 +72,13 @@ class ProjectsServices
      */
     public function createJobs(array $jobInput, Project $project)
     {
+        $jobsService = app(ProjectJobsService::class);
+
         foreach ($jobInput as $input) {
-            $this->createJob($input, $project);
+            $input['project_id'] = $project->id;
+
+            $jobsService->create($input);
         }
-    }
-
-    /**
-     * @param array               $input
-     * @param \App\Models\Project $project
-     *
-     * @return $this|\Illuminate\Database\Eloquent\Model
-     */
-    public function createJob(array $input, Project $project)
-    {
-        $data = array_only($input, [
-            'persons_needed',
-            'gear_provided',
-            'gear_needed',
-            'pay_rate',
-            'dates_needed',
-            'notes',
-            'travel_expenses_paid',
-            'rush_call',
-            'position_id',
-        ]);
-
-        $data['project_id']  = $project->id;
-        $data['pay_type_id'] = (floatval($data['pay_rate']) > 0)
-            ? $input['pay_rate_type_id']
-            : $input['pay_type_id'];
-
-        return ProjectJob::create($data);
     }
 
     /**
