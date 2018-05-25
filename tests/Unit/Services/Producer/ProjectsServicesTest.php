@@ -145,40 +145,6 @@ class ProjectsServicesTest extends TestCase
     }
 
     /** @test */
-    public function create_job()
-    {
-        $input   = [
-            'persons_needed'       => '2',
-            'gear_provided'        => 'Some Gear Provided',
-            'gear_needed'          => 'Some Gear Needed',
-            'pay_rate'             => '16',
-            'pay_rate_type_id'     => PayTypeID::PER_HOUR,
-            'dates_needed'         => '6/15/2018 - 6/25/2018',
-            'notes'                => 'Some Note',
-            'travel_expenses_paid' => '1',
-            'rush_call'            => '1',
-            'position_id'          => PositionID::CAMERA_OPERATOR,
-        ];
-        $project = factory(Project::class)->create();
-
-        $job = $this->service->createJob($input, $project);
-
-        $this->assertArraySubset([
-            'persons_needed'       => 2,
-            'gear_provided'        => 'Some Gear Provided',
-            'gear_needed'          => 'Some Gear Needed',
-            'pay_rate'             => 16.00,
-            'pay_type_id'          => PayTypeID::PER_HOUR,
-            'dates_needed'         => '6/15/2018 - 6/25/2018',
-            'notes'                => 'Some Note',
-            'travel_expenses_paid' => true,
-            'rush_call'            => true,
-            'position_id'          => PositionID::CAMERA_OPERATOR,
-            'status'               => 0,
-        ], $job->refresh()->toArray());
-    }
-
-    /** @test */
     public function create_job_non_pay_rate()
     {
         $input   = [

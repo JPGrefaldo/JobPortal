@@ -247,7 +247,7 @@ class UpdateProjectJobTest extends TestCase
         $response = $this->actingAs($user)->put('/producer/jobs/' . $job->id, $data);
 
         $response->assertSessionHasErrors([
-            'pay_type_id'
+            'pay_type_id',
         ]);
     }
 
@@ -277,9 +277,9 @@ class UpdateProjectJobTest extends TestCase
     /** @test */
     public function update_unauthorized_user()
     {
-        $user    = $this->createProducer();
-        $job = factory(ProjectJob::class)->create();
-        $data    = [];
+        $user = $this->createProducer();
+        $job  = factory(ProjectJob::class)->create();
+        $data = [];
 
         $response = $this->actingAs($user)->put('/producer/jobs/' . $job->id, $data);
 

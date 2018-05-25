@@ -9,6 +9,20 @@ use App\Models\ProjectJob;
 class ProjectJobsService
 {
     /**
+     * @param array $input
+     *
+     * @return \App\Models\ProjectJob
+     */
+    public function create(array $input)
+    {
+        $data = $this->filterCreateData($input);
+
+        $data['pay_type_id'] = $this->getPayTypeId($data['pay_rate'], $input);
+
+        return ProjectJob::create($data);
+    }
+
+    /**
      * @param array                  $input
      * @param \App\Models\ProjectJob $job
      *
@@ -23,6 +37,27 @@ class ProjectJobsService
         $job->update($data);
 
         return $job;
+    }
+
+    /**
+     * @param array $input
+     *
+     * @return array
+     */
+    public function filterCreateData(array $input)
+    {
+        return array_only($input, [
+            'persons_needed',
+            'gear_provided',
+            'gear_needed',
+            'pay_rate',
+            'dates_needed',
+            'notes',
+            'travel_expenses_paid',
+            'rush_call',
+            'position_id',
+            'project_id',
+        ]);
     }
 
     /**
@@ -47,7 +82,7 @@ class ProjectJobsService
 
     /**
      * @param string|int $rate
-     * @param array $input
+     * @param array      $input
      *
      * @return string|int
      */
