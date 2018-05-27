@@ -52,5 +52,12 @@ Route::middleware(['auth', 'admin'])->group(function () {
 });
 
 Route::middleware(['auth', 'producer'])->group(function () {
-    Route::post('/producer/projects', 'Producer\ProjectsController@store');
+    Route::prefix('/producer/projects')->group(function() {
+        Route::post('/', 'Producer\ProjectsController@store');
+        Route::put('/{project}', 'Producer\ProjectsController@update');
+    });
+    Route::prefix('/producer/jobs')->group(function() {
+        Route::post('/', 'Producer\ProjectJobsController@store');
+        Route::put('/{job}', 'Producer\ProjectJobsController@update');
+    });
 });

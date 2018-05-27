@@ -96,7 +96,7 @@ class ProjectsServicesTest extends TestCase
         $project     = factory(Project::class)->create(['site_id' => $site->id]);
         $remoteSites = [
             factory(Site::class)->create()->id,
-            factory(Site::class)->create()->id
+            factory(Site::class)->create()->id,
         ];
 
         $this->service->createRemoteProjects($remoteSites, $project, $site);
@@ -145,138 +145,101 @@ class ProjectsServicesTest extends TestCase
     }
 
     /** @test */
-    public function create_job()
+    public function update_project()
     {
-        $input   = [
-            'persons_needed'       => '2',
-            'gear_provided'        => 'Some Gear Provided',
-            'gear_needed'          => 'Some Gear Needed',
-            'pay_rate'             => '16',
-            'pay_rate_type_id'     => PayTypeID::PER_HOUR,
-            'dates_needed'         => '6/15/2018 - 6/25/2018',
-            'notes'                => 'Some Note',
-            'travel_expenses_paid' => '1',
-            'rush_call'            => '1',
-            'position_id'          => PositionID::CAMERA_OPERATOR,
-        ];
         $project = factory(Project::class)->create();
+        $input   = [
+            'title'                  => 'Updated Title',
+            'production_name'        => 'Updated Production Name',
+            'production_name_public' => 1,
+            'project_type_id'        => ProjectTypeID::TV,
+            'description'            => 'Updated Description',
+            'location'               => 'Updated Location',
+        ];
 
-        $job = $this->service->createJob($input, $project);
+        $this->service->updateProject($input, $project);
 
         $this->assertArraySubset([
-            'persons_needed'       => 2,
-            'gear_provided'        => 'Some Gear Provided',
-            'gear_needed'          => 'Some Gear Needed',
-            'pay_rate'             => 16.00,
-            'pay_type_id'          => PayTypeID::PER_HOUR,
-            'dates_needed'         => '6/15/2018 - 6/25/2018',
-            'notes'                => 'Some Note',
-            'travel_expenses_paid' => true,
-            'rush_call'            => true,
-            'position_id'          => PositionID::CAMERA_OPERATOR,
-            'status'               => 0,
-        ], $job->refresh()->toArray());
+            'title'                  => 'Updated Title',
+            'production_name'        => 'Updated Production Name',
+            'production_name_public' => 1,
+            'project_type_id'        => ProjectTypeID::TV,
+            'description'            => 'Updated Description',
+            'location'               => 'Updated Location',
+        ], $project->refresh()->toArray());
     }
 
     /** @test */
-    public function create_job_non_pay_rate()
+    public function update_remote_projects_no_existing_remotes()
     {
-        $input   = [
-            'persons_needed'       => '2',
-            'gear_provided'        => 'Some Gear Provided',
-            'gear_needed'          => 'Some Gear Needed',
-            'pay_rate'             => '0',
-            'pay_rate_type_id'     => PayTypeID::PER_HOUR,
-            'pay_type_id'          => PayTypeID::DOE,
-            'dates_needed'         => '6/15/2018 - 6/25/2018',
-            'notes'                => 'Some Note',
-            'travel_expenses_paid' => '1',
-            'rush_call'            => '1',
-            'position_id'          => PositionID::CAMERA_OPERATOR,
-            'status'               => 1,
+        $site        = $this->getCurrentSite();
+        $project     = factory(Project::class)->create(['site_id' => $site->id]);
+        $remoteSites = [
+            factory(Site::class)->create()->id,
+            factory(Site::class)->create()->id,
         ];
-        $project = factory(Project::class)->create();
 
-        $job = $this->service->createJob($input, $project);
+        $this->service->updateRemoteProjects($remoteSites, $project, $site);
 
+        $this->assertCount(2, $project->remotes);
         $this->assertArraySubset([
-            'persons_needed'       => 2,
-            'gear_provided'        => 'Some Gear Provided',
-            'gear_needed'          => 'Some Gear Needed',
-            'pay_rate'             => 0.00,
-            'pay_type_id'          => PayTypeID::DOE,
-            'dates_needed'         => '6/15/2018 - 6/25/2018',
-            'notes'                => 'Some Note',
-            'travel_expenses_paid' => true,
-            'rush_call'            => true,
-            'position_id'          => PositionID::CAMERA_OPERATOR,
-            'status'               => 0,
-        ], $job->refresh()->toArray());
+            ['site_id' => $remoteSites[0]],
+            ['site_id' => $remoteSites[1]],
+        ], $project->remotes->toArray());
     }
 
     /** @test */
-    public function create_job_has_no_gear_and_no_persons_needed()
+    public function update_remote_projects_does_not_include_current_site()
     {
-        $input   = [
-            'pay_rate'             => '20',
-            'pay_rate_type_id'     => PayTypeID::PER_HOUR,
-            'dates_needed'         => '6/15/2018 - 6/25/2018',
-            'notes'                => 'Some Note',
-            'travel_expenses_paid' => '1',
-            'rush_call'            => '1',
-            'position_id'          => PositionID::FIRST_ASSISTANT_DIRECTOR,
+        $site        = $this->getCurrentSite();
+        $project     = factory(Project::class)->create(['site_id' => $site->id]);
+        $remoteSites = [
+            $site->id,
+            factory(Site::class)->create()->id,
+            factory(Site::class)->create()->id,
         ];
-        $project = factory(Project::class)->create();
 
-        $job = $this->service->createJob($input, $project);
+        $this->service->updateRemoteProjects($remoteSites, $project, $site);
 
+        $this->assertCount(2, $project->remotes);
         $this->assertArraySubset([
-            'persons_needed'       => 1,
-            'gear_provided'        => null,
-            'gear_needed'          => null,
-            'pay_rate'             => 20.00,
-            'pay_type_id'          => PayTypeID::PER_HOUR,
-            'dates_needed'         => '6/15/2018 - 6/25/2018',
-            'notes'                => 'Some Note',
-            'travel_expenses_paid' => true,
-            'rush_call'            => true,
-            'position_id'          => PositionID::FIRST_ASSISTANT_DIRECTOR,
-            'status'               => 0,
-        ], $job->refresh()->toArray());
+            ['site_id' => $remoteSites[1]],
+            ['site_id' => $remoteSites[2]],
+        ], $project->remotes->toArray());
     }
 
     /** @test */
-    public function create_job_invalid_input()
+    public function update_remote_projects_with_existing_remotes()
     {
-        $input   = [
-            'persons_needed'       => '2',
-            'gear_provided'        => 'Some Gear Provided',
-            'gear_needed'          => 'Some Gear Needed',
-            'pay_rate'             => '16',
-            'pay_rate_type_id'     => PayTypeID::PER_HOUR,
-            'dates_needed'         => '6/15/2018 - 6/25/2018',
-            'notes'                => 'Some Note',
-            'travel_expenses_paid' => '1',
-            'rush_call'            => '1',
-            'position_id'          => PositionID::CAMERA_OPERATOR,
-            'status'               => 1,
+        $site          = $this->getCurrentSite();
+        $project       = factory(Project::class)->create(['site_id' => $site->id]);
+        $remoteProject = factory(RemoteProject::class)->create(['project_id' => $project->id]);
+        $remoteSites   = [
+            $remoteProject->site_id,
+            factory(Site::class)->create()->id,
+            factory(Site::class)->create()->id,
         ];
-        $project = factory(Project::class)->create();
 
-        $job = $this->service->createJob($input, $project);
+        $this->service->updateRemoteProjects($remoteSites, $project, $site);
 
+        $this->assertCount(3, $project->remotes);
         $this->assertArraySubset([
-            'persons_needed'       => 2,
-            'gear_provided'        => 'Some Gear Provided',
-            'gear_needed'          => 'Some Gear Needed',
-            'pay_rate'             => 16.00,
-            'pay_type_id'          => PayTypeID::PER_HOUR,
-            'dates_needed'         => '6/15/2018 - 6/25/2018',
-            'notes'                => 'Some Note',
-            'travel_expenses_paid' => true,
-            'rush_call'            => true,
-            'position_id'          => PositionID::CAMERA_OPERATOR,
-            'status'               => 0,
-        ], $job->refresh()->toArray());
+            ['site_id' => $remoteSites[0]],
+            ['site_id' => $remoteSites[1]],
+            ['site_id' => $remoteSites[2]],
+        ], $project->remotes->toArray());
+    }
+
+    /** @test */
+    public function update_remote_projects_delete_all_existing_remotes()
+    {
+        $site          = $this->getCurrentSite();
+        $project       = factory(Project::class)->create(['site_id' => $site->id]);
+        $remoteProject = factory(RemoteProject::class)->create(['project_id' => $project->id]);
+        $remoteSites   = [];
+
+        $this->service->updateRemoteProjects($remoteSites, $project, $site);
+
+        $this->assertCount(0, $project->remotes);
     }
 }
