@@ -21,7 +21,8 @@ class DepartmentsFeatureTest extends TestCase
             'description' => 'Some Description',
         ];
 
-        $response = $this->actingAs($user)->post('/admin/departments', $data);
+        $response = $this->actingAs($user)
+                         ->post('/admin/departments', $data);
 
         $response->assertSuccessful();
 
@@ -40,7 +41,8 @@ class DepartmentsFeatureTest extends TestCase
             'description' => '',
         ];
 
-        $response = $this->actingAs($user)->post('/admin/departments', $data);
+        $response = $this->actingAs($user)
+                         ->post('/admin/departments', $data);
 
         $response->assertSuccessful();
 
@@ -59,12 +61,14 @@ class DepartmentsFeatureTest extends TestCase
             'description' => 'Some description',
         ];
 
-        $response = $this->actingAs($user)->post('/admin/departments', $data);
+        $response = $this->actingAs($user)
+                         ->post('/admin/departments', $data);
 
         $response->assertSuccessful();
 
         // assert that name is formatted
-        $department = Department::whereName('Production sound')->first();
+        $department = Department::whereName('Production sound')
+                                ->first();
 
         $this->assertEquals('Production Sound', $department->name);
     }
@@ -78,7 +82,8 @@ class DepartmentsFeatureTest extends TestCase
             'description' => '',
         ];
 
-        $response = $this->actingAs($user)->post('/admin/departments', $data);
+        $response = $this->actingAs($user)
+                         ->post('/admin/departments', $data);
 
         $response->assertSessionHasErrors([
             'name' => 'The name field is required.',
@@ -96,7 +101,8 @@ class DepartmentsFeatureTest extends TestCase
             'description' => '',
         ];
 
-        $response = $this->actingAs($user)->post('/admin/departments', $data);
+        $response = $this->actingAs($user)
+                         ->post('/admin/departments', $data);
 
         $response->assertSessionHasErrors([
             'name' => 'The name has already been taken.',
@@ -113,14 +119,18 @@ class DepartmentsFeatureTest extends TestCase
             'description' => 'New Description',
         ];
 
-        $response = $this->actingAs($user)->put('/admin/departments/' . $department->id, $data);
+        $response = $this->actingAs($user)
+                         ->put('/admin/departments/' . $department->id, $data);
 
         $response->assertSuccessful();
 
         $this->assertArraySubset([
-            'name'        => 'New Name',
-            'description' => 'New Description',
-        ], $department->refresh()->toArray());
+                'name'        => 'New Name',
+                'description' => 'New Description',
+            ],
+            $department->refresh()
+                       ->toArray()
+        );
     }
 
     /** @test */
@@ -133,14 +143,18 @@ class DepartmentsFeatureTest extends TestCase
             'description' => '',
         ];
 
-        $response = $this->actingAs($user)->put('/admin/departments/' . $department->id, $data);
+        $response = $this->actingAs($user)
+                         ->put('/admin/departments/' . $department->id, $data);
 
         $response->assertSuccessful();
 
         $this->assertArraySubset([
-            'name'        => 'New Name',
-            'description' => '',
-        ], $department->refresh()->toArray());
+                'name'        => 'New Name',
+                'description' => '',
+            ],
+            $department->refresh()
+                       ->toArray()
+        );
     }
 
     /** @test */
@@ -153,14 +167,18 @@ class DepartmentsFeatureTest extends TestCase
             'description' => '',
         ];
 
-        $response = $this->actingAs($user)->put('/admin/departments/' . $department->id, $data);
+        $response = $this->actingAs($user)
+                         ->put('/admin/departments/' . $department->id, $data);
 
         $response->assertSuccessful();
 
         $this->assertArraySubset([
-            'name'        => 'New Name',
-            'description' => '',
-        ], $department->refresh()->toArray());
+                'name'        => 'New Name',
+                'description' => '',
+            ],
+            $department->refresh()
+                       ->toArray()
+        );
     }
 
     /** @test */
@@ -173,14 +191,18 @@ class DepartmentsFeatureTest extends TestCase
         ];
         $department = factory(Department::class)->create($data);
 
-        $response = $this->actingAs($user)->put('/admin/departments/' . $department->id, $data);
+        $response = $this->actingAs($user)
+                         ->put('/admin/departments/' . $department->id, $data);
 
         $response->assertSuccessful();
 
         $this->assertArraySubset([
-            'name'        => 'Same Name',
-            'description' => 'Same Description',
-        ], $department->refresh()->toArray());
+                'name'        => 'Same Name',
+                'description' => 'Same Description',
+            ],
+            $department->refresh()
+                       ->toArray()
+        );
     }
 
     /** @test */
@@ -193,7 +215,8 @@ class DepartmentsFeatureTest extends TestCase
             'description' => '',
         ];
 
-        $response = $this->actingAs($user)->put('/admin/departments/' . $department->id, $data);
+        $response = $this->actingAs($user)
+                         ->put('/admin/departments/' . $department->id, $data);
 
         $response->assertSessionHasErrors([
             'name' => 'The name field is required.',
@@ -212,7 +235,8 @@ class DepartmentsFeatureTest extends TestCase
             'description' => '',
         ];
 
-        $response = $this->actingAs($user)->put('/admin/departments/' . $department->id, $data);
+        $response = $this->actingAs($user)
+                         ->put('/admin/departments/' . $department->id, $data);
 
         $response->assertSessionHasErrors([
             'name' => 'The name has already been taken.',

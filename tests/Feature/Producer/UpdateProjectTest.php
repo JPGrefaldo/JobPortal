@@ -35,24 +35,30 @@ class UpdateProjectTest extends TestCase
             ],
         ];
 
-        $response = $this->actingAs($user)->put('/producer/projects/' . $project->id, $data);
+        $response = $this->actingAs($user)
+                         ->put('/producer/projects/' . $project->id, $data);
 
         $response->assertSuccessful();
 
         $this->assertArraySubset([
-            'title'                  => 'Updated Title',
-            'production_name'        => 'Updated Production Name',
-            'production_name_public' => 1,
-            'project_type_id'        => ProjectTypeID::TV,
-            'description'            => 'Updated Description',
-            'location'               => 'Updated Location',
-        ], $project->refresh()->toArray());
+                'title'                  => 'Updated Title',
+                'production_name'        => 'Updated Production Name',
+                'production_name_public' => 1,
+                'project_type_id'        => ProjectTypeID::TV,
+                'description'            => 'Updated Description',
+                'location'               => 'Updated Location',
+            ],
+            $project->refresh()
+                    ->toArray()
+        );
 
         $this->assertCount(2, $project->remotes);
         $this->assertArraySubset([
-            ['site_id' => $remoteSites[0]->id],
-            ['site_id' => $remoteSites[1]->id],
-        ], $project->remotes->toArray());
+                ['site_id' => $remoteSites[0]->id],
+                ['site_id' => $remoteSites[1]->id],
+            ],
+            $project->remotes->toArray()
+        );
     }
 
     /** @test */
@@ -70,18 +76,22 @@ class UpdateProjectTest extends TestCase
             'sites'                  => [],
         ];
 
-        $response = $this->actingAs($user)->put('/producer/projects/' . $project->id, $data);
+        $response = $this->actingAs($user)
+                         ->put('/producer/projects/' . $project->id, $data);
 
         $response->assertSuccessful();
 
         $this->assertArraySubset([
-            'title'                  => 'Updated Title',
-            'production_name'        => 'Updated Production Name',
-            'production_name_public' => 1,
-            'project_type_id'        => ProjectTypeID::TV,
-            'description'            => 'Updated Description',
-            'location'               => null,
-        ], $project->refresh()->toArray());
+                'title'                  => 'Updated Title',
+                'production_name'        => 'Updated Production Name',
+                'production_name_public' => 1,
+                'project_type_id'        => ProjectTypeID::TV,
+                'description'            => 'Updated Description',
+                'location'               => null,
+            ],
+            $project->refresh()
+                    ->toArray()
+        );
     }
 
     /** @test */
@@ -104,24 +114,30 @@ class UpdateProjectTest extends TestCase
             ],
         ];
 
-        $response = $this->actingAs($user)->put('/producer/projects/' . $project->id, $data);
+        $response = $this->actingAs($user)
+                         ->put('/producer/projects/' . $project->id, $data);
 
         $response->assertSuccessful();
 
         $this->assertArraySubset([
-            'title'                  => 'Updated Title',
-            'production_name'        => 'Updated Production Name',
-            'production_name_public' => 1,
-            'project_type_id'        => ProjectTypeID::TV,
-            'description'            => 'Updated Description',
-            'location'               => 'Updated Location',
-        ], $project->refresh()->toArray());
+                'title'                  => 'Updated Title',
+                'production_name'        => 'Updated Production Name',
+                'production_name_public' => 1,
+                'project_type_id'        => ProjectTypeID::TV,
+                'description'            => 'Updated Description',
+                'location'               => 'Updated Location',
+            ],
+            $project->refresh()
+                    ->toArray()
+        );
 
         $this->assertCount(2, $project->remotes);
         $this->assertArraySubset([
-            ['site_id' => $remoteSites[0]->id],
-            ['site_id' => $remoteSites[1]->id],
-        ], $project->remotes->toArray());
+                ['site_id' => $remoteSites[0]->id],
+                ['site_id' => $remoteSites[1]->id],
+            ],
+            $project->remotes->toArray()
+        );
     }
 
     /** @test */
@@ -145,25 +161,31 @@ class UpdateProjectTest extends TestCase
             ],
         ];
 
-        $response = $this->actingAs($user)->put('/producer/projects/' . $project->id, $data);
+        $response = $this->actingAs($user)
+                         ->put('/producer/projects/' . $project->id, $data);
 
         $response->assertSuccessful();
 
         $this->assertArraySubset([
-            'title'                  => 'Updated Title',
-            'production_name'        => 'Updated Production Name',
-            'production_name_public' => 1,
-            'project_type_id'        => ProjectTypeID::TV,
-            'description'            => 'Updated Description',
-            'location'               => 'Updated Location',
-        ], $project->refresh()->toArray());
+                'title'                  => 'Updated Title',
+                'production_name'        => 'Updated Production Name',
+                'production_name_public' => 1,
+                'project_type_id'        => ProjectTypeID::TV,
+                'description'            => 'Updated Description',
+                'location'               => 'Updated Location',
+            ],
+            $project->refresh()
+                    ->toArray()
+        );
 
         $this->assertCount(3, $project->remotes);
         $this->assertArraySubset([
-            ['site_id' => $remoteProject->site_id],
-            ['site_id' => $remoteSites[0]->id],
-            ['site_id' => $remoteSites[1]->id],
-        ], $project->remotes->toArray());
+                ['site_id' => $remoteProject->site_id],
+                ['site_id' => $remoteSites[0]->id],
+                ['site_id' => $remoteSites[1]->id],
+            ],
+            $project->remotes->toArray()
+        );
     }
 
     /** @test */
@@ -182,18 +204,22 @@ class UpdateProjectTest extends TestCase
             'sites'                  => [],
         ];
 
-        $response = $this->actingAs($user)->put('/producer/projects/' . $project->id, $data);
+        $response = $this->actingAs($user)
+                         ->put('/producer/projects/' . $project->id, $data);
 
         $response->assertSuccessful();
 
         $this->assertArraySubset([
-            'title'                  => 'Updated Title',
-            'production_name'        => 'Updated Production Name',
-            'production_name_public' => 1,
-            'project_type_id'        => ProjectTypeID::TV,
-            'description'            => 'Updated Description',
-            'location'               => 'Updated Location',
-        ], $project->refresh()->toArray());
+                'title'                  => 'Updated Title',
+                'production_name'        => 'Updated Production Name',
+                'production_name_public' => 1,
+                'project_type_id'        => ProjectTypeID::TV,
+                'description'            => 'Updated Description',
+                'location'               => 'Updated Location',
+            ],
+            $project->refresh()
+                    ->toArray()
+        );
 
         $this->assertCount(0, $project->remotes);
     }
@@ -212,7 +238,8 @@ class UpdateProjectTest extends TestCase
             'location'               => '',
         ];
 
-        $response = $this->actingAs($user)->put('/producer/projects/' . $project->id, $data);
+        $response = $this->actingAs($user)
+                         ->put('/producer/projects/' . $project->id, $data);
 
         $response->assertSessionHasErrors([
             'title',
@@ -236,10 +263,14 @@ class UpdateProjectTest extends TestCase
             'project_type_id'        => 999,
             'description'            => 'as',
             'location'               => '',
-            'sites'                  => [998, 999],
+            'sites'                  => [
+                998,
+                999,
+            ],
         ];
 
-        $response = $this->actingAs($user)->put('/producer/projects/' . $project->id, $data);
+        $response = $this->actingAs($user)
+                         ->put('/producer/projects/' . $project->id, $data);
 
         $response->assertSessionHasErrors([
             'title', // min 3 chars
@@ -258,7 +289,8 @@ class UpdateProjectTest extends TestCase
         $project = factory(Project::class)->create();
         $data    = [];
 
-        $response = $this->actingAs($user)->put('/producer/projects/' . $project->id, $data);
+        $response = $this->actingAs($user)
+                         ->put('/producer/projects/' . $project->id, $data);
 
         $response->assertRedirect('/');
     }
@@ -270,7 +302,8 @@ class UpdateProjectTest extends TestCase
         $project = factory(Project::class)->create();
         $data    = [];
 
-        $response = $this->actingAs($user)->put('/producer/projects/' . $project->id, $data);
+        $response = $this->actingAs($user)
+                         ->put('/producer/projects/' . $project->id, $data);
 
         $response->assertForbidden();
     }
@@ -281,14 +314,15 @@ class UpdateProjectTest extends TestCase
         $user = $this->createProducer();
         $data = [];
 
-        $response = $this->actingAs($user)->put('/producer/projects/' . 999, $data);
+        $response = $this->actingAs($user)
+                         ->put('/producer/projects/' . 999, $data);
 
         $response->assertNotFound();
     }
 
     /**
      * @param \App\Models\User $user
-     * @param array            $attributes
+     * @param array $attributes
      *
      * @return \App\Models\Project
      */

@@ -35,23 +35,28 @@ class CreateProjectJobTest extends TestCase
             'project_id'           => $project->id,
         ];
 
-        $response = $this->actingAs($user)->post('/producer/jobs', $data);
+        $response = $this->actingAs($user)
+                         ->post('/producer/jobs', $data);
 
         $response->assertSuccessful();
 
         $this->assertArraySubset([
-            'persons_needed'       => 2,
-            'gear_provided'        => 'Some Gear Provided',
-            'gear_needed'          => 'Some Gear Needed',
-            'pay_rate'             => 16.00,
-            'pay_type_id'          => PayTypeID::PER_HOUR,
-            'dates_needed'         => '6/15/2018 - 6/25/2018',
-            'notes'                => 'Some Note',
-            'travel_expenses_paid' => true,
-            'rush_call'            => true,
-            'position_id'          => PositionID::CAMERA_OPERATOR,
-            'status'               => 0,
-        ], $project->jobs()->first()->toArray());
+                'persons_needed'       => 2,
+                'gear_provided'        => 'Some Gear Provided',
+                'gear_needed'          => 'Some Gear Needed',
+                'pay_rate'             => 16.00,
+                'pay_type_id'          => PayTypeID::PER_HOUR,
+                'dates_needed'         => '6/15/2018 - 6/25/2018',
+                'notes'                => 'Some Note',
+                'travel_expenses_paid' => true,
+                'rush_call'            => true,
+                'position_id'          => PositionID::CAMERA_OPERATOR,
+                'status'               => 0,
+            ],
+            $project->jobs()
+                    ->first()
+                    ->toArray()
+        );
     }
 
     /** @test */
@@ -74,23 +79,28 @@ class CreateProjectJobTest extends TestCase
             'status'               => '1',
         ];
 
-        $response = $this->actingAs($user)->post('/producer/jobs', $data);
+        $response = $this->actingAs($user)
+                         ->post('/producer/jobs', $data);
 
         $response->assertSuccessful();
 
         $this->assertArraySubset([
-            'persons_needed'       => 2,
-            'gear_provided'        => 'Some Gear Provided',
-            'gear_needed'          => 'Some Gear Needed',
-            'pay_rate'             => 16.00,
-            'pay_type_id'          => PayTypeID::PER_HOUR,
-            'dates_needed'         => '6/15/2018 - 6/25/2018',
-            'notes'                => 'Some Note',
-            'travel_expenses_paid' => true,
-            'rush_call'            => true,
-            'position_id'          => PositionID::CAMERA_OPERATOR,
-            'status'               => 0,
-        ], $project->jobs()->first()->toArray());
+                'persons_needed'       => 2,
+                'gear_provided'        => 'Some Gear Provided',
+                'gear_needed'          => 'Some Gear Needed',
+                'pay_rate'             => 16.00,
+                'pay_type_id'          => PayTypeID::PER_HOUR,
+                'dates_needed'         => '6/15/2018 - 6/25/2018',
+                'notes'                => 'Some Note',
+                'travel_expenses_paid' => true,
+                'rush_call'            => true,
+                'position_id'          => PositionID::CAMERA_OPERATOR,
+                'status'               => 0,
+            ],
+            $project->jobs()
+                    ->first()
+                    ->toArray()
+        );
     }
 
     /** @test */
@@ -113,23 +123,28 @@ class CreateProjectJobTest extends TestCase
             'project_id'           => $project->id,
         ];
 
-        $response = $this->actingAs($user)->post('/producer/jobs', $data);
+        $response = $this->actingAs($user)
+                         ->post('/producer/jobs', $data);
 
         $response->assertSuccessful();
 
         $this->assertArraySubset([
-            'persons_needed'       => 2,
-            'gear_provided'        => 'Some Gear Provided',
-            'gear_needed'          => 'Some Gear Needed',
-            'pay_rate'             => 0.00,
-            'pay_type_id'          => PayTypeID::DOE,
-            'dates_needed'         => '6/15/2018 - 6/25/2018',
-            'notes'                => 'Some Note',
-            'travel_expenses_paid' => true,
-            'rush_call'            => true,
-            'position_id'          => PositionID::CAMERA_OPERATOR,
-            'status'               => 0,
-        ], $project->jobs()->first()->toArray());
+                'persons_needed'       => 2,
+                'gear_provided'        => 'Some Gear Provided',
+                'gear_needed'          => 'Some Gear Needed',
+                'pay_rate'             => 0.00,
+                'pay_type_id'          => PayTypeID::DOE,
+                'dates_needed'         => '6/15/2018 - 6/25/2018',
+                'notes'                => 'Some Note',
+                'travel_expenses_paid' => true,
+                'rush_call'            => true,
+                'position_id'          => PositionID::CAMERA_OPERATOR,
+                'status'               => 0,
+            ],
+            $project->jobs()
+                    ->first()
+                    ->toArray()
+        );
     }
 
     /** @test */
@@ -148,23 +163,28 @@ class CreateProjectJobTest extends TestCase
             'project_id'           => $project->id,
         ];
 
-        $response = $this->actingAs($user)->post('/producer/jobs', $data);
+        $response = $this->actingAs($user)
+                         ->post('/producer/jobs', $data);
 
         $response->assertSuccessful();
 
         $this->assertArraySubset([
-            'persons_needed'       => 1,
-            'gear_provided'        => null,
-            'gear_needed'          => null,
-            'pay_rate'             => 20.00,
-            'pay_type_id'          => PayTypeID::PER_HOUR,
-            'dates_needed'         => '6/15/2018 - 6/25/2018',
-            'notes'                => 'Some Note',
-            'travel_expenses_paid' => true,
-            'rush_call'            => true,
-            'position_id'          => PositionID::FIRST_ASSISTANT_DIRECTOR,
-            'status'               => 0,
-        ], $project->jobs()->first()->toArray());
+                'persons_needed'       => 1,
+                'gear_provided'        => null,
+                'gear_needed'          => null,
+                'pay_rate'             => 20.00,
+                'pay_type_id'          => PayTypeID::PER_HOUR,
+                'dates_needed'         => '6/15/2018 - 6/25/2018',
+                'notes'                => 'Some Note',
+                'travel_expenses_paid' => true,
+                'rush_call'            => true,
+                'position_id'          => PositionID::FIRST_ASSISTANT_DIRECTOR,
+                'status'               => 0,
+            ],
+            $project->jobs()
+                    ->first()
+                    ->toArray()
+        );
     }
 
     /** @test */
@@ -189,24 +209,28 @@ class CreateProjectJobTest extends TestCase
             'project_id'           => $project->id,
         ];
 
-        $response = $this->actingAs($user)->post('/producer/jobs', $data);
+        $response = $this->actingAs($user)
+                         ->post('/producer/jobs', $data);
 
         $response->assertSuccessful();
 
         $this->assertCount(2, $project->jobs);
         $this->assertArraySubset([
-            'persons_needed'       => 2,
-            'gear_provided'        => 'Some Gear Provided',
-            'gear_needed'          => 'Some Gear Needed',
-            'pay_rate'             => 16.00,
-            'pay_type_id'          => PayTypeID::PER_HOUR,
-            'dates_needed'         => '6/15/2018 - 6/25/2018',
-            'notes'                => 'Some Note',
-            'travel_expenses_paid' => true,
-            'rush_call'            => true,
-            'position_id'          => PositionID::CAMERA_OPERATOR,
-            'status'               => 0,
-        ], $project->jobs->last()->toArray());
+                'persons_needed'       => 2,
+                'gear_provided'        => 'Some Gear Provided',
+                'gear_needed'          => 'Some Gear Needed',
+                'pay_rate'             => 16.00,
+                'pay_type_id'          => PayTypeID::PER_HOUR,
+                'dates_needed'         => '6/15/2018 - 6/25/2018',
+                'notes'                => 'Some Note',
+                'travel_expenses_paid' => true,
+                'rush_call'            => true,
+                'position_id'          => PositionID::CAMERA_OPERATOR,
+                'status'               => 0,
+            ],
+            $project->jobs->last()
+                          ->toArray()
+        );
     }
 
     /** @test */
@@ -222,7 +246,8 @@ class CreateProjectJobTest extends TestCase
             'project_id'           => $this->createProject($user)->id,
         ];
 
-        $response = $this->actingAs($user)->post('/producer/jobs', $data);
+        $response = $this->actingAs($user)
+                         ->post('/producer/jobs', $data);
 
         $response->assertSessionHasErrors([
             'dates_needed',
@@ -241,7 +266,8 @@ class CreateProjectJobTest extends TestCase
             'project_id'     => $this->createProject($user)->id,
         ];
 
-        $response = $this->actingAs($user)->post('/producer/jobs', $data);
+        $response = $this->actingAs($user)
+                         ->post('/producer/jobs', $data);
 
         $response->assertSessionHasErrors([
             'persons_needed',
@@ -267,7 +293,8 @@ class CreateProjectJobTest extends TestCase
             'project_id'           => $this->createProject($user)->id,
         ];
 
-        $response = $this->actingAs($user)->post('/producer/jobs', $data);
+        $response = $this->actingAs($user)
+                         ->post('/producer/jobs', $data);
 
         $response->assertSessionHasErrors([
             'persons_needed', // must be numeric
@@ -299,7 +326,8 @@ class CreateProjectJobTest extends TestCase
             'project_id'           => $this->createProject($user)->id,
         ];
 
-        $response = $this->actingAs($user)->post('/producer/jobs', $data);
+        $response = $this->actingAs($user)
+                         ->post('/producer/jobs', $data);
 
         $response->assertSessionHasErrors([
             'pay_type_id',
@@ -312,7 +340,8 @@ class CreateProjectJobTest extends TestCase
         $user = $this->createCrewUser();
         $data = [];
 
-        $response = $this->actingAs($user)->post('/producer/jobs', $data);
+        $response = $this->actingAs($user)
+                         ->post('/producer/jobs', $data);
 
         $response->assertRedirect('/');
     }
@@ -324,7 +353,8 @@ class CreateProjectJobTest extends TestCase
         $project = factory(Project::class)->create();
         $data    = [];
 
-        $response = $this->actingAs($user)->post('/producer/jobs', $data);
+        $response = $this->actingAs($user)
+                         ->post('/producer/jobs', $data);
 
         $response->assertForbidden();
     }
@@ -338,7 +368,8 @@ class CreateProjectJobTest extends TestCase
             'project_id' => 999,
         ];
 
-        $response = $this->actingAs($user)->post('/producer/jobs', $data);
+        $response = $this->actingAs($user)
+                         ->post('/producer/jobs', $data);
 
         $response->assertForbidden();
     }
@@ -352,7 +383,8 @@ class CreateProjectJobTest extends TestCase
             'project_id' => $project->id,
         ];
 
-        $response = $this->actingAs($user)->post('/producer/jobs', $data);
+        $response = $this->actingAs($user)
+                         ->post('/producer/jobs', $data);
 
         $response->assertForbidden();
     }

@@ -22,16 +22,17 @@ class UserSettingsFeatureTest extends TestCase
             'last_name'  => 'Ford',
         ];
 
-        $response = $this->actingAs($user)->put('/account/settings/name', $data);
+        $response = $this->actingAs($user)
+                         ->put('/account/settings/name', $data);
 
         $response->assertSuccessful();
 
-        $this->assertArraySubset(
-            [
+        $this->assertArraySubset([
                 'first_name' => 'Adam James',
                 'last_name'  => 'Ford',
             ],
-            $user->refresh()->toArray()
+            $user->refresh()
+                 ->toArray()
         );
     }
 
@@ -44,16 +45,17 @@ class UserSettingsFeatureTest extends TestCase
             'last_name'  => "O'neal",
         ];
 
-        $response = $this->actingAs($user)->put('/account/settings/name', $data);
+        $response = $this->actingAs($user)
+                         ->put('/account/settings/name', $data);
 
         $response->assertSuccessful();
 
-        $this->assertArraySubset(
-            [
+        $this->assertArraySubset([
                 'first_name' => 'John James',
                 'last_name'  => "O'Neal",
             ],
-            $user->refresh()->toArray()
+            $user->refresh()
+                 ->toArray()
         );
     }
 
@@ -66,7 +68,8 @@ class UserSettingsFeatureTest extends TestCase
             'last_name'  => '2543',
         ];
 
-        $response = $this->actingAs($user)->put('/account/settings/name', $data);
+        $response = $this->actingAs($user)
+                         ->put('/account/settings/name', $data);
 
         $response->assertSessionHasErrors([
             'first_name', // a-z'- and space chars are only allowed
@@ -91,22 +94,21 @@ class UserSettingsFeatureTest extends TestCase
             'receive_sms'                => 1,
         ];
 
-        $response = $this->actingAs($user)->put('/account/settings/notifications', $data);
+        $response = $this->actingAs($user)
+                         ->put('/account/settings/notifications', $data);
 
         $response->assertSuccessful();
 
         $user->refresh();
 
-        $this->assertArraySubset(
-            [
+        $this->assertArraySubset([
                 'email' => 'updateemail@gmail.com',
                 'phone' => '(888) 937-7238',
             ],
             $user->toArray()
         );
 
-        $this->assertArraySubset(
-            [
+        $this->assertArraySubset([
                 'receive_email_notification' => true,
                 'receive_other_emails'       => true,
                 'receive_sms'                => true,
@@ -138,22 +140,21 @@ class UserSettingsFeatureTest extends TestCase
             'receive_sms'                => 1,
         ];
 
-        $response = $this->actingAs($user)->put('/account/settings/notifications', $data);
+        $response = $this->actingAs($user)
+                         ->put('/account/settings/notifications', $data);
 
         $response->assertSuccessful();
 
         $user->refresh();
 
-        $this->assertArraySubset(
-            [
+        $this->assertArraySubset([
                 'email' => 'safe@gmail.com',
                 'phone' => '(888) 937-7238',
             ],
             $user->toArray()
         );
 
-        $this->assertArraySubset(
-            [
+        $this->assertArraySubset([
                 'receive_email_notification' => true,
                 'receive_other_emails'       => true,
                 'receive_sms'                => true,
@@ -177,10 +178,10 @@ class UserSettingsFeatureTest extends TestCase
             'phone' => $user->phone,
         ];
 
-        $response = $this->actingAs($user)->put('/account/settings/notifications', $data);
+        $response = $this->actingAs($user)
+                         ->put('/account/settings/notifications', $data);
 
-        $this->assertArraySubset(
-            [
+        $this->assertArraySubset([
                 'receive_email_notification' => false,
                 'receive_other_emails'       => false,
                 'receive_sms'                => false,
@@ -205,10 +206,10 @@ class UserSettingsFeatureTest extends TestCase
             'receive_other_emails' => 1,
         ];
 
-        $response = $this->actingAs($user)->put('/account/settings/notifications', $data);
+        $response = $this->actingAs($user)
+                         ->put('/account/settings/notifications', $data);
 
-        $this->assertArraySubset(
-            [
+        $this->assertArraySubset([
                 'receive_email_notification' => false,
                 'receive_other_emails'       => true,
                 'receive_sms'                => false,
@@ -231,20 +232,20 @@ class UserSettingsFeatureTest extends TestCase
             'phone' => '888.937.7238',
         ];
 
-        $response = $this->actingAs($user)->put('/account/settings/notifications', $data);
+        $response = $this->actingAs($user)
+                         ->put('/account/settings/notifications', $data);
 
         $response->assertSuccessful();
 
-        $this->assertArraySubset(
-            [
+        $this->assertArraySubset([
                 'email' => 'upper@gmail.com',
                 'phone' => '(888) 937-7238',
             ],
-            $user->refresh()->toArray()
+            $user->refresh()
+                 ->toArray()
         );
 
-        $this->assertArraySubset(
-            [
+        $this->assertArraySubset([
                 'receive_email_notification' => false,
                 'receive_other_emails'       => false,
                 'receive_sms'                => false,
@@ -271,7 +272,8 @@ class UserSettingsFeatureTest extends TestCase
             'receive_sms'                => 'asdasd',
         ];
 
-        $response = $this->actingAs($user)->put('/account/settings/notifications', $data);
+        $response = $this->actingAs($user)
+                         ->put('/account/settings/notifications', $data);
 
         $response->assertSessionHasErrors([
             'email' => 'The email must be a valid email address.',
@@ -303,7 +305,8 @@ class UserSettingsFeatureTest extends TestCase
             'receive_sms'                => 1,
         ];
 
-        $response = $this->actingAs($user)->put('/account/settings/notifications', $data);
+        $response = $this->actingAs($user)
+                         ->put('/account/settings/notifications', $data);
 
         $response->assertSessionHasErrors([
             'email' => 'The email has already been taken.',
@@ -320,10 +323,13 @@ class UserSettingsFeatureTest extends TestCase
             'password_confirmation' => 'new_password',
         ];
 
-        Hash::shouldReceive('make')->once()->andReturn('hashed_new_password');
+        Hash::shouldReceive('make')
+            ->once()
+            ->andReturn('hashed_new_password');
         Hash::makePartial();
 
-        $response = $this->actingAs($user)->put('/account/settings/password', $data);
+        $response = $this->actingAs($user)
+                         ->put('/account/settings/password', $data);
 
         $response->assertSuccessful();
 
@@ -342,7 +348,8 @@ class UserSettingsFeatureTest extends TestCase
             'password_confirmation' => 'asasdasd',
         ];
 
-        $response = $this->actingAs($user)->put('/account/settings/password', $data);
+        $response = $this->actingAs($user)
+                         ->put('/account/settings/password', $data);
 
         $response->assertSessionHasErrors([
             'current_password' => 'The current password field is required.',
@@ -360,7 +367,8 @@ class UserSettingsFeatureTest extends TestCase
             'password_confirmation' => 'password',
         ];
 
-        $response = $this->actingAs($user)->put('/account/settings/password', $data);
+        $response = $this->actingAs($user)
+                         ->put('/account/settings/password', $data);
 
         $response->assertSessionHasErrors([
             'current_password' => 'The current password is invalid.',

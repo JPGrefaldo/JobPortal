@@ -20,9 +20,10 @@ class UpdateProjectJobTest extends TestCase
     public function update()
     {
         $user = $this->createProducer();
-        $job  = $this->createJob($user, [
-            'position_id' => PositionID::CAMERA_OPERATOR,
-        ]);
+        $job  = $this->createJob($user,
+            [
+                'position_id' => PositionID::CAMERA_OPERATOR,
+            ]);
         $data = [
             'persons_needed'       => '3',
             'gear_provided'        => 'Updated Gear Provided',
@@ -35,7 +36,8 @@ class UpdateProjectJobTest extends TestCase
             'rush_call'            => '0',
         ];
 
-        $response = $this->actingAs($user)->put('/producer/jobs/' . $job->id, $data);
+        $response = $this->actingAs($user)
+                         ->put('/producer/jobs/' . $job->id, $data);
 
         $response->assertSuccessful();
 
@@ -49,16 +51,20 @@ class UpdateProjectJobTest extends TestCase
             'notes'                => 'Updated Notes',
             'travel_expenses_paid' => true,
             'rush_call'            => false,
-        ], $job->refresh()->toArray());
+        ],
+            $job->refresh()
+                ->toArray()
+        );
     }
 
     /** @test */
     public function update_with_invalid_data()
     {
         $user = $this->createProducer();
-        $job  = $this->createJob($user, [
-            'position_id' => PositionID::CAMERA_OPERATOR,
-        ]);
+        $job  = $this->createJob($user,
+            [
+                'position_id' => PositionID::CAMERA_OPERATOR,
+            ]);
         $data = [
             'persons_needed'       => '3',
             'gear_provided'        => 'Updated Gear Provided',
@@ -73,7 +79,8 @@ class UpdateProjectJobTest extends TestCase
             'status'               => '1',
         ];
 
-        $response = $this->actingAs($user)->put('/producer/jobs/' . $job->id, $data);
+        $response = $this->actingAs($user)
+                         ->put('/producer/jobs/' . $job->id, $data);
 
         $response->assertSuccessful();
 
@@ -87,17 +94,21 @@ class UpdateProjectJobTest extends TestCase
             'notes'                => 'Updated Notes',
             'travel_expenses_paid' => true,
             'rush_call'            => false,
-            'position_id'          => PositionID::CAMERA_OPERATOR
-        ], $job->refresh()->toArray());
+            'position_id'          => PositionID::CAMERA_OPERATOR,
+        ],
+            $job->refresh()
+                ->toArray()
+        );
     }
 
     /** @test */
     public function update_non_pay_rate()
     {
         $user = $this->createProducer();
-        $job  = $this->createJob($user, [
-            'position_id' => PositionID::CAMERA_OPERATOR,
-        ]);
+        $job  = $this->createJob($user,
+            [
+                'position_id' => PositionID::CAMERA_OPERATOR,
+            ]);
         $data = [
             'persons_needed'       => '3',
             'gear_provided'        => 'Updated Gear Provided',
@@ -111,7 +122,8 @@ class UpdateProjectJobTest extends TestCase
             'rush_call'            => '0',
         ];
 
-        $response = $this->actingAs($user)->put('/producer/jobs/' . $job->id, $data);
+        $response = $this->actingAs($user)
+                         ->put('/producer/jobs/' . $job->id, $data);
 
         $response->assertSuccessful();
 
@@ -125,16 +137,20 @@ class UpdateProjectJobTest extends TestCase
             'notes'                => 'Updated Notes',
             'travel_expenses_paid' => true,
             'rush_call'            => false,
-        ], $job->refresh()->toArray());
+        ],
+            $job->refresh()
+                ->toArray()
+        );
     }
 
     /** @test */
     public function update_no_gear_and_no_persons_needed()
     {
         $user = $this->createProducer();
-        $job  = $this->createJob($user, [
-            'position_id' => PositionID::FIRST_ASSISTANT_DIRECTOR,
-        ]);
+        $job  = $this->createJob($user,
+            [
+                'position_id' => PositionID::FIRST_ASSISTANT_DIRECTOR,
+            ]);
         $data = [
             'pay_rate'             => '17',
             'pay_rate_type_id'     => PayTypeID::PER_HOUR,
@@ -144,7 +160,8 @@ class UpdateProjectJobTest extends TestCase
             'rush_call'            => '0',
         ];
 
-        $response = $this->actingAs($user)->put('/producer/jobs/' . $job->id, $data);
+        $response = $this->actingAs($user)
+                         ->put('/producer/jobs/' . $job->id, $data);
 
         $response->assertSuccessful();
 
@@ -155,7 +172,10 @@ class UpdateProjectJobTest extends TestCase
             'notes'                => 'Updated Notes',
             'travel_expenses_paid' => true,
             'rush_call'            => false,
-        ], $job->refresh()->toArray());
+        ],
+            $job->refresh()
+                ->toArray()
+        );
     }
 
     /** @test */
@@ -170,7 +190,8 @@ class UpdateProjectJobTest extends TestCase
             'rush_call'            => '',
         ];
 
-        $response = $this->actingAs($user)->put('/producer/jobs/' . $job->id, $data);
+        $response = $this->actingAs($user)
+                         ->put('/producer/jobs/' . $job->id, $data);
 
         $response->assertSessionHasErrors([
             'dates_needed',
@@ -189,7 +210,8 @@ class UpdateProjectJobTest extends TestCase
             'persons_needed' => '',
         ];
 
-        $response = $this->actingAs($user)->put('/producer/jobs/' . $job->id, $data);
+        $response = $this->actingAs($user)
+                         ->put('/producer/jobs/' . $job->id, $data);
 
         $response->assertSessionHasErrors([
             'persons_needed',
@@ -214,7 +236,8 @@ class UpdateProjectJobTest extends TestCase
             'rush_call'            => 'asdasd',
         ];
 
-        $response = $this->actingAs($user)->put('/producer/jobs/' . $job->id, $data);
+        $response = $this->actingAs($user)
+                         ->put('/producer/jobs/' . $job->id, $data);
 
         $response->assertSessionHasErrors([
             'persons_needed', // must be numeric
@@ -234,9 +257,10 @@ class UpdateProjectJobTest extends TestCase
     public function update_invalid_requires_pay_type_id_when_zero_rate()
     {
         $user = $this->createProducer();
-        $job  = $this->createJob($user, [
-            'position_id' => PositionID::FIRST_ASSISTANT_DIRECTOR,
-        ]);
+        $job  = $this->createJob($user,
+            [
+                'position_id' => PositionID::FIRST_ASSISTANT_DIRECTOR,
+            ]);
         $data = [
             'pay_rate'             => '0',
             'pay_rate_type_id'     => PayTypeID::PER_HOUR,
@@ -246,7 +270,8 @@ class UpdateProjectJobTest extends TestCase
             'rush_call'            => '0',
         ];
 
-        $response = $this->actingAs($user)->put('/producer/jobs/' . $job->id, $data);
+        $response = $this->actingAs($user)
+                         ->put('/producer/jobs/' . $job->id, $data);
 
         $response->assertSessionHasErrors([
             'pay_type_id',
@@ -260,7 +285,8 @@ class UpdateProjectJobTest extends TestCase
         $job  = factory(ProjectJob::class)->create();
         $data = [];
 
-        $response = $this->actingAs($user)->put('/producer/jobs/' . $job->id, $data);
+        $response = $this->actingAs($user)
+                         ->put('/producer/jobs/' . $job->id, $data);
 
         $response->assertRedirect('/');
     }
@@ -271,7 +297,8 @@ class UpdateProjectJobTest extends TestCase
         $user = $this->createProducer();
         $data = [];
 
-        $response = $this->actingAs($user)->put('/producer/jobs/' . 999, $data);
+        $response = $this->actingAs($user)
+                         ->put('/producer/jobs/' . 999, $data);
 
         $response->assertNotFound();
     }
@@ -283,15 +310,15 @@ class UpdateProjectJobTest extends TestCase
         $job  = factory(ProjectJob::class)->create();
         $data = [];
 
-        $response = $this->actingAs($user)->put('/producer/jobs/' . $job->id, $data);
+        $response = $this->actingAs($user)
+                         ->put('/producer/jobs/' . $job->id, $data);
 
         $response->assertForbidden();
     }
 
-
     /**
      * @param \App\Models\User $user
-     * @param array            $attributes
+     * @param array $attributes
      *
      * @return \App\Models\ProjectJob
      */

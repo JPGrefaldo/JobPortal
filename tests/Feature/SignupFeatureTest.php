@@ -28,7 +28,9 @@ class SignupFeatureTest extends TestCase
             '_token'      => csrf_token(),
         ]);
 
-        Hash::shouldReceive('make')->once()->andReturn('hashed_password');
+        Hash::shouldReceive('make')
+            ->once()
+            ->andReturn('hashed_password');
 
         $response = $this->post('signup', $data);
 
@@ -47,7 +49,9 @@ class SignupFeatureTest extends TestCase
             '_token'      => csrf_token(),
         ]);
 
-        Hash::shouldReceive('make')->once()->andReturn('hashed_password');
+        Hash::shouldReceive('make')
+            ->once()
+            ->andReturn('hashed_password');
 
         $response = $this->post('signup', $data);
 
@@ -60,26 +64,30 @@ class SignupFeatureTest extends TestCase
         Mail::fake();
 
         $data = array_merge($this->makeFakeUser()->toArray(), [
-            'first_name' => 'john',
-            'last_name'  => 'doe',
-            'email'      => 'UPPER@gmail.com',
-            'phone'      => '1234567890',
+            'first_name'  => 'john',
+            'last_name'   => 'doe',
+            'email'       => 'UPPER@gmail.com',
+            'phone'       => '1234567890',
             'password'    => 'password',
             'receive_sms' => 1,
             'type'        => Role::CREW,
             '_token'      => csrf_token(),
         ]);
 
-        Hash::shouldReceive('make')->once()->andReturn('hashed_password');
+        Hash::shouldReceive('make')
+            ->once()
+            ->andReturn('hashed_password');
 
         $response = $this->post('signup', $data);
 
-        $this->assertSignupSuccess($response, array_merge($data, [
-            'first_name' => 'John',
-            'last_name'  => 'Doe',
-            'email'      => 'upper@gmail.com',
-            'phone'     => '(123) 456-7890'
-        ]));
+        $this->assertSignupSuccess($response,
+            array_merge($data, [
+                'first_name' => 'John',
+                'last_name'  => 'Doe',
+                'email'      => 'upper@gmail.com',
+                'phone'      => '(123) 456-7890',
+            ])
+        );
     }
 
     /** @test */
@@ -88,12 +96,14 @@ class SignupFeatureTest extends TestCase
         Mail::fake();
 
         $data = array_merge($this->makeFakeUser()->toArray(), [
-            'password'    => 'password',
-            'type'        => Role::CREW,
-            '_token'      => csrf_token(),
+            'password' => 'password',
+            'type'     => Role::CREW,
+            '_token'   => csrf_token(),
         ]);
 
-        Hash::shouldReceive('make')->once()->andReturn('hashed_password');
+        Hash::shouldReceive('make')
+            ->once()
+            ->andReturn('hashed_password');
 
         $response = $this->post('signup', $data);
 
@@ -106,12 +116,14 @@ class SignupFeatureTest extends TestCase
         Mail::fake();
 
         $data = array_merge($this->makeFakeUser()->toArray(), [
-            'password'    => 'password',
-            'type'        => Role::PRODUCER,
-            '_token'      => csrf_token(),
+            'password' => 'password',
+            'type'     => Role::PRODUCER,
+            '_token'   => csrf_token(),
         ]);
 
-        Hash::shouldReceive('make')->once()->andReturn('hashed_password');
+        Hash::shouldReceive('make')
+            ->once()
+            ->andReturn('hashed_password');
 
         $response = $this->post('signup', $data);
 
@@ -169,7 +181,8 @@ class SignupFeatureTest extends TestCase
         $response->assertRedirect('login');
 
         // assert that the user has been created and had the correct user settings
-        $user = User::where('email', $data['email'])->first();
+        $user = User::where('email', $data['email'])
+                    ->first();
 
         $this->assertArraySubset([
             'first_name' => $data['first_name'],
@@ -179,7 +192,9 @@ class SignupFeatureTest extends TestCase
             'password'   => 'hashed_' . $data['password'],
             'status'     => 1,
             'confirmed'  => false,
-        ], $user->makeVisible('password')->toArray());
+        ],
+            $user->makeVisible('password')
+                 ->toArray());
 
         $this->assertEquals(36, strlen($user->uuid));
 
@@ -202,15 +217,16 @@ class SignupFeatureTest extends TestCase
         $this->assertNotEmpty($user->emailVerificationCode->code);
 
         // assert that an email has been sent for verification
-        Mail::assertSent(ConfirmUserAccount::class, function ($mail) use ($user) {
-            return $mail->user->id === $user->id;
-        });
+        Mail::assertSent(ConfirmUserAccount::class,
+            function ($mail) use ($user) {
+                return $mail->user->id === $user->id;
+            });
     }
 
     private function makeFakeUser()
     {
         return factory(User::class)->make([
-            'email' => $this->faker->freeEmail
+            'email' => $this->faker->freeEmail,
         ]);
     }
 }

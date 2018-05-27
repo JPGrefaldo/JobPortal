@@ -17,12 +17,13 @@ class LogoutInactiveUserFeatureTest extends TestCase
         $user = $this->createUser(['status' => 0]);
 
         // user passes auth middleware
-        $response = $this->actingAs($user)->get('home');
+        $response = $this->actingAs($user)
+                         ->get('home');
 
         $response->assertRedirect('login')
-            ->assertSessionHasErrors([
-                'email' => 'Your account has been closed. Please contact us for assistance in re-opening your account.'
-            ]);
+                 ->assertSessionHasErrors([
+                     'email' => 'Your account has been closed. Please contact us for assistance in re-opening your account.',
+                 ]);
 
         $this->assertGuest();
     }
@@ -33,29 +34,32 @@ class LogoutInactiveUserFeatureTest extends TestCase
         $user = $this->createUser();
 
         // user passes auth middleware
-        $response = $this->actingAs($user)->get('home');
+        $response = $this->actingAs($user)
+                         ->get('home');
 
         $response->assertSuccessful();
 
         // ban user in admin
         $admin = $this->createAdmin();
 
-        $response = $this->actingAs($admin)->put(
-            'admin/users/ban/' . $user->id,
-            ['reason' => 'some reason']
-        );
+        $response = $this->actingAs($admin)
+                         ->put(
+                             'admin/users/ban/' . $user->id,
+                             ['reason' => 'some reason']
+                         );
 
         $response->assertSuccessful();
 
         // user is logged out when visiting home
         $user->refresh();
 
-        $response = $this->actingAs($user)->get('home');
+        $response = $this->actingAs($user)
+                         ->get('home');
 
         $response->assertRedirect('login')
-            ->assertSessionHasErrors([
-                'email' => 'Your account has been banned (some reason). Please contact us for assistance in re-opening your account.'
-            ]);
+                 ->assertSessionHasErrors([
+                     'email' => 'Your account has been banned (some reason). Please contact us for assistance in re-opening your account.',
+                 ]);
 
         $this->assertGuest();
     }

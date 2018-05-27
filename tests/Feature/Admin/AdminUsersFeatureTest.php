@@ -16,9 +16,12 @@ class AdminUsersFeatureTest extends TestCase
     {
         $admin = $this->createAdmin();
         $user  = $this->createUser();
-        $data  = ['reason' => 'some reason'];
+        $data  = [
+            'reason' => 'some reason',
+        ];
 
-        $response = $this->actingAs($admin)->put('admin/users/ban/' . $user->id, $data);
+        $response = $this->actingAs($admin)
+                         ->put('admin/users/ban/' . $user->id, $data);
 
         // assert user has been banned
         $user->refresh();
@@ -26,7 +29,7 @@ class AdminUsersFeatureTest extends TestCase
         $this->assertArraySubset(
             [
                 'user_id' => $user->id,
-                'reason' => 'some reason'
+                'reason'  => 'some reason',
             ],
             $user->banned->toArray()
         );
@@ -40,9 +43,9 @@ class AdminUsersFeatureTest extends TestCase
     public function ban_user_not_exist()
     {
         $admin = $this->createAdmin();
-        $data  = ['reason' => 'some reason'];
 
-        $response = $this->actingAs($admin)->put('admin/users/ban/44');
+        $response = $this->actingAs($admin)
+                         ->put('admin/users/ban/44');
 
         $response->assertNotFound();
     }
@@ -52,9 +55,12 @@ class AdminUsersFeatureTest extends TestCase
     {
         $admin = $this->createAdmin();
         $user  = $this->createUser();
-        $data  = ['reason' => ''];
+        $data  = [
+            'reason' => '',
+        ];
 
-        $response = $this->actingAs($admin)->put('admin/users/ban/' . $user->id, $data);
+        $response = $this->actingAs($admin)
+                         ->put('admin/users/ban/' . $user->id, $data);
 
         $response->assertSessionHasErrors([
             'reason' => 'The reason field is required.',
@@ -67,7 +73,8 @@ class AdminUsersFeatureTest extends TestCase
         $crew = $this->createCrewUser();
         $user = $this->createUser();
 
-        $response = $this->actingAs($crew)->put('admin/users/ban/' . $user->id);
+        $response = $this->actingAs($crew)
+                         ->put('admin/users/ban/' . $user->id);
 
         $response->assertRedirect('/');
     }

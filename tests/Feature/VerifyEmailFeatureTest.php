@@ -24,12 +24,12 @@ class VerifyEmailFeatureTest extends TestCase
         $response = $this->get('verify/email/' . $user->emailVerificationCode->code);
 
         $response->assertRedirect('login')
-            ->assertSessionHas(
-                [
-                    'flash_message' => 'Your account has been confirmed! You may now login.',
-                    'flash_type'    => 'success',
-                ]
-            );
+                 ->assertSessionHas(
+                     [
+                         'flash_message' => 'Your account has been confirmed! You may now login.',
+                         'flash_type'    => 'success',
+                     ]
+                 );
 
         $this->assertDatabaseHas('users', [
             'id'        => $user->id,
@@ -43,13 +43,13 @@ class VerifyEmailFeatureTest extends TestCase
         $response = $this->get('verify/email/invalid_code');
 
         $response->assertRedirect('login')
-            ->assertSessionHas(
-                [
-                    'flash_message' => 'Invalid confirmation code.',
-                    'flash_title'   => 'Error!',
-                    'flash_type'    => 'error',
-                ]
-            );
+                 ->assertSessionHas(
+                     [
+                         'flash_message' => 'Invalid confirmation code.',
+                         'flash_title'   => 'Error!',
+                         'flash_type'    => 'error',
+                     ]
+                 );
     }
 
     /** @test */
@@ -66,11 +66,11 @@ class VerifyEmailFeatureTest extends TestCase
         $response = $this->get('verify/email/' . $user->emailVerificationCode->code);
 
         $response->assertRedirect('login')
-            ->assertSessionHas(
-                [
-                    'flash_message' => 'Your account was already confirmed, you do not need to confirm again.',
-                    'flash_type'    => 'error',
-                ]
-            );
+                 ->assertSessionHas(
+                     [
+                         'flash_message' => 'Your account was already confirmed, you do not need to confirm again.',
+                         'flash_type'    => 'error',
+                     ]
+                 );
     }
 }

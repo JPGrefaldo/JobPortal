@@ -18,13 +18,14 @@ class LoginFeatureTest extends TestCase
     public function login()
     {
         $user = factory(User::class)->create([
-            'password' => Hash::make('testpass')
+            'password' => Hash::make('testpass'),
         ]);
-        $user->sites()->save($this->getCurrentSite());
+        $user->sites()
+             ->save($this->getCurrentSite());
 
         $response = $this->post('login', [
-            'email' => $user->email,
-            'password' => 'testpass'
+            'email'    => $user->email,
+            'password' => 'testpass',
         ]);
 
         $this->assertAuthenticated();
@@ -36,14 +37,14 @@ class LoginFeatureTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->post('login', [
-            'email' => $user->email,
-            'password' => 'asdasdasd'
+            'email'    => $user->email,
+            'password' => 'asdasdasd',
         ]);
 
         $this->assertGuest();
 
         $response->assertSessionHasErrors([
-            'email' => 'These credentials do not match our records.'
+            'email' => 'These credentials do not match our records.',
         ]);
     }
 
@@ -51,17 +52,17 @@ class LoginFeatureTest extends TestCase
     public function login_unconfirmed()
     {
         $user = factory(User::class)->create([
-            'password' => Hash::make('testpass'),
-            'confirmed' => 0
+            'password'  => Hash::make('testpass'),
+            'confirmed' => 0,
         ]);
 
         $response = $this->post('login', [
-            'email' => $user->email,
-            'password' => 'testpass'
+            'email'    => $user->email,
+            'password' => 'testpass',
         ]);
 
         $response->assertSessionHasErrors([
-            'email' => 'Your account is not confirmed.\n Check your email (and spam) for the confirmation link'
+            'email' => 'Your account is not confirmed.\n Check your email (and spam) for the confirmation link',
         ]);
 
         $this->assertGuest();
@@ -72,16 +73,16 @@ class LoginFeatureTest extends TestCase
     {
         $user = factory(User::class)->create([
             'password' => Hash::make('testpass'),
-            'status' => 0
+            'status'   => 0,
         ]);
 
         $response = $this->post('login', [
-            'email' => $user->email,
-            'password' => 'testpass'
+            'email'    => $user->email,
+            'password' => 'testpass',
         ]);
 
         $response->assertSessionHasErrors([
-            'email' => 'Your account has been closed. Please contact us for assistance in re-opening your account.'
+            'email' => 'Your account has been closed. Please contact us for assistance in re-opening your account.',
         ]);
 
         $this->assertGuest();
@@ -91,20 +92,20 @@ class LoginFeatureTest extends TestCase
     public function login_banned()
     {
         $user = factory(User::class)->create([
-            'password' => Hash::make('testpass')
+            'password' => Hash::make('testpass'),
         ]);
         UserBanned::create([
             'user_id' => $user->id,
-            'reason' => 'some reason'
+            'reason'  => 'some reason',
         ]);
 
         $response = $this->post('login', [
-            'email' => $user->email,
-            'password' => 'testpass'
+            'email'    => $user->email,
+            'password' => 'testpass',
         ]);
 
         $response->assertSessionHasErrors([
-            'email' => 'Your account has been banned. Please contact us for assistance in re-opening your account.'
+            'email' => 'Your account has been banned. Please contact us for assistance in re-opening your account.',
         ]);
 
         $this->assertGuest();
@@ -114,20 +115,21 @@ class LoginFeatureTest extends TestCase
     public function login_not_in_site()
     {
         $user = factory(User::class)->create([
-            'password' => Hash::make('testpass')
+            'password' => Hash::make('testpass'),
         ]);
-        $user->sites()->create([
-            'name' => 'Some site',
-            'hostname' => 'somesite.test'
-        ]);
+        $user->sites()
+             ->create([
+                 'name'     => 'Some site',
+                 'hostname' => 'somesite.test',
+             ]);
 
         $response = $this->post('login', [
-            'email' => $user->email,
-            'password' => 'testpass'
+            'email'    => $user->email,
+            'password' => 'testpass',
         ]);
 
         $response->assertSessionHasErrors([
-            'email' => 'Your account is not registered in this site.'
+            'email' => 'Your account is not registered in this site.',
         ]);
 
         $this->assertGuest();
