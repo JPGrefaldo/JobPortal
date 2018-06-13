@@ -16,6 +16,21 @@ class StrUtils
         return preg_replace("/[^0-9]/", "", $string);
     }
 
+    /**
+     * @param int $length
+     * @return bool|string
+     */
+    public static function createRandomString($length = 16)
+    {
+        $pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+        return substr(str_shuffle(str_repeat($pool, $length)), 0, $length);
+    }
+
+    /**
+     * @param $string
+     * @return string
+     */
     public static function cleanYouTube($string)
     {
         $string = str_replace(['http://', 'https://', 'watch?v='], '', $string);

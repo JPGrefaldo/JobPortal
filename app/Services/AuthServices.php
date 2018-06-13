@@ -7,6 +7,7 @@ namespace App\Services;
 use App\Models\Role;
 use App\Models\Site;
 use App\Models\User;
+use App\Utils\StrUtils;
 use Illuminate\Support\Str;
 
 class AuthServices
@@ -29,7 +30,7 @@ class AuthServices
         $user->roles()->save($role);
         $user->sites()->save($site);
         $user->emailVerificationCode()->create([
-            'code' => Str::uuid()
+            'code' => StrUtils::createRandomString(),
         ]);
     }
 }

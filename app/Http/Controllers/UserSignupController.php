@@ -35,8 +35,11 @@ class UserSignupController extends Controller
 
         UserNotificationSetting::create([
             'user_id'     => $user->id,
-            'receive_sms' => ($data['type'] === Role::PRODUCER) ? 1 : array_get($data, 'receive_sms', 0),
+            'receive_sms' => ($data['type'] === Role::PRODUCER)
+                ? 1
+                : array_get($data, 'receive_sms', 0),
         ]);
+
         app(AuthServices::class)->createByRoleName(
             $data['type'],
             $user,

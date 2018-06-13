@@ -35,7 +35,7 @@ class UsersServices
         $data['last_name']  = $this->formatName($data['last_name']);
         $data['email']      = $this->formatEmail($data['email']);
         $data['password']   = $this->hashPassword($data['password']);
-        $data['phone']      = $this->formatPhone($data['phone']);
+        $data['phone']      = $this->stripPhone($data['phone']);
 
         return $data;
     }
@@ -69,7 +69,7 @@ class UsersServices
     {
         $user->update([
             'email' => $this->formatEmail($email),
-            'phone' => $this->formatPhone($phone),
+            'phone' => $this->stripPhone($phone),
         ]);
 
         return $user;
@@ -123,8 +123,8 @@ class UsersServices
      *
      * @return string
      */
-    public function formatPhone(string $value)
+    public function stripPhone(string $value)
     {
-        return StrUtils::formatPhone($value);
+        return StrUtils::stripNonNumeric($value);
     }
 }

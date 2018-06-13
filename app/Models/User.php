@@ -139,4 +139,12 @@ class User extends Authenticatable
         return $this->sites()->get()
                     ->contains('hostname', $hostname);
     }
+
+    /**
+     * @return string
+     */
+    public function formattedPhoneNumber()
+    {
+        return StrUtils::formatPhone($this->phone);
+    }
 }
