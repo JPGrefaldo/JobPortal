@@ -143,7 +143,7 @@ class User extends Authenticatable
     /**
      * @return string
      */
-    public function formattedPhoneNumber()
+    public function getFormattedPhoneNumberAttribute()
     {
         return StrUtils::formatPhone($this->phone);
     }

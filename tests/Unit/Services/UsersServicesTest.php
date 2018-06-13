@@ -34,7 +34,7 @@ class UsersServicesTest extends TestCase
             'last_name'  => $fakerUser->last_name,
             'email'      => $fakerUser->email,
             'password'   => 'some_password',
-            'phone'      => $fakerUser->phone,
+            'phone'      => '555-555-5555',
         ];
 
         Hash::shouldReceive('make')->once()->andReturn('hashed_password');
@@ -49,7 +49,7 @@ class UsersServicesTest extends TestCase
             'first_name' => $data['first_name'],
             'last_name'  => $data['last_name'],
             'email'      => $data['email'],
-            'phone'      => $data['phone'],
+            'phone'      => '5555555555',
             'password'   => 'hashed_password',
             'status'     => 1,
             'confirmed'  => false,
