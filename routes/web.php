@@ -15,15 +15,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
-
 Route::get('/signup', 'Auth\RegisterController@showRegistrationForm');
-Route::post('/signup', 'UserSignupController@signup');
+Route::post('/signup', 'UserSignupController@signup')->name('signup');
 
 Route::get('/verify/email/{code}', 'VerifyEmailController@verify');
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Auth::routes();
 
 Route::middleware('auth')->group(function () {
     Route::put('/account/settings/name', 'User\UserSettingsController@updateName');
