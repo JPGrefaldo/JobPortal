@@ -12,11 +12,19 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
 });
 
 Route::get('/signup', 'Auth\RegisterController@showRegistrationForm');
 Route::post('/signup', 'UserSignupController@signup')->name('signup');
+
+Route::get('/my-profile', 'ProfileController@index');
+Route::get('/my-profile/edit', 'ProfileController@showEditProfile');
+
+Route::get('/my-projects', 'ProjectController@index');
+Route::get('/my-projects/post', 'ProjectController@showPostProject');
+
+Route::get('/my-account', 'AccountController@index');
 
 Route::get('/verify/email/{code}', 'VerifyEmailController@verify');
 

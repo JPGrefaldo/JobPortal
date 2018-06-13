@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="5px" viewBox="0 0 24 5" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <title>dots</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Profile" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Submissions---producer" transform="translate(-698.000000, -856.000000)" fill="#D8D8D8">
+            <g id="Group-49-Copy-3" transform="translate(453.000000, 837.000000)">
+                <g id="Group-43-Copy-2">
+                    <g id="Group-38-Copy-2">
+                        <g id="dots" transform="translate(245.000000, 19.000000)">
+                            <g id="Group-35-Copy-2" transform="translate(12.300000, 2.500000) rotate(-270.000000) translate(-12.300000, -2.500000) translate(10.000000, -9.000000)">
+                                <circle id="Oval-8" cx="2.3" cy="2.3" r="2.3"></circle>
+                                <circle id="Oval-8-Copy" cx="2.3" cy="11.5" r="2.3"></circle>
+                                <circle id="Oval-8-Copy-2" cx="2.3" cy="20.7" r="2.3"></circle>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

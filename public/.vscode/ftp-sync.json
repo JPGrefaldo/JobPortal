@@ -1,0 +1,24 @@
+{
+    "remotePath": "/public_html/dev/crew-calls/",
+    "host": "ftp.84colors.com",
+    "username": "colors84",
+    "password": "Sbw+vEtFxv10",
+    "port": 21,
+    "secure": false,
+    "protocol": "ftp",
+    "uploadOnSave": true,
+    "passive": true,
+    "debug": true,
+    "privateKeyPath": null,
+    "passphrase": null,
+    "ignore": [
+        "\\.vscode",
+        "\\.git",
+        "\\.DS_Store"
+    ],
+    "generatedFiles": {
+        "uploadOnSave": false,
+        "extensionsToInclude": [],
+        "path": ""
+    }
+}
