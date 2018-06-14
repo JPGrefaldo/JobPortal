@@ -16,7 +16,7 @@
                 <ul class="list-reset hidden lg:flex items-center relative z-10">
                         <li>
                             <a class="block py-6 px-4 font-header tracking-wide block font-bold leading-none uppercase text-sm text-white hover:text-green"
-                                href="/projects/post">post a project</a>
+                                href="/my-projects/post">post a project</a>
                         </li>
                         <li>
                             <a class="block py-6 px-4 font-header tracking-wide font-bold leading-none uppercase text-sm text-white hover:text-green"
@@ -28,14 +28,35 @@
                         </li>
                     </ul>
                     <div class="w-64 hidden lg:block relative z-10">
+
                         <ul class="list-reset flex items-center">
+                            @guest
                             <li>
-                                <a class="block py-4 px-8 font-header font-bold leading-none uppercase text-sm text-white hover:text-green" href="/sign-in">SIGN IN</a>
+                                <a class="block py-4 px-8 font-header font-bold leading-none uppercase text-sm text-white hover:text-green" href="{{ route('login') }}">SIGN IN</a>
                             </li>
                             <li>
                                 <a class="block py-4 px-8 font-header font-bold leading-none border border-white rounded-full uppercase text-sm text-white hover:border-green hover:text-green"
-                                    href="/signup">SIGN UP</a>
+                                    href="{{ route('register') }}">SIGN UP</a>
                             </li>
+                            @else
+                            <li>
+                                <a class="block py-4 px-8 font-header font-bold leading-none uppercase text-sm text-white hover:text-green">
+                                    {{ Auth::user()->first_name }} <span class="caret"></span>
+                                </a>
+                            </li> 
+                            <li>
+                                    <a class="block py-4 px-8 font-header font-bold leading-none border border-white rounded-full uppercase text-sm text-white hover:border-green hover:text-green" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}
+                                    </a>
+                            </li>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+                                </div>
+                            </li>
+                        @endguest
                         </ul>
                     </div>
             </div>
@@ -68,13 +89,13 @@
                     <img src="images/logos/hbo.png" alt="hbo" />
                 </li>
                 <li class="inline-block mx-3 align-middle">
-                    <img src="images/logos/hallmark.png" alt="hbo" />
+                    <img src="images/logos/hallmark.png" alt="hallmark" />
                 </li>
                 <li class="inline-block mx-3 align-middle">
-                    <img src="images/logos/microsoft.png" alt="hbo" />
+                    <img src="images/logos/microsoft.png" alt="microsoft" />
                 </li>
                 <li class="inline-block mx-3 align-middle">
-                    <img src="images/logos/netflix.png" alt="hbo" />
+                    <img src="images/logos/netflix.png" alt="netflix" />
                 </li>
                 <li class="inline-block mx-3 align-middle">
                     <img src="images/logos/tnt.png" alt="hbo" />

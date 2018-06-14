@@ -1,7 +1,68 @@
 @extends('layouts.app')
+@include('_parts/header')
 
 @section('content')
-<div class="container">
+<body class="bg-grey-lighter font-body">
+    @include('_parts/nav')
+
+<main class="float-left w-full py-lg">
+        <div class="container max-w-xl">
+            <div class="w-full float-left mb-3 md:mb-0 px-4">
+                <div class="bg-white shadow-md rounded">
+                    <div class="p-8">
+                    <form method="POST" action="{{ route('login') }}">
+                        @csrf
+                        <h2 class="font-header text-blue-dark text-lg text-center font-semibold">Sign in</h2>
+                        <div class="py-2 text-center">
+                            <p class="leading-normal text-blue-dark">Sign in to view project/role details and edit your profile.</p>
+                        </div>
+                        <div class="py-2">
+                            <label class="block font-semibold mb-2" for="">Email</label>
+                        
+                            <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required autofocus>
+
+                                @if ($errors->has('email'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('email') }}</strong>
+                                    </span>
+                                @endif
+
+                        </div>
+                        <div class="py-2">
+                            <label class="block font-semibold mb-2" for="">Password
+                                <a href="#" class="underline text-grey text-sm float-right font-normal">Forgot your password?</a>
+                            </label>
+                            <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
+
+                                @if ($errors->has('password'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('password') }}</strong>
+                                    </span>
+                                @endif
+                        </div>
+                        <div class="py-2">
+                            <label class="md:w-2/3 block">
+                                <input class="mr-1" type="checkbox"> Remember me
+                            </label>
+                        </div>
+                        <div class="pt-6">
+                            <input type="submit" class="block font-header uppercase text-sm p-4 text-center text-white bg-blue font-bold rounded-full hover:bg-green" value="sign in">
+                        </div>
+                    </div>
+                </form>
+                    <div class="p-8 text-center bg-grey-lighter border-top border-grey-light">
+                        Not a member yet?
+                        <a href="#" class="text-red underline hover:text-green">Sign up now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+@include('_parts/footer')
+
+@endsection
+<!-- <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -65,5 +126,6 @@
             </div>
         </div>
     </div>
-</div>
-@endsection
+</div> -->
+
+

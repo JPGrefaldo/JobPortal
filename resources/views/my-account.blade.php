@@ -1,7 +1,7 @@
-<?php include '_parts/header.php' ?>
+@include('_parts/header')
 
 <body class="bg-grey-lighter">
-    <?php include '_parts/nav-logged.php' ?>
+    @include('_parts/nav-logged')
 
     <main class="float-left w-full px-3 py-md md:py-lg">
         <div class="container">
@@ -68,4 +68,4 @@
             </div>
         </div>
     </main>
-    <?php include '_parts/footer.php' ?>
+    @include('_parts/footer')
