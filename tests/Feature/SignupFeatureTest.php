@@ -85,7 +85,7 @@ class SignupFeatureTest extends TestCase
                 'first_name' => 'John',
                 'last_name'  => 'Doe',
                 'email'      => 'upper@gmail.com',
-                'phone'      => '(123) 456-7890',
+                'phone'      => '1234567890',
             ])
         );
     }
