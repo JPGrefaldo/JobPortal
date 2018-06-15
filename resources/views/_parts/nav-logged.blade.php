@@ -1,17 +1,17 @@
 <nav class="bg-white float-left w-full px-3 md:px-6 shadow flex justify-between items-center font-header">
     <div class="w-32 md:w-64 py-1 md:py-0 relative z-10">
-        <a href="#"><img src="../images/logo-long.svg" alt="crew calls" /></a>
+        <a href="/"><img src="../images/logo-long.svg" alt="crew calls" /></a>
     </div>
     <ul class="list-reset hidden md:flex items-center">
         <li class="border-b-2 border-red border-solid">
-            <a class="block py-6 px-4 tracking-wide block font-bold leading-none uppercase text-sm text-blue-dark hover:text-green" href="#">my projects</a>
+            <a class="block py-6 px-4 tracking-wide block font-bold leading-none uppercase text-sm text-blue-dark hover:text-green" href="/my-projects">my projects</a>
         </li>
         <li>
             <a class="block py-6 px-4 tracking-wide font-bold leading-none uppercase text-sm text-blue-dark hover:text-green" href="#">find projects</a>
         </li>
         <li>
             <a class="block py-6 px-4 tracking-wide font-bold leading-none relative uppercase text-sm text-blue-dark hover:text-green"
-                href="#">messages
+                href="/my-messages">messages
                 <span class="h-1 w-1 bg-red absolute rounded">
             </a>
         </li>
@@ -25,24 +25,28 @@
             <div class="dropdown shadow-md bg-white absolute py-3 font-body">
                     <ul class="list-reset text-left">
                         <li class="py-2 px-4">
-                            <a href="#" class="block text-blue-dark hover:text-green">View profile</a>
+                            <a href="/my-profile" class="block text-blue-dark hover:text-green">View profile</a>
                         </li>
                         <li class="py-2 px-4">
                             <a href="#" class="block text-blue-dark hover:text-green" >Subscription</a>
                         </li>
                         <li class="py-2 px-4">
-                            <a href="#" class="block text-blue-dark hover:text-green">Settings</a>
+                            <a href="/my-account" class="block text-blue-dark hover:text-green">Settings</a>
                         </li>
                         <li class="py-2 px-4 border-t mt-2 border-grey-light">
-                            <a href="#" class="block text-blue-dark hover:text-green" >Sign out</a>
+                            <a href="{{ route('logout') }}" class="block text-blue-dark hover:text-green" onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">Sign out</a>
                         </li>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                        </form>
                     </ul>
                 </div>
         </div>
         <div class="mr-4 items-center cursor-pointer block relative ">
             <div class="has-dropdown">
                 <div class="relative flex justify-center items-center p-1 rounded-lg hover:bg-grey-lighter">
-                    <span class="mr-2 inline-block font-semibold text-blue-dark text-sm">Bryan</span>
+                    <span class="mr-2 inline-block font-semibold text-blue-dark text-sm">{{ Auth::user()->first_name }}</span>
                     <span class="w-10 h-10 bg-cover rounded-full inline-block" style="background-image: url(../images/thumb.jpg)"></span>
                 </div>
                 <div class="dropdown shadow-md bg-white absolute py-3 font-body">

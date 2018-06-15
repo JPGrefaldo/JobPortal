@@ -31,7 +31,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/login';
 
     /**
      * Create a new controller instance.
@@ -99,7 +99,9 @@ class RegisterController extends Controller
 
         /** @var AuthServices $authServices */
         $user = $this->create($request->all());
+
         $site = Site::where('hostname', $request->getHost())->first();
+        
         $authServices = app(AuthServices::class);
 
         $authServices->createCrew($user, $site);

@@ -26,7 +26,7 @@
             <div class="md:w-3/4 float-left">
                 <div class="card mb-8">
                     <div class="w-full mb-6">
-                        <h3 class="text-blue-dark font-semibold text-md md:text-lg mb-1 font-header">Nathan Shaw</h3>
+                        <h3 class="text-blue-dark font-semibold text-md md:text-lg mb-1 font-header">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</h3>
                     </div>
                     <div class="md:flex">
                         <div class="md:w-1/3 md:pr-6 mb-6">
@@ -75,7 +75,7 @@
                             <div class="md:w-2/3">
                                 <div class="flex flex-wrap items-stretch w-full mb-2 relative">
                                     <div class="flex -mr-px">
-                                        <span class="flex w-10 items-center leading-normal bg-yellow-imdb rounded rounded-r-none px-2 whitespace-no-wrap text-grey-dark"><img src="images/imdb.svg" alt=""  /></span>
+                                        <span class="flex w-10 items-center leading-normal bg-yellow-imdb rounded rounded-r-none px-2 whitespace-no-wrap text-grey-dark"><img src="../images/imdb.svg" alt=""  /></span>
                                     </div>	
                                     <input type="text" class="flex-shrink flex-grow flex-auto leading-normal w-px flex-1 border h-10 border-grey-light rounded rounded-l-none px-3 relative" placeholder="Add IMDb link">
                                 </div>		

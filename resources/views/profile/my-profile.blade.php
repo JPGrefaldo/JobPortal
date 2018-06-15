@@ -24,7 +24,7 @@
                 </ul>
             </div>
             <div class="w-full md:w-3/4 float-left">
-                <a href='#' class="text-grey w-full mb-2 text-sm md:text-right float-right"><i class="fas fa-pencil-alt mr-2"></i>Edit profile</a>
+                <a href='/my-profile/edit' class="text-grey w-full mb-2 text-sm md:text-right float-right"><i class="fas fa-pencil-alt mr-2"></i>Edit profile</a>
                 <div class="card float-left md:flex mb-8">
                     <div class="md:w-1/4 md:pr-8 text-center">
                         <img src="images/thumb.jpg" class="rounded" alt="" />
@@ -40,7 +40,7 @@
                         </ul>
                     </div>
                     <div class="md:w-3/4">
-                        <h3 class="text-blue-dark font-semibold text-lg mb-1 font-header">Nathan Shaw</h3>
+                        <h3 class="text-blue-dark font-semibold text-lg mb-1 font-header">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</h3>
                         <span class="text-grey font-semibold font-header">Director of photography</span>
                         <div class="bg-grey-lighter p-6 rounded my-8">
                             <p>Nathan Shaw began his career in Hollywood as an assistant director and unit production manager.

@@ -1,13 +1,14 @@
 @extends('layouts.app')
 @include('_parts/header')
 
-@section('content')
 <body class="bg-grey-lighter font-body">
+@section('content')
+
     @include('_parts/nav')
 
 <main class="float-left w-full py-lg">
         <div class="container max-w-xl">
-            <div class="w-full float-left mb-3 md:mb-0 px-4">
+            <div class="float-left mb-3 md:mb-0 px-4">
                 <div class="bg-white shadow-md rounded">
                     <div class="p-8">
                     <form method="POST" action="{{ route('login') }}">
@@ -46,7 +47,7 @@
                             </label>
                         </div>
                         <div class="pt-6">
-                            <input type="submit" class="block font-header uppercase text-sm p-4 text-center text-white bg-blue font-bold rounded-full hover:bg-green" value="sign in">
+                            <a class="block font-header bg-blue font-bold rounded-full hover:bg-green" style="text-align: center;"><button style="text-align: center;" class="uppercase text-sm p-4 text-center text-white" type="submit">Log in</button></a>
                         </div>
                     </div>
                 </form>

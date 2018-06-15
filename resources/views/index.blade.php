@@ -40,12 +40,12 @@
                             </li>
                             @else
                             <li>
-                                <a class="block py-4 px-8 font-header font-bold leading-none uppercase text-sm text-white hover:text-green">
+                                <a class="block py-4 px-8 font-header font-bold leading-none border border-white rounded-full text-sm text-white hover:text-green" href="/my-profile">
                                     {{ Auth::user()->first_name }} <span class="caret"></span>
                                 </a>
                             </li> 
                             <li>
-                                    <a class="block py-4 px-8 font-header font-bold leading-none border border-white rounded-full uppercase text-sm text-white hover:border-green hover:text-green" href="{{ route('logout') }}"
+                                    <a class="block py-4 px-8 font-header font-bold leading-none uppercase text-sm text-white hover:border-green hover:text-green" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
