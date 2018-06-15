@@ -22,6 +22,7 @@ class SignupFeatureTest extends TestCase
         Mail::fake();
 
         $data = array_merge($this->makeFakeUser()->toArray(), [
+            'phone'       => '1234567890',            
             'password'    => 'password',
             'receive_sms' => 1,
             'type'        => Role::CREW,
@@ -43,6 +44,7 @@ class SignupFeatureTest extends TestCase
         Mail::fake();
 
         $data = array_merge($this->makeFakeUser()->toArray(), [
+            'phone'       => '1234567890',            
             'password'    => 'password',
             'receive_sms' => 1,
             'type'        => Role::PRODUCER,
@@ -85,7 +87,7 @@ class SignupFeatureTest extends TestCase
                 'first_name' => 'John',
                 'last_name'  => 'Doe',
                 'email'      => 'upper@gmail.com',
-                'phone'      => '(123) 456-7890',
+                'phone'      => '1234567890',
             ])
         );
     }
@@ -96,6 +98,7 @@ class SignupFeatureTest extends TestCase
         Mail::fake();
 
         $data = array_merge($this->makeFakeUser()->toArray(), [
+            'phone'       => '1234567890',            
             'password' => 'password',
             'type'     => Role::CREW,
             '_token'   => csrf_token(),
@@ -116,6 +119,7 @@ class SignupFeatureTest extends TestCase
         Mail::fake();
 
         $data = array_merge($this->makeFakeUser()->toArray(), [
+            'phone'       => '1234567890',            
             'password' => 'password',
             'type'     => Role::PRODUCER,
             '_token'   => csrf_token(),
