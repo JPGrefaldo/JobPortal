@@ -41,7 +41,9 @@
                     </div>
                     <div class="md:w-3/4">
                         <h3 class="text-blue-dark font-semibold text-lg mb-1 font-header">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</h3>
-                        <span class="text-grey font-semibold font-header">Director of photography</span>
+
+
+                        <span class="text-grey font-semibold font-header">{{ $user->user->position }}</span>
                         <div class="bg-grey-lighter p-6 rounded my-8">
                             <p>Nathan Shaw began his career in Hollywood as an assistant director and unit production manager.
                                 After performing these jobs in such films as 'Body Heat, " he moved on to Nathan Shaw began
