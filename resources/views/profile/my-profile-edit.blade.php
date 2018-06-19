@@ -38,11 +38,11 @@
                             <div class="p-3 md:p-6 bg-grey-lighter rounded">
                                 <div class="mb-6">
                                     <label for="" class="block mb-3">Job title</label>
-                                    <input type="text" class="form-control w-full" placeholder="Job title">
+                                    <input type="text" class="form-control w-full" placeholder="Job title" value="{{ $jobTitle->name }}">
                                 </div>
                                 <div class="mb-2">
                                     <label for="" class="block mb-3">Biography</label>
-                                    <textarea class="form-control w-full h-32" placeholder="Biography"></textarea>
+                                    <textarea class="form-control w-full h-32" placeholder="Biography">{{ $position->details }}</textarea>
                                 </div>
                             </div>
                         </div>
@@ -77,7 +77,7 @@
                                     <div class="flex -mr-px">
                                         <span class="flex w-10 items-center leading-normal bg-yellow-imdb rounded rounded-r-none px-2 whitespace-no-wrap text-grey-dark"><img src="../images/imdb.svg" alt=""  /></span>
                                     </div>	
-                                    <input type="text" class="flex-shrink flex-grow flex-auto leading-normal w-px flex-1 border h-10 border-grey-light rounded rounded-l-none px-3 relative" placeholder="Add IMDb link">
+                                    <input type="text" class="flex-shrink flex-grow flex-auto leading-normal w-px flex-1 border h-10 border-grey-light rounded rounded-l-none px-3 relative" placeholder="Add IMDb link" value="{{ $imdb->url }}">
                                 </div>		
                                 <div class="flex flex-wrap items-stretch w-full mb-2 relative">
                                     <div class="flex -mr-px">
@@ -89,7 +89,7 @@
                                     <div class="flex -mr-px">
                                         <span class="flex w-10 text-center items-center leading-normal bg-blue-facebook rounded rounded-r-none px-2 whitespace-no-wrap text-grey-dark"><i class="fab fa-facebook-f text-lg mr-0 text-white inline-block"></i></span>
                                     </div>	
-                                    <input type="text" class="flex-shrink flex-grow flex-auto leading-normal w-px flex-1 border h-10 border-grey-light rounded rounded-l-none px-3 relative" placeholder="Add Facebook link">
+                                    <input type="text" class="flex-shrink flex-grow flex-auto leading-normal w-px flex-1 border h-10 border-grey-light rounded rounded-l-none px-3 relative" placeholder="Add Facebook link" value="{{ $fb->url }}">
                                 </div>		
                             </div>
                         </div>

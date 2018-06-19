@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 
 class ProfileController extends Controller
 {
@@ -14,14 +17,13 @@ class ProfileController extends Controller
      */
     public function index()
     {
+    $user = App\Models\User::first();
+    $position = App\Models\CrewPosition::first();
+    $jobTitle = App\Models\Position::first();
+    $fb = App\Models\CrewSocial::where('social_link_type_id','=',1)->first();
+    $imdb = App\Models\CrewSocial::where('social_link_type_id','=',5)->first();
 
-
-        return view('profile.my-profile', compact('user'));
-    }
-
-    public function showEditProfile()
-    {
-        return view('profile.my-profile-edit');
+     return view('profile.my-profile-edit', compact('user','position', 'jobTitle', 'fb', 'imdb'));   
     }
 
     /**
@@ -53,7 +55,14 @@ class ProfileController extends Controller
      */
     public function show($id)
     {
-        //
+    
+    $user = App\Models\User::first();
+    $position = App\Models\CrewPosition::first();
+    $jobTitle = App\Models\Position::first();
+    $fb = App\Models\CrewSocial::where('social_link_type_id','=',1)->first();
+    $imdb = App\Models\CrewSocial::where('social_link_type_id','=',5)->first();
+
+     return view('profile.my-profile-edit', compact('user','position', 'jobTitle', 'fb', 'imdb'));   
     }
 
     /**

@@ -18,8 +18,31 @@ Route::get('/', function () {
 Route::get('/signup', 'Auth\RegisterController@showRegistrationForm');
 Route::post('/signup', 'UserSignupController@signup')->name('signup');
 
-Route::get('/my-profile', 'ProfileController@index');
-Route::get('/my-profile/edit', 'ProfileController@showEditProfile');
+Route::get('/my-profile', function() {
+
+    $user = App\Models\User::first();
+    $position = App\Models\CrewPosition::first();
+    $jobTitle = App\Models\Position::first();
+    $department = App\Models\Department::first();
+    $fb = App\Models\CrewSocial::where('social_link_type_id','=',1)->first();
+    $imdb = App\Models\CrewSocial::where('social_link_type_id','=',5)->first();
+
+     return view('profile.my-profile', compact('user','position', 'jobTitle', 'fb', 'imdb', 'department'));  
+});
+
+Route::get('/my-profile/{id}', function($id) {
+
+
+    $user = App\Models\User::first();
+    $position = App\Models\CrewPosition::first();
+    $jobTitle = App\Models\Position::first();
+    $fb = App\Models\CrewSocial::where('social_link_type_id','=',1)->first();
+    $imdb = App\Models\CrewSocial::where('social_link_type_id','=',5)->first();
+
+     return view('profile.my-profile-edit', compact('user','position', 'jobTitle', 'fb', 'imdb')); 
+
+});
+Route::post('/my-profile/edit/{id}', 'ProfileController@edit');
 
 Route::get('/my-projects', 'ProjectController@index');
 Route::get('/my-projects/post', 'ProjectController@showPostProject');
