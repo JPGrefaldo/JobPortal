@@ -26,7 +26,7 @@
             <div class="md:w-3/4 float-left">
                 <div class="card mb-8">
                     <div class="w-full mb-6">
-                        <h3 class="text-blue-dark font-semibold text-md md:text-lg mb-1 font-header">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</h3>
+                        <h3 class="text-blue-dark font-semibold text-md md:text-lg mb-1 font-header">{{ $user->first_name }} {{ $user->last_name }}</h3>
                     </div>
                     <div class="md:flex">
                         <div class="md:w-1/3 md:pr-6 mb-6">

@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\User;
+use App\Models\CrewPosition;
+use App\Models\Position;
+use App\Models\CrewSocial;
+use App\Models\Department;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -17,13 +22,15 @@ class ProfileController extends Controller
      */
     public function index()
     {
-    $user = App\Models\User::first();
-    $position = App\Models\CrewPosition::first();
-    $jobTitle = App\Models\Position::first();
-    $fb = App\Models\CrewSocial::where('social_link_type_id','=',1)->first();
-    $imdb = App\Models\CrewSocial::where('social_link_type_id','=',5)->first();
 
-     return view('profile.my-profile-edit', compact('user','position', 'jobTitle', 'fb', 'imdb'));   
+    $user = User::first();
+    $position = CrewPosition::first();
+    $jobTitle = Position::first();
+    $fb = CrewSocial::where('social_link_type_id','=',1)->first();
+    $imdb = CrewSocial::where('social_link_type_id','=',5)->first();
+    $department = Department::first();
+ 
+    return view('profile.my-profile', compact('user','position', 'jobTitle', 'fb', 'imdb', 'department'));   
     }
 
     /**
@@ -56,13 +63,14 @@ class ProfileController extends Controller
     public function show($id)
     {
     
-    $user = App\Models\User::first();
-    $position = App\Models\CrewPosition::first();
-    $jobTitle = App\Models\Position::first();
-    $fb = App\Models\CrewSocial::where('social_link_type_id','=',1)->first();
-    $imdb = App\Models\CrewSocial::where('social_link_type_id','=',5)->first();
+    $user = User::first();
+    $position = CrewPosition::first();
+    $jobTitle = Position::first();
+    $fb = CrewSocial::where('social_link_type_id','=',1)->first();
+    $imdb = CrewSocial::where('social_link_type_id','=',5)->first();
+    $department = Department::first();
 
-     return view('profile.my-profile-edit', compact('user','position', 'jobTitle', 'fb', 'imdb'));   
+     return view('profile.my-profile-edit', compact('user','position', 'jobTitle', 'fb', 'imdb','department')); 
     }
 
     /**

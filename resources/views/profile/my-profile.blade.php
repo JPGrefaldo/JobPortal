@@ -30,7 +30,7 @@
                         <img src="images/thumb.jpg" class="rounded" alt="" />
                         <ul class="list-reset py-4">
                             <li class="py-1">
-                                <a href="#" class="flex items-center">
+                                <a href="{{ $imdb->url }}" class="flex items-center">
                                     <div class="p-1 rounded bg-yellow-imdb w-8 h-8"><img src="images/imdb.svg" alt="" class="mr-2 img-responsive"></div><span class="ml-2 text-yellow-imdb">IMDb profile</span></a>
                             </li>
                             <li class="py-1">
