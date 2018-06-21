@@ -27,7 +27,7 @@
                 <a href='/my-profile/edit' class="text-grey w-full mb-2 text-sm md:text-right float-right"><i class="fas fa-pencil-alt mr-2"></i>Edit profile</a>
                 <div class="card float-left md:flex mb-8">
                     <div class="md:w-1/4 md:pr-8 text-center">
-                        <img src="images/thumb.jpg" class="rounded" alt="" />
+                        <img src="{{ $biography->photo }}" class="rounded" alt="" />
                         <ul class="list-reset py-4">
                             <li class="py-1">
                                 <a href="{{ $imdb->url }}" class="flex items-center">
@@ -40,11 +40,11 @@
                         </ul>
                     </div>
                     <div class="md:w-3/4">
-                        <h3 class="text-blue-dark font-semibold text-lg mb-1 font-header">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</h3>
+                        <h3 class="text-blue-dark font-semibold text-lg mb-1 font-header">{{ $user->first_name }} {{ $user->last_name }}</h3>
 
                         <span class="text-grey font-semibold font-header">{{ $jobTitle->name }} </span>
                         <div class="bg-grey-lighter p-6 rounded my-8">
-                            <p>{{ $position->details }}
+                            <p>{{ $biography->bio }}
                                 <a href="/my-profile/edit/{id}" class="text-sm text-grey tracking-wide">Read more</a>
                             </p>
                         </div>
@@ -68,7 +68,7 @@
                         <i class="fas fa-pencil-alt mr-2"></i>Edit section</a>
                     <h4 class='text-grey'>WORK POSITIONS</h4>
                 </div>
-                @foreach ($position as $post)
+                @foreach ($jobTitle as $title)
                 <div class="card mb-6">
                     <div class="pb-6">
                         <span class="btn-toggle float-right"></span>

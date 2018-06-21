@@ -47,7 +47,7 @@
             <div class="has-dropdown">
                 <div class="relative flex justify-center items-center p-1 rounded-lg hover:bg-grey-lighter">
                     <span class="mr-2 inline-block font-semibold text-blue-dark text-sm">{{ Auth::user()->first_name }}</span>
-                    <span class="w-10 h-10 bg-cover rounded-full inline-block" style="background-image: url(../images/thumb.jpg)"></span>
+                    <span class="w-10 h-10 bg-cover rounded-full inline-block" style="background-image: url(../{{ $biography->photo }})"></span>
                 </div>
                 <div class="dropdown shadow-md bg-white absolute py-3 font-body">
                 <ul class="list-reset text-left">

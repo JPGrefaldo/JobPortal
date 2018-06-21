@@ -14722,4 +14722,15 @@ h4,
   .xl\:z-auto {
     z-index: auto;
   }
+
+  .hidden-input {
+    display: inline-block;
+    width: 100%;
+    padding: 120px 0 0 0;
+    height: 100px;
+    overflow: hidden;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
 }

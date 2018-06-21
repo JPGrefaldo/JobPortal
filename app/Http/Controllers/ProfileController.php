@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Models\User;
+use App\Models\Crew;
 use App\Models\CrewPosition;
 use App\Models\Position;
 use App\Models\CrewSocial;
@@ -12,6 +13,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Html\FormBuilder;
+use Session;
+use Intervention\Image\Facades\Image as Image;
+
 
 class ProfileController extends Controller
 {
@@ -24,13 +29,14 @@ class ProfileController extends Controller
     {
 
     $user = User::first();
+    $biography = Crew::first();
     $position = CrewPosition::first();
     $jobTitle = Position::first();
     $fb = CrewSocial::where('social_link_type_id','=',1)->first();
     $imdb = CrewSocial::where('social_link_type_id','=',5)->first();
     $department = Department::first();
  
-    return view('profile.my-profile', compact('user','position', 'jobTitle', 'fb', 'imdb', 'department'));   
+    return view('profile.my-profile', compact('user','position', 'jobTitle', 'fb', 'imdb', 'department','biography'));   
     }
 
     /**
@@ -60,17 +66,18 @@ class ProfileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(User $user)
     {
     
     $user = User::first();
+    $biography = Crew::first();
     $position = CrewPosition::first();
     $jobTitle = Position::first();
     $fb = CrewSocial::where('social_link_type_id','=',1)->first();
     $imdb = CrewSocial::where('social_link_type_id','=',5)->first();
     $department = Department::first();
 
-     return view('profile.my-profile-edit', compact('user','position', 'jobTitle', 'fb', 'imdb','department')); 
+     return view('profile.my-profile-edit', compact('user','position', 'biography', 'jobTitle', 'fb', 'imdb','department')); 
     }
 
     /**
@@ -79,9 +86,27 @@ class ProfileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request)
     {
-        //
+        $user = Crew::first();
+
+        $image = $request->file('profile_image');
+
+        $filename = $user->user_id . '.' . $image->getClientOriginalExtension();
+
+        $location = public_path('photos/' . $filename);
+
+        Image::make($image)->save($location);
+
+        $user->photo = "photos/". $filename;
+
+        $user->positions->bio = $request->bio;        
+
+        $user->save();
+
+        Session::flash('success', 'Profile saved!');
+
+        return redirect()->back();
     }
 
     /**

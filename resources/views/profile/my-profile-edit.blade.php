@@ -28,21 +28,44 @@
                     <div class="w-full mb-6">
                         <h3 class="text-blue-dark font-semibold text-md md:text-lg mb-1 font-header">{{ $user->first_name }} {{ $user->last_name }}</h3>
                     </div>
+
+                    <!-- form start -->
+                     {{ Form::open(array('action' => 'ProfileController@edit', 'files' => true)) }}
+    
+                    
                     <div class="md:flex">
                         <div class="md:w-1/3 md:pr-6 mb-6">
-                            <div class="flex h-none bg-grey-light items-center justify-center cursor-pointer text-center border border-grey-light w-full pb-full rounded relative">
-                                <span class="text-center uppercase text-sm font-semibold text-white px-2 pos-center w-full">UPLOAD PROFILE PHOTO</span>
+                            <div class="flex h-none bg-grey-light items-center justify-center cursor-pointer text-center border border-grey-light w-full pb-full rounded relative" style="background: url(../{{ $biography->photo }}); background-size: cover;">
+                                <span class="text-center uppercase text-sm font-semibold text-white px-2 pos-center w-full">
+                                UPLOAD PROFILE PHOTO
+                                {{ form::file('profile_image', array('
+
+                                style' => 'display: inline-block;
+                                            width: 100%;
+                                            padding: 100px 100px 0 0;
+                                            height: 100px;
+                                            overflow: hidden;
+                                            -webkit-box-sizing: border-box;
+                                            -moz-box-sizing: border-box;
+                                            box-sizing: border-box;'
+                                ))}}
+
+                                </span>
                             </div>
                         </div>
+                    
                         <div class="md:w-2/3">
                             <div class="p-3 md:p-6 bg-grey-lighter rounded">
                                 <div class="mb-6">
-                                    <label for="" class="block mb-3">Job title</label>
-                                    <input type="text" class="form-control w-full" placeholder="Job title" value="{{ $jobTitle->name }}">
+                                    {{ Form::label('title', 'Job Title:', array('class' => 'block mb-3') )}}
+                                    {{ Form::text('Job-title', $jobTitle->name, array('class' => 'form-control w-full') )}}
+
                                 </div>
                                 <div class="mb-2">
-                                    <label for="" class="block mb-3">Biography</label>
-                                    <textarea class="form-control w-full h-32" placeholder="Biography">{{ $position->details }}</textarea>
+                                    {{ Form::label('bio', 'Biograpghy:', array('class' => 'block mb-3') )}}
+                                    <!-- <label for="" class="block mb-3">Biography</label> -->
+                                    {{ Form::textarea('bio', $biography->bio, array('class' => 'form-control w-full h-32') )}}
+                                    <!-- <textarea class="form-control w-full h-32" placeholder="Biography">{{ $position->details }}</textarea> -->
                                 </div>
                             </div>
                         </div>
@@ -96,9 +119,10 @@
                     </div>
                     <div class="pt-8 pb-4 text-right border-t-2 border-grey-lighter">
                         <a href="#" class="text-grey bold mr-4 hover:text-green">Cancel</a>
-                        <a href="#" class="btn-green">SAVE CHANGES</a>
+                        {{form::submit('SAVE CHANGES', array('class' => 'btn-green')) }}<!-- <a type="submit" href="#" class="btn-green">SAVE CHANGES</a> -->
                     </div>
                 </div>
+                    {{ Form::close() }} <!-- end form -->
 
                 <div class="py-4">
                     <h4 class='text-grey'>WORK POSITIONS</h4>

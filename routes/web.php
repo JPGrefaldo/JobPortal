@@ -22,9 +22,9 @@ Route::get('/signup', 'Auth\RegisterController@showRegistrationForm');
 Route::post('/signup', 'UserSignupController@signup')->name('signup');
 
 Route::get('/my-profile', 'ProfileController@index');
-Route::get('/my-profile/{id}', 'ProfileController@show');
+Route::get('/my-profile/edit', 'ProfileController@show');
 
-Route::post('/my-profile/edit/{id}', 'ProfileController@edit');
+Route::post('/my-profile/edit/', 'ProfileController@edit')->name('profile-edit');
 
 Route::get('/my-projects', 'ProjectController@index');
 Route::get('/my-projects/post', 'ProjectController@showPostProject');
