@@ -616,6 +616,17 @@ button,
   margin-left: auto;
 }
 
+.profile-image {
+   display: inline-block !important;
+   width: 100% !important;
+   padding: 100px 100px 0 0 !important;
+   height: 100px !important;
+   overflow: hidden !important;
+   -webkit-box-sizing: border-box !important;
+   -moz-box-sizing: border-box !important;
+    box-sizing: border-box !important;
+  }
+
 @media (min-width: 576px) {
   .container {
     max-width: 576px;
@@ -698,6 +709,8 @@ h4,
 }
 
 /* Buttons */
+
+
 
 .btn-blue {
   background-color: #5a5ce9;
@@ -14721,16 +14734,5 @@ h4,
 
   .xl\:z-auto {
     z-index: auto;
-  }
-
-  .hidden-input {
-    display: inline-block;
-    width: 100%;
-    padding: 120px 0 0 0;
-    height: 100px;
-    overflow: hidden;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
   }
 }

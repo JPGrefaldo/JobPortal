@@ -75,9 +75,10 @@ class ProfileController extends Controller
     $jobTitle = Position::first();
     $fb = CrewSocial::where('social_link_type_id','=',1)->first();
     $imdb = CrewSocial::where('social_link_type_id','=',5)->first();
+    $linkedin = CrewSocial::where('social_link_type_id','=',10)->first();
     $department = Department::first();
 
-     return view('profile.my-profile-edit', compact('user','position', 'biography', 'jobTitle', 'fb', 'imdb','department')); 
+     return view('profile.my-profile-edit', compact('user','position', 'biography', 'jobTitle', 'fb', 'imdb', 'linkedin', 'department')); 
     }
 
     /**
@@ -88,22 +89,49 @@ class ProfileController extends Controller
      */
     public function edit(Request $request)
     {
+        
         $user = Crew::first();
 
+        if ($request->hasFile('profile_image')) {
+        
         $image = $request->file('profile_image');
-
-        $filename = $user->user_id . '.' . $image->getClientOriginalExtension();
-
+        $filename = 'profile_' . time() . $user->user_id . '.' . $image->getClientOriginalExtension();   
         $location = public_path('photos/' . $filename);
-
-        Image::make($image)->save($location);
-
+        Image::make($image)->resize(400, 400)->save($location);
         $user->photo = "photos/". $filename;
 
-        $user->positions->bio = $request->bio;        
+        }
 
+        $user->bio = $request->bio;        
         $user->save();
 
+        // Crew Position
+        $position = CrewPosition::first();
+
+        if ($request->title = '1st Assistant Director') {
+            $title = 1;
+        } else {
+            $title = 2;
+        }
+        
+        $position->position_id = $title;
+        $position->save();
+
+        // Crew Social
+        $user_imdb = CrewSocial::where('social_link_type_id',5)->first();
+        $user_fb = CrewSocial::where('social_link_type_id',1)->first();
+        $user_linkedin = CrewSocial::where('social_link_type_id',10)->first();
+
+        $user_imdb->url = $request->imdb_link;
+        $user_fb->url = $request->fb_link;
+        $user_linkedin->url = $request->linkedin_link;
+
+        $user_imdb->save();
+        $user_fb->save();
+        $user_linkedin->save();
+
+
+ 
         Session::flash('success', 'Profile saved!');
 
         return redirect()->back();

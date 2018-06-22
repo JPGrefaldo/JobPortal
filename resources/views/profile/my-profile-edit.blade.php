@@ -38,18 +38,7 @@
                             <div class="flex h-none bg-grey-light items-center justify-center cursor-pointer text-center border border-grey-light w-full pb-full rounded relative" style="background: url(../{{ $biography->photo }}); background-size: cover;">
                                 <span class="text-center uppercase text-sm font-semibold text-white px-2 pos-center w-full">
                                 UPLOAD PROFILE PHOTO
-                                {{ form::file('profile_image', array('
-
-                                style' => 'display: inline-block;
-                                            width: 100%;
-                                            padding: 100px 100px 0 0;
-                                            height: 100px;
-                                            overflow: hidden;
-                                            -webkit-box-sizing: border-box;
-                                            -moz-box-sizing: border-box;
-                                            box-sizing: border-box;'
-                                ))}}
-
+                                {{ form::file('profile_image', array('class' => 'profile_image'))}}
                                 </span>
                             </div>
                         </div>
@@ -58,14 +47,14 @@
                             <div class="p-3 md:p-6 bg-grey-lighter rounded">
                                 <div class="mb-6">
                                     {{ Form::label('title', 'Job Title:', array('class' => 'block mb-3') )}}
-                                    {{ Form::text('Job-title', $jobTitle->name, array('class' => 'form-control w-full') )}}
+                                    {{ Form::text('title', $jobTitle->name, array('class' => 'form-control w-full') )}}
 
                                 </div>
                                 <div class="mb-2">
                                     {{ Form::label('bio', 'Biograpghy:', array('class' => 'block mb-3') )}}
-                                    <!-- <label for="" class="block mb-3">Biography</label> -->
+                                    
                                     {{ Form::textarea('bio', $biography->bio, array('class' => 'form-control w-full h-32') )}}
-                                    <!-- <textarea class="form-control w-full h-32" placeholder="Biography">{{ $position->details }}</textarea> -->
+                                   
                                 </div>
                             </div>
                         </div>
@@ -76,7 +65,9 @@
                                 <h3 class="text-md font-header mb-2 md:mb-0">General resume</h3>
                             </div>
                             <div class="md:w-2/3">
-                                <a href="#" class="btn-outline inline-block">Upload file</a>
+                            
+                                {{ form::file('resume_file', array('class' => 'btn-outline inline-block', 'value' => 'Upload file'))}}
+
                             </div>
                         </div>
                     </div>
@@ -86,7 +77,9 @@
                                 <h3 class="text-md font-header mt-2 mb-2 md:mb-0">General reel</h3>
                             </div>
                             <div class="md:w-2/3">
-                                <input type="text" class="form-control bg-light w-64 mr-2 mb-2 md:mb-0" placeholder="Add link"><div> or <a href="#" class="btn-outline inline-block">Upload file</a></div>
+                                <input type="text" class="form-control bg-light w-64 mr-2 mb-2 md:mb-0" placeholder="Add link"><div> or <br> <!-- <a href="#" class="btn-outline inline-block">Upload file</a> -->
+                                {{ form::file('reel_file', array('class' => 'btn-outline inline-block', 'value' => 'Upload file'))}}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -100,19 +93,21 @@
                                     <div class="flex -mr-px">
                                         <span class="flex w-10 items-center leading-normal bg-yellow-imdb rounded rounded-r-none px-2 whitespace-no-wrap text-grey-dark"><img src="../images/imdb.svg" alt=""  /></span>
                                     </div>	
-                                    <input type="text" class="flex-shrink flex-grow flex-auto leading-normal w-px flex-1 border h-10 border-grey-light rounded rounded-l-none px-3 relative" placeholder="Add IMDb link" value="{{ $imdb->url }}">
+                                    
+                                    {{ Form::text('imdb_link', $imdb->url, array('class' => 'form-control flex-shrink flex-grow flex-auto leading-normal w-px flex-1 border h-10 border-grey-light rounded rounded-l-none px-3 relative', 'placeholder' => 'add IMdb Link') )}}
                                 </div>		
                                 <div class="flex flex-wrap items-stretch w-full mb-2 relative">
                                     <div class="flex -mr-px">
                                         <span class="flex w-10 items-center leading-normal bg-blue-linkedin rounded rounded-r-none px-2 whitespace-no-wrap text-grey-dark"><i class="fab fa-linkedin-in text-lg mr-0 text-white"></i></span>
                                     </div>	
-                                    <input type="text" class="flex-shrink flex-grow flex-auto leading-normal w-px flex-1 border h-10 border-grey-light rounded rounded-l-none px-3 relative" placeholder="Add LinkedIn link">
+                                    
+                                    {{ Form::text('linkedin_link', $linkedin->url, array('class' => 'form-control flex-shrink flex-grow flex-auto leading-normal w-px flex-1 border h-10 border-grey-light rounded rounded-l-none px-3 relative', 'placeholder' => 'add Linkedin Link') )}}
                                 </div>		
                                 <div class="flex flex-wrap items-stretch w-full mb-2 relative">
                                     <div class="flex -mr-px">
                                         <span class="flex w-10 text-center items-center leading-normal bg-blue-facebook rounded rounded-r-none px-2 whitespace-no-wrap text-grey-dark"><i class="fab fa-facebook-f text-lg mr-0 text-white inline-block"></i></span>
                                     </div>	
-                                    <input type="text" class="flex-shrink flex-grow flex-auto leading-normal w-px flex-1 border h-10 border-grey-light rounded rounded-l-none px-3 relative" placeholder="Add Facebook link" value="{{ $fb->url }}">
+                                    {{ Form::text('fb_link', $fb->url, array('class' => 'form-control flex-shrink flex-grow flex-auto leading-normal w-px flex-1 border h-10 border-grey-light rounded rounded-l-none px-3 relative', 'placeholder' => 'add Facebook Link') )}}
                                 </div>		
                             </div>
                         </div>
