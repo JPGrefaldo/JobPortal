@@ -26,8 +26,7 @@ module.exports = {
 mix.js('resources/assets/js/app.js', 'public/js');
 mix.js('resources/assets/js/scripts.js', 'public/js');
 
-mix.styles(['resources/assets/css/effects.css',
-    'resources/assets/css/extras.css',
+mix.styles(['resources/assets/css/extras.css',
     'resources/assets/css/slick.css'
 ], 'public/css/main.css').sourceMaps().version();
 

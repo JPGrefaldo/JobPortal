@@ -16,7 +16,50 @@ window.Vue = require('vue');
  */
 
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
+//
+// const app = new Vue({
+//     el: '#app'
+// });
 
-const app = new Vue({
-    el: '#app'
+function reverse_val(element, value) {
+    if ($(element).attr('name') == "trash") {
+        $(element).attr('name', "type[]");
+        return true;
+    }
+
+    $(element).attr('name', "trash");
+    return false;
+}
+
+function reverse_want_to_class(element, selected) {
+    if (selected) {
+        $(element).removeClass("want-to__default");
+        $(element).addClass("want-to__selected");
+    } else {
+        $(element).removeClass("want-to__selected");
+        $(element).addClass("want-to__default");
+    }
+}
+
+$(function() {
+    if ($("#select-want-project").length) {
+        $("#select-want-project").click(function (event) {
+            event.preventDefault();
+            if (reverse_val("#type-project", $(this).attr('rel'))) {
+                reverse_want_to_class($(this), true)
+            } else {
+                reverse_want_to_class($(this), false)
+            }
+        });
+    }
+    if ($("#select-want-work").length) {
+        $("#select-want-work").click(function (event) {
+            event.preventDefault();
+            if (reverse_val("#type-work", $(this).attr('rel'))) {
+                reverse_want_to_class($(this), true)
+            } else {
+                reverse_want_to_class($(this), false)
+            }
+        });
+    }
 });

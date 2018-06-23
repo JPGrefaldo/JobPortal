@@ -34,7 +34,7 @@
 <body class="bg-grey-lighter font-body">
 @section('content')
 
-    @include('_parts/nav')
+    @include('_parts.navbar.navbar-not-logged-in')
 
 <main class="float-left w-full py-lg">
     <div class="row">

@@ -905,6 +905,37 @@ h4,
   position: absolute;
 }
 
+.input__error-message {
+  font-size: .875rem;
+  color: #d8000c;
+}
+
+.input__error {
+  border-color: #d8000c;
+  -webkit-box-shadow: 0 0 3px;
+          box-shadow: 0 0 3px;
+}
+
+.want-to__default {
+  color: #06205c;
+  background-color: #fff;
+}
+
+.want-to__default:hover {
+  background-color: #31c09a;
+  color: #fff;
+}
+
+.want-to__selected {
+  background-color: #31c09a;
+  color: #fff;
+}
+
+.want-to__selected:hover {
+  color: #06205c;
+  background-color: #fff;
+}
+
 .list-reset {
   list-style: none;
   padding: 0;
@@ -996,6 +1027,10 @@ h4,
   background-color: #e2ab2b;
 }
 
+.bg-red-error {
+  background-color: #d8000c;
+}
+
 .hover\:bg-transparent:hover {
   background-color: transparent;
 }
@@ -1062,6 +1097,10 @@ h4,
 
 .hover\:bg-yellow-imdb:hover {
   background-color: #e2ab2b;
+}
+
+.hover\:bg-red-error:hover {
+  background-color: #d8000c;
 }
 
 .bg-bottom {
@@ -1204,6 +1243,10 @@ h4,
   border-color: #e2ab2b;
 }
 
+.border-red-error {
+  border-color: #d8000c;
+}
+
 .hover\:border-transparent:hover {
   border-color: transparent;
 }
@@ -1270,6 +1313,10 @@ h4,
 
 .hover\:border-yellow-imdb:hover {
   border-color: #e2ab2b;
+}
+
+.hover\:border-red-error:hover {
+  border-color: #d8000c;
 }
 
 .rounded-none {
@@ -3362,6 +3409,10 @@ h4,
   color: #e2ab2b;
 }
 
+.text-red-error {
+  color: #d8000c;
+}
+
 .hover\:text-transparent:hover {
   color: transparent;
 }
@@ -3428,6 +3479,10 @@ h4,
 
 .hover\:text-yellow-imdb:hover {
   color: #e2ab2b;
+}
+
+.hover\:text-red-error:hover {
+  color: #d8000c;
 }
 
 .text-xs {
@@ -3878,6 +3933,10 @@ h4,
     background-color: #e2ab2b;
   }
 
+  .sm\:bg-red-error {
+    background-color: #d8000c;
+  }
+
   .sm\:hover\:bg-transparent:hover {
     background-color: transparent;
   }
@@ -3944,6 +4003,10 @@ h4,
 
   .sm\:hover\:bg-yellow-imdb:hover {
     background-color: #e2ab2b;
+  }
+
+  .sm\:hover\:bg-red-error:hover {
+    background-color: #d8000c;
   }
 
   .sm\:bg-bottom {
@@ -4078,6 +4141,10 @@ h4,
     border-color: #e2ab2b;
   }
 
+  .sm\:border-red-error {
+    border-color: #d8000c;
+  }
+
   .sm\:hover\:border-transparent:hover {
     border-color: transparent;
   }
@@ -4144,6 +4211,10 @@ h4,
 
   .sm\:hover\:border-yellow-imdb:hover {
     border-color: #e2ab2b;
+  }
+
+  .sm\:hover\:border-red-error:hover {
+    border-color: #d8000c;
   }
 
   .sm\:rounded-none {
@@ -6220,6 +6291,10 @@ h4,
     color: #e2ab2b;
   }
 
+  .sm\:text-red-error {
+    color: #d8000c;
+  }
+
   .sm\:hover\:text-transparent:hover {
     color: transparent;
   }
@@ -6286,6 +6361,10 @@ h4,
 
   .sm\:hover\:text-yellow-imdb:hover {
     color: #e2ab2b;
+  }
+
+  .sm\:hover\:text-red-error:hover {
+    color: #d8000c;
   }
 
   .sm\:text-xs {
@@ -6737,6 +6816,10 @@ h4,
     background-color: #e2ab2b;
   }
 
+  .md\:bg-red-error {
+    background-color: #d8000c;
+  }
+
   .md\:hover\:bg-transparent:hover {
     background-color: transparent;
   }
@@ -6803,6 +6886,10 @@ h4,
 
   .md\:hover\:bg-yellow-imdb:hover {
     background-color: #e2ab2b;
+  }
+
+  .md\:hover\:bg-red-error:hover {
+    background-color: #d8000c;
   }
 
   .md\:bg-bottom {
@@ -6937,6 +7024,10 @@ h4,
     border-color: #e2ab2b;
   }
 
+  .md\:border-red-error {
+    border-color: #d8000c;
+  }
+
   .md\:hover\:border-transparent:hover {
     border-color: transparent;
   }
@@ -7003,6 +7094,10 @@ h4,
 
   .md\:hover\:border-yellow-imdb:hover {
     border-color: #e2ab2b;
+  }
+
+  .md\:hover\:border-red-error:hover {
+    border-color: #d8000c;
   }
 
   .md\:rounded-none {
@@ -9079,6 +9174,10 @@ h4,
     color: #e2ab2b;
   }
 
+  .md\:text-red-error {
+    color: #d8000c;
+  }
+
   .md\:hover\:text-transparent:hover {
     color: transparent;
   }
@@ -9145,6 +9244,10 @@ h4,
 
   .md\:hover\:text-yellow-imdb:hover {
     color: #e2ab2b;
+  }
+
+  .md\:hover\:text-red-error:hover {
+    color: #d8000c;
   }
 
   .md\:text-xs {
@@ -9596,6 +9699,10 @@ h4,
     background-color: #e2ab2b;
   }
 
+  .lg\:bg-red-error {
+    background-color: #d8000c;
+  }
+
   .lg\:hover\:bg-transparent:hover {
     background-color: transparent;
   }
@@ -9662,6 +9769,10 @@ h4,
 
   .lg\:hover\:bg-yellow-imdb:hover {
     background-color: #e2ab2b;
+  }
+
+  .lg\:hover\:bg-red-error:hover {
+    background-color: #d8000c;
   }
 
   .lg\:bg-bottom {
@@ -9796,6 +9907,10 @@ h4,
     border-color: #e2ab2b;
   }
 
+  .lg\:border-red-error {
+    border-color: #d8000c;
+  }
+
   .lg\:hover\:border-transparent:hover {
     border-color: transparent;
   }
@@ -9862,6 +9977,10 @@ h4,
 
   .lg\:hover\:border-yellow-imdb:hover {
     border-color: #e2ab2b;
+  }
+
+  .lg\:hover\:border-red-error:hover {
+    border-color: #d8000c;
   }
 
   .lg\:rounded-none {
@@ -11938,6 +12057,10 @@ h4,
     color: #e2ab2b;
   }
 
+  .lg\:text-red-error {
+    color: #d8000c;
+  }
+
   .lg\:hover\:text-transparent:hover {
     color: transparent;
   }
@@ -12004,6 +12127,10 @@ h4,
 
   .lg\:hover\:text-yellow-imdb:hover {
     color: #e2ab2b;
+  }
+
+  .lg\:hover\:text-red-error:hover {
+    color: #d8000c;
   }
 
   .lg\:text-xs {
@@ -12455,6 +12582,10 @@ h4,
     background-color: #e2ab2b;
   }
 
+  .xl\:bg-red-error {
+    background-color: #d8000c;
+  }
+
   .xl\:hover\:bg-transparent:hover {
     background-color: transparent;
   }
@@ -12521,6 +12652,10 @@ h4,
 
   .xl\:hover\:bg-yellow-imdb:hover {
     background-color: #e2ab2b;
+  }
+
+  .xl\:hover\:bg-red-error:hover {
+    background-color: #d8000c;
   }
 
   .xl\:bg-bottom {
@@ -12655,6 +12790,10 @@ h4,
     border-color: #e2ab2b;
   }
 
+  .xl\:border-red-error {
+    border-color: #d8000c;
+  }
+
   .xl\:hover\:border-transparent:hover {
     border-color: transparent;
   }
@@ -12721,6 +12860,10 @@ h4,
 
   .xl\:hover\:border-yellow-imdb:hover {
     border-color: #e2ab2b;
+  }
+
+  .xl\:hover\:border-red-error:hover {
+    border-color: #d8000c;
   }
 
   .xl\:rounded-none {
@@ -14797,6 +14940,10 @@ h4,
     color: #e2ab2b;
   }
 
+  .xl\:text-red-error {
+    color: #d8000c;
+  }
+
   .xl\:hover\:text-transparent:hover {
     color: transparent;
   }
@@ -14863,6 +15010,10 @@ h4,
 
   .xl\:hover\:text-yellow-imdb:hover {
     color: #e2ab2b;
+  }
+
+  .xl\:hover\:text-red-error:hover {
+    color: #d8000c;
   }
 
   .xl\:text-xs {

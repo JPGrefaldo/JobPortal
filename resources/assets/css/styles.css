@@ -123,4 +123,29 @@ h4,
     position: absolute;
 }
 
+.input__error-message {
+    @apply .text-sm .text-red-error;
+}
+
+.input__error {
+    @apply .border-red-error;
+    box-shadow: 0 0 3px;
+}
+
+.want-to__default {
+    @apply .text-blue-dark .bg-white;
+}
+
+.want-to__default:hover {
+    @apply .bg-green .text-white;
+}
+
+.want-to__selected {
+    @apply .bg-green .text-white;
+}
+
+.want-to__selected:hover {
+    @apply .text-blue-dark .bg-white;
+}
+
 @tailwind utilities;

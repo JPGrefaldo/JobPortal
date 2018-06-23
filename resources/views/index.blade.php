@@ -1,4 +1,4 @@
-@include('_parts/header')
+@include('_parts.header.header')
 
 <body class="bg-white">
     <header class="w-full pb-lg float-left relative has-deco-bottom deco-white overflow-hidden" style="background: url(images/cover-vid.png) no-repeat center; background-size: cover;">

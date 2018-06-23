@@ -64,6 +64,8 @@ let colors = {
   'blue-linkedin': '#0077B5',
   'blue-facebook': '#3853A1',
   'yellow-imdb': '#E2AB2B',
+
+  'red-error': '#D8000C',
 }
 
 module.exports = {

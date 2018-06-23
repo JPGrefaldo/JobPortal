@@ -88,6 +88,7 @@ class UserSettingsFeatureTest extends TestCase
 
         $data = [
             'email'                      => 'updateemail@gmail.com',
+            'email_confirmation'         => 'updateemail@gmail.com',
             'phone'                      => '1234567890',
             'receive_email_notification' => 1,
             'receive_other_emails'       => 1,
@@ -134,6 +135,7 @@ class UserSettingsFeatureTest extends TestCase
 
         $data = [
             'email'                      => $user->email,
+            'email_confirmation'         => $user->email,
             'phone'                      => $user->phone,
             'receive_email_notification' => 1,
             'receive_other_emails'       => 1,
