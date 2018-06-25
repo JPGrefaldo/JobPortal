@@ -21,6 +21,7 @@
         "vue": "^2.5.7"
     },
     "dependencies": {
-        "slick-carousel": "^1.8.1"
+        "slick-carousel": "^1.8.1",
+        "tooltipster": "^4.2.6"
     }
 }

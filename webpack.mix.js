@@ -21,21 +21,29 @@ module.exports = {
  |
  */
 
-
+/** JS **/
 
 mix.js('resources/assets/js/app.js', 'public/js');
 mix.js('resources/assets/js/scripts.js', 'public/js');
 
-mix.styles(['resources/assets/css/extras.css',
-    'resources/assets/css/slick.css'
+mix.scripts([
+    'resources/assets/js/scroll.js',
+    'resources/assets/js/slick.js',
+    'resources/assets/js/jquery-ui.js'
+], 'public/js/all.js').version();
+
+/** CSS **/
+
+mix.styles(['resources/assets/css/plugins/slick.css',
+    'resources/assets/css/plugins/jquery-ui.css'
+], 'public/css/plugins.css').sourceMaps().version();
+
+mix.styles(['resources/assets/css/extras.css'
 ], 'public/css/main.css').sourceMaps().version();
 
 mix.postCss('resources/assets/css/styles.css', 'public/css', [
      tailwindcss('./tailwind.js'),
 ]).sourceMaps().version();
 
-mix.scripts([
-    'resources/assets/js/scroll.js',
-    'resources/assets/js/slick.js'
-], 'public/js/all.js').version();
+
 

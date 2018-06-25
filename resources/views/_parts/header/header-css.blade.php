@@ -2,3 +2,4 @@
 
 <link rel="stylesheet" href="{{ mix('/css/styles.css') }}">
 <link rel="stylesheet" href="{{ mix('/css/main.css') }}">
+<link rel="stylesheet" href="{{ mix('/css/plugins.css') }}">

@@ -7,7 +7,7 @@
                 <div class="p-8 text-center border-b border-grey-light">
                     <h2 class="font-header text-blue-dark text-lg text-center font-semibold">Sign up</h2>
                 </div>
-                <form method="post" action="{{ route('signup') }}">
+                <form method="post" action="{{ route('register') }}">
                     <div class="p-8">
                         <div class="pb-2 text-center">
                             <h4 class="uppercase text-sm">I WANT TO:</h4>
@@ -73,15 +73,16 @@
                         </div>
                         <div class="py-2">
                             <label class="block font-semibold mb-2" for="">Phone</label>
-                            <input name="phone" class="w-full form-control" value="{{ old('phone') }}" type="text" placeholder="083 0003 9898">
+                            <input name="phone" class="w-full form-control @include('_parts.errors.input-error', ['input_element' => 'phone'])" value="{{ old('phone') }}" type="text" placeholder="(555) 555-5555">
+                            @include('_parts.errors.input-error-message', ['input_element' => 'phone'])
                         </div>
                         <div class="py-2">
                             <label class="block">
-                                <input name="receive_sms" id="receive_sms" value="1" class="mr-1" type="checkbox" @if(old('receive_sms', 0) == 1) checked @endif> Receive text alerts <a href="#" class="float-right rounded-full bg-grey-light text-grey bold text-sm py-0 px-1">?</a>
+                                <input name="receive_sms" id="receive_sms" value="1" class="mr-1" type="checkbox" @if(old('receive_sms', 0) == 1) checked @endif> Receive text alerts <span class="float-right rounded-full bg-grey-light text-grey bold text-sm py-0 px-1 tooltip" title="You will receive SMS alerts to your phone">?</span>
                             </label>
                         </div>
                         <div class="pt-6">
-                            <input class="block font-header uppercase text-sm p-4 text-center text-white bg-blue font-bold rounded-full hover:bg-green" type="submit" value="Sign Up">
+                            <input class="block font-header uppercase text-sm w-full p-4 text-center text-white bg-blue font-bold rounded-full hover:bg-green" type="submit" value="Sign Up">
                         </div>
                         <div class="py-4">
                             <p class="text-sm text-center">By joining, you agree with our <a href="#" class="text-red underline hover:text-green">Terms and Conditions</a></p>
@@ -89,7 +90,7 @@
                     </div>
                     <div class="p-8 text-center bg-grey-lighter border-top border-grey-light">
                         Already a member?
-                        <a href="#" class="text-red underline hover:text-green">Sign in</a>
+                        <a href="{{ route('show.login') }}" class="text-red underline hover:text-green">Sign in</a>
                     </div>
                     @csrf
                 </form>
