@@ -61,7 +61,7 @@
                             <a href="#" class="block text-blue-dark hover:text-green">Settings</a>
                         </li>
                         <li class="py-2 px-4 border-t mt-2 border-grey-light">
-                            <a href="#" class="block text-blue-dark hover:text-green" >Sign out</a>
+                            <a href="{{ route('logout') }}" class="block text-blue-dark hover:text-green" >Sign out</a>
                         </li>
                     </ul>
                 </div>

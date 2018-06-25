@@ -15,9 +15,6 @@ Route::get('/', function () {
     return view('index');
 });
 
-Route::get('/signup', 'Auth\RegisterController@showRegistrationForm');
-Route::post('/signup', 'UserSignupController@signup')->name('signup');
-
 Route::get('/my-profile', 'ProfileController@index');
 Route::get('/my-profile/edit', 'ProfileController@showEditProfile');
 

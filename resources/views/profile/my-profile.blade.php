@@ -1,9 +1,6 @@
-@include('_parts.header.header')
+@extends('layouts.default_layout')
 
-<body class="bg-grey-lighter font-body">
-    @include('_parts.navbar.navbar-logged-in')
-
-    <main class="float-left w-full py-md md:py-lg px-3">
+@section('content')
         <div class="container">
             <div class="w-full pb-6 md:pb-lg">
                 <h1 class="font-header text-blue-dark text-xl md:text-2xl font-semibold">My profile</h1>
@@ -43,7 +40,7 @@
                         <h3 class="text-blue-dark font-semibold text-lg mb-1 font-header">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</h3>
 
 
-                        <span class="text-grey font-semibold font-header">{{ $user->user->position }}</span>
+                        <span class="text-grey font-semibold font-header">{{ Auth::user()->position }}</span>
                         <div class="bg-grey-lighter p-6 rounded my-8">
                             <p>Nathan Shaw began his career in Hollywood as an assistant director and unit production manager.
                                 After performing these jobs in such films as 'Body Heat, " he moved on to Nathan Shaw began
@@ -160,6 +157,5 @@
                 </div>
             </div>
         </div>
-    </main>
 
-    @include('_parts/footer')
+@endsection

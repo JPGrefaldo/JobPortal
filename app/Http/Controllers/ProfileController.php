@@ -14,9 +14,7 @@ class ProfileController extends Controller
      */
     public function index()
     {
-
-
-        return view('profile.my-profile', compact('user'));
+        return view('profile.my-profile');
     }
 
     public function showEditProfile()
