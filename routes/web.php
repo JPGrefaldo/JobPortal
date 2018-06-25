@@ -29,6 +29,13 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Auth::routes();
 
+Route::get('logout', 'Auth\LoginController@logout')->name('logout');
+
+Route::get('signup', 'Auth\RegisterController@showRegistrationForm');
+Route::post('signup', 'Auth\RegisterController@register')->name('signup');
+
+Route::get('forgot', 'Auth\ForgotPasswordController@showLinkRequestForm');
+
 Route::middleware('auth')->group(function () {
     Route::put('/account/settings/name', 'User\UserSettingsController@updateName');
     Route::put('/account/settings/notifications', 'User\UserSettingsController@updateNotifications');

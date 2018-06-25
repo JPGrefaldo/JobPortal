@@ -1,47 +1,29 @@
-@extends('layouts.app')
+@extends('layouts.default_layout')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Reset Password') }}</div>
 
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
+    <div class="container max-w-xl flex justify-center items-center">
+        <div class="w-full md:w-1/2 float-left mb-3 md:mb-0 px-4">
+            <div class="bg-white shadow-md rounded">
+                <form method="post" action="{{ route('password.email') }}">
+                    <div class="p-8">
+                        <h2 class="font-header text-blue-dark text-lg text-center font-semibold">{{ __('Reset Password') }}</h2>
+                        <div class="py-2 text-center">
+                            <p class="leading-normal text-blue-dark">Send email to reset password</p>
                         </div>
-                    @endif
-
-                    <form method="POST" action="{{ route('password.email') }}">
-                        @csrf
-
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required>
-
-                                @if ($errors->has('email'))
-                                    <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
+                        <div class="py-2">
+                            <label class="block font-semibold mb-2" for="email">Email</label>
+                            <input name="email" class="w-full form-control @include('_parts.errors.input-error', ['input_element' => 'email'])" id="email" type="email" placeholder="Email">
+                            @include('_parts.errors.input-error-message', ['input_element' => 'email'])
                         </div>
-
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Send Password Reset Link') }}
-                                </button>
-                            </div>
+                        <div class="pt-6">
+                            @csrf
+                            <input type="submit" href="#" class="block font-header uppercase text-sm p-4 text-center text-white bg-blue font-bold rounded-full hover:bg-green" value="{{ __('Send Password Reset Link') }}">
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-</div>
+
 @endsection
