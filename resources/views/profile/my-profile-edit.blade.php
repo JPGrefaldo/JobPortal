@@ -77,7 +77,7 @@
                                 <h3 class="text-md font-header mt-2 mb-2 md:mb-0">General reel</h3>
                             </div>
                             <div class="md:w-2/3">
-                                <input type="text" class="form-control bg-light w-64 mr-2 mb-2 md:mb-0" placeholder="Add link"><div> or <br> <!-- <a href="#" class="btn-outline inline-block">Upload file</a> -->
+                                <input type="text" class="form-control bg-light w-64 mr-2 mb-2 md:mb-0" placeholder="Add link"><div> or <br> 
                                 {{ form::file('reel_file', array('class' => 'btn-outline inline-block', 'value' => 'Upload file'))}}
                                 </div>
                             </div>
@@ -114,7 +114,7 @@
                     </div>
                     <div class="pt-8 pb-4 text-right border-t-2 border-grey-lighter">
                         <a href="#" class="text-grey bold mr-4 hover:text-green">Cancel</a>
-                        {{form::submit('SAVE CHANGES', array('class' => 'btn-green')) }}<!-- <a type="submit" href="#" class="btn-green">SAVE CHANGES</a> -->
+                        {{form::submit('SAVE CHANGES', array('class' => 'btn-green')) }}
                     </div>
                 </div>
                     {{ Form::close() }} <!-- end form -->
