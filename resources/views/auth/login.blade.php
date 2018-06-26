@@ -1,42 +1,13 @@
 @extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,600|Noto+Sans:400,600" rel="stylesheet">
-
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-   
-    <title>Crew Calls</title>
-
-    <script src="js/jquery.min.js"></script>
-    <script src="js/slick.min.js"></script>
-    <script src="js/scroll.js"></script>
-    <script src="js/scripts.js"></script>
-
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css" integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous">
-
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
-
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
-
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-
-    <link rel="stylesheet" href="../css/slick.css">
-    <link rel="stylesheet" href="../css/output.css">
-    <link rel="stylesheet" href="../css/extras.css">
-</head>
 
 <body class="bg-grey-lighter font-body">
 @section('content')
 
-    @include('_parts/nav')
+@include('_parts/messages')
 
 <main class="float-left w-full py-lg">
+
     <div class="row">
         <div class="col-md-4"></div>
         <div class="col-md-4">
@@ -64,7 +35,7 @@
                         </div>
                         <div class="py-2">
                             <label class="block font-semibold mb-2" for="">Password
-                                <a href="#" class="underline text-grey text-sm float-right font-normal">Forgot your password?</a>
+                                <a href="/password/reset" class="underline text-grey text-sm float-right font-normal">Forgot your password?</a>
                             </label>
                             <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
 
@@ -76,7 +47,7 @@
                         </div>
                         <div class="py-2">
                             <label class="md:w-2/3 block">
-                                <input class="mr-1" type="checkbox"> Remember me
+                                <input class="mr-1" name="remember" type="checkbox"> Remember me
                             </label>
                         </div>
                         <div class="pt-6">
@@ -95,7 +66,5 @@
             </div>
         </div>
     </main>
-
-@include('_parts/footer')
 
 @endsection

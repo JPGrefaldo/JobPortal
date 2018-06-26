@@ -35,7 +35,6 @@
 <body class="bg-grey-lighter font-body">
 
 @section('content')
-    @include('_parts/nav')
 
     <main class="float-left w-full py-lg">
         <div class="row">
@@ -154,7 +153,5 @@
             </div>
         </div>
     </main>
-
-@include('_parts/footer')
 
 @endsection

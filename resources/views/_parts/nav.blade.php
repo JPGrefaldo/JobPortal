@@ -1,7 +1,7 @@
 <nav class="relative z-20 bg-white float-left w-full px-3 md:px-6 border-b border-grey-light flex justify-between items-center">
     <div class="w-32 md:w-64 py-2 md:py-0 relative z-10">
         <a href="/">
-            <img src="images/logo-long.svg" alt="crew calls" />
+            <img src="/images/logo-long.svg" alt="crew calls" />
         </a>
     </div>
     <ul class="list-reset hidden lg:flex items-center">

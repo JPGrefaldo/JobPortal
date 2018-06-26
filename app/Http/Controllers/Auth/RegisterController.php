@@ -10,6 +10,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Session;
 
 class RegisterController extends Controller
 {
@@ -71,6 +72,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        
         /** @var UsersServices $service */
         $service = app(UsersServices::class);
         $userData = [
@@ -109,7 +111,7 @@ class RegisterController extends Controller
         event(new Registered($user));
 
         return $this->registered($request, $user)
-            ?: redirect($this->redirectPath());
+            ?: redirect()->route('login');
     }
 
     public function redirectPath()
