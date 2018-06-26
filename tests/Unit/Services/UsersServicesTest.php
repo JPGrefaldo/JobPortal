@@ -83,7 +83,7 @@ class UsersServicesTest extends TestCase
             'last_name'  => 'Doe',
             'email'      => 'test@mail.com',
             'password'   => 'hashed_password',
-            'phone'      => '(123) 456-7890',
+            'phone'      => '1234567890',
             'password'   => 'hashed_password',
             'status'     => 1,
             'confirmed'  => false,
@@ -105,14 +105,14 @@ class UsersServicesTest extends TestCase
                 'last_name'  => 'Doe',
                 'email'      => 'test@mail.com',
                 'password'   => 'hashed_password',
-                'phone'      => '(123) 456-7890',
+                'phone'      => '1234567890',
             ],
             $this->service->prepareData([
                 'first_name' => 'john james',
                 'last_name'  => 'doe',
                 'email'      => 'TEST@mail.com',
                 'password'   => 'some_password',
-                'phone'      => '1234567890',
+                'phone'       => '1234567890',
             ])
         );
 
@@ -123,7 +123,7 @@ class UsersServicesTest extends TestCase
                 'last_name'  => 'Doe',
                 'email'      => 'test@mail.com',
                 'password'   => 'hashed_password',
-                'phone'      => '(123) 456-7890',
+                'phone'      => '1234567890',
             ],
             $this->service->prepareData([
                 'first_name' => 'John James',
@@ -170,7 +170,7 @@ class UsersServicesTest extends TestCase
 
         $this->assertArraySubset([
             'email' => 'test@mail.com',
-            'phone' => '(123) 456-7890',
+            'phone'       => '1234567890',
         ], $user->refresh()->toArray());
     }
 
@@ -183,7 +183,7 @@ class UsersServicesTest extends TestCase
 
         $this->assertArraySubset([
             'email' => 'test@mail.com',
-            'phone' => '(123) 456-7890',
+            'phone' => '1234567890',
         ], $user->refresh()->toArray());
     }
 

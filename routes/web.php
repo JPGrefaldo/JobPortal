@@ -11,18 +11,31 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'IndexController@index' );
 
-Route::get('/signup', 'Auth\RegisterController@showRegistrationForm');
-Route::post('/signup', 'UserSignupController@signup')->name('signup');
-
-Route::get('/verify/email/{code}', 'VerifyEmailController@verify');
+Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
+Route::post('login', 'Auth\LoginController@login')->name('show.login');
+Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+Route::get('logout', 'Auth\LoginController@logout');
+Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('show.register');
+Route::post('register', 'Auth\RegisterController@register')->name('register');
+Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Auth::routes();
+Route::get('/my-profile', 'ProfileController@index');
+Route::get('/my-profile/edit', 'ProfileController@showEditProfile');
+
+Route::get('/my-projects', 'ProjectController@index');
+Route::get('/my-projects/post', 'ProjectController@showPostProject');
+
+Route::get('/my-account', 'AccountController@index');
+
+Route::get('/verify/email/{code}', 'VerifyEmailController@verify');
+
 
 Route::middleware('auth')->group(function () {
     Route::put('/account/settings/name', 'User\UserSettingsController@updateName');

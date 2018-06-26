@@ -1,0 +1,151 @@
+@tailwind preflight;
+@tailwind components;
+
+/* Typography */
+body {
+    @apply .font-body;
+}
+a {
+    text-decoration: none;
+    transition: all 0.25s ease-in-out;
+    @apply .text-green;
+}
+
+p {
+    line-height: 150%;
+    @apply .text-grey-dark;
+}
+
+h1,
+h2,
+.h2,
+h3,
+.h3 {
+    @apply .font-header .font-semibold .text-blue-dark;
+}
+
+h4,
+.h4 {
+    @apply .uppercase .text-sm .font-bold .tracking-wide .font-header;
+}
+
+.badge {
+    @apply .text-xs .py-1 .px-2 .rounded .text-grey .bg-grey-lighter .uppercase .inline-block .font-body .font-normal .tracking-wide;
+}
+
+.badge-white {
+    background-color: rgba(248, 249, 249, 0.2);
+    color: #fff;
+}
+
+/* Buttons */
+.btn-blue {
+    @apply .bg-blue .text-white .font-bold .py-2 .px-4 .rounded;
+}
+
+.btn-outline {
+    @apply .uppercase .text-sm .font-semibold .border .rounded .border-green .py-2 .px-4 .tracking-wide;
+}
+
+.btn-outline:hover {
+    @apply .border-blue .text-blue;
+}
+
+.btn-green {
+    @apply .inline-block .py-4 .px-8 .font-header .rounded-full .bg-green .uppercase .text-sm .leading-none .tracking-wide .font-bold .text-white;
+}
+
+.btn-green:hover {
+    @apply .bg-blue;
+}
+
+.btn-green-outline {
+    @apply .inline-block .py-4 .px-8 .font-header .rounded-full .border .border-green .uppercase .leading-none .font-bold .text-sm .tracking-wide .text-green;
+}
+
+.btn-green-outline:hover {
+    @apply .text-blue .border-blue;
+}
+
+.btn-white {
+    @apply .inline-block .py-4 .px-8 .font-header .rounded-full .bg-white .uppercase .text-sm .leading-none .tracking-wide .font-bold .text-blue-dark;
+}
+
+.btn-white:hover {
+    @apply .bg-green;
+}
+
+.btn-white-outline {
+    @apply .inline-block .py-4 .px-8 .font-header .rounded-full .border .border-white .uppercase .leading-none .font-bold .text-sm .tracking-wide .text-white;
+}
+
+.btn-white-outline:hover {
+    @apply .border-green .text-green;
+}
+
+/* Cards */
+.card {
+    @apply .bg-white .shadow-md .rounded .p-6;
+}
+
+/* Lists */
+.list-check li {
+    position: relative;
+    @apply .pl-8 .uppercase .py-3 .text-sm .tracking-wide .font-bold .text-grey;
+}
+
+.list-check li::before {
+    content: "";
+    @apply .border .rounded-full .w-6 .h-6 .border-grey-light .absolute .pin-l .pin-t .mt-2;
+}
+
+.list-check li.is-checked {
+    @apply .text-green;
+}
+
+.list-check li.is-checked::before {
+    background-image: url(/images/check.svg);
+    background-repeat: no-repeat;
+    background-position: center center;
+    @apply .bg-green .border-green;
+}
+
+/* Forms */
+.form-control {
+    @apply .border .border-grey-light .p-3 .rounded;
+}
+
+/* Utilities */
+.pos-center {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    position: absolute;
+}
+
+.input__error-message {
+    @apply .text-sm .text-red-error;
+}
+
+.input__error {
+    @apply .border-red-error;
+    box-shadow: 0 0 3px;
+}
+
+.want-to__default {
+    @apply .text-blue-dark .bg-white;
+}
+
+.want-to__default:hover {
+    @apply .bg-green .text-white;
+}
+
+.want-to__selected {
+    @apply .bg-green .text-white;
+}
+
+.want-to__selected:hover {
+    @apply .text-blue-dark .bg-white;
+}
+
+@tailwind utilities;

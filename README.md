@@ -4,3 +4,18 @@ The site allows people (producer) that are creating a media project, such as tv,
 
 ## Contributing to the project
 * [Developers Guide](https://github.com/cca-bheath/crewcalls/wiki/Developers-Guide)
+
+
+## Front end compile
+
+```bash
+npm install
+```
+
+```bash
+npm run dev
+
+//OR
+
+npm run production
+```

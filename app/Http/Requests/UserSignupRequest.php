@@ -31,11 +31,11 @@ class UserSignupRequest extends FormRequest
         return [
             'first_name'  => UserRules::firstName(),
             'last_name'   => UserRules::lastName(),
-            'email'       => UserRules::email(),
-            'password'    => UserRules::password(),
+            'email'       => UserRules::confirmedEmail(),
+            'password'    => UserRules::confirmedPassword(),
             'phone'       => UserRules::phone(),
             'receive_sms' => 'bool',
-            'type'        => ['required', 'string', Rule::in([Role::CREW, Role::PRODUCER])],
+            'type'        => ['required', 'array'],
         ];
     }
 

@@ -88,7 +88,8 @@ class UserSettingsFeatureTest extends TestCase
 
         $data = [
             'email'                      => 'updateemail@gmail.com',
-            'phone'                      => '(888) 937-7238',
+            'email_confirmation'         => 'updateemail@gmail.com',
+            'phone'                      => '1234567890',
             'receive_email_notification' => 1,
             'receive_other_emails'       => 1,
             'receive_sms'                => 1,
@@ -103,7 +104,7 @@ class UserSettingsFeatureTest extends TestCase
 
         $this->assertArraySubset([
                 'email' => 'updateemail@gmail.com',
-                'phone' => '(888) 937-7238',
+                'phone' => '1234567890',
             ],
             $user->toArray()
         );
@@ -122,7 +123,7 @@ class UserSettingsFeatureTest extends TestCase
     {
         $user = $this->createUser([
             'email' => 'safe@gmail.com',
-            'phone' => '(888) 937-7238',
+            'phone' => '1234567890',
         ]);
 
         factory(UserNotificationSetting::class)->create([
@@ -134,6 +135,7 @@ class UserSettingsFeatureTest extends TestCase
 
         $data = [
             'email'                      => $user->email,
+            'email_confirmation'         => $user->email,
             'phone'                      => $user->phone,
             'receive_email_notification' => 1,
             'receive_other_emails'       => 1,
@@ -149,7 +151,7 @@ class UserSettingsFeatureTest extends TestCase
 
         $this->assertArraySubset([
                 'email' => 'safe@gmail.com',
-                'phone' => '(888) 937-7238',
+                'phone' => '1234567890',
             ],
             $user->toArray()
         );
@@ -229,7 +231,7 @@ class UserSettingsFeatureTest extends TestCase
 
         $data = [
             'email' => 'UPPER@gmail.com',
-            'phone' => '888.937.7238',
+            'phone' => '123.456.7890',
         ];
 
         $response = $this->actingAs($user)
@@ -239,7 +241,7 @@ class UserSettingsFeatureTest extends TestCase
 
         $this->assertArraySubset([
                 'email' => 'upper@gmail.com',
-                'phone' => '(888) 937-7238',
+                'phone' => '1234567890',
             ],
             $user->refresh()
                  ->toArray()
