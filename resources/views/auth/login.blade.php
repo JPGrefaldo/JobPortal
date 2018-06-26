@@ -86,7 +86,7 @@
                 </form>
                     <div class="p-8 text-center bg-grey-lighter border-top border-grey-light">
                         Not a member yet?
-                        <a href="#" class="text-red underline hover:text-green">Sign up now</a>
+                        <a href="/signup" class="text-red underline hover:text-green">Sign up now</a>
                     </div>
                 </div>
             </div>
