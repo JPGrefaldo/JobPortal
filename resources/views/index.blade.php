@@ -11,7 +11,7 @@
             <div class="img-overlay darker"></div>
             <div class="py-2 md:flex justify-between items-center">
                 <div class="w-32 md:w-64 py-1 md:py-0 relative z-10">
-                    <img src="images/logo-long-white.svg" alt="crew calls" />
+                    <img src="images/logos/logo-white.svg" alt="crew calls" />
                 </div>
                 <ul class="list-reset hidden lg:flex items-center relative z-10">
                         <li>
@@ -86,19 +86,19 @@
             <h4 class="text-grey mb-6">OUR SOFTWARE HAS HELPED STAFF PROJECTS FOR...</h4>
             <ul class="list-reset list-logos">
                 <li class="inline-block mx-3 align-middle">
-                    <img src="images/logos/hbo.png" alt="hbo" />
+                    <img src="images/corp-logos/hbo.png" alt="hbo" />
                 </li>
                 <li class="inline-block mx-3 align-middle">
-                    <img src="images/logos/hallmark.png" alt="hallmark" />
+                    <img src="images/corp-logos/hallmark.png" alt="hallmark" />
                 </li>
                 <li class="inline-block mx-3 align-middle">
-                    <img src="images/logos/microsoft.png" alt="microsoft" />
+                    <img src="images/corp-logos/microsoft.png" alt="microsoft" />
                 </li>
                 <li class="inline-block mx-3 align-middle">
-                    <img src="images/logos/netflix.png" alt="netflix" />
+                    <img src="images/corp-logos/netflix.png" alt="netflix" />
                 </li>
                 <li class="inline-block mx-3 align-middle">
-                    <img src="images/logos/tnt.png" alt="hbo" />
+                    <img src="images/corp-logos/tnt.png" alt="hbo" />
                 </li>
                 <li class="inline-block mx-3 align-middle">
                     <span class="text-grey mb-6">... and more</span>
@@ -163,7 +163,7 @@
     ******************************************-->
     <section class="py-3 md:py-md w-full float-left overflow-hidden circle p-3">
         <div class="container flex">
-            <img src="images/logo-cc.svg" alt="" class="mb-1 mr-3 md:mr-8 block" />
+            <img src="images/logos/logo-cc.svg" alt="" class="mb-1 mr-3 md:mr-8 block" />
             <span class="text-white text-sm md:text-lg font-header md:leading-normal opacity-75">Part of the Casting Calls America software network, a bonded talent listing software provider accredited by the
                 Better Business Bureau.</span>
         </div>
@@ -422,7 +422,7 @@
     <a href="#" class="btn-nav lg:hidden"><div class="icon"></div></a>
     <nav class="nav-mobile bg-black fixed z-50 text-white w-full h-full pin-t pin-l">
         <div class="p-3">
-            <img src="images/logo-long-white.svg" class="w-32" alt="crew calls" />
+            <img src="images/logos/logo-long-white.svg" class="w-32" alt="crew calls" />
         </div>
         <div class="py-6 px-3 border-t border-grey-dark">
             <ul class="list-reset">

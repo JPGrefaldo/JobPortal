@@ -1,6 +1,6 @@
 <nav class="bg-white float-left w-full px-3 md:px-6 shadow flex justify-between items-center font-header">
     <div class="w-32 md:w-64 py-1 md:py-0 relative z-10">
-        <a href="/"><img src="../images/logo-long.svg" alt="crew calls" /></a>
+        <a href="/"><img src="/images/logos/logo-long.svg" alt="crew calls" /></a>
     </div>
     <ul class="list-reset hidden md:flex items-center">
         <li class="border-b-2 border-red border-solid">
@@ -19,7 +19,7 @@
     <div class="w-64 hidden md:flex items-center text-right justify-end">
         <div class="mr-3 has-dropdown">
             <div class="py-1 px-2 rounded-lg hover:bg-grey-lighter block">
-                <img src="../images/bell.svg" alt="bell" />
+                <img src="/images/bell.svg" alt="bell" />
                 <span class="h-1 w-1 bg-red absolute rounded"></span>
             </div>
             <div class="dropdown shadow-md bg-white absolute py-3 font-body">
@@ -75,7 +75,7 @@
     <a href="#" class="btn-nav md:hidden"><div class="icon"></div></a>
 <nav class="nav-mobile bg-black fixed z-50 text-white w-full h-full pin-t pin-l">
     <div class="p-3">
-        <img src="images/logo-long-white.svg" class="w-32" alt="crew calls" />
+        <img src="images/logos/logo-long-white.svg" class="w-32" alt="crew calls" />
     </div>
     <div class="py-6 px-3 border-t border-grey-dark">
         <div class="relative flex items-center p-1 rounded-lg">
