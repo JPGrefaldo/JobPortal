@@ -7,6 +7,9 @@
                 <div class="p-8 text-center border-b border-grey-light">
                     <h2 class="font-header text-blue-dark text-lg text-center font-semibold">Sign up</h2>
                 </div>
+                @foreach($errors->all() as $error)
+                    {{ $error }}<br />
+                @endforeach
                 <form method="post" action="{{ route('register') }}">
                     <div class="p-8">
                         <div class="pb-2 text-center">
