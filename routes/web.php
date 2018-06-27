@@ -15,11 +15,12 @@ Route::get('/', 'IndexController@index' );
 
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login')->name('show.login');
+
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('logout', 'Auth\LoginController@logout');
 
-Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('show.register');
-Route::post('register', '\App\Http\Controllers\UserSignupController@signup')->name('register');
+Route::get('register', 'UserSignupController@show')->name('show.register');
+Route::post('register', 'UserSignupController@signup')->name('register');
 
 Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
 Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');

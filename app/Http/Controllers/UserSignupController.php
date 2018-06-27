@@ -13,6 +13,10 @@ use Illuminate\Http\Request;
 
 class UserSignupController extends Controller
 {
+    public function show()
+    {
+        return view('auth.register');
+    }
     /**
      * Handle post request to signup
      *
