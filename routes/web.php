@@ -3,6 +3,13 @@
 
 use App\Models\User;
 use App\Models;
+use App\Models\Crew;
+use App\Models\CrewPosition;
+use App\Models\Position;
+use App\Models\CrewSocial;
+use App\Models\Department;
+use App\Models\UserRoles;
+use App\Models\Role;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,9 +28,17 @@ Route::get('/', function () {
 Route::get('/signup', 'Auth\RegisterController@showRegistrationForm');
 Route::post('/signup', 'UserSignupController@signup')->name('signup');
 
+/*Route::get('/my-profile', 'ProfileController@index');*/
 
-Route::get('/my-profile', 'ProfileController@index');
-Route::get('/my-profile/edit', 'ProfileController@show');
+Route::get('/my-profile/{user}', 'ProfileController@index')->name('profile');
+
+    /*$title = UserRoles::where('user_id', $user->id)->first();
+    $role = Role::where('id', $title->role_id)->first();
+
+    return view('profile.my-profile', compact('user','role'));
+})->name('profile');*/
+
+Route::get('/my-profile/{id}/edit', 'ProfileController@show');
 
 Route::post('/my-profile/edit/', 'ProfileController@edit')->name('profile-edit');
 

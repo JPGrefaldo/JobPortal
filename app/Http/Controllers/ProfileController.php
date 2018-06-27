@@ -9,6 +9,8 @@ use App\Models\CrewPosition;
 use App\Models\Position;
 use App\Models\CrewSocial;
 use App\Models\Department;
+use App\Models\UserRoles;
+use App\Models\Role;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -25,18 +27,16 @@ class ProfileController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(User $user)
     {
 
-    $user = User::first();
-    $biography = Crew::first();
-    $position = CrewPosition::first();
-    $jobTitle = Position::first();
-    $fb = CrewSocial::where('social_link_type_id','=',1)->first();
-    $imdb = CrewSocial::where('social_link_type_id','=',5)->first();
-    $department = Department::first();
- 
-    return view('profile.my-profile', compact('user','position', 'jobTitle', 'fb', 'imdb', 'department','biography'));   
+    $title = UserRoles::where('user_id', $user->id)->first();
+    $role = Role::where('id', $title->role_id)->first();
+    $biography = Crew::where('user_id', $user->id)->first();
+    $positions = CrewPosition::where('crew_id', $user->id)->first();
+    $position_role = Position::where('department_id', $positions->position_id)->first();
+
+    return view('profile.my-profile', compact('user','role', 'biography','positions','position_role'));
     }
 
     /**
@@ -69,7 +69,7 @@ class ProfileController extends Controller
     public function show(User $user)
     {
     
-    $user = User::first();
+    $user = User::find($user);
     $biography = Crew::first();
     $position = CrewPosition::first();
     $jobTitle = Position::first();

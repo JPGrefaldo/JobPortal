@@ -21,4 +21,9 @@ class PhoneProvider extends PhoneNumber
     {
         return $this->tollFreePhoneNumber();
     }
+
+    public function unformattedPhoneNumber()
+    {
+        return rand(100, 999) . rand(100, 999) . rand(1000, 9999);
+    }
 }
