@@ -1,4 +1,29 @@
-@include('_parts/header')
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,600|Noto+Sans:400,600" rel="stylesheet">
+
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+   
+    <title>Crew Calls</title>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/slick.min.js"></script>
+    <script src="js/scroll.js"></script>
+    <script src="js/scripts.js"></script>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css" integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="/css/slick.css">
+    <link rel="stylesheet" href="/css/output.css">
+    <link rel="stylesheet" href="/css/extras.css">
+</head>
 
 <body class="bg-grey-lighter font-body">
     @include('_parts/nav-logged')
@@ -13,7 +38,7 @@
                 <h4 class="text-sm uppercase text-grey tracking-wide mb-4">COMPLETE YOUR ACCOUNT</h4>
                 <p>Complete profiles have a better chance of being selected and show up higher in search results. </p>
                 <div class="text-center pt-8 pb-4">
-                    <img src="images/donut.svg" alt="" />
+                    <img src="/images/donut.svg" alt="" />
                 </div>
                 <ul class="list-reset list-check">
                     <li class="is-checked">BIO</li>
@@ -35,7 +60,7 @@
                     
                     <div class="md:flex">
                         <div class="md:w-1/3 md:pr-6 mb-6">
-                            <div class="flex h-none bg-grey-light items-center justify-center cursor-pointer text-center border border-grey-light w-full pb-full rounded relative" style="background: url(../{{ $biography->photo }}); background-size: cover;">
+                            <div class="flex h-none bg-grey-light items-center justify-center cursor-pointer text-center border border-grey-light w-full pb-full rounded relative" style="background: url(/{{ $biography->photo }}); background-size: cover;">
                                 <span class="text-center uppercase text-sm font-semibold text-white px-2 pos-center w-full">
                                 UPLOAD PROFILE PHOTO
                                 {{ form::file('profile_image', array('class' => 'profile_image'))}}
@@ -91,7 +116,7 @@
                             <div class="md:w-2/3">
                                 <div class="flex flex-wrap items-stretch w-full mb-2 relative">
                                     <div class="flex -mr-px">
-                                        <span class="flex w-10 items-center leading-normal bg-yellow-imdb rounded rounded-r-none px-2 whitespace-no-wrap text-grey-dark"><img src="../images/imdb.svg" alt=""  /></span>
+                                        <span class="flex w-10 items-center leading-normal bg-yellow-imdb rounded rounded-r-none px-2 whitespace-no-wrap text-grey-dark"><img src="/images/imdb.svg" alt=""  /></span>
                                     </div>	
                                     
                                     {{ Form::text('imdb_link', $imdb->url, array('class' => 'form-control flex-shrink flex-grow flex-auto leading-normal w-px flex-1 border h-10 border-grey-light rounded rounded-l-none px-3 relative', 'placeholder' => 'add IMdb Link') )}}
@@ -217,5 +242,3 @@
             </div>
         </div>
     </main>
-
-    @include('_parts/footer')

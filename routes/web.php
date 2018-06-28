@@ -28,19 +28,12 @@ Route::get('/', function () {
 Route::get('/signup', 'Auth\RegisterController@showRegistrationForm');
 Route::post('/signup', 'UserSignupController@signup')->name('signup');
 
-/*Route::get('/my-profile', 'ProfileController@index');*/
 
 Route::get('/my-profile/{user}', 'ProfileController@index')->name('profile');
 
-    /*$title = UserRoles::where('user_id', $user->id)->first();
-    $role = Role::where('id', $title->role_id)->first();
+Route::get('/my-profile/{user}/edit', 'ProfileController@show')->name('profile-edit');
 
-    return view('profile.my-profile', compact('user','role'));
-})->name('profile');*/
-
-Route::get('/my-profile/{id}/edit', 'ProfileController@show');
-
-Route::post('/my-profile/edit/', 'ProfileController@edit')->name('profile-edit');
+Route::post('/my-profile/edit', 'ProfileController@edit')->name('profile-update');
 
 Route::get('/my-projects', 'ProjectController@index');
 Route::get('/my-projects/post', 'ProjectController@showPostProject');

@@ -24,7 +24,7 @@
                 </ul>
             </div>
             <div class="w-full md:w-3/4 float-left">
-                <a href="{{route('profile-edit')}}" class="text-grey w-full mb-2 text-sm md:text-right float-right"><i class="fas fa-pencil-alt mr-2"></i>Edit profile</a>
+                <a href="{{route('profile-edit', ['id' => $user->id]) }}" class="text-grey w-full mb-2 text-sm md:text-right float-right"><i class="fas fa-pencil-alt mr-2"></i>Edit profile</a>
                 <div class="card float-left md:flex mb-8">
                     <div class="md:w-1/4 md:pr-8 text-center">
                         <img src="/{{$biography->photo}}" class="rounded" alt="" />

@@ -69,8 +69,7 @@ class ProfileController extends Controller
     public function show(User $user)
     {
     
-    $user = User::find($user);
-    $biography = Crew::first();
+    $biography = Crew::where('user_id', $user->id)->first();
     $position = CrewPosition::first();
     $jobTitle = Position::first();
     $fb = CrewSocial::where('social_link_type_id','=',1)->first();
@@ -87,10 +86,8 @@ class ProfileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request)
+    public function edit(Request $request, User $user)
     {
-        
-        $user = Crew::first();
 
         if ($request->hasFile('profile_image')) {
         
@@ -105,18 +102,6 @@ class ProfileController extends Controller
         $user->bio = $request->bio;        
         $user->save();
 
-        // Crew Position
-        $position = CrewPosition::first();
-
-        if ($request->title = '1st Assistant Director') {
-            $title = 1;
-        } else {
-            $title = 2;
-        }
-        
-        $position->position_id = $title;
-        $position->save();
-
         // Crew Social
         $user_imdb = CrewSocial::where('social_link_type_id',5)->first();
         $user_fb = CrewSocial::where('social_link_type_id',1)->first();
@@ -129,10 +114,8 @@ class ProfileController extends Controller
         $user_imdb->save();
         $user_fb->save();
         $user_linkedin->save();
-
-
  
-        Session::flash('success', 'Profile saved!');
+        session()->flash('profile-saved ', 'Profile saved!');
 
         return redirect()->back();
     }
