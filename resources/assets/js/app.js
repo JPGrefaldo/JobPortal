@@ -41,6 +41,8 @@ function reverse_want_to_class(element, selected) {
     }
 }
 
+(function(l){var i,s={touchend:function(){}};for(i in s)l.addEventListener(i,s)})(document);
+
 $(function() {
     if ($("#select-want-project").length) {
         $("#select-want-project").click(function (event) {
