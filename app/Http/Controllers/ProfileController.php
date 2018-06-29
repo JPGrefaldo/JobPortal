@@ -6,17 +6,21 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Crew;
 use App\Models\CrewPosition;
+use App\Models\CrewReel;
+use App\Models\CrewResume;
 use App\Models\Position;
 use App\Models\CrewSocial;
 use App\Models\Department;
 use App\Models\UserRoles;
 use App\Models\Role;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Html\FormBuilder;
 use Session;
+use Auth;
 use Intervention\Image\Facades\Image as Image;
 
 
@@ -70,14 +74,24 @@ class ProfileController extends Controller
     {
     
     $biography = Crew::where('user_id', $user->id)->first();
-    $position = CrewPosition::first();
-    $jobTitle = Position::first();
-    $fb = CrewSocial::where('social_link_type_id','=',1)->first();
-    $imdb = CrewSocial::where('social_link_type_id','=',5)->first();
-    $linkedin = CrewSocial::where('social_link_type_id','=',10)->first();
+    $position = CrewPosition::where('crew_id', $user->id)->first();
+    $jobTitle = Position::where('department_id', $position->position_id)->first();
+    $fb = CrewSocial::where('social_link_type_id','=',1)
+        ->where('crew_id', $user->id)
+        ->first();
+    $imdb = CrewSocial::where('social_link_type_id','=',5)
+        ->where('crew_id', $user->id)
+        ->first();
+    $linkedin = CrewSocial::where('social_link_type_id','=',10)
+        ->where('crew_id', $user->id)
+        ->first();
+
+    $reel = CrewReel::where('crew_id', $user->id)->first();
+    $resume = CrewResume::where('crew_id', $user->id)->first();
+
     $department = Department::first();
 
-     return view('profile.my-profile-edit', compact('user','position', 'biography', 'jobTitle', 'fb', 'imdb', 'linkedin', 'department')); 
+     return view('profile.my-profile-edit', compact('user','position', 'biography', 'jobTitle', 'fb', 'imdb', 'linkedin', 'department', 'reel', 'resume')); 
     }
 
     /**
@@ -86,26 +100,77 @@ class ProfileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, User $user)
+    public function edit(Request $request)
     {
 
+        //set the User
+        $user = User::where('id', Auth::user()->id)->first();
+        $edit_user = Crew::where('user_id', $user->id)->first(); 
+
+
+        // save profile image
         if ($request->hasFile('profile_image')) {
         
         $image = $request->file('profile_image');
-        $filename = 'profile_' . time() . $user->user_id . '.' . $image->getClientOriginalExtension();   
+        $filename = time() . '.' . $image->getClientOriginalExtension();   
         $location = public_path('photos/' . $filename);
         Image::make($image)->resize(400, 400)->save($location);
-        $user->photo = "photos/". $filename;
-
+        $edit_user->photo = "photos/". $filename;
         }
 
-        $user->bio = $request->bio;        
-        $user->save();
+        $edit_user->bio = $request->bio;        
+        $edit_user->save();
 
-        // Crew Social
-        $user_imdb = CrewSocial::where('social_link_type_id',5)->first();
-        $user_fb = CrewSocial::where('social_link_type_id',1)->first();
-        $user_linkedin = CrewSocial::where('social_link_type_id',10)->first();
+        // save crew reel
+        if ($request->hasFile('reel_file')) {
+
+        $reel_fileName = "fileName".time().'.'.request()->reel_file->getClientOriginalExtension();
+        $user_reel = Storage::putFile('reels', $request->file('reel_file'));
+        $user_reel_filepath = 'reel/' . $reel_fileName;
+        $save_reel = CrewReel::where('crew_id', $user->id)->first();
+        $save_reel->url = $user_reel_filepath;
+        $save_reel->save();
+        }
+
+
+        // save crew resume
+
+        if ($request->hasFile('resume_file')) {
+
+        $resume_fileName = "fileName".time().'.'.request()->resume_file->getClientOriginalExtension();
+        $user_resume = Storage::putFile('resume', $request->file('resume_file'));
+        $resume_url = Storage::url($user_resume);
+        $user_resume_filepath = 'resume/' . $resume_fileName;
+        $save_resume = CrewResume::where('crew_id', $user->id)->first();
+        $save_resume->url = $user_resume_filepath;
+        $save_resume->save();
+        }
+
+
+        // Save Crew Position
+        $edit_position = CrewPosition::where('crew_id', $user->id)->first(); 
+
+        if ($request->title == '1st Assistant Director') {
+            $edit_position_id = 1;
+        } elseif ($request->title == 'Camera Operator') {
+            $edit_position_id = 2;
+        }
+
+        $edit_position->position_id = $edit_position_id;
+        $edit_position->save();
+
+        // Save Crew Social
+        $user_imdb = CrewSocial::where('social_link_type_id',5)
+                    ->where('crew_id', $user->id)
+                    ->first();
+
+        $user_fb = CrewSocial::where('social_link_type_id',1)
+                    ->where('crew_id', $user->id)
+                    ->first();
+
+        $user_linkedin = CrewSocial::where('social_link_type_id',10)
+                    ->where('crew_id', $user->id)
+                    ->first();
 
         $user_imdb->url = $request->imdb_link;
         $user_fb->url = $request->fb_link;
@@ -117,8 +182,10 @@ class ProfileController extends Controller
  
         session()->flash('profile-saved ', 'Profile saved!');
 
-        return redirect()->back();
+        return redirect()->route('profile', ['id' => $user->id]);
     }
+
+
 
     /**
      * Update the specified resource in storage.

@@ -1,37 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,600|Noto+Sans:400,600" rel="stylesheet">
-
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-   
-    <title>Crew Calls</title>
-
-    <script src="js/jquery.min.js"></script>
-    <script src="js/slick.min.js"></script>
-    <script src="js/scroll.js"></script>
-    <script src="js/scripts.js"></script>
-
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css" integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous">
-
-    <link rel="stylesheet" href="/css/slick.css">
-    <link rel="stylesheet" href="/css/output.css">
-    <link rel="stylesheet" href="/css/extras.css">
-</head>
+@include('_parts/header')
 
 <body class="bg-grey-lighter font-body">
     @include('_parts/nav-logged')
 
     <main class="float-left w-full px-3 py-md md:py-lg">
         <div class="container">
-            <div class="w-full pb-md md:pb-lg">
+
+          <div class="w-full pb-md md:pb-lg">
                 <h1 class="font-header text-blue-dark text-xl md:text-2xl font-semibold">Edit profile</h1>
+
+            @include('_parts/messages')
             </div>
 
             <div class="hidden md:block md:w-1/4 float-left pr-8 py-md">
@@ -55,7 +34,7 @@
                     </div>
 
                     <!-- form start -->
-                     {{ Form::open(array('action' => 'ProfileController@edit', 'files' => true)) }}
+                     {{ Form::open(array('route' => 'profile-update', 'files' => true)) }}
     
                     
                     <div class="md:flex">
@@ -76,10 +55,9 @@
 
                                 </div>
                                 <div class="mb-2">
-                                    {{ Form::label('bio', 'Biograpghy:', array('class' => 'block mb-3') )}}
+                                    {{ Form::label('bio', 'Biography:', array('class' => 'block mb-3') )}}
                                     
                                     {{ Form::textarea('bio', $biography->bio, array('class' => 'form-control w-full h-32') )}}
-                                   
                                 </div>
                             </div>
                         </div>
@@ -92,7 +70,7 @@
                             <div class="md:w-2/3">
                             
                                 {{ form::file('resume_file', array('class' => 'btn-outline inline-block', 'value' => 'Upload file'))}}
-
+                                {{ $resume->url }}
                             </div>
                         </div>
                     </div>
@@ -103,8 +81,10 @@
                             </div>
                             <div class="md:w-2/3">
                                 <input type="text" class="form-control bg-light w-64 mr-2 mb-2 md:mb-0" placeholder="Add link"><div> or <br> 
-                                {{ form::file('reel_file', array('class' => 'btn-outline inline-block', 'value' => 'Upload file'))}}
+                                {{ form::file('reel_file', array('class' => 'btn-outline inline-block', 'value' => 'Upload file')) }}
+                                {{ $reel->url }}
                                 </div>
+
                             </div>
                         </div>
                     </div>

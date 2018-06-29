@@ -25,7 +25,7 @@
             <div class="dropdown shadow-md bg-white absolute py-3 font-body">
                     <ul class="list-reset text-left">
                         <li class="py-2 px-4">
-                            <a href="/my-profile/{user}" class="block text-blue-dark hover:text-green">View profile</a>
+                            <a href="/my-profile/{{ Auth::user()->id }}" class="block text-blue-dark hover:text-green">View profile</a>
                         </li>
                         <li class="py-2 px-4">
                             <a href="#" class="block text-blue-dark hover:text-green" >Subscription</a>
