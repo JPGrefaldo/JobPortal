@@ -34,7 +34,8 @@ Route::get('/my-profile/{user}/edit', 'ProfileController@show')->name('profile-e
 
 Route::post('/my-profile/edit', 'ProfileController@edit')->name('profile-update');
 
-Route::get('/my-projects', 'ProjectController@index');
+Route::get('/my-projects/{user}', 'ProjectController@index');
+
 Route::get('/my-projects/post', 'ProjectController@showPostProject');
 
 Route::get('/my-account', 'AccountController@index');

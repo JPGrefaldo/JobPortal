@@ -20,7 +20,7 @@ class CreateCrewTable extends Migration
                   ->references('id')
                   ->on('users')
                   ->onDelete('cascade');
-            $table->text('bio');
+            $table->text('bio')->nullable();
             $table->string('photo')->default("");
             $table->timestamps();
         });

@@ -2,8 +2,25 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Models\User;
+use App\Models\Crew;
+use App\Models\CrewPosition;
+use App\Models\CrewReel;
+use App\Models\CrewResume;
+use App\Models\Position;
+use App\Models\CrewSocial;
+use App\Models\Department;
+use App\Models\UserRoles;
+use App\Models\Role;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use Illuminate\Html\FormBuilder;
+use Session;
+use Auth;
+use Intervention\Image\Facades\Image as Image;
 
 class ProjectController extends Controller
 {
@@ -12,9 +29,12 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(User $user)
     {
-        return view('projects.my-projects');
+
+        $biography = Crew::where('user_id', $user->id)->first();
+
+        return view('projects.my-projects', compact('user','biography'));
     }
 
     public function showPostProject()

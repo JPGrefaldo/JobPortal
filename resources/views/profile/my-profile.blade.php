@@ -18,25 +18,45 @@
                     <img src="/images/donut.svg" alt="" />
                 </div>
                 <ul class="list-reset list-check">
+                @if (($biography->bio) == '') 
+                    <li>BIO</li>
+                     @else 
                     <li class="is-checked">BIO</li>
+                @endif
+                
+                @if (($linkedin->url == '') && ($imdb->url == '') && ($fb->url == '')) 
+                    <li>SOCIAL MEDIA PROFILES</li>
+                    @else 
                     <li class="is-checked">SOCIAL MEDIA PROFILES</li>
+                @endif
+
+                @if ($resume->url == '')
+                    <li>GENERAL WORK RESUME</li>
+                    @else 
                     <li class="is-checked">GENERAL WORK RESUME</li>
+                @endif
+                    
+                @if ($reel->url == '')    
                     <li class="is-checked">GENERAL WORK REEL</li>
+                    @else
+                    <li>GENERAL WORK REEL</li>
+                @endif    
+
                     <li>WORK POSITIONS</li>
                 </ul>
             </div>
             <div class="w-full md:w-3/4 float-left">
-                <a href="{{route('profile-edit', ['id' => $user->id]) }}" class="text-grey w-full mb-2 text-sm md:text-right float-right"><i class="fas fa-pencil-alt mr-2"></i>Edit profile</a>
+                <a href="{{route('profile-edit', ['id' => $user->id]) }}" class="text-grey w-full mb-2 text-sm md:text-right float-right" id="edit-profile" ><i class="fas fa-pencil-alt mr-2"></i>Edit profile</a>
                 <div class="card float-left md:flex mb-8">
                     <div class="md:w-1/4 md:pr-8 text-center">
                         <img src="/{{$biography->photo}}" class="rounded" alt="" />
                         <ul class="list-reset py-4">
                             <li class="py-1">
-                                <a href="imdb.com\kdavadil" class="flex items-center">
+                                <a href="http:\\imdb.com\{{ $imdb->url }}" class="flex items-center" target="_blank">
                                     <div class="p-1 rounded bg-yellow-imdb w-8 h-8"><img src="/images/imdb.svg" alt="" class="mr-2 img-responsive"></div><span class="ml-2 text-yellow-imdb">IMDb profile</span></a>
                             </li>
                             <li class="py-1">
-                                <a href="#" class="flex items-center text-blue-linkedin">
+                                <a href="http:\\linkedin.com\{{ $linkedin->url }}" target="_blank" class="flex items-center text-blue-linkedin">
                                     <img src="/images/linkedin.svg" alt="" class="mr-2">LinkedIn profile</a>
                             </li>
                         </ul>
@@ -51,13 +71,13 @@
                             </p>
                         </div>
                         <div class="pb-2 md:flex">
-                                <a href="#" class="border md:w-1/2 flex overflow-hidden rounded md:mr-2 mb-2 md:mb-0">
+                                <a href="{{  $url_reel }}" class="border md:w-1/2 flex overflow-hidden rounded md:mr-2 mb-2 md:mb-0">
                                     <div class="w-24 relative" style="background: url(../images/th2.jpg); background-size: cover;">
                                         <span class="btn-play w-10 h-10"></span>
                                     </div>
                                     <span class='uppercase text-green font-semibold p-4 text-sm tracking-wide'>VIEW POSITION WORK REEL</span>
                                 </a>
-                                <a href="#" class="border md:w-1/2 flex items-center overflow-hidden rounded md:ml-2">
+                                <a href="{{ $url_resume }}" class="border md:w-1/2 flex items-center overflow-hidden rounded md:ml-2">
                                     <i class="far fa-file-alt px-6 text-lg"></i>
                                     <span class='uppercase text-green font-semibold px-0 py-6 text-sm tracking-wide'>VIEW POSITION RESUME</span>
                                 </a>

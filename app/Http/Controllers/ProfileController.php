@@ -39,8 +39,24 @@ class ProfileController extends Controller
     $biography = Crew::where('user_id', $user->id)->first();
     $positions = CrewPosition::where('crew_id', $user->id)->first();
     $position_role = Position::where('department_id', $positions->position_id)->first();
+    $fb = CrewSocial::where('social_link_type_id','=',1)
+        ->where('crew_id', $user->id)
+        ->first();
+    $imdb = CrewSocial::where('social_link_type_id','=',5)
+        ->where('crew_id', $user->id)
+        ->first();
+    $linkedin = CrewSocial::where('social_link_type_id','=',10)
+        ->where('crew_id', $user->id)
+        ->first();
 
-    return view('profile.my-profile', compact('user','role', 'biography','positions','position_role'));
+    $resume = CrewResume::where('crew_id', $user->id)->first();
+    $url_resume = Storage::url($resume->url);
+
+    $reel = CrewReel::where('crew_id', $user->id)->first();
+    $url_reel = Storage::url($reel->url);
+ 
+    return view('profile.my-profile', compact('user','role', 'biography','positions','position_role', 'fb', 'imdb', 'linkedin', 'resume', 'url_resume', 'reel', 'url_reel'));
+
     }
 
     /**
@@ -137,8 +153,8 @@ class ProfileController extends Controller
 
         if ($request->hasFile('resume_file')) {
 
-        $resume_fileName = "fileName".time().'.'.request()->resume_file->getClientOriginalExtension();
-        $user_resume = Storage::putFile('resume', $request->file('resume_file'));
+        $resume_fileName = $user->first_name." ".$user->last_name  ." " . "resume".time().'.'.request()->resume_file->getClientOriginalExtension();
+        $user_resume = Storage::putFileAs('resume', $request->file('resume_file'),$resume_fileName);
         $resume_url = Storage::url($user_resume);
         $user_resume_filepath = 'resume/' . $resume_fileName;
         $save_resume = CrewResume::where('crew_id', $user->id)->first();
