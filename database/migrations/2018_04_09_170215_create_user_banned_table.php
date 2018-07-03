@@ -20,7 +20,7 @@ class CreateUserBannedTable extends Migration
                   ->references('id')
                   ->on('users')
                   ->onDelete('cascade');
-            $table->text('reason')->default('');
+            $table->text('reason')->nullable();
             $table->timestamps();
         });
     }
