@@ -140,18 +140,6 @@
                     {{ Form::close() }} 
 
                 
-
-                <div class="card mb-6">
-                    <div class="pb-6">
-                        <h3 class="text-blue-dark font-semibold text-lg mb-1 font-header">Camera</h3>
-                    </div>
-                    
-                    <div class="pt-8 pb-4 text-right border-t-2 border-grey-lighter">
-                        <a href="#" class="text-grey bold mr-4 hover:text-green">Cancel</a>
-                        <a href="#" class="btn-green">SAVE CHANGES</a>
-                    </div>
-
-                </div>
                 <div class="card mb-6">
                     <div class="md:flex justify-between">
                         <h3 class="text-blue-dark font-semibold text-lg font-header mb-2 md:mb-0">Sound</h3>

@@ -82,7 +82,9 @@
                             <div class="md:w-2/3">
                                 <input type="text" class="form-control bg-light w-64 mr-2 mb-2 md:mb-0" placeholder="Add link"><div> or <br> 
                                 {{ form::file('reel_file', array('class' => 'btn-outline inline-block', 'value' => 'Upload file')) }}
+                                @if (isset($reel))
                                 {{ $reel->url }}
+                                @endif
                                 </div>
 
                             </div>

@@ -35,14 +35,20 @@
                     @else 
                     <li class="is-checked">GENERAL WORK RESUME</li>
                 @endif
-                    
-                @if ($reel->url == '')    
-                    <li class="is-checked">GENERAL WORK REEL</li>
-                    @else
+                
+
+                @if (!isset($reel) || $reel->url == '')    
                     <li>GENERAL WORK REEL</li>
+                    @else
+                    <li class="is-checked">GENERAL WORK REEL</li>
                 @endif    
 
+                @if (count($positions) < 1)
                     <li>WORK POSITIONS</li>
+                    @else 
+                    <li class="is-checked">WORK POSITIONS</li>
+                @endif
+
                 </ul>
             </div>
             <div class="w-full md:w-3/4 float-left">
@@ -71,12 +77,23 @@
                             </p>
                         </div>
                         <div class="pb-2 md:flex">
+                                
+                                @if(isset($url_reel))
                                 <a href="{{  $url_reel }}" class="border md:w-1/2 flex overflow-hidden rounded md:mr-2 mb-2 md:mb-0">
                                     <div class="w-24 relative" style="background: url(../images/th2.jpg); background-size: cover;">
                                         <span class="btn-play w-10 h-10"></span>
                                     </div>
                                     <span class='uppercase text-green font-semibold p-4 text-sm tracking-wide'>VIEW POSITION WORK REEL</span>
                                 </a>
+                                @else
+                                <a href="#" class="border md:w-1/2 flex overflow-hidden rounded md:mr-2 mb-2 md:mb-0">
+                                    <div class="w-24 relative" style="background: url(../images/th2.jpg); background-size: cover;">
+                                        <span class="btn-play w-10 h-10"></span>
+                                    </div>
+                                    <span class='uppercase text-green font-semibold p-4 text-sm tracking-wide'>VIEW POSITION WORK REEL</span>
+                                </a>
+                                @endif
+
                                 <a href="{{ $url_resume }}" class="border md:w-1/2 flex items-center overflow-hidden rounded md:ml-2">
                                     <i class="far fa-file-alt px-6 text-lg"></i>
                                     <span class='uppercase text-green font-semibold px-0 py-6 text-sm tracking-wide'>VIEW POSITION RESUME</span>
@@ -90,13 +107,15 @@
                         <i class="fas fa-pencil-alt mr-2"></i>Edit section</a>
                     <h4 class='text-grey'>WORK POSITIONS</h4>
                 </div>
+                <p>{{ count($all_post) }}</p>
 
-                @for ($i = 0; $i < count($positions); $i++)
+                @foreach ($all_post as $post)
+
                 <div class="card mb-6">
                     <div class="pb-6">
                         <span class="btn-toggle float-right"></span>
                         <h3 class="text-blue-dark font-semibold text-lg mb-1 font-header">Production
-                            <span class="font-thin"> – {{ $position_role->name }}</span>
+                            <span class="font-thin"> – {{ $post->position_id }}</span>
                         </h3>
                     </div>
                     <div class="md:flex">
@@ -105,7 +124,7 @@
                         </div>
                         <div class="md:w-3/4">
                             <div class="bg-grey-lighter p-6 rounded mb-8">
-                                <p>{{ $positions->details }} </p>
+                                <p>{{ $post->details }} </p>
                             </div>
                             <div class="pb-2 md:flex">
                                 <a href="#" class="border md:w-1/2 flex overflow-hidden rounded md:mr-2 mb-2 md:mb-0">
@@ -123,14 +142,8 @@
                     </div>
 
                 </div>
-                @endfor
+                @endforeach
                 
-                <div class="card mb-6">
-                    <div class="md:flex justify-between">
-                        <h3 class="text-blue-dark font-semibold text-lg font-header mb-2 md:mb-0">Sound</h3>
-                        <a href="#" class="btn-green-outline">ADD POSITION</a>
-                    </div>
-                </div>
             </div>
         </div>
     </main>
