@@ -1,4 +1,14 @@
 let mix = require('laravel-mix');
+var tailwindcss = require('tailwindcss');
+
+module.exports = {
+    plugins: [
+        // ...
+        tailwindcss('./tailwind.js'),
+        require('autoprefixer'),
+        // ...
+    ]
+}
 
 /*
  |--------------------------------------------------------------------------
@@ -11,5 +21,29 @@ let mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/assets/js/app.js', 'public/js')
-   .sass('resources/assets/sass/app.scss', 'public/css');
+/** JS **/
+
+mix.js('resources/assets/js/app.js', 'public/js');
+mix.js('resources/assets/js/scripts.js', 'public/js');
+
+mix.scripts([
+    'resources/assets/js/scroll.js',
+    'resources/assets/js/slick.js',
+    'resources/assets/js/jquery-ui.js'
+], 'public/js/all.js').version();
+
+/** CSS **/
+
+mix.styles(['resources/assets/css/plugins/slick.css',
+    'resources/assets/css/plugins/jquery-ui.css'
+], 'public/css/plugins.css').sourceMaps().version();
+
+mix.styles(['resources/assets/css/extras.css'
+], 'public/css/main.css').sourceMaps().version();
+
+mix.postCss('resources/assets/css/styles.css', 'public/css', [
+     tailwindcss('./tailwind.js'),
+]).sourceMaps().version();
+
+
+

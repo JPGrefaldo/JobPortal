@@ -1,7 +1,7 @@
-@include('_parts/header')
+@include('_parts.header.header')
 
 <body class="bg-grey-lighter font-body">
-    @include('_parts/nav-logged')
+    @include('_parts.navbar.navbar-logged-in')
 
     <main class="float-left w-full py-lg">
         <div class="container">

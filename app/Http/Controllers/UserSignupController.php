@@ -13,6 +13,10 @@ use Illuminate\Http\Request;
 
 class UserSignupController extends Controller
 {
+    public function show()
+    {
+        return view('auth.register');
+    }
     /**
      * Handle post request to signup
      *
@@ -35,16 +39,18 @@ class UserSignupController extends Controller
 
         UserNotificationSetting::create([
             'user_id'     => $user->id,
-            'receive_sms' => ($data['type'] === Role::PRODUCER)
+            'receive_sms' => (in_array(Role::PRODUCER, $data['type']))
                 ? 1
                 : array_get($data, 'receive_sms', 0),
         ]);
 
-        app(AuthServices::class)->createByRoleName(
-            $data['type'],
-            $user,
-            session('site')
-        );
+        foreach ($data['type'] as $_ => $type) {
+            app(AuthServices::class)->createByRoleName(
+                $type,
+                $user,
+                session('site')
+            );
+        }
 
         event(new Registered($user));
         session()->flash('register-success', 'Please check your email to confirm');

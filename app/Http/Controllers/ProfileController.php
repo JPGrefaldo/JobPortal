@@ -33,6 +33,7 @@ class ProfileController extends Controller
      */
     public function index(User $user)
     {
+<<<<<<< HEAD
 
     $title = UserRoles::where('user_id', $user->id)->first();
     $role = Role::where('id', $title->role_id)->first();
@@ -57,6 +58,9 @@ class ProfileController extends Controller
     
     if (!empty($reel)) {
     $url_reel = Storage::url($reel->url);
+=======
+        return view('profile.my-profile');
+>>>>>>> ed08429190ed881d583e906d79f5fd4c0e0f89be
     }
  
     return view('profile.my-profile', compact('user','role', 'biography','positions','position_role', 'fb', 'imdb', 'linkedin', 'resume', 'url_resume', 'reel','url_reel', 'all_post'));

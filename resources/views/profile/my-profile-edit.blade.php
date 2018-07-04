@@ -1,8 +1,12 @@
+<<<<<<< HEAD
 
 @include('_parts/header')
+=======
+@include('_parts.header.header')
+>>>>>>> ed08429190ed881d583e906d79f5fd4c0e0f89be
 
 <body class="bg-grey-lighter font-body">
-    @include('_parts/nav-logged')
+    @include('_parts.navbar.navbar-logged-in')
 
     <main class="float-left w-full px-3 py-md md:py-lg">
         <div class="container">

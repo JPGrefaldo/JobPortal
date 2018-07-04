@@ -1,0 +1,1 @@
+@if ($errors->has($input_element)) input__error @endif

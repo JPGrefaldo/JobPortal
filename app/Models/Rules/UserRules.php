@@ -16,7 +16,12 @@ class UserRules
      */
     public static function firstName()
     {
-        return ['required', 'string', 'max:255', "regex:/^[a-z'\- ]*$/i"];
+        return [
+            'required',
+            'string',
+            'max:255',
+            "regex:/^[a-z'\- ]*$/i",
+        ];
     }
 
     /**
@@ -24,7 +29,12 @@ class UserRules
      */
     public static function lastName()
     {
-        return ['required', 'string', 'max:255', "regex:/^[a-z'\- ]*$/i"];
+        return [
+            'required',
+            'string',
+            'max:255',
+            "regex:/^[a-z'\- ]*$/i",
+        ];
     }
 
     /**
@@ -36,11 +46,24 @@ class UserRules
     {
         return [
             'required',
+            'confirmed',
             'string',
             'max:255',
             new Email(),
-            Rule::unique('users')->ignore($id)
+            Rule::unique('users')->ignore($id),
         ];
+    }
+
+    /**
+     * @param null|int $id
+     *
+     * @return array
+     */
+    public static function confirmedEmail($id = null)
+    {
+        return array_merge(self::email(), [
+            'confirmed',
+        ]);
     }
 
     /**
@@ -48,7 +71,11 @@ class UserRules
      */
     public static function phone()
     {
-        return ['required', 'string', new Phone()];
+        return [
+            'required',
+            'string',
+            new Phone(),
+        ];
     }
 
     /**
@@ -56,6 +83,20 @@ class UserRules
      */
     public static function password()
     {
-        return ['required', 'string', 'min:6'];
+        return [
+            'required',
+            'string',
+            'min:6',
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public static function confirmedPassword()
+    {
+        return array_merge(self::password(), [
+            'confirmed',
+        ]);
     }
 }
