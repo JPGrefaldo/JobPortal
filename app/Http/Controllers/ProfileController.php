@@ -55,7 +55,7 @@ class ProfileController extends Controller
     $reel = CrewReel::where('crew_id', $user->id)->first();
     $url_reel = Storage::url($reel->url);
  
-    return view('profile.my-profile', compact('user','role', 'biography','positions','position_role', 'fb', 'imdb', 'linkedin', 'resume', 'url_resume', 'reel', 'url_reel'));
+    return view('profile.my-profile', compact('user','role', 'biography','positions','position_role', 'fb', 'imdb', 'linkedin', 'resume', 'url_resume', 'reel','url_reel'));
 
     }
 
@@ -91,6 +91,8 @@ class ProfileController extends Controller
     
     $biography = Crew::where('user_id', $user->id)->first();
     $position = CrewPosition::where('crew_id', $user->id)->first();
+    $positions = CrewPosition::where('crew_id', $user->id)->first();
+    $position_role = Position::where('department_id', $positions->position_id)->first();
     $jobTitle = Position::where('department_id', $position->position_id)->first();
     $fb = CrewSocial::where('social_link_type_id','=',1)
         ->where('crew_id', $user->id)
@@ -107,7 +109,7 @@ class ProfileController extends Controller
 
     $department = Department::first();
 
-     return view('profile.my-profile-edit', compact('user','position', 'biography', 'jobTitle', 'fb', 'imdb', 'linkedin', 'department', 'reel', 'resume')); 
+     return view('profile.my-profile-edit', compact('user','positions', 'position_role', 'biography', 'jobTitle', 'fb', 'imdb', 'linkedin', 'department', 'reel', 'resume')); 
     }
 
     /**
@@ -201,6 +203,17 @@ class ProfileController extends Controller
         return redirect()->route('profile', ['id' => $user->id]);
     }
 
+
+    public function addPositionView (Request $request) {
+        
+    $user = User::where('id', Auth::user()->id)->first();
+    $biography = Crew::where('user_id', $user->id)->first();
+    $positions = CrewPosition::where('crew_id', $user->id)->first();
+    $jobTitle = Position::where('department_id', $positions->position_id)->first();
+    
+    return view('profile.my-profile-add-position', compact('user', 'biography','jobTitle', 'positions'));
+
+    }
 
 
     /**

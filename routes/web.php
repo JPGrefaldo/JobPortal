@@ -31,8 +31,12 @@ Route::post('/signup', 'UserSignupController@signup')->name('signup');
 Route::get('/my-profile/{user}', 'ProfileController@index')->name('profile');
 
 Route::get('/my-profile/{user}/edit', 'ProfileController@show')->name('profile-edit');
-
 Route::post('/my-profile/edit', 'ProfileController@edit')->name('profile-update');
+
+Route::get('/my-profile/{user}/add-positions', 'ProfileController@addPositionView')->name('profile-add-position');
+
+Route::post('/my-profile/add-position', 'ProfileController@addPost')->name('profile-add-post');
+
 
 Route::get('/my-projects/{user}', 'ProjectController@index');
 

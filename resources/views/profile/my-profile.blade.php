@@ -91,6 +91,7 @@
                     <h4 class='text-grey'>WORK POSITIONS</h4>
                 </div>
 
+                @for ($i = 0; $i < count($positions); $i++)
                 <div class="card mb-6">
                     <div class="pb-6">
                         <span class="btn-toggle float-right"></span>
@@ -122,7 +123,7 @@
                     </div>
 
                 </div>
-                
+                @endfor
                 
                 <div class="card mb-6">
                     <div class="md:flex justify-between">
