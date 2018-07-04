@@ -33,4 +33,9 @@ class ProjectJob extends Model
     {
         return $this->belongsTo(Project::class, 'project_id',  'id');
     }
+
+    public function endorsements()
+    {
+        return $this->hasMany(Endorsement::class, 'project_job_id', 'id');
+    }
 }
