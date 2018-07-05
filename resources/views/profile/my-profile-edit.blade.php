@@ -1,9 +1,6 @@
-<<<<<<< HEAD
 
-@include('_parts/header')
-=======
 @include('_parts.header.header')
->>>>>>> ed08429190ed881d583e906d79f5fd4c0e0f89be
+
 
 <body class="bg-grey-lighter font-body">
     @include('_parts.navbar.navbar-logged-in')
@@ -24,11 +21,38 @@
                     <img src="/images/donut.svg" alt="" />
                 </div>
                 <ul class="list-reset list-check">
+                
+                @if (($biography->bio) == '') 
+                    <li>BIO</li>
+                     @else 
                     <li class="is-checked">BIO</li>
+                @endif
+                
+                @if (!isset($linkedin->url) && !isset($imdb->url) && !isset($fb->url)) 
+                    <li>SOCIAL MEDIA PROFILES</li>
+                    @else 
                     <li class="is-checked">SOCIAL MEDIA PROFILES</li>
+                @endif
+
+                @if (!isset($resume->url))
+                    <li>GENERAL WORK RESUME</li>
+                    @else 
                     <li class="is-checked">GENERAL WORK RESUME</li>
+                @endif
+                
+
+                @if (!isset($reel) || isset($reel->url))    
+                    <li>GENERAL WORK REEL</li>
+                    @else
                     <li class="is-checked">GENERAL WORK REEL</li>
+                @endif    
+
+                @if (count($positions) < 1)
                     <li>WORK POSITIONS</li>
+                    @else 
+                    <li class="is-checked">WORK POSITIONS</li>
+                @endif
+
                 </ul>
             </div>
             <div class="md:w-3/4 float-left">
@@ -55,7 +79,12 @@
                             <div class="p-3 md:p-6 bg-grey-lighter rounded">
                                 <div class="mb-6">
                                     {{ Form::label('title', 'Job Title:', array('class' => 'block mb-3') )}}
+                                    @if(isset($jobTitle->name))
                                     {{ Form::text('title', $jobTitle->name, array('class' => 'form-control w-full') )}}
+                                    @else
+                                    {{ Form::text('title',"",array('class' => 'form-control w-full') )}}
+                                    @endif
+
 
                                 </div>
                                 <div class="mb-2">
@@ -74,7 +103,9 @@
                             <div class="md:w-2/3">
                             
                                 {{ form::file('resume_file', array('class' => 'btn-outline inline-block', 'value' => 'Upload file'))}}
+                                @if (isset($resume->url))
                                 {{ $resume->url }}
+                                @endif      
                             </div>
                         </div>
                     </div>
@@ -105,20 +136,35 @@
                                         <span class="flex w-10 items-center leading-normal bg-yellow-imdb rounded rounded-r-none px-2 whitespace-no-wrap text-grey-dark"><img src="/images/imdb.svg" alt=""  /></span>
                                     </div>	
                                     
+                                @if (isset($imdb->url))
                                     {{ Form::text('imdb_link', $imdb->url, array('class' => 'form-control flex-shrink flex-grow flex-auto leading-normal w-px flex-1 border h-10 border-grey-light rounded rounded-l-none px-3 relative', 'placeholder' => 'add IMdb Link') )}}
+                                @else
+                                    {{ Form::text('imdb_link',"", array('class' => 'form-control flex-shrink flex-grow flex-auto leading-normal w-px flex-1 border h-10 border-grey-light rounded rounded-l-none px-3 relative', 'placeholder' => 'add IMdb Link') )}}
+                                @endif
+
                                 </div>		
                                 <div class="flex flex-wrap items-stretch w-full mb-2 relative">
                                     <div class="flex -mr-px">
                                         <span class="flex w-10 items-center leading-normal bg-blue-linkedin rounded rounded-r-none px-2 whitespace-no-wrap text-grey-dark"><i class="fab fa-linkedin-in text-lg mr-0 text-white"></i></span>
                                     </div>	
-                                    
+                                
+                                @if ( isset($linkedin->url))    
                                     {{ Form::text('linkedin_link', $linkedin->url, array('class' => 'form-control flex-shrink flex-grow flex-auto leading-normal w-px flex-1 border h-10 border-grey-light rounded rounded-l-none px-3 relative', 'placeholder' => 'add Linkedin Link') )}}
+                                @else
+                                {{ Form::text('linkedin_link', "", array('class' => 'form-control flex-shrink flex-grow flex-auto leading-normal w-px flex-1 border h-10 border-grey-light rounded rounded-l-none px-3 relative', 'placeholder' => 'add Linkedin Link') )}}
+                                @endif
+                                
                                 </div>		
                                 <div class="flex flex-wrap items-stretch w-full mb-2 relative">
                                     <div class="flex -mr-px">
                                         <span class="flex w-10 text-center items-center leading-normal bg-blue-facebook rounded rounded-r-none px-2 whitespace-no-wrap text-grey-dark"><i class="fab fa-facebook-f text-lg mr-0 text-white inline-block"></i></span>
-                                    </div>	
+                                    </div>
+                                @if ( isset($fb->url))
+
                                     {{ Form::text('fb_link', $fb->url, array('class' => 'form-control flex-shrink flex-grow flex-auto leading-normal w-px flex-1 border h-10 border-grey-light rounded rounded-l-none px-3 relative', 'placeholder' => 'add Facebook Link') )}}
+                                @else
+                                    {{ Form::text('fb_link', "", array('class' => 'form-control flex-shrink flex-grow flex-auto leading-normal w-px flex-1 border h-10 border-grey-light rounded rounded-l-none px-3 relative', 'placeholder' => 'add Facebook Link') )}}
+                                @endif
                                 </div>		
                             </div>
                         </div>
@@ -141,7 +187,9 @@
                     <div class="pb-6">
                         <span class="btn-toggle float-right"></span>
                         <h3 class="text-blue-dark font-semibold text-lg mb-1 font-header">Production
+                            @if ( isset($position_role->name))
                             <span class="font-thin"> – {{ $position_role->name }}</span>
+                            @endif
                         </h3>
                     </div>
                     <div class="md:flex">
@@ -150,7 +198,9 @@
                         </div>
                         <div class="md:w-3/4">
                             <div class="bg-grey-lighter p-6 rounded mb-8">
+                                @if( isset($positions->details))
                                 <p>{{ $positions->details }} </p>
+                                @endif
                             </div>
                             <div class="pb-2 md:flex">
                                 <a href="#" class="border md:w-1/2 flex overflow-hidden rounded md:mr-2 mb-2 md:mb-0">

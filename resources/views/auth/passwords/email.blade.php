@@ -1,17 +1,7 @@
 @extends('layouts.default_layout')
 
+
 @section('content')
-<<<<<<< HEAD
-
-<main class="float-left w-full py-lg">
-<div class="container max-w-xl">
-    <div class="mb-3 md:mb-0 px-4">
-        <div class="p-8">
-            <div class="card">
-                <div class="card-header">{{ __('Reset Password') }}</div>
-=======
->>>>>>> ed08429190ed881d583e906d79f5fd4c0e0f89be
-
     <div class="container max-w-xl flex justify-center items-center">
         <div class="w-full md:w-1/2 float-left mb-3 md:mb-0 px-4">
             <div class="bg-white shadow-md rounded">
@@ -35,11 +25,6 @@
             </div>
         </div>
     </div>
-<<<<<<< HEAD
-</div>
-</main>
-@endsection
-=======
+
 
 @endsection
->>>>>>> ed08429190ed881d583e906d79f5fd4c0e0f89be

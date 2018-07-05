@@ -39,7 +39,11 @@ class ProfileController extends Controller
     $biography = Crew::where('user_id', $user->id)->first();
     $positions = CrewPosition::where('crew_id', $user->id)->first();
     $all_post = CrewPosition::where('crew_id',$user->id)->get();
+
+    if (isset($positions)) {
     $position_role = Position::where('department_id', $positions->position_id)->first();
+    }
+
     $fb = CrewSocial::where('social_link_type_id','=',1)
         ->where('crew_id', $user->id)
         ->first();
@@ -50,8 +54,11 @@ class ProfileController extends Controller
         ->where('crew_id', $user->id)
         ->first();
 
+
     $resume = CrewResume::where('crew_id', $user->id)->first();
-    $url_resume = Storage::url($resume->url);
+    if (isset($resume)) {
+     $url_resume = Storage::url($resume->url);
+    }
 
     $reel = CrewReel::where('crew_id', $user->id)->first();
     
@@ -97,8 +104,17 @@ class ProfileController extends Controller
     $biography = Crew::where('user_id', $user->id)->first();
     $position = CrewPosition::where('crew_id', $user->id)->first();
     $positions = CrewPosition::where('crew_id', $user->id)->first();
-    $position_role = Position::where('department_id', $positions->position_id)->first();
+
+    if (isset($positions)) {
+     $position_role = Position::where('department_id', $positions->position_id)->first();
+    }
+
+    if ( isset($position) ) {
+    
     $jobTitle = Position::where('department_id', $position->position_id)->first();
+    
+    }
+    
     $fb = CrewSocial::where('social_link_type_id','=',1)
         ->where('crew_id', $user->id)
         ->first();

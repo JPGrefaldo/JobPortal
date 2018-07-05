@@ -21,13 +21,13 @@
                     <li class="is-checked">BIO</li>
                 @endif
                 
-                @if (($linkedin->url == '') && ($imdb->url == '') && ($fb->url == '')) 
+                @if (!isset($linkedin) || !isset($imdb->url) || !isset($fb->url)) 
                     <li>SOCIAL MEDIA PROFILES</li>
                     @else 
                     <li class="is-checked">SOCIAL MEDIA PROFILES</li>
                 @endif
 
-                @if ($resume->url == '')
+                @if (!isset($resume->url))
                     <li>GENERAL WORK RESUME</li>
                     @else 
                     <li class="is-checked">GENERAL WORK RESUME</li>
@@ -55,12 +55,22 @@
                         <img src="/{{$biography->photo}}" class="rounded" alt="" />
                         <ul class="list-reset py-4">
                             <li class="py-1">
+                            @if (isset($imdb->url))
                                 <a href="http:\\imdb.com\{{ $imdb->url }}" class="flex items-center" target="_blank">
                                     <div class="p-1 rounded bg-yellow-imdb w-8 h-8"><img src="/images/imdb.svg" alt="" class="mr-2 img-responsive"></div><span class="ml-2 text-yellow-imdb">IMDb profile</span></a>
+                            @else
+                            <a href="#" class="flex items-center" target="_blank">
+                                    <div class="p-1 rounded bg-yellow-imdb w-8 h-8"><img src="/images/imdb.svg" alt="" class="mr-2 img-responsive"></div><span class="ml-2 text-yellow-imdb">IMDb profile</span></a>
+                            @endif
                             </li>
                             <li class="py-1">
+                            @if (isset($linkedin->url))
                                 <a href="http:\\linkedin.com\{{ $linkedin->url }}" target="_blank" class="flex items-center text-blue-linkedin">
                                     <img src="/images/linkedin.svg" alt="" class="mr-2">LinkedIn profile</a>
+                                @else
+                                <a href="#" target="_blank" class="flex items-center text-blue-linkedin">
+                                    <img src="/images/linkedin.svg" alt="" class="mr-2">LinkedIn profile</a>
+                            @endif
                             </li>
                         </ul>
                     </div>
@@ -92,10 +102,17 @@
                                 </a>
                                 @endif
 
+                                @if (isset($url_resume))
                                 <a href="{{ $url_resume }}" class="border md:w-1/2 flex items-center overflow-hidden rounded md:ml-2">
                                     <i class="far fa-file-alt px-6 text-lg"></i>
                                     <span class='uppercase text-green font-semibold px-0 py-6 text-sm tracking-wide'>VIEW POSITION RESUME</span>
                                 </a>
+                                @else 
+                                <a href="#" class="border md:w-1/2 flex items-center overflow-hidden rounded md:ml-2">
+                                    <i class="far fa-file-alt px-6 text-lg"></i>
+                                    <span class='uppercase text-green font-semibold px-0 py-6 text-sm tracking-wide'>VIEW POSITION RESUME</span>
+                                </a>
+                                @endif
                             </div>
                     </div>
                 </div>
