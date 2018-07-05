@@ -6,6 +6,7 @@ use App\Models\Role;
 use App\Models\User;
 use App\Models\UserRoles;
 use App\Models\UserSites;
+use App\Models\ProjectJob;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -45,5 +46,23 @@ class UserTest extends TestCase
 
         $this->assertEquals(1, $user->sites->count());
         $this->assertEquals($site->name, $user->sites->first()->name);
+    }
+
+    /**
+     * @test
+     * @expectedException App\Exceptions\ElectoralFraud
+     */
+    public function can_not_endorse_oneself()
+    {
+        $user = factory(User::class)->create();
+        $projectJob = factory(ProjectJob::class)->create();
+
+        $user->endorse($user, $projectJob);
+
+        $this->assertDatabaseMissing('endorsements', [
+            'project_job_id' => $projectJob->id,
+            'endorser_id' => $user->id,
+            'endorsee_id' => $user->id,
+        ]);
     }
 }

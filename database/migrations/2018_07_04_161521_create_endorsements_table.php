@@ -20,6 +20,8 @@ class CreateEndorsementsTable extends Migration
             $table->integer('endorsee_id')->unsigned();
             $table->timestamps();
 
+            $table->unique(['project_job_id', 'endorser_id', 'endorsee_id']);
+
             $table->foreign('project_job_id')
                 ->references('id')
                 ->on('project_jobs')

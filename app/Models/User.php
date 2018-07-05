@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Exceptions\ElectoralFraud;
 use App\Models\Traits\LogsActivityOnlyDirty;
 use App\Utils\StrUtils;
 use Illuminate\Notifications\Notifiable;
@@ -156,6 +157,10 @@ class User extends Authenticatable
      */
     public function endorse($endorsee, $projectJob)
     {
+        if ($this->id === $endorsee->id) {
+            throw new ElectoralFraud('You can\'t endorse yourself.');
+        }
+
         return Endorsement::create([
             'project_job_id' => $projectJob->id,
             'endorser_id'    => $this->id,
