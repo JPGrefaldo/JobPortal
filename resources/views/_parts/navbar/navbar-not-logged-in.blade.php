@@ -1,13 +1,9 @@
 <nav class="relative z-20 bg-white float-left w-full px-3 md:px-6 border-b border-grey-light flex justify-between items-center">
     <div class="w-32 md:w-64 py-2 md:py-0 relative z-10">
-<<<<<<< HEAD:resources/views/_parts/nav.blade.php
-        <a href="/">
-            <img src="/images/logo-long.svg" alt="crew calls" />
-=======
+
         <a href="index.php" class="flex items-center">
             <img src="/images/logos/logo-short.svg" alt="crew calls" class="mr-2" />
             <span class="text-blue-dark pt-6 pb-1 border-b-2 border-blue-dark text-sm font-bold font-header"/>{{ config('app.name') }}</span>
->>>>>>> ed08429190ed881d583e906d79f5fd4c0e0f89be:resources/views/_parts/navbar/navbar-not-logged-in.blade.php
         </a>
     </div>
     <ul class="list-reset hidden lg:flex items-center">

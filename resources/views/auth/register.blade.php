@@ -1,20 +1,7 @@
 @extends('layouts.default_layout')
 
 @section('content')
-<<<<<<< HEAD
 
-    <main class="float-left w-full py-lg">
-        <div class="row">
-            <div class="col-md-3"></div>
-            
-            <div class="col-md-6">    
-            <div class="container max-w-xl">
-            <div class="mb-3 md:mb-0 px-4">
-                <div class="bg-white shadow-md rounded">
-                    <div class="p-8 text-center border-b border-grey-light">
-                        <h2 class="font-header text-blue-dark text-lg text-center font-semibold">Sign up</h2>
-                    </div>
-=======
     <div class="container max-w-xl flex justify-center items-center">
         <div class="w-full md:w-1/2 px-4">
             <div class="bg-white shadow-md rounded">
@@ -25,7 +12,7 @@
                     {{ $error }}<br />
                 @endforeach
                 <form method="post" action="{{ route('register') }}">
->>>>>>> ed08429190ed881d583e906d79f5fd4c0e0f89be
+
                     <div class="p-8">
                         <div class="pb-2 text-center">
                             <h4 class="uppercase text-sm">I WANT TO:</h4>
@@ -114,10 +101,7 @@
                 </form>
             </div>
         </div>
-<<<<<<< HEAD
-    </main>
 
-=======
     </div>
->>>>>>> ed08429190ed881d583e906d79f5fd4c0e0f89be
+
 @endsection

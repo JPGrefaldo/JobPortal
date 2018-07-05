@@ -1,15 +1,8 @@
 @extends('layouts.default_layout')
 
-<<<<<<< HEAD
-<body class="bg-grey-lighter font-body">
-    @include('_parts/nav-logged')
-       @include('_parts/messages')
-    <main class="float-left w-full py-md md:py-lg px-3">
-                     
 
-=======
 @section('content')
->>>>>>> ed08429190ed881d583e906d79f5fd4c0e0f89be
+
         <div class="container">
             <div class="w-full pb-6 md:pb-lg">
                 <h1 class="font-header text-blue-dark text-xl md:text-2xl font-semibold">My profile</h1>
@@ -72,16 +65,10 @@
                         </ul>
                     </div>
                     <div class="md:w-3/4">
-<<<<<<< HEAD
-                        <h3 class="text-blue-dark font-semibold text-lg mb-1 font-header">
-                            {{ $user->first_name }} {{ $user->last_name }}</h3>
-                        <span class="text-grey font-semibold font-header">{{ $position_role->name }} </span>
-=======
+
                         <h3 class="text-blue-dark font-semibold text-lg mb-1 font-header">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</h3>
 
-
                         <span class="text-grey font-semibold font-header">{{ Auth::user()->position }}</span>
->>>>>>> ed08429190ed881d583e906d79f5fd4c0e0f89be
                         <div class="bg-grey-lighter p-6 rounded my-8">
                             <p>{{ $biography->bio }} 
                                 <a href="/my-profile/edit/{id}" class="text-sm text-grey tracking-wide">Read more</a>
