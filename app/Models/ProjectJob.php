@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class ProjectJob extends Model
 {
@@ -26,16 +27,22 @@ class ProjectJob extends Model
         'status'               => 'integer',
         'project_id'           => 'integer',
         'position_id'          => 'integer',
-        'pay_type_id'          => 'integer'
+        'pay_type_id'          => 'integer',
     ];
 
     public function project()
     {
-        return $this->belongsTo(Project::class, 'project_id',  'id');
+        return $this->belongsTo(Project::class, 'project_id', 'id');
     }
 
+    /**
+     * get endorsements sorted from most voted to least voted
+     */
     public function endorsements()
     {
-        return $this->hasMany(Endorsement::class, 'project_job_id', 'id');
+        return $this->hasMany(Endorsement::class, 'project_job_id', 'id')
+            ->groupBy('endorsee_id')
+            ->orderBy(DB::raw('count(endorsee_id)'));
     }
+
 }

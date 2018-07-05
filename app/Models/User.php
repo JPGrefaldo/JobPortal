@@ -147,4 +147,19 @@ class User extends Authenticatable
     {
         return StrUtils::formatPhone($this->phone);
     }
+
+    /**
+     * endorse a User to a ProjectJob
+     * @param  \App\Models\User $endorsee
+     * @param  \App\Models\ProjectJob $projectJob
+     * @return \App\Models\Endorsement
+     */
+    public function endorse($endorsee, $projectJob)
+    {
+        return Endorsement::create([
+            'project_job_id' => $projectJob->id,
+            'endorser_id'    => $this->id,
+            'endorsee_id'    => $endorsee->id,
+        ]);
+    }
 }
