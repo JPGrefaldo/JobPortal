@@ -101,10 +101,18 @@
                                 <h3 class="text-md font-header mb-2 md:mb-0">General resume</h3>
                             </div>
                             <div class="md:w-2/3">
-                            
+                                  @if (isset($resume->url))
+
+                                 <div class="bootstrap-iso">
+                                      <span class="badge badge-primary"><h5>{{ $resume->url }}</h5></span>
+                                        
+                                      <span class="closebtn" onclick="this.parentElement.style.display='none'">&times;</span>
+                                </div>
+                                @else
+
                                 {{ form::file('resume_file', array('class' => 'btn-outline inline-block', 'value' => 'Upload file'))}}
-                                @if (isset($resume->url))
-                                {{ $resume->url }}
+
+                               
                                 @endif      
                             </div>
                         </div>
@@ -118,8 +126,12 @@
                                 <input type="text" class="form-control bg-light w-64 mr-2 mb-2 md:mb-0" placeholder="Add link"><div> or <br> 
                                 {{ form::file('reel_file', array('class' => 'btn-outline inline-block', 'value' => 'Upload file')) }}
                                 @if (isset($reel))
-                                {{ $reel->url }}
-                                @endif
+                                <div class="bootstrap-iso">
+
+                                      <span class="badge badge-secondary"> {{ $reel->url }}</span>
+
+                                </div>
+                                    @endif
                                 </div>
 
                             </div>

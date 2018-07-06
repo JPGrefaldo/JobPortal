@@ -38,7 +38,7 @@ class AuthServices
             
             $crew = new Crew;
             $crew->user_id = $user->id;
-            $crew->photo = "photos\avatar.png";
+            $crew->photo = "photos/avatar.png";
             $crew->save();
         }
 
