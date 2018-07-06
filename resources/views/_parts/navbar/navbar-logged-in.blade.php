@@ -1,6 +1,6 @@
 <nav class="bg-white float-left w-full px-3 md:px-6 shadow flex justify-between items-center font-header">
     <div class="w-32 md:w-64 py-1 md:py-0 relative z-10">
-        <a href="index.php" class="flex items-center">
+        <a href="/" class="flex items-center">
             <img src="/images/logos/logo-short.svg" alt="crew calls" class="mr-2" />
             <span class="text-blue-dark pt-6 pb-1 border-b-2 border-blue-dark text-sm font-bold font-header"/>{{ config('app.name') }}</span>
         </a>

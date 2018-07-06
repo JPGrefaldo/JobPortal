@@ -18,5 +18,6 @@ class DepartmentsTableSeeder extends Seeder
         Department::create([
             'name' => 'Camera'
         ]);
+        $this->command->info('Departments seeded');
     }
 }

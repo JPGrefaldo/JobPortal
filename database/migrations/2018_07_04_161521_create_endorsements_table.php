@@ -25,20 +25,23 @@ class CreateEndorsementsTable extends Migration
             $table->foreign('project_job_id')
                 ->references('id')
                 ->on('project_jobs')
-                ->onDelete('restrict')
-                ->onUpdate('restrict');
+                ->onDelete('cascade')
+                ->onUpdate('cascade')
+                ;
 
             $table->foreign('endorser_id')
                 ->references('id')
                 ->on('users')
-                ->onDelete('restrict')
-                ->onUpdate('restrict');
+                ->onDelete('cascade')
+                ->onUpdate('cascade')
+                ;
 
             $table->foreign('endorsee_id')
                 ->references('id')
                 ->on('users')
-                ->onDelete('restrict')
-                ->onUpdate('restrict');
+                ->onDelete('cascade')
+                ->onUpdate('cascade')
+                ;
         });
     }
 

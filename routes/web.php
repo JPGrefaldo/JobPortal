@@ -76,3 +76,7 @@ Route::middleware(['auth', 'producer'])->group(function () {
         Route::put('/{job}', 'Producer\ProjectJobsController@update');
     });
 });
+
+Route::middleware(['auth', 'crew'])->group(function () {
+    Route::get('/projects/{project}/jobs/{projectJob}', 'Producer\ProjectJobsController@index');
+});

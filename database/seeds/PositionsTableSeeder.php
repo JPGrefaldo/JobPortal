@@ -27,5 +27,6 @@ class PositionsTableSeeder extends Seeder
             'department_id' => $this->departmentIds['Camera'],
             'has_gear'      => 1,
         ]);
+        $this->command->info('Positions seeded');
     }
 }
