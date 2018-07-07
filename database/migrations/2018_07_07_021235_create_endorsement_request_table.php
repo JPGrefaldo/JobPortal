@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
-class CreateEndorsementsTable extends Migration
+class CreateEndorsementRequestTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,29 +13,29 @@ class CreateEndorsementsTable extends Migration
      */
     public function up()
     {
-        Schema::create('endorsements', function (Blueprint $table) {
+        Schema::create('endorsement_request', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('crew_position_id')
+            $table->integer('user_id')
                   ->unsigned()
-                  ->foreign('crew_position_id')
+                  ->foreign('user_id')
                   ->references('id')
-                  ->on('crew_positions')
-                  ->onDelete('cascade');
+                  ->on('users')
+                  ->onDelete('cascade')
+                  ->onUpdate('cascade');
+            $table->string('email')
+                  ->nullable()
+                  ->default(null)
+                  ->index();
             $table->integer('endorser_id')
                   ->unsigned()
+                  ->nullable()
+                  ->default(null)
                   ->foreign('endorser_id')
                   ->references('id')
                   ->on('users')
                   ->onDelete('cascade')
                   ->onUpdate('cascade');
-            $table->integer('endorsee_id')
-                  ->unsigned()
-                  ->foreign('endorser_id')
-                  ->references('id')
-                  ->on('users')
-                  ->onDelete('cascade')
-                  ->onUpdate('cascade');
-            $table->text('comment');
+            $table->boolean('complete')->default(false);
             $table->boolean('deleted')->default(false);
             $table->timestamps();
         });
@@ -48,6 +48,6 @@ class CreateEndorsementsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('endorsements');
+        Schema::dropIfExists('endorsement_request');
     }
 }
