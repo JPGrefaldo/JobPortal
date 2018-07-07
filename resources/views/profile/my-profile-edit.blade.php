@@ -104,9 +104,12 @@
                                   @if (isset($resume->url))
 
                                  <div class="bootstrap-iso">
-                                      <span class="badge badge-primary"><h5>{{ $resume->url }}</h5></span>
-                                        
-                                      <span class="closebtn" onclick="this.parentElement.style.display='none'">&times;</span>
+                                      <span class="badge badge-primary">
+                                        <h5>{{ $resume->url }}</h5>
+                                    </span>                                        
+
+                                      <a href='{{ url("my-profile/$resume->id/delete") }}' class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this file?')"><i class="fa fa-times" aria-hidden="true" ></i></a>                           
+                                      
                                 </div>
                                 @else
 

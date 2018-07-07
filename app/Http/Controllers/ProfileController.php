@@ -180,10 +180,22 @@ class ProfileController extends Controller
         $user_resume = Storage::putFileAs('resume', $request->file('resume_file'),$resume_fileName);
         $resume_url = Storage::url($user_resume);
         $user_resume_filepath = 'resume/' . $resume_fileName;
+
         $save_resume = CrewResume::where('crew_id', $user->id)->first();
+        
+        if (isset($save_resume->url)) {
         $save_resume->url = $user_resume_filepath;
-        $save_resume->save();
+        $save_resume->save();            
         }
+        else {
+        $new_resume = new CrewResume;
+        $new_resume->crew_id = $user->id;
+        $new_resume->url = $user_resume_filepath;
+        $new_resume->general = $user_resume_filepath;
+        $new_resume->save();
+         }
+    
+     }
 
 
         // Save Crew Position
@@ -272,8 +284,7 @@ class ProfileController extends Controller
     public function update(Request $request, $id)
     {
         //
-    }
-
+    }        
     /**
      * Remove the specified resource from storage.
      *
@@ -282,6 +293,10 @@ class ProfileController extends Controller
      */
     public function destroy($id)
     {
-        //
-    }
+     
+    $resume = CrewResume::find($id);
+    $resume->delete();
+
+     return redirect()->back();
+     }
 }
