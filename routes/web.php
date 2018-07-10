@@ -78,5 +78,6 @@ Route::middleware(['auth', 'producer'])->group(function () {
 });
 
 Route::middleware(['auth', 'crew'])->group(function () {
-    Route::get('/projects/{project}/jobs/{projectJob}', 'Producer\ProjectJobsController@index');
+    Route::get('/crew-positions/{crewPosition}', 'Crew\CrewPositionController@show');
+    Route::post('/crew-positions', 'Crew\CrewPositionController@store');
 });

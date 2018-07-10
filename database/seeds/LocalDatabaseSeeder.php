@@ -27,6 +27,8 @@ class LocalDatabaseSeeder extends Seeder
         $this->call([
             DatabaseSeeder::class,
             UsersTableSeeder::class,
+            CrewsTableSeeder::class,
+            CrewPositionsTableSeeder::class,
         ]);
     }
 }

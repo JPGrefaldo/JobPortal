@@ -20,21 +20,22 @@ class CreateEndorsementsTable extends Migration
                   ->foreign('crew_position_id')
                   ->references('id')
                   ->on('crew_positions')
-                  ->onDelete('cascade');
-            $table->integer('endorser_id')
-                  ->unsigned()
-                  ->foreign('endorser_id')
-                  ->references('id')
-                  ->on('users')
-                  ->onDelete('cascade')
-                  ->onUpdate('cascade');
+                  ->onDelete('restrict')
+                  ->onUpdate('restrict');
             $table->integer('endorsee_id')
                   ->unsigned()
-                  ->foreign('endorser_id')
+                  ->foreign('endorsee_id')
                   ->references('id')
                   ->on('users')
-                  ->onDelete('cascade')
-                  ->onUpdate('cascade');
+                  ->onDelete('restrict')
+                  ->onUpdate('restrict');
+            $table->integer('endorser_email')
+                  ->unsigned()
+                  ->foreign('endorser_email')
+                  ->references('email')
+                  ->on('users')
+                  ->onDelete('restrict')
+                  ->onUpdate('restrict');
             $table->text('comment');
             $table->boolean('deleted')->default(false);
             $table->timestamps();

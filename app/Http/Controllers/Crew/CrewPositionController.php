@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Crew;
 
-use App\Endorsement;
+use App\Models\CrewPosition;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
-class EndorsementController extends Controller
+class CrewPositionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -35,31 +36,27 @@ class EndorsementController extends Controller
      */
     public function store(Request $request)
     {
-        return Endorsement::create([
-            'crew_position_id' => $crewPosition->id,
-            'endorsee_id'      => Auth::user()->id,
-            'endorser_email'   => $request->endorser_email,
-        ]);
+        return CrewPosition::create($request->validate());
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Endorsement  $endorsement
+     * @param  \App\CrewPosition  $crewPosition
      * @return \Illuminate\Http\Response
      */
-    public function show(Endorsement $endorsement)
+    public function show(CrewPosition $crewPosition)
     {
-        //
+        return view('crew.crew_position');
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Endorsement  $endorsement
+     * @param  \App\CrewPosition  $crewPosition
      * @return \Illuminate\Http\Response
      */
-    public function edit(Endorsement $endorsement)
+    public function edit(CrewPosition $crewPosition)
     {
         //
     }
@@ -68,21 +65,21 @@ class EndorsementController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Endorsement  $endorsement
+     * @param  \App\CrewPosition  $crewPosition
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Endorsement $endorsement)
+    public function update(Request $request, CrewPosition $crewPosition)
     {
-        return Endorsement::update($request);
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Endorsement  $endorsement
+     * @param  \App\CrewPosition  $crewPosition
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Endorsement $endorsement)
+    public function destroy(CrewPosition $crewPosition)
     {
         //
     }
