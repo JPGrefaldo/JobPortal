@@ -38,7 +38,8 @@ class ProfileController extends Controller
     $role = Role::where('id', $title->role_id)->first();
     $biography = Crew::where('user_id', $user->id)->first();
     $positions = CrewPosition::where('crew_id', $user->id)->first();
-    $all_post = CrewPosition::where('crew_id',$user->id)->get();
+
+    $all_post = CrewPosition::with('roles')->latest()->get();
 
     if (isset($positions)) {
     $position_role = Position::where('department_id', $positions->position_id)->first();

@@ -122,7 +122,7 @@
                         <i class="fas fa-pencil-alt mr-2"></i>Edit section</a>
                     <h4 class='text-grey'>WORK POSITIONS</h4>
                 </div>
-                <p>{{ count($all_post) }}</p>
+                
 
                 @foreach ($all_post as $post)
 
@@ -130,7 +130,7 @@
                     <div class="pb-6">
                         <span class="btn-toggle float-right"></span>
                         <h3 class="text-blue-dark font-semibold text-lg mb-1 font-header">Production
-                            <span class="font-thin"> – {{ $post->position_id }}</span>
+                            <span class="font-thin"> – {{ $post->roles->name }}</span>
                         </h3>
                     </div>
                     <div class="md:flex">
