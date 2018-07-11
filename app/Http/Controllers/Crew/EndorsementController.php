@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Crew;
 
-use App\Endorsement;
+use App\Http\Controllers\Controller;
+use App\Models\CrewPosition;
+use App\Models\Endorsement;
 use Illuminate\Http\Request;
 
 class EndorsementController extends Controller
@@ -33,11 +35,10 @@ class EndorsementController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CrewPosition $crewPosition, Request $request)
     {
         return Endorsement::create([
             'crew_position_id' => $crewPosition->id,
-            'endorsee_id'      => Auth::user()->id,
             'endorser_email'   => $request->endorser_email,
         ]);
     }

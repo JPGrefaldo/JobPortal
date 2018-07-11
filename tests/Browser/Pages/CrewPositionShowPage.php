@@ -51,7 +51,7 @@ class CrewPositionShowPage extends Page
         $browser
         // after pressing ask endorsement, it will show the textbox for endorser email
         // ->press('Ask Endorsement')
-            ->text('@endorser_email', $endorserEmail)
-            ->press('@ask_endorsement');
+            ->value('@endorser_email', $endorserEmail)
+            ->click('@ask_endorsement');
     }
 }

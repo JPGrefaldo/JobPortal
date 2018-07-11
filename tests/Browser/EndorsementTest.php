@@ -56,9 +56,7 @@ class EndorsementTest extends DuskTestCase
 
         $this->assertDatabaseHas('endorsements', [
             'crew_position_id' => $crewPosition->id,
-            'endorsee_id'      => $endorsee->id,
-            'endorser_email'   => $endorser->email,
-            'comment'          => $endorsement->comment,
+            'endorser_email'   => $endorserEmail,
             'completed'        => false,
             'deleted'          => false,
         ]);

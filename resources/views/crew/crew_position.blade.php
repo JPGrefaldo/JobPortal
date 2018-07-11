@@ -31,7 +31,7 @@
                         <div class="md:w-1/3 pr-6">
                             <span class="block md:text-right mt-4 font-header text-blue-dark font-semibold mb-3">Endorse a good candidate.</span>
                         </div>
-                        <form action="/crew-positions" method="post">
+                        <form action="/crew-positions/1/endorsements" method="post">
                             {{ csrf_field() }}
                             <div class="md:w-2/3">
                                 <input type="text" class="form-control w-full" name="endorser_email" placeholder="Endorser's email." dusk="endorser_email">

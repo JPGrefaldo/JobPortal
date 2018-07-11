@@ -22,21 +22,8 @@ class CreateEndorsementsTable extends Migration
                   ->on('crew_positions')
                   ->onDelete('restrict')
                   ->onUpdate('restrict');
-            $table->integer('endorsee_id')
-                  ->unsigned()
-                  ->foreign('endorsee_id')
-                  ->references('id')
-                  ->on('users')
-                  ->onDelete('restrict')
-                  ->onUpdate('restrict');
-            $table->integer('endorser_email')
-                  ->unsigned()
-                  ->foreign('endorser_email')
-                  ->references('email')
-                  ->on('users')
-                  ->onDelete('restrict')
-                  ->onUpdate('restrict');
-            $table->text('comment');
+            $table->string('endorser_email');
+            $table->text('comment')->nullable();
             $table->boolean('deleted')->default(false);
             $table->timestamps();
         });
