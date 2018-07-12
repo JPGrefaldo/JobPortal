@@ -47,7 +47,7 @@
                     <li class="is-checked">GENERAL WORK REEL</li>
                 @endif    
 
-                @if (count($positions) < 1)
+                @if (count($position) < 1)
                     <li>WORK POSITIONS</li>
                     @else 
                     <li class="is-checked">WORK POSITIONS</li>
@@ -180,7 +180,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="pt-8 pb-4 text-right border-t-2 border-grey-lighter">
                         <a href="#" class="text-grey bold mr-4 hover:text-green">Cancel</a>
                         {{form::submit('SAVE CHANGES', array('class' => 'btn-green')) }}
@@ -192,17 +192,15 @@
                     <h4 class='text-grey'>WORK POSITIONS</h4>
                 </div>
                 <div class="card mb-6">
-                    <div class="md:flex justify-between">
                         <h3 class="text-blue-dark font-semibold text-lg font-header mb-3 md:mb-0">Production</h3>
-                        <a href="/my-profile/{{$user->id}}/add-positions" class="btn-green-outline">ADD POSITION</a>
-                    </div>
+                   
                     <div class="pb-6">
                         <span class="btn-toggle float-right"></span>
-                        <h3 class="text-blue-dark font-semibold text-lg mb-1 font-header">Production
-                            @if ( isset($position_role->name))
-                            <span class="font-thin"> – {{ $position_role->name }}</span>
-                            @endif
+                    @if ( isset($position_role->name))
+                        <h3 class="text-blue-dark font-semibold text-lg mb-1 font-header">
+                            <span class="font-thin"> {{ $position_role->name }} </span>
                         </h3>
+                    @endif
                     </div>
                     <div class="md:flex">
                         <div class="md:w-1/4 pr-8 mb-2 md:mb-0">
@@ -210,8 +208,8 @@
                         </div>
                         <div class="md:w-3/4">
                             <div class="bg-grey-lighter p-6 rounded mb-8">
-                                @if( isset($positions->details))
-                                <p>{{ $positions->details }} </p>
+                                @if( isset($position->details))
+                                <p>{{ $position->details }} </p>
                                 @endif
                             </div>
                             <div class="pb-2 md:flex">
@@ -228,10 +226,60 @@
                             </div>
                         </div>
                     </div>
+                 <div class="pt-8 pb-4 text-right border-t-2 border-grey-lighter">
+                        <button class="btn-green-outline" id="addPosition" onclick="myFunction()">ADD POSITION</button>
+                    </div>
 
                 </div>
 
-                <div class="card mb-6">
+                <div class="card mb-6" style="display: none;" id="myDIV">
+
+                    {{ Form::open(array('route' => ['profile-add-position', Auth::user()->id],'files' => true)) }}
+
+                    <div class="md:flex">
+                        
+                    <h3 class="text-blue-dark font-semibold text-lg font-header mb-3 md:mb-0">Position Details</h3>
+                        <div class="md:w-2/3">
+                            <div class="p-3 md:p-6 bg-grey-lighter rounded">
+                                <div class="mb-6">
+                                    {{ Form::label('title', 'Job Title:', array('class' => 'block mb-3') )}}
+                                    {{ Form::select('title', array('1st Assistant Director' => '1st Assistant Director', 'Camera Operator' => 'Camera Operator'),array('class' => 'form-control w-full') )}}
+
+                                </div>
+                                <div class="mb-2">
+                                    {{ Form::label('bio', 'Biography:', array('class' => 'block mb-3') )}}
+                                    
+                                    {{ Form::textarea('bio', $biography->details, array('class' => 'form-control w-full h-32') )}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="border-t-2 border-grey-lighter mt-6 py-4">
+                        <div class="md:flex">
+                            <div class="md:w-1/3 pr-8">
+                                <h3 class="text-md font-header mb-2 md:mb-0">General resume</h3>
+                            </div>
+                            <div class="md:w-2/3">
+                            
+                                {{ form::file('resume_file', array('class' => 'btn-outline inline-block', 'value' => 'Upload file'))}}
+                               
+                            </div>
+                        </div>
+                    </div>
+                    <div class="border-t-2 border-grey-lighter py-4">
+                        <div class="md:flex">
+                            <div class="md:w-1/3 pr-8">
+                                <h3 class="text-md font-header mt-2 mb-2 md:mb-0">General reel</h3>
+                            </div>
+                            <div class="md:w-2/3">
+                                <input type="text" class="form-control bg-light w-64 mr-2 mb-2 md:mb-0" placeholder="Add link"><div> or <br> 
+                                {{ form::file('reel_file2', array('class' => 'btn-outline inline-block', 'value' => 'Upload file')) }}
+                                                               </div>
+
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="pb-6">
                         <h3 class="text-blue-dark font-semibold text-lg mb-1 font-header">Camera</h3>
                     </div>
@@ -306,16 +354,27 @@
                     </div>
                     <div class="pt-8 pb-4 text-right border-t-2 border-grey-lighter">
                         <a href="#" class="text-grey bold mr-4 hover:text-green">Cancel</a>
-                        <a href="#" class="btn-green">SAVE CHANGES</a>
+                        {{form::submit('SAVE CHANGES', array('class' => 'btn-green')) }}
                     </div>
-
-                </div>
-                <div class="card mb-6">
-                    <div class="md:flex justify-between">
-                        <h3 class="text-blue-dark font-semibold text-lg font-header mb-2 md:mb-0">Sound</h3>
-                        <a href="#" class="btn-green-outline">ADD POSITION</a>
-                    </div>
+                         {{ Form::close() }} 
                 </div>
             </div>
         </div>
     </main>
+
+    <script type="text/javascript">
+        
+        function myFunction() {
+            var x = document.getElementById("myDIV");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+                $('html, body').animate({
+            scrollTop: $("#myDIV").offset().top
+            }, 2000);
+            }
+            else {
+                x.style.display = "none";
+            }
+        }
+
+    </script>

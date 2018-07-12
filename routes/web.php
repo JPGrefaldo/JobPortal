@@ -42,15 +42,12 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/my-profile/{user}', 'ProfileController@index')->name('profile');
 
 Route::get('/my-profile/{user}/edit', 'ProfileController@show')->name('profile-edit');
+
 Route::post('/my-profile/edit', 'ProfileController@edit')->name('profile-update');
 
 Route::get('/my-profile/{id}/delete', 'ProfileController@destroy')->name('delete-resume');
 
-Route::get('/my-profile/{user}/add-positions', 'ProfileController@addPositionView')->name('profile-add-position');
-
-Route::post('/my-profile/add-position', 'ProfileController@addPost')->name('profile-add-post');
-
-
+Route::post('/my-profile/{user}/add-post', 'ProfileController@create')->name('profile-add-position');
 
 Route::get('/my-projects/{user}', 'ProjectController@index');
 

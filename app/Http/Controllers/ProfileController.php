@@ -55,7 +55,6 @@ class ProfileController extends Controller
         ->where('crew_id', $user->id)
         ->first();
 
-
     $resume = CrewResume::where('crew_id', $user->id)->first();
     if (isset($resume)) {
      $url_resume = Storage::url($resume->url);
@@ -77,9 +76,24 @@ class ProfileController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(User $user, Request $request)
     {
-        //
+        $crew_position = new CrewPosition;
+
+        $crew_position->crew_id = $user->id;
+
+        if ($request->title == '1st Assistant Director') {
+            $post_id = 1;
+        } else {
+            $post_id = 2;
+        }
+
+        $crew_position->position_id = $post_id;
+        $crew_position->details = $request->bio;
+        $crew_position->union_description = $request->bio;
+        $crew_position->save();
+
+        return back();
     }
 
     /**
@@ -103,11 +117,10 @@ class ProfileController extends Controller
     {
     
     $biography = Crew::where('user_id', $user->id)->first();
-    $position = CrewPosition::where('crew_id', $user->id)->first();
-    $positions = CrewPosition::where('crew_id', $user->id)->first();
+    $position = CrewPosition::where('crew_id', $user->id)->latest()->first();
 
-    if (isset($positions)) {
-     $position_role = Position::where('department_id', $positions->position_id)->first();
+    if (isset($position)) {
+     $position_role = Position::where('department_id', $position->position_id)->first();
     }
 
     if ( isset($position) ) {
@@ -131,7 +144,7 @@ class ProfileController extends Controller
 
     $department = Department::first();
 
-     return view('profile.my-profile-edit', compact('user','positions', 'position_role', 'biography', 'jobTitle', 'fb', 'imdb', 'linkedin', 'department', 'reel', 'resume')); 
+     return view('profile.my-profile-edit', compact('user','position', 'position_role', 'biography', 'jobTitle', 'fb', 'imdb', 'linkedin', 'department', 'reel', 'resume')); 
     }
 
     /**
@@ -198,7 +211,6 @@ class ProfileController extends Controller
     
      }
 
-
         // Save Crew Position
         $edit_position = CrewPosition::where('crew_id', $user->id)->first(); 
 
@@ -235,43 +247,6 @@ class ProfileController extends Controller
         session()->flash('profile-saved ', 'Profile saved!');
 
         return redirect()->route('profile', ['id' => $user->id]);
-    }
-
-
-    public function addPositionView (Request $request) {
-        
-    $user = User::where('id', Auth::user()->id)->first();
-    $biography = Crew::where('user_id', $user->id)->first();
-    $positions = CrewPosition::where('crew_id', $user->id)->first();
-    $jobTitle = Position::where('department_id', $positions->position_id)->first();
-    
-    return view('profile.my-profile-add-position', compact('user', 'biography','jobTitle', 'positions'));
-
-    }
-
-    public function addPost (Request $request) {
-
-        $user = User::where('id', Auth::user()->id)->first();
-        $crew_position = new CrewPosition;
-
-        $crew_position->crew_id = $user->id;
-
-        if ($request->title == '1st Assistant Director') {
-            $post_id = 1;
-        } else {
-            $post_id = 2;
-        }
-
-        $crew_position->position_id = $post_id;
-
-        $crew_position->details = $request->bio;
-
-        $crew_position->union_description = $request->bio;
-
-        $crew_position->save();
-
-        return redirect()->route('profile', ['id' => $user->id]);
-
     }
 
 

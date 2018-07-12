@@ -407,6 +407,6 @@ __webpack_require__("./resources/assets/js/app.js");
 module.exports = __webpack_require__("./resources/assets/css/styles.css");
 
 
-/***/ })
+/***/ }),
 
 /******/ });

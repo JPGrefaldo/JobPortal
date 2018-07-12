@@ -14735,4 +14735,11 @@ h4,
   .xl\:z-auto {
     z-index: auto;
   }
+
+  /* Div IDs*/
+
+.myDIV {
+    display: none;
+}
+
 }
