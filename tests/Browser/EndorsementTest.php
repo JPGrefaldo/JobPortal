@@ -19,7 +19,7 @@ class EndorsementTest extends DuskTestCase
     /**
      * @test
      */
-    public function an_endorsee_can_ask_an_endorsement_from_an_endorser()
+    public function an_endorsee_can_ask_an_endorsement_from_an_endorser_by_endorsers_email()
     {
         $endorsee      = factory(User::class)->create();
         $crewPosition  = factory(CrewPosition::class)->create(['crew_id' => $endorsee->id]);
