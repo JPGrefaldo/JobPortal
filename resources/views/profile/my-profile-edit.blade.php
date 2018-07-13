@@ -8,6 +8,18 @@
     <main class="float-left w-full px-3 py-md md:py-lg">
         <div class="container">
 
+        @if ($errors->any())
+                    <div class="bootstrap-iso">
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                     </div>
+         @endif
+
           <div class="w-full pb-md md:pb-lg">
                 <h1 class="font-header text-blue-dark text-xl md:text-2xl font-semibold">Edit profile</h1>
 
@@ -191,69 +203,41 @@
                 <div class="py-4">
                     <h4 class='text-grey'>WORK POSITIONS</h4>
                 </div>
+
                 <div class="card mb-6">
                         <h3 class="text-blue-dark font-semibold text-lg font-header mb-3 md:mb-0">Production</h3>
-                   
-                    <div class="pb-6">
-                        <span class="btn-toggle float-right"></span>
-                    @if ( isset($position_role->name))
-                        <h3 class="text-blue-dark font-semibold text-lg mb-1 font-header">
-                            <span class="font-thin"> {{ $position_role->name }} </span>
-                        </h3>
-                    @endif
-                    </div>
-                    <div class="md:flex">
-                        <div class="md:w-1/4 pr-8 mb-2 md:mb-0">
-                            <h3 class="text-md text-grey font-header">Position bio</h3>
-                        </div>
-                        <div class="md:w-3/4">
-                            <div class="bg-grey-lighter p-6 rounded mb-8">
-                                @if( isset($position->details))
-                                <p>{{ $position->details }} </p>
-                                @endif
-                            </div>
-                            <div class="pb-2 md:flex">
-                                <a href="#" class="border md:w-1/2 flex overflow-hidden rounded md:mr-2 mb-2 md:mb-0">
-                                    <div class="w-24 relative" style="background: url(../images/th2.jpg); background-size: cover;">
-                                        <span class="btn-play w-10 h-10"></span>
-                                    </div>
-                                    <span class='uppercase text-green font-semibold p-4 text-sm tracking-wide'>VIEW POSITION WORK REEL</span>
-                                </a>
-                                <a href="#" class="border md:w-1/2 flex items-center overflow-hidden rounded md:ml-2">
-                                    <i class="far fa-file-alt px-6 text-lg"></i>
-                                    <span class='uppercase text-green font-semibold px-0 py-6 text-sm tracking-wide'>VIEW POSITION RESUME</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+
                  <div class="pt-8 pb-4 text-right border-t-2 border-grey-lighter">
                         <button class="btn-green-outline" id="addPosition" onclick="myFunction()">ADD POSITION</button>
                     </div>
-
-                </div>
-
-                <div class="card mb-6" style="display: none;" id="myDIV">
+                
+                <div class="card mb-6" id="addPostProduction">
 
                     {{ Form::open(array('route' => ['profile-add-position', Auth::user()->id],'files' => true)) }}
 
-                    <div class="md:flex">
-                        
-                    <h3 class="text-blue-dark font-semibold text-lg font-header mb-3 md:mb-0">Position Details</h3>
+                    <div class="w-full mb-6">
+                        <h3 class="text-blue-dark font-semibold text-md md:text-lg mb-1 font-header">
+                           Positions you work:</h3>
+                    </div>
+
                         <div class="md:w-2/3">
                             <div class="p-3 md:p-6 bg-grey-lighter rounded">
                                 <div class="mb-6">
+
                                     {{ Form::label('title', 'Job Title:', array('class' => 'block mb-3') )}}
-                                    {{ Form::select('title', array('1st Assistant Director' => '1st Assistant Director', 'Camera Operator' => 'Camera Operator'),array('class' => 'form-control w-full') )}}
+                                
+                                    {{ Form::text('title',"",array('class' => 'form-control w-full') )}}
+                                    
 
                                 </div>
                                 <div class="mb-2">
                                     {{ Form::label('bio', 'Biography:', array('class' => 'block mb-3') )}}
                                     
-                                    {{ Form::textarea('bio', $biography->details, array('class' => 'form-control w-full h-32') )}}
+                                    {{ Form::textarea('bio', $biography->bio, array('class' => 'form-control w-full h-32') )}}
                                 </div>
                             </div>
                         </div>
-                    </div>
+
                     <div class="border-t-2 border-grey-lighter mt-6 py-4">
                         <div class="md:flex">
                             <div class="md:w-1/3 pr-8">
@@ -273,8 +257,135 @@
                             </div>
                             <div class="md:w-2/3">
                                 <input type="text" class="form-control bg-light w-64 mr-2 mb-2 md:mb-0" placeholder="Add link"><div> or <br> 
-                                {{ form::file('reel_file2', array('class' => 'btn-outline inline-block', 'value' => 'Upload file')) }}
-                                                               </div>
+                                {{ form::file('reel_file', array('class' => 'btn-outline inline-block', 'value' => 'Upload file')) }}
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pb-6">
+                        <h3 class="text-blue-dark font-semibold text-lg mb-1 font-header">Camera</h3>
+                    </div>
+                    <div class="p-4 bg-grey-lighter">
+                        <div class="py-2">
+                            <div class="md:flex">
+                                <div class="md:w-1/3 pr-6 mb-3 md:mb-1">
+                                    <label class="checkbox-control"><h3 class="text-md">Camera operator</h3>
+                                        <input type="checkbox" checked="checked"/>
+                                        <div class="control-indicator"></div>
+                                    </label>
+                                </div>
+                                <div class="md:w-2/3">
+                                    <textarea class="form-control w-full h-32" placeholder="Biography"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="py-2">
+                            <div class="md:flex">
+                                <div class="md:w-1/3 pr-8">
+                                    <span class="font-bold font-header text-blue-dark mt-2 block md:text-right mb-2 md:mb-0">General resume</span>
+                                </div>
+                                <div class="md:w-2/3">
+                                    <a href="#" class="btn-outline inline-block">Upload file</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="py-2">
+                            <div class="md:flex">
+                                <div class="md:w-1/3 pr-8">
+                                    <span class="font-bold font-header text-blue-dark mt-2 block md:text-right mb-2 md:mb-0">General reel</span>
+                                </div>
+                                <div class="md:w-2/3">
+                                    <input type="text" class="form-control bg-light w-64 mr-2 mb-3 md:mb-0" placeholder="Add link"> or <a href="#" class="btn-outline inline-block">Upload file</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="py-2">
+                            <div class="md:flex">
+                                <div class="md:w-1/3 pr-8">
+                                    <span class="font-bold font-header text-blue-dark mt-2 block md:text-right">Gear</span>
+                                </div>
+                                <div class="md:w-2/3">
+                                    <div class="pb-4">
+                                        <label class="switch">
+                                            <input type="checkbox">
+                                            <span class="form-slider"></span>
+                                        </label>
+                                    </div>
+                                    <label for="" class="block mb-3">What gear do you have for this position?</label>
+                                    <textarea class="form-control w-full h-32" placeholder="Your gear"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-8 pb-4 text-right border-t-2 border-grey-lighter">
+                        <a href="#" class="text-grey bold mr-4 hover:text-green">Cancel</a>
+                        {{form::submit('SAVE CHANGES', array('class' => 'btn-green')) }}
+                    </div>
+                         {{ Form::close() }} 
+                </div>
+
+                </div>
+
+                <!-- SOUND -->
+
+                                <div class="card mb-6">
+                        <h3 class="text-blue-dark font-semibold text-lg font-header mb-3 md:mb-0">Production</h3>
+
+                 <div class="pt-8 pb-4 text-right border-t-2 border-grey-lighter">
+                        <button class="btn-green-outline" id="addPosition" onclick="addPostProduction()">ADD POSITION</button>
+                    </div>
+                
+                <div class="card mb-6" id="addPostProduction">
+
+                    {{ Form::open(array('route' => ['profile-add-position', Auth::user()->id],'files' => true)) }}
+
+                    <div class="w-full mb-6">
+                        <h3 class="text-blue-dark font-semibold text-md md:text-lg mb-1 font-header">
+                           Positions you work:</h3>
+                    </div>
+
+                        <div class="md:w-2/3">
+                            <div class="p-3 md:p-6 bg-grey-lighter rounded">
+                                <div class="mb-6">
+
+                                    {{ Form::label('title', 'Job Title:', array('class' => 'block mb-3') )}}
+                                
+                                    {{ Form::text('title',"",array('class' => 'form-control w-full') )}}
+                                    
+
+                                </div>
+                                <div class="mb-2">
+                                    {{ Form::label('bio', 'Biography:', array('class' => 'block mb-3') )}}
+                                    
+                                    {{ Form::textarea('bio', $biography->bio, array('class' => 'form-control w-full h-32') )}}
+                                </div>
+                            </div>
+                        </div>
+
+                    <div class="border-t-2 border-grey-lighter mt-6 py-4">
+                        <div class="md:flex">
+                            <div class="md:w-1/3 pr-8">
+                                <h3 class="text-md font-header mb-2 md:mb-0">General resume</h3>
+                            </div>
+                            <div class="md:w-2/3">
+                            
+                                {{ form::file('resume_file', array('class' => 'btn-outline inline-block', 'value' => 'Upload file'))}}
+                               
+                            </div>
+                        </div>
+                    </div>
+                    <div class="border-t-2 border-grey-lighter py-4">
+                        <div class="md:flex">
+                            <div class="md:w-1/3 pr-8">
+                                <h3 class="text-md font-header mt-2 mb-2 md:mb-0">General reel</h3>
+                            </div>
+                            <div class="md:w-2/3">
+                                <input type="text" class="form-control bg-light w-64 mr-2 mb-2 md:mb-0" placeholder="Add link"><div> or <br> 
+                                {{ form::file('reel_file', array('class' => 'btn-outline inline-block', 'value' => 'Upload file')) }}
+                                </div>
 
                             </div>
                         </div>
@@ -358,14 +469,20 @@
                     </div>
                          {{ Form::close() }} 
                 </div>
+
+                </div>
+
+
+
+
             </div>
         </div>
     </main>
 
     <script type="text/javascript">
         
-        function myFunction() {
-            var x = document.getElementById("myDIV");
+        function addPostProduction() {
+            var x = document.getElementById("addPostProduction");
             if (x.style.display === "none") {
                 x.style.display = "block";
                 $('html, body').animate({
@@ -376,5 +493,4 @@
                 x.style.display = "none";
             }
         }
-
     </script>

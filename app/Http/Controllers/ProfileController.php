@@ -78,6 +78,14 @@ class ProfileController extends Controller
      */
     public function create(User $user, Request $request)
     {
+
+        $validatedData = $request->validate([
+        'title' => 'required|max:255',
+        'bio' => 'required',
+        'resume_file' => 'required',
+        ]);
+
+
         $crew_position = new CrewPosition;
 
         $crew_position->crew_id = $user->id;
@@ -89,8 +97,8 @@ class ProfileController extends Controller
         }
 
         $crew_position->position_id = $post_id;
-        $crew_position->details = $request->bio;
-        $crew_position->union_description = $request->bio;
+        $crew_position->details = $request->biography;
+        $crew_position->union_description = $request->biography;
         $crew_position->save();
 
         return back();
