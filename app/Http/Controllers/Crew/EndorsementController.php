@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Crew;
 use App\Http\Controllers\Controller;
 use App\Models\CrewPosition;
 use App\Models\Endorsement;
+use App\Models\Position;
 use Illuminate\Http\Request;
 
 class EndorsementController extends Controller
@@ -14,9 +15,9 @@ class EndorsementController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Position $position)
     {
-        //
+        return Endorsement::where('position_id', $position->id)->get();
     }
 
     /**

@@ -16,16 +16,19 @@ class CreateEndorsementsTable extends Migration
         Schema::create('endorsements', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('crew_position_id')
-                  ->unsigned()
-                  ->foreign('crew_position_id')
-                  ->references('id')
-                  ->on('crew_positions')
-                  ->onDelete('restrict')
-                  ->onUpdate('restrict');
+                ->unsigned();
             $table->string('endorser_email');
+            $table->datetime('approved_at');
             $table->text('comment')->nullable();
             $table->boolean('deleted')->default(false);
             $table->timestamps();
+
+            $table
+                ->foreign('crew_position_id')
+                ->references('id')
+                ->on('crew_positions')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
         });
     }
 

@@ -84,3 +84,5 @@ Route::middleware(['auth', 'crew'])->group(function () {
     Route::post('/crew-positions/{crewPosition}/endorsements', 'Crew\EndorsementController@store');
 });
 
+
+Route::get('/positions/{position}/endorsements', 'Crew\EndorsementController@index');
