@@ -2,21 +2,23 @@
 
 namespace Tests\Feature;
 
+use Tests\TestCase;
 use App\Models\Crew;
+use App\Models\User;
 use App\Models\CrewReel;
+use App\Models\Position;
 use App\Models\CrewResume;
 use App\Models\CrewSocial;
-use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Tests\Support\Data\SocialLinkTypeID;
 use Tests\Support\SeedDatabaseAfterRefresh;
-use Tests\TestCase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CrewsFeatureTest extends TestCase
 {
-    use RefreshDatabase, SeedDatabaseAfterRefresh;
+    use RefreshDatabase, SeedDatabaseAfterRefresh, WithFaker;
 
     /** @test */
     public function create()
@@ -854,5 +856,30 @@ class CrewsFeatureTest extends TestCase
         }
 
         return $data;
+    }
+
+    /**
+     * @test
+     */
+    public function crew_can_apply_for_a_position()
+    {
+        // given
+        $crew     = factory(Crew::class)->create();
+        $position = factory(Position::class)->create();
+        $attributes = [
+           'details' => $this->faker->paragraph,
+           'union_description' => $this->faker->paragraph
+       ];
+
+        // when
+        $crew->appliesFor($position, $attributes);
+
+        // then
+        $this->assertDatabaseHas('crew_positions', [
+            'crew_id'     => $crew->id,
+            'position_id' => $position->id,
+            'details' => $attributes['details'],
+            'union_description' => $attributes['union_description'],
+        ]);
     }
 }

@@ -70,4 +70,14 @@ class Crew extends Model
     {
         return $this->hasMany(CrewSocial::class);
     }
+
+    public function appliesFor(Position $position, $attributes)
+    {
+        return CrewPosition::create([
+            'crew_id' => $this->id,
+            'position_id' => $position->id,
+            'details' => $attributes['details'],
+            'union_description' => $attributes['union_description'],
+        ]);
+    }
 }
