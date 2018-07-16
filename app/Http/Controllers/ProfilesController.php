@@ -24,7 +24,7 @@ use Auth;
 use Intervention\Image\Facades\Image as Image;
 
 
-class ProfileController extends Controller
+class ProfilesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -82,11 +82,11 @@ class ProfileController extends Controller
         $validatedData = $request->validate([
         'title' => 'required|max:255',
         'bio' => 'required',
-        'resume_file' => 'required',
+        'resume_file' => 'nullable',
+        'reel_file' => 'nullable',
         ]);
 
-
-        $crew_position = new CrewPosition;
+       $crew_position = new CrewPosition;
 
         $crew_position->crew_id = $user->id;
 
@@ -101,7 +101,7 @@ class ProfileController extends Controller
         $crew_position->union_description = $request->biography;
         $crew_position->save();
 
-        return back();
+         return back();
     }
 
     /**

@@ -204,30 +204,38 @@
                     <h4 class='text-grey'>WORK POSITIONS</h4>
                 </div>
 
-                <div class="card mb-6">
-                        <h3 class="text-blue-dark font-semibold text-lg font-header mb-3 md:mb-0">Production</h3>
-
-                 <div class="pt-8 pb-4 text-right border-t-2 border-grey-lighter">
-                        <button class="btn-green-outline" id="addPosition" onclick="myFunction()">ADD POSITION</button>
-                    </div>
                 
                 <div class="card mb-6" id="addPostProduction">
+                        <h3 class="text-blue-dark font-semibold text-lg font-header mb-3 md:mb-0">Production</h3>
 
-                    {{ Form::open(array('route' => ['profile-add-position', Auth::user()->id],'files' => true)) }}
+                 <div class="pt-8 pb-4 text-right border-t-2 border-grey-lighter"></div>
 
-                    <div class="w-full mb-6">
-                        <h3 class="text-blue-dark font-semibold text-md md:text-lg mb-1 font-header">
-                           Positions you work:</h3>
-                    </div>
+                    {{ Form::open(array('route' => ['production-add-position', Auth::user()->id],'files' => true)) }}
 
-                        <div class="md:w-2/3">
-                            <div class="p-3 md:p-6 bg-grey-lighter rounded">
+                        
+                            <div class="p-4 bg-grey-lighter rounded">
                                 <div class="mb-6">
 
-                                    {{ Form::label('title', 'Job Title:', array('class' => 'block mb-3') )}}
-                                
-                                    {{ Form::text('title',"",array('class' => 'form-control w-full') )}}
-                                    
+                            <div class="md:flex">
+                                <div class="md:w-1/3 pr-6 mb-3 md:mb-1">
+                                    <label class="checkbox-control"><h3 class="text-md">1st Assistant Director</h3>
+                                        {!! Form::checkbox('production_position[]', '1st Assistant Director', false) !!}
+                                        <div class="control-indicator"></div>
+                                    </label>
+                                </div>
+                                <div class="md:w-1/3 pr-6 mb-3 md:mb-1">
+                                    <label class="checkbox-control"><h3 class="text-md">2nd Assistant Director</h3>
+                                        {!! Form::checkbox('production_position[]', '2nd Assistant Director', false) !!}
+                                        <div class="control-indicator"></div>
+                                    </label>
+                                </div>
+                                <div class="md:w-1/3 pr-6 mb-3 md:mb-1">
+                                    <label class="checkbox-control"><h3 class="text-md">Craft Services</h3>
+                                        {!! Form::checkbox('production_position[]', 'Craft Services', false) !!}
+                                        <div class="control-indicator"></div>
+                                    </label>
+                                </div>
+                            </div>
 
                                 </div>
                                 <div class="mb-2">
@@ -236,8 +244,7 @@
                                     {{ Form::textarea('bio', $biography->bio, array('class' => 'form-control w-full h-32') )}}
                                 </div>
                             </div>
-                        </div>
-
+                       
                     <div class="border-t-2 border-grey-lighter mt-6 py-4">
                         <div class="md:flex">
                             <div class="md:w-1/3 pr-8">
@@ -260,62 +267,6 @@
                                 {{ form::file('reel_file', array('class' => 'btn-outline inline-block', 'value' => 'Upload file')) }}
                                 </div>
 
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="pb-6">
-                        <h3 class="text-blue-dark font-semibold text-lg mb-1 font-header">Camera</h3>
-                    </div>
-                    <div class="p-4 bg-grey-lighter">
-                        <div class="py-2">
-                            <div class="md:flex">
-                                <div class="md:w-1/3 pr-6 mb-3 md:mb-1">
-                                    <label class="checkbox-control"><h3 class="text-md">Camera operator</h3>
-                                        <input type="checkbox" checked="checked"/>
-                                        <div class="control-indicator"></div>
-                                    </label>
-                                </div>
-                                <div class="md:w-2/3">
-                                    <textarea class="form-control w-full h-32" placeholder="Biography"></textarea>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="py-2">
-                            <div class="md:flex">
-                                <div class="md:w-1/3 pr-8">
-                                    <span class="font-bold font-header text-blue-dark mt-2 block md:text-right mb-2 md:mb-0">General resume</span>
-                                </div>
-                                <div class="md:w-2/3">
-                                    <a href="#" class="btn-outline inline-block">Upload file</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="py-2">
-                            <div class="md:flex">
-                                <div class="md:w-1/3 pr-8">
-                                    <span class="font-bold font-header text-blue-dark mt-2 block md:text-right mb-2 md:mb-0">General reel</span>
-                                </div>
-                                <div class="md:w-2/3">
-                                    <input type="text" class="form-control bg-light w-64 mr-2 mb-3 md:mb-0" placeholder="Add link"> or <a href="#" class="btn-outline inline-block">Upload file</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="py-2">
-                            <div class="md:flex">
-                                <div class="md:w-1/3 pr-8">
-                                    <span class="font-bold font-header text-blue-dark mt-2 block md:text-right">Gear</span>
-                                </div>
-                                <div class="md:w-2/3">
-                                    <div class="pb-4">
-                                        <label class="switch">
-                                            <input type="checkbox">
-                                            <span class="form-slider"></span>
-                                        </label>
-                                    </div>
-                                    <label for="" class="block mb-3">What gear do you have for this position?</label>
-                                    <textarea class="form-control w-full h-32" placeholder="Your gear"></textarea>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -327,69 +278,12 @@
                          {{ Form::close() }} 
                 </div>
 
-                </div>
-
-                <!-- SOUND -->
-
-                                <div class="card mb-6">
-                        <h3 class="text-blue-dark font-semibold text-lg font-header mb-3 md:mb-0">Production</h3>
-
-                 <div class="pt-8 pb-4 text-right border-t-2 border-grey-lighter">
-                        <button class="btn-green-outline" id="addPosition" onclick="addPostProduction()">ADD POSITION</button>
-                    </div>
+                <!-- CAMERA -->
+                        
                 
                 <div class="card mb-6" id="addPostProduction">
 
-                    {{ Form::open(array('route' => ['profile-add-position', Auth::user()->id],'files' => true)) }}
-
-                    <div class="w-full mb-6">
-                        <h3 class="text-blue-dark font-semibold text-md md:text-lg mb-1 font-header">
-                           Positions you work:</h3>
-                    </div>
-
-                        <div class="md:w-2/3">
-                            <div class="p-3 md:p-6 bg-grey-lighter rounded">
-                                <div class="mb-6">
-
-                                    {{ Form::label('title', 'Job Title:', array('class' => 'block mb-3') )}}
-                                
-                                    {{ Form::text('title',"",array('class' => 'form-control w-full') )}}
-                                    
-
-                                </div>
-                                <div class="mb-2">
-                                    {{ Form::label('bio', 'Biography:', array('class' => 'block mb-3') )}}
-                                    
-                                    {{ Form::textarea('bio', $biography->bio, array('class' => 'form-control w-full h-32') )}}
-                                </div>
-                            </div>
-                        </div>
-
-                    <div class="border-t-2 border-grey-lighter mt-6 py-4">
-                        <div class="md:flex">
-                            <div class="md:w-1/3 pr-8">
-                                <h3 class="text-md font-header mb-2 md:mb-0">General resume</h3>
-                            </div>
-                            <div class="md:w-2/3">
-                            
-                                {{ form::file('resume_file', array('class' => 'btn-outline inline-block', 'value' => 'Upload file'))}}
-                               
-                            </div>
-                        </div>
-                    </div>
-                    <div class="border-t-2 border-grey-lighter py-4">
-                        <div class="md:flex">
-                            <div class="md:w-1/3 pr-8">
-                                <h3 class="text-md font-header mt-2 mb-2 md:mb-0">General reel</h3>
-                            </div>
-                            <div class="md:w-2/3">
-                                <input type="text" class="form-control bg-light w-64 mr-2 mb-2 md:mb-0" placeholder="Add link"><div> or <br> 
-                                {{ form::file('reel_file', array('class' => 'btn-outline inline-block', 'value' => 'Upload file')) }}
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
+                    {{ Form::open(array('route' => ['camera-add-position', Auth::user()->id],'files' => true)) }}
 
                     <div class="pb-6">
                         <h3 class="text-blue-dark font-semibold text-lg mb-1 font-header">Camera</h3>
@@ -470,27 +364,75 @@
                          {{ Form::close() }} 
                 </div>
 
+              <!-- SOUND -->
+
+              <div class="card mb-6" id="addPostProduction">
+
+                    {{ Form::open(array('route' => ['sound-add-position', Auth::user()->id],'files' => true)) }}
+
+                    <div class="pb-6">
+                        <h3 class="text-blue-dark font-semibold text-lg mb-1 font-header">Sound</h3>
+                    </div>
+                    <div class="p-4 bg-grey-lighter">
+                        <div class="py-2">
+                            <div class="md:flex">
+                                <div class="md:w-1/3 pr-6 mb-3 md:mb-1">
+                                    <label class="checkbox-control"><h3 class="text-md">Sound operator</h3>
+                                        <input type="checkbox"/>
+                                        <div class="control-indicator"></div>
+                                    </label>
+                                </div>
+                                <div class="md:w-2/3">
+                                    <textarea class="form-control w-full h-32" placeholder="Biography"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="py-2">
+                            <div class="md:flex">
+                                <div class="md:w-1/3 pr-8">
+                                    <span class="font-bold font-header text-blue-dark mt-2 block md:text-right mb-2 md:mb-0">General resume</span>
+                                </div>
+                                <div class="md:w-2/3">
+                                    <a href="#" class="btn-outline inline-block">Upload file</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="py-2">
+                            <div class="md:flex">
+                                <div class="md:w-1/3 pr-8">
+                                    <span class="font-bold font-header text-blue-dark mt-2 block md:text-right mb-2 md:mb-0">General reel</span>
+                                </div>
+                                <div class="md:w-2/3">
+                                    <input type="text" class="form-control bg-light w-64 mr-2 mb-3 md:mb-0" placeholder="Add link"> or <a href="#" class="btn-outline inline-block">Upload file</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="py-2">
+                            <div class="md:flex">
+                                <div class="md:w-1/3 pr-8">
+                                    <span class="font-bold font-header text-blue-dark mt-2 block md:text-right">Gear</span>
+                                </div>
+                                <div class="md:w-2/3">
+                                    <div class="pb-4">
+                                        <label class="switch">
+                                            <input type="checkbox">
+                                            <span class="form-slider"></span>
+                                        </label>
+                                    </div>
+                                    <label for="" class="block mb-3">What gear do you have for this position?</label>
+                                    <textarea class="form-control w-full h-32" placeholder="Your gear"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-8 pb-4 text-right border-t-2 border-grey-lighter">
+                        <a href="#" class="text-grey bold mr-4 hover:text-green">Cancel</a>
+                        {{form::submit('SAVE CHANGES', array('class' => 'btn-green')) }}
+                    </div>
+                         {{ Form::close() }} 
                 </div>
-
-
-
 
             </div>
         </div>
     </main>
-
-    <script type="text/javascript">
-        
-        function addPostProduction() {
-            var x = document.getElementById("addPostProduction");
-            if (x.style.display === "none") {
-                x.style.display = "block";
-                $('html, body').animate({
-            scrollTop: $("#myDIV").offset().top
-            }, 2000);
-            }
-            else {
-                x.style.display = "none";
-            }
-        }
-    </script>
