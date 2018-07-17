@@ -94,6 +94,6 @@ class Crew extends Model
     {
         $endorsement->accepted_at = Carbon::now();
         $endorsement->save();
-        return $endorsement
+        return $endorsement;
     }
 }

@@ -2,30 +2,105 @@
 
 namespace Tests\Feature\Crew;
 
-use Tests\TestCase;
 use App\Models\Crew;
-use App\Models\Position;
-use App\Models\Endorsement;
 use App\Models\CrewPosition;
-use Illuminate\Support\Facades\Artisan;
+use App\Models\Endorsement;
+use App\Models\Position;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Tests\Support\SeedDatabaseAfterRefresh;
+use Tests\TestCase;
 
 class EndorsementFeatureTest extends TestCase
 {
-    use DatabaseMigrations, WithFaker;
+    use RefreshDatabase, SeedDatabaseAfterRefresh, WithFaker;
 
-    public function setUp()
+    /**
+     * @test
+     */
+    public function endorsees_can_ask_endorsements_from_endorsers()
     {
-        parent::setUp();
+        // $this->withoutExceptionHandling();
+        // given
+        $endorsee      = factory(Crew::class)->create();
+        $crewPosition  = factory(CrewPosition::class)->create(['crew_id' => $endorsee->id]);
+        $endorserEmail = $this->faker->email;
 
-        Artisan::call('db:seed', ['--class' => 'LocalDatabaseSeeder']);
+        // when
+        $response = $this
+            ->actingAs($endorsee->user)
+            ->postJson(
+                route('endorsement.store', ['crewPosition' => $crewPosition]),
+                ['endorser_email' => $endorserEmail]
+            );
+
+        // then
+        $this->assertDatabaseHas('endorsements', [
+            'crew_position_id' => $crewPosition->id,
+            'endorser_email'   => $endorserEmail,
+            'approved_at'      => null,
+            'comment'          => null,
+            'deleted'          => false,
+        ]);
     }
 
     /**
      * @test
      */
-    public function it_lists_endorsements_sorted_by_number_of_endorsements()
+    public function endorsers_can_accept_endorsement_request_from_endorsees()
+    {
+        // given
+        // an endorsee
+
+        // when
+        // he asks endorsements
+
+        // then
+        // endorser is emailed
+        $this->assert();
+    }
+
+    /**
+     * @test
+     * @expectedException \Exception
+     */
+    public function an_endorsee_can_only_be_endorsed_by_a_crew_once()
+    {
+        // given
+        // given a crew with a position
+        // and is endorsed by another crew'
+        $endorsement = factory(Endorsement::class)->create();
+        $crew        = $endorsement->crew;
+        $position    = $endorsement->position;
+
+        // when
+        // askes endorsement again from same crew
+        $crew->askEndorsementFrom($endorsement->email, $postion);
+
+        // then
+        // respond with forbiden 403
+    }
+
+    /**
+     * @test
+     */
+    public function endorsement_link_will_endorse_an_endorsee()
+    {
+        // given
+        // a user
+
+        // when
+        // he gets a link to endorse an endorsee
+
+        // then
+        // endorsee will get an approved endorsement
+        $this->assert();
+    }
+
+    /**
+     * @test
+     */
+    public function endorsed_crew_are_ranked_based_on_how_many_endorsers_they_get()
     {
         $this->withoutExceptionHandling();
         // given
@@ -36,9 +111,6 @@ class EndorsementFeatureTest extends TestCase
         $position = $endorsement->crewPosition->position;
         $endorsee->askEndorsementFrom($endorser->email, $position);
 
-
-
-
         // given
         // users that have asked endorsements
         // endorsee 1 asks 1 endorsement
@@ -46,7 +118,7 @@ class EndorsementFeatureTest extends TestCase
 
         $endorser1 = factory(Crew::class)->create();
 
-        $endorsee1    = factory(Crew::class)->create();
+        $endorsee1 = factory(Crew::class)->create();
 
         $endorsement1 = $endorsee1->askEndorsementFrom($endorser1->user->email, $position);
 
@@ -88,22 +160,4 @@ class EndorsementFeatureTest extends TestCase
         $this->assertEquals($endorsements->ids, $project->topEndorsees);
     }
 
-    /**
-     * @test
-     * @expectedException \Exception
-     */
-    public function an_endorsee_can_only_be_endorsed_by_a_crew_once()
-    {
-        // given
-        $endorsement = factory(Endorsement::class)->create();
-        $crew = $endorsement->crew;
-        $position = $endorsement->position;
-
-
-        // when
-        $crew->askEndorsementFrom($endorsement->email, $postion);
-
-
-        // then
-    }
 }

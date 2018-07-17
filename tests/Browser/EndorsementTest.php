@@ -3,18 +3,17 @@
 namespace Tests\Browser;
 
 use App\Models\CrewPosition;
-use App\Models\ProjectJob;
 use App\Models\User;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Dusk\Browser;
 use Tests\Browser\Pages\CrewPositionShowPage;
-use Tests\Browser\Pages\ProjectJobIndexPage;
 use Tests\DuskTestCase;
+use Tests\Support\SeedDatabaseAfterRefresh;
 
 class EndorsementTest extends DuskTestCase
 {
-    use DatabaseMigrations, WithFaker;
+    use RefreshDatabase, SeedDatabaseAfterRefresh, WithFaker;
 
     /**
      * @test

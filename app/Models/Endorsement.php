@@ -19,9 +19,11 @@ class Endorsement extends Model
      * @var array
      */
     protected $casts = [
-        'id'             => 'integer',
-        'project_job_id' => 'integer',
-        'endorser_id'    => 'integer',
-        'endorsee_id'    => 'integer',
+        'id'               => 'integer',
+        'crew_position_id' => 'integer',
+        'endorser_email'   => 'string',
+        'approved_at'      => 'datetime',
+        'comment'          => 'string',
+        'deleted'          => 'boolean',
     ];
 }

@@ -38,10 +38,23 @@ class EndorsementController extends Controller
      */
     public function store(CrewPosition $crewPosition, Request $request)
     {
-        return Endorsement::create([
+        $endorsement = Endorsement::where('crew_position_id', $crewPosition->id)
+            ->where('endorser_email', $request->endorser_email)
+            ->first();
+
+        // you can only ask an endorsement from an endorser once
+        if ($endorsement) {
+            // return redirect()
+            //     ->back()
+            //     ->withError('Hey, you already asked that person for an endorsement. Don\'t worry, we already sent him an email about your request.');
+        }
+
+        Endorsement::create([
             'crew_position_id' => $crewPosition->id,
             'endorser_email'   => $request->endorser_email,
         ]);
+
+        return response('Horay! You have asked an endorsement from your contact. We sent him an email about this.');
     }
 
     /**
