@@ -6,6 +6,7 @@ use App\Models\Crew;
 use App\Models\CrewPosition;
 use App\Models\Endorsement;
 use App\Models\Position;
+use App\Models\Role;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\Support\SeedDatabaseAfterRefresh;
@@ -20,11 +21,15 @@ class EndorsementFeatureTest extends TestCase
      */
     public function endorsees_can_ask_endorsements_from_endorsers()
     {
-        // $this->withoutExceptionHandling();
         // given
-        $endorsee      = factory(Crew::class)->create();
-        $crewPosition  = factory(CrewPosition::class)->create(['crew_id' => $endorsee->id]);
+        $endorsee     = factory(Crew::class)->create();
+        $crewPosition = factory(CrewPosition::class)->create(['crew_id' => $endorsee->id]);
+        $role         = Role::where('name', Role::CREW)->first();
+
         $endorserEmail = $this->faker->email;
+
+        $user = $endorsee->user;
+        $user->roles()->save($role);
 
         // when
         $response = $this
