@@ -15,9 +15,10 @@ class CreateEndorsementsTable extends Migration
     {
         Schema::create('endorsements', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('crew_position_id')
-                ->unsigned();
+            $table->integer('crew_position_id')->unsigned();
+            $table->string('endorser_name');
             $table->string('endorser_email');
+            $table->string('token')->unique();
             $table->datetime('approved_at')->nullable();
             $table->text('comment')->nullable();
             $table->boolean('deleted')->default(false);

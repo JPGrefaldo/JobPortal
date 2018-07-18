@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Crew;
 
 use App\Http\Controllers\Controller;
+use App\Mail\EndorsementRequestEmail;
 use App\Models\CrewPosition;
 use App\Models\Endorsement;
 use App\Models\Position;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class EndorsementController extends Controller
 {
@@ -49,10 +51,15 @@ class EndorsementController extends Controller
             //     ->withError('Hey, you already asked that person for an endorsement. Don\'t worry, we already sent him an email about your request.');
         }
 
-        Endorsement::create([
+        $endorsement = Endorsement::create([
             'crew_position_id' => $crewPosition->id,
+            'endorser_name'    => $request->endorser_name,
             'endorser_email'   => $request->endorser_email,
+            'token'            => Endorsement::generateToken(),
         ]);
+
+        // send the email to endorser
+        Mail::to($endorsement->endorser_email)->send(new EndorsementRequestEmail($endorsement));
 
         return response('Horay! You have asked an endorsement from your contact. We sent him an email about this.');
     }
@@ -76,7 +83,7 @@ class EndorsementController extends Controller
      */
     public function edit(Endorsement $endorsement)
     {
-        //
+        return view('endorsements.edit', $endorsement);
     }
 
     /**
@@ -88,7 +95,10 @@ class EndorsementController extends Controller
      */
     public function update(Request $request, Endorsement $endorsement)
     {
-        return Endorsement::update($request);
+        return Endorsement::update([
+            'approved_at' => Carbon::now(),
+            'comment'     => $request->comment,
+        ]);
     }
 
     /**

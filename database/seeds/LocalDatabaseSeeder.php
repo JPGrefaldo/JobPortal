@@ -13,7 +13,7 @@ class LocalDatabaseSeeder extends Seeder
     {
         $tableNames = Schema::getConnection()->getDoctrineSchemaManager()->listTableNames();
 
-        // DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
         foreach ($tableNames as $name) {
             if ($name == 'migrations') {
@@ -22,7 +22,7 @@ class LocalDatabaseSeeder extends Seeder
             DB::table($name)->truncate();
         }
 
-        // DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         $this->call([
             DatabaseSeeder::class,
