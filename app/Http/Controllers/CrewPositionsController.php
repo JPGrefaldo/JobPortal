@@ -3,8 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
+use App\Models\Crew;
+use App\Models\CrewPosition;
+use App\Models\CrewReel;
+use App\Models\CrewResume;
+use App\Models\Position;
+use App\Models\CrewSocial;
+use App\Models\Department;
+use App\Models\UserRoles;
+use App\Models\Role;
+use Intervention\Image\Facades\Image as Image;
+use Illuminate\Support\Facades\Storage;
 
-class CrewPositionController extends Controller
+class CrewPositionsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,28 +33,44 @@ class CrewPositionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function createPositionProduction()
+    public function createPositionProduction(User $user, Request $request)
     {
+       
         $validatedData = $request->validate([
-        'title' => 'required|max:255',
-        'bio' => 'required',
+        'biography' => 'required',
         'resume_file' => 'nullable',
         'reel_file' => 'nullable',
         ]);
 
        $crew_position = new CrewPosition;
        $crew_position->crew_id = $user->id;
+       $crew_position->name = $request->input('title');
+       $crew_position->position_id = 1;
+       $crew_position->details = $request->biography;        
+       $crew_position->save();
 
-        if ($request->title == '1st Assistant Director') {
-            $post_id = 1;
-        } else {
-            $post_id = 2;
+
+       if ($request->hasFile('reel_file')) {
+
+        $reel_fileName = "fileName".time().'.'.request()->reel_file->getClientOriginalExtension();
+        $user_reel = Storage::putFile('reels', $request->file('reel_file'));
+        $user_reel_filepath = 'reel/' . $reel_fileName;
+       
+            if (count( CrewReel::where('crew_id', $user->id)->first()) > 0 ) {
+                $save_reel = CrewReel::where('crew_id', $user->id)->first();
+                $save_reel->url = $user_reel_filepath;
+                $save_reel->save();  
+            } else  {
+                $new_reel = new CrewReel;
+                $new_reel->crew_id = $user->id;
+                $new_reel->url  = $user_reel_filepath;
+                $new_reel->crew_position_id = 1;
+                $new_reel->save();
+            }
+       
         }
 
-        $crew_position->position_id = $post_id;
-        $crew_position->details = $request->biography;
-        $crew_position->union_description = $request->biography;
-        $crew_position->save();
+       
 
          return back();
         

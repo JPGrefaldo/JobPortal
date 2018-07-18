@@ -150,9 +150,10 @@ class ProfilesController extends Controller
     $reel = CrewReel::where('crew_id', $user->id)->first();
     $resume = CrewResume::where('crew_id', $user->id)->first();
 
-    $department = Department::first();
+    $departments = Department::get();
+    $allpositions = Position::get();
 
-     return view('profile.my-profile-edit', compact('user','position', 'position_role', 'biography', 'jobTitle', 'fb', 'imdb', 'linkedin', 'department', 'reel', 'resume')); 
+     return view('profile.my-profile-edit', compact('user','position', 'position_role', 'biography', 'jobTitle', 'fb', 'imdb', 'linkedin', 'departments', 'reel', 'resume', 'allpositions')); 
     }
 
     /**

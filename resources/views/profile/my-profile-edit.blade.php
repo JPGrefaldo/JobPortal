@@ -213,36 +213,34 @@
                     {{ Form::open(array('route' => ['production-add-position', Auth::user()->id],'files' => true)) }}
 
                         
-                            <div class="p-4 bg-grey-lighter rounded">
+                    <div class="p-4 bg-grey-lighter rounded">
                                 <div class="mb-6">
-
+                                {{ Form::label('department', 'Choose Departments:', array('class' => 'block mb-3') )}}
+                                </div>
                             <div class="md:flex">
-                                <div class="md:w-1/3 pr-6 mb-3 md:mb-1">
-                                    <label class="checkbox-control"><h3 class="text-md">1st Assistant Director</h3>
-                                        {!! Form::checkbox('production_position[]', '1st Assistant Director', false) !!}
+                                @foreach ($departments as $department)
+                                <div class="md:w-2/3 mb-6">
+                                    <label class="checkbox-control"><h3 class="text-sm">{{ $department->name }}</h3>
+                                        {!! Form::checkbox('title[]', $department->name, false) !!}
                                         <div class="control-indicator"></div>
                                     </label>
                                 </div>
-                                <div class="md:w-1/3 pr-6 mb-3 md:mb-1">
-                                    <label class="checkbox-control"><h3 class="text-md">2nd Assistant Director</h3>
-                                        {!! Form::checkbox('production_position[]', '2nd Assistant Director', false) !!}
-                                        <div class="control-indicator"></div>
-                                    </label>
-                                </div>
-                                <div class="md:w-1/3 pr-6 mb-3 md:mb-1">
-                                    <label class="checkbox-control"><h3 class="text-md">Craft Services</h3>
-                                        {!! Form::checkbox('production_position[]', 'Craft Services', false) !!}
-                                        <div class="control-indicator"></div>
-                                    </label>
-                                </div>
+                                @endforeach
                             </div>
 
+                            <div class="mb-6">
+                                {{ Form::label('title', 'Choose Title:', array('class' => 'block mb-3') )}}
+                                <select class="form-control" name="item_id">
+                                    @foreach($allpositions as $allposition)
+                                        <option value="{{$allposition->name}}">{{$allposition->name}}</option>
+                                    @endforeach
+                            </div>
+                            
+                                
+                            <div class="mb-6">
+                                {{ Form::label('title', 'Choose Title:', array('class' => 'block mb-3') )}}  
                                 </div>
-                                <div class="mb-2">
-                                    {{ Form::label('bio', 'Biography:', array('class' => 'block mb-3') )}}
-                                    
-                                    {{ Form::textarea('bio', $biography->bio, array('class' => 'form-control w-full h-32') )}}
-                                </div>
+                                    {{ Form::textarea('biography', $biography->bio, array('class' => 'form-control w-full h-32') )}}
                             </div>
                        
                     <div class="border-t-2 border-grey-lighter mt-6 py-4">
@@ -338,79 +336,9 @@
                                     <textarea class="form-control w-full h-32" placeholder="Your gear"></textarea>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-
-                    <div class="p-2 md:p-4 border-t-2 border-grey-lighter bg-white">
-                        <div class="py-2">
-                            <label class="checkbox-control"><h3 class="text-md">Camera Visual Effects</h3>
-                                <input type="checkbox"/>
-                                <div class="control-indicator"></div>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="p-2 md:p-4 border-t-2 border-grey-lighter bg-white">
-                        <div class="py-2">
-                            <label class="checkbox-control"><h3 class="text-md">Camera Visual Effects</h3>
-                                <input type="checkbox"/>
-                                <div class="control-indicator"></div>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="pt-8 pb-4 text-right border-t-2 border-grey-lighter">
-                        <a href="#" class="text-grey bold mr-4 hover:text-green">Cancel</a>
-                        {{form::submit('SAVE CHANGES', array('class' => 'btn-green')) }}
-                    </div>
-                         {{ Form::close() }} 
-                </div>
-
-              <!-- SOUND -->
-
-              <div class="card mb-6" id="addPostProduction">
-
-                    {{ Form::open(array('route' => ['sound-add-position', Auth::user()->id],'files' => true)) }}
-
-                    <div class="pb-6">
-                        <h3 class="text-blue-dark font-semibold text-lg mb-1 font-header">Sound</h3>
-                    </div>
-                    <div class="p-4 bg-grey-lighter">
-                        <div class="py-2">
-                            <div class="md:flex">
-                                <div class="md:w-1/3 pr-6 mb-3 md:mb-1">
-                                    <label class="checkbox-control"><h3 class="text-md">Sound operator</h3>
-                                        <input type="checkbox"/>
-                                        <div class="control-indicator"></div>
-                                    </label>
-                                </div>
-                                <div class="md:w-2/3">
-                                    <textarea class="form-control w-full h-32" placeholder="Biography"></textarea>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="py-2">
                             <div class="md:flex">
                                 <div class="md:w-1/3 pr-8">
-                                    <span class="font-bold font-header text-blue-dark mt-2 block md:text-right mb-2 md:mb-0">General resume</span>
-                                </div>
-                                <div class="md:w-2/3">
-                                    <a href="#" class="btn-outline inline-block">Upload file</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="py-2">
-                            <div class="md:flex">
-                                <div class="md:w-1/3 pr-8">
-                                    <span class="font-bold font-header text-blue-dark mt-2 block md:text-right mb-2 md:mb-0">General reel</span>
-                                </div>
-                                <div class="md:w-2/3">
-                                    <input type="text" class="form-control bg-light w-64 mr-2 mb-3 md:mb-0" placeholder="Add link"> or <a href="#" class="btn-outline inline-block">Upload file</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="py-2">
-                            <div class="md:flex">
-                                <div class="md:w-1/3 pr-8">
-                                    <span class="font-bold font-header text-blue-dark mt-2 block md:text-right">Gear</span>
+                                    <span class="font-bold font-header text-blue-dark mt-2 block md:text-right">Union</span>
                                 </div>
                                 <div class="md:w-2/3">
                                     <div class="pb-4">
@@ -419,13 +347,30 @@
                                             <span class="form-slider"></span>
                                         </label>
                                     </div>
-                                    <label for="" class="block mb-3">What gear do you have for this position?</label>
-                                    <textarea class="form-control w-full h-32" placeholder="Your gear"></textarea>
+                                    <label for="" class="block mb-3">Please provide details of your union group?</label>
+                                    <textarea class="form-control w-full h-32" placeholder="Union description"></textarea>
                                 </div>
                             </div>
                         </div>
+
                     </div>
 
+                    <div class="p-2 md:p-4 border-t-2 border-grey-lighter bg-white">
+                        <div class="py-2">
+                            <label class="checkbox-control"><h3 class="text-md">Camera Visual Effects</h3>
+                                <input type="checkbox"/>
+                                <div class="control-indicator"></div>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="p-2 md:p-4 border-t-2 border-grey-lighter bg-white">
+                        <div class="py-2">
+                            <label class="checkbox-control"><h3 class="text-md">Camera Visual Effects</h3>
+                                <input type="checkbox"/>
+                                <div class="control-indicator"></div>
+                            </label>
+                        </div>
+                    </div>
                     <div class="pt-8 pb-4 text-right border-t-2 border-grey-lighter">
                         <a href="#" class="text-grey bold mr-4 hover:text-green">Cancel</a>
                         {{form::submit('SAVE CHANGES', array('class' => 'btn-green')) }}
