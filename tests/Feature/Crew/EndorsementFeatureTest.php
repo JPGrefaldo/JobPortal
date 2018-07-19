@@ -8,6 +8,7 @@ use App\Models\CrewPosition;
 use App\Models\Endorsement;
 use App\Models\Position;
 use App\Models\Role;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Mail;
@@ -168,15 +169,26 @@ class EndorsementFeatureTest extends TestCase
      */
     public function endorsement_link_will_endorse_an_endorsee()
     {
+        // $this->withoutExceptionHandling();
         // given
-        // a user
+        $role = Role::where('name', Role::CREW)->first();
+        $crew = factory(Crew::class)->create();
+        $user = $crew->user;
+        $user->roles()->save($role);
+        $endorsement = factory(Endorsement::class)->create();
 
         // when
-        // he gets a link to endorse an endorsee
+        $response = $this->actingAs($user)
+            ->get(route('endorsement.edit', ['endorsement' => $endorsement]));
 
         // then
-        // endorsee will get an approved endorsement
-        $this->assert();
+        $this->assertEquals($endorsement->fresh()->approved_at, Carbon::now()->toDateTimeString());
+        $this->assertDatabaseHas('endorsements', [
+            'crew_position_id' => $endorsement->fresh()->crew_position_id,
+            'endorser_name'    => $endorsement->fresh()->endorser_name,
+            'endorser_email'   => $endorsement->fresh()->endorser_email,
+            'approved_at'      => Carbon::now()->toDateTimeString(),
+        ]);
     }
 
     /**

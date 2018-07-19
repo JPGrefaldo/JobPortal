@@ -16,7 +16,6 @@ $factory->define(App\Models\Endorsement::class, function (Faker $faker) {
 
 $factory->state(App\Models\Endorsement::class, 'approved', function (Faker $faker) {
     return [
-        'token'       => Endorsement::generateToken(),
         'approved_at' => Carbon::now(),
         'comment'     => $faker->paragraph,
     ];

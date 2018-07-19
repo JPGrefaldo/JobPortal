@@ -47,4 +47,9 @@ class Endorsement extends Model
     {
         return $this->crewPosition->position();
     }
+
+    public function getRouteKeyName()
+    {
+        return 'token';
+    }
 }

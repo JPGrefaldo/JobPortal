@@ -7,6 +7,7 @@ use App\Mail\EndorsementRequestEmail;
 use App\Models\CrewPosition;
 use App\Models\Endorsement;
 use App\Models\Position;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -81,7 +82,9 @@ class EndorsementController extends Controller
      */
     public function edit(Endorsement $endorsement)
     {
-        return view('endorsements.edit', $endorsement);
+        $endorsement->approved_at = Carbon::now()->toDateTimeString();
+        $endorsement->save();
+        return view('crew.endorsement.edit', $endorsement)->with('endorsement', $endorsement);
     }
 
     /**
