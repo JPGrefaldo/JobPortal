@@ -46,9 +46,7 @@ class EndorsementController extends Controller
 
         // you can only ask an endorsement from an endorser once
         if ($endorsement) {
-            // return redirect()
-            //     ->back()
-            //     ->withError('Hey, you already asked that person for an endorsement. Don\'t worry, we already sent him an email about your request.');
+            return response("Hey, you already asked that person for an endorsement. Don't worry, we already sent him an email about your request.", 403);
         }
 
         $endorsement = Endorsement::create([

@@ -107,34 +107,60 @@ class EndorsementFeatureTest extends TestCase
     {
         // given
         // an endorsee
+        // and an endorsement request is sent
 
         // when
-        // he asks endorsements
+        // endorser clicks the link
 
         // then
-        // endorser is emailed
-        $this->assert();
+        // endorsee's endorsement request is accepted
+        // $this->assert();
     }
 
     /**
      * @test
-     * @expectedException \Exception
      */
     public function an_endorsee_can_only_be_endorsed_by_a_crew_once()
     {
         // given
-        // given a crew with a position
-        // and is endorsed by another crew'
-        $endorsement = factory(Endorsement::class)->create();
-        $crew        = $endorsement->crew;
-        $position    = $endorsement->position;
+        $endorsee     = factory(Crew::class)->create();
+        $position     = factory(Position::class)->create(['name' => 'Makeup']);
+        $crewPosition = factory(CrewPosition::class)->create([
+            'crew_id'     => $endorsee->id,
+            'position_id' => $position->id,
+        ]);
+        $role = Role::where('name', Role::CREW)->first();
+
+        $endorserName  = $this->faker->name;
+        $endorserEmail = $this->faker->email;
+
+        $user = $endorsee->user;
+        $user->roles()->save($role);
 
         // when
-        // askes endorsement again from same crew
-        $crew->askEndorsementFrom($endorsement->email, $postion);
+        $response = $this
+            ->actingAs($user)
+            ->postJson(
+                route('endorsement.store', ['crewPosition' => $crewPosition]),
+                [
+                    'endorser_name'  => $endorserName,
+                    'endorser_email' => $endorserEmail,
+                ]
+            );
+
+        $response = $this
+            ->actingAs($user)
+            ->postJson(
+                route('endorsement.store', ['crewPosition' => $crewPosition]),
+                [
+                    'endorser_name'  => $endorserName,
+                    'endorser_email' => $endorserEmail,
+                ]
+            );
 
         // then
-        // respond with forbiden 403
+        $response->assertStatus(403);
+        $this->assertCount(1, Endorsement::all()->toArray());
     }
 
     /**
