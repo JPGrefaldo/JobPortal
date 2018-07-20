@@ -62,7 +62,7 @@ class EndorsementFeatureTest extends TestCase
     /**
      * @test
      */
-    public function endorsers_get_an_email_when_an_endorsee_asks_for_an_endorsement()
+    public function endorsement_request_email_is_sent_to_endorsers_after_endorsees_ask_for_an_endorsement()
     {
         Mail::fake();
 
@@ -91,67 +91,6 @@ class EndorsementFeatureTest extends TestCase
 
         // then
         Mail::assertSent(EndorsementRequestEmail::class);
-    }
-
-    /**
-     * @test
-     */
-    public function endorsers_can_accept_endorsement_request_from_endorsees()
-    {
-        // given
-        // an endorsee
-        // and an endorsement request is sent
-
-        // when
-        // endorser clicks the link
-
-        // then
-        // endorsee's endorsement request is accepted
-        // $this->assert();
-    }
-
-    /**
-     * @test
-     */
-    public function an_endorsee_can_only_ask_to_be_endorsed_by_the_same_crew_once()
-    {
-        $this->withoutExceptionHandling();
-        // given
-        $endorsee     = factory(Crew::class)->states('withRole')->create();
-        $user         = $endorsee->user;
-        $position     = factory(Position::class)->create(['name' => 'Makeup']);
-        $crewPosition = factory(CrewPosition::class)->create([
-            'crew_id'     => $endorsee->id,
-            'position_id' => $position->id,
-        ]);
-
-        $endorserName  = $this->faker->name;
-        $endorserEmail = $this->faker->email;
-
-        // when
-        $response = $this
-            ->actingAs($user)
-            ->postJson(
-                route('endorsement.store', ['crewPosition' => $crewPosition]),
-                [
-                    'endorser_name'  => $endorserName,
-                    'endorser_email' => $endorserEmail,
-                ]
-            );
-
-        $response = $this
-            ->actingAs($user)
-            ->postJson(
-                route('endorsement.store', ['crewPosition' => $crewPosition]),
-                [
-                    'endorser_name'  => $endorserName,
-                    'endorser_email' => $endorserEmail,
-                ]
-            );
-
-        // then
-        $response->assertStatus(403);
-        $this->assertCount(1, Endorsement::all()->toArray());
     }
 
     /**
@@ -195,6 +134,66 @@ class EndorsementFeatureTest extends TestCase
 
         // then
         // endorsement rank becomes 2
+        $this->assert();
+    }
+
+    /**
+     * @test
+     */
+    public function an_endorsee_can_only_ask_to_be_endorsed_by_the_same_crew_once()
+    {
+        // given
+        $endorsee     = factory(Crew::class)->states('withRole')->create();
+        $user         = $endorsee->user;
+        $position     = factory(Position::class)->create(['name' => 'Makeup']);
+        $crewPosition = factory(CrewPosition::class)->create([
+            'crew_id'     => $endorsee->id,
+            'position_id' => $position->id,
+        ]);
+
+        $endorserName  = $this->faker->name;
+        $endorserEmail = $this->faker->email;
+
+        // when
+        $response = $this
+            ->actingAs($user)
+            ->postJson(
+                route('endorsement.store', ['crewPosition' => $crewPosition]),
+                [
+                    'endorser_name'  => $endorserName,
+                    'endorser_email' => $endorserEmail,
+                ]
+            );
+
+        $response = $this
+            ->actingAs($user)
+            ->postJson(
+                route('endorsement.store', ['crewPosition' => $crewPosition]),
+                [
+                    'endorser_name'  => $endorserName,
+                    'endorser_email' => $endorserEmail,
+                ]
+            );
+
+        // then
+        $response->assertStatus(403);
+        $this->assertCount(1, Endorsement::all()->toArray());
+    }
+
+    /**
+     * @test
+     */
+    public function an_endorser_can_only_approve_an_endorsement_by_the_same_crew_once()
+    {
+        // given
+        // an endorsement
+        // endorser endorses an endorsement of the same crew
+
+        // when
+        // endorser endorses the same crew again
+
+        // then
+        // endorser is forbidden
         $this->assert();
     }
 
