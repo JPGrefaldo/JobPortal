@@ -27,6 +27,7 @@ class EndorsementFeatureTest extends TestCase
         // $this->withoutExceptionHandling();
         // given
         $endorsee     = factory(Crew::class)->states('withRole')->create();
+        $user         = $endorsee->user;
         $position     = factory(Position::class)->create();
         $crewPosition = factory(CrewPosition::class)->create([
             'crew_id'     => $endorsee->id,
@@ -35,8 +36,6 @@ class EndorsementFeatureTest extends TestCase
 
         $endorserName  = $this->faker->name;
         $endorserEmail = $this->faker->email;
-
-        $user = $endorsee->user;
 
         // when
         $response = $this
@@ -65,22 +64,19 @@ class EndorsementFeatureTest extends TestCase
      */
     public function endorsers_get_an_email_when_an_endorsee_asks_for_an_endorsement()
     {
-        // $this->withoutExceptionHandling();
         Mail::fake();
+
         // given
-        $endorsee     = factory(Crew::class)->create();
+        $endorsee     = factory(Crew::class)->states('withRole')->create();
+        $user         = $endorsee->user;
         $position     = factory(Position::class)->create(['name' => 'Makeup']);
         $crewPosition = factory(CrewPosition::class)->create([
             'crew_id'     => $endorsee->id,
             'position_id' => $position->id,
         ]);
-        $role = Role::where('name', Role::CREW)->first();
 
         $endorserName  = $this->faker->name;
         $endorserEmail = $this->faker->email;
-
-        $user = $endorsee->user;
-        $user->roles()->save($role);
 
         // when
         $response = $this
@@ -117,22 +113,20 @@ class EndorsementFeatureTest extends TestCase
     /**
      * @test
      */
-    public function an_endorsee_can_only_be_endorsed_by_a_crew_once()
+    public function an_endorsee_can_only_ask_to_be_endorsed_by_the_same_crew_once()
     {
+        $this->withoutExceptionHandling();
         // given
-        $endorsee     = factory(Crew::class)->create();
+        $endorsee     = factory(Crew::class)->states('withRole')->create();
+        $user         = $endorsee->user;
         $position     = factory(Position::class)->create(['name' => 'Makeup']);
         $crewPosition = factory(CrewPosition::class)->create([
             'crew_id'     => $endorsee->id,
             'position_id' => $position->id,
         ]);
-        $role = Role::where('name', Role::CREW)->first();
 
         $endorserName  = $this->faker->name;
         $endorserEmail = $this->faker->email;
-
-        $user = $endorsee->user;
-        $user->roles()->save($role);
 
         // when
         $response = $this
@@ -185,6 +179,23 @@ class EndorsementFeatureTest extends TestCase
             'endorser_email'   => $endorsement->fresh()->endorser_email,
             'approved_at'      => Carbon::now()->toDateTimeString(),
         ]);
+    }
+
+    /**
+     * @test
+     */
+    public function anyone_with_link_can_endorse_an_endorsee()
+    {
+        // given
+        // an endorsement
+        // 2 crew members
+
+        // when
+        // the crew members open the link
+
+        // then
+        // endorsement rank becomes 2
+        $this->assert();
     }
 
     /**
@@ -244,7 +255,7 @@ class EndorsementFeatureTest extends TestCase
         // I visit index page of a position I must see endorsements sorted by most voted to least voted
         $response = $this->getJson("/positions/{$position->id}/endorsements");
 
-        dd(collect(json_decode($response->getContent()))->pluck('id'));
+        // dd(collect(json_decode($response->getContent()))->pluck('id'));
 
         // then
         $this->assertEquals($endorsements->ids, $project->topEndorsees);

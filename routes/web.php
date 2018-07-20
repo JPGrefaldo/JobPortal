@@ -83,6 +83,7 @@ Route::middleware(['auth', 'crew'])->group(function () {
 
     Route::post('/crew-positions/{crewPosition}/endorsements', 'Crew\EndorsementController@store')->name('endorsement.store');
     Route::get('/endorsements/{endorsement}/confirm', 'Crew\EndorsementController@edit')->name('endorsement.edit');
+    Route::get('/positions/{position}', 'Crew\PositionsController@show')->name('position.show');
 });
 
 

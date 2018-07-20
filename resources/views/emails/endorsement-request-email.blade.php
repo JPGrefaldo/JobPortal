@@ -4,7 +4,6 @@
 Hi {{ $endorsement->endorser_name }}
 
 Can you endorse me for [{{ $endorsement->position->name }}]({{ route('position.show', [
-    'department' => $endorsement->position->department,
     'position' => $endorsement->position,
 ]) }}) on CrewCallsAmerica.com?
 This will help me get future jobs on the site.
