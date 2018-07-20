@@ -26,19 +26,17 @@ class EndorsementFeatureTest extends TestCase
     {
         // $this->withoutExceptionHandling();
         // given
-        $endorsee     = factory(Crew::class)->create();
-        $position     = factory(Position::class)->create(['name' => 'Makeup']);
+        $endorsee     = factory(Crew::class)->states('withRole')->create();
+        $position     = factory(Position::class)->create();
         $crewPosition = factory(CrewPosition::class)->create([
             'crew_id'     => $endorsee->id,
             'position_id' => $position->id,
         ]);
-        $role = Role::where('name', Role::CREW)->first();
 
         $endorserName  = $this->faker->name;
         $endorserEmail = $this->faker->email;
 
         $user = $endorsee->user;
-        $user->roles()->save($role);
 
         // when
         $response = $this
@@ -52,12 +50,10 @@ class EndorsementFeatureTest extends TestCase
             );
 
         // then
-        $endorsement = Endorsement::first();
         $this->assertDatabaseHas('endorsements', [
             'crew_position_id' => $crewPosition->id,
             'endorser_name'    => $endorserName,
             'endorser_email'   => $endorserEmail,
-            'token'            => $endorsement->token,
             'approved_at'      => null,
             'comment'          => null,
             'deleted'          => false,
