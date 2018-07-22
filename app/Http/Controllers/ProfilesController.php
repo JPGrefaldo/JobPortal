@@ -153,7 +153,12 @@ class ProfilesController extends Controller
     $departments = Department::get();
     $allpositions = Position::get();
 
-     return view('profile.my-profile-edit', compact('user','position', 'position_role', 'biography', 'jobTitle', 'fb', 'imdb', 'linkedin', 'departments', 'reel', 'resume', 'allpositions')); 
+    $productionPositions = Position::where('department_id', 1)->get();
+    $artPositions = Position::where('department_id', 2)->get();
+    $gripElectricPositions = Position::where('department_id', 3)->get();
+    $muahWardrobePositions = Position::where('department_id', 4)->get();
+
+     return view('profile.my-profile-edit', compact('user','position', 'position_role', 'biography', 'jobTitle', 'fb', 'imdb', 'linkedin', 'departments', 'reel', 'resume', 'allpositions', 'productionPositions', 'artPositions', 'gripElectricPositions')); 
     }
 
     /**

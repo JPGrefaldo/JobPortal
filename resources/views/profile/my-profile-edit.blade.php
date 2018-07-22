@@ -204,102 +204,54 @@
                     <h4 class='text-grey'>WORK POSITIONS</h4>
                 </div>
 
-                
-                <div class="card mb-6" id="addPostProduction">
                         <h3 class="text-blue-dark font-semibold text-lg font-header mb-3 md:mb-0">Production</h3>
-
                  <div class="pt-8 pb-4 text-right border-t-2 border-grey-lighter"></div>
 
                     {{ Form::open(array('route' => ['production-add-position', Auth::user()->id],'files' => true)) }}
+                
+                <div class="card mb-6">
 
-                        
-                    <div class="p-4 bg-grey-lighter rounded">
-                                <div class="mb-6">
-                                {{ Form::label('department', 'Choose Departments:', array('class' => 'block mb-3') )}}
-                                </div>
-                            <div class="md:flex">
+                <div class="bootstrap-iso">
+                    <div class="btn-group">
+                        <button class="btn btn-primary btn-outline inline-block dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    1. Select Department &darr; <br>
+                    </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 @foreach ($departments as $department)
-                                <div class="md:w-2/3 mb-6">
-                                    <label class="checkbox-control"><h3 class="text-sm">{{ $department->name }}</h3>
-                                        {!! Form::checkbox('title[]', $department->name, false) !!}
-                                        <div class="control-indicator"></div>
-                                    </label>
-                                </div>
+                                <li class="dropdown-item"><a  href="#">{{ $department->name }}</a></li>
                                 @endforeach
                             </div>
-
-                            <div class="mb-6">
-                                {{ Form::label('title', 'Choose Title:', array('class' => 'block mb-3') )}}
-                                <select class="form-control" name="item_id">
-                                    @foreach($allpositions as $allposition)
-                                        <option value="{{$allposition->name}}">{{$allposition->name}}</option>
-                                    @endforeach
-                            </div>
-                            
-                                
-                            <div class="mb-6">
-                                {{ Form::label('title', 'Choose Title:', array('class' => 'block mb-3') )}}  
-                                </div>
-                                    {{ Form::textarea('biography', $biography->bio, array('class' => 'form-control w-full h-32') )}}
-                            </div>
-                       
-                    <div class="border-t-2 border-grey-lighter mt-6 py-4">
-                        <div class="md:flex">
-                            <div class="md:w-1/3 pr-8">
-                                <h3 class="text-md font-header mb-2 md:mb-0">General resume</h3>
-                            </div>
-                            <div class="md:w-2/3">
-                            
-                                {{ form::file('resume_file', array('class' => 'btn-outline inline-block', 'value' => 'Upload file'))}}
-                               
-                            </div>
-                        </div>
                     </div>
-                    <div class="border-t-2 border-grey-lighter py-4">
-                        <div class="md:flex">
-                            <div class="md:w-1/3 pr-8">
-                                <h3 class="text-md font-header mt-2 mb-2 md:mb-0">General reel</h3>
-                            </div>
-                            <div class="md:w-2/3">
-                                <input type="text" class="form-control bg-light w-64 mr-2 mb-2 md:mb-0" placeholder="Add link"><div> or <br> 
-                                {{ form::file('reel_file', array('class' => 'btn-outline inline-block', 'value' => 'Upload file')) }}
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="pt-8 pb-4 text-right border-t-2 border-grey-lighter">
-                        <a href="#" class="text-grey bold mr-4 hover:text-green">Cancel</a>
-                        {{form::submit('SAVE CHANGES', array('class' => 'btn-green')) }}
-                    </div>
-                         {{ Form::close() }} 
                 </div>
-
-                <!-- CAMERA -->
-                        
-                
-                <div class="card mb-6" id="addPostProduction">
-
+                    
                     {{ Form::open(array('route' => ['camera-add-position', Auth::user()->id],'files' => true)) }}
 
-                    <div class="pb-6">
-                        <h3 class="text-blue-dark font-semibold text-lg mb-1 font-header">Camera</h3>
+    <div class="p-4 bg-grey-lighter">
+            <div class="py-2">                
+                <div class="tab-content">
+                    <div class="container">
+                            {{ Form::label('positions', 'Work Positions:', array('class' => 'block mb-3') )}}
+                                <div id="Production" class="tab-pane fade in active">
+                                    @foreach ($productionPositions  as $productionPosition)
+                                        <div class="md:w-2/3">
+                                             <label class="checkbox-control"><h3 class="text-sm">{{ $productionPosition->name }}</h3>
+                                                    <input type="checkbox"><br>
+                                                    <div class="control-indicator"></div>
+                                            </label>
+                                        </div>
+                                    @endforeach
+                                </div>
                     </div>
-                    <div class="p-4 bg-grey-lighter">
+                </div>
+            </div>
+
                         <div class="py-2">
+                                    {{ Form::label('bio', '2. Biography:', array('class' => 'block mb-3') )}}
                             <div class="md:flex">
-                                <div class="md:w-1/3 pr-6 mb-3 md:mb-1">
-                                    <label class="checkbox-control"><h3 class="text-md">Camera operator</h3>
-                                        <input type="checkbox" checked="checked"/>
-                                        <div class="control-indicator"></div>
-                                    </label>
-                                </div>
-                                <div class="md:w-2/3">
-                                    <textarea class="form-control w-full h-32" placeholder="Biography"></textarea>
-                                </div>
+                            <textarea class="form-control w-full h-32" placeholder="Biography"></textarea>
                             </div>
                         </div>
+                        
                         <div class="py-2">
                             <div class="md:flex">
                                 <div class="md:w-1/3 pr-8">
@@ -379,5 +331,13 @@
                 </div>
 
             </div>
+          </div>
         </div>
     </main>
+
+    <script type="text/javascript">
+    function myFunction() {
+       var element = document.getElementById("#active_item");
+     element.classList.toggle("active");
+    }
+    </script>

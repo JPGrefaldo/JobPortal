@@ -9,8 +9,8 @@ class PositionsTableSeeder extends Seeder
         'Production'       => 1,
         'Art'              => 2,
         'Camera'           => 3,
-        'Grip_Electric' => 4,
-        'MUaH_Wardrobe'  => 5,
+        'Grip_Electric'    => 4,
+        'MUaH_Wardrobe'    => 5,
         'Sound'            => 6,
         'Other'            => 7,
 
