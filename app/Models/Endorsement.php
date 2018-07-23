@@ -4,9 +4,11 @@ namespace App\Models;
 
 use App\Models\CrewPosition;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Endorsement extends Model
 {
+    use SoftDeletes;
     /**
      * The protected attributes
      *
@@ -20,36 +22,21 @@ class Endorsement extends Model
      * @var array
      */
     protected $casts = [
-        'id'               => 'integer',
-        'crew_position_id' => 'integer',
-        'endorser_name'    => 'string',
-        'endorser_email'   => 'string',
-        'token'            => 'string',
-        'approved_at'      => 'datetime',
-        'comment'          => 'string',
-        'deleted'          => 'boolean',
+        'id'                     => 'integer',
+        'endorsement_request_id' => 'integer',
+        'endorser_id'            => 'integer',
+        'approved_at'            => 'datetime',
+        'comment'                => 'string',
+        'deleted_at'             => 'datetime',
     ];
-
-    public static function generateToken()
-    {
-        do {
-            $token = str_random();
-        } while (static::where('token', $token)->first());
-        return $token;
-    }
 
     public function crewPosition()
     {
-        return $this->belongsTo(CrewPosition::class);
+        // return $this->belongsTo(CrewPosition::class);
     }
 
     public function position()
     {
-        return $this->crewPosition->position();
-    }
-
-    public function getRouteKeyName()
-    {
-        return 'token';
+        // return $this->crewPosition->position();
     }
 }

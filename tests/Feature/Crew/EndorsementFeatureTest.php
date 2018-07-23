@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Crew;
 
+use App\EndorsementRequest;
 use App\Mail\EndorsementRequestEmail;
 use App\Models\Crew;
 use App\Models\CrewPosition;
@@ -123,30 +124,27 @@ class EndorsementFeatureTest extends TestCase
     /**
      * @test
      */
-    public function anyone_with_link_can_endorse_an_endorsee()
+    public function authenticated_users_with_link_can_endorse_an_endorsee()
     {
         // given
         // an endorsement
-        $endorsement = factory(Endorsement::class)->create();
+        $endorsementRequest = factory(EndorsementRequest::class)->create();
         // 2 crew members
         $endorser1 = factory(Crew::class)->states('withRole')->create();
-        $user1 = $endorser1->user;
+        $user1     = $endorser1->user;
         $endorser2 = factory(Crew::class)->states('withRole')->create();
-        $user2= $endorser2->user;
+        $user2     = $endorser2->user;
 
         // when
         // the crew members open the link
         $response1 = $this->actingAs($user1)
-            ->get(route('endorsement.edit', ['endorsement' => $endorsement]));
+            ->get(route('endorsement-requests.create', ['endorsementRequest' => $endorsementRequest]))
+            ->post(route('endorsement-requests.store', ['endorsementRequest' => $endorsementRequest]));
 
         $response2 = $this->actingAs($user2)
-            ->get(route('endorsement.edit', ['endorsement' => $endorsement]));
+            ->get(route('endorsement-requests.create', ['endorsementRequest' => $endorsementRequest]))
+            ->post(route('endorsement-requests.store', ['endorsementRequest' => $endorsementRequest]));
 
-        // dump($response1->getContent());
-        // dump($response2->getContent());
-
-            // dump($user1->toArray());
-            // dump($user2->toArray());
         // then
         // endorsement rank becomes 2
         $this->assertCount(2, Endorsement::all()->toArray());

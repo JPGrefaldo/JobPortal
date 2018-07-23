@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Crew;
 
+use App\EndorsementRequest;
 use App\Http\Controllers\Controller;
 use App\Mail\EndorsementRequestEmail;
 use App\Models\CrewPosition;
@@ -13,6 +14,12 @@ use Illuminate\Support\Facades\Mail;
 
 class EndorsementController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -20,7 +27,7 @@ class EndorsementController extends Controller
      */
     public function index(Position $position)
     {
-        return Endorsement::where('position_id', $position->id)->get();
+        // return Endorsement::where('position_id', $position->id)->get();
     }
 
     /**
@@ -28,9 +35,11 @@ class EndorsementController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(EndorsementRequest $endorsementRequest)
     {
-        //
+        // show form to comment
+        // if user already approved request, redirect to edit form for comment
+        return view('endorsement.create')->with($endorsementRequest);
     }
 
     /**
@@ -83,9 +92,9 @@ class EndorsementController extends Controller
      */
     public function edit(Endorsement $endorsement)
     {
-        $endorsement->approved_at = Carbon::now()->toDateTimeString();
-        $endorsement->save();
-        return view('crew.endorsement.edit', $endorsement)->with('endorsement', $endorsement);
+        // $endorsement->approved_at = Carbon::now()->toDateTimeString();
+        // $endorsement->save();
+        // return view('crew.endorsement.edit', $endorsement)->with('endorsement', $endorsement);
     }
 
     /**
@@ -97,10 +106,10 @@ class EndorsementController extends Controller
      */
     public function update(Request $request, Endorsement $endorsement)
     {
-        return Endorsement::update([
-            'approved_at' => Carbon::now(),
-            'comment'     => $request->comment,
-        ]);
+        // return Endorsement::update([
+        //     'approved_at' => Carbon::now(),
+        //     'comment'     => $request->comment,
+        // ]);
     }
 
     /**
