@@ -8,7 +8,7 @@ Can you endorse me for [{{ $endorsement->position->name }}]({{ route('position.s
 ]) }}) on CrewCallsAmerica.com?
 This will help me get future jobs on the site.
 
-@component('mail::button', ['url' => route('endorsement.edit', ['endorsement' => $endorsement->token])])
+@component('mail::button', ['url' => route('endorsement.create', ['endorsementRequest' => $endorsement->request->token])])
 Sure Bud, I'll endorse you.
 @endcomponent
 

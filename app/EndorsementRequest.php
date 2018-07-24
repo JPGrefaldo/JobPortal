@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\CrewPosition;
 use Illuminate\Database\Eloquent\Model;
 
 class EndorsementRequest extends Model
@@ -25,5 +26,10 @@ class EndorsementRequest extends Model
     public function getRouteKeyName()
     {
         return 'token';
+    }
+
+    public function crewPosition()
+    {
+        return $this->belongsTo(CrewPosition::class);
     }
 }

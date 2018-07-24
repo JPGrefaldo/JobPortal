@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Crew;
 
 use App\EndorsementRequest;
 use App\Http\Controllers\Controller;
+use App\Mail\EndorsementRequestEmail;
 use App\Models\CrewPosition;
 use App\Models\Endorsement;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class EndorsementRequestController extends Controller
 {
@@ -51,19 +53,21 @@ class EndorsementRequestController extends Controller
         }
 
         // filter endorsers, only notify them once
-        foreach (request('endorsers') as $endorser) {
+        $endorsers = request('endorsers');
+        foreach ($endorsers as $endorser) {
             $endorsement = Endorsement::where('endorsement_request_id', $endorsementRequest->id)
                 ->where('endorser_email', $endorser['email'])
                 ->first();
 
             if (!$endorsement) {
-                Endorsement::create([
+                $endorsement = Endorsement::create([
                     'endorsement_request_id' => $endorsementRequest->id,
                     'endorser_name'          => $endorser['name'],
                     'endorser_email'         => $endorser['email'],
                 ]);
 
                 // send email
+                Mail::to($endorsement->endorser_email)->send(new EndorsementRequestEmail($endorsement));
             }
         }
 

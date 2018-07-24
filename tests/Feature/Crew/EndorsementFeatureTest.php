@@ -41,7 +41,6 @@ class EndorsementFeatureTest extends TestCase
         $endorserName2  = $this->faker->name;
         $endorserEmail2 = $this->faker->email;
 
-        // dump($crewPosition->toArray());
         // when
         $response = $this
             ->actingAs($user)
@@ -86,6 +85,7 @@ class EndorsementFeatureTest extends TestCase
      */
     public function endorsement_request_email_is_sent_to_endorsers_after_endorsees_ask_for_an_endorsement()
     {
+        // $this->withoutExceptionHandling();
         Mail::fake();
 
         // given
@@ -97,22 +97,33 @@ class EndorsementFeatureTest extends TestCase
             'position_id' => $position->id,
         ]);
 
-        $endorserName  = $this->faker->name;
-        $endorserEmail = $this->faker->email;
+        $endorserName1  = $this->faker->name;
+        $endorserEmail1 = $this->faker->email;
+
+        $endorserName2  = $this->faker->name;
+        $endorserEmail2 = $this->faker->email;
 
         // when
         $response = $this
             ->actingAs($user)
             ->postJson(
-                route('endorsement.store', ['crewPosition' => $crewPosition]),
+                route('endorsement-request.store', ['crewPosition' => $crewPosition->id]),
                 [
-                    'endorser_name'  => $endorserName,
-                    'endorser_email' => $endorserEmail,
+                    'endorsers' => [
+                        [
+                            'name'  => $endorserName1,
+                            'email' => $endorserEmail1,
+                        ],
+                        [
+                            'name'  => $endorserName2,
+                            'email' => $endorserEmail2,
+                        ],
+                    ],
                 ]
             );
 
         // then
-        Mail::assertSent(EndorsementRequestEmail::class);
+        Mail::assertSent(EndorsementRequestEmail::class, 2);
     }
 
     /**

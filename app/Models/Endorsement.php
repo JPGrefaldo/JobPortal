@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\EndorsementRequest;
 use App\Models\CrewPosition;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -30,13 +31,13 @@ class Endorsement extends Model
         'deleted_at'             => 'datetime',
     ];
 
-    public function crewPosition()
-    {
-        // return $this->belongsTo(CrewPosition::class);
-    }
-
     public function position()
     {
-        // return $this->crewPosition->position();
+        return $this->request->crewPosition->position();
+    }
+
+    public function request()
+    {
+        return $this->belongsTo(EndorsementRequest::class, 'endorsement_request_id');
     }
 }
