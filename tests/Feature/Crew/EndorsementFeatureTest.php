@@ -35,28 +35,49 @@ class EndorsementFeatureTest extends TestCase
             'position_id' => $position->id,
         ]);
 
-        $endorserName  = $this->faker->name;
-        $endorserEmail = $this->faker->email;
+        $endorserName1  = $this->faker->name;
+        $endorserEmail1 = $this->faker->email;
 
+        $endorserName2  = $this->faker->name;
+        $endorserEmail2 = $this->faker->email;
+
+        // dump($crewPosition->toArray());
         // when
         $response = $this
             ->actingAs($user)
             ->postJson(
-                route('endorsement.store', ['crewPosition' => $crewPosition]),
+                route('endorsement-request.store', ['crewPosition' => $crewPosition->id]),
                 [
-                    'endorser_name'  => $endorserName,
-                    'endorser_email' => $endorserEmail,
+                    'endorsers' => [
+                        [
+                            'name'  => $endorserName1,
+                            'email' => $endorserEmail1,
+                        ],
+                        [
+                            'name'  => $endorserName2,
+                            'email' => $endorserEmail2,
+                        ],
+                    ],
                 ]
             );
 
+        $endorsementRequest = EndorsementRequest::first();
+
         // then
-        $this->assertDatabaseHas('endorsements', [
+        $this->assertDatabaseHas('endorsement_requests', [
             'crew_position_id' => $crewPosition->id,
-            'endorser_name'    => $endorserName,
-            'endorser_email'   => $endorserEmail,
-            'approved_at'      => null,
-            'comment'          => null,
-            'deleted'          => false,
+        ]);
+
+        $this->assertDatabaseHas('endorsements', [
+            'endorsement_request_id' => $endorsementRequest->id,
+            'endorser_name'          => $endorserName1,
+            'endorser_email'         => $endorserEmail1,
+        ]);
+
+        $this->assertDatabaseHas('endorsements', [
+            'endorsement_request_id' => $endorsementRequest->id,
+            'endorser_name'          => $endorserName2,
+            'endorser_email'         => $endorserEmail2,
         ]);
     }
 

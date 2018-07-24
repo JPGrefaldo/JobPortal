@@ -87,7 +87,10 @@ Route::middleware(['auth', 'crew'])->group(function () {
 
     // show comment page
     Route::get('/endorsement-requests/{endorsementRequest}/confirm', 'Crew\EndorsementController@create')->name('endorsement-request.create');
-    Route::post('/endorsement-requests/{endorsementRequest}/confirm', 'Crew\EndorsementController@store')->name('endorsement-request.store');
+    // Route::post('/endorsement-requests/{endorsementRequest}/confirm', 'Crew\EndorsementController@store')->name('endorsement-request.store');
+
+    Route::post('/crew-positions/{crewPosition}/endorsement-requests', 'Crew\EndorsementRequestController@store')->name('endorsement-request.store');
+
 });
 
 

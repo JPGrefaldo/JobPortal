@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class EndorsementRequest extends Model
 {
+    protected $guarded = ['id'];
+
     protected $casts = [
         'id'               => 'integer',
         'crew_position_id' => 'integer',
