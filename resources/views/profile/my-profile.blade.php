@@ -15,7 +15,7 @@
                     <img src="/images/donut.svg" alt="" />
                 </div>
                 <ul class="list-reset list-check">
-                @if (($biography->bio) == '') 
+                @if (!isset($biography->bio)) 
                     <li>BIO</li>
                      @else 
                     <li class="is-checked">BIO</li>
@@ -52,7 +52,11 @@
                 <a href="{{ route('profile-edit', ['id' => Auth::user()->id]) }}" class="text-grey w-full mb-2 text-sm md:text-right float-right" id="edit-profile" ><i class="fas fa-pencil-alt mr-2"></i>Edit profile</a>
                 <div class="card float-left md:flex mb-8">
                     <div class="md:w-1/4 md:pr-8 text-center">
+                        @if (isset($biography->photo))
                         <img src="/{{$biography->photo}}" class="rounded" alt="" />
+                            @else
+                        <img src="http://i.pravatar.cc/300" class="rounded" alt="" />
+                        @endif
                         <ul class="list-reset py-4">
                             <li class="py-1">
                             @if (isset($imdb->url))
@@ -80,8 +84,12 @@
 
                         <span class="text-grey font-semibold font-header">{{ Auth::user()->position }}</span>
                         <div class="bg-grey-lighter p-6 rounded my-8">
-                            <p>{{ $biography->bio }} 
-                                <a href="/my-profile/edit/{id}" class="text-sm text-grey tracking-wide">Read more</a>
+                            
+                            <p>
+                            @if (isset($biography->bio))
+                            {{ $biography->bio }} 
+                            @endif
+                            <a href="/my-profile/edit/{id}" class="text-sm text-grey tracking-wide">Read more</a>
                             </p>
                         </div>
                         <div class="pb-2 md:flex">

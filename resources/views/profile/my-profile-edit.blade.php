@@ -34,7 +34,7 @@
                 </div>
                 <ul class="list-reset list-check">
                 
-                @if (($biography->bio) == '') 
+                @if (!isset($biography->bio)) 
                     <li>BIO</li>
                      @else 
                     <li class="is-checked">BIO</li>
@@ -78,12 +78,23 @@
                       
                     <div class="md:flex">
                         <div class="md:w-1/3 md:pr-6 mb-6">
+                            
+                            @if (isset($biography->photo))
                             <div class="flex h-none bg-grey-light items-center justify-center cursor-pointer text-center border border-grey-light w-full pb-full rounded relative" style="background: url(/{{ $biography->photo }}); background-size: cover;">
                                 <span class="text-center uppercase text-sm font-semibold text-white px-2 pos-center w-full">
                                 UPLOAD PROFILE PHOTO
                                 {{ form::file('profile_image', array('class' => 'profile_image'))}}
                                 </span>
                             </div>
+                            @else 
+                            <div class="flex h-none bg-grey-light items-center justify-center cursor-pointer text-center border border-grey-light w-full pb-full rounded relative" style="background: url(http://i.pravatar.cc/300"); background-size: cover;">
+                                <span class="text-center uppercase text-sm font-semibold text-white px-2 pos-center w-full">
+                                UPLOAD PROFILE PHOTO
+                                {{ form::file('profile_image', array('class' => 'profile_image'))}}
+                                </span>
+                            </div>
+                            @endif
+
                         </div>
                     
                         <div class="md:w-2/3">
@@ -101,7 +112,11 @@
                                 <div class="mb-2">
                                     {{ Form::label('bio', 'Biography:', array('class' => 'block mb-3') )}}
                                     
+                                    @if (isset($biography->bio))
                                     {{ Form::textarea('bio', $biography->bio, array('class' => 'form-control w-full h-32') )}}
+                                        @else
+                                         {{ Form::textarea('bio', 'Biography', array('class' => 'form-control w-full h-32') )}}
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -204,46 +219,39 @@
                     <h4 class='text-grey'>WORK POSITIONS</h4>
                 </div>
 
-                        <h3 class="text-blue-dark font-semibold text-lg font-header mb-3 md:mb-0">Production</h3>
-                 <div class="pt-8 pb-4 text-right border-t-2 border-grey-lighter"></div>
+                <h3 class="text-blue-dark font-semibold text-lg font-header mb-3 md:mb-0">Positions by Department</h3>
+                
+                 <div class="pt-8 pb-4 text-right border-t-2 border-grey-lighter">
+                     
+                 </div>
 
                     {{ Form::open(array('route' => ['production-add-position', Auth::user()->id],'files' => true)) }}
                 
                 <div class="card mb-6">
-
-                <div class="bootstrap-iso">
-                    <div class="btn-group">
-                        <button class="btn btn-primary btn-outline inline-block dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    1. Select Department &darr; <br>
-                    </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                @foreach ($departments as $department)
-                                <li class="dropdown-item"><a  href="#">{{ $department->name }}</a></li>
-                                @endforeach
+                    {{ Form::label('departments', 'Select Department:', array('class' => 'block mb-3') )}}
+                        @foreach ($departments  as $department)
+                            <div class="md:flex">
+                                <label class="checkbox-control"><h3 class="text-sm">{{ $department->name }}</h3>
+                                    <input type="checkbox"><br>
+                                    <div class="control-indicator"></div>
+                                </label>
                             </div>
-                    </div>
-                </div>
-                    
-                    {{ Form::open(array('route' => ['camera-add-position', Auth::user()->id],'files' => true)) }}
+                        @endforeach
+                
 
-    <div class="p-4 bg-grey-lighter">
-            <div class="py-2">                
-                <div class="tab-content">
-                    <div class="container">
-                            {{ Form::label('positions', 'Work Positions:', array('class' => 'block mb-3') )}}
-                                <div id="Production" class="tab-pane fade in active">
+                <div class="p-4 bg-grey-lighter">
+                    <div class="py-2">                
+                        <div class="container">
+                            {{ Form::label('positions', 'Work Positions from selection above:', array('class' => 'block mb-3') )}}
+                            <div class="md:w-2/3">
+                            <div class="bootstrap-iso">
+                                <select multiple class="form-control" id="exampleSelect2">
                                     @foreach ($productionPositions  as $productionPosition)
-                                        <div class="md:w-2/3">
-                                             <label class="checkbox-control"><h3 class="text-sm">{{ $productionPosition->name }}</h3>
-                                                    <input type="checkbox"><br>
-                                                    <div class="control-indicator"></div>
-                                            </label>
-                                        </div>
+                                        <option>{{ $productionPosition->name }}</h3></option>
                                     @endforeach
-                                </div>
-                    </div>
-                </div>
-            </div>
+                                </select>
+                            </div>
+                            </div>          
 
                         <div class="py-2">
                                     {{ Form::label('bio', '2. Biography:', array('class' => 'block mb-3') )}}

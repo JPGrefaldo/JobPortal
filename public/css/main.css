@@ -38,6 +38,11 @@
     opacity: 0.7;
 }
 
+.btn-margin-bottom-20px {
+
+    margin-bottom:  20px !important;
+}
+
 .btn-arrow-back {
     width: 8px;
     height: 14px;

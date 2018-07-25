@@ -1186,6 +1186,11 @@
 .bootstrap-iso [role="button"] {
   cursor: pointer;
 }
+
+.bootstrap-iso .btn-margin-bottom-20px {
+
+    margin-bottom:  20px !important;
+}
 .bootstrap-iso h1,
 .bootstrap-iso h2,
 .bootstrap-iso h3,
