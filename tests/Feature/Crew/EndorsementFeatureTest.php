@@ -127,62 +127,6 @@ class EndorsementFeatureTest extends TestCase
     /**
      * @test
      */
-    public function endorsement_link_will_endorse_an_endorsee()
-    {
-        // // $this->withoutExceptionHandling();
-        // // given
-        // $role = Role::where('name', Role::CREW)->first();
-        // $crew = factory(Crew::class)->create();
-        // $user = $crew->user;
-        // $user->roles()->save($role);
-        // $endorsement = factory(Endorsement::class)->create();
-
-        // // when
-        // $response = $this->actingAs($user)
-        //     ->get(route('endorsement.edit', ['endorsement' => $endorsement]));
-
-        // // then
-        // $this->assertEquals($endorsement->fresh()->approved_at, Carbon::now()->toDateTimeString());
-        // $this->assertDatabaseHas('endorsements', [
-        //     'crew_position_id' => $endorsement->fresh()->crew_position_id,
-        //     'endorser_name'    => $endorsement->fresh()->endorser_name,
-        //     'endorser_email'   => $endorsement->fresh()->endorser_email,
-        //     'approved_at'      => Carbon::now()->toDateTimeString(),
-        // ]);
-    }
-
-    /**
-     * @test
-     */
-    public function authenticated_users_with_link_can_endorse_an_endorsee()
-    {
-        // // given
-        // // an endorsement
-        // $endorsementRequest = factory(EndorsementRequest::class)->create();
-        // // 2 crew members
-        // $endorser1 = factory(Crew::class)->states('withRole')->create();
-        // $user1     = $endorser1->user;
-        // $endorser2 = factory(Crew::class)->states('withRole')->create();
-        // $user2     = $endorser2->user;
-
-        // // when
-        // // the crew members open the link
-        // $response1 = $this->actingAs($user1)
-        //     ->get(route('endorsement-requests.create', ['endorsementRequest' => $endorsementRequest]))
-        //     ->post(route('endorsement-requests.store', ['endorsementRequest' => $endorsementRequest]));
-
-        // $response2 = $this->actingAs($user2)
-        //     ->get(route('endorsement-requests.create', ['endorsementRequest' => $endorsementRequest]))
-        //     ->post(route('endorsement-requests.store', ['endorsementRequest' => $endorsementRequest]));
-
-        // // then
-        // // endorsement rank becomes 2
-        // $this->assertCount(2, Endorsement::all()->toArray());
-    }
-
-    /**
-     * @test
-     */
     public function endorser_can_approve_an_endorsement()
     {
         // $this->withoutExceptionHandling();
