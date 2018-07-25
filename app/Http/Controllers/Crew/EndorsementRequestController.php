@@ -42,7 +42,6 @@ class EndorsementRequestController extends Controller
     {
         $endorsementRequest = EndorsementRequest::where([
             'crew_position_id' => $crewPosition->id,
-            'token'            => EndorsementRequest::generateToken(),
         ])->first();
 
         if (!$endorsementRequest) {
