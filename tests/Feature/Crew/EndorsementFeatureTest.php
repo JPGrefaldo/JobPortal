@@ -279,16 +279,30 @@ class EndorsementFeatureTest extends TestCase
      */
     public function an_endorser_can_only_approve_an_endorsement_by_the_same_crew_once()
     {
+        // $this->withoutExceptionHandling();
         // given
-        // an endorsement
+        // an endorsement request
+        $endorsementRequest = factory(EndorsementRequest::class)->create();
         // endorser endorses an endorsement of the same crew
+        $endorser = factory(Crew::class)->states('withRole')->create();
+
+        $response = $this
+            ->actingAs($endorser->user)
+            ->postJson(route('endorsement.store', ['endorsementRequest' => $endorsementRequest]), [
+                'comment' => $this->faker->sentence,
+            ]);
 
         // when
         // endorser endorses the same crew again
+        $response = $this
+            ->actingAs($endorser->user)
+            ->postJson(route('endorsement.store', ['endorsementRequest' => $endorsementRequest]), [
+                'comment' => $this->faker->sentence,
+            ]);
 
         // then
         // endorser is forbidden
-        // $this->assert();
+        $this->assertCount(1, Endorsement::all()->toArray());
     }
 
     /**

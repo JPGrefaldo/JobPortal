@@ -48,17 +48,17 @@ class EndorsementController extends Controller
      */
     public function store(EndorsementRequest $endorsementRequest, Request $request)
     {
-        $endorsement = Endorsement::firstOrCreate([
-            'endorsement_request_id' => $endorsementRequest->id,
-            'endorser_id'            => Auth::id(),
-            'approved_at'            => Carbon::now(),
-            'comment'                => $request['comment'],
-        ]);
+        $endorsement = Endorsement::where('endorsement_request_id', $endorsementRequest->id)
+            ->where('endorser_id', Auth::id())->first();
 
-        // // you can only ask an endorsement from the same endorser once
-        // if ($endorsement) {
-        //     return response("Hey, you already asked that person for an endorsement. Don't worry, we already sent him an email about your request.", 403);
-        // }
+        if (!$endorsement) {
+            $endorsement = Endorsement::create([
+                'endorsement_request_id' => $endorsementRequest->id,
+                'endorser_id'            => Auth::id(),
+                'approved_at'            => Carbon::now(),
+                'comment'                => $request['comment'],
+            ]);
+        }
     }
 
     /**
