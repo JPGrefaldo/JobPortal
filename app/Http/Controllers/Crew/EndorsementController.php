@@ -12,12 +12,6 @@ use Illuminate\Support\Facades\Auth;
 
 class EndorsementController extends Controller
 {
-
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -59,17 +53,6 @@ class EndorsementController extends Controller
                 'comment'                => $request['comment'],
             ]);
         }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Endorsement  $endorsement
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Endorsement $endorsement)
-    {
-        //
     }
 
     /**

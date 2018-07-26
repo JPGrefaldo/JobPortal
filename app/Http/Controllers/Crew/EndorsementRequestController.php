@@ -13,16 +13,6 @@ use Illuminate\Support\Facades\Mail;
 class EndorsementRequestController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -80,29 +70,6 @@ class EndorsementRequestController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(EndorsementRequest $endorsementRequest)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\EndorsementRequest  $endorsementRequest
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(EndorsementRequest $endorsementRequest)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\EndorsementRequest  $endorsementRequest
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, EndorsementRequest $endorsementRequest)
     {
         //
     }
