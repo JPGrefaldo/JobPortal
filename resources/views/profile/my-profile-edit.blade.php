@@ -236,8 +236,7 @@
                                     <div class="control-indicator"></div>
                                 </label>
                             </div>
-                        @endforeach
-                
+                        @endforeach                
 
                 <div class="p-4 bg-grey-lighter">
                     <div class="py-2">                

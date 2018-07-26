@@ -1,4 +1,4 @@
-<?php
+     <?php
 
 return [
 
@@ -119,5 +119,8 @@ return [
             resource_path('views/vendor/mail'),
         ],
     ],
+
+
+    'pretend' => true,
 
 ];
