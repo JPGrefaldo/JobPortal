@@ -7,7 +7,9 @@ use App\Http\Controllers\Controller;
 use App\Mail\EndorsementRequestEmail;
 use App\Models\CrewPosition;
 use App\Models\Endorsement;
+use App\Models\Position;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class EndorsementRequestController extends Controller
@@ -28,8 +30,11 @@ class EndorsementRequestController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CrewPosition $crewPosition, Request $request)
+    public function store(Position $position, Request $request)
     {
+        $crewPosition = CrewPosition::where('crew_id', Auth::id())
+            ->where('position_id', $position->id)->first();
+
         $endorsementRequest = EndorsementRequest::where([
             'crew_position_id' => $crewPosition->id,
         ])->first();
