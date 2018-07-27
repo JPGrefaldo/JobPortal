@@ -32,7 +32,7 @@ class EndorsementRequestController extends Controller
      */
     public function store(Position $position, Request $request)
     {
-        $crewPosition = CrewPosition::where('crew_id', Auth::id())
+        $crewPosition = CrewPosition::where('crew_id', Auth::user()->crew->id)
             ->where('position_id', $position->id)->first();
 
         $endorsementRequest = EndorsementRequest::where([

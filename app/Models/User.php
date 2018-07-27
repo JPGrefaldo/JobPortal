@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Exceptions\ElectoralFraud;
+use App\Models\Crew;
 use App\Models\Traits\LogsActivityOnlyDirty;
 use App\Utils\StrUtils;
 use Illuminate\Notifications\Notifiable;
@@ -166,5 +167,10 @@ class User extends Authenticatable
             'endorser_id'    => $this->id,
             'endorsee_id'    => $endorsee->id,
         ]);
+    }
+
+    public function crew()
+    {
+        return $this->hasOne(Crew::class);
     }
 }

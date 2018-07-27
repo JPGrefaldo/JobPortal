@@ -105,7 +105,7 @@ class EndorsementFeatureTest extends TestCase
         $response = $this
             ->actingAs($user)
             ->postJson(
-                route('endorsement-request.store', ['crewPosition' => $crewPosition->id]),
+                route('endorsement-request.store', ['position' => $position->id]),
                 [
                     'endorsers' => [
                         [
@@ -178,7 +178,7 @@ class EndorsementFeatureTest extends TestCase
         $response = $this
             ->actingAs($user)
             ->postJson(
-                route('endorsement-request.store', ['crewPosition' => $crewPosition->id]),
+                route('endorsement-request.store', ['position' => $position->id]),
                 [
                     'endorsers' => [
                         [
@@ -198,7 +198,7 @@ class EndorsementFeatureTest extends TestCase
         $response = $this
             ->actingAs($user)
             ->postJson(
-                route('endorsement-request.store', ['crewPosition' => $crewPosition->id]),
+                route('endorsement-request.store', ['position' => $position->id]),
                 [
                     'endorsers' => [
                         [
