@@ -32,7 +32,7 @@
                             <span class="block md:text-right mt-4 font-header text-blue-dark font-semibold mb-3">Ask for an endorsement.</span>
                         </div>
                         <form action="
-                        {{ route('endorsement-request.store', ) }}
+                        {{ route('endorsement-request.store', ['position' => $position]) }}
                         " method="post">
                             {{ csrf_field() }}
                             <div class="md:w-2/3">
