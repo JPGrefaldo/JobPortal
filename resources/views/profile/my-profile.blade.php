@@ -21,7 +21,7 @@
                     <li class="is-checked">BIO</li>
                 @endif
                 
-                @if (!isset($linkedin) || !isset($imdb->url) || !isset($fb->url)) 
+                @if (count($socmed) < 1) 
                     <li>SOCIAL MEDIA PROFILES</li>
                     @else 
                     <li class="is-checked">SOCIAL MEDIA PROFILES</li>

@@ -215,42 +215,101 @@
                 </div>
                     {{ Form::close() }} <!-- end form -->
 
-                <div class="py-4">
-                    <h4 class='text-grey'>WORK POSITIONS</h4>
-                </div>
+    
 
-                <h3 class="text-blue-dark font-semibold text-lg font-header mb-3 md:mb-0">Positions by Department</h3>
-                
-                 <div class="pt-8 pb-4 text-right border-t-2 border-grey-lighter">
-                     
-                 </div>
+    <!-- ADD NEW WORK POSITION -->
+    <div class="py-4">
+        <h4 class='text-grey'>WORK POSITIONS</h4>
+    </div>
 
-                    {{ Form::open(array('route' => ['production-add-position', Auth::user()->id],'files' => true)) }}
+    <h3 class="text-blue-dark font-semibold text-lg font-header mb-3 md:mb-0">Positions by Department</h3>
                 
-                <div class="card mb-6">
+    {{ Form::open(array('route' => ['add-position', Auth::user()->id],'files' => true)) }}
+
+    <div class="pt-8 pb-4 border-t-2 border-grey-lighter">
+        <div class="py-2">
                     {{ Form::label('departments', 'Select Department:', array('class' => 'block mb-3') )}}
-                        @foreach ($departments  as $department)
-                            <div class="md:flex">
-                                <label class="checkbox-control"><h3 class="text-sm">{{ $department->name }}</h3>
-                                    <input type="checkbox"><br>
-                                    <div class="control-indicator"></div>
-                                </label>
-                            </div>
-                        @endforeach                
-
-                <div class="p-4 bg-grey-lighter">
-                    <div class="py-2">                
-                        <div class="container">
-                            {{ Form::label('positions', 'Work Positions from selection above:', array('class' => 'block mb-3') )}}
+        </div>
+        <div class="bootstrap-iso">
+            
+            <ul class="nav nav-tabs">
+                @foreach($departments as $department)
+                   <li><a data-toggle="tab" href="#{{ $department->name }}">{{ $department->name}}</a></li>
+                @endforeach
+            </ul>
+  
+            <div class="tab-content">
+                
+                <div id="Production" class="tab-pane fade in active">
                             <div class="md:w-2/3">
-                            <div class="bootstrap-iso">
                                 <select multiple class="form-control" id="exampleSelect2">
                                     @foreach ($productionPositions  as $productionPosition)
                                         <option>{{ $productionPosition->name }}</h3></option>
                                     @endforeach
                                 </select>
-                            </div>
-                            </div>          
+
+                            </div> 
+                </div>
+
+                <div id="Art" class="tab-pane fade">
+                  <div class="md:w-2/3">
+                                <select multiple class="form-control" id="exampleSelect2">
+                                    @foreach ($artPositions  as $artPosition)
+                                        <option>{{ $artPosition->name }}</h3></option>
+                                    @endforeach
+                                </select>
+                    </div>
+                </div>
+
+                <div id="Camera" class="tab-pane fade">
+                  <div class="md:w-2/3">      
+                                <select multiple class="form-control" id="exampleSelect2">
+                                    @foreach ($cameraPositions  as $cameraPosition)
+                                        <option>{{ $cameraPosition->name }}</h3></option>
+                                    @endforeach
+                                </select>  
+                    </div>
+                </div>
+
+                <div id="Grip_Electric" class="tab-pane fade">
+                  <div class="md:w-2/3">      
+                                <select multiple class="form-control" id="exampleSelect2">
+                                    @foreach ($gripElectricPositions  as $gripElectricPosition)
+                                        <option>{{ $gripElectricPosition->name }}</h3></option>
+                                    @endforeach
+                                </select>  
+                    </div>
+                </div>
+
+                <div id="MUaH_Wardrobe" class="tab-pane fade">
+                  <div class="md:w-2/3">      
+                                <select multiple class="form-control" id="exampleSelect2">
+                                    @foreach ($muahWardrobePositions  as $muahWardrobePosition)
+                                        <option>{{ $muahWardrobePosition->name }}</h3></option>
+                                    @endforeach
+                                </select>  
+                    </div>
+                </div>
+
+                <div id="Sound" class="tab-pane fade">
+                  <div class="md:w-2/3">      
+                                <select multiple class="form-control" id="exampleSelect2">
+                                    @foreach ($soundPositions  as $soundPosition)
+                                        <option>{{ $soundPosition->name }}</h3></option>
+                                    @endforeach
+                                </select>  
+                    </div>
+                </div>
+
+              </div>                
+        </div>                   
+    </div>
+                
+
+                <div class="p-4 bg-grey-lighter">
+                    <div class="py-2">                
+                        <div class="container">
+         
 
                         <div class="py-2">
                                     {{ Form::label('bio', '2. Biography:', array('class' => 'block mb-3') )}}
@@ -314,22 +373,6 @@
 
                     </div>
 
-                    <div class="p-2 md:p-4 border-t-2 border-grey-lighter bg-white">
-                        <div class="py-2">
-                            <label class="checkbox-control"><h3 class="text-md">Camera Visual Effects</h3>
-                                <input type="checkbox"/>
-                                <div class="control-indicator"></div>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="p-2 md:p-4 border-t-2 border-grey-lighter bg-white">
-                        <div class="py-2">
-                            <label class="checkbox-control"><h3 class="text-md">Camera Visual Effects</h3>
-                                <input type="checkbox"/>
-                                <div class="control-indicator"></div>
-                            </label>
-                        </div>
-                    </div>
                     <div class="pt-8 pb-4 text-right border-t-2 border-grey-lighter">
                         <a href="#" class="text-grey bold mr-4 hover:text-green">Cancel</a>
                         {{form::submit('SAVE CHANGES', array('class' => 'btn-green')) }}
@@ -342,9 +385,3 @@
         </div>
     </main>
 
-    <script type="text/javascript">
-    function myFunction() {
-       var element = document.getElementById("#active_item");
-     element.classList.toggle("active");
-    }
-    </script>

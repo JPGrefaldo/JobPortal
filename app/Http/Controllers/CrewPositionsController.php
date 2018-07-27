@@ -33,7 +33,7 @@ class CrewPositionsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function createPositionProduction(User $user, Request $request)
+    public function createPosition(User $user, Request $request)
     {
        
         $validatedData = $request->validate([

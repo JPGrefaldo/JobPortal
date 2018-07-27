@@ -44,10 +44,8 @@ Route::get('/my-profile/{user}/edit', 'ProfilesController@show')->name('profile-
 Route::post('/my-profile/edit', 'ProfilesController@edit')->name('profile-update');
 Route::get('/my-profile/{id}/delete', 'ProfilesController@destroy')->name('delete-resume');
 
-Route::post('/my-profile/{user}/add-position-production', 
-    'CrewPositionsController@createPositionProduction')->name('production-add-position');
-Route::post('/my-profile/{user}/add-position-camera', 'CrewPositionsController@createPositionCamera')->name('camera-add-position');
-Route::post('/my-profile/{user}/add-position-sound', 'CrewPositionsController@createPositionSound')->name('sound-add-position');
+Route::post('/my-profile/{user}/add-position', 
+    'CrewPositionsController@createPosition')->name('add-position');
 
 Route::get('/my-projects/{user}', 'ProjectController@index');
 Route::get('/my-projects/post', 'ProjectController@showPostProject');

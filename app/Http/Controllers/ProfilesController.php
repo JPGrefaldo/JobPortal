@@ -45,6 +45,8 @@ class ProfilesController extends Controller
     $position_role = Position::where('department_id', $positions->position_id)->first();
     }
 
+    $socmed = CrewSocial::where('crew_id', $user->id)->get();
+
     $fb = CrewSocial::where('social_link_type_id','=',1)
         ->where('crew_id', $user->id)
         ->first();
@@ -67,7 +69,7 @@ class ProfilesController extends Controller
 
     }
  
-    return view('profile.my-profile', compact('user','role', 'biography','positions','position_role', 'fb', 'imdb', 'linkedin', 'resume', 'url_resume', 'reel','url_reel', 'all_post'));
+    return view('profile.my-profile', compact('user','role', 'biography','positions','position_role', 'socmed', 'fb', 'imdb', 'linkedin', 'resume', 'url_resume', 'reel','url_reel', 'all_post'));
 
     }
 
@@ -137,13 +139,15 @@ class ProfilesController extends Controller
     
     }
     
-    $fb = CrewSocial::where('social_link_type_id','=',1)
+    $socmed = CrewSocial::where('crew_id', $user->id)->get();
+
+    $fb = CrewSocial::where('social_link_type_id',1)
         ->where('crew_id', $user->id)
         ->first();
-    $imdb = CrewSocial::where('social_link_type_id','=',5)
+    $imdb = CrewSocial::where('social_link_type_id',5)
         ->where('crew_id', $user->id)
         ->first();
-    $linkedin = CrewSocial::where('social_link_type_id','=',10)
+    $linkedin = CrewSocial::where('social_link_type_id',10)
         ->where('crew_id', $user->id)
         ->first();
 
@@ -155,10 +159,14 @@ class ProfilesController extends Controller
 
     $productionPositions = Position::where('department_id', 1)->get();
     $artPositions = Position::where('department_id', 2)->get();
-    $gripElectricPositions = Position::where('department_id', 3)->get();
-    $muahWardrobePositions = Position::where('department_id', 4)->get();
+    $cameraPositions = Position::where('department_id', 3)->get();
+    $gripElectricPositions = Position::where('department_id', 4)->get();
+    $muahWardrobePositions = Position::where('department_id', 5)->get();
+    $soundPositions = Position::where('department_id', 6)->get();
+    $otherPositions = Position::where('department_id', 7)->get();
 
-     return view('profile.my-profile-edit', compact('user','position', 'position_role', 'biography', 'jobTitle', 'fb', 'imdb', 'linkedin', 'departments', 'reel', 'resume', 'allpositions', 'productionPositions', 'artPositions', 'gripElectricPositions')); 
+
+     return view('profile.my-profile-edit', compact('user','position', 'position_role', 'biography', 'jobTitle', 'social','fb', 'imdb', 'linkedin', 'departments', 'reel', 'resume', 'allpositions', 'productionPositions', 'artPositions', 'gripElectricPositions', 'cameraPositions', 'muahWardrobePositions', 'soundPositions')); 
     }
 
     /**
@@ -226,17 +234,7 @@ class ProfilesController extends Controller
      }
 
         // Save Crew Position
-        $edit_position = CrewPosition::where('crew_id', $user->id)->first(); 
-
-        if ($request->title == '1st Assistant Director') {
-            $edit_position_id = 1;
-        } elseif ($request->title == 'Camera Operator') {
-            $edit_position_id = 2;
-        }
-
-        $edit_position->position_id = $edit_position_id;
-        $edit_position->save();
-
+ 
         // Save Crew Social
         $user_imdb = CrewSocial::where('social_link_type_id',5)
                     ->where('crew_id', $user->id)
@@ -250,14 +248,39 @@ class ProfilesController extends Controller
                     ->where('crew_id', $user->id)
                     ->first();
 
+    if (isset($user_imdb->url)) {   
         $user_imdb->url = $request->imdb_link;
-        $user_fb->url = $request->fb_link;
-        $user_linkedin->url = $request->linkedin_link;
-
         $user_imdb->save();
+    } else {
+        $new_user_imdb = new CrewSocial;
+        $new_user_imdb->url = $request->imdb_link;
+        $new_user_imdb->crew_id = $user->id;
+        $new_user_imdb->social_link_type_id = 5;
+        $new_user_imdb->save();
+    }
+
+    if (isset($user_fb->url)) {
+        $user_fb->url = $request->fb_link;
         $user_fb->save();
+    } else {
+        $new_user_fb = new CrewSocial;
+        $new_user_fb->url = $request->fb_link;
+        $new_user_fb->crew_id = $user->id;
+        $new_user_fb->social_link_type_id = 1;
+        $new_user_fb->save();
+    }
+
+    if (isset($user_linkedin->url)) {
+        $user_linkedin->url = $request->linkedin_link;
         $user_linkedin->save();
- 
+    } else {
+        $new_user_linkedin = new CrewSocial;
+        $new_user_linkedin->url = $request->imdb_link;
+        $new_user_linkedin->crew_id = $user->id;
+        $new_user_linkedin->social_link_type_id = 10;
+        $new_user_linkedin->save();
+    }
+  
         session()->flash('profile-saved ', 'Profile saved!');
 
         return redirect()->route('profile', ['id' => $user->id]);
