@@ -1,5 +1,15 @@
 <?php
 
+
+use App\Models\User;
+use App\Models;
+use App\Models\Crew;
+use App\Models\CrewPosition;
+use App\Models\Position;
+use App\Models\CrewSocial;
+use App\Models\Department;
+use App\Models\UserRoles;
+use App\Models\Role;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,14 +39,17 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/my-profile', 'ProfileController@index');
-Route::get('/my-profile/edit', 'ProfileController@showEditProfile');
+Route::get('/my-profile/{user}', 'ProfilesController@index')->name('profile');
+Route::get('/my-profile/{user}/edit', 'ProfilesController@show')->name('profile-edit');
+Route::post('/my-profile/edit', 'ProfilesController@edit')->name('profile-update');
+Route::get('/my-profile/{id}/delete', 'ProfilesController@destroy')->name('delete-resume');
 
-Route::get('/my-projects', 'ProjectController@index');
+Route::post('/my-profile/{user}/add-position', 
+    'CrewPositionsController@createPosition')->name('add-position');
+
+Route::get('/my-projects/{user}', 'ProjectController@index');
 Route::get('/my-projects/post', 'ProjectController@showPostProject');
-
 Route::get('/my-account', 'AccountController@index');
-
 Route::get('/verify/email/{code}', 'VerifyEmailController@verify');
 
 

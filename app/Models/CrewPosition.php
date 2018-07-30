@@ -29,4 +29,9 @@ class CrewPosition extends Model
     {
         return $this->belongsTo(Crew::class);
     }
+
+    public function roles() 
+    {
+        return $this->hasOne(Position::class, 'department_id', 'position_id');
+    }
 }

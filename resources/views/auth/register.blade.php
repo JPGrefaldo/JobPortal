@@ -1,6 +1,7 @@
 @extends('layouts.default_layout')
 
 @section('content')
+
     <div class="container max-w-xl flex justify-center items-center">
         <div class="w-full md:w-1/2 px-4">
             <div class="bg-white shadow-md rounded">
@@ -11,6 +12,7 @@
                     {{ $error }}<br />
                 @endforeach
                 <form method="post" action="{{ route('register') }}">
+
                     <div class="p-8">
                         <div class="pb-2 text-center">
                             <h4 class="uppercase text-sm">I WANT TO:</h4>
@@ -102,5 +104,7 @@
                 </form>
             </div>
         </div>
+
     </div>
+
 @endsection

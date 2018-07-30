@@ -18,7 +18,7 @@ class CreateProjectJobsTable extends Migration
             $table->integer('persons_needed')->unsigned()->default(1);
             $table->string('dates_needed')->unsigned();
             $table->decimal('pay_rate')->default(0);
-            $table->text('notes')->default('');
+            $table->text('notes')->nullable();
             $table->boolean('rush_call');
             $table->boolean('travel_expenses_paid');
             $table->string('gear_provided')->nullable()->default(null);

@@ -2,6 +2,8 @@
 
 @section('content')
 
+@include('_parts/messages')
+
 <div class="container max-w-xl flex justify-center items-center">
     <div class="w-full md:w-1/2 float-left mb-3 md:mb-0 px-4">
         <div class="bg-white shadow-md rounded">
@@ -31,6 +33,7 @@
                     <div class="pt-6">
                         @csrf
                         <input type="submit" href="#" class="block font-header uppercase text-sm p-4 w-full text-center text-white bg-blue font-bold rounded-full hover:bg-green" value="Sign In">
+
                     </div>
                 </div>
             </form>
@@ -39,6 +42,7 @@
                 <a href="{{ route('show.register') }}" class="text-red underline hover:text-green">Sign up now</a>
             </div>
         </div>
+
     </div>
 </div>
 

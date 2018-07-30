@@ -1,7 +1,7 @@
 @extends('layouts.default_layout')
 
-@section('content')
 
+@section('content')
     <div class="container max-w-xl flex justify-center items-center">
         <div class="w-full md:w-1/2 float-left mb-3 md:mb-0 px-4">
             <div class="bg-white shadow-md rounded">
@@ -25,5 +25,6 @@
             </div>
         </div>
     </div>
+
 
 @endsection

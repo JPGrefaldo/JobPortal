@@ -23,4 +23,9 @@ class Position extends Model
         'has_union'     => 'boolean',
         'has_many'      => 'boolean'
     ];
+
+    public function roles() 
+    {
+        return $this->belongsTo(CrewPosition::class, 'position_id', 'department_id');
+    }
 }
