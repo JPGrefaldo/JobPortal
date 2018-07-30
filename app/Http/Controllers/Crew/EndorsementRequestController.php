@@ -27,19 +27,18 @@ class EndorsementRequestController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Position $position, Request $request)
     {
-        $crewPosition = CrewPosition::where('crew_id', Auth::user()->crew->id)
-            ->where('position_id', $position->id)->first();
-
+        $crewPosition = CrewPosition::byCrewAndPosition(Auth::user()->crew, $position)->first();
         $endorsementRequest = EndorsementRequest::where([
             'crew_position_id' => $crewPosition->id,
-        ])->first();
+        ])
+                                                ->first();
 
-        if (!$endorsementRequest) {
+        if (! $endorsementRequest) {
             $endorsementRequest = EndorsementRequest::create([
                 'crew_position_id' => $crewPosition->id,
                 'token'            => EndorsementRequest::generateToken(),
@@ -49,11 +48,10 @@ class EndorsementRequestController extends Controller
         // filter endorsers, only notify them once
         $endorsers = request('endorsers');
         foreach ($endorsers as $endorser) {
-            $endorsement = Endorsement::where('endorsement_request_id', $endorsementRequest->id)
-                ->where('endorser_email', $endorser['email'])
-                ->first();
-
-            if (!$endorsement) {
+            if (! $endorsement = Endorsement::where('endorsement_request_id', $endorsementRequest->id)
+                                            ->where('endorser_email', $endorser['email'])
+                                            ->first()
+            ) {
                 $endorsement = Endorsement::create([
                     'endorsement_request_id' => $endorsementRequest->id,
                     'endorser_name'          => $endorser['name'],
@@ -61,10 +59,10 @@ class EndorsementRequestController extends Controller
                 ]);
 
                 // send email
-                Mail::to($endorsement->endorser_email)->send(new EndorsementRequestEmail($endorsement));
+                Mail::to($endorsement->endorser_email)
+                    ->send(new EndorsementRequestEmail($endorsement));
             }
         }
-
         // return statuses foreach endorser
         return 'done';
     }
@@ -72,7 +70,7 @@ class EndorsementRequestController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\EndorsementRequest  $endorsementRequest
+     * @param  \App\EndorsementRequest $endorsementRequest
      * @return \Illuminate\Http\Response
      */
     public function show(EndorsementRequest $endorsementRequest)
@@ -83,7 +81,7 @@ class EndorsementRequestController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\EndorsementRequest  $endorsementRequest
+     * @param  \App\EndorsementRequest $endorsementRequest
      * @return \Illuminate\Http\Response
      */
     public function destroy(EndorsementRequest $endorsementRequest)
