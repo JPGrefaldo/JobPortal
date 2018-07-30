@@ -31,8 +31,23 @@ class CrewPosition extends Model
         return $this->belongsTo(Crew::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function position()
     {
         return $this->belongsTo(Position::class);
+    }
+
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param Crew $crew
+     * @param Position $position
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeByCrewAndPosition($query, $crew, $position)
+    {
+        return $query->where('crew_id', $crew->id)
+                     ->where('position_id', $position->id);
     }
 }

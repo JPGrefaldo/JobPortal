@@ -9,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 class EndorsementRequestEmail extends Mailable
 {
-    protected $endorsement;
+    public $endorsement;
 
     use Queueable, SerializesModels;
 

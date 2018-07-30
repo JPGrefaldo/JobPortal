@@ -8,6 +8,7 @@ use App\Models\Crew;
 use App\Models\CrewPosition;
 use App\Models\Endorsement;
 use App\Models\Position;
+use App\Models\Role;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Mail;
@@ -23,6 +24,8 @@ class EndorsementFeatureTest extends TestCase
      */
     public function endorsees_can_ask_endorsements_from_endorsers()
     {
+        Mail::fake();
+
         // $this->withoutExceptionHandling();
         // given
         $endorsee     = factory(Crew::class)->states('withRole')->create();
@@ -76,6 +79,10 @@ class EndorsementFeatureTest extends TestCase
             'endorser_name'          => $endorserName2,
             'endorser_email'         => $endorserEmail2,
         ]);
+
+        Mail::assertSent(EndorsementRequestEmail::class, function ($mail) use ($endorsementRequest) {
+            return $mail->endorsement->endorsement_request_id === $endorsementRequest->id;
+        });
     }
 
     /**
