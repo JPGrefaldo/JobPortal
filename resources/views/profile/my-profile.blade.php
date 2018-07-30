@@ -136,7 +136,7 @@
                 <div class="card mb-6">
                     <div class="pb-6">
                         <span class="btn-toggle float-right"></span>
-                        <h3 class="text-blue-dark font-semibold text-lg mb-1 font-header">Production
+                        <h3 class="text-blue-dark font-semibold text-lg mb-1 font-header">
                             <span class="font-thin"> – {{ $post->roles->name }}</span>
                         </h3>
                     </div>

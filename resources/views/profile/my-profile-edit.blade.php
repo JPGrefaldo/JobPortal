@@ -242,7 +242,7 @@
                 
                 <div id="Production" class="tab-pane fade in active">
                             <div class="md:w-2/3">
-                                <select multiple class="form-control" id="exampleSelect2">
+                                <select multiple class="form-control" name="title">
                                     @foreach ($productionPositions  as $productionPosition)
                                         <option>{{ $productionPosition->name }}</h3></option>
                                     @endforeach
@@ -253,7 +253,7 @@
 
                 <div id="Art" class="tab-pane fade">
                   <div class="md:w-2/3">
-                                <select multiple class="form-control" id="exampleSelect2">
+                                <select multiple class="form-control" name="title">
                                     @foreach ($artPositions  as $artPosition)
                                         <option>{{ $artPosition->name }}</h3></option>
                                     @endforeach
@@ -263,7 +263,7 @@
 
                 <div id="Camera" class="tab-pane fade">
                   <div class="md:w-2/3">      
-                                <select multiple class="form-control" id="exampleSelect2">
+                                <select multiple class="form-control" name="title">
                                     @foreach ($cameraPositions  as $cameraPosition)
                                         <option>{{ $cameraPosition->name }}</h3></option>
                                     @endforeach
@@ -273,7 +273,7 @@
 
                 <div id="Grip_Electric" class="tab-pane fade">
                   <div class="md:w-2/3">      
-                                <select multiple class="form-control" id="exampleSelect2">
+                                <select multiple class="form-control" name="title">
                                     @foreach ($gripElectricPositions  as $gripElectricPosition)
                                         <option>{{ $gripElectricPosition->name }}</h3></option>
                                     @endforeach
@@ -283,7 +283,7 @@
 
                 <div id="MUaH_Wardrobe" class="tab-pane fade">
                   <div class="md:w-2/3">      
-                                <select multiple class="form-control" id="exampleSelect2">
+                                <select multiple class="form-control" name="title">
                                     @foreach ($muahWardrobePositions  as $muahWardrobePosition)
                                         <option>{{ $muahWardrobePosition->name }}</h3></option>
                                     @endforeach
@@ -293,7 +293,7 @@
 
                 <div id="Sound" class="tab-pane fade">
                   <div class="md:w-2/3">      
-                                <select multiple class="form-control" id="exampleSelect2">
+                                <select multiple class="form-control" name="title">
                                     @foreach ($soundPositions  as $soundPosition)
                                         <option>{{ $soundPosition->name }}</h3></option>
                                     @endforeach
@@ -314,7 +314,7 @@
                         <div class="py-2">
                                     {{ Form::label('bio', '2. Biography:', array('class' => 'block mb-3') )}}
                             <div class="md:flex">
-                            <textarea class="form-control w-full h-32" placeholder="Biography"></textarea>
+                             {{ Form::textarea('biography', 'Biography', array('class' => 'form-control w-full h-32') )}}
                             </div>
                         </div>
                         
@@ -366,7 +366,7 @@
                                         </label>
                                     </div>
                                     <label for="" class="block mb-3">Please provide details of your union group?</label>
-                                    <textarea class="form-control w-full h-32" placeholder="Union description"></textarea>
+                                     {{ Form::textarea('union_details', 'Union Description', array('class' => 'form-control w-full h-32', 'placeholder' => 'Union decription') )}}
                                 </div>
                             </div>
                         </div>
