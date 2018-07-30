@@ -31,7 +31,7 @@ class EndorsementController extends Controller
     {
         // show form to comment
         // if user already approved request, redirect to edit form for comment
-        return view('endorsement.create')->with($endorsementRequest);
+        return view('crew.endorsement.create')->with('endorsementRequest', $endorsementRequest);
     }
 
     /**
@@ -43,7 +43,8 @@ class EndorsementController extends Controller
     public function store(EndorsementRequest $endorsementRequest, Request $request)
     {
         $endorsement = Endorsement::where('endorsement_request_id', $endorsementRequest->id)
-            ->where('endorser_id', Auth::id())->first();
+            // ->where('endorser_id', Auth::id())->first();
+            ->where('endorser_email', request('email'))->first();
 
         if (!$endorsement) {
             $endorsement = Endorsement::create([

@@ -3,7 +3,7 @@
 
 Hi {{ $endorsement->endorser_name }}
 
-Can you endorse me for [{{ $endorsement->position->name }}]({{ route('position.show', [
+Can you endorse me for [{{ $endorsement->position->name }}]({{ route('crew_position.show', [
     'position' => $endorsement->position,
 ]) }}) on CrewCallsAmerica.com?
 This will help me get future jobs on the site.

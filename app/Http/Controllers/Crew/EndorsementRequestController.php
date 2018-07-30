@@ -66,6 +66,7 @@ class EndorsementRequestController extends Controller
         }
 
         // return statuses foreach endorser
+        return 'done';
     }
 
     /**

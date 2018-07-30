@@ -49,7 +49,7 @@ class PositionController extends Controller
     public function show(Position $position)
     {
         // return $position;
-        return view('crew.position.show');
+        return view('crew.position.show')->with('position', $position);
     }
 
     /**
