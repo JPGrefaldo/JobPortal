@@ -37,6 +37,7 @@ class CrewPositionsController extends Controller
     {
        
         $validatedData = $request->validate([
+        'title' => 'required',
         'biography' => 'required',
         'resume_file' => 'nullable',
         'reel_file' => 'nullable',
@@ -44,9 +45,13 @@ class CrewPositionsController extends Controller
 
        $crew_position = new CrewPosition;
        $crew_position->crew_id = $user->id;
-       $crew_position->name = $request->input('title');
-       $crew_position->position_id = 1;
-       $crew_position->details = $request->biography;        
+       /*$crew_position->name = $request->input('title');*/
+
+       $title_submit = Position::where('name', $request->title)->first();
+       $crew_position->position_id = $title_submit->id;
+       
+       $crew_position->details = $request->biography;   
+       $crew_position->union_description = $request->union_details;     
        $crew_position->save();
 
 
