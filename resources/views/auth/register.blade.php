@@ -18,11 +18,14 @@
                             <h4 class="uppercase text-sm">I WANT TO:</h4>
                         </div>
                         <div class="bg-white md:shadow md:border border-grey-light md:rounded-full overflow-hidden md:flex text-center items-stretch">
-                            <a class="block text-center md:w-1/2 p-3 mb-2 md:mb-0 border rounded-full md:rounded-none border-grey-light want-to__default md:border-t-0 md:border-b-0 md:border-r" id="select-want-project" href="#">Hire for a Project</a>
-                            <a class="block border md:border-none border-grey-light md:border-none text-center want-to__default rounded-full md:rounded-none md:w-1/2 p-3" id="select-want-work" href="#">Work as Crew</a>
+                            <input type="button" class="block text-center md:w-1/2 p-3 mb-2 md:mb-0 border rounded-full md:rounded-none border-grey-light md:border-t-0 md:border-b-0 md:border-r
+                                @if(in_array(\App\Models\Role::PRODUCER, old('type', []))) want-to__selected @else want-to__default @endif" id="select-want-project" value="Hire for a Project">
+                            <input type="button" class="block border md:border-none border-grey-light md:border-none text-center rounded-full md:rounded-none md:w-1/2 p-3
+                                @if(in_array(\App\Models\Role::CREW, old('type', []))) want-to__selected @else want-to__default @endif" id="select-want-work" value="Work as Crew">
                         </div>
-                        <input type="hidden" name="trash" id="type-project" value="{{ \App\Models\Role::PRODUCER }}">
-                        <input type="hidden" name="trash" id="type-work" value="{{ \App\Models\Role::CREW }}">
+
+                        <input type="hidden" @if(in_array(\App\Models\Role::PRODUCER, old('type', []))) name="type" @else name="trash" @endif id="type-project" value="{{ \App\Models\Role::PRODUCER }}">
+                        <input type="hidden" @if(in_array(\App\Models\Role::CREW, old('type', []))) name="type" @else name="trash" @endif id="type-work" value="{{ \App\Models\Role::CREW }}">
                         <div class="p-2 text-center text-sm text-grey">You can choose both</div>
                         <div class="py-2">
                             <label class="block font-semibold mb-2" for="">Full name</label>

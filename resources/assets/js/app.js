@@ -41,12 +41,11 @@ function reverse_want_to_class(element, selected) {
     }
 }
 
-(function(l){var i,s={touchend:function(){}};for(i in s)l.addEventListener(i,s)})(document);
+
 
 $(function() {
     if ($("#select-want-project").length) {
         $("#select-want-project").click(function (event) {
-            event.preventDefault();
             if (reverse_val("#type-project", $(this).attr('rel'))) {
                 reverse_want_to_class($(this), true)
             } else {
@@ -56,7 +55,6 @@ $(function() {
     }
     if ($("#select-want-work").length) {
         $("#select-want-work").click(function (event) {
-            event.preventDefault();
             if (reverse_val("#type-work", $(this).attr('rel'))) {
                 reverse_want_to_class($(this), true)
             } else {
