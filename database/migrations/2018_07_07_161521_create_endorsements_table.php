@@ -24,6 +24,8 @@ class CreateEndorsementsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
+            $table->unique(['endorsement_request_id', 'endorser_id']);
+
             $table->foreign('endorsement_request_id')
                 ->references('id')
                 ->on('endorsement_requests')

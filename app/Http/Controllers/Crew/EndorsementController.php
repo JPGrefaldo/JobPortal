@@ -43,13 +43,14 @@ class EndorsementController extends Controller
     public function store(EndorsementRequest $endorsementRequest, Request $request)
     {
         $endorsement = Endorsement::where('endorsement_request_id', $endorsementRequest->id)
-            // ->where('endorser_id', Auth::id())->first();
-            ->where('endorser_email', request('email'))->first();
+            ->where('endorser_email', Auth::user()->email)->first();
 
         if (!$endorsement) {
             $endorsement = Endorsement::create([
                 'endorsement_request_id' => $endorsementRequest->id,
                 'endorser_id'            => Auth::id(),
+                'endorser_name'          => Auth::user()->first_name . ' ' . Auth::user()->last_name,
+                'endorser_email'         => Auth::user()->email,
                 'approved_at'            => Carbon::now(),
                 'comment'                => $request['comment'],
             ]);

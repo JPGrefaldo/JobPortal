@@ -238,11 +238,12 @@ class EndorsementFeatureTest extends TestCase
         $endorsementRequest = factory(EndorsementRequest::class)->create();
         // endorser endorses an endorsement of the same crew
         $endorser = factory(Crew::class)->states('withRole')->create();
+        $comment = $this->faker->sentence;
 
         $response = $this
             ->actingAs($endorser->user)
             ->postJson(route('endorsement.store', ['endorsementRequest' => $endorsementRequest]), [
-                'comment' => $this->faker->sentence,
+                'comment' => $comment,
             ]);
 
         // when
@@ -250,7 +251,7 @@ class EndorsementFeatureTest extends TestCase
         $response = $this
             ->actingAs($endorser->user)
             ->postJson(route('endorsement.store', ['endorsementRequest' => $endorsementRequest]), [
-                'comment' => $this->faker->sentence,
+                'comment' => $comment,
             ]);
 
         // then
