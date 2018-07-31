@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Crew;
 
 use App\EndorsementRequest;
+use App\Exceptions\ElectoralFraud;
 use App\Http\Controllers\Controller;
 use App\Models\Endorsement;
 use App\Models\Position;
@@ -44,6 +45,10 @@ class EndorsementController extends Controller
     {
         $endorsement = Endorsement::where('endorsement_request_id', $endorsementRequest->id)
             ->where('endorser_email', Auth::user()->email)->first();
+
+        if ($endorsementRequest->endorser->email == Auth::user()->email) {
+            throw new ElectoralFraud('You can\'t endorse yourself.');
+        }
 
         if (!$endorsement) {
             $endorsement = Endorsement::create([

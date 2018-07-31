@@ -32,4 +32,9 @@ class EndorsementRequest extends Model
     {
         return $this->belongsTo(CrewPosition::class);
     }
+
+    public function endorser()
+    {
+        return $this->crewPosition->crew->user();
+    }
 }

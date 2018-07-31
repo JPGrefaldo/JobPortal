@@ -8,7 +8,6 @@ use App\Models\Crew;
 use App\Models\CrewPosition;
 use App\Models\Endorsement;
 use App\Models\Position;
-use App\Models\Role;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Mail;
@@ -238,7 +237,7 @@ class EndorsementFeatureTest extends TestCase
         $endorsementRequest = factory(EndorsementRequest::class)->create();
         // endorser endorses an endorsement of the same crew
         $endorser = factory(Crew::class)->states('withRole')->create();
-        $comment = $this->faker->sentence;
+        $comment  = $this->faker->sentence;
 
         $response = $this
             ->actingAs($endorser->user)
@@ -257,5 +256,26 @@ class EndorsementFeatureTest extends TestCase
         // then
         // endorser is forbidden
         $this->assertCount(1, Endorsement::all()->toArray());
+    }
+
+    /**
+     * @test
+     */
+    public function an_endorsee_can_not_endorse_himself()
+    {
+        // given
+        $endorsee           = factory(Crew::class)->states('withRole')->create();
+        $crewPosition       = factory(CrewPosition::class)->create(['crew_id' => $endorsee->id]);
+        $endorsementRequest = factory(EndorsementRequest::class)->create(['crew_position_id' => $crewPosition->id]);
+
+        // when
+        $response = $this
+            ->actingAs($endorsee->user)
+            ->postJson(route('endorsement.store', ['endorsementRequest' => $endorsementRequest]), [
+                'comment' => $this->faker->sentence,
+            ]);
+
+        // then
+        $this->assertCount(0, Endorsement::all()->toArray());
     }
 }
