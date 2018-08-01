@@ -20,8 +20,11 @@ class EndorsementController extends Controller
      */
     public function create(EndorsementRequest $endorsementRequest)
     {
+        if ($endorsementRequest->isApprovedBy(Auth::user())) {
+            return redirect(route('endorsement.edit', ['endorsementRequest' => $endorsementRequest]));
+        }
+
         // show form to comment
-        // if user already approved request, redirect to edit form for comment
         return view('crew.endorsement.create')->with('endorsementRequest', $endorsementRequest);
     }
 

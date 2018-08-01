@@ -278,4 +278,24 @@ class EndorsementFeatureTest extends TestCase
         // then
         $this->assertCount(0, Endorsement::all()->toArray());
     }
+
+    /**
+     * @test
+     */
+    public function if_user_already_approved_a_request_he_is_redirected_to_edit_comment()
+    {
+        // $this->withoutExceptionHandling();
+        // given
+        $endorser           = factory(Crew::class)->states('withRole')->create();
+        $endorsement        = factory(Endorsement::class)->states('approved')->create(['endorser_id' => $endorser->user->id]);
+        $endorsementRequest = $endorsement->request;
+
+        // when
+        $response = $this->actingAs($endorser->user)
+            ->get(route('endorsement.create', ['endorsementRequest' => $endorsementRequest]));
+
+        // then
+        $response->assertRedirect(route('endorsement.edit', ['endorsementRequest' => $endorsementRequest]));
+        $this->assertCount(1, Endorsement::all()->toArray());
+    }
 }

@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Models\CrewPosition;
+use App\Models\Endorsement;
 use Illuminate\Database\Eloquent\Model;
 
 class EndorsementRequest extends Model
@@ -36,5 +37,15 @@ class EndorsementRequest extends Model
     public function endorser()
     {
         return $this->crewPosition->crew->user();
+    }
+
+    public function endorsements()
+    {
+        return $this->hasMany(Endorsement::class);
+    }
+
+    public function isApprovedBy($user)
+    {
+        return $this->endorsements->where('endorser_id', $user->id)->count() > 0;
     }
 }
