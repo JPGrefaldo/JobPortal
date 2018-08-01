@@ -22,8 +22,6 @@ class EndorsementTest extends DuskTestCase
     public function an_endorsee_can_ask_an_endorsement_from_an_endorser_by_endorsers_email()
     {
         $this->withoutExceptionHandling();
-        dump(DB::connection()->getName());
-        dump(DB::connection()->getConfig());
 
         // given
         // an endorsee

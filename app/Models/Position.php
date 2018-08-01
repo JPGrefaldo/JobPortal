@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Department;
 use Illuminate\Database\Eloquent\Model;
 
 class Position extends Model
@@ -25,8 +24,4 @@ class Position extends Model
         'has_many'      => 'boolean'
     ];
 
-    public function department()
-    {
-        return $this->belongsTo(Department::class);
-    }
 }

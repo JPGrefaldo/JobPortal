@@ -14,16 +14,6 @@ use Illuminate\Support\Facades\Auth;
 class EndorsementController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Position $position)
-    {
-        // return Endorsement::where('position_id', $position->id)->get();
-    }
-
-    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response

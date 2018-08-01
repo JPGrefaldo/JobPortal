@@ -10,11 +10,6 @@ use App\Services\Producer\ProjectJobsService;
 
 class ProjectJobsController extends Controller
 {
-    public function index()
-    {
-        return view('project-jobs.index');
-    }
-
     /**
      * @param \App\Http\Requests\Producer\CreateProjectJobRequest $request
      */

@@ -15,16 +15,6 @@ use Illuminate\Support\Facades\Mail;
 class EndorsementRequestController extends Controller
 {
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
@@ -64,28 +54,6 @@ class EndorsementRequestController extends Controller
             }
         }
         // return statuses foreach endorser
-        return 'done';
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\EndorsementRequest $endorsementRequest
-     * @return \Illuminate\Http\Response
-     */
-    public function show(EndorsementRequest $endorsementRequest)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\EndorsementRequest $endorsementRequest
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(EndorsementRequest $endorsementRequest)
-    {
-        //
+        return ['done'];
     }
 }
