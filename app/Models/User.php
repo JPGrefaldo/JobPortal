@@ -6,9 +6,8 @@ use App\Exceptions\ElectoralFraud;
 use App\Models\Crew;
 use App\Models\Traits\LogsActivityOnlyDirty;
 use App\Utils\StrUtils;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
@@ -172,5 +171,10 @@ class User extends Authenticatable
     public function crew()
     {
         return $this->hasOne(Crew::class);
+    }
+
+    public function hasPosition($position)
+    {
+        return $this->crew->positions()->where('position_id', $position->id)->get()->count() > 0;
     }
 }
