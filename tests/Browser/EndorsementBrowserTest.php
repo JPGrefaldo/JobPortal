@@ -12,7 +12,7 @@ use Tests\Browser\Pages\PositionShowPage;
 use Tests\DuskTestCase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 
-class EndorsementTest extends DuskTestCase
+class EndorsementBrowserTest extends DuskTestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh, WithFaker;
 
