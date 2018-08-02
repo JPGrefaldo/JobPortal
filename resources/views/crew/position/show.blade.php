@@ -49,18 +49,23 @@
                             </span>
                         </div>
                         <div class="md:w-2/3 pr-6">
-                            <form action="{{ route('endorsement-request.store', ['position' => $position]) }}" method="post">
-                                {{ csrf_field() }}
-                                <div class="md:flex">
-                                    <div class="md:w-1/2">
-                                        <input class="form-control w-full" name="endorsers[0][name]" placeholder="Endorser's name." type="text">
+                            {{-- only show this if the user applied for this position basing it with crew position --}}
+                            {{-- {{ dump(Auth::user()->toArray()) }} --}}
+                            {{-- {{ dump(Auth::user()->hasPosition($position)) }} --}}
+                            @if (Auth::user()->hasPosition($position))
+                                <form action="{{ route('endorsement-request.store', ['position' => $position]) }}" method="post">
+                                    {{ csrf_field() }}
+                                    <div class="md:flex">
+                                        <div class="md:w-1/2">
+                                            <input class="form-control w-full" name="endorsers[0][name]" placeholder="Endorser's name." type="text">
+                                        </div>
+                                        <div class="md:w-1/2">
+                                            <input class="form-control w-full" name="endorsers[0][email]" placeholder="Endorser's email." type="text">
+                                        </div>
+                                        <input dusk="ask_endorsement" type="submit" value="Ask Endorsement">
                                     </div>
-                                    <div class="md:w-1/2">
-                                        <input class="form-control w-full" name="endorsers[0][email]" placeholder="Endorser's email." type="text">
-                                    </div>
-                                    <input dusk="ask_endorsement" type="submit" value="Ask Endorsement">
-                                </div>
-                            </form>
+                                </form>
+                            @endif
                         </div>
                     </div>
                 </div>
