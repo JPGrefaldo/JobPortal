@@ -3,7 +3,10 @@
 namespace Tests\Unit;
 
 use App\EndorsementRequest;
+use App\Models\Crew;
+use App\Models\CrewPosition;
 use App\Models\Endorsement;
+use App\Models\Position;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
@@ -34,7 +37,7 @@ class EndorsementRequestTest extends TestCase
     {
         $this->withoutExceptionHandling();
         // given
-        $user = factory(User::class)->create();
+        $user               = factory(User::class)->create();
         $endorsementRequest = factory(EndorsementRequest::class)->create();
 
         // when
@@ -42,5 +45,23 @@ class EndorsementRequestTest extends TestCase
 
         // then
         $this->assertTrue($endorsementRequest->isApprovedBy($user));
+    }
+
+    /**
+     * @test
+     */
+    public function isRequestedBy()
+    {
+        // given
+        $user               = factory(User::class)->create();
+        $crew               = factory(Crew::class)->create(['user_id' => $user->id]);
+        $position           = factory(Position::class)->create();
+        $crewPosition       = factory(CrewPosition::class)->create(['crew_id' => $crew->id, 'position_id' => $position->id]);
+        $endorsementRequest = factory(EndorsementRequest::class)->create(['crew_position_id' => $crewPosition->id]);
+        $randomUser         = factory(User::class)->create();
+
+        // then
+        $this->assertTrue($endorsementRequest->isRequestedBy($user));
+        $this->assertFalse($endorsementRequest->isRequestedBy($randomUser));
     }
 }

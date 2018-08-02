@@ -48,4 +48,9 @@ class EndorsementRequest extends Model
     {
         return $this->endorsements->where('endorser_id', $user->id)->count() > 0;
     }
+
+    public function isRequestedBy($user)
+    {
+        return $this->crewPosition->crew->user->id == $user->id;
+    }
 }
