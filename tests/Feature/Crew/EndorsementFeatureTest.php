@@ -8,6 +8,7 @@ use App\Models\Crew;
 use App\Models\CrewPosition;
 use App\Models\Endorsement;
 use App\Models\Position;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Mail;
@@ -297,5 +298,32 @@ class EndorsementFeatureTest extends TestCase
         // then
         $response->assertRedirect(route('endorsement.edit', ['endorsementRequest' => $endorsementRequest]));
         $this->assertCount(1, Endorsement::all()->toArray());
+    }
+
+    /**
+     * @test
+     */
+    public function endorsee_can_only_see_endorsement_form_on_applied_positions()
+    {
+        $this->withoutExceptionHandling();
+        // given
+        $endorsee           = factory(Crew::class)->states('withRole')->create();
+        $appliedPosition    = factory(Position::class)->create();
+        $crewPosition       = factory(CrewPosition::class)->create(['crew_id' => $endorsee->id, 'position_id' => $appliedPosition->id]);
+        $nonAppliedPosition = factory(Position::class)->create();
+
+        // when he views applied position
+        $response = $this->actingAs($endorsee->user)
+            ->get(route('crew_position.show', $appliedPosition));
+
+        // then he does see the endorsement form
+        $response->assertSee('Ask Endorsement');
+
+        // when he views non applied position
+        $response = $this->actingAs($endorsee->user)
+            ->get(route('crew_position.show', $nonAppliedPosition));
+
+        // then he does not see the endorsement form
+        $response->assertDontSee('Ask Endorsement');
     }
 }
