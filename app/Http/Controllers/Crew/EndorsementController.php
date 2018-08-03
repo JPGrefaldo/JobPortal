@@ -39,7 +39,7 @@ class EndorsementController extends Controller
         $endorsement = Endorsement::where('endorsement_request_id', $endorsementRequest->id)
             ->where('endorser_email', Auth::user()->email)->first();
 
-        if ($endorsementRequest->endorser->email == Auth::user()->email) {
+        if ($endorsementRequest->isRequestedBy(Auth::user())) {
             throw new ElectoralFraud('You can\'t endorse yourself.');
         }
 
@@ -63,9 +63,7 @@ class EndorsementController extends Controller
      */
     public function edit(Endorsement $endorsement)
     {
-        // $endorsement->approved_at = Carbon::now()->toDateTimeString();
-        // $endorsement->save();
-        // return view('crew.endorsement.edit', $endorsement)->with('endorsement', $endorsement);
+        return view('crew.endorsement.create')->with('endorsementRequest', $endorsementRequest)->with('endorsement', $endorsement);
     }
 
     /**

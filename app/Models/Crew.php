@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Crew extends Model
@@ -75,25 +74,11 @@ class Crew extends Model
     public function appliesFor(Position $position, $attributes)
     {
         return CrewPosition::create([
-            'crew_id' => $this->id,
-            'position_id' => $position->id,
-            'details' => $attributes['details'],
+            'crew_id'           => $this->id,
+            'position_id'       => $position->id,
+            'details'           => $attributes['details'],
             'union_description' => $attributes['union_description'],
         ]);
     }
 
-    public function askEndorsementFrom($endorserEmail, Position $position)
-    {
-        return Endorsement::create([
-            'position_id' => $position->id,
-            'endorser_email' => $endorserEmail,
-        ]);
-    }
-
-    public function acceptEndorsement(Endorsement $endorsement)
-    {
-        $endorsement->accepted_at = Carbon::now();
-        $endorsement->save();
-        return $endorsement;
-    }
 }
