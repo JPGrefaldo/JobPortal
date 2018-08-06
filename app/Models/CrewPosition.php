@@ -37,7 +37,7 @@ class CrewPosition extends Model
 
     public function departments() 
     {
-        return $this->belongsTo(Department::class, 'position_id', 'id');
+        return $this->belongsTo(Department::class, 'department_id', 'id');
     }    
 
 }

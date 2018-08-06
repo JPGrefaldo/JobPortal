@@ -127,15 +127,15 @@ class ProfilesController extends Controller
     {
     
     $biography = Crew::where('user_id', $user->id)->first();
-    $position = CrewPosition::where('crew_id', $user->id)->latest()->first();
+    $positions = CrewPosition::where('crew_id', $user->id)->latest()->first();
 
     if (isset($position)) {
-     $position_role = Position::where('department_id', $position->position_id)->first();
+     $position_role = Position::where('department_id', $positions->position_id)->first();
     }
 
     if ( isset($position) ) {
     
-    $jobTitle = Position::where('department_id', $position->position_id)->first();
+    $jobTitle = Position::where('department_id', $positions->position_id)->first();
     
     }
     
@@ -166,7 +166,7 @@ class ProfilesController extends Controller
     $otherPositions = Position::where('department_id', 7)->get();
 
 
-     return view('profile.my-profile-edit', compact('user','position', 'position_role', 'biography', 'jobTitle', 'social','fb', 'imdb', 'linkedin', 'departments', 'reel', 'resume', 'allpositions', 'productionPositions', 'artPositions', 'gripElectricPositions', 'cameraPositions', 'muahWardrobePositions', 'soundPositions')); 
+     return view('profile.my-profile-edit', compact('user','positions', 'position_role', 'biography', 'jobTitle', 'socmed','fb', 'imdb', 'linkedin', 'departments', 'reel', 'resume', 'allpositions', 'productionPositions', 'artPositions', 'gripElectricPositions', 'cameraPositions', 'muahWardrobePositions', 'soundPositions')); 
     }
 
     /**
@@ -312,4 +312,15 @@ class ProfilesController extends Controller
 
      return redirect()->back();
      }
+
+    public function destroyReel($id)
+    {
+     
+    $reel = CrewReel::find($id);
+    $reel->delete();
+
+     return redirect()->back();
+     }
+
+
 }

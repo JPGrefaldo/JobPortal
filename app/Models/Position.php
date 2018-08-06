@@ -24,8 +24,9 @@ class Position extends Model
         'has_many'      => 'boolean'
     ];
 
-    public function roles() 
+ public function departments() 
     {
-        return $this->belongsTo(CrewPosition::class, 'position_id', 'department_id');
-    }
+        
+        return $this->belongsTo(Department::class, 'department_id', 'id');
+    }    
 }
