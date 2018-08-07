@@ -342,4 +342,24 @@ class EndorsementFeatureTest extends TestCase
         // then
         $response->assertForbidden();
     }
+
+    /**
+     * @test
+     */
+    public function endorsee_must_not_see_endorsement_creation_page_for_his_own_endorsement_request()
+    {
+        // $this->withoutExceptionHandling();
+        // given
+        $endorser = factory(Crew::class)->states('withRole')->create();
+        $position = factory(Position::class)->create();
+        $crewPosition = factory(CrewPosition::class)->create(['crew_id' => $endorser->id, 'position_id' => $position->id]);
+        $endorsementRequest = factory(EndorsementRequest::class)->create(['crew_position_id' => $crewPosition->id]);
+
+        // when
+        $response = $this->actingAs($endorser->user)
+        ->get(route('endorsement.create', $endorsementRequest));
+
+        // then
+        $response->assertRedirect(route('crew_position.show', $position));
+    }
 }

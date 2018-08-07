@@ -11,9 +11,9 @@ class EndorsementRequest extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'id'               => 'integer',
+        'id' => 'integer',
         'crew_position_id' => 'integer',
-        'token'            => 'string',
+        'token' => 'string',
     ];
 
     public static function generateToken()
@@ -52,5 +52,20 @@ class EndorsementRequest extends Model
     public function isRequestedBy($user)
     {
         return $this->crewPosition->crew->user->id == $user->id;
+    }
+
+    public function isOwnedBy($user)
+    {
+        return $this->endorsee->user->id == $user->id;
+    }
+
+    public function endorsee()
+    {
+        return $this->crewPosition->crew();
+    }
+
+    public function position()
+    {
+        return $this->crewPosition->position();
     }
 }

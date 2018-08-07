@@ -64,4 +64,61 @@ class EndorsementRequestTest extends TestCase
         $this->assertTrue($endorsementRequest->isRequestedBy($user));
         $this->assertFalse($endorsementRequest->isRequestedBy($randomUser));
     }
+
+    /**
+     * @test
+     */
+    public function isOwnedBy()
+    {
+        // given
+        $crew = factory(Crew::class)->states('withRole')->create();
+        $user = $crew->user;
+        $position = factory(Position::class)->create();
+        $crewPosition = factory(CrewPosition::class)->create(['crew_id' => $crew->id, 'position_id' => $position->id]);
+
+        $randomUser = factory(User::class)->create();
+
+        // when
+        $endorsementRequest = factory(EndorsementRequest::class)->create(['crew_position_id' => $crewPosition->id]);
+
+        // then
+        $this->assertTrue($endorsementRequest->isOwnedBy($user));
+
+        $this->assertFalse($endorsementRequest->isOwnedBy($randomUser));
+    }
+
+    /**
+     * @test
+     */
+    public function endorsee()
+    {
+        // given
+        $endorsee = factory(Crew::class)->states('withRole')->create();
+        $position = factory(Position::class)->create();
+        $crewPosition = factory(CrewPosition::class)->create(['crew_id' => $endorsee->id, 'position_id' => $position->id]);
+        // crew
+
+        // when
+        $endorsementRequest = factory(EndorsementRequest::class)->create(['crew_position_id' => $crewPosition->id]);
+
+        // then
+        $this->assertEquals($endorsee->toArray(), $endorsementRequest->endorsee->toArray());
+    }
+
+    /**
+     * @test
+     */
+    public function position()
+    {
+        // given
+        $crew = factory(Crew::class)->states('withRole')->create();
+        $position = factory(Position::class)->create();
+        $crewPosition = factory(CrewPosition::class)->create(['crew_id' => $crew->id, 'position_id' => $position->id]);
+
+        // when
+        $endorsementRequest = factory(EndorsementRequest::class)->create(['crew_position_id' => $crewPosition->id]);
+
+        // then
+        $this->assertEquals($position->id, $endorsementRequest->position->id);
+    }
 }

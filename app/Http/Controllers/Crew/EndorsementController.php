@@ -6,7 +6,6 @@ use App\EndorsementRequest;
 use App\Exceptions\ElectoralFraud;
 use App\Http\Controllers\Controller;
 use App\Models\Endorsement;
-use App\Models\Position;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,6 +19,10 @@ class EndorsementController extends Controller
      */
     public function create(EndorsementRequest $endorsementRequest)
     {
+        if ($endorsementRequest->isOwnedBy(Auth::user())) {
+            return redirect(route('crew_position.show', $endorsementRequest->position));
+        }
+
         if ($endorsementRequest->isApprovedBy(Auth::user())) {
             return redirect(route('endorsement.edit', ['endorsementRequest' => $endorsementRequest]));
         }
@@ -46,11 +49,11 @@ class EndorsementController extends Controller
         if (!$endorsement) {
             $endorsement = Endorsement::create([
                 'endorsement_request_id' => $endorsementRequest->id,
-                'endorser_id'            => Auth::id(),
-                'endorser_name'          => Auth::user()->first_name . ' ' . Auth::user()->last_name,
-                'endorser_email'         => Auth::user()->email,
-                'approved_at'            => Carbon::now(),
-                'comment'                => $request['comment'],
+                'endorser_id' => Auth::id(),
+                'endorser_name' => Auth::user()->first_name . ' ' . Auth::user()->last_name,
+                'endorser_email' => Auth::user()->email,
+                'approved_at' => Carbon::now(),
+                'comment' => $request['comment'],
             ]);
         }
     }
