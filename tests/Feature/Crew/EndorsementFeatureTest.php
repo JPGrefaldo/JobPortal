@@ -362,4 +362,21 @@ class EndorsementFeatureTest extends TestCase
         // then
         $response->assertRedirect(route('crew_position.show', $position));
     }
+
+    /**
+     * @test
+     */
+    public function endorsers_with_endorsement_link_can_see_endorsement_comment_create_page()
+    {
+        // $this->withoutExceptionHandling();
+        // given
+        $endorser = factory(Crew::class)->states('withRole')->create();
+        $endorsementRequest = factory(EndorsementRequest::class)->create();
+
+        // when
+        $response = $this->actingAs($endorser->user)->get(route('endorsement.create', $endorsementRequest));
+
+        // then
+        $response->assertSee('Please feel free to leave a comment for this endorsement request.');
+    }
 }
