@@ -15,6 +15,7 @@ use Tests\TestCase;
 class EndorsementRequestTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
+
     /**
      * @test
      */
@@ -53,7 +54,7 @@ class EndorsementRequestTest extends TestCase
     {
         $this->withoutExceptionHandling();
         // given
-        $user               = factory(User::class)->create();
+        $user = factory(User::class)->create();
         $endorsementRequest = factory(EndorsementRequest::class)->create();
 
         // when
@@ -69,12 +70,12 @@ class EndorsementRequestTest extends TestCase
     public function isRequestedBy()
     {
         // given
-        $user               = factory(User::class)->create();
-        $crew               = factory(Crew::class)->create(['user_id' => $user->id]);
-        $position           = factory(Position::class)->create();
-        $crewPosition       = factory(CrewPosition::class)->create(['crew_id' => $crew->id, 'position_id' => $position->id]);
+        $user = factory(User::class)->create();
+        $crew = factory(Crew::class)->create(['user_id' => $user->id]);
+        $position = factory(Position::class)->create();
+        $crewPosition = factory(CrewPosition::class)->create(['crew_id' => $crew->id, 'position_id' => $position->id]);
         $endorsementRequest = factory(EndorsementRequest::class)->create(['crew_position_id' => $crewPosition->id]);
-        $randomUser         = factory(User::class)->create();
+        $randomUser = factory(User::class)->create();
 
         // then
         $this->assertTrue($endorsementRequest->isRequestedBy($user));

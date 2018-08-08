@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Crew;
 
 use App\EndorsementRequest;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreEndorsementRequest;
+use App\Http\Requests\StoreEndorsementRequestRequest;
 use App\Mail\EndorsementRequestEmail;
 use App\Models\CrewPosition;
 use App\Models\Endorsement;
@@ -21,9 +21,9 @@ class EndorsementRequestController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Position $position, StoreEndorsementRequest $request)
+    public function store(Position $position, StoreEndorsementRequestRequest $request)
     {
-        $crewPosition       = CrewPosition::byCrewAndPosition(Auth::user()->crew, $position)->first();
+        $crewPosition = CrewPosition::byCrewAndPosition(Auth::user()->crew, $position)->first();
 
         $endorsementRequest = EndorsementRequest::where([
             'crew_position_id' => $crewPosition->id,
@@ -33,7 +33,7 @@ class EndorsementRequestController extends Controller
         if (!$endorsementRequest) {
             $endorsementRequest = EndorsementRequest::create([
                 'crew_position_id' => $crewPosition->id,
-                'token'            => EndorsementRequest::generateToken(),
+                'token' => EndorsementRequest::generateToken(),
             ]);
         }
 
@@ -46,8 +46,8 @@ class EndorsementRequestController extends Controller
             ) {
                 $endorsement = Endorsement::create([
                     'endorsement_request_id' => $endorsementRequest->id,
-                    'endorser_name'          => $endorser['name'],
-                    'endorser_email'         => $endorser['email'],
+                    'endorser_name' => $endorser['name'],
+                    'endorser_email' => $endorser['email'],
                 ]);
 
                 // send email

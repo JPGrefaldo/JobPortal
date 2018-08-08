@@ -8,7 +8,6 @@ use App\Models\Crew;
 use App\Models\CrewPosition;
 use App\Models\Endorsement;
 use App\Models\Position;
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Mail;
@@ -28,18 +27,18 @@ class EndorsementFeatureTest extends TestCase
 
         // $this->withoutExceptionHandling();
         // given
-        $endorsee     = factory(Crew::class)->states('withRole')->create();
-        $user         = $endorsee->user;
-        $position     = factory(Position::class)->create();
+        $endorsee = factory(Crew::class)->states('withRole')->create();
+        $user = $endorsee->user;
+        $position = factory(Position::class)->create();
         $crewPosition = factory(CrewPosition::class)->create([
-            'crew_id'     => $endorsee->id,
+            'crew_id' => $endorsee->id,
             'position_id' => $position->id,
         ]);
 
-        $endorserName1  = $this->faker->name;
+        $endorserName1 = $this->faker->name;
         $endorserEmail1 = $this->faker->email;
 
-        $endorserName2  = $this->faker->name;
+        $endorserName2 = $this->faker->name;
         $endorserEmail2 = $this->faker->email;
 
         // when
@@ -50,11 +49,11 @@ class EndorsementFeatureTest extends TestCase
                 [
                     'endorsers' => [
                         [
-                            'name'  => $endorserName1,
+                            'name' => $endorserName1,
                             'email' => $endorserEmail1,
                         ],
                         [
-                            'name'  => $endorserName2,
+                            'name' => $endorserName2,
                             'email' => $endorserEmail2,
                         ],
                     ],
@@ -72,14 +71,14 @@ class EndorsementFeatureTest extends TestCase
 
         $this->assertDatabaseHas('endorsements', [
             'endorsement_request_id' => $endorsementRequest->id,
-            'endorser_name'          => $endorserName1,
-            'endorser_email'         => $endorserEmail1,
+            'endorser_name' => $endorserName1,
+            'endorser_email' => $endorserEmail1,
         ]);
 
         $this->assertDatabaseHas('endorsements', [
             'endorsement_request_id' => $endorsementRequest->id,
-            'endorser_name'          => $endorserName2,
-            'endorser_email'         => $endorserEmail2,
+            'endorser_name' => $endorserName2,
+            'endorser_email' => $endorserEmail2,
         ]);
 
         Mail::assertSent(EndorsementRequestEmail::class, function ($mail) use ($endorsementRequest) {
@@ -96,18 +95,18 @@ class EndorsementFeatureTest extends TestCase
         Mail::fake();
 
         // given
-        $endorsee     = factory(Crew::class)->states('withRole')->create();
-        $user         = $endorsee->user;
-        $position     = factory(Position::class)->create(['name' => 'Makeup']);
+        $endorsee = factory(Crew::class)->states('withRole')->create();
+        $user = $endorsee->user;
+        $position = factory(Position::class)->create(['name' => 'Makeup']);
         $crewPosition = factory(CrewPosition::class)->create([
-            'crew_id'     => $endorsee->id,
+            'crew_id' => $endorsee->id,
             'position_id' => $position->id,
         ]);
 
-        $endorserName1  = $this->faker->name;
+        $endorserName1 = $this->faker->name;
         $endorserEmail1 = $this->faker->email;
 
-        $endorserName2  = $this->faker->name;
+        $endorserName2 = $this->faker->name;
         $endorserEmail2 = $this->faker->email;
 
         // when
@@ -118,11 +117,11 @@ class EndorsementFeatureTest extends TestCase
                 [
                     'endorsers' => [
                         [
-                            'name'  => $endorserName1,
+                            'name' => $endorserName1,
                             'email' => $endorserEmail1,
                         ],
                         [
-                            'name'  => $endorserName2,
+                            'name' => $endorserName2,
                             'email' => $endorserEmail2,
                         ],
                     ],
@@ -141,8 +140,8 @@ class EndorsementFeatureTest extends TestCase
         // $this->withoutExceptionHandling();
         // given
         $endorsementRequest = factory(EndorsementRequest::class)->create();
-        $endorser1          = factory(Crew::class)->states('withRole')->create();
-        $endorser2          = factory(Crew::class)->states('withRole')->create();
+        $endorser1 = factory(Crew::class)->states('withRole')->create();
+        $endorser2 = factory(Crew::class)->states('withRole')->create();
 
         // when
         $response1 = $this
@@ -170,18 +169,18 @@ class EndorsementFeatureTest extends TestCase
         Mail::fake();
         // given
         // given an endorsee
-        $endorsee     = factory(Crew::class)->states('withRole')->create();
-        $user         = $endorsee->user;
-        $position     = factory(Position::class)->create();
+        $endorsee = factory(Crew::class)->states('withRole')->create();
+        $user = $endorsee->user;
+        $position = factory(Position::class)->create();
         $crewPosition = factory(CrewPosition::class)->create([
-            'crew_id'     => $endorsee->id,
+            'crew_id' => $endorsee->id,
             'position_id' => $position->id,
         ]);
 
-        $endorserName1  = $this->faker->name;
+        $endorserName1 = $this->faker->name;
         $endorserEmail1 = $this->faker->email;
 
-        $endorserName2  = $this->faker->name;
+        $endorserName2 = $this->faker->name;
         $endorserEmail2 = $this->faker->email;
 
         $response = $this
@@ -191,11 +190,11 @@ class EndorsementFeatureTest extends TestCase
                 [
                     'endorsers' => [
                         [
-                            'name'  => $endorserName1,
+                            'name' => $endorserName1,
                             'email' => $endorserEmail1,
                         ],
                         [
-                            'name'  => $endorserName2,
+                            'name' => $endorserName2,
                             'email' => $endorserEmail2,
                         ],
                     ],
@@ -211,11 +210,11 @@ class EndorsementFeatureTest extends TestCase
                 [
                     'endorsers' => [
                         [
-                            'name'  => $endorserName1,
+                            'name' => $endorserName1,
                             'email' => $endorserEmail1,
                         ],
                         [
-                            'name'  => $endorserName2,
+                            'name' => $endorserName2,
                             'email' => $endorserEmail2,
                         ],
                     ],
@@ -238,7 +237,7 @@ class EndorsementFeatureTest extends TestCase
         $endorsementRequest = factory(EndorsementRequest::class)->create();
         // endorser endorses an endorsement of the same crew
         $endorser = factory(Crew::class)->states('withRole')->create();
-        $comment  = $this->faker->sentence;
+        $comment = $this->faker->sentence;
 
         $response = $this
             ->actingAs($endorser->user)
@@ -265,8 +264,8 @@ class EndorsementFeatureTest extends TestCase
     public function an_endorsee_can_not_endorse_himself()
     {
         // given
-        $endorsee           = factory(Crew::class)->states('withRole')->create();
-        $crewPosition       = factory(CrewPosition::class)->create(['crew_id' => $endorsee->id]);
+        $endorsee = factory(Crew::class)->states('withRole')->create();
+        $crewPosition = factory(CrewPosition::class)->create(['crew_id' => $endorsee->id]);
         $endorsementRequest = factory(EndorsementRequest::class)->create(['crew_position_id' => $crewPosition->id]);
 
         // when
@@ -283,20 +282,20 @@ class EndorsementFeatureTest extends TestCase
     /**
      * @test
      */
-    public function if_user_already_approved_a_request_he_is_redirected_to_edit_comment()
+    public function if_user_already_approved_a_request_he_is_redirected_to_edit_endorsement_comment()
     {
         // $this->withoutExceptionHandling();
         // given
-        $endorser           = factory(Crew::class)->states('withRole')->create();
-        $endorsement        = factory(Endorsement::class)->states('approved')->create(['endorser_id' => $endorser->user->id]);
+        $endorser = factory(Crew::class)->states('withRole')->create();
+        $endorsement = factory(Endorsement::class)->states('approved')->create(['endorser_id' => $endorser->user->id]);
         $endorsementRequest = $endorsement->request;
 
         // when
         $response = $this->actingAs($endorser->user)
-            ->get(route('endorsement.create', ['endorsementRequest' => $endorsementRequest]));
+            ->get(route('endorsement.create', $endorsementRequest));
 
         // then
-        $response->assertRedirect(route('endorsement.edit', ['endorsementRequest' => $endorsementRequest]));
+        $response->assertRedirect(route('endorsement.edit', $endorsementRequest));
         $this->assertCount(1, Endorsement::all()->toArray());
     }
 
@@ -307,9 +306,9 @@ class EndorsementFeatureTest extends TestCase
     {
         $this->withoutExceptionHandling();
         // given
-        $endorsee           = factory(Crew::class)->states('withRole')->create();
-        $appliedPosition    = factory(Position::class)->create();
-        $crewPosition       = factory(CrewPosition::class)->create(['crew_id' => $endorsee->id, 'position_id' => $appliedPosition->id]);
+        $endorsee = factory(Crew::class)->states('withRole')->create();
+        $appliedPosition = factory(Position::class)->create();
+        $crewPosition = factory(CrewPosition::class)->create(['crew_id' => $endorsee->id, 'position_id' => $appliedPosition->id]);
         $nonAppliedPosition = factory(Position::class)->create();
 
         // when he views applied position
@@ -350,14 +349,14 @@ class EndorsementFeatureTest extends TestCase
     {
         // $this->withoutExceptionHandling();
         // given
-        $endorser = factory(Crew::class)->states('withRole')->create();
+        $endorsee = factory(Crew::class)->states('withRole')->create();
         $position = factory(Position::class)->create();
-        $crewPosition = factory(CrewPosition::class)->create(['crew_id' => $endorser->id, 'position_id' => $position->id]);
+        $crewPosition = factory(CrewPosition::class)->create(['crew_id' => $endorsee->id, 'position_id' => $position->id]);
         $endorsementRequest = factory(EndorsementRequest::class)->create(['crew_position_id' => $crewPosition->id]);
 
         // when
-        $response = $this->actingAs($endorser->user)
-        ->get(route('endorsement.create', $endorsementRequest));
+        $response = $this->actingAs($endorsee->user)
+            ->get(route('endorsement.create', $endorsementRequest));
 
         // then
         $response->assertRedirect(route('crew_position.show', $position));
@@ -400,5 +399,27 @@ class EndorsementFeatureTest extends TestCase
 
         // then
         $response->assertRedirect(route('endorsement.edit', $endorsementRequest));
+    }
+
+    /**
+     * @test
+     */
+    public function endorsers_can_update_their_comment()
+    {
+        // $this->withoutExceptionHandling();
+        // given
+        $comment = $this->faker->sentence;
+        $comment2 = $this->faker->sentence;
+        $endorser = factory(Crew::class)->states('withRole')->create();
+        $endorsement = factory(Endorsement::class)->states('approved')->create(['endorser_email' => $endorser->user->email]);
+        $endorsement2 = factory(Endorsement::class)->states('approved', 'withComment')->create(['endorser_email' => $endorser->user->email]);
+
+        // when
+        $response = $this->actingAs($endorser->user)->putJson(route('endorsement.update', $endorsement->request), ['comment' => $comment]);
+        $response = $this->actingAs($endorser->user)->putJson(route('endorsement.update', $endorsement2->request), ['comment' => $comment2]);
+
+        // then
+        $this->assertDatabaseHas('endorsements', ['comment' => $comment]);
+        $this->assertDatabaseHas('endorsements', ['comment' => $comment2]);
     }
 }

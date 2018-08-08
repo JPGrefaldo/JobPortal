@@ -36,7 +36,7 @@ class EndorsementRequest extends Model
 
     public function endorser()
     {
-        return $this->crewPosition->crew->user();
+        // return $this->crewPosition->crew->user();
     }
 
     public function endorsements()

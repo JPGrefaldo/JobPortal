@@ -79,12 +79,12 @@ class EndorsementController extends Controller
      * @param  \App\Endorsement  $endorsement
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Endorsement $endorsement)
+    public function update(Request $request, EndorsementRequest $endorsementRequest)
     {
-        // return Endorsement::update([
-        //     'approved_at' => Carbon::now(),
-        //     'comment'     => $request->comment,
-        // ]);
+        $endorsement = $endorsementRequest->endorsementBy(auth()->user());
+        $endorsement->comment = $request->comment;
+        $endorsement->save();
+        // TODO: respond with you have updated your endorsement comment
     }
 
     /**
