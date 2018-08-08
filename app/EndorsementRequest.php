@@ -44,6 +44,11 @@ class EndorsementRequest extends Model
         return $this->hasMany(Endorsement::class);
     }
 
+    public function endorsementBy($user)
+    {
+        return $this->endorsements->where('endorser_email', $user->email)->first();
+    }
+
     public function isApprovedBy($user)
     {
         return $this->endorsements->where('endorser_id', $user->id)->count() > 0;

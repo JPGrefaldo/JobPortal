@@ -379,4 +379,26 @@ class EndorsementFeatureTest extends TestCase
         // then
         $response->assertSee('Please feel free to leave a comment for this endorsement request.');
     }
+
+    /**
+     * @test
+     */
+    public function endorsers_trying_to_view_create_endorsement_is_redirected_to_edit()
+    {
+        // $this->withoutExceptionHandling();
+        // given
+        $endorser = factory(Crew::class)->states('withRole')->create();
+        $endorsementRequest = factory(EndorsementRequest::class)->create();
+
+        // when
+        $response = $this
+            ->actingAs($endorser->user)
+            ->postJson(route('endorsement.store', ['endorsementRequest' => $endorsementRequest]), [
+                'comment' => $this->faker->sentence,
+            ]);
+        $response = $this->actingAs($endorser->user)->get(route('endorsement.create', $endorsementRequest));
+
+        // then
+        $response->assertRedirect(route('endorsement.edit', $endorsementRequest));
+    }
 }

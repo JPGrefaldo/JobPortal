@@ -33,6 +33,22 @@ class EndorsementRequestTest extends TestCase
     /**
      * @test
      */
+    public function endorsementBy()
+    {
+        // given
+        $endorsementRequest = factory(EndorsementRequest::class)->create();
+        $endorser = factory(User::class)->create();
+
+        // when
+        $endorsement = factory(Endorsement::class)->states('approved')->create(['endorsement_request_id' => $endorsementRequest->id, 'endorser_email' => $endorser->email]);
+
+        // then
+        $this->assertEquals($endorser->email, $endorsementRequest->endorsementBy($endorser)->endorser_email);
+    }
+
+    /**
+     * @test
+     */
     public function isApprovedBy()
     {
         $this->withoutExceptionHandling();

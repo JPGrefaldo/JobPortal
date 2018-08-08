@@ -56,6 +56,8 @@ class EndorsementController extends Controller
                 'comment' => $request['comment'],
             ]);
         }
+
+        // respond with sucess
     }
 
     /**
@@ -64,9 +66,10 @@ class EndorsementController extends Controller
      * @param  \App\Endorsement  $endorsement
      * @return \Illuminate\Http\Response
      */
-    public function edit(Endorsement $endorsement)
+    public function edit(EndorsementRequest $endorsementRequest)
     {
-        return view('crew.endorsement.create')->with('endorsementRequest', $endorsementRequest)->with('endorsement', $endorsement);
+        $endorsement = $endorsementRequest->endorsementBy(auth()->user());
+        return view('crew.endorsement.edit')->with('endorsementRequest', $endorsementRequest)->with('endorsement', $endorsement);
     }
 
     /**
