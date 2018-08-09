@@ -149,22 +149,6 @@ class EndorsementFeatureTest extends TestCase
     /**
      * @test
      */
-    public function endorsee_can_only_ask_endorsement_for_applied_positions()
-    {
-        // given
-        $endorsee = factory(Crew::class)->states('withRole')->create();
-        $nonAppliedPosition = factory(Position::class)->create();
-
-        // when
-        $response = $this->actingAs($endorsee->user)->post(route('endorsement_requests.store', $nonAppliedPosition));
-
-        // then
-        $response->assertForbidden();
-    }
-
-    /**
-     * @test
-     */
     public function endorsee_must_not_see_endorsement_creation_page_for_his_own_endorsement_requests()
     {
         // $this->withoutExceptionHandling();
