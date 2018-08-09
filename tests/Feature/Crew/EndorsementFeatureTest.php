@@ -45,7 +45,7 @@ class EndorsementFeatureTest extends TestCase
         $response = $this
             ->actingAs($user)
             ->postJson(
-                route('endorsement_request.store', ['position' => $position->id]),
+                route('endorsement_requests.store', ['position' => $position->id]),
                 [
                     'endorsers' => [
                         [
@@ -113,7 +113,7 @@ class EndorsementFeatureTest extends TestCase
         $response = $this
             ->actingAs($user)
             ->postJson(
-                route('endorsement_request.store', ['position' => $position->id]),
+                route('endorsement_requests.store', ['position' => $position->id]),
                 [
                     'endorsers' => [
                         [
@@ -186,7 +186,7 @@ class EndorsementFeatureTest extends TestCase
         $response = $this
             ->actingAs($user)
             ->postJson(
-                route('endorsement_request.store', ['position' => $position->id]),
+                route('endorsement_requests.store', ['position' => $position->id]),
                 [
                     'endorsers' => [
                         [
@@ -206,7 +206,7 @@ class EndorsementFeatureTest extends TestCase
         $response = $this
             ->actingAs($user)
             ->postJson(
-                route('endorsement_request.store', ['position' => $position->id]),
+                route('endorsement_requests.store', ['position' => $position->id]),
                 [
                     'endorsers' => [
                         [
@@ -336,7 +336,7 @@ class EndorsementFeatureTest extends TestCase
         $nonAppliedPosition = factory(Position::class)->create();
 
         // when
-        $response = $this->actingAs($endorsee->user)->post(route('endorsement_request.store', $nonAppliedPosition));
+        $response = $this->actingAs($endorsee->user)->post(route('endorsement_requests.store', $nonAppliedPosition));
 
         // then
         $response->assertForbidden();
@@ -345,7 +345,7 @@ class EndorsementFeatureTest extends TestCase
     /**
      * @test
      */
-    public function endorsee_must_not_see_endorsement_creation_page_for_his_own_endorsement_request()
+    public function endorsee_must_not_see_endorsement_creation_page_for_his_own_endorsement_requests()
     {
         // $this->withoutExceptionHandling();
         // given

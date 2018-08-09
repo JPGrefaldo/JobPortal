@@ -53,7 +53,7 @@
                             {{-- {{ dump(Auth::user()->toArray()) }} --}}
                             {{-- {{ dump(Auth::user()->hasPosition($position)) }} --}}
                             @if (Auth::user()->hasPosition($position))
-                                <form action="{{ route('endorsement-request.store', ['position' => $position]) }}" method="post">
+                                <form action="{{ route('endorsement_requests.store', ['position' => $position]) }}" method="post">
                                     {{ csrf_field() }}
                                     <div class="md:flex">
                                         <div class="md:w-1/2">
