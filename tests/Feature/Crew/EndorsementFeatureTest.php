@@ -21,52 +21,6 @@ class EndorsementFeatureTest extends TestCase
     /**
      * @test
      */
-    public function endorsement_request_email_is_sent_to_endorsers_after_endorsees_ask_for_an_endorsement()
-    {
-        // $this->withoutExceptionHandling();
-        Mail::fake();
-
-        // given
-        $endorsee = factory(Crew::class)->states('withRole')->create();
-        $user = $endorsee->user;
-        $position = factory(Position::class)->create(['name' => 'Makeup']);
-        $crewPosition = factory(CrewPosition::class)->create([
-            'crew_id' => $endorsee->id,
-            'position_id' => $position->id,
-        ]);
-
-        $endorserName1 = $this->faker->name;
-        $endorserEmail1 = $this->faker->email;
-
-        $endorserName2 = $this->faker->name;
-        $endorserEmail2 = $this->faker->email;
-
-        // when
-        $response = $this
-            ->actingAs($user)
-            ->postJson(
-                route('endorsement_requests.store', ['position' => $position->id]),
-                [
-                    'endorsers' => [
-                        [
-                            'name' => $endorserName1,
-                            'email' => $endorserEmail1,
-                        ],
-                        [
-                            'name' => $endorserName2,
-                            'email' => $endorserEmail2,
-                        ],
-                    ],
-                ]
-            );
-
-        // then
-        Mail::assertSent(EndorsementRequestEmail::class, 2);
-    }
-
-    /**
-     * @test
-     */
     public function endorser_can_approve_an_endorsement()
     {
         // $this->withoutExceptionHandling();
