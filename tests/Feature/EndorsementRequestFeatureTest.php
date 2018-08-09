@@ -138,6 +138,73 @@ class EndorsementRequestFeatureTest extends TestCase
         // then
         Mail::assertSent(EndorsementRequestEmail::class, 2);
     }
+
+    /**
+     * @test
+     */
+    public function an_endorsee_can_only_ask_to_be_endorsed_by_the_same_crew_once()
+    {
+        // $this->withoutExceptionHandling();
+        Mail::fake();
+        // given
+        // given an endorsee
+        $endorsee = factory(Crew::class)->states('withRole')->create();
+        $user = $endorsee->user;
+        $position = factory(Position::class)->create();
+        $crewPosition = factory(CrewPosition::class)->create([
+            'crew_id' => $endorsee->id,
+            'position_id' => $position->id,
+        ]);
+
+        $endorserName1 = $this->faker->name;
+        $endorserEmail1 = $this->faker->email;
+
+        $endorserName2 = $this->faker->name;
+        $endorserEmail2 = $this->faker->email;
+
+        $response = $this
+            ->actingAs($user)
+            ->postJson(
+                route('endorsement_requests.store', ['position' => $position->id]),
+                [
+                    'endorsers' => [
+                        [
+                            'name' => $endorserName1,
+                            'email' => $endorserEmail1,
+                        ],
+                        [
+                            'name' => $endorserName2,
+                            'email' => $endorserEmail2,
+                        ],
+                    ],
+                ]
+            );
+
+        // when
+        // endorsee asks for endorsement again
+        $response = $this
+            ->actingAs($user)
+            ->postJson(
+                route('endorsement_requests.store', ['position' => $position->id]),
+                [
+                    'endorsers' => [
+                        [
+                            'name' => $endorserName1,
+                            'email' => $endorserEmail1,
+                        ],
+                        [
+                            'name' => $endorserName2,
+                            'email' => $endorserEmail2,
+                        ],
+                    ],
+                ]
+            );
+
+        // then
+        Mail::assertSent(EndorsementRequestEmail::class, 2);
+        $this->assertCount(2, Endorsement::all()->toArray());
+    }
+
     /** SHOW */
     // authorization
     // validation
