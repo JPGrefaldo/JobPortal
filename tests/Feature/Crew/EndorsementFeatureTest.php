@@ -45,7 +45,7 @@ class EndorsementFeatureTest extends TestCase
         $response = $this
             ->actingAs($user)
             ->postJson(
-                route('endorsement-request.store', ['position' => $position->id]),
+                route('endorsement_request.store', ['position' => $position->id]),
                 [
                     'endorsers' => [
                         [
@@ -113,7 +113,7 @@ class EndorsementFeatureTest extends TestCase
         $response = $this
             ->actingAs($user)
             ->postJson(
-                route('endorsement-request.store', ['position' => $position->id]),
+                route('endorsement_request.store', ['position' => $position->id]),
                 [
                     'endorsers' => [
                         [
@@ -186,7 +186,7 @@ class EndorsementFeatureTest extends TestCase
         $response = $this
             ->actingAs($user)
             ->postJson(
-                route('endorsement-request.store', ['position' => $position->id]),
+                route('endorsement_request.store', ['position' => $position->id]),
                 [
                     'endorsers' => [
                         [
@@ -206,7 +206,7 @@ class EndorsementFeatureTest extends TestCase
         $response = $this
             ->actingAs($user)
             ->postJson(
-                route('endorsement-request.store', ['position' => $position->id]),
+                route('endorsement_request.store', ['position' => $position->id]),
                 [
                     'endorsers' => [
                         [
@@ -336,7 +336,7 @@ class EndorsementFeatureTest extends TestCase
         $nonAppliedPosition = factory(Position::class)->create();
 
         // when
-        $response = $this->actingAs($endorsee->user)->post(route('endorsement-request.store', $nonAppliedPosition));
+        $response = $this->actingAs($endorsee->user)->post(route('endorsement_request.store', $nonAppliedPosition));
 
         // then
         $response->assertForbidden();
