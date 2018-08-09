@@ -221,21 +221,4 @@ class EndorsementRequestFeatureTest extends TestCase
         Mail::assertSent(EndorsementRequestEmail::class, 2);
         $this->assertCount(2, Endorsement::all()->toArray());
     }
-
-    /** SHOW */
-    // authorization
-    // validation
-    // general logic
-    /** EDIT */
-    // authorization
-    // validation
-    // general logic
-    /** UPDATE */
-    // authorization
-    // validation
-    // general logic
-    /** DELETE */
-    // authorization
-    // validation
-    // general logic
 }
