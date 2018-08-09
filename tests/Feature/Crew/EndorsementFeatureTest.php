@@ -18,6 +18,31 @@ class EndorsementFeatureTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh, WithFaker;
 
+    /** CREATE */
+    // authorization
+    // validation
+    // general logic
+    /** STORE */
+    // authorization
+    // validation
+    // general logic
+    /** SHOW */
+    // authorization
+    // validation
+    // general logic
+    /** EDIT */
+    // authorization
+    // validation
+    // general logic
+    /** UPDATE */
+    // authorization
+    // validation
+    // general logic
+    /** DELETE */
+    // authorization
+    // validation
+    // general logic
+
     /**
      * @test
      */
@@ -32,13 +57,13 @@ class EndorsementFeatureTest extends TestCase
         // when
         $response1 = $this
             ->actingAs($endorser1->user)
-            ->postJson(route('endorsement.store', ['endorsementRequest' => $endorsementRequest]), [
+            ->postJson(route('endorsements.store', ['endorsementRequest' => $endorsementRequest]), [
                 'comment' => $this->faker->sentence,
             ]);
 
         $response2 = $this
             ->actingAs($endorser2->user)
-            ->postJson(route('endorsement.store', ['endorsementRequest' => $endorsementRequest]), [
+            ->postJson(route('endorsements.store', ['endorsementRequest' => $endorsementRequest]), [
                 'comment' => '',
             ]);
 
@@ -61,7 +86,7 @@ class EndorsementFeatureTest extends TestCase
 
         $response = $this
             ->actingAs($endorser->user)
-            ->postJson(route('endorsement.store', ['endorsementRequest' => $endorsementRequest]), [
+            ->postJson(route('endorsements.store', ['endorsementRequest' => $endorsementRequest]), [
                 'comment' => $comment,
             ]);
 
@@ -69,7 +94,7 @@ class EndorsementFeatureTest extends TestCase
         // endorser endorses the same crew again
         $response = $this
             ->actingAs($endorser->user)
-            ->postJson(route('endorsement.store', ['endorsementRequest' => $endorsementRequest]), [
+            ->postJson(route('endorsements.store', ['endorsementRequest' => $endorsementRequest]), [
                 'comment' => $comment,
             ]);
 
@@ -91,7 +116,7 @@ class EndorsementFeatureTest extends TestCase
         // when
         $response = $this
             ->actingAs($endorsee->user)
-            ->postJson(route('endorsement.store', ['endorsementRequest' => $endorsementRequest]), [
+            ->postJson(route('endorsements.store', ['endorsementRequest' => $endorsementRequest]), [
                 'comment' => $this->faker->sentence,
             ]);
 
@@ -112,10 +137,10 @@ class EndorsementFeatureTest extends TestCase
 
         // when
         $response = $this->actingAs($endorser->user)
-            ->get(route('endorsement.create', $endorsementRequest));
+            ->get(route('endorsements.create', $endorsementRequest));
 
         // then
-        $response->assertRedirect(route('endorsement.edit', $endorsementRequest));
+        $response->assertRedirect(route('endorsements.edit', $endorsementRequest));
         $this->assertCount(1, Endorsement::all()->toArray());
     }
 
@@ -160,7 +185,7 @@ class EndorsementFeatureTest extends TestCase
 
         // when
         $response = $this->actingAs($endorsee->user)
-            ->get(route('endorsement.create', $endorsementRequest));
+            ->get(route('endorsements.create', $endorsementRequest));
 
         // then
         $response->assertRedirect(route('crew_position.show', $position));
@@ -177,7 +202,7 @@ class EndorsementFeatureTest extends TestCase
         $endorsementRequest = factory(EndorsementRequest::class)->create();
 
         // when
-        $response = $this->actingAs($endorser->user)->get(route('endorsement.create', $endorsementRequest));
+        $response = $this->actingAs($endorser->user)->get(route('endorsements.create', $endorsementRequest));
 
         // then
         $response->assertSee('Please feel free to leave a comment for this endorsement request.');
@@ -196,13 +221,13 @@ class EndorsementFeatureTest extends TestCase
         // when
         $response = $this
             ->actingAs($endorser->user)
-            ->postJson(route('endorsement.store', ['endorsementRequest' => $endorsementRequest]), [
+            ->postJson(route('endorsements.store', ['endorsementRequest' => $endorsementRequest]), [
                 'comment' => $this->faker->sentence,
             ]);
-        $response = $this->actingAs($endorser->user)->get(route('endorsement.create', $endorsementRequest));
+        $response = $this->actingAs($endorser->user)->get(route('endorsements.create', $endorsementRequest));
 
         // then
-        $response->assertRedirect(route('endorsement.edit', $endorsementRequest));
+        $response->assertRedirect(route('endorsements.edit', $endorsementRequest));
     }
 
     /**
@@ -219,8 +244,8 @@ class EndorsementFeatureTest extends TestCase
         $endorsement2 = factory(Endorsement::class)->states('approved', 'withComment')->create(['endorser_email' => $endorser->user->email]);
 
         // when
-        $response = $this->actingAs($endorser->user)->putJson(route('endorsement.update', $endorsement->request), ['comment' => $comment]);
-        $response = $this->actingAs($endorser->user)->putJson(route('endorsement.update', $endorsement2->request), ['comment' => $comment2]);
+        $response = $this->actingAs($endorser->user)->putJson(route('endorsements.update', $endorsement->request), ['comment' => $comment]);
+        $response = $this->actingAs($endorser->user)->putJson(route('endorsements.update', $endorsement2->request), ['comment' => $comment2]);
 
         // then
         $this->assertDatabaseHas('endorsements', ['comment' => $comment]);
