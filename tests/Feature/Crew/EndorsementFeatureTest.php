@@ -20,29 +20,90 @@ class EndorsementFeatureTest extends TestCase
 
     /** CREATE */
     // authorization
-    // validation
     // general logic
+    /**
+     * @test
+     */
+    public function endorsers_with_endorsement_link_can_see_endorsement_comment_create_page()
+    {
+        // $this->withoutExceptionHandling();
+        // given
+        $endorser = factory(Crew::class)->states('withRole')->create();
+        $endorsementRequest = factory(EndorsementRequest::class)->create();
+
+        // when
+        $response = $this->actingAs($endorser->user)->get(route('endorsements.create', $endorsementRequest));
+
+        // then
+        $response->assertSee('Please feel free to leave a comment for this endorsement request.');
+    }
+
+    /**
+     * @test
+     */
+    public function endorsee_must_not_see_endorsement_creation_page_for_his_own_endorsement_requests()
+    {
+        // $this->withoutExceptionHandling();
+        // given
+        $endorsee = factory(Crew::class)->states('withRole')->create();
+        $position = factory(Position::class)->create();
+        $crewPosition = factory(CrewPosition::class)->create(['crew_id' => $endorsee->id, 'position_id' => $position->id]);
+        $endorsementRequest = factory(EndorsementRequest::class)->create(['crew_position_id' => $crewPosition->id]);
+
+        // when
+        $response = $this->actingAs($endorsee->user)
+            ->get(route('endorsements.create', $endorsementRequest));
+
+        // then
+        $response->assertRedirect(route('crew_position.show', $position));
+    }
+
+    /**
+     * @test
+     */
+    public function if_endorser_already_approved_a_request_then_he_is_redirected_to_edit_endorsement_comment()
+    {
+        // $this->withoutExceptionHandling();
+        // given
+        $endorser = factory(Crew::class)->states('withRole')->create();
+        $endorsement = factory(Endorsement::class)->states('approved')->create(['endorser_id' => $endorser->user->id]);
+        $endorsementRequest = $endorsement->request;
+
+        // when
+        $response = $this->actingAs($endorser->user)
+            ->get(route('endorsements.create', $endorsementRequest));
+
+        // then
+        $response->assertRedirect(route('endorsements.edit', $endorsementRequest));
+        $this->assertCount(1, Endorsement::all()->toArray());
+    }
+
     /** STORE */
     // authorization
-    // validation
-    // general logic
-    /** SHOW */
-    // authorization
-    // validation
-    // general logic
-    /** EDIT */
-    // authorization
-    // validation
-    // general logic
-    /** UPDATE */
-    // authorization
-    // validation
-    // general logic
-    /** DELETE */
-    // authorization
-    // validation
-    // general logic
 
+    /**
+     * @test
+     */
+    public function an_endorsee_can_not_endorse_himself()
+    {
+        // given
+        $endorsee = factory(Crew::class)->states('withRole')->create();
+        $crewPosition = factory(CrewPosition::class)->create(['crew_id' => $endorsee->id]);
+        $endorsementRequest = factory(EndorsementRequest::class)->create(['crew_position_id' => $crewPosition->id]);
+
+        // when
+        $response = $this
+            ->actingAs($endorsee->user)
+            ->postJson(route('endorsements.store', ['endorsementRequest' => $endorsementRequest]), [
+                'comment' => $this->faker->sentence,
+            ]);
+
+        // then
+        $this->assertCount(0, Endorsement::all()->toArray());
+    }
+
+    // validation
+    // general logic
     /**
      * @test
      */
@@ -103,48 +164,44 @@ class EndorsementFeatureTest extends TestCase
         $this->assertCount(1, Endorsement::all()->toArray());
     }
 
+    /** EDIT */
+    // authorization
+    // validation
+    // general logic
+
+    /** UPDATE */
+    // authorization
+    // validation
+    // general logic
     /**
      * @test
      */
-    public function an_endorsee_can_not_endorse_himself()
-    {
-        // given
-        $endorsee = factory(Crew::class)->states('withRole')->create();
-        $crewPosition = factory(CrewPosition::class)->create(['crew_id' => $endorsee->id]);
-        $endorsementRequest = factory(EndorsementRequest::class)->create(['crew_position_id' => $crewPosition->id]);
-
-        // when
-        $response = $this
-            ->actingAs($endorsee->user)
-            ->postJson(route('endorsements.store', ['endorsementRequest' => $endorsementRequest]), [
-                'comment' => $this->faker->sentence,
-            ]);
-
-        // then
-        $this->assertCount(0, Endorsement::all()->toArray());
-    }
-
-    /**
-     * @test
-     */
-    public function if_user_already_approved_a_request_he_is_redirected_to_edit_endorsement_comment()
+    public function endorsers_can_update_their_comment()
     {
         // $this->withoutExceptionHandling();
         // given
+        $comment = $this->faker->sentence;
+        $comment2 = $this->faker->sentence;
         $endorser = factory(Crew::class)->states('withRole')->create();
-        $endorsement = factory(Endorsement::class)->states('approved')->create(['endorser_id' => $endorser->user->id]);
-        $endorsementRequest = $endorsement->request;
+        $endorsement = factory(Endorsement::class)->states('approved')->create(['endorser_email' => $endorser->user->email]);
+        $endorsement2 = factory(Endorsement::class)->states('approved', 'withComment')->create(['endorser_email' => $endorser->user->email]);
 
         // when
-        $response = $this->actingAs($endorser->user)
-            ->get(route('endorsements.create', $endorsementRequest));
+        $response = $this->actingAs($endorser->user)->putJson(route('endorsements.update', $endorsement->request), ['comment' => $comment]);
+        $response = $this->actingAs($endorser->user)->putJson(route('endorsements.update', $endorsement2->request), ['comment' => $comment2]);
 
         // then
-        $response->assertRedirect(route('endorsements.edit', $endorsementRequest));
-        $this->assertCount(1, Endorsement::all()->toArray());
+        $this->assertDatabaseHas('endorsements', ['comment' => $comment]);
+        $this->assertDatabaseHas('endorsements', ['comment' => $comment2]);
     }
 
+    /** DELETE */
+    // authorization
+    // validation
+    // general logic
+
     /**
+     * TODO: move this to crew/position/show
      * @test
      */
     public function endorsee_can_only_see_endorsement_form_on_applied_positions()
@@ -169,86 +226,5 @@ class EndorsementFeatureTest extends TestCase
 
         // then he does not see the endorsement form
         $response->assertDontSee('Ask Endorsement');
-    }
-
-    /**
-     * @test
-     */
-    public function endorsee_must_not_see_endorsement_creation_page_for_his_own_endorsement_requests()
-    {
-        // $this->withoutExceptionHandling();
-        // given
-        $endorsee = factory(Crew::class)->states('withRole')->create();
-        $position = factory(Position::class)->create();
-        $crewPosition = factory(CrewPosition::class)->create(['crew_id' => $endorsee->id, 'position_id' => $position->id]);
-        $endorsementRequest = factory(EndorsementRequest::class)->create(['crew_position_id' => $crewPosition->id]);
-
-        // when
-        $response = $this->actingAs($endorsee->user)
-            ->get(route('endorsements.create', $endorsementRequest));
-
-        // then
-        $response->assertRedirect(route('crew_position.show', $position));
-    }
-
-    /**
-     * @test
-     */
-    public function endorsers_with_endorsement_link_can_see_endorsement_comment_create_page()
-    {
-        // $this->withoutExceptionHandling();
-        // given
-        $endorser = factory(Crew::class)->states('withRole')->create();
-        $endorsementRequest = factory(EndorsementRequest::class)->create();
-
-        // when
-        $response = $this->actingAs($endorser->user)->get(route('endorsements.create', $endorsementRequest));
-
-        // then
-        $response->assertSee('Please feel free to leave a comment for this endorsement request.');
-    }
-
-    /**
-     * @test
-     */
-    public function endorsers_trying_to_view_create_endorsement_is_redirected_to_edit()
-    {
-        // $this->withoutExceptionHandling();
-        // given
-        $endorser = factory(Crew::class)->states('withRole')->create();
-        $endorsementRequest = factory(EndorsementRequest::class)->create();
-
-        // when
-        $response = $this
-            ->actingAs($endorser->user)
-            ->postJson(route('endorsements.store', ['endorsementRequest' => $endorsementRequest]), [
-                'comment' => $this->faker->sentence,
-            ]);
-        $response = $this->actingAs($endorser->user)->get(route('endorsements.create', $endorsementRequest));
-
-        // then
-        $response->assertRedirect(route('endorsements.edit', $endorsementRequest));
-    }
-
-    /**
-     * @test
-     */
-    public function endorsers_can_update_their_comment()
-    {
-        // $this->withoutExceptionHandling();
-        // given
-        $comment = $this->faker->sentence;
-        $comment2 = $this->faker->sentence;
-        $endorser = factory(Crew::class)->states('withRole')->create();
-        $endorsement = factory(Endorsement::class)->states('approved')->create(['endorser_email' => $endorser->user->email]);
-        $endorsement2 = factory(Endorsement::class)->states('approved', 'withComment')->create(['endorser_email' => $endorser->user->email]);
-
-        // when
-        $response = $this->actingAs($endorser->user)->putJson(route('endorsements.update', $endorsement->request), ['comment' => $comment]);
-        $response = $this->actingAs($endorser->user)->putJson(route('endorsements.update', $endorsement2->request), ['comment' => $comment2]);
-
-        // then
-        $this->assertDatabaseHas('endorsements', ['comment' => $comment]);
-        $this->assertDatabaseHas('endorsements', ['comment' => $comment2]);
     }
 }
