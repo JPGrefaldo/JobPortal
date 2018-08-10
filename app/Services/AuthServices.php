@@ -9,6 +9,7 @@ use App\Models\Site;
 use App\Models\User;
 use App\Models\UserRoles;
 use App\Models\Crew;
+use App\Models\UserSites;
 use App\Utils\StrUtils;
 use Illuminate\Support\Str;
 
@@ -30,12 +31,12 @@ class AuthServices
         }
 
         $user->roles()->save($role);
-        $user->sites()->save($site);
+        UserSites::firstOrCreate([
+            'user_id' => $user->id,
+            'site_id' => $site->id,
+        ]);
 
-        $userRole = UserRoles::where('user_id', $user->id)->first();
-
-        if ($userRole->role_id == 3) {
-            
+        if ($roleName == 'Crew') {
             $crew = new Crew;
             $crew->user_id = $user->id;
             $crew->photo = "photos/avatar.png";

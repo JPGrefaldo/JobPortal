@@ -168,7 +168,9 @@ class UserSettingsFeatureTest extends TestCase
     /** @test */
     public function update_notifications_disable_all()
     {
-        $user = $this->createUser(['email' => 'safe@gmail.com']);
+        $user = $this->createUser([
+            'email' => 'safe@gmail.com',
+        ]);
 
         factory(UserNotificationSetting::class)->create([
             'user_id'     => $user->id,
@@ -178,6 +180,7 @@ class UserSettingsFeatureTest extends TestCase
         $data = [
             'email' => $user->email,
             'phone' => $user->phone,
+            'email_confirmation'   => 'safe@gmail.com',
         ];
 
         $response = $this->actingAs($user)
@@ -195,26 +198,31 @@ class UserSettingsFeatureTest extends TestCase
     /** @test */
     public function update_notifications_only_receive_other_emails()
     {
-        $user = $this->createUser(['email' => 'safe@gmail.com']);
+        $user = $this->createUser([
+            'email'          => 'safe@gmail.com',
+        ]);
 
         factory(UserNotificationSetting::class)->create([
             'user_id'     => $user->id,
-            'receive_sms' => 0,
+            'receive_sms' => false,
         ]);
 
         $data = [
             'email'                => $user->email,
             'phone'                => $user->phone,
-            'receive_other_emails' => 1,
+            'receive_other_emails' => true,
+            'email_confirmation'   => 'safe@gmail.com',
         ];
-
         $response = $this->actingAs($user)
                          ->put('/account/settings/notifications', $data);
 
+        $user->refresh();
+        $user->notificationSettings->refresh();
+
         $this->assertArraySubset([
-                'receive_email_notification' => false,
-                'receive_other_emails'       => true,
-                'receive_sms'                => false,
+                'receive_email_notification' => 0,
+                'receive_other_emails'       => 1,
+                'receive_sms'                => 0,
             ],
             $user->notificationSettings->toArray()
         );
@@ -231,6 +239,7 @@ class UserSettingsFeatureTest extends TestCase
 
         $data = [
             'email' => 'UPPER@gmail.com',
+            'email_confirmation'   => 'UPPER@gmail.com',
             'phone' => '123.456.7890',
         ];
 
@@ -301,6 +310,7 @@ class UserSettingsFeatureTest extends TestCase
 
         $data = [
             'email'                      => 'existingemail@gmail.com',
+            'email_confirmation'         => 'existingemail@gmail.com',
             'phone'                      => $user->phone,
             'receive_email_notification' => 1,
             'receive_other_emails'       => 1,

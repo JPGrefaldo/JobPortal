@@ -35,7 +35,7 @@ class UserSignupRequest extends FormRequest
             'password'    => UserRules::confirmedPassword(),
             'phone'       => UserRules::phone(),
             'receive_sms' => 'bool',
-            'type'        => ['required', 'array'],
+            'type'        => ['required', 'array', Rule::in([Role::PRODUCER, Role::CREW])],
         ];
     }
 
