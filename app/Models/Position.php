@@ -24,4 +24,8 @@ class Position extends Model
         'has_many'      => 'boolean'
     ];
 
+    public function crews()
+    {
+        return $this->belongsToMany(Crew::class, 'crew_positions');
+    }
 }
