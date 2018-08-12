@@ -197,14 +197,22 @@ class ProfilesController extends Controller
         $edit_user->save();
 
         // save crew reel
+
+
         if ($request->hasFile('reel_file')) {
 
         $reel_fileName = "fileName".time().'.'.request()->reel_file->getClientOriginalExtension();
         $user_reel = Storage::putFile('reels', $request->file('reel_file'));
         $user_reel_filepath = 'reel/' . $reel_fileName;
+        
         $save_reel = CrewReel::where('crew_id', $user->id)->first();
-        $save_reel->url = $user_reel_filepath;
-        $save_reel->save();
+            if (isset($save_reel->url)) {
+            $save_reel->url = $user_reel_filepath;
+            $save_reel->save();
+            } else {
+            $new_reel = new CrewReel;
+            $new_reel->id = Auth::user()->id;
+            } 
         }
 
 
