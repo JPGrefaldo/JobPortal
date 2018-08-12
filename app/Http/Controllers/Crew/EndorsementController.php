@@ -19,12 +19,13 @@ class EndorsementController extends Controller
      */
     public function create(EndorsementRequest $endorsementRequest)
     {
-        if ($endorsementRequest->isOwnedBy(Auth::user())) {
+        if ($endorsementRequest->isRequestedBy(Auth::user())) {
             return redirect(route('crew_position.show', $endorsementRequest->position));
         }
 
         if ($endorsementRequest->isApprovedBy(Auth::user())) {
-            return redirect(route('endorsements.edit', ['endorsementRequest' => $endorsementRequest]));
+            dump('i should hit this');
+            return redirect(route('crew.endorsement.edit', ['endorsementRequest' => $endorsementRequest]));
         }
 
         // show form to comment
@@ -81,7 +82,10 @@ class EndorsementController extends Controller
      */
     public function update(Request $request, EndorsementRequest $endorsementRequest)
     {
-        $endorsement = $endorsementRequest->endorsementBy(auth()->user());
+        $endorsement = $endorsementRequest->endorsementBy(auth()->user())->first();
+        if (! $endorsement) {
+            return redirect()->back();
+        }
         $endorsement->comment = $request->comment;
         $endorsement->save();
         // TODO: respond with you have updated your endorsement comment

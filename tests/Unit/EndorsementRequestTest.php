@@ -19,6 +19,21 @@ class EndorsementRequestTest extends TestCase
     /**
      * @test
      */
+    public function crewPosition()
+    {
+        // given
+        $crewPosition = factory(CrewPosition::class)->create();
+
+        // when
+        $endorsementRequest = factory(EndorsementRequest::class)->create(['crew_position_id' => $crewPosition->id]);
+
+        // then
+        $this->assertEquals($crewPosition->id, $endorsementRequest->crewPosition->id);
+    }
+
+    /**
+     * @test
+     */
     public function endorsements()
     {
         // given
@@ -34,27 +49,12 @@ class EndorsementRequestTest extends TestCase
     /**
      * @test
      */
-    public function endorsementBy()
-    {
-        // given
-        $endorsementRequest = factory(EndorsementRequest::class)->create();
-        $endorser = factory(User::class)->create();
-
-        // when
-        $endorsement = factory(Endorsement::class)->states('approved')->create(['endorsement_request_id' => $endorsementRequest->id, 'endorser_email' => $endorser->email]);
-
-        // then
-        $this->assertEquals($endorser->email, $endorsementRequest->endorsementBy($endorser)->endorser_email);
-    }
-
-    /**
-     * @test
-     */
     public function isApprovedBy()
     {
         $this->withoutExceptionHandling();
         // given
         $user = factory(User::class)->create();
+        $randomUser = factory(User::class)->create();
         $endorsementRequest = factory(EndorsementRequest::class)->create();
 
         // when
@@ -62,6 +62,7 @@ class EndorsementRequestTest extends TestCase
 
         // then
         $this->assertTrue($endorsementRequest->isApprovedBy($user));
+        $this->assertFalse($endorsementRequest->isApprovedBy($randomUser));
     }
 
     /**
@@ -80,28 +81,6 @@ class EndorsementRequestTest extends TestCase
         // then
         $this->assertTrue($endorsementRequest->isRequestedBy($user));
         $this->assertFalse($endorsementRequest->isRequestedBy($randomUser));
-    }
-
-    /**
-     * @test
-     */
-    public function isOwnedBy()
-    {
-        // given
-        $crew = factory(Crew::class)->states('withRole')->create();
-        $user = $crew->user;
-        $position = factory(Position::class)->create();
-        $crewPosition = factory(CrewPosition::class)->create(['crew_id' => $crew->id, 'position_id' => $position->id]);
-
-        $randomUser = factory(User::class)->create();
-
-        // when
-        $endorsementRequest = factory(EndorsementRequest::class)->create(['crew_position_id' => $crewPosition->id]);
-
-        // then
-        $this->assertTrue($endorsementRequest->isOwnedBy($user));
-
-        $this->assertFalse($endorsementRequest->isOwnedBy($randomUser));
     }
 
     /**

@@ -43,7 +43,7 @@ class EndorsementFeatureTest extends TestCase
      */
     public function endorsee_must_not_see_endorsement_creation_page_for_his_own_endorsement_requests()
     {
-        // $this->withoutExceptionHandling();
+        $this->withoutExceptionHandling();
         // given
         $endorsee = factory(Crew::class)->states('withRole')->create();
         $position = factory(Position::class)->create();
@@ -63,7 +63,7 @@ class EndorsementFeatureTest extends TestCase
      */
     public function if_endorser_already_approved_a_request_then_he_is_redirected_to_edit_endorsement_comment()
     {
-        // $this->withoutExceptionHandling();
+        $this->withoutExceptionHandling();
         // given
         $endorser = factory(Crew::class)->states('withRole')->create();
         $endorsement = factory(Endorsement::class)->states('approved')->create(['endorser_id' => $endorser->user->id]);
@@ -74,6 +74,7 @@ class EndorsementFeatureTest extends TestCase
             ->get(route('endorsements.create', $endorsementRequest));
 
         // then
+        // $response->dump();
         $response->assertRedirect(route('endorsements.edit', $endorsementRequest));
         $this->assertCount(1, Endorsement::all()->toArray());
     }
@@ -178,7 +179,7 @@ class EndorsementFeatureTest extends TestCase
      */
     public function endorsers_can_update_their_comment()
     {
-        // $this->withoutExceptionHandling();
+        $this->withoutExceptionHandling();
         // given
         $comment = $this->faker->sentence;
         $comment2 = $this->faker->sentence;

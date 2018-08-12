@@ -34,11 +34,6 @@ class EndorsementRequest extends Model
         return $this->belongsTo(CrewPosition::class);
     }
 
-    public function endorser()
-    {
-        // return $this->crewPosition->crew->user();
-    }
-
     public function endorsements()
     {
         return $this->hasMany(Endorsement::class);
@@ -46,27 +41,27 @@ class EndorsementRequest extends Model
 
     public function endorsementBy($user)
     {
-        return $this->endorsements->where('endorser_email', $user->email)->first();
+        return $this->endorsements->where('endorser_email', $user->email);
     }
 
     public function isApprovedBy($user)
     {
-        return $this->endorsements->where('endorser_id', $user->id)->count() > 0;
+        return $this->endorsementBy($user)->count() > 0;
     }
 
     public function isRequestedBy($user)
     {
-        return $this->crewPosition->crew->user->id == $user->id;
-    }
-
-    public function isOwnedBy($user)
-    {
-        return $this->endorsee->user->id == $user->id;
+        return $this->endorsee->user->id === $user->id;
     }
 
     public function endorsee()
     {
         return $this->crewPosition->crew();
+    }
+
+    public function endorsers()
+    {
+        return $this->endorsements->endorser();
     }
 
     public function position()
