@@ -19,11 +19,10 @@ class EndorsementRequestFeatureTest extends TestCase
     use RefreshDatabase, SeedDatabaseAfterRefresh, WithFaker;
 
     /** CREATE */
-    // this is defered to crew/position/show
+    // this is defered to Crew\PositionController@show
 
     /** STORE */
     // authorization
-    // validation
 
     /**
      * @test
@@ -41,6 +40,45 @@ class EndorsementRequestFeatureTest extends TestCase
         $response->assertForbidden();
     }
 
+    // validation
+    /**
+     * @test
+     */
+    public function endorsee_must_provide_valid_endorser_information()
+    {
+        // $this->withoutExceptionHandling();
+        // given
+        $endorsee = factory(Crew::class)->states('withRole')->create();
+        $position = factory(Position::class)->create();
+        $crewPosition = factory(CrewPosition::class)->make();
+        $endorsee->applyFor($position, $crewPosition->toArray());
+
+        // when
+        $response = $this
+        ->actingAs($endorsee->user)
+        ->post(
+            route('endorsement_requests.store', $position),
+            [
+                'endorsers' => [
+                    [
+                        'name' => '',
+                        'email' => '',
+                    ],
+                    [
+                        'name' => 'Ron Swanson',
+                        'email' => 'Mambo No. 5',
+                    ],
+                ],
+                ]
+            );
+
+        // then
+        $response->assertSessionHasErrors([
+            'endorsers.0.name' => 'The endorsers.0.name field is required.',
+            'endorsers.0.email' => 'The endorsers.0.email field is required.',
+            'endorsers.1.email' => 'The endorsers.1.email must be a valid email address.',
+        ]);
+    }
     // general logic
     /**
      * @test
