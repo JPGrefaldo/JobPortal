@@ -48,7 +48,7 @@ class EndorsementRequestController extends Controller
                 ]);
 
                 // send email
-                Mail::to($endorsement->endorser_email)
+                Mail::to($endorser['email'])
                     ->send(new EndorsementRequestEmail($endorsement));
             }
         }
