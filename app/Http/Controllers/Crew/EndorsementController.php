@@ -39,12 +39,13 @@ class EndorsementController extends Controller
      */
     public function store(EndorsementRequest $endorsementRequest, Request $request)
     {
-        $endorsement = Endorsement::where('endorsement_request_id', $endorsementRequest->id)
-            ->where('endorser_email', Auth::user()->email)->first();
-
-        if ($endorsementRequest->isRequestedBy(Auth::user())) {
+        if ($endorsementRequest->isRequestedBy(auth()->user())) {
+            // TODO: defer to model
             throw new ElectoralFraud('You can\'t endorse yourself.');
+            // TODO: respond with errors instead
         }
+
+        $endorsement = $endorsementRequest->endorsementBy(auth()->user())->first();
 
         if (!$endorsement) {
             $endorsement = Endorsement::create([
@@ -58,6 +59,8 @@ class EndorsementController extends Controller
         }
 
         // respond with sucess
+        // TODO: create test for success
+        return $endorsement;
     }
 
     /**
