@@ -49,20 +49,20 @@ class EndorsementRequest extends Model
         return $this->endorsementBy($user)->count() > 0;
     }
 
-    public function isRequestedBy($user)
-    {
-        return $this->endorsee->user->id === $user->id;
-    }
-
     public function endorsee()
     {
         return $this->crewPosition->crew();
     }
 
-    public function endorsers()
+    public function isRequestedBy($user)
     {
-        return $this->endorsements->endorser();
+        return $this->endorsee->user->id === $user->id;
     }
+
+    // public function endorsers()
+    // {
+    //     return $this->endorsements->endorser();
+    // }
 
     public function position()
     {
