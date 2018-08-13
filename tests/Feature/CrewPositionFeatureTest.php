@@ -17,7 +17,7 @@ class CrewPositionFeatureTest extends TestCase
      */
     public function crew_can_apply_for_a_position()
     {
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
         // given
         $crew     = factory(Crew::class)->states('withRole')->create();
         $position = factory(Position::class)->create();

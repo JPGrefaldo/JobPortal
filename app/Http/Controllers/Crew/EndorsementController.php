@@ -24,8 +24,7 @@ class EndorsementController extends Controller
         }
 
         if ($endorsementRequest->isApprovedBy(Auth::user())) {
-            dump('i should hit this');
-            return redirect(route('crew.endorsement.edit', ['endorsementRequest' => $endorsementRequest]));
+            return redirect(route('endorsements.edit', ['endorsementRequest' => $endorsementRequest]));
         }
 
         // show form to comment

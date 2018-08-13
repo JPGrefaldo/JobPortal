@@ -66,7 +66,7 @@ class EndorsementFeatureTest extends TestCase
         $this->withoutExceptionHandling();
         // given
         $endorser = factory(Crew::class)->states('withRole')->create();
-        $endorsement = factory(Endorsement::class)->states('approved')->create(['endorser_id' => $endorser->user->id]);
+        $endorsement = factory(Endorsement::class)->states('approved')->create(['endorser_email' => $endorser->user->email]);
         $endorsementRequest = $endorsement->request;
 
         // when
