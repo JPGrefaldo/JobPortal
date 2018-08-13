@@ -173,6 +173,7 @@ class User extends Authenticatable
         return $this->hasOne(Crew::class);
     }
 
+    // TODO: defer to crew
     public function hasPosition($position)
     {
         return $this->crew->positions()->where('position_id', $position->id)->get()->count() > 0;

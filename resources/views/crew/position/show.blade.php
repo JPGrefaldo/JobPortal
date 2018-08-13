@@ -52,7 +52,8 @@
                             {{-- only show this if the user applied for this position basing it with crew position --}}
                             {{-- {{ dump(Auth::user()->toArray()) }} --}}
                             {{-- {{ dump(Auth::user()->hasPosition($position)) }} --}}
-                            @if (Auth::user()->hasPosition($position))
+                            {{-- TODO: bugfix --}}
+                            @if (auth()->user()->hasPosition($position))
                                 <form action="{{ route('endorsement_requests.store', ['position' => $position]) }}" method="post">
                                     {{ csrf_field() }}
                                     <div class="md:flex">

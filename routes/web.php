@@ -76,6 +76,7 @@ Route::middleware(['auth', 'producer'])->group(function () {
 });
 
 Route::middleware(['auth', 'crew'])->group(function () {
+    // TODO: discuss if this should be public
     Route::get('/crew/positions/{position}', 'Crew\PositionController@show')->name('crew_position.show');
     Route::post('/crew/positions/{position}', 'Crew\PositionController@store')->name('crew_position.store');
 
