@@ -51,14 +51,16 @@ class EndorsementRequestTest extends TestCase
      */
     public function isApprovedBy()
     {
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
         // given
         $user = factory(User::class)->create();
         $randomUser = factory(User::class)->create();
         $endorsementRequest = factory(EndorsementRequest::class)->create();
 
         // when
-        $endorsement = factory(Endorsement::class)->states('approved')->create(['endorsement_request_id' => $endorsementRequest->id, 'endorser_id' => $user->id]);
+        $endorsement = factory(Endorsement::class)
+            ->states('approved')
+            ->create(['endorsement_request_id' => $endorsementRequest->id, 'endorser_email' => $user->email]);
 
         // then
         $this->assertTrue($endorsementRequest->isApprovedBy($user));
