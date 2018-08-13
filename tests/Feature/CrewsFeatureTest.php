@@ -869,32 +869,4 @@ class CrewsFeatureTest extends TestCase
 
         return $data;
     }
-
-    /**
-     * @test
-     */
-    public function crew_can_apply_for_a_position()
-    {
-        // given
-        $crew     = factory(Crew::class)->create();
-        $position = factory(Position::class)->create();
-        $crewPosition = factory(CrewPosition::class)->make();
-
-        // when
-        // TODO: hit an endpoint
-        $response = $this
-            ->actingAs($crew->user)
-            ->post(route('crew_position.store', $position), [
-                'details' => $crewPosition->details,
-                'union_description' => $crewPosition->union_description,
-            ]);
-
-        // then
-        $this->assertDatabaseHas('crew_positions', [
-            'crew_id'     => $crew->id,
-            'position_id' => $position->id,
-            'details' => $crewPosition->details,
-            'union_description' => $crewPosition->union_description,
-        ]);
-    }
 }

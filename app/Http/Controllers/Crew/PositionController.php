@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Crew;
 use App\Http\Controllers\Controller;
 use App\Models\Position;
 use Illuminate\Http\Request;
+use App\Models\CrewPosition;
 
 class PositionController extends Controller
 {
@@ -35,9 +36,17 @@ class PositionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Position $position, Request $request)
     {
-        //
+        // find crew position
+        $crew = auth()->user()->crew;
+        $crewPosition = CrewPosition::byCrewAndPosition($crew, $position)->first();
+
+        if ($crewPosition) {
+            return redirect(route('crew_position.edit'), $position);
+        }
+
+        $position->crews()->save($crew, ['details' => $request['details'], 'union_description' => $request['union_description']]);
     }
 
     /**
