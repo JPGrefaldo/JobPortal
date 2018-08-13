@@ -72,6 +72,9 @@ class EndorsementController extends Controller
     public function edit(EndorsementRequest $endorsementRequest)
     {
         $endorsement = $endorsementRequest->endorsementBy(auth()->user());
+
+        // TODO: endorsee_is_redirected_to_endorsement_create_page_when_editing_non_existent_endorsement
+
         return view('crew.endorsement.edit')->with('endorsementRequest', $endorsementRequest)->with('endorsement', $endorsement);
     }
 
@@ -85,12 +88,14 @@ class EndorsementController extends Controller
     public function update(Request $request, EndorsementRequest $endorsementRequest)
     {
         $endorsement = $endorsementRequest->endorsementBy(auth()->user())->first();
+        // TODO: create test for this
         if (! $endorsement) {
             return redirect()->back();
         }
         $endorsement->comment = $request->comment;
         $endorsement->save();
-        // TODO: respond with you have updated your endorsement comment
+        // TODO: test resonse on update
+        return $endorsement;
     }
 
     /**
@@ -101,6 +106,6 @@ class EndorsementController extends Controller
      */
     public function destroy(Endorsement $endorsement)
     {
-        //
+        // TODO: discuss if endorsement deletion is a thing
     }
 }
