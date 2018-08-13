@@ -17,30 +17,27 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
+        $site = Site::where('hostname', UrlUtils::getHostNameFromBaseUrl(config('app.url')))->first();
+        $producerRole = Role::whereName(Role::PRODUCER)->firstOrFail();
+        $crewRole = Role::whereName(Role::CREW)->firstOrFail();
+
         $user = factory(User::class)->create([
             'first_name' => 'Mike Kevin',
             'last_name'  => 'Castro',
             'email'      => 'mikekevin.castro@hjugroup.io',
         ]);
 
-        $site = Site::where('hostname', UrlUtils::getHostNameFromBaseUrl(config('app.url')))->first();
+        $user->sites()->attach($site);
+        $user->roles()->attach($producerRole);
+        $user->roles()->attach($crewRole);
 
-        UserSites::create([
-            'user_id' => $user->id,
-            'site_id' => $site->id,
+        $anotherUser = factory(User::class)->create([
+            'first_name' => 'John',
+            'last_name'  => 'Doe',
+            'email'      => 'john@mail.com',
         ]);
 
-        $producerRole = Role::whereName(Role::PRODUCER)->firstOrFail();
-        $crewRole = Role::whereName(Role::CREW)->firstOrFail();
-
-        UserRoles::create([
-            'user_id' => $user->id,
-            'role_id' => $producerRole->id,
-        ]);
-
-        UserRoles::create([
-            'user_id' => $user->id,
-            'role_id' => $crewRole->id,
-        ]);
+        $anotherUser->sites()->attach($site);
+        $anotherUser->roles()->attach($crewRole);
     }
 }
