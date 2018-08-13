@@ -31,7 +31,10 @@ class CrewsServicesTest extends TestCase
         $this->service = app(CrewsServices::class);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Services\CrewsServices::processCreate
+     */
     public function process_create()
     {
         Storage::fake();
@@ -174,7 +177,10 @@ class CrewsServicesTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Services\CrewsServices::create
+     */
     public function create()
     {
         Storage::fake();
@@ -222,7 +228,10 @@ class CrewsServicesTest extends TestCase
         Storage::assertExists($resume->url);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Services\CrewsServices::createSocials
+     */
     public function create_socials()
     {
         Storage::fake();
@@ -321,7 +330,10 @@ class CrewsServicesTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Services\CrewsServices::processUpdate
+     */
     public function process_update()
     {
         Storage::fake();
@@ -624,7 +636,10 @@ class CrewsServicesTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Services\CrewsServices::updateSocials
+     */
     public function update_socials()
     {
         Storage::fake();
@@ -718,7 +733,10 @@ class CrewsServicesTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Services\CrewsServices::createGeneralReel
+     */
     public function create_general_reel()
     {
         $crew = factory(Crew::class)->create();
@@ -742,7 +760,10 @@ class CrewsServicesTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Services\CrewsServices::cleanReelUrl
+     */
     public function clean_reel_url()
     {
         // youtube
@@ -766,7 +787,10 @@ class CrewsServicesTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Services\CrewsServices::updateGeneralReel
+     */
     public function update_general_reel()
     {
         $crew = factory(Crew::class)->create();

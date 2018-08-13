@@ -21,7 +21,10 @@ class SocialLinksServicesTest extends TestCase
         $this->service = app(SocialLinksServices::class);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Services\SocialLinksServices::cleanVimeo
+     */
     public function clean_vimeo()
     {
         // videos
@@ -55,7 +58,10 @@ class SocialLinksServicesTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Services\SocialLinksServices::cleanVimeo
+     */
     public function clean_vimeo_invalid()
     {
         $this->assertEquals(

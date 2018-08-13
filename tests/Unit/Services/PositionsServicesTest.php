@@ -26,7 +26,10 @@ class PositionsServicesTest extends TestCase
         $this->service = app(PositionsServices::class);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Services\PositionsServices::create
+     */
     public function create()
     {
         $data = [
@@ -53,7 +56,10 @@ class PositionsServicesTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Services\PositionsServices::filterData
+     */
     public function filter_data()
     {
         $this->assertSame(
@@ -73,7 +79,10 @@ class PositionsServicesTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Services\PositionsServices::prepareData
+     */
     public function prepare_data()
     {
         $this->assertSame(
@@ -88,7 +97,10 @@ class PositionsServicesTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Services\PositionsServices::update
+     */
     public function update()
     {
         $position = factory(Position::class)->create();

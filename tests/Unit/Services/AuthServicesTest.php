@@ -26,7 +26,10 @@ class AuthServicesTest extends TestCase
         $this->service = app(AuthServices::class);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Services\AuthServices::createByRoleName
+     */
     public function create_by_role_name()
     {
         $user = factory(User::class)->create();

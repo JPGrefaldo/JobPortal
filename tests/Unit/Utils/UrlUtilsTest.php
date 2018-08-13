@@ -9,7 +9,10 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UrlUtilsTest extends TestCase
 {
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Utils\UrlUtils::getHostNameFromBaseUrl
+     */
     public function get_host_name_from_base_url()
     {
         $this->assertEquals(

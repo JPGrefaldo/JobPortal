@@ -15,8 +15,11 @@ class StrUtilsTest extends TestCase
         $this->assertEquals('15555555555', StrUtils::stripNonNumeric(('+1 (555) 555-5555')));
     }
 
-    /** @test */
-    public function clean_you_tube()
+    /**
+     * @test
+     * @covers \App\Utils\StrUtils::cleanYouTube
+     */
+    public function clean_youtube()
     {
         $this->assertEquals('https://www.youtube.com/embed/G8S81CEBdNs',
             StrUtils::cleanYouTube('https://www.youtube.com/embed/G8S81CEBdNs')
@@ -65,7 +68,10 @@ class StrUtilsTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Utils\StrUtils::formatPhone
+     */
     public function format_phone()
     {
         $this->assertEquals(
@@ -84,7 +90,10 @@ class StrUtilsTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Utils\StrUtils::convertNull
+     */
     public function convert_null()
     {
         $this->assertSame(
@@ -98,7 +107,10 @@ class StrUtilsTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Utils\StrUtils::formatName
+     */
     public function format_name()
     {
         $this->assertSame(
