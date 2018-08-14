@@ -22,7 +22,7 @@ class CreateTestUser extends Command
      *
      * @var string
      */
-    protected $description = 'Creates a test user';
+    protected $description = 'Creates a test user (requires email address)';
 
     /**
      * Create a new command instance.
@@ -38,6 +38,7 @@ class CreateTestUser extends Command
      * Execute the console command.
      *
      * @return mixed
+     * @throws \Exception
      */
     public function handle()
     {
