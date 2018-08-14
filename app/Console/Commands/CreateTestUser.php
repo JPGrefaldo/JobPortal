@@ -15,7 +15,7 @@ class CreateTestUser extends Command
      *
      * @var string
      */
-    protected $signature = 'make:test_user {email}';
+    protected $signature = 'test_user {email}';
 
     /**
      * The console command description.
@@ -49,7 +49,6 @@ class CreateTestUser extends Command
             'password'   => 'test123',
             'phone'      => '555-555-5555',
         ]);
-        $user->confirm();
 
         foreach ([Role::CREW, Role::PRODUCER] as $_ => $type) {
             app(AuthServices::class)->createByRoleName(
@@ -58,6 +57,8 @@ class CreateTestUser extends Command
                 Site::whereHostname('crewcalls.test')->first()
             );
         }
+
+        $user->confirm();
 
         $this->info('Created');
     }
