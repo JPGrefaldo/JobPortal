@@ -56,7 +56,7 @@
                                 </label>
                             </div>
                             @else 
-                            <div class="flex h-none bg-grey-light items-center justify-center cursor-pointer text-center border border-grey-light w-full pb-full rounded relative" style="background: url(http://i.pravatar.cc/300"); background-size: cover;">
+                            <div class="flex h-none bg-grey-light items-center justify-center cursor-pointer text-center border border-grey-light w-full pb-full rounded relative" style="background: url(http://i.pravatar.cc/300); background-size: cover;">
                                 <span class="text-center uppercase text-sm font-semibold text-white px-2 pos-center w-full">
                                 UPLOAD PROFILE PHOTO
                                 {{ form::file('profile_image', array('class' => 'profile_image'))}}
@@ -223,7 +223,7 @@
                             <div class="md:w-2/3">
                                 <select multiple class="form-control" name="title">
                                     @foreach ($productionPositions  as $productionPosition)
-                                        <option>{{ $productionPosition->name }}</h3></option>
+                                        <option>{{ $productionPosition->name }}</option>
                                     @endforeach
                                 </select>
 
@@ -234,7 +234,7 @@
                   <div class="md:w-2/3">
                                 <select multiple class="form-control" name="title">
                                     @foreach ($artPositions  as $artPosition)
-                                        <option>{{ $artPosition->name }}</h3></option>
+                                        <option>{{ $artPosition->name }}</option>
                                     @endforeach
                                 </select>
                     </div>
@@ -244,7 +244,7 @@
                   <div class="md:w-2/3">      
                                 <select multiple class="form-control" name="title">
                                     @foreach ($cameraPositions  as $cameraPosition)
-                                        <option>{{ $cameraPosition->name }}</h3></option>
+                                        <option>{{ $cameraPosition->name }}</option>
                                     @endforeach
                                 </select>  
                     </div>
@@ -254,7 +254,7 @@
                   <div class="md:w-2/3">      
                                 <select multiple class="form-control" name="title">
                                     @foreach ($gripElectricPositions  as $gripElectricPosition)
-                                        <option>{{ $gripElectricPosition->name }}</h3></option>
+                                        <option>{{ $gripElectricPosition->name }}</option>
                                     @endforeach
                                 </select>  
                     </div>
@@ -264,7 +264,7 @@
                   <div class="md:w-2/3">      
                                 <select multiple class="form-control" name="title">
                                     @foreach ($muahWardrobePositions  as $muahWardrobePosition)
-                                        <option>{{ $muahWardrobePosition->name }}</h3></option>
+                                        <option>{{ $muahWardrobePosition->name }}</option>
                                     @endforeach
                                 </select>  
                     </div>
@@ -274,7 +274,7 @@
                   <div class="md:w-2/3">      
                                 <select multiple class="form-control" name="title">
                                     @foreach ($soundPositions  as $soundPosition)
-                                        <option>{{ $soundPosition->name }}</h3></option>
+                                        <option>{{ $soundPosition->name }}</option>
                                     @endforeach
                                 </select>  
                     </div>
