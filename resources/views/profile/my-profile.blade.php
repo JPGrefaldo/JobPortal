@@ -40,9 +40,9 @@
                     <li class="is-checked">GENERAL WORK REEL</li>
                 @endif    
 
-                @if ($positions && $positions->count() < 1)
+                @if (! $positions || ! $positions->count())
                     <li>WORK POSITIONS</li>
-                    @else 
+                @else
                     <li class="is-checked">WORK POSITIONS</li>
                 @endif
 
