@@ -24,7 +24,10 @@ class DepartmentsServicesTest extends TestCase
         $this->service = app(DepartmentsServices::class);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers  \App\Services\DepartmentsServices::create
+     */
     public function create()
     {
         $this->service->create([
@@ -38,7 +41,10 @@ class DepartmentsServicesTest extends TestCase
         ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Services\DepartmentsServices::filterData
+     */
     public function filter_data()
     {
         $data = [
@@ -56,7 +62,10 @@ class DepartmentsServicesTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Services\DepartmentsServices::formatData
+     */
     public function format_data()
     {
         $this->assertSame(
@@ -71,7 +80,10 @@ class DepartmentsServicesTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Services\DepartmentsServices::update
+     */
     public function update()
     {
         $department = factory(Department::class)->create();

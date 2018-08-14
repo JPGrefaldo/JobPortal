@@ -23,7 +23,10 @@ class AdminUsersServicesTest extends TestCase
         $this->service = app(AdminUsersServices::class);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Services\Admin\AdminUsersServices::ban
+     */
     public function ban()
     {
         $user = $this->createUser();

@@ -5,12 +5,13 @@ namespace Tests\Feature;
 use App\Mail\ConfirmUserAccount;
 use App\Models\Role;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\Models\UserRoles;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class SignupFeatureTest extends TestCase
 {
@@ -40,6 +41,19 @@ class SignupFeatureTest extends TestCase
         $response = $this->post('register', $data);
 
         $this->assertSignupSuccess($response, $data);
+
+        $this->assertDatabaseHas('users', [
+            'first_name' => $user['first_name']
+        ]);
+
+        $user = User::whereFirstName($user['first_name'])->first();
+
+        $this->assertDatabaseHas('user_sites', [
+            'user_id' => $user->id,
+        ]);
+
+        $this->hasCrewRole($user);
+        $this->hasCrew($user);
     }
 
     /** @test */
@@ -66,6 +80,58 @@ class SignupFeatureTest extends TestCase
         $response = $this->post('register', $data);
 
         $this->assertSignupSuccess($response, $data);
+
+        $this->assertDatabaseHas('users', [
+            'first_name' => $user['first_name']
+        ]);
+
+        $user = User::whereFirstName($user['first_name'])->first();
+
+        $this->assertDatabaseHas('user_sites', [
+            'user_id' => $user->id,
+        ]);
+
+        $this->hasProducerRole($user);
+    }
+
+    /** @test */
+    public function producer_and_crew()
+    {
+        Mail::fake();
+
+        $user = $this->makeFakeUser()->toArray();
+
+        $data = array_merge($user, [
+            'phone'                 => '1234567890',
+            'password'              => 'password',
+            'password_confirmation' => 'password',
+            'email_confirmation'    => $user['email'],
+            'receive_sms'           => 1,
+            'type'                  => [Role::PRODUCER, Role::CREW],
+            '_token'                => csrf_token(),
+        ]);
+
+        Hash::shouldReceive('make')
+            ->once()
+            ->andReturn('hashed_password');
+
+        $response = $this->post('register', $data);
+
+        $this->assertSignupSuccess($response, $data);
+
+        $this->assertDatabaseHas('users', [
+            'first_name' => $user['first_name']
+        ]);
+
+        $user = User::whereFirstName($user['first_name'])->first();
+
+        $this->assertDatabaseHas('user_sites', [
+            'user_id' => $user->id,
+        ]);
+
+        $this->hasCrewRole($user);
+        $this->hasCrew($user);
+        $this->hasProducerRole($user);
     }
 
     /** @test */
@@ -166,7 +232,7 @@ class SignupFeatureTest extends TestCase
             'password'    => 'password',
             'phone'       => '+345344545446',
             'receive_sms' => 1,
-            'type'        => Role::ADMIN,
+            'type'        => [Role::ADMIN],
             '_token'      => csrf_token(),
         ]);
 
@@ -255,6 +321,38 @@ class SignupFeatureTest extends TestCase
     {
         return factory(User::class)->make([
             'email' => $this->faker->freeEmail,
+        ]);
+    }
+
+    /**
+     * @param $user
+     */
+    public function hasCrewRole($user)
+    {
+        $this->assertDatabaseHas('user_roles', [
+            'user_id' => $user->id,
+            'role_id' => Role::whereName(Role::CREW)->first()->id,
+        ]);
+    }
+
+    /**
+     * @param $user
+     */
+    public function hasCrew($user)
+    {
+        $this->assertDatabaseHas('crews', [
+            'user_id' => $user->id,
+        ]);
+    }
+
+    /**
+     * @param $user
+     */
+    public function hasProducerRole($user)
+    {
+        $this->assertDatabaseHas('user_roles', [
+            'user_id' => $user->id,
+            'role_id' => Role::whereName(Role::PRODUCER)->first()->id,
         ]);
     }
 }

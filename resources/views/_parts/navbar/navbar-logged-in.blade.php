@@ -7,7 +7,7 @@
     </div>
     <ul class="list-reset hidden md:flex items-center">
         <li class="border-b-2 border-red border-solid">
-            <a class="block py-6 px-4 tracking-wide block font-bold leading-none uppercase text-sm text-blue-dark hover:text-green" href="/my-projects">my projects</a>
+            <a class="block py-6 px-4 tracking-wide block font-bold leading-none uppercase text-sm text-blue-dark hover:text-green" href="/my-projects/{{ Auth::user()->id }}">my projects</a>
         </li>
         <li>
             <a class="block py-6 px-4 tracking-wide font-bold leading-none uppercase text-sm text-blue-dark hover:text-green" href="#">find projects</a>
@@ -28,7 +28,7 @@
             <div class="dropdown shadow-md bg-white absolute py-3 font-body">
                     <ul class="list-reset text-left">
                         <li class="py-2 px-4">
-                            <a href="/my-profile" class="block text-blue-dark hover:text-green">View profile</a>
+                            <a href="/my-profile/{{ Auth::user()->id }}" class="block text-blue-dark hover:text-green">View profile</a>
                         </li>
                         <li class="py-2 px-4">
                             <a href="#" class="block text-blue-dark hover:text-green" >Subscription</a>
@@ -50,7 +50,13 @@
             <div class="has-dropdown">
                 <div class="relative flex justify-center items-center p-1 rounded-lg hover:bg-grey-lighter">
                     <span class="mr-2 inline-block font-semibold text-blue-dark text-sm">{{ Auth::user()->first_name }}</span>
-                    <span class="w-10 h-10 bg-cover rounded-full inline-block" style="background-image: url(../images/thumb.jpg)"></span>
+
+                    @if (isset($biography->photo))
+                    <span class="w-10 h-10 bg-cover rounded-full inline-block" style="background-image: url(/{{ $biography->photo }}"></span>
+                    @else
+                    <span class="w-10 h-10 bg-cover rounded-full inline-block" style="background-image: url(http://i.pravatar.cc/300"></span>
+                    @endif
+
                 </div>
                 <div class="dropdown shadow-md bg-white absolute py-3 font-body">
                 <ul class="list-reset text-left">

@@ -28,7 +28,10 @@ class ProjectJobsServiceTest extends TestCase
         $this->service = app(ProjectJobsService::class);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Services\Producer\ProjectJobsService::create
+     */
     public function create()
     {
         $project = factory(Project::class)->create();
@@ -64,7 +67,10 @@ class ProjectJobsServiceTest extends TestCase
         ], $job->refresh()->toArray());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Services\Producer\ProjectJobsService::create
+     */
     public function create_with_invalid_input()
     {
         $project = factory(Project::class)->create();
@@ -101,7 +107,10 @@ class ProjectJobsServiceTest extends TestCase
         ], $job->refresh()->toArray());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Services\Producer\ProjectJobsService::create
+     */
     public function create_non_pay_rate()
     {
         $project = factory(Project::class)->create();
@@ -139,7 +148,10 @@ class ProjectJobsServiceTest extends TestCase
         ], $job->refresh()->toArray());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Services\Producer\ProjectJobsService::create
+     */
     public function create_has_no_gear_and_no_persons_needed()
     {
         $project = factory(Project::class)->create();
@@ -171,7 +183,10 @@ class ProjectJobsServiceTest extends TestCase
         ], $job->refresh()->toArray());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Services\Producer\ProjectJobsService::update
+     */
     public function update()
     {
         $input = [
@@ -202,7 +217,10 @@ class ProjectJobsServiceTest extends TestCase
         ], $job->refresh()->toArray());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Services\Producer\ProjectJobsService::update
+     */
     public function update_with_invalid_params()
     {
         $input = [
@@ -238,7 +256,10 @@ class ProjectJobsServiceTest extends TestCase
         ], $job->refresh()->toArray());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Services\Producer\ProjectJobsService::update
+     */
     public function update_non_pay_rate()
     {
         $input = [
@@ -270,7 +291,10 @@ class ProjectJobsServiceTest extends TestCase
         ], $job->refresh()->toArray());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Services\Producer\ProjectJobsService::filterCreateData
+     */
     public function filter_create_data()
     {
         $this->assertSame(
@@ -303,7 +327,10 @@ class ProjectJobsServiceTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Services\Producer\ProjectJobsService::filterUpdateData
+     */
     public function filter_update_data()
     {
         $this->assertSame(
@@ -334,7 +361,10 @@ class ProjectJobsServiceTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Services\Producer\ProjectJobsService::getPayTypeId
+     */
     public function get_pay_type_id_with_rate()
     {
         $this->assertEquals(
@@ -346,7 +376,10 @@ class ProjectJobsServiceTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Services\Producer\ProjectJobsService::getPayTypeId
+     */
     public function get_pay_type_id_without_rate()
     {
         $this->assertEquals(

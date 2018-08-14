@@ -30,7 +30,10 @@ class ProjectsServicesTest extends TestCase
         $this->service = app(ProjectsServices::class);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Services\Producer\ProjectsServices::createProject
+     */
     public function create_project()
     {
         $input = [
@@ -59,7 +62,10 @@ class ProjectsServicesTest extends TestCase
         ], $project->refresh()->toArray());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Services\Producer\ProjectsServices::createProject
+     */
     public function create_project_invalid_input()
     {
         $input = [
@@ -89,7 +95,10 @@ class ProjectsServicesTest extends TestCase
         ], $project->refresh()->toArray());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Services\Producer\ProjectsServices::createRemoteProjects
+     */
     public function create_remote_projects()
     {
         $site        = $this->getCurrentSite();
@@ -117,7 +126,10 @@ class ProjectsServicesTest extends TestCase
         ], $remoteProjects->toArray());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Services\Producer\ProjectsServices::createRemoteProjects
+     */
     public function create_remote_projects_remove_current_site()
     {
         $site          = $this->getCurrentSite();
@@ -144,7 +156,10 @@ class ProjectsServicesTest extends TestCase
         ], $remoteProjects->toArray());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Services\Producer\ProjectsServices::updateProject
+     */
     public function update_project()
     {
         $project = factory(Project::class)->create();
@@ -169,7 +184,10 @@ class ProjectsServicesTest extends TestCase
         ], $project->refresh()->toArray());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Services\Producer\ProjectsServices::updateRemoteProjects
+     */
     public function update_remote_projects_no_existing_remotes()
     {
         $site        = $this->getCurrentSite();
@@ -188,7 +206,10 @@ class ProjectsServicesTest extends TestCase
         ], $project->remotes->toArray());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Services\Producer\ProjectsServices::updateRemoteProjects
+     */
     public function update_remote_projects_does_not_include_current_site()
     {
         $site        = $this->getCurrentSite();
@@ -208,7 +229,10 @@ class ProjectsServicesTest extends TestCase
         ], $project->remotes->toArray());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Services\Producer\ProjectsServices::updateRemoteProjects
+     */
     public function update_remote_projects_with_existing_remotes()
     {
         $site          = $this->getCurrentSite();
@@ -230,7 +254,10 @@ class ProjectsServicesTest extends TestCase
         ], $project->remotes->toArray());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Services\Producer\ProjectsServices::updateRemoteProjects
+     */
     public function update_remote_projects_delete_all_existing_remotes()
     {
         $site          = $this->getCurrentSite();

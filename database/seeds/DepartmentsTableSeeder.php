@@ -16,8 +16,23 @@ class DepartmentsTableSeeder extends Seeder
             'name' => 'Production'
         ]);
         Department::create([
+            'name' => 'Art'
+        ]);
+        Department::create([
             'name' => 'Camera'
         ]);
+        Department::create([
+            'name' => 'Grip_Electric'
+            ]);
+        Department::create([
+                'name' => 'MUaH_Wardrobe'
+                ]);
+        Department::create([
+                    'name' => 'Sound'
+                    ]);
+        Department::create([
+                        'name' => 'Other'
+                        ]);
         $this->command->info('Departments seeded');
     }
 }

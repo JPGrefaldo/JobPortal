@@ -25,7 +25,10 @@ class UsersServicesTest extends TestCase
         $this->service = app(UsersServices::class);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Services\UsersServices::create
+     */
     public function create()
     {
         $fakerUser = factory(User::class)->make();
@@ -59,7 +62,10 @@ class UsersServicesTest extends TestCase
         $this->assertEquals(36, strlen($user->uuid));
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Services\UsersServices::create
+     */
     public function create_formatted()
     {
         $data = [
@@ -93,7 +99,10 @@ class UsersServicesTest extends TestCase
         $this->assertEquals(36, strlen($user->uuid));
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Services\UsersServices::prepareData
+     */
     public function prepare_data()
     {
         Hash::shouldReceive('make')->andReturn('hashed_password');
@@ -135,7 +144,10 @@ class UsersServicesTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Services\UsersServices::updateName
+     */
     public function update_name()
     {
         $user = $this->createUser();
@@ -148,7 +160,10 @@ class UsersServicesTest extends TestCase
         ], $user->refresh()->toArray());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Services\UsersServices::updateName
+     */
     public function update_name_formatted()
     {
         $user = $this->createUser();
@@ -161,7 +176,10 @@ class UsersServicesTest extends TestCase
         ], $user->refresh()->toArray());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Services\UsersServices::updateContact
+     */
     public function update_contact()
     {
         $user = $this->createUser();
@@ -174,7 +192,10 @@ class UsersServicesTest extends TestCase
         ], $user->refresh()->toArray());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Services\UsersServices::updateContact
+     */
     public function update_contact_formatted()
     {
         $user = $this->createUser();
@@ -187,7 +208,10 @@ class UsersServicesTest extends TestCase
         ], $user->refresh()->toArray());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Services\UsersServices::updatePassword
+     */
     public function update_password()
     {
         $user = $this->createUser();

@@ -7,6 +7,8 @@ use App\Utils\UrlUtils;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Tests\Support\CreatesModels;
 use Tests\Support\SeedDatabaseAfterRefresh;
+use App\Exceptions\Handler;
+use Illuminate\Contracts\Debug\ExceptionHandler;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -46,5 +48,27 @@ abstract class TestCase extends BaseTestCase
         }
 
         return self::$site;
+    }
+
+    /**
+     * Disable suppressing errors when HTTP testing
+     * Add $this->disableExceptionHandling(); to top of test
+     */
+    protected function disableExceptionHandling()
+    {
+        $this->app->instance(ExceptionHandler::class, new class extends Handler {
+            public function __construct()
+            {
+            }
+
+            public function report(\Exception $e)
+            {
+            }
+
+            public function render($request, \Exception $e)
+            {
+                throw $e;
+            }
+        });
     }
 }

@@ -50,4 +50,9 @@ class CrewPosition extends Model
         return $query->where('crew_id', $crew->id)
                      ->where('position_id', $position->id);
     }
+
+    public function roles()
+    {
+        return $this->hasOne(Position::class, 'department_id', 'position_id');
+    }
 }
