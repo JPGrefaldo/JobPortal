@@ -3,14 +3,11 @@
 namespace Tests\Feature;
 
 use App\Models\Crew;
-use App\Models\CrewPosition;
 use App\Models\CrewReel;
 use App\Models\CrewResume;
 use App\Models\CrewSocial;
-use App\Models\Position;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Tests\Support\Data\SocialLinkTypeID;
@@ -19,7 +16,7 @@ use Tests\TestCase;
 
 class CrewsFeatureTest extends TestCase
 {
-    use RefreshDatabase, SeedDatabaseAfterRefresh, WithFaker;
+    use RefreshDatabase, SeedDatabaseAfterRefresh;
 
     /** @test */
     public function create()

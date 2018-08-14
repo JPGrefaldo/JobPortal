@@ -90,5 +90,3 @@ Route::middleware(['auth', 'crew'])->group(function () {
     Route::get('/endorsement-requests/{endorsementRequest}/endorsements/edit', 'Crew\EndorsementController@edit')->name('endorsements.edit');
     Route::put('/endorsement-requests/{endorsementRequest}/endorsements/update', 'Crew\EndorsementController@update')->name('endorsements.update');
 });
-
-Route::get('/positions/{position}/endorsements', 'Crew\EndorsementController@index');

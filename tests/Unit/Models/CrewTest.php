@@ -51,10 +51,7 @@ class CrewTest extends TestCase
         $crewPosition = factory(CrewPosition::class)->make();
 
         // when
-        $crew->applyFor($position, [
-            'details' => $crewPosition->details,
-            'union_description' => $crewPosition->union_description
-        ]);
+        $crew->applyFor($position, $crewPosition);
 
         // then
         $this->assertEquals($position->id, $crew->positions->first()->id);

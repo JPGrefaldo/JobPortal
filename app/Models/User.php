@@ -149,6 +149,7 @@ class User extends Authenticatable
         return StrUtils::formatPhone($this->phone);
     }
 
+    // TODO: defer to crew
     /**
      * endorse a User to a ProjectJob
      * @param  \App\Models\User $endorsee

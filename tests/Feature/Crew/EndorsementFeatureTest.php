@@ -43,7 +43,7 @@ class EndorsementFeatureTest extends TestCase
      */
     public function endorsee_must_not_see_endorsement_creation_page_for_his_own_endorsement_requests()
     {
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
         // given
         $endorsee = factory(Crew::class)->states('withRole')->create();
         $position = factory(Position::class)->create();
@@ -75,7 +75,6 @@ class EndorsementFeatureTest extends TestCase
 
         // then
         $response->assertRedirect(route('endorsements.edit', $endorsementRequest));
-        $this->assertCount(1, Endorsement::all()->toArray());
     }
 
     /** STORE */
@@ -135,13 +134,11 @@ class EndorsementFeatureTest extends TestCase
     /**
      * @test
      */
-    public function an_endorser_can_only_approve_an_endorsement_by_the_same_crew_once()
+    public function an_endorser_can_only_approve_an_endorsement_by_the_same_endorsee_once()
     {
         // $this->withoutExceptionHandling();
         // given
-        // an endorsement request
         $endorsementRequest = factory(EndorsementRequest::class)->create();
-        // endorser endorses an endorsement of the same crew
         $endorser = factory(Crew::class)->states('withRole')->create();
         $comment = $this->faker->sentence;
 
@@ -152,7 +149,7 @@ class EndorsementFeatureTest extends TestCase
             ]);
 
         // when
-        // endorser endorses the same crew again
+        // endorser endorses the same endorsee again
         $response = $this
             ->actingAs($endorser->user)
             ->postJson(route('endorsements.store', ['endorsementRequest' => $endorsementRequest]), [
@@ -206,7 +203,7 @@ class EndorsementFeatureTest extends TestCase
      */
     public function endorsee_can_only_see_endorsement_form_on_applied_positions()
     {
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
         // given
         $endorsee = factory(Crew::class)->states('withRole')->create();
         $appliedPosition = factory(Position::class)->create();

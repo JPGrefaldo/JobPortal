@@ -26,12 +26,8 @@
                 </div>
                 <div>
                     <h4 class="text-grey leading-loose">
-                        Need help?
-                        <br>
-                            <a class="text-green" href="#">
-                                Contact support
-                            </a>
-                        </br>
+                        Need help?<br>
+                        <a class="text-green" href="#">Contact support</a>
                     </h4>
                 </div>
             </div>

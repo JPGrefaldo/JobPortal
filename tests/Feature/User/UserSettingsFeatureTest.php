@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\User;
 
-use App\Models\User;
 use App\Models\UserNotificationSetting;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;

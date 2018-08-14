@@ -1,3 +1,4 @@
+{{-- TODO: update message, make it look like the app is talking to the endorser --}}
 @component('mail::message')
 # Endorsement request from a friend.
 
