@@ -1,15 +1,5 @@
 <?php
 
-
-use App\Models\User;
-use App\Models;
-use App\Models\Crew;
-use App\Models\CrewPosition;
-use App\Models\Position;
-use App\Models\CrewSocial;
-use App\Models\Department;
-use App\Models\UserRoles;
-use App\Models\Role;
 /*
 |--------------------------------------------------------------------------
 | Web Routes

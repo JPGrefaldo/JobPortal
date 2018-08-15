@@ -3,15 +3,12 @@
 
 namespace App\Services;
 
-
+use App\Models\Crew;
 use App\Models\Role;
 use App\Models\Site;
 use App\Models\User;
-use App\Models\UserRoles;
-use App\Models\Crew;
 use App\Models\UserSites;
 use App\Utils\StrUtils;
-use Illuminate\Support\Str;
 
 class AuthServices
 {
