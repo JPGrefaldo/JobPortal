@@ -40,7 +40,7 @@ class EndorsementRequestController extends Controller
         // filter endorsers, only notify them once
         $endorsers = request('endorsers');
         foreach ($endorsers as $endorser) {
-            if (!$endorsement = $endorsementRequest->endorsements()->where('endorser_email', $endorser['email'])->first()) {
+            if (!$endorsement = $endorsementRequest->endorsements->where('endorser_email', $endorser['email'])->first()) {
                 $endorsement = $endorsementRequest->endorsements()->create([
                     'endorser_name' => $endorser['name'],
                     'endorser_email' => $endorser['email'],

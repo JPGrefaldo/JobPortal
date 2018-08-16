@@ -40,6 +40,8 @@ class Endorsement extends Model
         return $this->belongsTo(EndorsementRequest::class, 'endorsement_request_id');
     }
 
+    // TODO: create test,
+    // NOTE: relations smell bad
     public function endorser()
     {
         return $this->belongsTo(Crew::class);
