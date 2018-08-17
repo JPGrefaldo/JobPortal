@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use App\EndorsementRequest;
+use App\Models\EndorsementRequest;
 use App\Models\Crew;
 use App\Models\CrewPosition;
 use App\Models\Endorsement;

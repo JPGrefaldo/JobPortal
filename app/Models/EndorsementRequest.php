@@ -1,9 +1,7 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
-use App\Models\CrewPosition;
-use App\Models\Endorsement;
 use Illuminate\Database\Eloquent\Model;
 
 class EndorsementRequest extends Model

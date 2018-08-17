@@ -2,15 +2,13 @@
 
 namespace Tests\Feature\Crew;
 
-use App\EndorsementRequest;
-use App\Mail\EndorsementRequestEmail;
 use App\Models\Crew;
 use App\Models\CrewPosition;
 use App\Models\Endorsement;
+use App\Models\EndorsementRequest;
 use App\Models\Position;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Mail;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 

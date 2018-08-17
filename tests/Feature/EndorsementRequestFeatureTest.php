@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\EndorsementRequest;
+use App\Models\EndorsementRequest;
 use App\Mail\EndorsementRequestEmail;
 use App\Models\Crew;
 use App\Models\CrewPosition;

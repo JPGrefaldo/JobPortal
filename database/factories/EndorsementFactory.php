@@ -1,7 +1,6 @@
 <?php
 
-use App\EndorsementRequest;
-use App\Models\Endorsement;
+use App\Models\EndorsementRequest;
 use App\Models\User;
 use Carbon\Carbon;
 use Faker\Generator as Faker;

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Crew;
 
-use App\EndorsementRequest;
+use App\Models\EndorsementRequest;
 use App\Exceptions\ElectoralFraud;
 use App\Http\Controllers\Controller;
 use App\Models\Endorsement;
