@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Crew;
 
-use App\Exceptions\ElectoralFraud;
 use App\Http\Controllers\Controller;
 use App\Models\Endorsement;
 use App\Models\EndorsementRequest;
@@ -40,9 +39,7 @@ class EndorsementController extends Controller
     public function store(EndorsementRequest $endorsementRequest, Request $request)
     {
         if ($endorsementRequest->isRequestedBy()) {
-            // TODO: defer to model
-            throw new ElectoralFraud('You can\'t endorse yourself.');
-            // TODO: respond with errors instead
+            return response()->json(['errors' => ['email' => ['You can\'t endorse yourself.']]], 403);
         }
 
         $endorsement = $endorsementRequest->endorsementBy(auth()->user())->first();
