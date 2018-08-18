@@ -29,6 +29,18 @@ class Endorsement extends Model
         'deleted_at' => 'datetime',
     ];
 
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'endorsement_request_id',
+        'endorser_id',
+        'endorser_name',
+        'endorser_email',
+    ];
+
     public function position()
     {
         return $this->request->crewPosition->position();

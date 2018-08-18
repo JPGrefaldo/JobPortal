@@ -117,13 +117,17 @@ class EndorsementFeatureTest extends TestCase
             ->actingAs($endorser1->user)
             ->postJson(route('endorsements.store', ['endorsementRequest' => $endorsementRequest]), [
                 'comment' => $this->faker->sentence,
-            ]);
+            ])
+            ->assertSuccessful()
+            ->assertJsonStructure(['approved_at', 'comment']);
 
         $response2 = $this
             ->actingAs($endorser2->user)
             ->postJson(route('endorsements.store', ['endorsementRequest' => $endorsementRequest]), [
                 'comment' => '',
-            ]);
+            ])
+            ->assertSuccessful()
+            ->assertJsonStructure(['approved_at', 'comment']);
 
         // then
         $this->assertCount(2, Endorsement::all()->toArray());
