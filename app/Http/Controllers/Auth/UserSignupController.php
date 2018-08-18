@@ -11,12 +11,16 @@ use App\Models\Site;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 
-class UserSignupController extends Controller
+class SignupController extends Controller
 {
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function show()
     {
         return view('auth.register');
     }
+
     /**
      * Handle post request to signup
      *

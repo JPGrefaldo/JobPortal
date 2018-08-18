@@ -19,7 +19,7 @@ class CrewsServices
     /**
      * Create crew and all its relations from the request data
      *
-     * @param array            $data
+     * @param array $data
      * @param \App\Models\User $user
      *
      * @return \App\Services\CrewsServices
@@ -51,9 +51,9 @@ class CrewsServices
     /**
      * Create crew
      *
-     * @param array                         $data
+     * @param array $data
      * @param \Illuminate\Http\UploadedFile $photoFile
-     * @param \App\Models\User              $user
+     * @param \App\Models\User $user
      *
      * @return \App\Models\Crew
      */
@@ -74,7 +74,7 @@ class CrewsServices
 
     /**
      * @param \Illuminate\Http\UploadedFile $resumeFile
-     * @param \App\Models\Crew              $crew
+     * @param \App\Models\Crew $crew
      *
      * @return \App\Models\CrewResume
      */
@@ -99,14 +99,14 @@ class CrewsServices
     }
 
     /**
-     * @param array            $socialData
+     * @param array $socialData
      * @param \App\Models\Crew $crew
      */
     public function createSocials(array $socialData, Crew $crew)
     {
         $crewSocials = [];
 
-        if (!empty($socialData['youtube']['url'])) {
+        if (! empty($socialData['youtube']['url'])) {
             $socialData['youtube']['url'] = StrUtils::cleanYouTube($socialData['youtube']['url']);
         }
 
@@ -172,7 +172,7 @@ class CrewsServices
     /**
      * Update crew and all its relations from the request data
      *
-     * @param array            $data
+     * @param array $data
      * @param \App\Models\Crew $crew
      *
      * @return \App\Models\Crew
@@ -203,20 +203,20 @@ class CrewsServices
     }
 
     /**
-     * @param array                              $data
+     * @param array $data
      * @param null|\Illuminate\Http\UploadedFile $photoFile
-     * @param \App\Models\Crew                   $crew
+     * @param \App\Models\Crew $crew
      *
      * @return \App\Models\Crew
      */
     public function update(array $data, $photoFile, Crew $crew)
     {
-        $hasPhoto  = ($photoFile instanceof UploadedFile);
+        $hasPhoto = ($photoFile instanceof UploadedFile);
         $photoData = [
             'file' => $photoFile,
             'dir'  => ($hasPhoto) ? $crew->user->uuid : '',
         ];
-        $data      = $this->prepareCrewData($data, $photoData);
+        $data = $this->prepareCrewData($data, $photoData);
 
         if ($hasPhoto) {
             Storage::delete($crew->photo); // delete old photo
@@ -251,7 +251,7 @@ class CrewsServices
 
     /**
      * @param \Illuminate\Http\UploadedFile $resumeFile
-     * @param \App\Models\Crew              $crew
+     * @param \App\Models\Crew $crew
      *
      * @return \App\Models\CrewResume
      */
@@ -261,7 +261,7 @@ class CrewsServices
             ->where('general', 1)
             ->first();
 
-        if (!$resume) {
+        if (! $resume) {
             $resume = $this->createGeneralResume($resumeFile, $crew);
 
             return $resume;
@@ -296,7 +296,7 @@ class CrewsServices
     }
 
     /**
-     * @param array            $socialData
+     * @param array $socialData
      * @param \App\Models\Crew $crew
      *
      * @throws \Exception
@@ -309,7 +309,7 @@ class CrewsServices
     }
 
     /**
-     * @param array            $data
+     * @param array $data
      * @param \App\Models\Crew $crew
      *
      * @return \App\Models\CrewReel

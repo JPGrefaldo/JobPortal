@@ -33,7 +33,7 @@ class EndorsementController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(EndorsementRequest $endorsementRequest, Request $request)
@@ -44,14 +44,14 @@ class EndorsementController extends Controller
 
         $endorsement = $endorsementRequest->endorsementBy(auth()->user())->first();
 
-        if (!$endorsement) {
+        if (! $endorsement) {
             $endorsement = Endorsement::create([
                 'endorsement_request_id' => $endorsementRequest->id,
-                'endorser_id' => Auth::id(),
-                'endorser_name' => Auth::user()->first_name . ' ' . Auth::user()->last_name,
-                'endorser_email' => Auth::user()->email,
-                'approved_at' => Carbon::now(),
-                'comment' => $request['comment'],
+                'endorser_id'            => Auth::id(),
+                'endorser_name'          => Auth::user()->first_name . ' ' . Auth::user()->last_name,
+                'endorser_email'         => Auth::user()->email,
+                'approved_at'            => Carbon::now(),
+                'comment'                => $request['comment'],
             ]);
         }
 
@@ -63,7 +63,7 @@ class EndorsementController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Endorsement  $endorsement
+     * @param  \App\Endorsement $endorsement
      * @return \Illuminate\Http\Response
      */
     public function edit(EndorsementRequest $endorsementRequest)
@@ -72,14 +72,15 @@ class EndorsementController extends Controller
 
         // TODO: endorsee_is_redirected_to_endorsement_create_page_when_editing_non_existent_endorsement
 
-        return view('crew.endorsement.edit')->with('endorsementRequest', $endorsementRequest)->with('endorsement', $endorsement);
+        return view('crew.endorsement.edit')->with('endorsementRequest', $endorsementRequest)->with('endorsement',
+            $endorsement);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Endorsement  $endorsement
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Endorsement $endorsement
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, EndorsementRequest $endorsementRequest)
@@ -98,7 +99,7 @@ class EndorsementController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Endorsement  $endorsement
+     * @param  \App\Endorsement $endorsement
      * @return \Illuminate\Http\Response
      */
     public function destroy(Endorsement $endorsement)

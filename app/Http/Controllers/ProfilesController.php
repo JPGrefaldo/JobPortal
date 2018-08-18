@@ -34,23 +34,23 @@ class ProfilesController extends Controller
 
         $all_post = CrewPosition::with('roles')->latest()->get();
 
-    $all_post = CrewPosition::with('roles','departments')->latest()->get();
+        $all_post = CrewPosition::with('roles', 'departments')->latest()->get();
 
-    if (isset($positions)) {
-    $position_role = Position::where('department_id', $positions->position_id)->first();
-    }
+        if (isset($positions)) {
+            $position_role = Position::where('department_id', $positions->position_id)->first();
+        }
 
         $socmed = CrewSocial::where('crew_id', $user->id)->get();
 
         $fb = CrewSocial::where('social_link_type_id', '=', 1)
-        ->where('crew_id', $user->id)
-        ->first();
+            ->where('crew_id', $user->id)
+            ->first();
         $imdb = CrewSocial::where('social_link_type_id', '=', 5)
-        ->where('crew_id', $user->id)
-        ->first();
+            ->where('crew_id', $user->id)
+            ->first();
         $linkedin = CrewSocial::where('social_link_type_id', '=', 10)
-        ->where('crew_id', $user->id)
-        ->first();
+            ->where('crew_id', $user->id)
+            ->first();
 
         $resume = CrewResume::where('crew_id', $user->id)->first();
         if (isset($resume)) {
@@ -59,11 +59,13 @@ class ProfilesController extends Controller
 
         $reel = CrewReel::where('crew_id', $user->id)->first();
 
-        if (!empty($reel)) {
+        if (! empty($reel)) {
             $url_reel = Storage::url($reel->url);
         }
 
-        return view('profile.my-profile', compact('user', 'role', 'biography', 'positions', 'position_role', 'socmed', 'fb', 'imdb', 'linkedin', 'resume', 'url_resume', 'reel', 'url_reel', 'all_post'));
+        return view('profile.my-profile',
+            compact('user', 'role', 'biography', 'positions', 'position_role', 'socmed', 'fb', 'imdb', 'linkedin',
+                'resume', 'url_resume', 'reel', 'url_reel', 'all_post'));
     }
 
     /**
@@ -74,10 +76,10 @@ class ProfilesController extends Controller
     public function create(User $user, Request $request)
     {
         $validatedData = $request->validate([
-        'title' => 'required|max:255',
-        'bio' => 'required',
-        'resume_file' => 'nullable',
-        'reel_file' => 'nullable',
+            'title'       => 'required|max:255',
+            'bio'         => 'required',
+            'resume_file' => 'nullable',
+            'reel_file'   => 'nullable',
         ]);
 
         $crew_position = new CrewPosition;
@@ -101,7 +103,7 @@ class ProfilesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -112,7 +114,7 @@ class ProfilesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show(User $user)
@@ -131,14 +133,14 @@ class ProfilesController extends Controller
         $socmed = CrewSocial::where('crew_id', $user->id)->get();
 
         $fb = CrewSocial::where('social_link_type_id', 1)
-        ->where('crew_id', $user->id)
-        ->first();
+            ->where('crew_id', $user->id)
+            ->first();
         $imdb = CrewSocial::where('social_link_type_id', 5)
-        ->where('crew_id', $user->id)
-        ->first();
+            ->where('crew_id', $user->id)
+            ->first();
         $linkedin = CrewSocial::where('social_link_type_id', 10)
-        ->where('crew_id', $user->id)
-        ->first();
+            ->where('crew_id', $user->id)
+            ->first();
 
         $reel = CrewReel::where('crew_id', $user->id)->first();
         $resume = CrewResume::where('crew_id', $user->id)->first();
@@ -154,13 +156,16 @@ class ProfilesController extends Controller
         $soundPositions = Position::where('department_id', 6)->get();
         $otherPositions = Position::where('department_id', 7)->get();
 
-        return view('profile.my-profile-edit', compact('user', 'position', 'position_role', 'biography', 'jobTitle', 'social', 'fb', 'imdb', 'linkedin', 'departments', 'reel', 'resume', 'allpositions', 'productionPositions', 'artPositions', 'gripElectricPositions', 'cameraPositions', 'muahWardrobePositions', 'soundPositions'));
+        return view('profile.my-profile-edit',
+            compact('user', 'position', 'position_role', 'biography', 'jobTitle', 'social', 'fb', 'imdb', 'linkedin',
+                'departments', 'reel', 'resume', 'allpositions', 'productionPositions', 'artPositions',
+                'gripElectricPositions', 'cameraPositions', 'muahWardrobePositions', 'soundPositions'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit(Request $request)
@@ -177,7 +182,7 @@ class ProfilesController extends Controller
             $filename = time() . '.' . $image->getClientOriginalExtension();
             $location = public_path('photos/' . $filename);
             Image::make($image)->resize(400, 400)->save($location);
-            $edit_user->photo = "photos/". $filename;
+            $edit_user->photo = "photos/" . $filename;
         }
 
         $edit_user->bio = $request->bio;
@@ -187,17 +192,17 @@ class ProfilesController extends Controller
 
 
         if ($request->hasFile('reel_file')) {
-        $reel_fileName = "fileName".time().'.'.request()->reel_file->getClientOriginalExtension();
-        $user_reel = Storage::putFile('reels', $request->file('reel_file'));
-        $user_reel_filepath = 'reel/' . $reel_fileName;
-        
-        $save_reel = CrewReel::where('crew_id', $user->id)->first();
+            $reel_fileName = "fileName" . time() . '.' . request()->reel_file->getClientOriginalExtension();
+            $user_reel = Storage::putFile('reels', $request->file('reel_file'));
+            $user_reel_filepath = 'reel/' . $reel_fileName;
+
+            $save_reel = CrewReel::where('crew_id', $user->id)->first();
             if (isset($save_reel->url)) {
-            $save_reel->url = $user_reel_filepath;
-            $save_reel->save();
+                $save_reel->url = $user_reel_filepath;
+                $save_reel->save();
             } else {
-            $new_reel = new CrewReel;
-            $new_reel->id = Auth::user()->id;
+                $new_reel = new CrewReel;
+                $new_reel->id = Auth::user()->id;
             }
         }
 
@@ -205,7 +210,7 @@ class ProfilesController extends Controller
         // save crew resume
 
         if ($request->hasFile('resume_file')) {
-            $resume_fileName = $user->first_name." ".$user->last_name  ." " . "resume".time().'.'.request()->resume_file->getClientOriginalExtension();
+            $resume_fileName = $user->first_name . " " . $user->last_name . " " . "resume" . time() . '.' . request()->resume_file->getClientOriginalExtension();
             $user_resume = Storage::putFileAs('resume', $request->file('resume_file'), $resume_fileName);
             $resume_url = Storage::url($user_resume);
             $user_resume_filepath = 'resume/' . $resume_fileName;
@@ -228,16 +233,16 @@ class ProfilesController extends Controller
 
         // Save Crew Social
         $user_imdb = CrewSocial::where('social_link_type_id', 5)
-                    ->where('crew_id', $user->id)
-                    ->first();
+            ->where('crew_id', $user->id)
+            ->first();
 
         $user_fb = CrewSocial::where('social_link_type_id', 1)
-                    ->where('crew_id', $user->id)
-                    ->first();
+            ->where('crew_id', $user->id)
+            ->first();
 
         $user_linkedin = CrewSocial::where('social_link_type_id', 10)
-                    ->where('crew_id', $user->id)
-                    ->first();
+            ->where('crew_id', $user->id)
+            ->first();
 
         if (isset($user_imdb->url)) {
             $user_imdb->url = $request->imdb_link;
@@ -281,18 +286,19 @@ class ProfilesController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
         //
     }
+
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -301,14 +307,19 @@ class ProfilesController extends Controller
         $resume->delete();
 
         return redirect()->back();
-     }
+    }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
+     */
     public function destroyReel($id)
     {
-     
-    $reel = CrewReel::find($id);
-    $reel->delete();
 
-     return redirect()->back();
-     }
+        $reel = CrewReel::find($id);
+        $reel->delete();
+
+        return redirect()->back();
+    }
 }

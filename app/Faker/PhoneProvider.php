@@ -3,15 +3,17 @@
 
 namespace App\Faker;
 
-
 use App\Utils\StrUtils;
 use Faker\Provider\Base;
 use Faker\Provider\en_US\PhoneNumber;
 
 class PhoneProvider extends PhoneNumber
 {
-    protected static $tollFreeFormats = [
-        '({{tollFreeAreaCode}}) {{exchangeCode}}-####'
+    /**
+     * @var array
+     */
+    protected static $tollFreeFozrmats = [
+        '({{tollFreeAreaCode}}) {{exchangeCode}}-####',
     ];
 
     /**
@@ -22,6 +24,9 @@ class PhoneProvider extends PhoneNumber
         return $this->tollFreePhoneNumber();
     }
 
+    /**
+     * @return string
+     */
     public function unformattedPhoneNumber()
     {
         return rand(100, 999) . rand(100, 999) . rand(1000, 9999);

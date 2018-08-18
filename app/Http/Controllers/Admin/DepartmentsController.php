@@ -21,7 +21,7 @@ class DepartmentsController extends Controller
 
     /**
      * @param \App\Http\Requests\Admin\DepartmentsRequest $request
-     * @param \App\Models\Department                      $department
+     * @param \App\Models\Department $department
      */
     public function update(DepartmentsRequest $request, Department $department)
     {

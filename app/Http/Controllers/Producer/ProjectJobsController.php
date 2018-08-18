@@ -22,7 +22,7 @@ class ProjectJobsController extends Controller
 
     /**
      * @param \App\Http\Requests\Producer\UpdateProjectJobRequest $request
-     * @param \App\Models\ProjectJob                              $job
+     * @param \App\Models\ProjectJob $job
      */
     public function update(UpdateProjectJobRequest $request, ProjectJob $job)
     {

@@ -22,7 +22,7 @@ class DepartmentsServices
     }
 
     /**
-     * @param array                  $data
+     * @param array $data
      * @param \App\Models\Department $department
      *
      * @return \App\Models\Department
@@ -43,7 +43,10 @@ class DepartmentsServices
      */
     public function filterData(array $data)
     {
-        return array_only($data, ['name', 'description']);
+        return array_only($data, [
+            'name',
+            'description',
+        ]);
     }
 
     /**
@@ -53,7 +56,7 @@ class DepartmentsServices
      */
     public function formatData(array $data)
     {
-        $data['name']        = title_case($data['name']);
+        $data['name'] = title_case($data['name']);
         $data['description'] = StrUtils::convertNull($data['description']);
 
         return $data;

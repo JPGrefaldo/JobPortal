@@ -29,19 +29,20 @@ class EndorsementRequestController extends Controller
         ])
             ->first();
 
-        if (!$endorsementRequest) {
+        if (! $endorsementRequest) {
             $endorsementRequest = EndorsementRequest::create([
                 'crew_position_id' => $crewPosition->id,
-                'token' => EndorsementRequest::generateToken(),
+                'token'            => EndorsementRequest::generateToken(),
             ]);
         }
 
         // filter endorsers, only notify them once
         $endorsers = request('endorsers');
         foreach ($endorsers as $endorser) {
-            if (!$endorsement = $endorsementRequest->endorsements->where('endorser_email', $endorser['email'])->first()) {
+            if (! $endorsement = $endorsementRequest->endorsements->where('endorser_email',
+                $endorser['email'])->first()) {
                 $endorsement = $endorsementRequest->endorsements()->create([
-                    'endorser_name' => $endorser['name'],
+                    'endorser_name'  => $endorser['name'],
                     'endorser_email' => $endorser['email'],
                 ]);
 

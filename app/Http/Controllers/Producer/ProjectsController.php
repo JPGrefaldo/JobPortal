@@ -26,7 +26,7 @@ class ProjectsController extends Controller
 
     /**
      * @param \App\Http\Requests\Producer\UpdateProjectRequest $request
-     * @param \App\Models\Project                              $project
+     * @param \App\Models\Project $project
      *
      * @throws \Exception
      */

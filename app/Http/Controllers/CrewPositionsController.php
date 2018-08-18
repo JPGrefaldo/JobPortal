@@ -28,11 +28,11 @@ class CrewPositionsController extends Controller
     public function createPosition(User $user, Request $request)
     {
         $validatedData = $request->validate([
-        'title' => 'required',
-        'biography' => 'required',
-        'resume_file' => 'nullable',
-        'reel_file' => 'nullable',
-        'union_details' => 'required',
+            'title'         => 'required',
+            'biography'     => 'required',
+            'resume_file'   => 'nullable',
+            'reel_file'     => 'nullable',
+            'union_details' => 'required',
         ]);
 
         $crew_position = new CrewPosition;
@@ -41,13 +41,13 @@ class CrewPositionsController extends Controller
 
         $title_submit = Position::where('name', $request->title)->first();
         $crew_position->position_id = $title_submit->id;
-       
-        $crew_position->details = $request->biography;   
-        $crew_position->union_description = $request->union_details;     
+
+        $crew_position->details = $request->biography;
+        $crew_position->union_description = $request->union_details;
         $crew_position->save();
 
         if ($request->hasFile('reel_file')) {
-            $reel_fileName = "fileName".time().'.'.request()->reel_file->getClientOriginalExtension();
+            $reel_fileName = "fileName" . time() . '.' . request()->reel_file->getClientOriginalExtension();
             $user_reel = Storage::putFile('reels', $request->file('reel_file'));
             $user_reel_filepath = 'reel/' . $reel_fileName;
 
@@ -58,12 +58,11 @@ class CrewPositionsController extends Controller
             } else {
                 $new_reel = new CrewReel;
                 $new_reel->crew_id = $user->id;
-                $new_reel->url  = $user_reel_filepath;
+                $new_reel->url = $user_reel_filepath;
                 $new_reel->crew_position_id = $title_submit->id;
                 $new_reel->save();
             }
         }
-
 
 
         return back();
@@ -72,7 +71,7 @@ class CrewPositionsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -83,7 +82,7 @@ class CrewPositionsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -94,7 +93,7 @@ class CrewPositionsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -105,8 +104,8 @@ class CrewPositionsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -117,7 +116,7 @@ class CrewPositionsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

@@ -21,7 +21,7 @@ class PositionsServices
     }
 
     /**
-     * @param array                $data
+     * @param array $data
      * @param \App\Models\Position $position
      *
      * @return \App\Models\Position
@@ -59,8 +59,8 @@ class PositionsServices
      */
     public function prepareData(array $data)
     {
-        $data['name']      = title_case($data['name']);
-        $data['has_gear']  = array_get($data, 'has_gear', 0);
+        $data['name'] = title_case($data['name']);
+        $data['has_gear'] = array_get($data, 'has_gear', 0);
         $data['has_union'] = array_get($data, 'has_union', 0);
 
         return $data;

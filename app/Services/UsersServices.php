@@ -18,7 +18,7 @@ class UsersServices
      */
     public function create(array $data)
     {
-        $data         = $this->prepareData($data);
+        $data = $this->prepareData($data);
         $data['uuid'] = Str::uuid();
 
         return User::create($data);
@@ -32,17 +32,17 @@ class UsersServices
     public function prepareData(array $data)
     {
         $data['first_name'] = $this->formatName($data['first_name']);
-        $data['last_name']  = $this->formatName($data['last_name']);
-        $data['email']      = $this->formatEmail($data['email']);
-        $data['password']   = $this->hashPassword($data['password']);
-        $data['phone']      = $this->stripPhone($data['phone']);
+        $data['last_name'] = $this->formatName($data['last_name']);
+        $data['email'] = $this->formatEmail($data['email']);
+        $data['password'] = $this->hashPassword($data['password']);
+        $data['phone'] = $this->stripPhone($data['phone']);
 
         return $data;
     }
 
     /**
-     * @param string           $firstName
-     * @param string           $lastName
+     * @param string $firstName
+     * @param string $lastName
      * @param \App\Models\User $user
      *
      * @return \App\Models\User
@@ -58,8 +58,8 @@ class UsersServices
     }
 
     /**
-     * @param string           $email
-     * @param string           $phone
+     * @param string $email
+     * @param string $phone
      *
      * @param \App\Models\User $user
      *
@@ -76,7 +76,7 @@ class UsersServices
     }
 
     /**
-     * @param string           $password
+     * @param string $password
      * @param \App\Models\User $user
      *
      * @return \App\Models\User

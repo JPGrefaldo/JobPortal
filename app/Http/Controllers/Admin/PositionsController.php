@@ -22,7 +22,7 @@ class PositionsController extends Controller
 
     /**
      * @param \App\Http\Requests\Admin\PositionsRequest $request
-     * @param \App\Models\Position                      $position
+     * @param \App\Models\Position $position
      *
      */
     public function update(PositionsRequest $request, Position $position)
