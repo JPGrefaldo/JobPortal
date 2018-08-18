@@ -13,7 +13,10 @@ class UserSettingsFeatureTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\User\UserSettingsController::updateName
+     */
     public function update_name()
     {
         $user = $this->createUser();

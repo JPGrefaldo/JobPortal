@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use Artisan;
 use Illuminate\Console\Command;
 
 class StartFromScratch extends Command
@@ -38,11 +39,13 @@ class StartFromScratch extends Command
     public function handle()
     {
         $bar = $this->output->createProgressBar(3);
-        \Artisan::call('migrate');
+
+        Artisan::call('migrate');
         $bar->advance();
-        \Artisan::call('db:seed');
+        Artisan::call('db:seed');
         $bar->advance();
-        \Artisan::call('test_user', ['email' => $this->argument('email')]);
+        Artisan::call('test_user', ['email' => $this->argument('email')]);
+
         $bar->finish();
     }
 }
