@@ -32,40 +32,9 @@
                 <div class="text-center pt-8 pb-4">
                     <img src="/images/donut.svg" alt="" />
                 </div>
-                <ul class="list-reset list-check">
+
+                @include('profile.my-profile-complete-indicator')
                 
-                @if (!isset($biography->bio)) 
-                    <li>BIO</li>
-                     @else 
-                    <li class="is-checked">BIO</li>
-                @endif
-                
-                @if (!isset($linkedin->url) && !isset($imdb->url) && !isset($fb->url)) 
-                    <li>SOCIAL MEDIA PROFILES</li>
-                    @else 
-                    <li class="is-checked">SOCIAL MEDIA PROFILES</li>
-                @endif
-
-                @if (!isset($resume->url))
-                    <li>GENERAL WORK RESUME</li>
-                    @else 
-                    <li class="is-checked">GENERAL WORK RESUME</li>
-                @endif
-                
-
-                @if (!isset($reel) || isset($reel->url))    
-                    <li>GENERAL WORK REEL</li>
-                    @else
-                    <li class="is-checked">GENERAL WORK REEL</li>
-                @endif    
-
-                @if (! $position || ! $position->count())
-                    <li>WORK POSITIONS</li>
-                @else
-                    <li class="is-checked">WORK POSITIONS</li>
-                @endif
-
-                </ul>
             </div>
             <div class="md:w-3/4 float-left">
                 <div class="card mb-8">
@@ -81,13 +50,13 @@
                             
                             @if (isset($biography->photo))
                             <div class="flex h-none bg-grey-light items-center justify-center cursor-pointer text-center border border-grey-light w-full pb-full rounded relative" style="background: url(/{{ $biography->photo }}); background-size: cover;">
-                                <span class="text-center uppercase text-sm font-semibold text-white px-2 pos-center w-full">
+                                <label for="file" class="text-center uppercase text-sm font-semibold text-white px-2 pos-center w-full">
                                 UPLOAD PROFILE PHOTO
-                                {{ form::file('profile_image', array('class' => 'profile_image'))}}
-                                </span>
+                                {{ form::file('profile_image', array('id' => 'file', 'class' => 'profile_image', 'style' => 'opacity:0;'))}}
+                                </label>
                             </div>
                             @else 
-                            <div class="flex h-none bg-grey-light items-center justify-center cursor-pointer text-center border border-grey-light w-full pb-full rounded relative" style="background: url(http://i.pravatar.cc/300"); background-size: cover;">
+                            <div class="flex h-none bg-grey-light items-center justify-center cursor-pointer text-center border border-grey-light w-full pb-full rounded relative" style="background: url(http://i.pravatar.cc/300); background-size: cover;">
                                 <span class="text-center uppercase text-sm font-semibold text-white px-2 pos-center w-full">
                                 UPLOAD PROFILE PHOTO
                                 {{ form::file('profile_image', array('class' => 'profile_image'))}}
@@ -138,9 +107,9 @@
                                       
                                 </div>
                                 @else
-
-                                {{ form::file('resume_file', array('class' => 'btn-outline inline-block', 'value' => 'Upload file'))}}
-                               
+                                <label class="btn-outline" for="resume_file">UPLOAD FILE
+                                {{ form::file('resume_file', array('class' => 'btn-outline inline-block', 'value' => 'Upload file', 'id' => 'resume_file', 'style' => 'opacity:0;width:1px;'))}}
+                               </label>
                                 @endif      
                             </div>
                         </div>
@@ -151,14 +120,25 @@
                                 <h3 class="text-md font-header mt-2 mb-2 md:mb-0">General reel</h3>
                             </div>
                             <div class="md:w-2/3">
-                                <input type="text" class="form-control bg-light w-64 mr-2 mb-2 md:mb-0" placeholder="Add link"><div> or <br> 
-                                {{ form::file('reel_file', array('class' => 'btn-outline inline-block', 'value' => 'Upload file')) }}
                                 @if (isset($reel))
-                                <div class="bootstrap-iso">
-                                      <span class="badge badge-secondary"> {{ $reel->url }}</span>
+                                 <div class="bootstrap-iso">
+                                      <span class="badge badge-primary">
+                                        <h5>{{ $reel->url }}</h5>
+                                    </span>                                        
+
+                                <a href='{{ url("my-profile/$reel->id/deleteReel") }}' class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this file?')">
+                                <i class="fa fa-times" aria-hidden="true" ></i></a>                           
+                                      
                                 </div>
-                                    @endif
+                                @else
+                                
+                                {{ Form::text('reel_link',"",array('class' => 'form-control bg-light w-64 mr-2 mb-2 md:mb-0','placeholder' => 'Add link') )}}
+                                <div> or <br>
+                                <label class="btn-outline" for="reel_file"> UPLOAD FILE 
+                                {{ form::file('reel_file', array('class' => 'btn-outline inline-block', 'id' => 'reel_file','style' => 'opacity:0;width:1px;')) }}
+                                </label>
                                 </div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -238,13 +218,12 @@
                 @endforeach
             </ul>
   
-            <div class="tab-content">
-                
+            <div class="tab-content">     
                 <div id="Production" class="tab-pane fade in active">
                             <div class="md:w-2/3">
-                                <select multiple class="form-control" id="exampleSelect2">
+                                <select multiple class="form-control" name="title">
                                     @foreach ($productionPositions  as $productionPosition)
-                                        <option>{{ $productionPosition->name }}</h3></option>
+                                        <option>{{ $productionPosition->name }}</option>
                                     @endforeach
                                 </select>
 
@@ -253,9 +232,9 @@
 
                 <div id="Art" class="tab-pane fade">
                   <div class="md:w-2/3">
-                                <select multiple class="form-control" id="exampleSelect2">
+                                <select multiple class="form-control" name="title">
                                     @foreach ($artPositions  as $artPosition)
-                                        <option>{{ $artPosition->name }}</h3></option>
+                                        <option>{{ $artPosition->name }}</option>
                                     @endforeach
                                 </select>
                     </div>
@@ -263,9 +242,9 @@
 
                 <div id="Camera" class="tab-pane fade">
                   <div class="md:w-2/3">      
-                                <select multiple class="form-control" id="exampleSelect2">
+                                <select multiple class="form-control" name="title">
                                     @foreach ($cameraPositions  as $cameraPosition)
-                                        <option>{{ $cameraPosition->name }}</h3></option>
+                                        <option>{{ $cameraPosition->name }}</option>
                                     @endforeach
                                 </select>  
                     </div>
@@ -273,9 +252,9 @@
 
                 <div id="Grip_Electric" class="tab-pane fade">
                   <div class="md:w-2/3">      
-                                <select multiple class="form-control" id="exampleSelect2">
+                                <select multiple class="form-control" name="title">
                                     @foreach ($gripElectricPositions  as $gripElectricPosition)
-                                        <option>{{ $gripElectricPosition->name }}</h3></option>
+                                        <option>{{ $gripElectricPosition->name }}</option>
                                     @endforeach
                                 </select>  
                     </div>
@@ -283,9 +262,9 @@
 
                 <div id="MUaH_Wardrobe" class="tab-pane fade">
                   <div class="md:w-2/3">      
-                                <select multiple class="form-control" id="exampleSelect2">
+                                <select multiple class="form-control" name="title">
                                     @foreach ($muahWardrobePositions  as $muahWardrobePosition)
-                                        <option>{{ $muahWardrobePosition->name }}</h3></option>
+                                        <option>{{ $muahWardrobePosition->name }}</option>
                                     @endforeach
                                 </select>  
                     </div>
@@ -293,9 +272,9 @@
 
                 <div id="Sound" class="tab-pane fade">
                   <div class="md:w-2/3">      
-                                <select multiple class="form-control" id="exampleSelect2">
+                                <select multiple class="form-control" name="title">
                                     @foreach ($soundPositions  as $soundPosition)
-                                        <option>{{ $soundPosition->name }}</h3></option>
+                                        <option>{{ $soundPosition->name }}</option>
                                     @endforeach
                                 </select>  
                     </div>
@@ -314,7 +293,7 @@
                         <div class="py-2">
                                     {{ Form::label('bio', '2. Biography:', array('class' => 'block mb-3') )}}
                             <div class="md:flex">
-                            <textarea class="form-control w-full h-32" placeholder="Biography"></textarea>
+                             {{ Form::textarea('biography','', array('class' => 'form-control w-full h-32','placeholder' => 'Enter details') )}}
                             </div>
                         </div>
                         
@@ -324,7 +303,9 @@
                                     <span class="font-bold font-header text-blue-dark mt-2 block md:text-right mb-2 md:mb-0">General resume</span>
                                 </div>
                                 <div class="md:w-2/3">
-                                    <a href="#" class="btn-outline inline-block">Upload file</a>
+                                    <label for="resume_file" class="btn-outline">Upload file
+                                    {{ form::file('resume_file', array('class' => 'btn-outline', 'id' => 'resume_file', 'style' => 'opacity:0;width:1px;'))}}
+                                    </label>
                                 </div>
                             </div>
                         </div>
@@ -334,7 +315,10 @@
                                     <span class="font-bold font-header text-blue-dark mt-2 block md:text-right mb-2 md:mb-0">General reel</span>
                                 </div>
                                 <div class="md:w-2/3">
-                                    <input type="text" class="form-control bg-light w-64 mr-2 mb-3 md:mb-0" placeholder="Add link"> or <a href="#" class="btn-outline inline-block">Upload file</a>
+                                    <input type="text" class="form-control bg-light w-64 mr-2 mb-3 md:mb-0" placeholder="Add link"> or <br>
+                                    <label for="reel_file" class="btn-outline">Upload file
+                                    {{ form::file('reel_file', array('class' => 'btn-outline inline-block', 'id' => 'reel_file', 'style' => 'opacity:0;width:1px;')) }}
+                                    </label>
                                 </div>
                             </div>
                         </div>
@@ -351,7 +335,7 @@
                                         </label>
                                     </div>
                                     <label for="" class="block mb-3">What gear do you have for this position?</label>
-                                    <textarea class="form-control w-full h-32" placeholder="Your gear"></textarea>
+                                    {{ Form::textarea('gear_details', '', array('class' => 'form-control w-full h-32', 'placeholder' => 'Your Gear') )}}
                                 </div>
                             </div>
                             <div class="md:flex">
@@ -366,7 +350,7 @@
                                         </label>
                                     </div>
                                     <label for="" class="block mb-3">Please provide details of your union group?</label>
-                                    <textarea class="form-control w-full h-32" placeholder="Union description"></textarea>
+                                     {{ Form::textarea('union_details', '', array('class' => 'form-control w-full h-32', 'placeholder' => 'Union decription') )}}
                                 </div>
                             </div>
                         </div>

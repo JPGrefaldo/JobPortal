@@ -5,6 +5,25 @@ The site allows people (producer) that are creating a media project, such as tv,
 ## Contributing to the project
 * [Developers Guide](https://github.com/cca-bheath/crewcalls/wiki/Developers-Guide)
 
+## Create test user
+
+Create a confirmed test user on site that is Crew and Producer.
+
+Password `test123`
+
+```php
+php artisan test_user test@test.com
+```
+
+## Restart from scratch
+
+* Migrate
+* Seed
+* Create new test user
+
+```php
+php artisan startfromscratch test@test.com
+```
 
 ## Front end compile
 

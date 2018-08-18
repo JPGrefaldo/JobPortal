@@ -33,6 +33,8 @@ Route::get('/my-profile/{user}', 'ProfilesController@index')->name('profile');
 Route::get('/my-profile/{user}/edit', 'ProfilesController@show')->name('profile-edit');
 Route::post('/my-profile/edit', 'ProfilesController@edit')->name('profile-update');
 Route::get('/my-profile/{id}/delete', 'ProfilesController@destroy')->name('delete-resume');
+Route::get('/my-profile/{id}/deleteReel', 'ProfilesController@destroyReel')->name('delete-reel');
+
 
 Route::post('/my-profile/{user}/add-position', 
     'CrewPositionsController@createPosition')->name('add-position');

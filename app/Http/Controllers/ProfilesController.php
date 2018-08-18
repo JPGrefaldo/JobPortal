@@ -34,9 +34,11 @@ class ProfilesController extends Controller
 
         $all_post = CrewPosition::with('roles')->latest()->get();
 
-        if (isset($positions)) {
-            $position_role = Position::where('department_id', $positions->position_id)->first();
-        }
+    $all_post = CrewPosition::with('roles','departments')->latest()->get();
+
+    if (isset($positions)) {
+    $position_role = Position::where('department_id', $positions->position_id)->first();
+    }
 
         $socmed = CrewSocial::where('crew_id', $user->id)->get();
 
@@ -152,7 +154,6 @@ class ProfilesController extends Controller
         $soundPositions = Position::where('department_id', 6)->get();
         $otherPositions = Position::where('department_id', 7)->get();
 
-
         return view('profile.my-profile-edit', compact('user', 'position', 'position_role', 'biography', 'jobTitle', 'social', 'fb', 'imdb', 'linkedin', 'departments', 'reel', 'resume', 'allpositions', 'productionPositions', 'artPositions', 'gripElectricPositions', 'cameraPositions', 'muahWardrobePositions', 'soundPositions'));
     }
 
@@ -183,13 +184,21 @@ class ProfilesController extends Controller
         $edit_user->save();
 
         // save crew reel
+
+
         if ($request->hasFile('reel_file')) {
-            $reel_fileName = "fileName".time().'.'.request()->reel_file->getClientOriginalExtension();
-            $user_reel = Storage::putFile('reels', $request->file('reel_file'));
-            $user_reel_filepath = 'reel/' . $reel_fileName;
-            $save_reel = CrewReel::where('crew_id', $user->id)->first();
+        $reel_fileName = "fileName".time().'.'.request()->reel_file->getClientOriginalExtension();
+        $user_reel = Storage::putFile('reels', $request->file('reel_file'));
+        $user_reel_filepath = 'reel/' . $reel_fileName;
+        
+        $save_reel = CrewReel::where('crew_id', $user->id)->first();
+            if (isset($save_reel->url)) {
             $save_reel->url = $user_reel_filepath;
             $save_reel->save();
+            } else {
+            $new_reel = new CrewReel;
+            $new_reel->id = Auth::user()->id;
+            }
         }
 
 
@@ -292,5 +301,14 @@ class ProfilesController extends Controller
         $resume->delete();
 
         return redirect()->back();
-    }
+     }
+
+    public function destroyReel($id)
+    {
+     
+    $reel = CrewReel::find($id);
+    $reel->delete();
+
+     return redirect()->back();
+     }
 }
