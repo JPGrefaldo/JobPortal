@@ -26,11 +26,11 @@ class ProjectJob extends Model
         'status'               => 'integer',
         'project_id'           => 'integer',
         'position_id'          => 'integer',
-        'pay_type_id'          => 'integer'
+        'pay_type_id'          => 'integer',
     ];
 
     public function project()
     {
-        return $this->belongsTo(Project::class, 'project_id',  'id');
+        return $this->belongsTo(Project::class, 'project_id', 'id');
     }
 }

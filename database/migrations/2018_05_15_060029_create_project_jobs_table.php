@@ -16,7 +16,7 @@ class CreateProjectJobsTable extends Migration
         Schema::create('project_jobs', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('persons_needed')->unsigned()->default(1);
-            $table->string('dates_needed')->unsigned();
+            $table->string('dates_needed');
             $table->decimal('pay_rate')->default(0);
             $table->text('notes')->nullable();
             $table->boolean('rush_call');

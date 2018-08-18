@@ -14,7 +14,7 @@ class UrlUtils
     public static function getHostNameFromBaseUrl($url)
     {
         return preg_replace(
-            ['/^(http(s)?:\/\/)?(www\.)?/', '/\/?$/'],
+            ['/^(http(s)?:\/\/)?(www\.)?/', '/(?:\:.+)/', '/\/?$/'],
             '',
             $url
         );

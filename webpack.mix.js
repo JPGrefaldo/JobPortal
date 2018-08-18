@@ -45,5 +45,7 @@ mix.postCss('resources/assets/css/styles.css', 'public/css', [
      tailwindcss('./tailwind.js'),
 ]).sourceMaps().version();
 
+/** Other **/
 
+mix.browserSync('http://localhost:8000');
 

@@ -2,13 +2,17 @@
 
 namespace Tests\Unit\Models;
 
+use App\Models\Crew;
+use App\Models\CrewPosition;
+use App\Models\Position;
+use App\Models\ProjectJob;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\UserRoles;
 use App\Models\UserSites;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UserTest extends TestCase
 {
@@ -45,5 +49,43 @@ class UserTest extends TestCase
 
         $this->assertEquals(1, $user->sites->count());
         $this->assertEquals($site->name, $user->sites->first()->name);
+    }
+
+    /**
+     * @test
+     * @expectedException App\Exceptions\ElectoralFraud
+     */
+    public function can_not_endorse_oneself()
+    {
+        $user       = factory(User::class)->create();
+        $projectJob = factory(ProjectJob::class)->create();
+
+        $user->endorse($user, $projectJob);
+
+        $this->assertDatabaseMissing('endorsements', [
+            'project_job_id' => $projectJob->id,
+            'endorser_id'    => $user->id,
+            'endorsee_id'    => $user->id,
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function hasPosition()
+    {
+        // $this->withOutExceptionHandling();
+        // given
+        $user            = factory(User::class)->create();
+        $crew            = factory(Crew::class)->create(['user_id' => $user->id]);
+        $appliedPosition = factory(Position::class)->create();
+        $randomPosition  = factory(Position::class)->create();
+
+        // when
+        $crewPosition = factory(CrewPosition::class)->create(['crew_id' => $user->crew->id, 'position_id' => $appliedPosition->id]);
+
+        // then
+        $this->assertTrue($user->hasPosition($appliedPosition));
+        $this->assertFalse($user->hasPosition($randomPosition));
     }
 }

@@ -2,18 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\User;
-use App\Models\Crew;
 use App\Models\CrewPosition;
 use App\Models\CrewReel;
-use App\Models\CrewResume;
-use App\Models\Position;
-use App\Models\CrewSocial;
-use App\Models\Department;
-use App\Models\UserRoles;
-use App\Models\Role;
-use Intervention\Image\Facades\Image as Image;
+use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class CrewPositionsController extends Controller
@@ -35,7 +27,6 @@ class CrewPositionsController extends Controller
      */
     public function createPosition(User $user, Request $request)
     {
-       
         $validatedData = $request->validate([
         'title' => 'required',
         'biography' => 'required',
@@ -44,42 +35,38 @@ class CrewPositionsController extends Controller
         'union_details' => 'required',
         ]);
 
-       $crew_position = new CrewPosition;
-       $crew_position->crew_id = $user->id;
-       /*$crew_position->name = $request->input('title');*/
+        $crew_position = new CrewPosition;
+        $crew_position->crew_id = $user->id;
+        /*$crew_position->name = $request->input('title');*/
 
-       $title_submit = Position::where('name', $request->title)->first();
-       $crew_position->position_id = $title_submit->id;
+        $title_submit = Position::where('name', $request->title)->first();
+        $crew_position->position_id = $title_submit->id;
        
-       $crew_position->details = $request->biography;   
-       $crew_position->union_description = $request->union_details;     
-       $crew_position->save();
+        $crew_position->details = $request->biography;   
+        $crew_position->union_description = $request->union_details;     
+        $crew_position->save();
 
+        if ($request->hasFile('reel_file')) {
+            $reel_fileName = "fileName".time().'.'.request()->reel_file->getClientOriginalExtension();
+            $user_reel = Storage::putFile('reels', $request->file('reel_file'));
+            $user_reel_filepath = 'reel/' . $reel_fileName;
 
-       if ($request->hasFile('reel_file')) {
-
-        $reel_fileName = "fileName".time().'.'.request()->reel_file->getClientOriginalExtension();
-        $user_reel = Storage::putFile('reels', $request->file('reel_file'));
-        $user_reel_filepath = 'reel/' . $reel_fileName;
-       
-            if (count( CrewReel::where('crew_id', $user->id)->first()) > 0 ) {
+            if (count(CrewReel::where('crew_id', $user->id)->first()) > 0) {
                 $save_reel = CrewReel::where('crew_id', $user->id)->first();
                 $save_reel->url = $user_reel_filepath;
-                $save_reel->save();  
-            } else  {
+                $save_reel->save();
+            } else {
                 $new_reel = new CrewReel;
                 $new_reel->crew_id = $user->id;
                 $new_reel->url  = $user_reel_filepath;
                 $new_reel->crew_position_id = $title_submit->id;
                 $new_reel->save();
             }
-       
         }
 
-       
 
-         return back();
-        
+
+        return back();
     }
 
     /**
