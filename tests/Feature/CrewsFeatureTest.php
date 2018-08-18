@@ -33,7 +33,8 @@ class CrewsFeatureTest extends TestCase
         $crew = Crew::where('user_id', $user->id)
                     ->first();
 
-        $this->assertArraySubset([
+        $this->assertArraySubset(
+            [
                 'bio'   => 'some bio',
                 'photo' => 'photos/' . $user->uuid . '/' . $data['photo']->hashName(),
             ],
@@ -60,7 +61,8 @@ class CrewsFeatureTest extends TestCase
         $reel = $crew->reels->where('general', 1)
                             ->first();
 
-        $this->assertArraySubset([
+        $this->assertArraySubset(
+            [
                 'crew_id' => $crew->id,
                 'url'     => 'https://www.youtube.com/embed/G8S81CEBdNs',
                 'general' => 1,
@@ -152,7 +154,8 @@ class CrewsFeatureTest extends TestCase
         $crew = Crew::where('user_id', $user->id)
                     ->first();
 
-        $this->assertArraySubset([
+        $this->assertArraySubset(
+            [
                 'bio'   => '',
                 'photo' => 'photos/' . $user->uuid . '/' . $data['photo']->hashName(),
             ],
@@ -341,7 +344,8 @@ class CrewsFeatureTest extends TestCase
         // assert general resume
         $resume->refresh();
 
-        $this->assertArraySubset([
+        $this->assertArraySubset(
+            [
                 'url'     => 'resumes/' . $user->uuid . '/' . $data['resume']->hashName(),
                 'crew_id' => $crew->id,
                 'general' => 1,
@@ -354,7 +358,8 @@ class CrewsFeatureTest extends TestCase
         // assert reel
         $reel->refresh();
 
-        $this->assertArraySubset([
+        $this->assertArraySubset(
+            [
                 'crew_id' => $crew->id,
                 'url'     => 'https://www.youtube.com/embed/WI5AF1DCQlc',
                 'general' => 1,
@@ -432,7 +437,8 @@ class CrewsFeatureTest extends TestCase
         $resume = $crew->resumes->where('general', 1)
                                 ->first();
 
-        $this->assertArraySubset([
+        $this->assertArraySubset(
+            [
                 'url'     => 'resumes/' . $user->uuid . '/' . $data['resume']->hashName(),
                 'crew_id' => $crew->id,
                 'general' => 1,
@@ -445,7 +451,8 @@ class CrewsFeatureTest extends TestCase
         $reel = $crew->reels->where('general', 1)
                             ->first();
 
-        $this->assertArraySubset([
+        $this->assertArraySubset(
+            [
                 'crew_id' => $crew->id,
                 'url'     => 'https://www.youtube.com/embed/WI5AF1DCQlc',
                 'general' => 1,
@@ -526,7 +533,8 @@ class CrewsFeatureTest extends TestCase
 
         $crew->refresh();
 
-        $this->assertArraySubset([
+        $this->assertArraySubset(
+            [
                 'bio'   => 'updated bio',
                 'photo' => $oldCrewPhoto,
             ],
@@ -606,7 +614,8 @@ class CrewsFeatureTest extends TestCase
         // assert general reel has been cleaned
         $reel->refresh();
 
-        $this->assertArraySubset([
+        $this->assertArraySubset(
+            [
                 'crew_id' => $crew->id,
                 'url'     => 'https://www.youtube.com/embed/2-_rLbU6zJo',
                 'general' => 1,
@@ -619,7 +628,8 @@ class CrewsFeatureTest extends TestCase
                        ->where('social_link_type_id', SocialLinkTypeID::YOUTUBE)
                        ->first();
 
-        $this->assertArraySubset([
+        $this->assertArraySubset(
+            [
                 'crew_id'             => $crew->id,
                 'url'                 => 'https://www.youtube.com/embed/G8S81CEBdNs',
                 'social_link_type_id' => SocialLinkTypeID::YOUTUBE,
@@ -644,7 +654,8 @@ class CrewsFeatureTest extends TestCase
         // assert general reel has been created
         $reel->refresh();
 
-        $this->assertArraySubset([
+        $this->assertArraySubset(
+            [
                 'crew_id' => $crew->id,
                 'url'     => 'https://player.vimeo.com/video/230046783',
                 'general' => 1,

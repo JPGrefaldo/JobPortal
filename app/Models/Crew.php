@@ -36,7 +36,7 @@ class Crew extends Model
      */
     public function positions()
     {
-        return $this->hasMany(CrewPosition::class);
+        return $this->belongsToMany(Position::class, 'crew_positions');
     }
 
     /**
@@ -69,5 +69,13 @@ class Crew extends Model
     public function social()
     {
         return $this->hasMany(CrewSocial::class);
+    }
+
+    public function applyFor(Position $position, $attributes)
+    {
+        return $this->positions()->attach($position, [
+            'details' => $attributes['details'],
+            'union_description' => $attributes['union_description']
+        ]);
     }
 }

@@ -27,5 +27,6 @@ class ProjectTypesTableSeeder extends Seeder
         ProjectType::create([
             'name' => 'Live Event/Production'
         ]);
+        $this->command->info('Project Types seeded');
     }
 }

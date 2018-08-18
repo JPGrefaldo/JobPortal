@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Database\SQLiteSchemaGrammar;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -15,6 +16,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->setSqliteSchemaGrammarOnMigrate();
+        Schema::defaultStringLength(191);
     }
 
     /**

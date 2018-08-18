@@ -15,19 +15,20 @@ class CreateCrewPositionsTable extends Migration
     {
         Schema::create('crew_positions', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('crew_id')->unsigned()
-                  ->foreign('crew_id')
-                  ->references('id')
-                  ->on('crews')
-                  ->onDelete('cascade');
-            $table->integer('position_id')->unsigned()
-                  ->foreign('position_id')
-                  ->references('id')
-                  ->on('positions')
-                  ->onDelete('cascade');
+            $table->integer('crew_id')->unsigned();
+            $table->integer('position_id')->unsigned();
             $table->text('details');
             $table->text('union_description');
             $table->timestamps();
+
+            $table->foreign('crew_id')
+                ->references('id')
+                ->on('crews')
+                ->onDelete('cascade');
+            $table->foreign('position_id')
+                ->references('id')
+                ->on('positions')
+                ->onDelete('cascade');
         });
     }
 

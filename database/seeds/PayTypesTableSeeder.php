@@ -33,5 +33,6 @@ class PayTypesTableSeeder extends Seeder
         PayType::create([
             'name' => 'Unpaid/Volunteer',
         ]);
+        $this->command->info('Pay Types seeded');
     }
 }

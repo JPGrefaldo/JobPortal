@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Seeder;
 use App\Models\Position;
+use Illuminate\Database\Seeder;
 
 class PositionsTableSeeder extends Seeder
 {
@@ -13,9 +13,6 @@ class PositionsTableSeeder extends Seeder
         'MUaH_Wardrobe'    => 5,
         'Sound'            => 6,
         'Other'            => 7,
-
-
-
     ];
 
     /**
@@ -132,7 +129,7 @@ class PositionsTableSeeder extends Seeder
             'has_gear'      => 0
         ]);
 
-        
+
         Position::create([
             'name'          => 'Hair & Makeup Artist (MUaH)',
             'department_id' => $this->departmentIds['MUaH_Wardrobe'],
@@ -229,6 +226,6 @@ class PositionsTableSeeder extends Seeder
         ]);
 
 
-
+        $this->command->info('Positions seeded');
     }
 }

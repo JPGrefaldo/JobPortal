@@ -24,5 +24,15 @@ class UrlUtilsTest extends TestCase
             'dev-crewcalls.test',
             UrlUtils::getHostNameFromBaseUrl('www.dev-crewcalls.test')
         );
+
+        $this->assertEquals(
+            'dev-crewcalls.test',
+            UrlUtils::getHostNameFromBaseUrl('www.dev-crewcalls.test/')
+        );
+
+        $this->assertEquals(
+            'localhost',
+            UrlUtils::getHostNameFromBaseUrl('localhost:8000')
+        );
     }
 }

@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
+use App\Exceptions\ElectoralFraud;
+use App\Models\Crew;
 use App\Models\Traits\LogsActivityOnlyDirty;
 use App\Utils\StrUtils;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
@@ -146,5 +147,36 @@ class User extends Authenticatable
     public function getFormattedPhoneNumberAttribute()
     {
         return StrUtils::formatPhone($this->phone);
+    }
+
+    // TODO: defer to crew
+    /**
+     * endorse a User to a ProjectJob
+     * @param  \App\Models\User $endorsee
+     * @param  \App\Models\ProjectJob $projectJob
+     * @return \App\Models\Endorsement
+     */
+    public function endorse($endorsee, $projectJob)
+    {
+        if ($this->id === $endorsee->id) {
+            throw new ElectoralFraud('You can\'t endorse yourself.');
+        }
+
+        return Endorsement::create([
+            'project_job_id' => $projectJob->id,
+            'endorser_id'    => $this->id,
+            'endorsee_id'    => $endorsee->id,
+        ]);
+    }
+
+    public function crew()
+    {
+        return $this->hasOne(Crew::class);
+    }
+
+    // TODO: defer to crew
+    public function hasPosition($position)
+    {
+        return $this->crew->positions()->where('position_id', $position->id)->get()->count() > 0;
     }
 }

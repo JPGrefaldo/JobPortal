@@ -1,11 +1,9 @@
 <nav class="bg-white float-left w-full px-3 md:px-6 shadow flex justify-between items-center font-header">
     <div class="w-32 md:w-64 py-1 md:py-0 relative z-10">
-
-        <a href="index.php" class="flex items-center">
+        <a href="/" class="flex items-center">
             <img src="/images/logos/logo-short.svg" alt="crew calls" class="mr-2" />
             <span class="text-blue-dark pt-6 pb-1 border-b-2 border-blue-dark text-sm font-bold font-header"/>{{ config('app.name') }}</span>
         </a>
-
     </div>
     <ul class="list-reset hidden md:flex items-center">
         <li class="border-b-2 border-red border-solid">
@@ -52,13 +50,13 @@
             <div class="has-dropdown">
                 <div class="relative flex justify-center items-center p-1 rounded-lg hover:bg-grey-lighter">
                     <span class="mr-2 inline-block font-semibold text-blue-dark text-sm">{{ Auth::user()->first_name }}</span>
-                    
+
                     @if (isset($biography->photo))
                     <span class="w-10 h-10 bg-cover rounded-full inline-block" style="background-image: url(/{{ $biography->photo }}"></span>
                     @else
                     <span class="w-10 h-10 bg-cover rounded-full inline-block" style="background-image: url(http://i.pravatar.cc/300"></span>
                     @endif
-                     
+
                 </div>
                 <div class="dropdown shadow-md bg-white absolute py-3 font-body">
                 <ul class="list-reset text-left">
