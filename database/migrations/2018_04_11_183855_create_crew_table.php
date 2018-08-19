@@ -15,14 +15,15 @@ class CreateCrewTable extends Migration
     {
         Schema::create('crews', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned()
-                  ->foreign('user_id')
-                  ->references('id')
-                  ->on('users')
-                  ->onDelete('cascade');
+            $table->integer('user_id')->unsigned();
             $table->text('bio')->nullable();
             $table->string('photo')->default("");
             $table->timestamps();
+
+            $table->foreign('user_id')
+                  ->references('id')
+                  ->on('users')
+                  ->onDelete('cascade');
         });
     }
 

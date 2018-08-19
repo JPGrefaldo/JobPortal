@@ -15,13 +15,14 @@ class CreateEmailVerificationCodesTable extends Migration
     {
         Schema::create('email_verification_codes', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned()
-                  ->foreign('user_id')
+            $table->integer('user_id')->unsigned();
+            $table->uuid('code');
+            $table->timestamps();
+
+            $table->foreign('user_id')
                   ->references('id')
                   ->on('users')
                   ->onDelete('cascade');
-            $table->uuid('code');
-            $table->timestamps();
         });
     }
 

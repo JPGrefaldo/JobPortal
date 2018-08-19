@@ -24,22 +24,25 @@ class CreateProjectJobsTable extends Migration
             $table->string('gear_provided')->nullable()->default(null);
             $table->string('gear_needed')->nullable()->default(null);
             $table->smallInteger('status')->default(0);
-            $table->integer('project_id')->unsigned()
-                ->foreign('project_id')
-                ->references('id')
-                ->on('projects')
-                ->onDelete('cascade');
-            $table->integer('position_id')->unsigned()
-                ->foreign('position_id')
-                ->references('id')
-                ->on('positions')
-                ->onDelete('cascade');
-            $table->integer('pay_type_id')->unsigned()
-                ->foreign('pay_type_id')
-                ->references('id')
-                ->on('pay_types')
-                ->onDelete('cascade');
+            $table->integer('project_id')->unsigned();
+            $table->integer('position_id')->unsigned();
+            $table->integer('pay_type_id')->unsigned();
             $table->timestamps();
+
+            $table->foreign('project_id')
+                  ->references('id')
+                  ->on('projects')
+                  ->onDelete('cascade');
+
+            $table->foreign('position_id')
+                  ->references('id')
+                  ->on('positions')
+                  ->onDelete('cascade');
+
+            $table->foreign('pay_type_id')
+                  ->references('id')
+                  ->on('pay_types')
+                  ->onDelete('cascade');
         });
     }
 
