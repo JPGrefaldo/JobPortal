@@ -15,17 +15,19 @@ class CreateRemoteProjectsTable extends Migration
     {
         Schema::create('remote_projects', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('project_id')->unsigned()
-                ->foreign('project_id')
-                ->references('id')
-                ->on('projects')
-                ->onDelete('cascade');
-            $table->integer('site_id')->unsigned()
-                ->foreign('site_id')
-                ->references('id')
-                ->on('sites')
-                ->onDelete('cascade');
+            $table->integer('project_id')->unsigned();
+            $table->integer('site_id')->unsigned();
             $table->timestamps();
+
+            $table->foreign('project_id')
+                  ->references('id')
+                  ->on('projects')
+                  ->onDelete('cascade');
+
+            $table->foreign('site_id')
+                  ->references('id')
+                  ->on('sites')
+                  ->onDelete('cascade');
         });
     }
 
