@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\UserSignupRequest;
 use App\Models\Role;
 use App\Models\UserNotificationSetting;
 use App\Services\AuthServices;
 use App\Services\UsersServices;
-use App\Models\Site;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 
-class SignupController extends Controller
+class UserSignupController extends Controller
 {
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
