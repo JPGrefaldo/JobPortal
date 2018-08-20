@@ -35,8 +35,7 @@ Route::get('/my-profile/{id}/delete', 'ProfilesController@destroy')->name('delet
 Route::get('/my-profile/{id}/deleteReel', 'ProfilesController@destroyReel')->name('delete-reel');
 
 
-Route::post('/my-profile/{user}/add-position', 
-    'CrewPositionsController@createPosition')->name('add-position');
+Route::post('/my-profile/{user}/add-position', 'CrewPositionsController@createPosition')->name('add-position');
 
 Route::get('/my-projects/{user}', 'ProjectController@index');
 Route::get('/my-projects/post', 'ProjectController@showPostProject');
@@ -50,6 +49,14 @@ Route::middleware('auth')->group(function () {
     Route::put('/account/settings/notifications', 'User\UserSettingsController@updateNotifications');
     Route::put('/account/settings/password', 'User\UserSettingsController@updatePassword');
 
+    /*
+    |--------------------------------------------------------------------------
+    | Crew Routes
+    |--------------------------------------------------------------------------
+    |
+    | User must have Crew role
+    |
+    */
     Route::middleware('crew')->group(function () {
         Route::post('/crews', 'CrewsController@store');
         Route::put('/crews/{crew}', 'CrewsController@update');
