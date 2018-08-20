@@ -98,15 +98,23 @@ Route::middleware('auth')->group(function () {
         Route::get('/endorsement-requests/{endorsementRequest}/endorsements/edit', 'Crew\EndorsementController@edit')->name('endorsements.edit');
         Route::put('/endorsement-requests/{endorsementRequest}/endorsements/update', 'Crew\EndorsementController@update')->name('endorsements.update');
     });
-});
 
-Route::middleware(['auth', 'producer'])->group(function () {
-    Route::prefix('/producer/projects')->group(function () {
-        Route::post('/', 'Producer\ProjectsController@store');
-        Route::put('/{project}', 'Producer\ProjectsController@update');
-    });
-    Route::prefix('/producer/jobs')->group(function () {
-        Route::post('/', 'Producer\ProjectJobsController@store');
-        Route::put('/{job}', 'Producer\ProjectJobsController@update');
+    /*
+    |--------------------------------------------------------------------------
+    | Producer Routes
+    |--------------------------------------------------------------------------
+    |
+    | User must have Producer role
+    |
+    */
+    Route::middleware('producer')->group(function () {
+        Route::prefix('/producer/projects')->group(function () {
+            Route::post('/', 'Producer\ProjectsController@store');
+            Route::put('/{project}', 'Producer\ProjectsController@update');
+        });
+        Route::prefix('/producer/jobs')->group(function () {
+            Route::post('/', 'Producer\ProjectJobsController@store');
+            Route::put('/{job}', 'Producer\ProjectJobsController@update');
+        });
     });
 });
