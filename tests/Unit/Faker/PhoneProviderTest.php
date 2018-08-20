@@ -6,8 +6,6 @@ use App\Faker\PhoneProvider;
 use App\Utils\StrUtils;
 use Faker\Generator;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class PhoneProviderTest extends TestCase
 {
@@ -22,9 +20,10 @@ class PhoneProviderTest extends TestCase
     /** @test */
     public function test_phone_number()
     {
-        $number = StrUtils::stripNonNumeric($this->faker->phoneNumber);
+        $fakePhoneNumber = $this->faker->phoneNumber;
+        $number = StrUtils::stripNonNumeric($fakePhoneNumber);
 
-        $this->assertEquals('10', strlen($number));
+        $this->assertEquals('10', strlen($number), "$fakePhoneNumber doesn't yeild 10 charactrs after format");
         $this->assertTrue(ctype_digit($number));
     }
 }
