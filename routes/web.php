@@ -27,7 +27,6 @@ Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail'
 Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
-Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/my-profile/{user}', 'ProfilesController@index')->name('profile');
 Route::get('/my-profile/{user}/edit', 'ProfilesController@show')->name('profile-edit');
@@ -45,6 +44,8 @@ Route::get('/my-account', 'AccountController@index');
 Route::get('/verify/email/{code}', 'VerifyEmailController@verify');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/home', 'HomeController@index')->name('home');
+
     Route::put('/account/settings/name', 'User\UserSettingsController@updateName');
     Route::put('/account/settings/notifications', 'User\UserSettingsController@updateNotifications');
     Route::put('/account/settings/password', 'User\UserSettingsController@updatePassword');
