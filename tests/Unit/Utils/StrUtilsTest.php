@@ -4,8 +4,6 @@ namespace Tests\Unit\Utils;
 
 use App\Utils\StrUtils;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class StrUtilsTest extends TestCase
 {
@@ -21,16 +19,20 @@ class StrUtilsTest extends TestCase
      */
     public function clean_youtube()
     {
-        $this->assertEquals('https://www.youtube.com/embed/G8S81CEBdNs',
+        $this->assertEquals(
+            'https://www.youtube.com/embed/G8S81CEBdNs',
             StrUtils::cleanYouTube('https://www.youtube.com/embed/G8S81CEBdNs')
         );
-        $this->assertEquals('https://www.youtube.com/embed/G8S81CEBdNs',
+        $this->assertEquals(
+            'https://www.youtube.com/embed/G8S81CEBdNs',
             StrUtils::cleanYouTube('http://www.youtube.com/embed/G8S81CEBdNs')
         );
-        $this->assertEquals('https://www.youtube.com/embed/G8S81CEBdNs',
+        $this->assertEquals(
+            'https://www.youtube.com/embed/G8S81CEBdNs',
             StrUtils::cleanYouTube('https://www.youtube.com/embed/G8S81CEBdNs')
         );
-        $this->assertEquals('https://www.youtube.com/embed/2-_rLbU6zJo',
+        $this->assertEquals(
+            'https://www.youtube.com/embed/2-_rLbU6zJo',
             StrUtils::cleanYouTube('https://youtu.be/2-_rLbU6zJo')
         );
 
@@ -146,6 +148,26 @@ class StrUtilsTest extends TestCase
         $this->assertSame(
             "D'Angelo Jean-Luc Jean-Claude",
             StrUtils::formatName("D'angelo Jean-luc Jean-claude")
+        );
+
+        $this->assertSame(
+            "McDermott",
+            StrUtils::formatName("McDermott")
+        );
+
+        $this->assertSame(
+            "McDermott",
+            StrUtils::formatName("MCDERMOTT")
+        );
+
+        $this->assertSame(
+            "McDermott",
+            StrUtils::formatName("mcdermott")
+        );
+
+        $this->assertSame(
+            "D'Angelo Jean-Luc Jean-Claude McDermott McDermott",
+            StrUtils::formatName("D'angelo Jean-luc Jean-claude mcdermott MCDERMOTT")
         );
     }
 }
