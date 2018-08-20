@@ -147,5 +147,25 @@ class StrUtilsTest extends TestCase
             "D'Angelo Jean-Luc Jean-Claude",
             StrUtils::formatName("D'angelo Jean-luc Jean-claude")
         );
+
+        $this->assertSame(
+            "McDermott",
+            StrUtils::formatName("McDermott")
+        );
+
+        $this->assertSame(
+            "McDermott",
+            StrUtils::formatName("MCDERMOTT")
+        );
+
+        $this->assertSame(
+            "McDermott",
+            StrUtils::formatName("mcdermott")
+        );
+
+        $this->assertSame(
+            "D'Angelo Jean-Luc Jean-Claude McDermott McDermott",
+            StrUtils::formatName("D'angelo Jean-luc Jean-claude mcdermott MCDERMOTT")
+        );
     }
 }

@@ -3,7 +3,6 @@
 
 namespace App\Utils;
 
-
 class StrUtils
 {
     /**
@@ -90,17 +89,23 @@ class StrUtils
      */
     public static function formatName($value)
     {
-        $value = ucwords(strtolower($value));
+        $value = title_case(strtolower($value));
 
-        if (!preg_match_all("/('|\-)[a-z]/", $value, $matches)) {
+        if (!preg_match_all(
+            "/(?<='|\-|(Mc))[a-z]/",
+            $value,
+            $matches,
+            PREG_OFFSET_CAPTURE
+        )) {
             return $value;
         }
 
-        foreach ($matches[0] as $match) {
-            $value = str_replace(
-                $match,
+        foreach ($matches[0] as [$match, $offset]) {
+            $value = substr_replace(
+                $value,
                 strtoupper($match),
-                $value
+                $offset,
+                1
             );
         }
 
