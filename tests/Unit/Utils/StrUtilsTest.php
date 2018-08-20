@@ -4,8 +4,6 @@ namespace Tests\Unit\Utils;
 
 use App\Utils\StrUtils;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class StrUtilsTest extends TestCase
 {
@@ -21,16 +19,20 @@ class StrUtilsTest extends TestCase
      */
     public function clean_youtube()
     {
-        $this->assertEquals('https://www.youtube.com/embed/G8S81CEBdNs',
+        $this->assertEquals(
+            'https://www.youtube.com/embed/G8S81CEBdNs',
             StrUtils::cleanYouTube('https://www.youtube.com/embed/G8S81CEBdNs')
         );
-        $this->assertEquals('https://www.youtube.com/embed/G8S81CEBdNs',
+        $this->assertEquals(
+            'https://www.youtube.com/embed/G8S81CEBdNs',
             StrUtils::cleanYouTube('http://www.youtube.com/embed/G8S81CEBdNs')
         );
-        $this->assertEquals('https://www.youtube.com/embed/G8S81CEBdNs',
+        $this->assertEquals(
+            'https://www.youtube.com/embed/G8S81CEBdNs',
             StrUtils::cleanYouTube('https://www.youtube.com/embed/G8S81CEBdNs')
         );
-        $this->assertEquals('https://www.youtube.com/embed/2-_rLbU6zJo',
+        $this->assertEquals(
+            'https://www.youtube.com/embed/2-_rLbU6zJo',
             StrUtils::cleanYouTube('https://youtu.be/2-_rLbU6zJo')
         );
 
