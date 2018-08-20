@@ -49,12 +49,28 @@ Route::middleware('auth')->group(function () {
     Route::put('/account/settings/name', 'User\UserSettingsController@updateName');
     Route::put('/account/settings/notifications', 'User\UserSettingsController@updateNotifications');
     Route::put('/account/settings/password', 'User\UserSettingsController@updatePassword');
+
+    Route::middleware('crew')->group(function () {
+        Route::post('/crews', 'CrewsController@store');
+        Route::put('/crews/{crew}', 'CrewsController@update');
+
+
+        // TODO: discuss if this should be public
+        Route::get('/crew/positions/{position}', 'Crew\PositionController@show')->name('crew_position.show');
+        Route::post('/crew/positions/{position}', 'Crew\PositionController@store')->name('crew_position.store');
+
+        Route::post('/crew/positions/{position}/endorsement-requests', 'Crew\EndorsementRequestController@store')->name('endorsement_requests.store');
+
+        /**
+         * endorsements resource
+         */
+        Route::get('/endorsement-requests/{endorsementRequest}/endorsements/create', 'Crew\EndorsementController@create')->name('endorsements.create');
+        Route::post('/endorsement-requests/{endorsementRequest}/endorsements', 'Crew\EndorsementController@store')->name('endorsements.store');
+        Route::get('/endorsement-requests/{endorsementRequest}/endorsements/edit', 'Crew\EndorsementController@edit')->name('endorsements.edit');
+        Route::put('/endorsement-requests/{endorsementRequest}/endorsements/update', 'Crew\EndorsementController@update')->name('endorsements.update');
+    });
 });
 
-Route::middleware(['auth', 'crew'])->group(function () {
-    Route::post('/crews', 'CrewsController@store');
-    Route::put('/crews/{crew}', 'CrewsController@update');
-});
 
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::put('/admin/users/ban/{user}', 'Admin\AdminUsersController@updateBan');
@@ -79,20 +95,4 @@ Route::middleware(['auth', 'producer'])->group(function () {
         Route::post('/', 'Producer\ProjectJobsController@store');
         Route::put('/{job}', 'Producer\ProjectJobsController@update');
     });
-});
-
-Route::middleware(['auth', 'crew'])->group(function () {
-    // TODO: discuss if this should be public
-    Route::get('/crew/positions/{position}', 'Crew\PositionController@show')->name('crew_position.show');
-    Route::post('/crew/positions/{position}', 'Crew\PositionController@store')->name('crew_position.store');
-
-    Route::post('/crew/positions/{position}/endorsement-requests', 'Crew\EndorsementRequestController@store')->name('endorsement_requests.store');
-
-    /**
-     * endorsements resource
-     */
-    Route::get('/endorsement-requests/{endorsementRequest}/endorsements/create', 'Crew\EndorsementController@create')->name('endorsements.create');
-    Route::post('/endorsement-requests/{endorsementRequest}/endorsements', 'Crew\EndorsementController@store')->name('endorsements.store');
-    Route::get('/endorsement-requests/{endorsementRequest}/endorsements/edit', 'Crew\EndorsementController@edit')->name('endorsements.edit');
-    Route::put('/endorsement-requests/{endorsementRequest}/endorsements/update', 'Crew\EndorsementController@update')->name('endorsements.update');
 });
