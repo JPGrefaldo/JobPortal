@@ -51,6 +51,28 @@ Route::middleware('auth')->group(function () {
 
     /*
     |--------------------------------------------------------------------------
+    | Admin Routes
+    |--------------------------------------------------------------------------
+    |
+    | User must have Admin role
+    |
+     */
+    Route::middleware('admin')->group(function () {
+        Route::put('/admin/users/ban/{user}', 'Admin\AdminUsersController@updateBan');
+
+        Route::prefix('/admin/departments')->group(function () {
+            Route::post('/', 'Admin\DepartmentsController@store');
+            Route::put('/{department}', 'Admin\DepartmentsController@update');
+        });
+
+        Route::prefix('/admin/positions')->group(function () {
+            Route::post('/', 'Admin\PositionsController@store');
+            Route::put('/{position}', 'Admin\PositionsController@update');
+        });
+    });
+
+    /*
+    |--------------------------------------------------------------------------
     | Crew Routes
     |--------------------------------------------------------------------------
     |
@@ -75,21 +97,6 @@ Route::middleware('auth')->group(function () {
         Route::post('/endorsement-requests/{endorsementRequest}/endorsements', 'Crew\EndorsementController@store')->name('endorsements.store');
         Route::get('/endorsement-requests/{endorsementRequest}/endorsements/edit', 'Crew\EndorsementController@edit')->name('endorsements.edit');
         Route::put('/endorsement-requests/{endorsementRequest}/endorsements/update', 'Crew\EndorsementController@update')->name('endorsements.update');
-    });
-});
-
-
-Route::middleware(['auth', 'admin'])->group(function () {
-    Route::put('/admin/users/ban/{user}', 'Admin\AdminUsersController@updateBan');
-
-    Route::prefix('/admin/departments')->group(function () {
-        Route::post('/', 'Admin\DepartmentsController@store');
-        Route::put('/{department}', 'Admin\DepartmentsController@update');
-    });
-
-    Route::prefix('/admin/positions')->group(function () {
-        Route::post('/', 'Admin\PositionsController@store');
-        Route::put('/{position}', 'Admin\PositionsController@update');
     });
 });
 
