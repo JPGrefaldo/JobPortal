@@ -21,37 +21,39 @@ class UserTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
 
+    protected $user;
+
     public function setUp()
     {
         parent::setUp();
+
+        $this->user = factory(User::class)->create();
     }
 
     /** @test */
     public function roles()
     {
         $role = Role::whereName(Role::PRODUCER)->firstOrFail();
-        $user = factory(User::class)->create();
         UserRoles::create([
-            'user_id' => $user->id,
+            'user_id' => $this->user->id,
             'role_id' => $role->id,
         ]);
 
-        $this->assertEquals(1, $user->roles->count());
-        $this->assertEquals("Producer", $user->roles->first()->name);
+        $this->assertEquals(1, $this->user->roles->count());
+        $this->assertEquals("Producer", $this->user->roles->first()->name);
     }
 
     /** @test */
     public function sites()
     {
-        $user = factory(User::class)->create();
         $site = $this->getCurrentSite();
         UserSites::create([
-            'user_id' => $user->id,
+            'user_id' => $this->user->id,
             'site_id' => $site->id,
         ]);
 
-        $this->assertEquals(1, $user->sites->count());
-        $this->assertEquals($site->name, $user->sites->first()->name);
+        $this->assertEquals(1, $this->user->sites->count());
+        $this->assertEquals($site->name, $this->user->sites->first()->name);
     }
 
     /**
@@ -59,15 +61,15 @@ class UserTest extends TestCase
      */
     public function notificationSettings()
     {
-        // $this->withExceptionHandling();
-        // given
-        $user = factory(User::class)->create();
-
         // when
-        $userNotificationSetting = factory(UserNotificationSetting::class)->create(['user_id' => $user->id]);
+        $userNotificationSetting = factory(UserNotificationSetting::class)
+            ->create(['user_id' => $this->user->id]);
 
         // then
-        $this->assertEquals($userNotificationSetting->id, $user->notificationSettings->id);
+        $this->assertEquals(
+            $userNotificationSetting->id,
+            $this->user->notificationSettings->id
+        );
     }
 
     /**
@@ -75,17 +77,14 @@ class UserTest extends TestCase
      */
     public function emailVerificationCode()
     {
-        // given
-        $user = factory(User::class)->create();
-
         // when
         $emailVerificationCode = factory(EmailVerificationCode::class)
-            ->create(['user_id' => $user->id]);
+            ->create(['user_id' => $this->user->id]);
 
         // then
         $this->assertEquals(
             $emailVerificationCode->id,
-            $user->emailVerificationCode->id
+            $this->user->emailVerificationCode->id
         );
     }
 
@@ -94,15 +93,12 @@ class UserTest extends TestCase
      */
     public function banned()
     {
-        // given
-        $user = factory(User::class)->create();
-
         // when
         $userBanned = factory(UserBanned::class)
-            ->create(['user_id' => $user->id]);
+            ->create(['user_id' => $this->user->id]);
 
         // then
-        $this->assertEquals($userBanned->id, $user->banned->id);
+        $this->assertEquals($userBanned->id, $this->user->banned->id);
     }
 
     /**
@@ -130,16 +126,20 @@ class UserTest extends TestCase
     {
         // $this->withOutExceptionHandling();
         // given
-        $user            = factory(User::class)->create();
-        $crew            = factory(Crew::class)->create(['user_id' => $user->id]);
+        $crew = factory(Crew::class)
+            ->create(['user_id' => $this->user->id]);
         $appliedPosition = factory(Position::class)->create();
         $randomPosition  = factory(Position::class)->create();
 
         // when
-        $crewPosition = factory(CrewPosition::class)->create(['crew_id' => $user->crew->id, 'position_id' => $appliedPosition->id]);
+        $crewPosition = factory(CrewPosition::class)
+            ->create([
+                'crew_id' => $this->user->crew->id,
+                'position_id' => $appliedPosition->id
+            ]);
 
         // then
-        $this->assertTrue($user->hasPosition($appliedPosition));
-        $this->assertFalse($user->hasPosition($randomPosition));
+        $this->assertTrue($this->user->hasPosition($appliedPosition));
+        $this->assertFalse($this->user->hasPosition($randomPosition));
     }
 }
