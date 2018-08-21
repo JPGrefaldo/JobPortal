@@ -3,10 +3,7 @@
 namespace Tests\Unit\Models;
 
 use App\Models\Crew;
-use App\Models\CrewPosition;
 use App\Models\EmailVerificationCode;
-use App\Models\Position;
-use App\Models\ProjectJob;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\UserBanned;
@@ -111,47 +108,5 @@ class UserTest extends TestCase
 
         // then
         $this->assertEquals($crew->id, $this->user->crew->id);
-    }
-
-    /**
-     * @test
-     * @expectedException App\Exceptions\ElectoralFraud
-     */
-    public function can_not_endorse_oneself()
-    {
-        $user       = factory(User::class)->create();
-        $projectJob = factory(ProjectJob::class)->create();
-
-        $user->endorse($user, $projectJob);
-
-        $this->assertDatabaseMissing('endorsements', [
-            'project_job_id' => $projectJob->id,
-            'endorser_id'    => $user->id,
-            'endorsee_id'    => $user->id,
-        ]);
-    }
-
-    /**
-     * @test
-     */
-    public function hasPosition()
-    {
-        // $this->withOutExceptionHandling();
-        // given
-        $crew = factory(Crew::class)
-            ->create(['user_id' => $this->user->id]);
-        $appliedPosition = factory(Position::class)->create();
-        $randomPosition  = factory(Position::class)->create();
-
-        // when
-        $crewPosition = factory(CrewPosition::class)
-            ->create([
-                'crew_id' => $this->user->crew->id,
-                'position_id' => $appliedPosition->id
-            ]);
-
-        // then
-        $this->assertTrue($this->user->hasPosition($appliedPosition));
-        $this->assertFalse($this->user->hasPosition($randomPosition));
     }
 }

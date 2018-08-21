@@ -3,7 +3,6 @@
 
 namespace App\Services;
 
-
 use App\Models\User;
 use App\Utils\StrUtils;
 use Illuminate\Support\Facades\Hash;

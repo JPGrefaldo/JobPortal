@@ -3,16 +3,34 @@
 namespace Tests\Unit\Models;
 
 use App\Models\Crew;
-use App\Models\Position;
 use App\Models\CrewPosition;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\Models\Position;
+use App\Models\ProjectJob;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
 use Tests\Support\SeedDatabaseAfterRefresh;
+use Tests\TestCase;
 
 class CrewTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh, WithFaker;
+
+    /**
+     * @test
+     */
+    public function user()
+    {
+        // given
+        $user = factory(User::class)->create();
+
+        // when
+        $crew = factory(Crew::class)->create(['user_id' => $user->id]);
+        // link them together
+
+        // then
+        $this->assertEquals($user->id, $crew->user->id);
+    }
 
     /**
      * @test
@@ -61,5 +79,48 @@ class CrewTest extends TestCase
             'details' => $crewPosition->details,
             'union_description' => $crewPosition->union_description
         ]);
+    }
+
+    /**
+     * @test
+     * @expectedException App\Exceptions\ElectoralFraud
+     */
+    public function can_not_endorse_oneself()
+    {
+        $user       = factory(User::class)->create();
+        $projectJob = factory(ProjectJob::class)->create();
+
+        $user->endorse($user, $projectJob);
+
+        $this->assertDatabaseMissing('endorsements', [
+            'project_job_id' => $projectJob->id,
+            'endorser_id'    => $user->id,
+            'endorsee_id'    => $user->id,
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function hasPosition()
+    {
+        // $this->withOutExceptionHandling();
+        // given
+        $user = factory(User::class)->create();
+        $crew = factory(Crew::class)
+            ->create(['user_id' => $user->id]);
+        $appliedPosition = factory(Position::class)->create();
+        $randomPosition  = factory(Position::class)->create();
+
+        // when
+        $crewPosition = factory(CrewPosition::class)
+            ->create([
+                'crew_id' => $user->crew->id,
+                'position_id' => $appliedPosition->id
+            ]);
+
+        // then
+        $this->assertTrue($user->hasPosition($appliedPosition));
+        $this->assertFalse($user->hasPosition($randomPosition));
     }
 }
