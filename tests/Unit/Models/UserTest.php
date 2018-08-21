@@ -103,6 +103,18 @@ class UserTest extends TestCase
 
     /**
      * @test
+     */
+    public function crew()
+    {
+        // when
+        $crew = factory(Crew::class)->create(['user_id' => $this->user->id]);
+
+        // then
+        $this->assertEquals($crew->id, $this->user->crew->id);
+    }
+
+    /**
+     * @test
      * @expectedException App\Exceptions\ElectoralFraud
      */
     public function can_not_endorse_oneself()
