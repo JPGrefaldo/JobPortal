@@ -4,6 +4,7 @@ namespace Tests\Unit\Models;
 
 use App\Models\Crew;
 use App\Models\CrewPosition;
+use App\Models\CrewReel;
 use App\Models\Position;
 use App\Models\ProjectJob;
 use App\Models\User;
@@ -26,7 +27,6 @@ class CrewTest extends TestCase
 
         // when
         $crew = factory(Crew::class)->create(['user_id' => $user->id]);
-        // link them together
 
         // then
         $this->assertEquals($user->id, $crew->user->id);
@@ -56,6 +56,21 @@ class CrewTest extends TestCase
             'details' => $crewPosition->details,
             'union_description' => $crewPosition->union_description
         ]);
+    }
+
+    /**
+     * @test
+     */
+    public function reels()
+    {
+        // given
+        $crew = factory(Crew::class)->create();
+
+        // when
+        $reels = factory(CrewReel::class, 3)->create(['crew_id' => $crew->id]);
+
+        // then
+        $this->assertCount(3, $crew->reels);
     }
 
     /**
