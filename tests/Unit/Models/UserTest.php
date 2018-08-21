@@ -4,6 +4,7 @@ namespace Tests\Unit\Models;
 
 use App\Models\Crew;
 use App\Models\CrewPosition;
+use App\Models\EmailVerificationCode;
 use App\Models\Position;
 use App\Models\ProjectJob;
 use App\Models\Role;
@@ -66,6 +67,25 @@ class UserTest extends TestCase
 
         // then
         $this->assertEquals($userNotificationSetting->id, $user->notificationSettings->id);
+    }
+
+    /**
+     * @test
+     */
+    public function emailVerificationCode()
+    {
+        // given
+        $user = factory(User::class)->create();
+
+        // when
+        $emailVerificationCode = factory(EmailVerificationCode::class)
+            ->create(['user_id' => $user->id]);
+
+        // then
+        $this->assertEquals(
+            $emailVerificationCode->id,
+            $user->emailVerificationCode->id
+        );
     }
 
     /**
