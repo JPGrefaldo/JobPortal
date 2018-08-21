@@ -3,8 +3,6 @@
 
 namespace App\Faker;
 
-use App\Utils\StrUtils;
-use Faker\Provider\Base;
 use Faker\Provider\en_US\PhoneNumber;
 
 class PhoneProvider extends PhoneNumber
@@ -12,8 +10,12 @@ class PhoneProvider extends PhoneNumber
     /**
      * @var array
      */
-    protected static $tollFreeFozrmats = [
+    protected static $tollFreeFormats = [
+        // Standard formats
+        '{{tollFreeAreaCode}}-{{exchangeCode}}-####',
         '({{tollFreeAreaCode}}) {{exchangeCode}}-####',
+        // '1-{{tollFreeAreaCode}}-{{exchangeCode}}-####',
+        '{{tollFreeAreaCode}}.{{exchangeCode}}.####',
     ];
 
     /**
