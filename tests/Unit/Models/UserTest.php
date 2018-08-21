@@ -9,6 +9,7 @@ use App\Models\Position;
 use App\Models\ProjectJob;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\UserBanned;
 use App\Models\UserNotificationSetting;
 use App\Models\UserRoles;
 use App\Models\UserSites;
@@ -86,6 +87,22 @@ class UserTest extends TestCase
             $emailVerificationCode->id,
             $user->emailVerificationCode->id
         );
+    }
+
+    /**
+     * @test
+     */
+    public function banned()
+    {
+        // given
+        $user = factory(User::class)->create();
+
+        // when
+        $userBanned = factory(UserBanned::class)
+            ->create(['user_id' => $user->id]);
+
+        // then
+        $this->assertEquals($userBanned->id, $user->banned->id);
     }
 
     /**
