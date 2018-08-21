@@ -8,6 +8,7 @@ use App\Models\Position;
 use App\Models\ProjectJob;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\UserNotificationSetting;
 use App\Models\UserRoles;
 use App\Models\UserSites;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -49,6 +50,22 @@ class UserTest extends TestCase
 
         $this->assertEquals(1, $user->sites->count());
         $this->assertEquals($site->name, $user->sites->first()->name);
+    }
+
+    /**
+     * @test
+     */
+    public function notificationSettings()
+    {
+        // $this->withExceptionHandling();
+        // given
+        $user = factory(User::class)->create();
+
+        // when
+        $userNotificationSetting = factory(UserNotificationSetting::class)->create(['user_id' => $user->id]);
+
+        // then
+        $this->assertEquals($userNotificationSetting->id, $user->notificationSettings->id);
     }
 
     /**
