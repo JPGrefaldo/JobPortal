@@ -89,6 +89,11 @@ class User extends Authenticatable
         return $this->hasOne(UserBanned::class);
     }
 
+    public function crew()
+    {
+        return $this->hasOne(Crew::class);
+    }
+
     /**
      * @return bool
      */
@@ -169,10 +174,7 @@ class User extends Authenticatable
         ]);
     }
 
-    public function crew()
-    {
-        return $this->hasOne(Crew::class);
-    }
+
 
     // TODO: defer to crew
     public function hasPosition($position)
