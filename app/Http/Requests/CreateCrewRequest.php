@@ -34,12 +34,12 @@ class CreateCrewRequest extends FormRequest
     public function rules()
     {
         return [
-            'bio'                          => 'nullable|string',
-            'photo'                        => 'required|image',
+            'bio'                          => 'required|nullable|string',
+            'photo'                        => 'image',
             'resume'                       => 'nullable|file|mimes:pdf,doc,docx',
             'reel'                         => ['nullable', 'string', new Reel()],
-            'socials'                      => 'required|array',
-            'socials.*.id'                 => 'required|numeric',
+            'socials'                      => 'array',
+            'socials.*.id'                 => 'numeric',
             'socials.facebook.url'         => ['nullable', 'string', new Facebook()],
             'socials.twitter.url'          => ['nullable', 'string', new Twitter()],
             'socials.youtube.url'          => ['nullable', 'string', new YouTube()],
@@ -59,6 +59,7 @@ class CreateCrewRequest extends FormRequest
     public function attributes()
     {
         return [
+            'bio'                          => 'biography',
             'socials.facebook.url'         => 'facebook',
             'socials.twitter.url'          => 'twitter',
             'socials.youtube.url'          => 'youtube',

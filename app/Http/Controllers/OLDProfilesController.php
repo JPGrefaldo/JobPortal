@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image as Image;
 use Session;
 
-class ProfilesController extends Controller
+class OLDProfilesController extends Controller
 {
     /**
      * Display a listing of the resource.

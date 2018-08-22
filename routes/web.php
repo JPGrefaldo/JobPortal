@@ -31,7 +31,13 @@ Route::get('verify/email/{code}', 'VerifyEmailController@verify')->name('verify.
 
 
 Route::middleware('auth')->group(function () {
-    Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('dashboard', 'DashboardController@index')->name('dashboard');
+
+    Route::prefix('profile')->group(function () {
+        Route::get('/', 'Crew\CrewProfileController@index')->name('profile');
+        Route::get('edit', 'Crew\CrewProfileController@create')->name('profile.create');
+        Route::post('/', 'Crew\CrewProfileController@store');
+    });
 
     Route::put('/account/settings/name', 'User\UserSettingsController@updateName');
     Route::put('/account/settings/notifications', 'User\UserSettingsController@updateNotifications');

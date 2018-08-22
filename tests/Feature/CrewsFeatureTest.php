@@ -131,7 +131,6 @@ class CrewsFeatureTest extends TestCase
 
         $user = $this->createCrewUser();
         $data = $this->getCreateData([
-            'bio'                          => '',
             'resume'                       => '',
             'reel'                         => '',
             'socials.facebook.url'         => '',
@@ -156,7 +155,6 @@ class CrewsFeatureTest extends TestCase
 
         $this->assertArraySubset(
             [
-                'bio'   => '',
                 'photo' => 'photos/' . $user->uuid . '/' . $data['photo']->hashName(),
             ],
             $crew->toArray()
