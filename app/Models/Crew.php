@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 class Crew extends Model
 {
@@ -76,6 +77,17 @@ class Crew extends Model
         return $this->positions()->attach($position, [
             'details' => $attributes['details'],
             'union_description' => $attributes['union_description']
+        ]);
+    }
+
+    public function approve(EndorsementRequest $endorsementRequest, $attributes = [])
+    {
+        return Endorsement::create([
+            'endorsement_request_id' => $endorsementRequest->id,
+            'endorser_id' => $this->user->id,
+            'endorser_email' => $this->user->email,
+            'approved_at' => Carbon::now(),
+            'comment' => $attributes['comment'] ?? null,
         ]);
     }
 }

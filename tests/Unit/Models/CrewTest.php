@@ -8,6 +8,7 @@ use App\Models\CrewPosition;
 use App\Models\CrewReel;
 use App\Models\CrewResume;
 use App\Models\CrewSocial;
+use App\Models\EndorsementRequest;
 use App\Models\Position;
 use App\Models\ProjectJob;
 use App\Models\User;
@@ -133,6 +134,35 @@ class CrewTest extends TestCase
             'position_id' => $position->id,
             'details' => $crewPosition['details'],
             'union_description' => $crewPosition['union_description'],
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function approve()
+    {
+        // given
+        $position = factory(Position::class)->create();
+        $anotherCrew = factory(Crew::class)->create();
+        $crewPosition = factory(CrewPosition::class)->create([
+            'crew_id' => $anotherCrew->id,
+            'position_id' => $position->id
+        ]);
+        $endorsementRequest = factory(EndorsementRequest::class)->create([
+            'crew_position_id' => $crewPosition->id
+        ]);
+        $comment = $this->faker->sentence;
+
+        // when
+        $this->crew->approve($endorsementRequest, ['comment' => $comment]);
+
+        // then
+        $this->assertDatabaseHas('endorsements', [
+            'endorsement_request_id' => $endorsementRequest->id,
+            'endorser_id' => $this->crew->user->id,
+            'endorser_email' => $this->crew->user->email,
+            'comment' => $comment,
         ]);
     }
 
