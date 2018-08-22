@@ -7,6 +7,7 @@ use App\Models\CrewGear;
 use App\Models\CrewPosition;
 use App\Models\CrewReel;
 use App\Models\CrewResume;
+use App\Models\CrewSocial;
 use App\Models\Position;
 use App\Models\ProjectJob;
 use App\Models\User;
@@ -97,6 +98,19 @@ class CrewTest extends TestCase
         // then
         $this->assertCount(3, $this->crew->gears);
     }
+
+    /**
+     * @test
+     */
+    public function social()
+    {
+        // when
+        $this->crew->social()->saveMany(factory(CrewSocial::class, 3)->create());
+
+        // then
+        $this->assertCount(3, $this->crew->social);
+    }
+
     /**
      * @test
      */
