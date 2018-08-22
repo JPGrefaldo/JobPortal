@@ -3,6 +3,7 @@
 namespace Tests\Unit\Models;
 
 use App\Models\Crew;
+use App\Models\CrewGear;
 use App\Models\CrewPosition;
 use App\Models\CrewReel;
 use App\Models\CrewResume;
@@ -85,6 +86,17 @@ class CrewTest extends TestCase
         $this->assertCount(3, $this->crew->resumes);
     }
 
+    /**
+     * @test
+     */
+    public function gear()
+    {
+        // when
+        $this->crew->gear()->saveMany(factory(CrewGear::class, 3)->create());
+
+        // then
+        $this->assertCount(3, $this->crew->gear);
+    }
     /**
      * @test
      */
