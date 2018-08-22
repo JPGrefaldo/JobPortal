@@ -37,7 +37,7 @@
                             </li>
                             <li>
                                 <a class="block py-4 px-8 font-header font-bold leading-none border border-white rounded-full uppercase text-sm text-white hover:border-green hover:text-green"
-                                    href="{{ route('register') }}">SIGN UP</a>
+                                    href="{{ route('signup') }}">SIGN UP</a>
                             </li>
                             @else
                             <li>

@@ -16,14 +16,14 @@
                     <div class="py-2">
                         <label class="block font-semibold mb-2" for="email">Email</label>
                         <input name="email" class="w-full form-control @include('_parts.errors.input-error', ['input_element' => 'email'])" id="email" type="email" placeholder="Email">
-                        @include('_parts.errors.input-error-message', ['input_element' => 'email'])
+                        @include('_parts.errors.input-error-message-inline', ['input_element' => 'email'])
                     </div>
                     <div class="py-2">
                         <label class="block font-semibold mb-2" for="password">Password
                             <a href="{{ route('password.request') }}" class="underline text-grey text-sm float-right font-normal">Forgot your password?</a>
                         </label>
                         <input name="password" id="password" class="w-full form-control @include('_parts.errors.input-error', ['input_element' => 'email'])" type="password" placeholder="Password">
-                        @include('_parts.errors.input-error-message', ['input_element' => 'password'])
+                        @include('_parts.errors.input-error-message-inline', ['input_element' => 'password'])
                     </div>
                     <div class="py-2">
                         <label class="md:w-2/3 block">
@@ -39,7 +39,7 @@
             </form>
             <div class="p-8 text-center bg-grey-lighter border-top border-grey-light">
                 Not a member yet?
-                <a href="{{ route('show.register') }}" class="text-red underline hover:text-green">Sign up now</a>
+                <a href="{{ route('signup') }}" class="text-red underline hover:text-green">Sign up now</a>
             </div>
         </div>
 

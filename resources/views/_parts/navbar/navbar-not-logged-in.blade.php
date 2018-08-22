@@ -23,11 +23,11 @@
     <div class="hidden lg:block w-64">
         <ul class="list-reset flex items-center">
             <li>
-                <a class="block py-4 px-8 font-header font-bold leading-none uppercase text-sm text-blue-dark hover:text-green" href="{{ route('show.login') }}">SIGN IN</a>
+                <a class="block py-4 px-8 font-header font-bold leading-none uppercase text-sm text-blue-dark hover:text-green" href="{{ route('login') }}">SIGN IN</a>
             </li>
             <li>
                 <a class="block py-4 px-8 font-header font-bold leading-none border border-blue-dark rounded-full uppercase text-sm text-blue-dark hover:border-green hover:text-green"
-                    href="{{ route('show.register') }}">SIGN UP</a>
+                    href="{{ route('signup') }}">SIGN UP</a>
             </li>
         </ul>
     </div>
