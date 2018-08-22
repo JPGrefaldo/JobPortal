@@ -17,6 +17,15 @@ class CrewTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh, WithFaker;
 
+    protected $crew;
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->crew = factory(Crew::class)->create();
+    }
+
     /**
      * @test
      */
@@ -38,24 +47,17 @@ class CrewTest extends TestCase
     public function positions()
     {
         // given
-        $position = factory(Position::class)->create();
-        $crew = factory(Crew::class)->create();
-        $crewPosition = factory(CrewPosition::class)->make();
-
-        // when
-        $crew->positions()->attach($position, [
-            'details' => $crewPosition->details,
-            'union_description' => $crewPosition->union_description
-        ]);
+        factory(Position::class, 3)->create()->each(function ($position) {
+            // when
+            $crewPosition = factory(CrewPosition::class)->make()->toArray();
+            $this->crew->positions()->attach(
+                $position,
+                array_only($crewPosition, ['details', 'union_description'])
+            );
+        });
 
         // then
-        $this->assertEquals($position->id, $crew->positions->first()->id);
-        $this->assertDatabaseHas('crew_positions', [
-            'crew_id' => $crew->id,
-            'position_id' => $position->id,
-            'details' => $crewPosition->details,
-            'union_description' => $crewPosition->union_description
-        ]);
+        $this->assertCount(3, $this->crew->positions);
     }
 
     /**
@@ -63,14 +65,11 @@ class CrewTest extends TestCase
      */
     public function reels()
     {
-        // given
-        $crew = factory(Crew::class)->create();
-
         // when
-        $reels = factory(CrewReel::class, 3)->create(['crew_id' => $crew->id]);
+        $this->crew->reels()->saveMany(factory(CrewReel::class, 3)->create());
 
         // then
-        $this->assertCount(3, $crew->reels);
+        $this->assertCount(3, $this->crew->reels);
     }
 
     /**
@@ -80,16 +79,15 @@ class CrewTest extends TestCase
     {
         // given
         $position = factory(Position::class)->create();
-        $crew = factory(Crew::class)->create();
         $crewPosition = factory(CrewPosition::class)->make();
 
         // when
-        $crew->applyFor($position, $crewPosition);
+        $this->crew->applyFor($position, $crewPosition);
 
         // then
-        $this->assertEquals($position->id, $crew->positions->first()->id);
+        $this->assertEquals($position->id, $this->crewpositions->first()->id);
         $this->assertDatabaseHas('crew_positions', [
-            'crew_id' => $crew->id,
+            'crew_id' => $this->crew->id,
             'position_id' => $position->id,
             'details' => $crewPosition->details,
             'union_description' => $crewPosition->union_description
