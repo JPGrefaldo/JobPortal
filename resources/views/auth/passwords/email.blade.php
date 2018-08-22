@@ -14,7 +14,7 @@
                         <div class="py-2">
                             <label class="block font-semibold mb-2" for="email">Email</label>
                             <input name="email" class="w-full form-control @include('_parts.errors.input-error', ['input_element' => 'email'])" id="email" type="email" placeholder="Email">
-                            @include('_parts.errors.input-error-message', ['input_element' => 'email'])
+                            @include('_parts.errors.input-error-message-inline', ['input_element' => 'email'])
                         </div>
                         <div class="pt-6">
                             @csrf

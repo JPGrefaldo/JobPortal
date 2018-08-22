@@ -14,33 +14,21 @@
 Route::get('/', 'IndexController@index');
 
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
-Route::post('login', 'Auth\LoginController@login')->name('show.login');
+Route::post('login', 'Auth\LoginController@login');
 
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('logout', 'Auth\LoginController@logout');
 
-Route::get('register', 'Auth\SignupController@show')->name('show.register');
-Route::post('register', 'Auth\UserSignupController@signup')->name('register');
+Route::get('signup', 'Auth\UserSignupController@show')->name('signup');
+Route::post('signup', 'Auth\UserSignupController@signup');
 
 Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
 Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
 Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
+Route::get('verify/email/{code}', 'VerifyEmailController@verify')->name('verify.email');
 
-Route::get('/my-profile/{user}', 'ProfilesController@index')->name('profile');
-Route::get('/my-profile/{user}/edit', 'ProfilesController@show')->name('profile-edit');
-Route::post('/my-profile/edit', 'ProfilesController@edit')->name('profile-update');
-Route::get('/my-profile/{id}/delete', 'ProfilesController@destroy')->name('delete-resume');
-Route::get('/my-profile/{id}/deleteReel', 'ProfilesController@destroyReel')->name('delete-reel');
-
-
-Route::post('/my-profile/{user}/add-position', 'CrewPositionsController@createPosition')->name('add-position');
-
-Route::get('/my-projects/{user}', 'ProjectController@index');
-Route::get('/my-projects/post', 'ProjectController@showPostProject');
-Route::get('/my-account', 'AccountController@index');
-Route::get('/verify/email/{code}', 'VerifyEmailController@verify');
 
 Route::middleware('auth')->group(function () {
     Route::get('/home', 'HomeController@index')->name('home');

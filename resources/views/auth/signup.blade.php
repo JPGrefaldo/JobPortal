@@ -1,17 +1,17 @@
 @extends('layouts.default_layout')
 
 @section('content')
-
     <div class="container max-w-xl flex justify-center items-center">
+
         <div class="w-full md:w-1/2 px-4">
+            @include('_parts.errors.error-messagebox')
+
             <div class="bg-white shadow-md rounded">
                 <div class="p-8 text-center border-b border-grey-light">
                     <h2 class="font-header text-blue-dark text-lg text-center font-semibold">Sign up</h2>
                 </div>
-                @foreach($errors->all() as $error)
-                    {{ $error }}<br />
-                @endforeach
-                <form method="post" action="{{ route('register') }}">
+
+                <form method="post" action="{{ route('signup') }}">
 
                     <div class="p-8">
                         <div class="pb-2 text-center">
@@ -37,7 +37,7 @@
                                            value="{{ old('first_name') }}"
                                            type="text"
                                            placeholder="First name">
-                                    @include('_parts.errors.input-error-message', ['input_element' => 'first_name'])
+                                    @include('_parts.errors.input-error-message-inline', ['input_element' => 'first_name'])
                                 </div>
                                 <div class="w-1/2 md:pl-1">
                                     <input name="last_name"
@@ -46,7 +46,7 @@
                                            value="{{ old('last_name') }}"
                                            type="text"
                                            placeholder="Last name">
-                                    @include('_parts.errors.input-error-message', ['input_element' => 'last_name'])
+                                    @include('_parts.errors.input-error-message-inline', ['input_element' => 'last_name'])
                                 </div>
                             </div>
                         </div>
@@ -58,7 +58,7 @@
                                    value="{{ old('email') }}"
                                    type="text"
                                    placeholder="Email">
-                            @include('_parts.errors.input-error-message', ['input_element' => 'email'])
+                            @include('_parts.errors.input-error-message-inline', ['input_element' => 'email'])
                         </div>
                         <div class="py-2">
                             <label class="block font-semibold mb-2" for="email_confirmation">Email Confirmation</label>
@@ -73,7 +73,7 @@
                                    class="w-full form-control @include('_parts.errors.input-error', ['input_element' => 'password'])"
                                    type="password"
                                    placeholder="Password">
-                            @include('_parts.errors.input-error-message', ['input_element' => 'password'])
+                            @include('_parts.errors.input-error-message-inline', ['input_element' => 'password'])
                         </div>
                         <div class="py-2">
                             <label class="block font-semibold mb-2" for="password_confirmation">Password Confirmation</label>
@@ -82,7 +82,7 @@
                         <div class="py-2">
                             <label class="block font-semibold mb-2" for="">Phone</label>
                             <input name="phone" class="w-full form-control @include('_parts.errors.input-error', ['input_element' => 'phone'])" value="{{ old('phone') }}" type="text" placeholder="(555) 555-5555">
-                            @include('_parts.errors.input-error-message', ['input_element' => 'phone'])
+                            @include('_parts.errors.input-error-message-inline', ['input_element' => 'phone'])
                         </div>
                         <div class="py-2">
                             <label class="block">
@@ -98,7 +98,7 @@
                     </div>
                     <div class="p-8 text-center bg-grey-lighter border-top border-grey-light">
                         Already a member?
-                        <a href="{{ route('show.login') }}" class="text-red underline hover:text-green">Sign in</a>
+                        <a href="{{ route('login') }}" class="text-red underline hover:text-green">Sign in</a>
                     </div>
                     @csrf
                 </form>
@@ -106,5 +106,4 @@
         </div>
 
     </div>
-
 @endsection
