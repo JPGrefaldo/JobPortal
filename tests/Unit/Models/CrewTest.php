@@ -5,6 +5,7 @@ namespace Tests\Unit\Models;
 use App\Models\Crew;
 use App\Models\CrewPosition;
 use App\Models\CrewReel;
+use App\Models\CrewResume;
 use App\Models\Position;
 use App\Models\ProjectJob;
 use App\Models\User;
@@ -70,6 +71,18 @@ class CrewTest extends TestCase
 
         // then
         $this->assertCount(3, $this->crew->reels);
+    }
+
+    /**
+     * @test
+     */
+    public function resumes()
+    {
+        // when
+        $this->crew->resumes()->saveMany(factory(CrewResume::class, 3)->create());
+
+        // then
+        $this->assertCount(3, $this->crew->resumes);
     }
 
     /**
