@@ -58,7 +58,7 @@ class Crew extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function gear()
+    public function gears()
     {
         return $this->hasMany(CrewGear::class);
     }

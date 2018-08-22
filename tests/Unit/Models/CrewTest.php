@@ -89,13 +89,13 @@ class CrewTest extends TestCase
     /**
      * @test
      */
-    public function gear()
+    public function gears()
     {
         // when
-        $this->crew->gear()->saveMany(factory(CrewGear::class, 3)->create());
+        $this->crew->gears()->saveMany(factory(CrewGear::class, 3)->create());
 
         // then
-        $this->assertCount(3, $this->crew->gear);
+        $this->assertCount(3, $this->crew->gears);
     }
     /**
      * @test
