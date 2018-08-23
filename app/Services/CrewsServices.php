@@ -26,14 +26,23 @@ class CrewsServices
      */
     public function processCreate(array $data, User $user)
     {
-        $crew = $this->create(
-            array_only($data, ['bio']),
-            $data['photo'],
-            $user
-        );
+        if (isset($data['photo'])) {
+            $crew = $this->create(
+                array_only($data, ['bio']),
+                $data['photo'],
+                $user
+            );
+        } else {
+            $crew = Crew::create([
+                'user_id' => $user->id,
+                'bio' => $data['bio'],
+            ]);
+        }
 
-        if ($data['resume'] instanceof UploadedFile) {
-            $this->createGeneralResume($data['resume'], $crew);
+        if (isset($data['resume'])) {
+            if ($data['resume'] instanceof UploadedFile) {
+                $this->createGeneralResume($data['resume'], $crew);
+            }
         }
 
         if ($data['reel']) {
@@ -180,24 +189,36 @@ class CrewsServices
      */
     public function processUpdate(array $data, Crew $crew)
     {
-        $crew = $this->update(
-            array_only($data, ['bio']),
-            $data['photo'],
-            $crew
-        );
-
-        if ($data['resume'] instanceof UploadedFile) {
-            $this->updateGeneralResume($data['resume'], $crew);
-        }
-
-        if ($data['reel']) {
-            $this->updateGeneralReel(
-                ['url' => $data['reel']],
+        if (isset($data['photo'])) {
+            $crew = $this->update(
+                array_only($data, ['bio']),
+                $data['photo'],
                 $crew
             );
+        } else {
+            $crew->update([
+                'bio' => $data['bio'],
+            ]);
         }
 
-        $this->updateSocials($data['socials'], $crew);
+        if (isset($data['resume'])) {
+            if ($data['resume'] instanceof UploadedFile) {
+                $this->updateGeneralResume($data['resume'], $crew);
+            }
+        }
+
+        if (isset($data['reel'])) {
+            if ($data['reel']) {
+                $this->updateGeneralReel(
+                    ['url' => $data['reel']],
+                    $crew
+                );
+            }
+        }
+
+        if (isset($data['socials'])) {
+            $this->updateSocials($data['socials'], $crew);
+        }
 
         return $crew;
     }

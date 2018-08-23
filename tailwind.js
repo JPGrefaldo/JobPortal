@@ -47,22 +47,26 @@ let colors = {
   'transparent': 'transparent',
 
   'black': '#141236',
+
   'grey-dark': '#727477',
   'grey': '#BEC5C4',
   'grey-light': '#f0f0f0',
   'grey-lighter': '#F8F9F9',
   'grey-lightest': '#FCFDFD',
+
   'white': '#ffffff',
 
   'red': '#CE283D',
   'yellow': '#F5C623',
   'green': '#31C09A',
+
   'blue': '#5A5CE9',
   'blue-dark': '#06205C',
   'blue-grey': '#6B7C93',
-
   'blue-linkedin': '#0077B5',
   'blue-facebook': '#3853A1',
+  'blue-message': '#3490dc',
+
   'yellow-imdb': '#E2AB2B',
 
   'red-error': '#D8000C',

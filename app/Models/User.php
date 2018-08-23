@@ -179,4 +179,12 @@ class User extends Authenticatable
     {
         return $this->crew->positions()->where('position_id', $position->id)->get()->count() > 0;
     }
+
+    /**
+     * @return string
+     */
+    public function getFullNameAttribute()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
 }

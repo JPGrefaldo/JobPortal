@@ -4,7 +4,7 @@
     <div class="container max-w-xl flex justify-center items-center">
 
         <div class="w-full md:w-1/2 px-4">
-            @include('_parts.errors.error-messagebox')
+            @include('_parts.messagebox')
 
             <div class="bg-white shadow-md rounded">
                 <div class="p-8 text-center border-b border-grey-light">
