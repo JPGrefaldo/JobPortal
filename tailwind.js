@@ -65,6 +65,7 @@ let colors = {
   'blue-grey': '#6B7C93',
   'blue-linkedin': '#0077B5',
   'blue-facebook': '#3853A1',
+  'blue-message': '#3490dc',
 
   'yellow-imdb': '#E2AB2B',
 

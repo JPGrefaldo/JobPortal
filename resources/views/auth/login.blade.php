@@ -2,7 +2,7 @@
 
 @section('content')
 
-@include('_parts/messages')
+@include('_parts.messagebox')
 
 <div class="container max-w-xl flex justify-center items-center">
     <div class="w-full md:w-1/2 float-left mb-3 md:mb-0 px-4">

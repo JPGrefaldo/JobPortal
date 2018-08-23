@@ -57,8 +57,7 @@ class UserSignupController extends Controller
         }
 
         event(new Registered($user));
-        session()->flash('register-success', 'Please check your email to confirm');
 
-        return redirect('login');
+        return redirect('login')->with('infoMessage', 'Please check your email to confirm');
     }
 }

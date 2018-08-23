@@ -33,7 +33,7 @@ Route::get('verify/email/{code}', 'VerifyEmailController@verify')->name('verify.
 Route::middleware('auth')->group(function () {
     Route::get('dashboard', 'DashboardController@index')->name('dashboard');
 
-    Route::prefix('profile')->group(function () {
+    Route::prefix('crew/profile')->group(function () {
         Route::get('/', 'Crew\CrewProfileController@index')->name('profile');
         Route::get('edit', 'Crew\CrewProfileController@create')->name('profile.create');
         Route::post('/', 'Crew\CrewProfileController@store');

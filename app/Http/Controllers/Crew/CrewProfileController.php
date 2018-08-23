@@ -47,14 +47,16 @@ class CrewProfileController extends Controller
     public function store(CreateCrewRequest $request)
     {
         $data = $request->validated();
+        $user = Auth::user();
+        $new = (! $user->crew);
 
-        if (! Auth::user()->crew) {
-            app(CrewsServices::class)->processCreate($data, Auth::user());
+        if ($new) {
+            app(CrewsServices::class)->processCreate($data, $user);
         } else {
-            app(CrewsServices::class)->processUpdate($data, Auth::user()->crew);
+            app(CrewsServices::class)->processUpdate($data, $user->crew);
         }
 
-        dd($request->all());
+        return back()->with('infoMessage', ($new) ? 'Created' : 'Updated');
     }
 
     /**

@@ -5,10 +5,9 @@
     <main class="float-left w-full px-3 py-md md:py-lg">
         <div class="container">
 
-
             @include('_parts.pages.page-title', ['pageTitle' => 'Edit profile'])
 
-            @include('_parts.errors.error-messagebox')
+            @include('_parts.messagebox')
 
             @include('crew.profile.parts.profile-complete-indicator')
 
@@ -30,7 +29,7 @@
                                 <div class="p-3 md:p-6 bg-grey-lighter rounded">
                                     <div class="mb-2">
                                         <label for="" class="block mb-3">Biography</label>
-                                        <textarea class="form-control w-full h-64" placeholder="Biography" name="bio"></textarea>
+                                        <textarea class="form-control w-full h-64" placeholder="Biography" name="bio">{{ old('bio', (isset($user->crew) ? $user->crew->bio : '')) }}</textarea>
                                     </div>
                                 </div>
                             </div>

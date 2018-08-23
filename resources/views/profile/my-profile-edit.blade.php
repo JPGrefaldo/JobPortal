@@ -23,7 +23,7 @@
           <div class="w-full pb-md md:pb-lg">
                 <h1 class="font-header text-blue-dark text-xl md:text-2xl font-semibold">Edit profile</h1>
 
-            @include('_parts/messages')
+                @include('_parts.messagebox')
             </div>
 
             <div class="hidden md:block md:w-1/4 float-left pr-8 py-md">
