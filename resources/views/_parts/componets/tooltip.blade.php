@@ -1,0 +1,1 @@
+<span class="tooltip" title="{{ $tooltipText }}">?</span>
