@@ -1,28 +1,30 @@
 @component('account._parts.account-card')
     @slot('subtitle')
-        Name
+        Change Password
     @endslot
 
     @slot('accountContent')
         <div>
-            <h4 class="mt-6 uppercase text-sm text-blue-dark">First Name</h4>
+            <h4 class="mt-6 uppercase text-sm text-blue-dark">Current Password</h4>
             <input class="w-full border border-light-grey max-w-sm p-4 my-4"
-                   type="text"
-                   name="first_name"
-                   value="{{ old('first_name', $user->first_name) }}"
-                   placeholder="First name">
+                   type="password"
+                   name="current_password">
         </div>
         <div>
-            <h4 class="mt-2 uppercase text-sm text-blue-dark">Last Name</h4>
+            <h4 class="mt-2 uppercase text-sm text-blue-dark">New Password</h4>
             <input class="w-full border border-light-grey max-w-sm p-4 my-4"
-                   type="text"
-                   name="last_name"
-                   value="{{ old('last_name', $user->last_name) }}"
-                   placeholder="Last name">
+                   type="password"
+                   name="password">
+        </div>
+        <div>
+            <h4 class="mt-2 uppercase text-sm text-blue-dark">Confirm Password</h4>
+            <input class="w-full border border-light-grey max-w-sm p-4 my-4"
+                   type="password"
+                   name="password_confirmation">
         </div>
     @endslot
 
     @slot('accountSaveURL')
-        {{ route('account.name') }}
+        {{ route('account.password') }}
     @endslot
 @endcomponent
