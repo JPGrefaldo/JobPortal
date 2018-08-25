@@ -23,11 +23,12 @@ class AccountCloseController extends Controller
     }
 
     /**
+     * @param CloseUserAccount $closeUserAccount
      * @return \Illuminate\Http\Response
      */
-    public function destroy()
+    public function destroy(CloseUserAccount $closeUserAccount)
     {
-        app(CloseUserAccount::class)->execute(Auth::user());
+        $closeUserAccount->execute(Auth::user());
 
         return redirect(route('logout'));
     }

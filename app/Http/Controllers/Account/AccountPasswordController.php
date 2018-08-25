@@ -22,14 +22,14 @@ class AccountPasswordController extends Controller
         ]);
     }
 
-
     /**
      * @param AccountPasswordRequest $request
+     * @param ChangeUserPassword $changeUserPassword
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(AccountPasswordRequest $request)
+    public function store(AccountPasswordRequest $request, ChangeUserPassword $changeUserPassword)
     {
-        app(ChangeUserPassword::class)->execute(Auth::user(), $request->get('password'));
+        $changeUserPassword->execute(Auth::user(), $request->get('password'));
 
         return back()->with('infoMessage', 'Password Updated');
     }
