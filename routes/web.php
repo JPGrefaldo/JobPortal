@@ -43,6 +43,9 @@ Route::middleware('auth')->group(function () {
         Route::get('name', 'Account\AccountNameController@index')->name('account.name');
         Route::post('name', 'Account\AccountNameController@store');
 
+        Route::get('contact', 'Account\AccountContactController@index')->name('account.contact');
+        Route::post('contact', 'Account\AccountContactController@store');
+
         Route::get('subscription', 'Account\AccountSubscriptionController@index')->name('account.subscription');
         Route::post('subscription', 'Account\AccountSubscriptionController@store');
 
@@ -53,7 +56,7 @@ Route::middleware('auth')->group(function () {
         Route::post('manager', 'Account\AccountManagerController@index');
 
         Route::get('notifications', 'Account\AccountNotificationsController@index')->name('account.notifications');
-        Route::post('notifications', 'Account\AccountNotificationsController@index');
+        Route::post('notifications', 'Account\AccountNotificationsController@store');
 
         Route::get('close', 'Account\AccountCloseController@index')->name('account.close');
         Route::put('close', 'Account\AccountCloseController@destroy');

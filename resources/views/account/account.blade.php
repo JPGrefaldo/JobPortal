@@ -15,6 +15,9 @@
                 @case('name')
                     @include('account._parts.cards.account-name')
                 @break
+                @case('contact')
+                    @include('account._parts.cards.account-contact')
+                @break
                 @case('subscription')
                     @include('account._parts.cards.account-subscription')
                 @break

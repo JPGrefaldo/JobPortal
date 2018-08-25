@@ -165,4 +165,14 @@ h4,
     background-size: cover;
 }
 
+/* Input */
+
+.switch-on {
+    @apply .bg-green .justify-end;
+}
+
+.switch-off {
+    @apply .justify-start;
+}
+
 @tailwind utilities;

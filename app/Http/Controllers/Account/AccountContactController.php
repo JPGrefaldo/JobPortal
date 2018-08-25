@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers\Account;
 
+use App\Actions\User\UpdateUserContactSettings;
 use App\Actions\User\UpdateUserNotificationSettings;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Account\AccountContactRequest;
 use App\Http\Requests\Account\AccountNotificationsRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class AccountNotificationsController extends Controller
+class AccountContactController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,10 +20,8 @@ class AccountNotificationsController extends Controller
     public function index()
     {
         return view('account.account', [
-            'user' => Auth::user()->load([
-                'notificationSettings',
-            ]),
-            'accountType' => 'notifications',
+            'user' => Auth::user(),
+            'accountType' => 'contact',
         ]);
     }
 
@@ -38,11 +38,11 @@ class AccountNotificationsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  AccountNotificationsRequest $request
-     * @param UpdateUserNotificationSettings $updateUserNotificationSettings
+     * @param  AccountContactRequest $request
+     * @param UpdateUserContactSettings $updateUserNotificationSettings
      * @return \Illuminate\Http\Response
      */
-    public function store(AccountNotificationsRequest $request, UpdateUserNotificationSettings $updateUserNotificationSettings)
+    public function store(AccountContactRequest $request, UpdateUserContactSettings $updateUserNotificationSettings)
     {
         $updateUserNotificationSettings->execute(Auth::user(), $request->all());
 

@@ -6,6 +6,7 @@
                 'accountMenuMobile' => true,
                 'AccountMenu' => [
                     'account.name' => 'Name',
+                    'account.contact' => 'Contact',
                     'account.subscription' => 'Subscription',
                     'account.password' => 'Password',
                     'account.manager' => 'Add Manager',
@@ -19,6 +20,7 @@
             'accountMenuMobile' => false,
             'AccountMenu' => [
                 'account.name' => 'Name',
+                'account.contact' => 'Contact',
                 'account.subscription' => 'Subscription',
                 'account.password' => 'Password',
                 'account.manager' => 'Add Manager',

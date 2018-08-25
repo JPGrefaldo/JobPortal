@@ -60,6 +60,12 @@ class CreateTestUser extends Command
 
         $user->confirm();
 
+        $user->notificationSettings()->create([
+            'receive_email_notification' => true,
+            'receive_other_emails' => true,
+            'receive_sms' => true,
+        ]);
+
         $this->info('Created');
     }
 }

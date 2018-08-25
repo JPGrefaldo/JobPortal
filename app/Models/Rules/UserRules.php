@@ -41,28 +41,37 @@ class UserRules
     /**
      * @param null|int $id
      *
+     * @param bool $unique
      * @return array
      */
-    public static function email($id = null)
+    public static function email($id = null, $unique = true)
     {
-        return [
+        $defaults = [
             'required',
             'confirmed',
             'string',
             'max:255',
             new Email(),
-            Rule::unique('users')->ignore($id),
         ];
+
+        if ($unique) {
+            return array_merge($defaults, [
+                Rule::unique('users')->ignore($id),
+            ]);
+        }
+
+        return $defaults;
     }
 
     /**
      * @param null|int $id
      *
+     * @param bool $unique
      * @return array
      */
-    public static function confirmedEmail($id = null)
+    public static function confirmedEmail($id = null, $unique = true)
     {
-        return array_merge(self::email(), [
+        return array_merge(self::email($id, $unique), [
             'confirmed',
         ]);
     }

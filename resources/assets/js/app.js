@@ -64,4 +64,21 @@ $(function() {
     }
 
     $('.tooltip').tooltip();
+
+    if ($(".js-switch").length) {
+        $(".js-switch").click(function (event) {
+            if ($(this).hasClass("switch-on")) {
+                $(this).removeClass("switch-on");
+                $(this).addClass("switch-off");
+                $('[name="' + $(this).attr('id') + '"]').val(0);
+
+            } else {
+                $(this).removeClass("switch-off");
+                $(this).addClass("switch-on");
+                $('[name="' + $(this).attr('id') + '"]').val(1);
+            }
+        });
+    }
 });
+
+
