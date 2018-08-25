@@ -86,7 +86,7 @@
                         </div>
                         <div class="py-2">
                             <label class="block">
-                                <input name="receive_sms" id="receive_sms" value="1" class="mr-1" type="checkbox" @if(old('receive_sms', 0) == 1) checked @endif> Receive text alerts <span class="float-right rounded-full bg-grey-light text-grey bold text-sm py-0 px-1 tooltip" title="You will receive SMS alerts to your phone">?</span>
+                                <input name="receive_sms" id="receive_sms" value="1" class="mr-1" type="checkbox" @if(old('receive_sms', 0) == 1) checked @endif> Receive text alerts @include('_parts.componets.tooltip', ['tooltipText' => 'You will receive SMS alerts to your phone'])
                             </label>
                         </div>
                         <div class="pt-6">

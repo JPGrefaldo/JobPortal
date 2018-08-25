@@ -80,7 +80,7 @@
                             <a href="#" class="block text-blue-dark hover:text-green">Subscription</a>
                         </li>
                         <li class="py-2 px-4">
-                            <a href="#" class="block text-blue-dark hover:text-green">Settings</a>
+                            <a href="{{ route('account.name') }}" class="block text-blue-dark hover:text-green">Account Settings</a>
                         </li>
                         <li class="py-2 px-4 border-t mt-2 border-grey-light">
                             <a href="{{ route('logout') }}" class="block text-blue-dark hover:text-green">Sign out</a>
@@ -125,7 +125,7 @@
                 <a href="#" class="block text-white">Subscription</a>
             </li>
             <li class="py-1 px-4">
-                <a href="#" class="block text-white">Settings</a>
+                <a href="{{ route('account.name') }}" class="block text-white">Account Settings</a>
             </li>
             <li class="py-1 px-4">
                 <a href="#" class="block text-white">Sign out</a>

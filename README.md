@@ -25,7 +25,14 @@ php artisan test_user test@test.com
 php artisan startfromscratch test@test.com
 ```
 
-## Front end compile
+## Front
+
+### Framework
+
+Using [tailwind css](https://tailwindcss.com/docs/installation/) as the CSS
+framework
+
+### Compile
 
 ```bash
 npm install
@@ -39,7 +46,13 @@ npm run dev
 npm run production
 ```
 
-## Packages
+## JS
+
+- JQuery v3
+- [Tooltipster](http://iamceege.github.io/tooltipster/#demos)
+- [Slick Carousel](http://kenwheeler.github.io/slick/)
+
+## Laravel Packages
 
 Added packages
 

@@ -4,29 +4,13 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Rules\UserRules;
-use App\Services\UsersServices;
+use App\Services\User\UsersServices;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserSettingsController extends Controller
 {
-    /**
-     * @param \Illuminate\Http\Request $request
-     */
-    public function updateName(Request $request)
-    {
-        $data = $this->validate($request, [
-            'first_name' => UserRules::firstName(),
-            'last_name'  => UserRules::lastName(),
-        ]);
-
-        app(UsersServices::class)->updateName(
-            $data['first_name'],
-            $data['last_name'],
-            Auth::user()
-        );
-    }
 
     /**
      * @param \Illuminate\Http\Request $request

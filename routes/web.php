@@ -39,9 +39,32 @@ Route::middleware('auth')->group(function () {
         Route::post('/', 'Crew\CrewProfileController@store');
     });
 
-    Route::put('/account/settings/name', 'User\UserSettingsController@updateName');
-    Route::put('/account/settings/notifications', 'User\UserSettingsController@updateNotifications');
-    Route::put('/account/settings/password', 'User\UserSettingsController@updatePassword');
+    Route::prefix('account')->group(function () {
+        Route::get('name', 'Account\AccountNameController@index')->name('account.name');
+        Route::post('name', 'Account\AccountNameController@store');
+
+        Route::get('contact', 'Account\AccountContactController@index')->name('account.contact');
+        Route::post('contact', 'Account\AccountContactController@store');
+
+        Route::get('subscription', 'Account\AccountSubscriptionController@index')->name('account.subscription');
+        Route::post('subscription', 'Account\AccountSubscriptionController@store');
+
+        Route::get('password', 'Account\AccountPasswordController@index')->name('account.password');
+        Route::post('password', 'Account\AccountPasswordController@store');
+
+        Route::get('manager', 'Account\AccountManagerController@index')->name('account.manager');
+        Route::post('manager', 'Account\AccountManagerController@index');
+
+        Route::get('notifications', 'Account\AccountNotificationsController@index')->name('account.notifications');
+        Route::post('notifications', 'Account\AccountNotificationsController@store');
+
+        Route::get('close', 'Account\AccountCloseController@index')->name('account.close');
+        Route::put('close', 'Account\AccountCloseController@destroy');
+
+        Route::put('settings/name', 'User\UserSettingsController@updateName');
+        Route::put('settings/notifications', 'User\UserSettingsController@updateNotifications');
+        Route::put('settings/password', 'User\UserSettingsController@updatePassword');
+    });
 
     /*
     |--------------------------------------------------------------------------
