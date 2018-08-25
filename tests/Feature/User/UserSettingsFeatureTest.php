@@ -25,10 +25,13 @@ class UserSettingsFeatureTest extends TestCase
             'last_name'  => 'Ford',
         ];
 
-        $response = $this->actingAs($user)
-                         ->put('/account/settings/name', $data);
+        $this->actingAs($user)
+            ->get(route('account.name'));
 
-        $response->assertSuccessful();
+        $response = $this->actingAs($user)
+                         ->post(route('account.name'), $data);
+
+        $response->assertRedirect(route('account.name'));
 
         $this->assertArraySubset([
                 'first_name' => 'Adam James',
@@ -48,10 +51,13 @@ class UserSettingsFeatureTest extends TestCase
             'last_name'  => "O'neal",
         ];
 
-        $response = $this->actingAs($user)
-                         ->put('/account/settings/name', $data);
+        $this->actingAs($user)
+            ->get(route('account.name'));
 
-        $response->assertSuccessful();
+        $response = $this->actingAs($user)
+                         ->post(route('account.name'), $data);
+
+        $response->assertRedirect(route('account.name'));
 
         $this->assertArraySubset([
                 'first_name' => 'John James',
@@ -71,8 +77,11 @@ class UserSettingsFeatureTest extends TestCase
             'last_name'  => '2543',
         ];
 
+        $this->actingAs($user)
+            ->get(route('account.name'));
+
         $response = $this->actingAs($user)
-                         ->put('/account/settings/name', $data);
+                         ->post(route('account.name'), $data);
 
         $response->assertSessionHasErrors([
             'first_name', // a-z'- and space chars are only allowed

@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use App\Models\Role;
 use App\Models\Site;
 use App\Services\AuthServices;
-use App\Services\UsersServices;
+use App\Services\User\UsersServices;
 use Illuminate\Console\Command;
 
 class CreateTestUser extends Command

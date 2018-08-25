@@ -7,7 +7,7 @@ use App\Http\Requests\UserSignupRequest;
 use App\Models\Role;
 use App\Models\UserNotificationSetting;
 use App\Services\AuthServices;
-use App\Services\UsersServices;
+use App\Services\User\UsersServices;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 

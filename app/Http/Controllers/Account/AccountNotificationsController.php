@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Account;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class AccountController extends Controller
+class AccountNotificationsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +15,10 @@ class AccountController extends Controller
      */
     public function index()
     {
-        return view('my-account');
+        return view('account.account', [
+            'user' => Auth::user(),
+            'accountType' => 'notifications',
+        ]);
     }
 
     /**
