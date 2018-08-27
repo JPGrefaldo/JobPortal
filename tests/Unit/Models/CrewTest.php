@@ -36,14 +36,7 @@ class CrewTest extends TestCase
      */
     public function user()
     {
-        // given
-        $user = factory(User::class)->create();
-
-        // when
-        $crew = factory(Crew::class)->create(['user_id' => $user->id]);
-
-        // then
-        $this->assertEquals($user->id, $crew->user->id);
+        $this->assertEquals($this->user->id, $this->crew->user->id);
     }
 
     /**
