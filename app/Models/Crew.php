@@ -74,7 +74,7 @@ class Crew extends Model
 
     public function applyFor(Position $position, $attributes)
     {
-        return $this->positions()->attach($position, [
+        $this->positions()->attach($position, [
             'details' => $attributes['details'],
             'union_description' => $attributes['union_description']
         ]);
@@ -89,5 +89,29 @@ class Crew extends Model
             'approved_at' => Carbon::now(),
             'comment' => $attributes['comment'] ?? null,
         ]);
+    }
+
+    /**
+     * endorse a User to a ProjectJob
+     * @param  \App\Models\User $endorsee
+     * @param  \App\Models\ProjectJob $projectJob
+     * @return \App\Models\Endorsement
+     */
+    public function endorse($endorsee, $projectJob)
+    {
+        if ($this->id === $endorsee->id) {
+            throw new ElectoralFraud('You can\'t endorse yourself.');
+        }
+
+        return Endorsement::create([
+            'project_job_id' => $projectJob->id,
+            'endorser_id' => $this->id,
+            'endorsee_id' => $endorsee->id,
+        ]);
+    }
+
+    public function hasPosition($position)
+    {
+        return $this->crew->positions()->where('position_id', $position->id)->get()->count() > 0;
     }
 }

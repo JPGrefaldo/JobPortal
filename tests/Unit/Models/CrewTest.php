@@ -14,12 +14,11 @@ use App\Models\ProjectJob;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 
 class CrewTest extends TestCase
 {
-    use RefreshDatabase, SeedDatabaseAfterRefresh, WithFaker;
+    use RefreshDatabase, WithFaker;
 
     protected $crew;
 
@@ -189,7 +188,6 @@ class CrewTest extends TestCase
      */
     public function hasPosition()
     {
-        // $this->withOutExceptionHandling();
         // given
         $user = factory(User::class)->create();
         $crew = factory(Crew::class)

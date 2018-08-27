@@ -4,8 +4,10 @@ use App\Models\Role;
 use Faker\Generator as Faker;
 
 $factory->define(App\Models\Crew::class, function (Faker $faker) {
+    static $user_id;
+
     return [
-        'user_id' => factory(\App\Models\User::class)->create()->id,
+        'user_id' => $user_id ?: factory(\App\Models\User::class)->create()->id,
         'bio'     => $faker->sentence,
         'photo'   => 'photos/' . $faker->uuid . '/' . $faker->sha1 . '.png',
     ];
