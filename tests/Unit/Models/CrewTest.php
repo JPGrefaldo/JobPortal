@@ -20,13 +20,15 @@ class CrewTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
+    protected $user;
     protected $crew;
 
     public function setUp()
     {
         parent::setUp();
 
-        $this->crew = factory(Crew::class)->create();
+        $this->user = factory(User::class)->create();
+        $this->crew = factory(Crew::class)->create(['user_id' => $this->user->id]);
     }
 
     /**
@@ -167,19 +169,49 @@ class CrewTest extends TestCase
 
     /**
      * @test
-     * @expectedException App\Exceptions\ElectoralFraud
+     */
+    // public function endorse()
+    // {
+    //     // given
+    //     $endorsee = factory(Crew::class)->create();
+    //     $endorser = factory(Crew::class)->create();
+    //     $position = factory(Position::class)->create();
+    //     $crewPosition = factory(CrewPosition::class)->create([
+    //         'crew_id' => $endorsee->id,
+    //         'position_id' => $position->id
+    //     ]);
+    //     $endorsee->applyFor($position, $crewPosition);
+    //     $endorsementRequest = $endorsee->createEndorsementRequest();
+
+    //     // when
+    //     $endorser->endorse($endorsee);
+    //     // endorse endorsee to a position
+    //     // make sure that the endorsee has applied to the position
+    //     // make sure that the endorser is not endorsing himself
+
+
+    //     // then
+    //     $this->assertDatabaseHas('endorsements', [
+    //         'endorsement_request_id' => $endorsementRequest,
+    //         'endorser_id' => $endorser->user->crew->id,
+    //         'endorser_email' => $endorser->user->email,
+    //     ]);
+    // }
+
+    /**
+     * @test
      */
     public function can_not_endorse_oneself()
     {
-        $user       = factory(User::class)->create();
         $projectJob = factory(ProjectJob::class)->create();
 
-        $user->endorse($user, $projectJob);
+        $bool = $this->crew->endorse($this->crew, $projectJob);
 
+        $this->assertFalse($bool);
         $this->assertDatabaseMissing('endorsements', [
             'project_job_id' => $projectJob->id,
-            'endorser_id'    => $user->id,
-            'endorsee_id'    => $user->id,
+            'endorser_id'    => $this->user->id,
+            'endorsee_id'    => $this->user->id,
         ]);
     }
 
@@ -189,21 +221,18 @@ class CrewTest extends TestCase
     public function hasPosition()
     {
         // given
-        $user = factory(User::class)->create();
-        $crew = factory(Crew::class)
-            ->create(['user_id' => $user->id]);
         $appliedPosition = factory(Position::class)->create();
         $randomPosition  = factory(Position::class)->create();
 
         // when
         $crewPosition = factory(CrewPosition::class)
             ->create([
-                'crew_id' => $user->crew->id,
+                'crew_id' => $this->crew->id,
                 'position_id' => $appliedPosition->id
             ]);
 
         // then
-        $this->assertTrue($user->hasPosition($appliedPosition));
-        $this->assertFalse($user->hasPosition($randomPosition));
+        $this->assertTrue($this->crew->hasPosition($appliedPosition));
+        $this->assertFalse($this->crew->hasPosition($randomPosition));
     }
 }

@@ -2,11 +2,11 @@
 
 namespace Tests\Feature;
 
-use App\Models\EndorsementRequest;
 use App\Mail\EndorsementRequestEmail;
 use App\Models\Crew;
 use App\Models\CrewPosition;
 use App\Models\Endorsement;
+use App\Models\EndorsementRequest;
 use App\Models\Position;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -34,7 +34,8 @@ class EndorsementRequestFeatureTest extends TestCase
         $nonAppliedPosition = factory(Position::class)->create();
 
         // when
-        $response = $this->actingAs($endorsee->user)->post(route('endorsement_requests.store', $nonAppliedPosition));
+        $response = $this->actingAs($endorsee->user)
+            ->post(route('endorsement_requests.store', $nonAppliedPosition));
 
         // then
         $response->assertForbidden();
@@ -69,7 +70,7 @@ class EndorsementRequestFeatureTest extends TestCase
                         'email' => 'Mambo No. 5',
                     ],
                 ],
-                ]
+            ]
             );
 
         // then

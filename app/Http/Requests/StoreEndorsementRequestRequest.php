@@ -14,7 +14,7 @@ class StoreEndorsementRequestRequest extends FormRequest
     public function authorize()
     {
         $position = $this->route('position');
-        return $position && $this->user()->hasPosition($position);
+        return $position && $this->user()->crew->hasPosition($position);
     }
 
     /**

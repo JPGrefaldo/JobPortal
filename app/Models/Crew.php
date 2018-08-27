@@ -100,7 +100,7 @@ class Crew extends Model
     public function endorse($endorsee, $projectJob)
     {
         if ($this->id === $endorsee->id) {
-            throw new ElectoralFraud('You can\'t endorse yourself.');
+            return false;
         }
 
         return Endorsement::create([
@@ -112,6 +112,6 @@ class Crew extends Model
 
     public function hasPosition($position)
     {
-        return $this->crew->positions()->where('position_id', $position->id)->get()->count() > 0;
+        return $this->positions()->where('position_id', $position->id)->get()->count() > 0;
     }
 }
