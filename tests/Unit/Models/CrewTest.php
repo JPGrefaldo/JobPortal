@@ -109,6 +109,36 @@ class CrewTest extends TestCase
     /**
      * @test
      */
+    public function endorsementRequests()
+    {
+        // given
+        $position = factory(Position::class)->create();
+        $randomPosition = factory(Position::class)->create();
+        $crewPosition = factory(CrewPosition::class)->create([
+            'crew_id' => $this->crew->id,
+            'position_id' => $position->id
+        ]);
+
+        // when
+        $endorsementRequest = EndorsementRequest::create([
+            'crew_position_id' => $position->id,
+            'token' => EndorsementRequest::generateToken(),
+        ]);
+
+        // then
+        $this->assertEquals(
+            $endorsementRequest->token,
+            $this->crew->endorsementRequests()->first()->token
+        );
+        $this->assertInstanceOf(
+            EndorsementRequest::class,
+            $this->crew->endorsementRequests()->first()
+        );
+    }
+
+    /**
+     * @test
+     */
     public function applyFor()
     {
         // given
@@ -122,7 +152,10 @@ class CrewTest extends TestCase
         );
 
         // then
-        $this->assertEquals($position->id, $this->crew->positions->first()->id);
+        $this->assertEquals(
+            $position->name,
+            $this->crew->positions->first()->name
+        );
         $this->assertDatabaseHas('crew_positions', [
             'crew_id' => $this->crew->id,
             'position_id' => $position->id,

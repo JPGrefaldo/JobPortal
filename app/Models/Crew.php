@@ -72,6 +72,11 @@ class Crew extends Model
         return $this->hasMany(CrewSocial::class);
     }
 
+    public function endorsementRequests()
+    {
+        return $this->hasManyThrough(EndorsementRequest::class, CrewPosition::class);
+    }
+
     public function applyFor(Position $position, $attributes)
     {
         $this->positions()->attach($position, [
