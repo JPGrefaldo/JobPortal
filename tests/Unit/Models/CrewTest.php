@@ -12,12 +12,11 @@ use App\Models\EndorsementRequest;
 use App\Models\Position;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class CrewTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
 
     protected $user;
     protected $crew;
@@ -35,7 +34,7 @@ class CrewTest extends TestCase
      */
     public function user()
     {
-        $this->assertEquals($this->user->id, $this->crew->user->id);
+        $this->assertEquals($this->user->email, $this->crew->user->email);
     }
 
     /**
@@ -169,16 +168,14 @@ class CrewTest extends TestCase
     public function approve()
     {
         // given
-        $position = factory(Position::class)->create();
         $anotherCrew = factory(Crew::class)->create();
         $crewPosition = factory(CrewPosition::class)->create([
             'crew_id' => $anotherCrew->id,
-            'position_id' => $position->id
         ]);
         $endorsementRequest = factory(EndorsementRequest::class)->create([
             'crew_position_id' => $crewPosition->id
         ]);
-        $comment = $this->faker->sentence;
+        $comment = 'Some comment';
 
         // when
         $this->crew->approve($endorsementRequest, ['comment' => $comment]);
@@ -204,17 +201,18 @@ class CrewTest extends TestCase
         $endorsementRequest = factory(EndorsementRequest::class)->create([
             'crew_position_id' => $crewPosition->id
         ]);
-        $attributes['comment'] = $this->faker->paragraph;
+        $comment = 'Some comment';
 
         // when
-        $bool = $this->crew->approve($endorsementRequest, $attributes);
+        $bool = $this->crew->approve($endorsementRequest, ['comment' => $comment]);
 
         // then
         $this->assertFalse($bool);
         $this->assertDatabaseMissing('endorsements', [
             'endorsement_request_id' => $endorsementRequest->id,
-            'endorser_id'    => $this->user->id,
-            'endorsee_id'    => $this->user->id,
+            'endorser_id' => $this->crew->user->id,
+            'endorser_email' => $this->crew->user->email,
+            'comment' => $comment,
         ]);
     }
 
