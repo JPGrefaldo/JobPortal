@@ -10,7 +10,6 @@ use App\Models\CrewResume;
 use App\Models\CrewSocial;
 use App\Models\EndorsementRequest;
 use App\Models\Position;
-use App\Models\ProjectJob;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -196,15 +195,24 @@ class CrewTest extends TestCase
     /**
      * @test
      */
-    public function can_not_endorse_oneself()
+    public function can_not_approve_oneselves_endorsement_request()
     {
-        $projectJob = factory(ProjectJob::class)->create();
+        // given
+        $crewPosition = factory(CrewPosition::class)->create([
+            'crew_id' => $this->crew->id
+        ]);
+        $endorsementRequest = factory(EndorsementRequest::class)->create([
+            'crew_position_id' => $crewPosition->id
+        ]);
+        $attributes['comment'] = $this->faker->paragraph;
 
-        $bool = $this->crew->endorse($this->crew, $projectJob);
+        // when
+        $bool = $this->crew->approve($endorsementRequest, $attributes);
 
+        // then
         $this->assertFalse($bool);
         $this->assertDatabaseMissing('endorsements', [
-            'project_job_id' => $projectJob->id,
+            'endorsement_request_id' => $endorsementRequest->id,
             'endorser_id'    => $this->user->id,
             'endorsee_id'    => $this->user->id,
         ]);

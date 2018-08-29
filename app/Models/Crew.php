@@ -87,31 +87,16 @@ class Crew extends Model
 
     public function approve(EndorsementRequest $endorsementRequest, $attributes = [])
     {
+        if ($this->endorsementRequests->contains($endorsementRequest)) {
+            return false;
+        }
+
         return Endorsement::create([
             'endorsement_request_id' => $endorsementRequest->id,
             'endorser_id' => $this->user->id,
             'endorser_email' => $this->user->email,
             'approved_at' => Carbon::now(),
             'comment' => $attributes['comment'] ?? null,
-        ]);
-    }
-
-    /**
-     * endorse a User to a ProjectJob
-     * @param  \App\Models\User $endorsee
-     * @param  \App\Models\ProjectJob $projectJob
-     * @return \App\Models\Endorsement
-     */
-    public function endorse($endorsee, $projectJob)
-    {
-        if ($this->id === $endorsee->id) {
-            return false;
-        }
-
-        return Endorsement::create([
-            'project_job_id' => $projectJob->id,
-            'endorser_id' => $this->id,
-            'endorsee_id' => $endorsee->id,
         ]);
     }
 
