@@ -7,12 +7,11 @@ use App\Models\Endorsement;
 use App\Models\EndorsementRequest;
 use App\Models\Position;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 
 class EndorsementTest extends TestCase
 {
-    use RefreshDatabase, SeedDatabaseAfterRefresh;
+    use RefreshDatabase;
 
     /**
      * @test
