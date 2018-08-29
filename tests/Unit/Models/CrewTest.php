@@ -196,37 +196,6 @@ class CrewTest extends TestCase
     /**
      * @test
      */
-    // public function endorse()
-    // {
-    //     // given
-    //     $endorsee = factory(Crew::class)->create();
-    //     $endorser = factory(Crew::class)->create();
-    //     $position = factory(Position::class)->create();
-    //     $crewPosition = factory(CrewPosition::class)->create([
-    //         'crew_id' => $endorsee->id,
-    //         'position_id' => $position->id
-    //     ]);
-    //     $endorsee->applyFor($position, $crewPosition);
-    //     $endorsementRequest = $endorsee->createEndorsementRequest();
-
-    //     // when
-    //     $endorser->endorse($endorsee);
-    //     // endorse endorsee to a position
-    //     // make sure that the endorsee has applied to the position
-    //     // make sure that the endorser is not endorsing himself
-
-
-    //     // then
-    //     $this->assertDatabaseHas('endorsements', [
-    //         'endorsement_request_id' => $endorsementRequest,
-    //         'endorser_id' => $endorser->user->crew->id,
-    //         'endorser_email' => $endorser->user->email,
-    //     ]);
-    // }
-
-    /**
-     * @test
-     */
     public function can_not_endorse_oneself()
     {
         $projectJob = factory(ProjectJob::class)->create();
