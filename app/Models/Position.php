@@ -27,12 +27,11 @@ class Position extends Model
 
     public function crews()
     {
-        return $this->belongsToMany(Crew::class, 'crew_positions');
+        return $this->belongsToMany(Crew::class);
     }
 
     public function roles()
     {
-        
         return $this->belongsTo(Department::class, 'department_id', 'id');
-    }    
+    }
 }

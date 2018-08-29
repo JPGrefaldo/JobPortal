@@ -156,7 +156,7 @@ class CrewTest extends TestCase
             $position->name,
             $this->crew->positions->first()->name
         );
-        $this->assertDatabaseHas('crew_positions', [
+        $this->assertDatabaseHas('crew_position', [
             'crew_id' => $this->crew->id,
             'position_id' => $position->id,
             'details' => $crewPosition['details'],

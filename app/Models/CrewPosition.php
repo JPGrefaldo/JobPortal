@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class CrewPosition extends Model
+class CrewPosition extends Pivot
 {
     /**
      * The protected attributes
@@ -55,9 +55,8 @@ class CrewPosition extends Model
         return $this->belongsTo(Position::class, 'position_id', 'id');
     }
 
-    public function departments() 
+    public function departments()
     {
         return $this->belongsTo(Department::class, 'department_id', 'id');
-    }    
-
+    }
 }
