@@ -75,3 +75,7 @@ https://github.com/beyondcode/laravel-dump-server
 ### Xray
 
 https://github.com/beyondcode/laravel-view-xray
+
+### Laravel Collection Macros
+
+https://github.com/spatie/laravel-collection-macros
