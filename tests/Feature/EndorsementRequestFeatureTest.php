@@ -67,29 +67,25 @@ class EndorsementRequestFeatureTest extends TestCase
         ]);
 
         // when
-        $response = $this
-        ->actingAs($this->user)
-        ->post(
-            route('endorsement_requests.store', $position),
-            [
-                'endorsers' => [
-                    [
-                        'name' => '',
-                        'email' => '',
-                    ],
-                    [
-                        'name' => 'Ron Swanson',
-                        'email' => 'Mambo No. 5',
-                    ],
+        $data = [
+            'endorsers' => [
+                [
+                    'name' => '',
+                    'email' => '',
                 ],
-            ]
-            );
+                [
+                    'name' => 'Ron Swanson',
+                    'email' => 'Mambo No. 5',
+                ],
+            ],
+        ];
+        $response = $this->askEndorsementFor($position, $data);
 
         // then
-        $response->assertSessionHasErrors([
-            'endorsers.0.name' => 'The endorsers.0.name field is required.',
-            'endorsers.0.email' => 'The endorsers.0.email field is required.',
-            'endorsers.1.email' => 'The endorsers.1.email must be a valid email address.',
+        $response->assertJsonValidationErrors([
+            'endorsers.0.name',
+            'endorsers.0.email',
+            'endorsers.1.email'
         ]);
     }
 
