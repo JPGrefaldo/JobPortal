@@ -14,7 +14,7 @@ class CrewPositionTest extends TestCase
 
     public function setUp()
     {
-        parent::setup();
+        parent::setUp();
 
         $this->crew = factory(Crew::class)->create();
         $this->position = factory(Position::class)->create();

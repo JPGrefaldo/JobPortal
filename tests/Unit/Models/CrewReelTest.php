@@ -13,7 +13,7 @@ class CrewReelTest extends TestCase
 
     public function setUp()
     {
-        parent::setup();
+        parent::setUp();
 
         $this->crew = factory(Crew::class)->create();
         $this->crewReel = factory(CrewReel::class)->create([
