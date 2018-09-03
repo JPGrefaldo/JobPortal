@@ -30,7 +30,9 @@ class EndorsementFeatureTest extends TestCase
         $endorsementRequest = factory(EndorsementRequest::class)->create();
 
         // when
-        $response = $this->actingAs($endorser->user)->get(route('endorsements.create', $endorsementRequest));
+        $response = $this
+            ->actingAs($endorser->user)
+            ->get(route('endorsements.create', $endorsementRequest));
 
         // then
         $response->assertSee('Please feel free to leave a comment for this endorsement request.');
@@ -106,7 +108,7 @@ class EndorsementFeatureTest extends TestCase
      */
     public function endorser_can_approve_an_endorsement()
     {
-        // $this->withoutExceptionHandling();
+        $this->withoutExceptionHandling();
         // given
         $endorsementRequest = factory(EndorsementRequest::class)->create();
         $endorser1 = factory(Crew::class)->states('withRole')->create();

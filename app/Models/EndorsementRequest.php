@@ -39,12 +39,12 @@ class EndorsementRequest extends Model
 
     public function endorsementBy($user)
     {
-        return $this->endorsements->where('endorser_email', $user->email);
+        return $this->endorsements->where('endorser_email', $user->email)->first();
     }
 
     public function isApprovedBy($user)
     {
-        return $this->endorsementBy($user)->count() > 0;
+        return !! $this->endorsementBy($user);
     }
 
     public function endorsee()

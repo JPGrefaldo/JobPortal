@@ -19,7 +19,9 @@ class EndorsementController extends Controller
     public function create(EndorsementRequest $endorsementRequest)
     {
         if ($endorsementRequest->isRequestedBy(Auth::user())) {
-            return redirect(route('crew_position.show', $endorsementRequest->position));
+            return redirect(
+                route('crew_position.show', $endorsementRequest->position)
+            );
         }
 
         if ($endorsementRequest->isApprovedBy(Auth::user())) {
@@ -27,7 +29,7 @@ class EndorsementController extends Controller
         }
 
         // show form to comment
-        return view('crew.endorsement.create')->with('endorsementRequest', $endorsementRequest);
+        return view('crew.endorsement.create', compact('endorsementRequest'));
     }
 
     /**
@@ -42,7 +44,7 @@ class EndorsementController extends Controller
             return response()->json(['errors' => ['email' => ['You can\'t endorse yourself.']]], 403);
         }
 
-        $endorsement = $endorsementRequest->endorsementBy(auth()->user())->first();
+        $endorsement = $endorsementRequest->endorsementBy(auth()->user());
 
         if (! $endorsement) {
             $endorsement = Endorsement::create([
@@ -72,8 +74,10 @@ class EndorsementController extends Controller
 
         // TODO: endorsee_is_redirected_to_endorsement_create_page_when_editing_non_existent_endorsement
 
-        return view('crew.endorsement.edit')->with('endorsementRequest', $endorsementRequest)->with('endorsement',
-            $endorsement);
+        return view('crew.endorsement.edit', compact(
+            'endorsementRequest',
+            'endorsement'
+        ));
     }
 
     /**
@@ -85,7 +89,7 @@ class EndorsementController extends Controller
      */
     public function update(Request $request, EndorsementRequest $endorsementRequest)
     {
-        $endorsement = $endorsementRequest->endorsementBy(auth()->user())->first();
+        $endorsement = $endorsementRequest->endorsementBy(auth()->user());
         // TODO: create test for this
         if (! $endorsement) {
             return redirect()->back();

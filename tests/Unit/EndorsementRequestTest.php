@@ -2,10 +2,10 @@
 
 namespace Tests\Unit;
 
-use App\Models\EndorsementRequest;
 use App\Models\Crew;
 use App\Models\CrewPosition;
 use App\Models\Endorsement;
+use App\Models\EndorsementRequest;
 use App\Models\Position;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -25,10 +25,15 @@ class EndorsementRequestTest extends TestCase
         $crewPosition = factory(CrewPosition::class)->create();
 
         // when
-        $endorsementRequest = factory(EndorsementRequest::class)->create(['crew_position_id' => $crewPosition->id]);
+        $endorsementRequest = factory(EndorsementRequest::class)->create([
+            'crew_position_id' => $crewPosition->id
+        ]);
 
         // then
-        $this->assertEquals($crewPosition->id, $endorsementRequest->crewPosition->id);
+        $this->assertEquals(
+            $crewPosition->union,
+            $endorsementRequest->crewPosition->union
+        );
     }
 
     /**
@@ -40,7 +45,11 @@ class EndorsementRequestTest extends TestCase
         $endorsementRequest = factory(EndorsementRequest::class)->create();
 
         // when
-        factory(Endorsement::class, 2)->states('approved')->create(['endorsement_request_id' => $endorsementRequest->id]);
+        factory(Endorsement::class, 2)
+            ->states('approved')
+            ->create([
+                'endorsement_request_id' => $endorsementRequest->id
+            ]);
 
         // then
         $this->assertCount(2, $endorsementRequest->endorsements);
@@ -67,7 +76,7 @@ class EndorsementRequestTest extends TestCase
         // then
         $this->assertEquals(
             $endorsement->endorser_email,
-            $endorsementRequest->endorsementBy($crew->user)->first()->endorser_email
+            $endorsementRequest->endorsementBy($crew->user)->endorser_email
         );
     }
 
