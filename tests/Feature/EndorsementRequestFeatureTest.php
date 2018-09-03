@@ -164,19 +164,7 @@ class EndorsementRequestFeatureTest extends TestCase
         ]);
 
         // when
-        $data = [
-            'endorsers' => [
-                [
-                    'name' => 'John Doe',
-                    'email' => 'john.doe@google.com',
-                ],
-                [
-                    'name' => 'Jane Doe',
-                    'email' => 'jane.doe@yahoo.com',
-                ],
-            ],
-        ];
-        $response = $this->askEndorsementFor($position, $data);
+        $response = $this->askEndorsementFor($position, $this->data());
 
         // then
         $endorsementRequest = EndorsementRequest::first();
@@ -267,5 +255,21 @@ class EndorsementRequestFeatureTest extends TestCase
                 'endorsement_requests.store',
                 $position->id
             ), $formData);
+    }
+
+    protected function data()
+    {
+        return [
+            'endorsers' => [
+                [
+                    'name' => 'John Doe',
+                    'email' => 'john.doe@google.com',
+                ],
+                [
+                    'name' => 'Jane Doe',
+                    'email' => 'jane.doe@yahoo.com',
+                ],
+            ],
+        ];
     }
 }
