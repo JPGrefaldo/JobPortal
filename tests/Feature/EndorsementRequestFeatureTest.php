@@ -192,56 +192,11 @@ class EndorsementRequestFeatureTest extends TestCase
             'position_id' => $position->id,
         ]);
 
-        $endorserName1 = $this->faker->name;
-        $endorserEmail1 = $this->faker->email;
-
-        $endorserName2 = $this->faker->name;
-        $endorserEmail2 = $this->faker->email;
-
-        $response = $this
-            ->actingAs($this->user)
-            ->postJson(
-                route(
-                    'endorsement_requests.store',
-                    ['position' => $position->id]
-                ),
-                [
-                    'endorsers' => [
-                        [
-                            'name' => $endorserName1,
-                            'email' => $endorserEmail1,
-                        ],
-                        [
-                            'name' => $endorserName2,
-                            'email' => $endorserEmail2,
-                        ],
-                    ],
-                ]
-            );
+        $response = $this->askEndorsementFor($position, $this->data());
 
         // when
         // endorsee asks for endorsement again
-        $response = $this
-            ->actingAs($this->user)
-            ->postJson(
-                route(
-                    'endorsement_requests.store',
-                    ['position' => $position->id]
-                ),
-                [
-                    'endorsers' => [
-                        [
-                            'name' => $endorserName1,
-                            'email' => $endorserEmail1,
-                        ],
-                        [
-                            'name' => $endorserName2,
-                            'email' => $endorserEmail2,
-                        ],
-                    ],
-                ]
-            );
-
+        $response = $this->askEndorsementFor($position, $this->data());
         // then
         Mail::assertSent(EndorsementRequestEmail::class, 2);
         $this->assertCount(2, Endorsement::all()->toArray());
