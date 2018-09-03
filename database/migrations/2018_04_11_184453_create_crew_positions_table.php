@@ -40,6 +40,6 @@ class CreateCrewPositionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('crew_positions');
+        Schema::dropIfExists('crew_position');
     }
 }

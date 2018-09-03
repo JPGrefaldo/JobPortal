@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateCrewReelsTable extends Migration
 {
@@ -28,7 +28,7 @@ class CreateCrewReelsTable extends Migration
 
             $table->foreign('crew_position_id')
                   ->references('id')
-                  ->on('crew_positions')
+                  ->on('crew_position')
                   ->onDelete('cascade');
         });
     }
