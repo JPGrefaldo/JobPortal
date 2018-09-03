@@ -12,7 +12,7 @@
             @include('crew.profile.parts.profile-complete-indicator')
 
             <div class="md:w-3/4 float-left">
-                <form action="{{ route('profile') }}" method="post">
+                <form action="{{ route('profile') }}" method="post" enctype="multipart/form-data">
                     <div class="card mb-8">
                         <div class="w-full mb-6">
                             <h3 class="text-blue-dark font-semibold text-md md:text-lg mb-1 font-header">{{ $user->full_name }}</h3>
@@ -41,7 +41,8 @@
                                     <h3 class="text-md font-header mb-2 md:mb-0">Profile Photo</h3>
                                 </div>
                                 <div class="md:w-2/3">
-                                    <a href="#" class="btn-outline inline-block">Upload file</a>
+                                    <label for="photo-file" class="btn-outline inline-block" >Upload file</label>
+                                    <input type="file" name="photo" id="photo-file" class='hidden'></input>
                                 </div>
                             </div>
                         </div>
@@ -52,7 +53,8 @@
                                     <h3 class="text-md font-header mb-2 md:mb-0">General resume</h3>
                                 </div>
                                 <div class="md:w-2/3">
-                                    <a href="#" class="btn-outline inline-block">Upload file</a>
+                                    <label for="resume-file" class="btn-outline inline-block" name='resume'>Upload file</label>
+                                    <input type="file" name="resume" id="resume-file" class='hidden'></input>
                                 </div>
                             </div>
                         </div>
@@ -63,7 +65,8 @@
                                     <h3 class="text-md font-header mt-2 mb-2 md:mb-0">General reel</h3>
                                 </div>
                                 <div class="md:w-2/3">
-                                    <input type="text" class="form-control bg-light w-64 mr-2 mb-2 md:mb-0" placeholder="Add link"><div> or <a href="#" class="btn-outline inline-block">Upload file</a></div>
+                                    <input type="text" class="form-control bg-light w-64 mr-2 mb-2 md:mb-0" placeholder="Add link"><div> or <label for="reel-file" class="btn-outline inline-block">Upload file</label>
+                                    <input type="file" name="reel" id="reel-file" class='hidden'></input>
                                 </div>
                             </div>
                         </div>
@@ -77,19 +80,19 @@
                                         <div class="flex -mr-px">
                                             <span class="flex w-10 items-center leading-normal bg-yellow-imdb rounded rounded-r-none px-2 whitespace-no-wrap text-grey-dark"><i class="fab fa-imdb text-lg mr-0 text-white inline-block"></i></span>
                                         </div>
-                                        <input type="text" class="flex-shrink flex-grow flex-auto leading-normal w-px flex-1 border h-10 border-grey-light rounded rounded-l-none px-3 relative" placeholder="Add IMDb link">
+                                        <input type="text" class="flex-shrink flex-grow flex-auto leading-normal w-px flex-1 border h-10 border-grey-light rounded rounded-l-none px-3 relative" placeholder="Add IMDb link" name="imdb">
                                     </div>
                                     <div class="flex flex-wrap items-stretch w-full mb-2 relative">
                                         <div class="flex -mr-px">
-                                            <span class="flex w-10 items-center leading-normal bg-blue-linkedin rounded rounded-r-none px-2 whitespace-no-wrap text-grey-dark"><i class="fab fa-linkedin-in text-lg mr-0 text-white"></i></span>
+                                            <span class="flex w-10 items-center leading-normal bg-blue-linkedin rounded rounded-r-none px-2 whitespace-no-wrap text-grey-dark"><i class="fab fa-linkedin-in text-lg mr-0 text-white" ></i></span>
                                         </div>
-                                        <input type="text" class="flex-shrink flex-grow flex-auto leading-normal w-px flex-1 border h-10 border-grey-light rounded rounded-l-none px-3 relative" placeholder="Add LinkedIn link">
+                                        <input type="text" class="flex-shrink flex-grow flex-auto leading-normal w-px flex-1 border h-10 border-grey-light rounded rounded-l-none px-3 relative" placeholder="Add LinkedIn link" name="linkedin">
                                     </div>
                                     <div class="flex flex-wrap items-stretch w-full mb-2 relative">
                                         <div class="flex -mr-px">
                                             <span class="flex w-10 text-center items-center leading-normal bg-blue-facebook rounded rounded-r-none px-2 whitespace-no-wrap text-grey-dark"><i class="fab fa-facebook-f text-lg mr-0 text-white inline-block"></i></span>
                                         </div>
-                                        <input type="text" class="flex-shrink flex-grow flex-auto leading-normal w-px flex-1 border h-10 border-grey-light rounded rounded-l-none px-3 relative" placeholder="Add Facebook link">
+                                        <input type="text" class="flex-shrink flex-grow flex-auto leading-normal w-px flex-1 border h-10 border-grey-light rounded rounded-l-none px-3 relative" placeholder="Add Facebook link" name="fb">
                                     </div>
                                 </div>
                             </div>
@@ -137,7 +140,8 @@
                                     <span class="font-bold font-header text-blue-dark mt-2 block md:text-right mb-2 md:mb-0">General resume</span>
                                 </div>
                                 <div class="md:w-2/3">
-                                    <a href="#" class="btn-outline inline-block">Upload file</a>
+                                    <label for="form-file" class="btn-outline inline-block">Upload file</label>
+                                    {!! Form::file('resume',array('id'=>'form-file' , 'class'=>'hidden')); !!}
                                 </div>
                             </div>
                         </div>
@@ -147,7 +151,8 @@
                                     <span class="font-bold font-header text-blue-dark mt-2 block md:text-right mb-2 md:mb-0">General reel</span>
                                 </div>
                                 <div class="md:w-2/3">
-                                    <input type="text" class="form-control bg-light w-64 mr-2 mb-3 md:mb-0" placeholder="Add link"> or <a href="#" class="btn-outline inline-block">Upload file</a>
+                                    <input type="text" class="form-control bg-light w-64 mr-2 mb-3 md:mb-0" placeholder="Add link"> or <label for="form-file" class="btn-outline inline-block">Upload file</label>
+                                    {!! Form::file('reel',array('id'=>'form-file' , 'class'=>'hidden')); !!}
                                 </div>
                             </div>
                         </div>
