@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Exceptions\ElectoralFraud;
 use App\Models\Traits\LogsActivityOnlyDirty;
 use App\Utils\StrUtils;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -152,5 +151,4 @@ class User extends Authenticatable
     {
         return StrUtils::formatPhone($this->phone);
     }
-
 }
