@@ -110,28 +110,21 @@ class EndorsementRequestFeatureTest extends TestCase
         $endorserName2 = $this->faker->name;
         $endorserEmail2 = $this->faker->email;
 
-        // when
-        $response = $this
-            ->actingAs($this->user)
-            ->postJson(
-                route(
-                    'endorsement_requests.store',
-                    ['position' => $position->id]
-                ),
+        $data = [
+            'endorsers' => [
                 [
-                    'endorsers' => [
-                        [
-                            'name' => $endorserName1,
-                            'email' => $endorserEmail1,
-                        ],
-                        [
-                            'name' => $endorserName2,
-                            'email' => $endorserEmail2,
-                        ],
-                    ],
-                ]
-            );
+                    'name' => $endorserName1,
+                    'email' => $endorserEmail1,
+                ],
+                [
+                    'name' => $endorserName2,
+                    'email' => $endorserEmail2,
+                ],
+            ],
+        ];
 
+        // when
+        $response = $this->askEndorsementFor($position, $data);
 
         // then
         $endorsementRequest = EndorsementRequest::first();
