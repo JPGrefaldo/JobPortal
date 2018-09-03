@@ -49,14 +49,4 @@ class CrewPosition extends Pivot
         return $query->where('crew_id', $crew->id)
                      ->where('position_id', $position->id);
     }
-
-    public function roles()
-    {
-        return $this->belongsTo(Position::class, 'position_id', 'id');
-    }
-
-    public function departments()
-    {
-        return $this->belongsTo(Department::class, 'department_id', 'id');
-    }
 }
