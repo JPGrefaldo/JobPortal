@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Role;
 use App\Utils\StrUtils;
 use Faker\Generator as Faker;
 
@@ -18,3 +19,9 @@ $factory->define(App\Models\User::class, function (Faker $faker) {
         'confirmed'      => 1,
     ];
 });
+
+$factory
+    ->state(App\Models\User::class, 'withCrewRole', [])
+    ->afterCreatingState(App\Models\User::class, 'withCrewRole', function ($user, $faker) {
+        $user->roles()->attach(Role::where('name', Role::CREW)->first());
+    });
