@@ -95,7 +95,7 @@ class EndorsementRequestFeatureTest extends TestCase
      */
     public function endorsees_can_ask_endorsements_from_endorsers()
     {
-        // $this->withoutExceptionHandling();
+        $this->withoutExceptionHandling();
 
         // given
         $position = factory(Position::class)->create();
@@ -128,7 +128,9 @@ class EndorsementRequestFeatureTest extends TestCase
 
         // then
         $endorsementRequest = EndorsementRequest::first();
-        $this->assertCount(2, Endorsement::all()->toArray());
+        $this->assertEquals(1, EndorsementRequest::count());
+        $this->assertEquals(2, Endorsement::count());
+        // $this->assertCount(2, Endorsement::all()->toArray());
 
         $this->assertDatabaseHas('endorsement_requests', [
             'crew_position_id' => $crewPosition->id,

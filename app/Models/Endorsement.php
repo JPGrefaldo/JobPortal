@@ -43,7 +43,7 @@ class Endorsement extends Model
 
     public function position()
     {
-        return $this->request->crewPosition->position();
+        return $this->request->position();
     }
 
     public function request()

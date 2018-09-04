@@ -46,7 +46,7 @@ class EndorsementRequestTest extends TestCase
 
         // when
         factory(Endorsement::class, 2)
-            ->states('approved')
+            // ->states('approved')
             ->create([
                 'endorsement_request_id' => $endorsementRequest->id
             ]);

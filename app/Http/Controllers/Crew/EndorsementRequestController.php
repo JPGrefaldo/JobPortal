@@ -11,6 +11,7 @@ use App\Models\Position;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use App\Models\Endorsement;
 
 class EndorsementRequestController extends Controller
 {
@@ -22,19 +23,30 @@ class EndorsementRequestController extends Controller
      */
     public function store(Position $position, StoreEndorsementRequestRequest $request)
     {
-        $crewPosition = CrewPosition::byCrewAndPosition(Auth::user()->crew, $position)->first();
+        // $crewPosition = CrewPosition::byCrewAndPosition(Auth::user()->crew, $position)->first();
 
-        $endorsementRequest = EndorsementRequest::where([
-            'crew_position_id' => $crewPosition->id,
-        ])
-            ->first();
+        // $endorsementRequest = EndorsementRequest::where([
+        //     'crew_position_id' => $crewPosition->id,
+        // ])
+        //     ->first();
 
-        if (! $endorsementRequest) {
-            $endorsementRequest = EndorsementRequest::create([
-                'crew_position_id' => $crewPosition->id,
-                'token'            => EndorsementRequest::generateToken(),
-            ]);
-        }
+        // get the crew's endorsement request based on position
+        $crew = auth()->user()->crew;
+        // $endorsementRequest = $crew->getEndorsementRequestBy($position)->first();
+
+        // $endorsementRequest = $crew->endorsementRequest($position)->first();
+        // dump($endorsementRequest->toArray());
+        // if (! $endorsementRequest) {
+        //     $endorsementRequest = EndorsementRequest::create([
+        //         'crew_position_id' => $crewPosition->id,
+        //         'token'            => EndorsementRequest::generateToken(),
+        //     ]);
+        // }
+
+        $endorsementRequest = EndorsementRequest::firstOrCreate(
+            ['crew_id' => $crew->id, 'position_id' => $position->id],
+            ['token' => EndorsementRequest::generateToken()]
+        );
 
         // filter endorsers, only notify them once
         $endorsers = request('endorsers');

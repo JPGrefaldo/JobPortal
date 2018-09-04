@@ -15,13 +15,20 @@ class CreateEndorsementRequestTable extends Migration
     {
         Schema::create('endorsement_requests', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('crew_position_id')->unsigned();
+            $table->integer('crew_id')->unsigned();
+            $table->integer('position_id')->unsigned();
             $table->string('token')->index();
             $table->timestamps();
 
-            $table->foreign('crew_position_id')
+            $table->foreign('crew_id')
                 ->references('id')
-                ->on('crew_position')
+                ->on('crews')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+
+            $table->foreign('position_id')
+                ->references('id')
+                ->on('crews')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
         });
