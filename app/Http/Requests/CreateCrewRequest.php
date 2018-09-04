@@ -38,17 +38,18 @@ class CreateCrewRequest extends FormRequest
             'photo'                        => 'image',
             'resume'                       => 'nullable|file|mimes:pdf,doc,docx',
             'reel'                         => ['nullable', 'string', new Reel()],
+            'fb'                           =>['nullable', 'string'],
             'socials'                      => 'array',
             'socials.*.id'                 => 'numeric',
             'socials.facebook.url'         => ['nullable', 'string', new Facebook()],
             'socials.twitter.url'          => ['nullable', 'string', new Twitter()],
-            'socials.youtube.url'          => ['nullable', 'string', new YouTube()],
-            'socials.google_plus.url'      => ['nullable', 'string', new GooglePlus(),],
-            'socials.imdb.url'             => ['nullable', 'string', new IMDB(),],
-            'socials.tumblr.url'           => ['nullable', 'string', new Tumblr(),],
-            'socials.vimeo.url'            => ['nullable', 'string', new Vimeo(),],
-            'socials.instagram.url'        => ['nullable', 'string', new Instagram(),],
-            'socials.personal_website.url' => ['nullable', 'string', new TLDR(),],
+            // 'socials.youtube.url'          => ['nullable', 'string', new YouTube()],
+            // 'socials.google_plus.url'      => ['nullable', 'string', new GooglePlus(),],
+            // 'socials.imdb.url'             => ['nullable', 'string', new IMDB(),],
+            // 'socials.tumblr.url'           => ['nullable', 'string', new Tumblr(),],
+            // 'socials.vimeo.url'            => ['nullable', 'string', new Vimeo(),],
+            // 'socials.instagram.url'        => ['nullable', 'string', new Instagram(),],
+            // 'socials.personal_website.url' => ['nullable', 'string', new TLDR(),],
         ];
     }
 
@@ -59,16 +60,16 @@ class CreateCrewRequest extends FormRequest
     public function attributes()
     {
         return [
-            'bio'                          => 'biography',
-            'socials.facebook.url'         => 'facebook',
-            'socials.twitter.url'          => 'twitter',
-            'socials.youtube.url'          => 'youtube',
-            'socials.google_plus.url'      => 'google plus',
-            'socials.imdb.url'             => 'imdb',
-            'socials.tumblr.url'           => 'tumblr',
-            'socials.vimeo.url'            => 'vimeo',
-            'socials.instagram.url'        => 'instagram',
-            'socials.personal_website.url' => 'personal website',
+            // 'bio'                          => 'biography',
+            // 'socials.facebook.url'         => 'facebook',
+            // 'socials.twitter.url'          => 'twitter',
+            // 'socials.youtube.url'          => 'youtube',
+            // 'socials.google_plus.url'      => 'google plus',
+            // 'socials.imdb.url'             => 'imdb',
+            // 'socials.tumblr.url'           => 'tumblr',
+            // 'socials.vimeo.url'            => 'vimeo',
+            // 'socials.instagram.url'        => 'instagram',
+            // 'socials.personal_website.url' => 'personal website',
         ];
     }
 }

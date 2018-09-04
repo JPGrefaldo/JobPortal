@@ -13,6 +13,7 @@ use App\Models\User;
 use App\Utils\StrUtils;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 class CrewsServices
 {
@@ -58,7 +59,8 @@ class CrewsServices
     }
 
     /**
-     * Create crew
+     *
+      Create crew
      *
      * @param array $data
      * @param \Illuminate\Http\UploadedFile $photoFile
@@ -81,6 +83,10 @@ class CrewsServices
         return Crew::create($data);
     }
 
+    public function getCrewSocials(User $user){
+        $socials = Crew::find($user->id)->social;
+        return $socials;
+    }
     /**
      * @param \Illuminate\Http\UploadedFile $resumeFile
      * @param \App\Models\Crew $crew
@@ -129,6 +135,7 @@ class CrewsServices
         }
 
         $crew->social()->saveMany($crewSocials);
+
     }
 
 

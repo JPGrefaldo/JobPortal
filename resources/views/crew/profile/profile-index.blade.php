@@ -26,27 +26,48 @@
                         </ul>
                     </div>
                     <div class="md:w-3/4">
-                        <h3 class="text-blue-dark font-semibold text-lg mb-1 font-header">Nathan Shaw</h3>
-                        <span class="text-grey font-semibold font-header">Director of photography</span>
+                        <h3 class="text-blue-dark font-semibold text-lg mb-1 font-header">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</h3>
+                        <span class="text-grey font-semibold font-header">{{ Auth::user()->position }}</span>
                         <div class="bg-grey-lighter p-6 rounded my-8">
-                            <p>Nathan Shaw began his career in Hollywood as an assistant director and unit production manager.
-                                After performing these jobs in such films as 'Body Heat, " he moved on to Nathan Shaw began
-                                his career in Hollywood as an assistant director and unit production manager. Nathan Shaw
-                                began his career in Hollywood as an assistant director and unit production manager.
-                                <a href="#" class="text-sm text-grey tracking-wide">Read more</a>
-                            </p>
+                           <p>
+                            @if (isset($user->crew))
+                                {{ $user->crew->bio }}
+                            @endif
+                            <a href="/my-profile/edit/{id}" class="text-sm text-grey tracking-wide">Read more</a>
+                        </p>
                         </div>
                         <div class="pb-2 md:flex">
-                            <a href="#" class="border md:w-1/2 flex overflow-hidden rounded md:mr-2 mb-2 md:mb-0">
-                                <div class="w-24 relative" style="background: url(images/th2.jpg); background-size: cover;">
+                           @if(isset($user->crew))
+                            <a href="/{{ $user->crew->reels }}" target="_blank"
+                               class="border md:w-1/2 flex overflow-hidden rounded md:mr-2 mb-2 md:mb-0">
+                                <div class="w-24 relative"
+                                     style="background: url(../images/th2.jpg); background-size: cover;">
                                     <span class="btn-play w-10 h-10"></span>
                                 </div>
                                 <span class='uppercase text-green font-semibold p-4 text-sm tracking-wide'>VIEW POSITION WORK REEL</span>
                             </a>
+                        @else
+                            <a href="#" class="border md:w-1/2 flex overflow-hidden rounded md:mr-2 mb-2 md:mb-0">
+                                <div class="w-24 relative"
+                                     style="background: url(../images/th2.jpg); background-size: cover;">
+                                    <span class="btn-play w-10 h-10"></span>
+                                </div>
+                                <span class='uppercase text-green font-semibold p-4 text-sm tracking-wide'>VIEW POSITION WORK REEL</span>
+                            </a>
+                        @endif
+
+                               @if (isset($user->crew))
+                            <a href="{{ $user->crew->resumes }}" target="_blank"
+                               class="border md:w-1/2 flex items-center overflow-hidden rounded md:ml-2">
+                                <i class="far fa-file-alt px-6 text-lg"></i>
+                                <span class='uppercase text-green font-semibold px-0 py-6 text-sm tracking-wide'>VIEW POSITION RESUME</span>
+                            </a>
+                        @else
                             <a href="#" class="border md:w-1/2 flex items-center overflow-hidden rounded md:ml-2">
                                 <i class="far fa-file-alt px-6 text-lg"></i>
                                 <span class='uppercase text-green font-semibold px-0 py-6 text-sm tracking-wide'>VIEW POSITION RESUME</span>
                             </a>
+                        @endif
                         </div>
                     </div>
                 </div>

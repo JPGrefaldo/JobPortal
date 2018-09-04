@@ -2,7 +2,8 @@
 
 
 namespace App\Services;
-
+use App\Models\SocialLinkType;
+use Illuminate\Support\Facades\Log;
 
 class SocialLinksServices
 {
@@ -30,5 +31,15 @@ class SocialLinksServices
         }
 
         return 'https://' . $uri;
+    }
+
+    /**
+     * Get all the social link type in the database.
+     *
+     * @return App\Models\SocialLinkType
+     */
+   public function getAllSocialLinkTypes(){
+        $socialLinkTypes = SocialLinkType::all();
+        return $socialLinkTypes;
     }
 }
