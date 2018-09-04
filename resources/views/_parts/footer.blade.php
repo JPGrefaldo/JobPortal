@@ -8,5 +8,11 @@
     </div>
 </footer>
 
+<script type="text/javascript">
+    $(function() {
+        @stack('jqueryOnLoadFooter')
+    });
+</script>
+
 </body>
 </html>

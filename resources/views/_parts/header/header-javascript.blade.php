@@ -2,3 +2,9 @@
 <script type="text/javascript" src="{{ mix('/js/all.js') }}"></script>
 <script type="text/javascript" src="{{ mix('/js/scripts.js') }}"></script>
 @stack('javascripts')
+
+<script type="text/javascript">
+    $(function() {
+        @stack('jqueryOnLoadHeader')
+    });
+</script>
