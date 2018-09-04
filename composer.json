@@ -17,7 +17,7 @@
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.1",
-        "barryvdh/laravel-ide-helper": "2.*",
+        "barryvdh/laravel-ide-helper": "2.4.*",
         "ahuggins/open-on-make": "^0.0.20",
         "beyondcode/laravel-dump-server": "^1.2",
         "beyondcode/laravel-er-diagram-generator": "^1.1",
