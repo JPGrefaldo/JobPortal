@@ -44,9 +44,9 @@ class CrewPosition extends Pivot
      * @param Position $position
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    // public function scopeByCrewAndPosition($query, $crew, $position)
-    // {
-    //     return $query->where('crew_id', $crew->id)
-    //                  ->where('position_id', $position->id);
-    // }
+    public function scopeByCrewAndPosition($query, $crew, $position)
+    {
+        return $query->where('crew_id', $crew->id)
+                     ->where('position_id', $position->id);
+    }
 }
