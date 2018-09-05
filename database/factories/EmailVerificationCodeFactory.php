@@ -1,16 +1,14 @@
 <?php
 
-use App\Models\User;
 use Faker\Generator as Faker;
 
 $factory->define(App\Models\EmailVerificationCode::class, function (Faker $faker) {
-    return [
-        'code' => $faker->uuid,
-    ];
-});
+    static $user_id;
 
-$factory->state(App\Models\EmailVerificationCode::class, 'withUser', function (Faker $faker) {
     return [
-        'user_id' => factory(User::class)->create()->id,
+        'user_id' => $user_id ?: function () {
+            return factory(\App\Models\User::class)->create()->id;
+        },
+        'code' => $faker->uuid,
     ];
 });

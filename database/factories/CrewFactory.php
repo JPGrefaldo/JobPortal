@@ -28,13 +28,13 @@ $factory->state(App\Models\Crew::class, 'PhotoUpload', function (Faker $faker) {
     ];
 });
 
-$factory->state(App\Models\Crew::class, 'withRole', function (Faker $faker) {
-    return [
-        'user_id' => function () use ($faker) {
-            $user = factory(\App\Models\User::class)->create();
-            $role = Role::where('name', Role::CREW)->first();
-            $user->roles()->save($role);
-            return $user->id;
-        },
-    ];
-});
+// $factory->state(App\Models\Crew::class, 'withRole', function (Faker $faker) {
+//     return [
+//         'user_id' => function () use ($faker) {
+//             $user = factory(\App\Models\User::class)->create();
+//             $role = Role::where('name', Role::CREW)->first();
+//             $user->roles()->save($role);
+//             return $user->id;
+//         },
+//     ];
+// });

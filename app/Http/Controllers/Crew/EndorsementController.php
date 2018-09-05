@@ -46,19 +46,18 @@ class EndorsementController extends Controller
 
         $endorsement = $endorsementRequest->endorsementBy(auth()->user());
 
-        if (! $endorsement) {
-            $endorsement = Endorsement::create([
-                'endorsement_request_id' => $endorsementRequest->id,
-                'endorser_id'            => Auth::id(),
-                'endorser_name'          => Auth::user()->first_name . ' ' . Auth::user()->last_name,
-                'endorser_email'         => Auth::user()->email,
-                'approved_at'            => Carbon::now(),
-                'comment'                => $request['comment'],
-            ]);
+        if ($endorsement) {
+            return response()->json(['errors' => 'You already approved this endorsement.'], 403);
         }
 
-        // respond with sucess
-        // TODO: create test for success
+        $endorsement = Endorsement::create([
+            'endorsement_request_id' => $endorsementRequest->id,
+            'endorser_id'            => Auth::id(),
+            'endorser_name'          => Auth::user()->first_name . ' ' . Auth::user()->last_name,
+            'endorser_email'         => Auth::user()->email,
+            'approved_at'            => Carbon::now(),
+            'comment'                => $request['comment'],
+        ]);
         return $endorsement;
     }
 
