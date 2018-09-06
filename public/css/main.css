@@ -663,7 +663,7 @@ body.nav-open {
     opacity: 1;
   }
 
-.hidden {
+input.hidden {
   position: absolute;
   left: -99999px;
 }

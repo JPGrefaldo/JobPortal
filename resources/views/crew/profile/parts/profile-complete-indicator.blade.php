@@ -18,13 +18,13 @@
     @endif
     
 
-    @if (! isset($user->crew->resumes))
+    @if (! isset($user->crew->resume))
         <li>GENERAL WORK RESUME</li>
      @else
         <li class="is-checked">GENERAL WORK RESUME</li>
     @endif
 
-     @if (! isset($user->crew->reels))
+     @if (! isset($user->crew->reel))
         <li>GENERAL WORK REEL</li>
      @else
         <li class="is-checked">GENERAL WORK REEL</li>
