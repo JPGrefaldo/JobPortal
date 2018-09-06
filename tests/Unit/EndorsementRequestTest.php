@@ -9,12 +9,21 @@ use App\Models\EndorsementRequest;
 use App\Models\Position;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 
 class EndorsementRequestTest extends TestCase
 {
-    use RefreshDatabase, SeedDatabaseAfterRefresh;
+    use RefreshDatabase;
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->user = factory(User::class)->states('withCrewRole')->create();
+        $this->crew = factory(Crew::class)->create([
+            'user_id' => $this->user->id
+        ]);
+    }
 
     /**
      * @test
@@ -58,11 +67,11 @@ class EndorsementRequestTest extends TestCase
     /**
      * @test
      */
-    public function endorsementBy()
+    public function endorsers()
     {
-        // $this->withoutExceptionHandling();
+        $this->withExceptionHandling();
+
         // given
-        $crew = factory(Crew::class)->states('withRole')->create();
         $endorsementRequest = factory(EndorsementRequest::class)->create();
 
         // when
@@ -70,13 +79,45 @@ class EndorsementRequestTest extends TestCase
             ->states('approved')
             ->create([
                 'endorsement_request_id' => $endorsementRequest->id,
-                'endorser_email' => $crew->user->email
+                'endorser_id' => $this->crew->id
+            ]);
+
+        dump($endorsementRequest->endorsements);
+        dump($endorsementRequest->with('endorsements')->get()->toArray());
+        // dump($this->crew);
+        // dump($endorsementRequest);
+        // dump($this->crew->id);
+        // dump($endorsementRequest->endorsers);
+        // dump($endorsementRequest->endorsers()->first());
+        // then
+        // endorsement request endorsers must have the crew
+        $this->assertEquals(
+            $this->crew->id,
+            $endorsementRequest->endorsers->first->id
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function endorsementBy()
+    {
+        // $this->withoutExceptionHandling();
+        // given
+        $endorsementRequest = factory(EndorsementRequest::class)->create();
+
+        // when
+        $endorsement = factory(Endorsement::class)
+            ->states('approved')
+            ->create([
+                'endorsement_request_id' => $endorsementRequest->id,
+                'endorser_id' => $this->crew->id,
             ]);
 
         // then
         $this->assertEquals(
-            $endorsement->endorser_email,
-            $endorsementRequest->endorsementBy($crew->user)->endorser_email
+            $endorsement->endorser_id,
+            $endorsementRequest->endorsementBy($this->crew)->endorser_id
         );
     }
 

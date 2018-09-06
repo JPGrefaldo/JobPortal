@@ -1,24 +1,27 @@
 <?php
 
-use App\Models\EndorsementRequest;
-use App\Models\User;
+use App\Models\Crew;
 use Carbon\Carbon;
 use Faker\Generator as Faker;
 
 $factory->define(App\Models\Endorsement::class, function (Faker $faker) {
+    static $endorsement_request_id;
+
     return [
-        'endorsement_request_id' => factory(EndorsementRequest::class)->create()->id,
+        'endorsement_request_id' => $endorsement_request_id ?: function () {
+            return factory(\App\Models\EndorsementRequest::class)->create()->id;
+        },
         'endorser_name'          => $faker->name,
         'endorser_email'         => $faker->email,
     ];
 });
 
 $factory->state(App\Models\Endorsement::class, 'approved', function (Faker $faker) {
-    $user = factory(User::class)->create();
+    $crew = factory(Crew::class)->create();
     return [
-        'endorser_id'    => $user->id,
-        'endorser_name'  => "$user->first_name $user->last_name",
-        'endorser_email' => $user->email,
+        'endorser_id'    => $crew->id,
+        'endorser_name'  => '',
+        'endorser_email' => '',
         'approved_at'    => Carbon::now(),
     ];
 });

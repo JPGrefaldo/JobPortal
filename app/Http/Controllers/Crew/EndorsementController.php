@@ -18,7 +18,10 @@ class EndorsementController extends Controller
      */
     public function create(EndorsementRequest $endorsementRequest)
     {
-        if ($endorsementRequest->isRequestedBy(Auth::user())) {
+        $crew = auth()->user()->crew;
+        dump($crew);
+        if ($endorsementRequest->isRequestedBy($crew)) {
+            dump('meeseeks');
             return redirect(
                 route('crew_position.show', $endorsementRequest->position)
             );
@@ -88,9 +91,12 @@ class EndorsementController extends Controller
      */
     public function update(Request $request, EndorsementRequest $endorsementRequest)
     {
+        dump($endorsementRequest);
+        dump($endorsementRequest->endorsements);
         $endorsement = $endorsementRequest->endorsementBy(auth()->user());
         // TODO: create test for this
         if (! $endorsement) {
+            dump('meeseeks');
             return redirect()->back();
         }
         $endorsement->comment = $request->comment;

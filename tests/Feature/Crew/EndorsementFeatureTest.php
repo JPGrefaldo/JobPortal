@@ -75,7 +75,7 @@ class EndorsementFeatureTest extends TestCase
      */
     public function if_endorser_already_approved_a_request_then_he_is_redirected_to_edit_endorsement_comment()
     {
-        // $this->withoutExceptionHandling();
+        $this->withoutExceptionHandling();
         // given
         $endorsement = factory(Endorsement::class)
             ->states('approved')
@@ -213,31 +213,56 @@ class EndorsementFeatureTest extends TestCase
     {
         $this->withoutExceptionHandling();
         // given
-        $comment = $this->faker->sentence;
-        $comment2 = $this->faker->sentence;
-        // $endorser = factory(Crew::class)->states('withRole')->create();
+        // $comment = $this->faker->sentence;
+        // $comment2 = $this->faker->sentence;
         $endorsement = factory(Endorsement::class)
             ->states('approved')
             ->create(['endorser_id' => $this->crew->id]);
         $endorsement2 = factory(Endorsement::class)
             ->states('approved', 'withComment')
-            ->create(['endorser_id' => $this->crew->id]);
+            ->create([
+                'endorser_id' => $this->crew->id,
+                'comment' => 'First comment'
+            ]);
 
         // when
         $this
         ->actingAs($this->user)
         ->putJson(
             route('endorsements.update', $endorsement->request),
-            ['comment' => $comment]
+            ['comment' => 'Forgot to add my comment, so here it is.']
         );
         $this->actingAs($this->user)->putJson(
             route('endorsements.update', $endorsement2->request),
-            ['comment' => $comment2]
+            ['comment' => 'I changed my mind. Here is my new comment.']
         );
 
         // then
-        $this->assertDatabaseHas('endorsements', ['comment' => $comment]);
-        $this->assertDatabaseHas('endorsements', ['comment' => $comment2]);
+        $this->assertDatabaseHas('endorsements', [
+            'id' => $endorsement->id,
+            'comment' => 'Forgot to add my comment, so here it is.'
+        ]);
+        $this->assertDatabaseHas('endorsements', [
+            'id' => $endorsement2->id,
+            'comment' => 'I changed my mind, Here is my new comment.'
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function endorser_cant_update_non_existing_endorsement()
+    {
+        // given
+
+
+        // when
+        // visits to update endorsement that he has not approved yet
+
+        // then
+        // assert missing
+        // redirect to approve it
+        $this->assert;
     }
 
     /** DELETE */
