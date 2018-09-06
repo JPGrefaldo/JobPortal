@@ -33,4 +33,10 @@ class Role extends Model
     {
         return $this->belongsToMany(User::class, 'user_roles');
     }
+
+
+    public static function getRoleIdByName($name)
+    {
+        return Role::select(['id'])->whereName($name)->first()->id;
+    }
 }
