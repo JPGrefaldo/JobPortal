@@ -3,6 +3,7 @@
 namespace App\Actions\Crew;
 
 
+use App\Models\Role;
 use App\Models\User;
 
 class CloseCrewAccount
@@ -12,6 +13,8 @@ class CloseCrewAccount
      */
     public function execute($user)
     {
-
+        if (! $user->hasRole(Role::CREW)) {
+            return;
+        }
     }
 }

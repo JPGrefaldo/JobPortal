@@ -82,6 +82,10 @@ h4,
     @apply .btn-rounded .bg-blue .text-white .font-bold .py-2 .px-4;
 }
 
+.btn-blue:hover {
+    @apply .bg-green;
+}
+
 .btn-green {
     @apply .btn-rounded .inline-block .py-4 .px-8 .font-header .bg-green .uppercase .text-sm .font-bold .text-white;
 }
@@ -173,6 +177,10 @@ h4,
 
 .switch-off {
     @apply .justify-start;
+}
+
+.tooltip {
+    @apply .ml-2 .rounded-full .bg-grey-lighter .text-grey .text-sm .py-0 .px-2 .cursor-pointer;
 }
 
 @tailwind utilities;

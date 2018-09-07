@@ -9,7 +9,16 @@
 
             @include('_parts.messagebox')
 
-            @include('account._parts.account-menu')
+            @include('account._parts.account-menu', ['menu_items' => [
+                    'account.name' => 'Name',
+                    'account.contact' => 'Contact',
+                    'account.subscription' => 'Subscription',
+                    'account.password' => 'Password',
+                    'account.manager' => 'Add Manager',
+                    'account.notifications' => 'Notifications',
+                    'account.close' => 'Close Account',
+                ]
+            ])
 
             @switch($accountType)
                 @case('name')
