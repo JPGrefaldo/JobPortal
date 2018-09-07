@@ -13,7 +13,6 @@ use App\Models\User;
 use App\Utils\StrUtils;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Log;
 
 class CrewsServices
 {
@@ -269,7 +268,14 @@ class CrewsServices
 
         return $crew;
     }
-
+    /**
+     * Combine the data from sociallinktypes and crew socials
+     *
+     * @param \App\Models\CrewSocials $socials
+     * @param \App\Models\SocialLinkType $socialLinks
+     *
+     * @return \App\Models\SocialLinkType array with socials
+     */
     public function mergeSocialLinkAndCrewData($socials ,  $socialLinks){
         foreach ($socials as $key => $social) {
             foreach ($socialLinks as $key => $socialLink) {

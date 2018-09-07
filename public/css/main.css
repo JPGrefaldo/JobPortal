@@ -662,12 +662,3 @@ body.nav-open {
     pointer-events: initial;
     opacity: 1;
   }
-
-input.hidden {
-  position: absolute;
-  left: -99999px;
-}
-
-label.btn-outline{
-    color : #31c09a;
-}

@@ -15,14 +15,17 @@
                     <div class="md:w-1/4 md:pr-8 text-center">
                         <img src="images/thumb.jpg" class="rounded" alt="" />
                         <ul class="list-reset py-4">
-                            <li class="py-1">
-                                <a href="#" class="flex items-center">
-                                    <div class="p-1 rounded bg-yellow-imdb w-8 h-8"><img src="images/imdb.svg" alt="" class="mr-2 img-responsive"></div><span class="ml-2 text-yellow-imdb">IMDb profile</span></a>
-                            </li>
-                            <li class="py-1">
-                                <a href="#" class="flex items-center text-blue-linkedin">
-                                    <img src="images/linkedin.svg" alt="" class="mr-2">LinkedIn profile</a>
-                            </li>
+                             @foreach($socialLinkTypes as $key => $socialLinkType)
+                                 @if(isset($socialLinkType->crew_social))
+                                 <li class="py-1">
+                                     <a href="{{$socialLinkType->crew_social->url}}" target="_blank" class="flex items-center">
+                                        <div class="p-1 flex w-12 h-12">
+                                            <span class="flex w-10 items-center leading-normal rounded rounded-r-none  whitespace-no-wrap text-grey-dark" style="background: url(/{{ $socialLinkType->image}}); background-size: cover;"></span>
+                                        </div>
+                                    </a>
+                                </li>
+                                @endif
+                            @endforeach
                         </ul>
                     </div>
                     <div class="md:w-3/4">

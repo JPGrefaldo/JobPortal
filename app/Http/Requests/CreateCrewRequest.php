@@ -40,16 +40,6 @@ class CreateCrewRequest extends FormRequest
             'reel_link'                    => ['nullable', 'string', new Reel()],
             'reel_file'                    => 'nullable|file|mimes:mp4,avi,wmv | max:20000',
             'socials'                      => 'array',
-            // 'socials.*.id'                 => 'numeric',
-            // 'socials.Facebook'         => ['nullable', 'string', new Facebook()],
-            // 'socials.Twitter'          => ['nullable', 'string', new Twitter()],
-            // 'socials.Youtube'          => ['nullable', 'string', new YouTube()],
-            // 'socials.Google Plus'      => ['nullable', 'string', new GooglePlus(),],
-            // 'socials.Imdb'             => ['nullable', 'string', new IMDB(),],
-            // 'socials.Tumblr'           => ['nullable', 'string', new Tumblr(),],
-            // 'socials.Vimeo'            => ['nullable', 'string', new Vimeo(),],
-            // 'socials.Instagram'        => ['nullable', 'string', new Instagram(),],
-            // 'socials.Personal Website' => ['nullable', 'string', new TLDR(),],
         ];
     }
 
@@ -60,16 +50,6 @@ class CreateCrewRequest extends FormRequest
     public function attributes()
     {
         return [
-            // 'bio'                          => 'biography',
-            // 'socials.facebook.url'         => 'facebook',
-            // 'socials.twitter.url'          => 'twitter',
-            // 'socials.youtube.url'          => 'youtube',
-            // 'socials.google_plus.url'      => 'google plus',
-            // 'socials.imdb.url'             => 'imdb',
-            // 'socials.tumblr.url'           => 'tumblr',
-            // 'socials.vimeo.url'            => 'vimeo',
-            // 'socials.instagram.url'        => 'instagram',
-            // 'socials.personal_website.url' => 'personal website',
         ];
     }
 }

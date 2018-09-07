@@ -8,7 +8,6 @@ use App\Services\CrewsServices;
 use App\Services\SocialLinksServices;
 use Auth;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 
 class CrewProfileController extends Controller
@@ -23,9 +22,9 @@ class CrewProfileController extends Controller
         $user = Auth::user()->load([
             'crew'
         ]);
-        Log::debug($user->crew->social);
         return view('crew.profile.profile-index', [
             'user' => $user,
+            'socialLinkTypes' => $this->getAllSocialLinkTypes($user)
         ]);
     }
 
@@ -40,7 +39,6 @@ class CrewProfileController extends Controller
         $user = Auth::user()->load([
                 'crew'
             ]);
-        Log::debug($user->crew->socials);
         return view('crew.profile.profile-create', [
             'user' => $user,
             'socialLinkTypes' => $this->getAllSocialLinkTypes($user)
@@ -60,11 +58,6 @@ class CrewProfileController extends Controller
         return $socialLinkTypes;
     }
 
-    public function getCrewSocials( $user){
-        return app(CrewsServices::class)->getCrewSocials($user);
-    }
-
-
     /**
      * Store a newly created resource in storage.
      *
@@ -74,7 +67,6 @@ class CrewProfileController extends Controller
     public function store(CreateCrewRequest $request)
     {
         $data = $request->validated();
-        Log::debug($data);
         $user = Auth::user();
         $new = (! $user->crew);
 

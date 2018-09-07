@@ -19,10 +19,20 @@
                         </div>
 
                         <div class="md:flex">
-                            <div class="md:w-1/3 md:pr-6 mb-6">
-                                <div class="flex h-none bg-grey-light items-center justify-center cursor-pointer text-center border border-grey-light w-full pb-full rounded relative background-missing-avatar">
-                                    <span class="text-center uppercase text-sm font-semibold text-black px-2 pos-center w-full">UPLOAD PROFILE PHOTO</span>
+                          <div class="md:w-1/3 md:pr-6 mb-6">
+                                
+                                @if (isset($user->crew->photo))
+                                <div class="flex h-none bg-grey-light items-center justify-center text-center border border-grey-light w-full pb-full rounded relative" style="background: url(/storage/{{ $user->crew->photo }}); background-size: cover;">
                                 </div>
+                                @else 
+                                <div class="flex h-none bg-grey-light items-center justify-center cursor-pointer text-center border border-grey-light w-full pb-full rounded relative background-missing-avatar" >
+                                    <span class="text-center uppercase text-sm font-semibold text-white px-2 pos-center w-full">
+                                    
+                                    <label for="photo-file" class="inline-block text-black cursor-pointer">UPLOAD PROFILE PHOTO</label>
+                                    <input type="file" name="photo" id="photo-file" class="invisible"></input>
+                                    </span>
+                                </div>
+                                @endif
                             </div>
 
                             <div class="md:w-2/3">
@@ -41,8 +51,8 @@
                                     <h3 class="text-md font-header mb-2 md:mb-0">Profile Photo</h3>
                                 </div>
                                 <div class="md:w-2/3">
-                                    <label for="photo-file" class="btn-outline inline-block" >Upload file</label>
-                                    <input type="file" name="photo" id="photo-file" class="hidden"></input>
+                                    <label for="photo-file" class="btn-outline text-green inline-block" >Upload file</label>
+                                    <input type="file" name="photo" id="photo-file" class="invisible"></input>
                                 </div>
                             </div>
                         </div>
@@ -53,8 +63,8 @@
                                     <h3 class="text-md font-header mb-2 md:mb-0">General resume</h3>
                                 </div>
                                 <div class="md:w-2/3">
-                                    <label for="resume-file" class="btn-outline inline-block" >Upload file</label>
-                                    <input type="file" name="resume_file" id="resume-file" class="hidden"></input>
+                                    <label for="resume-file" class="btn-outline text-green inline-block" >Upload file</label>
+                                    <input type="file" name="resume_file" id="resume-file" class="invisible"></input>
                                 </div>
                             </div>
                         </div>
@@ -65,8 +75,7 @@
                                     <h3 class="text-md font-header mt-2 mb-2 md:mb-0">General reel</h3>
                                 </div>
                                 <div class="md:w-2/3">
-                                    <input type="text" name="reel_link" class="form-control bg-light w-64 mr-2 mb-2 md:mb-0" placeholder="Add link"><div> or <label for="reel-file" class="btn-outline inline-block">Upload file</label>
-                                    <input type="file" name="reel_file" id="reel-file" class="hidden"></input>
+                                    <input type="text" name="reel_link" class="form-control bg-light w-64 mr-2 mb-2 md:mb-0" placeholder="Add link"><div>
                                 </div>
                             </div>
                         </div>
@@ -132,8 +141,8 @@
                                     <span class="font-bold font-header text-blue-dark mt-2 block md:text-right mb-2 md:mb-0">General resume</span>
                                 </div>
                                 <div class="md:w-2/3">
-                                    <label for="form-file" class="btn-outline inline-block">Upload file</label>
-                                    {!! Form::file('resume',array('id'=>'form-file' , 'class'=>'hidden')); !!}
+                                    <label for="form-file" class="btn-outline text-green inline-block">Upload file</label>
+                                    {!! Form::file('resume',array('id'=>'form-file' , 'class'=>'invisible')); !!}
                                 </div>
                             </div>
                         </div>
@@ -143,8 +152,7 @@
                                     <span class="font-bold font-header text-blue-dark mt-2 block md:text-right mb-2 md:mb-0">General reel</span>
                                 </div>
                                 <div class="md:w-2/3">
-                                    <input type="text" class="form-control bg-light w-64 mr-2 mb-3 md:mb-0" placeholder="Add link"> or <label for="form-file" class="btn-outline inline-block">Upload file</label>
-                                    {!! Form::file('reel',array('id'=>'form-file' , 'class'=>'hidden')); !!}
+                                    <input type="text" class="form-control bg-light w-64 mr-2 mb-3 md:mb-0" placeholder="Add link">
                                 </div>
                             </div>
                         </div>
