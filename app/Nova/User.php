@@ -4,12 +4,14 @@ namespace App\Nova;
 
 use App\Models\Role;
 use App\Nova\Filters\UserCrew;
+use Cwca\PretendButton\PretendButton;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\Password;
+use Laravel\Nova\Panel;
 
 class User extends Resource
 {
@@ -74,7 +76,12 @@ class User extends Resource
                 return $this->hasRole(Role::CREW);
             }),
 
+            PretendButton::make('Pretend')
+                         ->setUserID($this->id),
+
             Boolean::make('Status'),
+
+            new Panel('Address Information', $this->addressFields()),
 
             Password::make('Password')
                 ->onlyOnForms()
@@ -128,5 +135,18 @@ class User extends Resource
     public function actions(Request $request)
     {
         return [];
+    }
+
+    /**
+     * Get the address fields for the resource.
+     *
+     * @return array
+     */
+    protected function addressFields()
+    {
+        return [
+            Text::make('Email')->hideFromIndex(),
+            Text::make('Full Name')->hideFromIndex(),
+        ];
     }
 }

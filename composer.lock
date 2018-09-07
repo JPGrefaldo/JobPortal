@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "a85e679bb884acc0d4aff14941d1b282",
+    "content-hash": "bf0c9c639fc2efa97373b2912f42f509",
     "packages": [
         {
             "name": "anahkiasen/underscore-php",
@@ -112,6 +112,40 @@
                 "time"
             ],
             "time": "2018-07-11T18:51:56+00:00"
+        },
+        {
+            "name": "cwca/pretend-button",
+            "version": "dev-nova",
+            "dist": {
+                "type": "path",
+                "url": "./nova-components/PretendButton",
+                "reference": "4977b1f82ab595dd7490b0d6a16b5fdd0f9fad99",
+                "shasum": null
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Cwca\\PretendButton\\FieldServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Cwca\\PretendButton\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "A Laravel Nova field.",
+            "keywords": [
+                "laravel",
+                "nova"
+            ]
         },
         {
             "name": "dnoegel/php-xdg-base-dir",

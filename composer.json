@@ -1,7 +1,10 @@
 {
     "name": "laravel/laravel",
     "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "keywords": [
+        "framework",
+        "laravel"
+    ],
     "license": "MIT",
     "type": "project",
     "require": {
@@ -14,7 +17,8 @@
         "pda/pheanstalk": "^3.1",
         "predis/predis": "^1.1@dev",
         "spatie/laravel-activitylog": "^2.5",
-        "spatie/laravel-collection-macros": "^4.0"
+        "spatie/laravel-collection-macros": "^4.0",
+        "cwca/pretend-button": "*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.1",
@@ -36,6 +40,10 @@
         {
             "type": "path",
             "url": "./nova"
+        },
+        {
+            "type": "path",
+            "url": "./nova-components/PretendButton"
         }
     ],
     "autoload": {
@@ -54,8 +62,7 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": [
-            ]
+            "dont-discover": []
         }
     },
     "scripts": {

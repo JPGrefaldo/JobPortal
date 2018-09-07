@@ -7,9 +7,14 @@
         "watch-poll": "npm run watch -- --watch-poll",
         "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
         "prod": "npm run production",
-        "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+        "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "build-link_button": "cd nova-components/LinkButton && npm run dev",
+        "build-link_button-prod": "cd nova-components/LinkButton && npm run prod",
+        "build-pretend-button": "cd nova-components/PretendButton && npm run dev",
+        "build-pretend-button-prod": "cd nova-components/PretendButton && npm run prod"
     },
     "devDependencies": {
+        "@fortawesome/fontawesome-free": "^5.3.1",
         "axios": "^0.18",
         "browser-sync": "^2.24.7",
         "browser-sync-webpack-plugin": "2.0.1",
