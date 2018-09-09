@@ -28,22 +28,40 @@ class EndorsementRequestTest extends TestCase
     /**
      * @test
      */
-    public function crewPosition()
+    public function endorsee()
     {
         // given
-        $crewPosition = factory(CrewPosition::class)->create();
+        $endorsee = factory(Crew::class)->states('withRole')->create();
+        $position = factory(Position::class)->create();
+        $crewPosition = factory(CrewPosition::class)->create(['crew_id' => $endorsee->id, 'position_id' => $position->id]);
+        // crew
 
         // when
-        $endorsementRequest = factory(EndorsementRequest::class)->create([
-            'crew_position_id' => $crewPosition->id
-        ]);
+        $endorsementRequest = factory(EndorsementRequest::class)->create(['crew_position_id' => $crewPosition->id]);
 
         // then
-        $this->assertEquals(
-            $crewPosition->union,
-            $endorsementRequest->crewPosition->union
-        );
+        $this->assertEquals($endorsee->toArray(), $endorsementRequest->endorsee->toArray());
     }
+
+    /**
+     * @test
+     */
+    // public function crewPosition()
+    // {
+    //     // given
+    //     $crewPosition = factory(CrewPosition::class)->create();
+
+    //     // when
+    //     $endorsementRequest = factory(EndorsementRequest::class)->create([
+    //         'crew_position_id' => $crewPosition->id
+    //     ]);
+
+    //     // then
+    //     $this->assertEquals(
+    //         $crewPosition->union,
+    //         $endorsementRequest->crewPosition->union
+    //     );
+    // }
 
     /**
      * @test
@@ -64,62 +82,56 @@ class EndorsementRequestTest extends TestCase
         $this->assertCount(2, $endorsementRequest->endorsements);
     }
 
+    // defer to endorsement.endorser
     /**
      * @test
      */
-    public function endorsers()
-    {
-        $this->withExceptionHandling();
+    // public function endorsers()
+    // {
+    //     $this->withExceptionHandling();
 
-        // given
-        $endorsementRequest = factory(EndorsementRequest::class)->create();
+    //     // given
+    //     $endorsementRequest = factory(EndorsementRequest::class)->create();
 
-        // when
-        $endorsement = factory(Endorsement::class)
-            ->states('approved')
-            ->create([
-                'endorsement_request_id' => $endorsementRequest->id,
-                'endorser_id' => $this->crew->id
-            ]);
+    //     // when
+    //     $endorsement = factory(Endorsement::class)
+    //         ->states('approved')
+    //         ->create([
+    //             'endorsement_request_id' => $endorsementRequest->id,
+    //             'endorser_id' => $this->crew->id
+    //         ]);
 
-        dump($endorsementRequest->endorsements);
-        dump($endorsementRequest->with('endorsements')->get()->toArray());
-        // dump($this->crew);
-        // dump($endorsementRequest);
-        // dump($this->crew->id);
-        // dump($endorsementRequest->endorsers);
-        // dump($endorsementRequest->endorsers()->first());
-        // then
-        // endorsement request endorsers must have the crew
-        $this->assertEquals(
-            $this->crew->id,
-            $endorsementRequest->endorsers->first->id
-        );
-    }
+    //     // then
+    //     // endorsement request endorsers must have the crew
+    //     $this->assertEquals(
+    //         $this->crew->id,
+    //         $endorsementRequest->endorsements->first->endorser->id
+    //     );
+    // }
 
     /**
      * @test
      */
-    public function endorsementBy()
-    {
-        // $this->withoutExceptionHandling();
-        // given
-        $endorsementRequest = factory(EndorsementRequest::class)->create();
+    // public function endorsementBy()
+    // {
+    //     // $this->withoutExceptionHandling();
+    //     // given
+    //     $endorsementRequest = factory(EndorsementRequest::class)->create();
 
-        // when
-        $endorsement = factory(Endorsement::class)
-            ->states('approved')
-            ->create([
-                'endorsement_request_id' => $endorsementRequest->id,
-                'endorser_id' => $this->crew->id,
-            ]);
+    //     // when
+    //     $endorsement = factory(Endorsement::class)
+    //         ->states('approved')
+    //         ->create([
+    //             'endorsement_request_id' => $endorsementRequest->id,
+    //             'endorser_id' => $this->crew->id,
+    //         ]);
 
-        // then
-        $this->assertEquals(
-            $endorsement->endorser_id,
-            $endorsementRequest->endorsementBy($this->crew)->endorser_id
-        );
-    }
+    //     // then
+    //     $this->assertEquals(
+    //         $endorsement->endorser_id,
+    //         $endorsementRequest->endorsementBy($this->crew)->endorser_id
+    //     );
+    // }
 
     /**
      * @test
@@ -145,24 +157,6 @@ class EndorsementRequestTest extends TestCase
     /**
      * @test
      */
-    public function endorsee()
-    {
-        // given
-        $endorsee = factory(Crew::class)->states('withRole')->create();
-        $position = factory(Position::class)->create();
-        $crewPosition = factory(CrewPosition::class)->create(['crew_id' => $endorsee->id, 'position_id' => $position->id]);
-        // crew
-
-        // when
-        $endorsementRequest = factory(EndorsementRequest::class)->create(['crew_position_id' => $crewPosition->id]);
-
-        // then
-        $this->assertEquals($endorsee->toArray(), $endorsementRequest->endorsee->toArray());
-    }
-
-    /**
-     * @test
-     */
     public function isRequestedBy()
     {
         // given
@@ -181,17 +175,17 @@ class EndorsementRequestTest extends TestCase
     /**
      * @test
      */
-    public function position()
-    {
-        // given
-        $crew = factory(Crew::class)->states('withRole')->create();
-        $position = factory(Position::class)->create();
-        $crewPosition = factory(CrewPosition::class)->create(['crew_id' => $crew->id, 'position_id' => $position->id]);
+    // public function position()
+    // {
+    //     // given
+    //     $crew = factory(Crew::class)->states('withRole')->create();
+    //     $position = factory(Position::class)->create();
+    //     $crewPosition = factory(CrewPosition::class)->create(['crew_id' => $crew->id, 'position_id' => $position->id]);
 
-        // when
-        $endorsementRequest = factory(EndorsementRequest::class)->create(['crew_position_id' => $crewPosition->id]);
+    //     // when
+    //     $endorsementRequest = factory(EndorsementRequest::class)->create(['crew_position_id' => $crewPosition->id]);
 
-        // then
-        $this->assertEquals($position->id, $endorsementRequest->position->id);
-    }
+    //     // then
+    //     $this->assertEquals($position->id, $endorsementRequest->position->id);
+    // }
 }

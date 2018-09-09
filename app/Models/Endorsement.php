@@ -41,10 +41,10 @@ class Endorsement extends Model
         'endorser_email',
     ];
 
-    public function position()
-    {
-        return $this->request->position();
-    }
+    // public function position()
+    // {
+    //     return $this->request->position();
+    // }
 
     public function request()
     {

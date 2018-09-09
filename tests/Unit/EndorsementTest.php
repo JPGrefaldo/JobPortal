@@ -14,22 +14,40 @@ class EndorsementTest extends TestCase
 {
     use RefreshDatabase;
 
+    // public function setUp()
+    // {
+    //     parent::setUp();
+
+    //     $this->user = factory(User::class)->create();
+    //     $this->crew = factory(Crew::class)->create([
+    //         'user_id' => $this->user->id
+    //     ]);
+    // }
+
+
     /**
      * @test
      */
-    public function position()
-    {
-        // given
-        $position = factory(Position::class)->create();
-        $crewPosition = factory(CrewPosition::class)->create(['position_id' => $position->id]);
-        $endorsementRequest = factory(EndorsementRequest::class)->create(['crew_position_id' => $crewPosition->id]);
+    // public function position()
+    // {
+    //     // given
+    //     $position = factory(Position::class)->create();
+    //     $crewPosition = factory(CrewPosition::class)->create([
+    //         'position_id' => $position->id
+    //     ]);
+    //     $endorsementRequest = factory(EndorsementRequest::class)->create([
+    //         'crew_position_id' => $crewPosition->id
+    //     ]);
 
-        // when
-        $endorsement = factory(Endorsement::class)->create(['endorsement_request_id' => $endorsementRequest]);
+    //     // when
+    //     $endorsement = factory(Endorsement::class)->create(
+    //         ['endorsement_request_id' => $endorsementRequest
+    //         ]
+    //     );
 
-        // then
-        $this->assertEquals($position->id, $endorsement->position->id);
-    }
+    //     // then
+    //     $this->assertEquals($position->id, $endorsement->position->id);
+    // }
 
     /**
      * @test
@@ -40,10 +58,15 @@ class EndorsementTest extends TestCase
         $endorsementRequest = factory(EndorsementRequest::class)->create();
 
         // when
-        $endorsement = factory(Endorsement::class)->create(['endorsement_request_id' => $endorsementRequest->id]);
+        $endorsement = factory(Endorsement::class)->create([
+            'endorsement_request_id' => $endorsementRequest->id
+        ]);
 
         // then
-        $this->assertEquals($endorsementRequest->id, $endorsement->request->id);
+        $this->assertEquals(
+            $endorsementRequest->id,
+            $endorsement->request->id
+        );
     }
 
     /**

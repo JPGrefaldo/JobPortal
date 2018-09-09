@@ -19,15 +19,14 @@ class EndorsementController extends Controller
     public function create(EndorsementRequest $endorsementRequest)
     {
         $crew = auth()->user()->crew;
-        dump($crew);
         if ($endorsementRequest->isRequestedBy($crew)) {
-            dump('meeseeks');
             return redirect(
                 route('crew_position.show', $endorsementRequest->position)
             );
         }
 
-        if ($endorsementRequest->isApprovedBy(Auth::user())) {
+        dump($endorsementRequest->isApprovedBy($crew));
+        if ($endorsementRequest->isApprovedBy($crew)) {
             return redirect(route('endorsements.edit', ['endorsementRequest' => $endorsementRequest]));
         }
 

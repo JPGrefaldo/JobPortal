@@ -109,4 +109,10 @@ class Crew extends Model
     {
         return $this->positions()->where('position_id', $position->id)->get()->count() > 0;
     }
+
+    public function endorsements()
+    {
+        return $this->hasMany(Endorsement::class);
+        return $this->hasMany(Endorsement::class, 'endorser_id');
+    }
 }

@@ -34,7 +34,7 @@ class EndorsementFeatureTest extends TestCase
      */
     public function endorsers_with_endorsement_link_can_see_endorsement_comment_create_page()
     {
-        // $this->withoutExceptionHandling();
+        $this->withoutExceptionHandling();
         // given
         $endorsementRequest = factory(EndorsementRequest::class)->create();
 

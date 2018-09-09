@@ -182,7 +182,7 @@ class EndorsementRequestFeatureTest extends TestCase
     /**
      * @test
      */
-    public function an_endorsee_can_only_ask_to_be_endorsed_by_the_same_crew_once()
+    public function an_endorsee_can_only_ask_to_be_endorsed_by_the_same_endorser_once()
     {
         // $this->withoutExceptionHandling();
         // given
