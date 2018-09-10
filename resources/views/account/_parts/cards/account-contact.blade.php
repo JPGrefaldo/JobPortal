@@ -1,6 +1,6 @@
 @component('account._parts.account-card')
     @slot('subtitle')
-        Notifications
+        Contact
     @endslot
 
     @slot('accountContent')

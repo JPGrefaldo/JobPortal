@@ -7,7 +7,6 @@
             </div>
             <div class="p-8 text-right bg-grey-lighter border-top border-grey-light">
                 @csrf
-                <a href="" class="text-grey font-bold mr-4 font-header hover:text-green">Cancel</a>
                 <input type="submit" value="SAVE CHANGES" class="btn-green">
             </div>
         </form>

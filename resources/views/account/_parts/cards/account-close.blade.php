@@ -16,7 +16,6 @@
                 <form action="{{ route('account.close') }}" method="post">
                     @csrf
                     @method('PUT')
-                    <a href="{{ route('account.name') }}" class="text-grey font-bold mr-4 font-header hover:text-green">Cancel</a>
                     <input type="submit" class="btn-red" value="Close" />
                 </form>
             </div>

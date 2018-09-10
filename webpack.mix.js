@@ -28,14 +28,14 @@ mix.js('resources/assets/js/scripts.js', 'public/js');
 
 mix.scripts([
     'resources/assets/js/scroll.js',
-    'resources/assets/js/slick.js',
-    'resources/assets/js/jquery-ui.js'
+    'resources/assets/js/slick.js'
 ], 'public/js/all.js').version();
 
 /** CSS **/
 
 mix.styles(['resources/assets/css/plugins/slick.css',
-    'resources/assets/css/plugins/jquery-ui.css'
+    'node_modules/tooltipster/dist/css/tooltipster.bundle.min.css',
+    'node_modules/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-borderless.min.css'
 ], 'public/css/plugins.css').sourceMaps().version();
 
 mix.styles(['resources/assets/css/extras.css'
@@ -47,5 +47,5 @@ mix.postCss('resources/assets/css/styles.css', 'public/css', [
 
 /** Other **/
 
-mix.browserSync('http://localhost:8000');
+//mix.browserSync('http://localhost:8000');
 
