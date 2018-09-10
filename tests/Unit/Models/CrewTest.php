@@ -138,53 +138,6 @@ class CrewTest extends TestCase
     /**
      * @test
      */
-    // public function getEndorsementRequestBy()
-    // {
-    //     // given
-    //     // crew applied to multiple positions
-    //     $position = factory(Position::class)->create();
-    //     $position2 = factory(Position::class)->create();
-    //     $position3 = factory(Position::class)->create();
-
-    //     $crewPosition = factory(CrewPosition::class)->create([
-    //         'crew_id' => $this->crew->id,
-    //         'position_id' => $position->id,
-    //     ]);
-    //     $crewPosition2 = factory(CrewPosition::class)->create([
-    //         'crew_id' => $this->crew->id,
-    //         'position_id' => $position2->id,
-    //     ]);
-    //     $crewPosition3 = factory(CrewPosition::class)->create([
-    //         'crew_id' => $this->crew->id,
-    //         'position_id' => $position3->id,
-    //     ]);
-
-    //     // appply for endorsement requests
-    //     $endorsementRequest = factory(EndorsementRequest::class)->create([
-    //         'crew_position_id' => $crewPosition->id
-    //     ]);
-    //     $endorsementRequest2 = factory(EndorsementRequest::class)->create([
-    //         'crew_position_id' => $crewPosition2->id
-    //     ]);
-    //     $endorsementRequest3 = factory(EndorsementRequest::class)->create([
-    //         'crew_position_id' => $crewPosition3->id
-    //     ]);
-
-    //     // when
-    //     $subject = $this->crew->getEndorsementRequestBy($position)->first();
-    //     $subject2 = $this->crew->getEndorsementRequestBy($position2)->first();
-    //     $subject3 = $this->crew->getEndorsementRequestBy($position3)->first();
-
-    //     // then
-    //     $this->assertEquals(3, EndorsementRequest::count());
-    //     $this->assertInstanceOf(EndorsementRequest::class, $subject);
-    //     $this->assertInstanceOf(EndorsementRequest::class, $subject2);
-    //     $this->assertInstanceOf(EndorsementRequest::class, $subject3);
-    // }
-
-    /**
-     * @test
-     */
     public function applyFor()
     {
         // given
