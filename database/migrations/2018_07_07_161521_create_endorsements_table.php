@@ -18,7 +18,7 @@ class CreateEndorsementsTable extends Migration
             $table->integer('endorsement_request_id')->unsigned();
             $table->integer('endorser_id')->unsigned()->nullable();
             $table->string('endorser_name')->nullable();
-            $table->string('endorser_email');
+            $table->string('endorser_email')->nullable();
             $table->datetime('approved_at')->nullable();
             $table->text('comment')->nullable();
             $table->timestamps();

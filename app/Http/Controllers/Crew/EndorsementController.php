@@ -25,7 +25,6 @@ class EndorsementController extends Controller
             );
         }
 
-        dump($endorsementRequest->isApprovedBy($crew));
         if ($endorsementRequest->isApprovedBy($crew)) {
             return redirect(route('endorsements.edit', ['endorsementRequest' => $endorsementRequest]));
         }
@@ -42,21 +41,24 @@ class EndorsementController extends Controller
      */
     public function store(EndorsementRequest $endorsementRequest, Request $request)
     {
+        $crew = auth()->user()->crew;
         if ($endorsementRequest->isRequestedBy()) {
-            return response()->json(['errors' => ['email' => ['You can\'t endorse yourself.']]], 403);
+            return response()->json(
+                ['errors' => ['email' => ['You can\'t endorse yourself.']]],
+                403
+            );
         }
 
-        $endorsement = $endorsementRequest->endorsementBy(auth()->user());
-
-        if ($endorsement) {
-            return response()->json(['errors' => 'You already approved this endorsement.'], 403);
+        if ($endorsementRequest->endorsementBy($crew)) {
+            return response()->json(
+                ['errors' => 'You already approved this endorsement.'],
+                403
+            );
         }
 
         $endorsement = Endorsement::create([
             'endorsement_request_id' => $endorsementRequest->id,
-            'endorser_id'            => Auth::id(),
-            'endorser_name'          => Auth::user()->first_name . ' ' . Auth::user()->last_name,
-            'endorser_email'         => Auth::user()->email,
+            'endorser_id'            => $crew->id,
             'approved_at'            => Carbon::now(),
             'comment'                => $request['comment'],
         ]);
@@ -90,9 +92,8 @@ class EndorsementController extends Controller
      */
     public function update(Request $request, EndorsementRequest $endorsementRequest)
     {
-        dump($endorsementRequest);
-        dump($endorsementRequest->endorsements);
-        $endorsement = $endorsementRequest->endorsementBy(auth()->user());
+        $crew = auth()->user()->crew;
+        $endorsement = $endorsementRequest->endorsementBy($crew);
         // TODO: create test for this
         if (! $endorsement) {
             dump('meeseeks');

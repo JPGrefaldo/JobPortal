@@ -37,17 +37,14 @@ class EndorsementRequest extends Model
         return $this->hasMany(Endorsement::class);
     }
 
-    public function endorsementsBy(Crew $crew)
+    public function endorsementBy(Crew $crew)
     {
-        // this should only return one endorsement
-        // since it comes from the endorsement reqeust
-        return $this->endorsements->where('endorser_id', $crew->id);
+        return $this->endorsements->where('endorser_id', $crew->id)->first();
     }
 
     public function isApprovedBy(Crew $crew)
     {
-        dump($this->endorsementsBy($crew));
-        return !! $this->endorsementsBy($crew);
+        return !! $this->endorsementBy($crew);
     }
 
     public function endorsee()
