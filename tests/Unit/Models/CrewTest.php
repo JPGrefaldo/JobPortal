@@ -290,7 +290,7 @@ class CrewTest extends TestCase
      */
     public function endorsements()
     {
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
 
         // given
         $crewPosition = factory(CrewPosition::class)->create([
@@ -301,20 +301,15 @@ class CrewTest extends TestCase
         ]);
 
         // when
-
-        $endorsements = factory(Endorsement::class, 3)->states('approved')
-            ->create()
-            ->each(function ($endorsement) {
-                $this->crew->endorsements()->attach(
-                    $endorsement,
-                    ['endorser_id' => $this->crew->id]
-                );
-            });
-        // endorsements approved by crew
-
+        $endorsements = factory(Endorsement::class)->states('approved')->create([
+            'endorser_id' => $this->crew->id,
+        ]);
 
         // then
         // equals
-        $this->assertEquals($this->crew->endorsements, $endorsements);
+        $this->assertEquals(
+            $this->crew->endorsements->pluck('approved_at'),
+            $endorsements->pluck('approved_at')
+        );
     }
 }

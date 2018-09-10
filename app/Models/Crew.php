@@ -77,10 +77,10 @@ class Crew extends Model
         return $this->hasManyThrough(EndorsementRequest::class, CrewPosition::class, 'crew_id', 'crew_position_id', 'id', 'id');
     }
 
-    public function getEndorsementRequestBy(Position $position)
-    {
-        return $this->endorsementRequests()->where('crew_position.position_id', $position->id);
-    }
+    // public function getEndorsementRequestBy(Position $position)
+    // {
+    //     return $this->endorsementRequests()->where('crew_position.position_id', $position->id);
+    // }
 
     public function applyFor(Position $position, $attributes)
     {
@@ -112,7 +112,6 @@ class Crew extends Model
 
     public function endorsements()
     {
-        return $this->hasMany(Endorsement::class);
         return $this->hasMany(Endorsement::class, 'endorser_id');
     }
 }
