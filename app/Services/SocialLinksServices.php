@@ -38,8 +38,9 @@ class SocialLinksServices
      *
      * @return App\Models\SocialLinkType
      */
-   public function getAllSocialLinkTypes(){
-        $socialLinkTypes = SocialLinkType::all();
-        return $socialLinkTypes;
+   public function getAllSocialLinkTypeWithCrew($user){
+    return SocialLinkType::with(['crew' => function($q) use ($user) {
+                $q->where('crew_id' , $user->crew->id)->get();
+             }])->get();
     }
 }

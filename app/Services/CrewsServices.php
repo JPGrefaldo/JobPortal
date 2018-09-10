@@ -268,27 +268,7 @@ class CrewsServices
 
         return $crew;
     }
-    /**
-     * Combine the data from sociallinktypes and crew socials
-     *
-     * @param \App\Models\CrewSocials $socials
-     * @param \App\Models\SocialLinkType $socialLinks
-     *
-     * @return \App\Models\SocialLinkType array with socials
-     */
-    public function mergeSocialLinkAndCrewData($socials ,  $socialLinks){
-        foreach ($socials as $key => $social) {
-            foreach ($socialLinks as $key => $socialLink) {
-                if($socialLink->id == $social->social_link_type_id){
-                    $socialLink->crew_social = $social;
-                    break;
-                }
-            }
-        }
-
-        return $socialLinks;
-    }
-
+ 
     /**
      * @param array $data
      * @param null|\Illuminate\Http\UploadedFile $photoFile

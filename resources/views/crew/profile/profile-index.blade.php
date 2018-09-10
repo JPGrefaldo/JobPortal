@@ -16,9 +16,9 @@
                         <img src="images/thumb.jpg" class="rounded" alt="" />
                         <ul class="list-reset py-4">
                              @foreach($socialLinkTypes as $key => $socialLinkType)
-                                 @if(isset($socialLinkType->crew_social))
+                                 @if(isset($socialLinkType->crew[0]))
                                  <li class="py-1">
-                                     <a href="{{$socialLinkType->crew_social->url}}" target="_blank" class="flex items-center">
+                                     <a href="{{$socialLinkType->crew[0]->url}}" target="_blank" class="flex items-center">
                                         <div class="p-1 flex w-12 h-12">
                                             <span class="flex w-10 items-center leading-normal rounded rounded-r-none  whitespace-no-wrap text-grey-dark" style="background: url(/{{ $socialLinkType->image}}); background-size: cover;"></span>
                                         </div>
@@ -34,10 +34,9 @@
                         <div class="bg-grey-lighter p-6 rounded my-8">
                            <p>
                             @if (isset($user->crew))
-                                {{ $user->crew->bio }}
-                            @endif
-                            <a href="/my-profile/edit/{id}" class="text-sm text-grey tracking-wide">Read more</a>
-                        </p>
+                                {{ $user->crew->bio }} 
+                            @endif                               
+                            </p>
                         </div>
                         <div class="pb-2 md:flex">
                            @if(isset($user->crew->reel))
@@ -85,7 +84,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="py-4">
                     <a href='#' class="text-grey text-sm float-right">
                         <i class="fas fa-pencil-alt mr-2"></i>Edit section</a>
