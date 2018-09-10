@@ -61,4 +61,8 @@ class DepartmentsServices
 
         return $data;
     }
+
+    public function getAllWithPositions(){
+        return Department::with('positions')->get();
+    }
 }

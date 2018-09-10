@@ -45,11 +45,17 @@ class CrewsServices
             }
         }
 
-        if ($data['reel']) {
+        if ($data['reel_link']) {
             $this->createGeneralReel([
-                'url'     => $data['reel'],
+                'url'     => $data['reel_link'],
                 'crew_id' => $crew->id,
             ]);
+        }
+
+        if ($data['reel_file']) {
+            if ($data['reel_file'] instanceof UploadedFile) {
+                $this->createGeneralReelFile($data['reel_file'], $crew);
+            }
         }
 
         $this->createSocials($data['socials'], $crew);
@@ -58,7 +64,8 @@ class CrewsServices
     }
 
     /**
-     * Create crew
+     *
+      Create crew
      *
      * @param array $data
      * @param \Illuminate\Http\UploadedFile $photoFile
@@ -81,6 +88,7 @@ class CrewsServices
         return Crew::create($data);
     }
 
+
     /**
      * @param \Illuminate\Http\UploadedFile $resumeFile
      * @param \App\Models\Crew $crew
@@ -90,21 +98,49 @@ class CrewsServices
     public function createGeneralResume(UploadedFile $resumeFile, Crew $crew)
     {
         $data = array_merge(
-            $this->prepareGeneralResumeData([
+            $this->prepareGeneralFileData([
                 'file' => $resumeFile,
                 'dir'  => $crew->user->uuid,
-            ]),
+            ] , 'resume' ),
             ['general' => 1]
         );
+
 
 
         Storage::put($data['url'], file_get_contents($resumeFile));
 
         $resume = new CrewResume($data);
 
-        $crew->resumes()->save($resume);
+        $crew->resume()->save($resume);
 
         return $resume;
+    }
+
+    /**
+     * @param \Illuminate\Http\UploadedFile $reelFile
+     * @param \App\Models\Crew $crew
+     *
+     * @return \App\Models\CrewResume
+     */
+    public function createGeneralReelFile(UploadedFile $reelFile, Crew $crew)
+    {
+        $data = array_merge(
+            $this->prepareGeneralFileData([
+                'file' => $reelFile,
+                'dir'  => $crew->user->uuid,
+            ] , 'reel'),
+            ['general' => 1],
+            ['type' => 'file']
+        );
+
+
+        Storage::put($data['url'], file_get_contents($reelFile));
+
+        $reel = new CrewReel($data);
+
+        $crew->reel()->save($reel);
+
+        return $reel;
     }
 
     /**
@@ -115,20 +151,18 @@ class CrewsServices
     {
         $crewSocials = [];
 
-        if (! empty($socialData['youtube']['url'])) {
-            $socialData['youtube']['url'] = StrUtils::cleanYouTube($socialData['youtube']['url']);
-        }
 
-        foreach ($socialData as $data) {
-            if ($data['url'] != '') {
+        foreach ($socialData as $key => $data) {
+            if (!is_null($data) && $data != ''  ) {
                 $crewSocials[] = new CrewSocial([
-                    'social_link_type_id' => $data['id'],
-                    'url'                 => $data['url'],
+                    'social_link_type_id' => $key,
+                    'url'                 => $data,
                 ]);
             }
         }
 
-        $crew->social()->saveMany($crewSocials);
+        $crew->socials()->saveMany($crewSocials);
+
     }
 
 
@@ -137,14 +171,19 @@ class CrewsServices
      *
      * @return \App\Models\CrewReel
      */
-    public function createGeneralReel(array $data)
+    public function createGeneralReel(array $data , Crew $crew)
     {
         $data = array_merge(
             $this->prepareGeneralReelData($data),
-            ['general' => 1]
+            ['general' => 1],
+            ['type' => 'link']
         );
 
-        return CrewReel::create($data);
+        $reel = CrewReel::create($data);
+
+        $crew->reel()->save($reel);
+
+        return $reel;
     }
 
     /**
@@ -201,18 +240,25 @@ class CrewsServices
             ]);
         }
 
-        if (isset($data['resume'])) {
-            if ($data['resume'] instanceof UploadedFile) {
-                $this->updateGeneralResume($data['resume'], $crew);
+        if (isset($data['resume_file'])) {
+            if ($data['resume_file'] instanceof UploadedFile) {
+                $this->updateGeneralResume($data['resume_file'], $crew);
             }
         }
 
-        if (isset($data['reel'])) {
-            if ($data['reel']) {
+        if (isset($data['reel_link'])) {
+            if ($data['reel_link']) {
                 $this->updateGeneralReel(
-                    ['url' => $data['reel']],
+                    ['url' => $data['reel_link'],
+                     'type' => 'link'],
                     $crew
                 );
+            }
+        }
+
+        if (isset($data['reel_file'])) {
+            if ($data['reel_file'] instanceof UploadedFile) {
+                $this->updateGeneralReelFile($data['reel_file'], $crew);
             }
         }
 
@@ -222,7 +268,7 @@ class CrewsServices
 
         return $crew;
     }
-
+ 
     /**
      * @param array $data
      * @param null|\Illuminate\Http\UploadedFile $photoFile
@@ -288,10 +334,10 @@ class CrewsServices
             return $resume;
         }
 
-        $data = $this->prepareGeneralResumeData([
+        $data = $this->prepareGeneralFileData([
             'file' => $resumeFile,
             'dir'  => $crew->user->uuid,
-        ]);
+        ], 'resume');
 
         // delete the old resume and store the new one
         Storage::delete($resume->url);
@@ -303,18 +349,60 @@ class CrewsServices
     }
 
     /**
+     * @param \Illuminate\Http\UploadedFile $reelFile
+     * @param \App\Models\Crew $crew
+     *
+     * @return \App\Models\CrewReel
+     */
+    public function updateGeneralReelFile(UploadedFile $reelFile, Crew $crew)
+    {
+        $reel = CrewReel::where('crew_id', $crew->id)
+            ->where('general', 1)
+            ->first();
+
+        if (! $reel) {
+            $reel = $this->createGeneralReelFile($reelFile, $crew);
+
+            return $reel;
+        }
+
+        $data = $this->prepareGeneralFileData([
+            'file' => $reelFile,
+            'dir'  => $crew->user->uuid,
+        ],'reel');
+
+        // delete the old resume and store the new one
+        Storage::delete($reel->url);
+        Storage::put($data['url'], file_get_contents($reelFile));
+
+        $reel->update($data);
+
+        return $reel;
+    }
+
+    /**
      * @param array $resumeData
+     * @param string $type
      *
      * @return array
      */
-    public function prepareGeneralResumeData(array $resumeData)
+    public function prepareGeneralFileData(array $fileData ,string $type)
     {
-        return [
-            'url' => StoragePath::BASE_RESUME
-                . '/' . $resumeData['dir']
-                . '/' . $resumeData['file']->hashName(),
-        ];
+        if($type === 'reel'){
+            return [
+                'url' => StoragePath::BASE_REEL
+                    . '/' . $fileData['dir']
+                    . '/' . $fileData['file']->hashName(),
+            ];
+        }else if($type === 'resume'){
+            return [
+                'url' => StoragePath::BASE_RESUME
+                    . '/' . $fileData['dir']
+                    . '/' . $fileData['file']->hashName(),
+            ];
+         }
     }
+
 
     /**
      * @param array $socialData
@@ -343,7 +431,7 @@ class CrewsServices
             return $this->createGeneralReel(array_merge(
                 $data,
                 ['crew_id' => $crew->id]
-            ));
+            ),$crew);
         }
 
         $reel->update($this->prepareGeneralReelData($data));

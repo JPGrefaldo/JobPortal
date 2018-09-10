@@ -5,8 +5,12 @@ namespace App\Http\Controllers\Crew;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateCrewRequest;
 use App\Services\CrewsServices;
+use App\Services\SocialLinksServices;
+use App\Services\DepartmentsServices;
 use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+
 
 class CrewProfileController extends Controller
 {
@@ -17,10 +21,13 @@ class CrewProfileController extends Controller
      */
     public function index()
     {
+        $user = Auth::user()->load([
+            'crew'
+        ]);
         return view('crew.profile.profile-index', [
-            'user' => Auth::user()->load([
-                'crew',
-            ]),
+            'user' => $user,
+            'socialLinkTypes' => $this->getAllSocialLinkTypes($user),
+            'departments' => $this->getDepartments()
         ]);
     }
 
@@ -31,11 +38,32 @@ class CrewProfileController extends Controller
      */
     public function create()
     {
+
+        $user = Auth::user()->load([
+                'crew'
+            ]);
         return view('crew.profile.profile-create', [
-            'user' => Auth::user()->load([
-                'crew',
-            ]),
+            'user' => $user,
+            'socialLinkTypes' => $this->getAllSocialLinkTypes($user),
+            'departments' => $this->getDepartments()
+
+            
         ]);
+    }
+
+    /**
+     * Get all the social link type via service.
+     *
+     * @return App\Models\SocialLinkType
+     */
+    public function getAllSocialLinkTypes($user){
+        $socialLinkTypes =  app(SocialLinksServices::class)->getAllSocialLinkTypeWithCrew($user);
+        return $socialLinkTypes;
+    }
+
+    public function getDepartments(){
+        $departments = app(DepartmentsServices::class)->getAllWithPositions();
+        return $departments;
     }
 
     /**
