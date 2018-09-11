@@ -3,6 +3,7 @@
 The site allows people (producer) that are creating a media project, such as tv, film, commercials, find people (crew) with specific types of skills or equipment, such as hair and makeup, sound, camera people, director, etc. to work on it.
 
 - Project
+    - [Technical](docs/project.md#technical)
     - [Documentation](docs/project.md#documents)
     - [Contributing to the project](docs/project.md#contributing-to-the-project)
 - Frontend Development
