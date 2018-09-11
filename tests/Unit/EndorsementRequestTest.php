@@ -53,26 +53,6 @@ class EndorsementRequestTest extends TestCase
     /**
      * @test
      */
-    // public function crewPosition()
-    // {
-    //     // given
-    //     $crewPosition = factory(CrewPosition::class)->create();
-
-    //     // when
-    //     $endorsementRequest = factory(EndorsementRequest::class)->create([
-    //         'crew_position_id' => $crewPosition->id
-    //     ]);
-
-    //     // then
-    //     $this->assertEquals(
-    //         $crewPosition->union,
-    //         $endorsementRequest->crewPosition->union
-    //     );
-    // }
-
-    /**
-     * @test
-     */
     public function endorsements()
     {
         // given
@@ -88,33 +68,6 @@ class EndorsementRequestTest extends TestCase
         // then
         $this->assertCount(2, $endorsementRequest->endorsements);
     }
-
-    // defer to endorsement.endorser
-    /**
-     * @test
-     */
-    // public function endorsers()
-    // {
-    //     $this->withExceptionHandling();
-
-    //     // given
-    //     $endorsementRequest = factory(EndorsementRequest::class)->create();
-
-    //     // when
-    //     $endorsement = factory(Endorsement::class)
-    //         ->states('approved')
-    //         ->create([
-    //             'endorsement_request_id' => $endorsementRequest->id,
-    //             'endorser_id' => $this->crew->id
-    //         ]);
-
-    //     // then
-    //     // endorsement request endorsers must have the crew
-    //     $this->assertEquals(
-    //         $this->crew->id,
-    //         $endorsementRequest->endorsements->first->endorser->id
-    //     );
-    // }
 
     /**
      * @test
@@ -146,7 +99,7 @@ class EndorsementRequestTest extends TestCase
      */
     public function isApprovedBy()
     {
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
 
         // given
         $randomCrew = factory(Crew::class)->create();
@@ -182,21 +135,4 @@ class EndorsementRequestTest extends TestCase
         $this->assertTrue($endorsementRequest->isRequestedBy($user));
         $this->assertFalse($endorsementRequest->isRequestedBy($randomUser));
     }
-
-    /**
-     * @test
-     */
-    // public function position()
-    // {
-    //     // given
-    //     $crew = factory(Crew::class)->states('withRole')->create();
-    //     $position = factory(Position::class)->create();
-    //     $crewPosition = factory(CrewPosition::class)->create(['crew_id' => $crew->id, 'position_id' => $position->id]);
-
-    //     // when
-    //     $endorsementRequest = factory(EndorsementRequest::class)->create(['crew_position_id' => $crewPosition->id]);
-
-    //     // then
-    //     $this->assertEquals($position->id, $endorsementRequest->position->id);
-    // }
 }

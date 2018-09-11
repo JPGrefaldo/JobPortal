@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Role;
 use Faker\Generator as Faker;
 
 $factory->define(App\Models\Crew::class, function (Faker $faker) {
@@ -27,14 +26,3 @@ $factory->state(App\Models\Crew::class, 'PhotoUpload', function (Faker $faker) {
         },
     ];
 });
-
-// $factory->state(App\Models\Crew::class, 'withRole', function (Faker $faker) {
-//     return [
-//         'user_id' => function () use ($faker) {
-//             $user = factory(\App\Models\User::class)->create();
-//             $role = Role::where('name', Role::CREW)->first();
-//             $user->roles()->save($role);
-//             return $user->id;
-//         },
-//     ];
-// });

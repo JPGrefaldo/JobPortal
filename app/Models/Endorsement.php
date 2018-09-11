@@ -41,11 +41,6 @@ class Endorsement extends Model
         'endorser_email',
     ];
 
-    // public function position()
-    // {
-    //     return $this->request->position();
-    // }
-
     public function request()
     {
         return $this->belongsTo(EndorsementRequest::class, 'endorsement_request_id');

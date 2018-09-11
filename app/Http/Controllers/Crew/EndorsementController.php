@@ -96,7 +96,6 @@ class EndorsementController extends Controller
         $endorsement = $endorsementRequest->endorsementBy($crew);
         // TODO: create test for this
         if (! $endorsement) {
-            dump('meeseeks');
             return redirect()->back();
         }
         $endorsement->comment = $request->comment;

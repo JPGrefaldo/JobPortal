@@ -95,7 +95,7 @@ class EndorsementRequestFeatureTest extends TestCase
      */
     public function endorsees_can_ask_endorsements_from_endorsers()
     {
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
 
         // given
         $position = factory(Position::class)->create();

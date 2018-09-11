@@ -25,5 +25,3 @@ $factory
     ->afterCreatingState(App\Models\User::class, 'withCrewRole', function ($user, $faker) {
         $user->roles()->attach(Role::where('name', Role::CREW)->first());
     });
-
-    // should we add a state for adding Crew model?

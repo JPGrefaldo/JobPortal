@@ -35,7 +35,7 @@ class EndorsementFeatureTest extends TestCase
      */
     public function endorsers_with_endorsement_link_can_see_endorsement_comment_create_page()
     {
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
         // given
         $endorsementRequest = factory(EndorsementRequest::class)->create();
 
@@ -76,7 +76,7 @@ class EndorsementFeatureTest extends TestCase
      */
     public function if_endorser_already_approved_a_request_then_he_is_redirected_to_edit_endorsement_comment()
     {
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
         // given
         $endorsement = factory(Endorsement::class)
             ->states('approved')
@@ -125,7 +125,7 @@ class EndorsementFeatureTest extends TestCase
      */
     public function endorser_can_approve_an_endorsement_request()
     {
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
 
         // given
         $endorsementRequest = factory(EndorsementRequest::class)->create();
@@ -232,9 +232,8 @@ class EndorsementFeatureTest extends TestCase
     public function endorsers_can_update_their_comment()
     {
         $this->withoutExceptionHandling();
+
         // given
-        // $comment = $this->faker->sentence;
-        // $comment2 = $this->faker->sentence;
         $endorsement = factory(Endorsement::class)
             ->states('approved')
             ->create(['endorser_id' => $this->crew->id]);
@@ -299,7 +298,6 @@ class EndorsementFeatureTest extends TestCase
     {
         // $this->withoutExceptionHandling();
         // given
-        // $endorsee = factory(Crew::class)->states('withRole')->create();
         $appliedPosition = factory(Position::class)->create();
         $crewPosition = factory(CrewPosition::class)->create([
             'crew_id' => $this->crew->id,

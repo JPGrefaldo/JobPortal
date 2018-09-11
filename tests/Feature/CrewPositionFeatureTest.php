@@ -30,7 +30,6 @@ class CrewPositionFeatureTest extends TestCase
     {
         // $this->withoutExceptionHandling();
         // given
-        // $crew     = factory(Crew::class)->states('withRole')->create();
         $position = factory(Position::class)->create();
         $crewPosition = factory(CrewPosition::class)->make()->toArray();
 

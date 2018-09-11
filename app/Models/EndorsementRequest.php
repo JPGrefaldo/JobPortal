@@ -60,14 +60,6 @@ class EndorsementRequest extends Model
         return $this->endorsee->user->id === $user->id;
     }
 
-    // public function endorsers()
-    // {
-    //     // return $this->endorsements()->endorser;
-    //     // return $this->endorsements()->endorser();
-    //     // return $this->endorsements->endorser;
-    //     return $this->endorsements->endorser();
-    // }
-
     public function position()
     {
         return $this->crewPosition->position();
