@@ -27,6 +27,14 @@ yarn add tailwindcss --dev
 
 All Tailwind's CSS configuration is done by the [tailwind.js](crewcalls/blob/master/tailwind.js) file
 
+### Adding CSS
+
+First make sure that tailwind does not contain what you need.
+
+- Add CSS classes to `resources/assets/css/styles.css`
+- Compile using laravel mix
+    - If pushing please compile a production build of the CSS assets
+
 ## Laravel Mix
 
 We will be using Laravel Mix to compile all of the frontend assets
@@ -47,7 +55,20 @@ npm run dev
 npm run production
 ```
 
+If you are working on changes you can also run
+
+```npm
+npm run watch
+```
+
+This will watch for changes and compile to dev
+
 ## JQuery
+
+### Adding JQuery
+
+- Add any JQuery to `resources/assets/js/app.js`
+- Run laravel mix
 
 ### Added packages
 

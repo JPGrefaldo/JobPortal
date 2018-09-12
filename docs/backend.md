@@ -1,4 +1,4 @@
-# Backend Infromation
+# Backend Information
 
 ## Technical
 
@@ -9,4 +9,21 @@
 
 MySQL 5.7 will be used as the primary DB in production.
 
-For testing it is recommended to use Sqlite
+### Local
+
+For local development it is recommended to use sqlite
+
+#### Linux
+
+```linux
+touch database/database.sqlite
+```
+
+#### Windows
+
+Create a new file `database/database.sqlite`
+
+### Testing
+
+phpUnit will use sqlite in memory.  Nothing special is required
+
