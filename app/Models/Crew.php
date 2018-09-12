@@ -72,11 +72,18 @@ class Crew extends Model
         return $this->hasMany(CrewSocial::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
     public function endorsementRequests()
     {
         return $this->hasManyThrough(EndorsementRequest::class, CrewPosition::class, 'crew_id', 'crew_position_id', 'id', 'id');
     }
 
+    /**
+     * @param Position $position
+     * @param $attributes
+     */
     public function applyFor(Position $position, $attributes)
     {
         $this->positions()->attach($position, [
@@ -85,6 +92,11 @@ class Crew extends Model
         ]);
     }
 
+    /**
+     * @param EndorsementRequest $endorsementRequest
+     * @param array $attributes
+     * @return Model
+     */
     public function approve(EndorsementRequest $endorsementRequest, $attributes = [])
     {
         return Endorsement::firstOrCreate(
@@ -99,11 +111,18 @@ class Crew extends Model
         );
     }
 
+    /**
+     * @param $position
+     * @return bool
+     */
     public function hasPosition($position)
     {
         return $this->positions()->where('position_id', $position->id)->get()->count() > 0;
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function endorsements()
     {
         return $this->hasMany(Endorsement::class, 'endorser_id');

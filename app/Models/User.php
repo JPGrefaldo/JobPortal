@@ -87,6 +87,9 @@ class User extends Authenticatable
         return $this->hasOne(UserBanned::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function crew()
     {
         return $this->hasOne(Crew::class);

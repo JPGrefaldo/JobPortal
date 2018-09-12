@@ -29,6 +29,9 @@ class ProjectJob extends Model
         'pay_type_id'          => 'integer',
     ];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function project()
     {
         return $this->belongsTo(Project::class, 'project_id', 'id');

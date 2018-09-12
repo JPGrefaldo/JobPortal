@@ -41,11 +41,17 @@ class Endorsement extends Model
         'endorser_email',
     ];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function request()
     {
         return $this->belongsTo(EndorsementRequest::class, 'endorsement_request_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function endorser()
     {
         return $this->belongsTo(Crew::class, 'endorser_id');
