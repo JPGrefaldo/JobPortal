@@ -8,7 +8,6 @@ use App\Models\Endorsement;
 use App\Models\EndorsementRequest;
 use App\Models\Position;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\Support\SeedDatabaseAfterRefresh;
@@ -164,7 +163,6 @@ class EndorsementFeatureTest extends TestCase
             'endorser_id' => $this->crew->id,
             'endorser_name' => null,
             'endorser_email' => null,
-            'approved_at' => Carbon::now(),
             'comment' => 'This is my comment'
         ]);
         $this->assertDatabaseHas('endorsements', [
@@ -172,7 +170,6 @@ class EndorsementFeatureTest extends TestCase
             'endorser_id' => $endorser2->id,
             'endorser_name' => null,
             'endorser_email' => null,
-            'approved_at' => Carbon::now(),
             'comment' => null
         ]);
     }

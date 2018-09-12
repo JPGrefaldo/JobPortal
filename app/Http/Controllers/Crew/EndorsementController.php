@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Crew;
 use App\Http\Controllers\Controller;
 use App\Models\Endorsement;
 use App\Models\EndorsementRequest;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -42,7 +41,7 @@ class EndorsementController extends Controller
     public function store(EndorsementRequest $endorsementRequest, Request $request)
     {
         $crew = auth()->user()->crew;
-        if ($endorsementRequest->isRequestedBy()) {
+        if ($endorsementRequest->isRequestedBy($crew)) {
             return response()->json(
                 ['errors' => ['email' => ['You can\'t endorse yourself.']]],
                 403
@@ -56,13 +55,7 @@ class EndorsementController extends Controller
             );
         }
 
-        $endorsement = Endorsement::create([
-            'endorsement_request_id' => $endorsementRequest->id,
-            'endorser_id'            => $crew->id,
-            'approved_at'            => Carbon::now(),
-            'comment'                => $request['comment'],
-        ]);
-        return $endorsement;
+        return $crew->approve($endorsementRequest, $request);
     }
 
     /**

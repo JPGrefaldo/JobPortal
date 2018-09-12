@@ -87,17 +87,16 @@ class Crew extends Model
 
     public function approve(EndorsementRequest $endorsementRequest, $attributes = [])
     {
-        if ($this->endorsementRequests->contains($endorsementRequest)) {
-            return false;
-        }
-
-        return Endorsement::create([
-            'endorsement_request_id' => $endorsementRequest->id,
-            'endorser_id' => $this->user->id,
-            'endorser_email' => $this->user->email,
-            'approved_at' => Carbon::now(),
-            'comment' => $attributes['comment'] ?? null,
-        ]);
+        return Endorsement::firstOrCreate(
+            [
+                'endorsement_request_id' => $endorsementRequest->id,
+                'endorser_id' => $this->id,
+            ],
+            [
+                'approved_at' => Carbon::now(),
+                'comment' => $attributes['comment'] ?? null,
+            ]
+        );
     }
 
     public function hasPosition($position)

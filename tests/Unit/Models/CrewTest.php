@@ -169,52 +169,20 @@ class CrewTest extends TestCase
     public function approve()
     {
         // given
-        $anotherCrew = factory(Crew::class)->create();
-        $crewPosition = factory(CrewPosition::class)->create([
-            'crew_id' => $anotherCrew->id,
-        ]);
-        $endorsementRequest = factory(EndorsementRequest::class)->create([
-            'crew_position_id' => $crewPosition->id
-        ]);
+        $endorsementRequest = factory(EndorsementRequest::class)->create();
         $comment = 'Some comment';
 
         // when
+        $this->crew->approve($endorsementRequest, ['comment' => $comment]);
         $this->crew->approve($endorsementRequest, ['comment' => $comment]);
 
         // then
         $this->assertDatabaseHas('endorsements', [
             'endorsement_request_id' => $endorsementRequest->id,
             'endorser_id' => $this->crew->user->id,
-            'endorser_email' => $this->crew->user->email,
             'comment' => $comment,
         ]);
-    }
-
-    /**
-     * @test
-     */
-    public function can_not_approve_oneselves_endorsement_request()
-    {
-        // given
-        $crewPosition = factory(CrewPosition::class)->create([
-            'crew_id' => $this->crew->id
-        ]);
-        $endorsementRequest = factory(EndorsementRequest::class)->create([
-            'crew_position_id' => $crewPosition->id
-        ]);
-        $comment = 'Some comment';
-
-        // when
-        $bool = $this->crew->approve($endorsementRequest, ['comment' => $comment]);
-
-        // then
-        $this->assertFalse($bool);
-        $this->assertDatabaseMissing('endorsements', [
-            'endorsement_request_id' => $endorsementRequest->id,
-            'endorser_id' => $this->crew->user->id,
-            'endorser_email' => $this->crew->user->email,
-            'comment' => $comment,
-        ]);
+        $this->assertCount(1, Endorsement::all());
     }
 
     /**

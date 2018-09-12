@@ -52,12 +52,9 @@ class EndorsementRequest extends Model
         return $this->crewPosition->crew();
     }
 
-    public function isRequestedBy($user = null)
+    public function isRequestedBy(Crew $crew)
     {
-        if (! $user) {
-            $user = auth()->user();
-        }
-        return $this->endorsee->user->id === $user->id;
+        return $this->endorsee->id === $crew->id;
     }
 
     public function position()
