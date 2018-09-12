@@ -12,7 +12,10 @@ The site allows people (producer) that are creating a media project, such as tv,
 - Frontend
     - [Technical](docs/front-end.md#technical)
     - [Tailwind](docs/front-end.md#tailwind)
+        - [Adding](docs/front-end.md#adding-css)
     - [Laravel Mix](docs/front-end.md#laravel-mix)
+    - [JQuery](docs/front-end.md#jquery)
+        - [Adding](docs/front-end.md#adding-jquery)
 - Laravel Packages
 
 ## Create test user
