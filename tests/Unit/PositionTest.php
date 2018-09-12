@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use App\Models\Crew;
 use App\Models\CrewPosition;
+use App\Models\Department;
 use App\Models\Position;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -37,5 +38,22 @@ class PositionTest extends TestCase
             'details' => $crewPosition->details,
             'union_description' => $crewPosition->union_description
         ]);
+    }
+
+    /**
+     * @test
+     */
+    public function department()
+    {
+        // given
+        $department = factory(Department::class)->create();
+
+        // when
+        $position = factory(Position::class)->create([
+            'department_id' => $department->id,
+        ]);
+
+        // then
+        $this->assertEquals($department->name, $position->department->name);
     }
 }

@@ -30,8 +30,8 @@ class Position extends Model
         return $this->belongsToMany(Crew::class);
     }
 
-    public function roles()
+    public function department()
     {
-        return $this->belongsTo(Department::class, 'department_id', 'id');
+        return $this->belongsTo(Department::class);
     }
 }
