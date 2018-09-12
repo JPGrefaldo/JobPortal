@@ -19,6 +19,9 @@ class EndorsementRequestFeatureTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh, WithFaker;
 
+    protected $user;
+    protected $crew;
+
     public function setUp()
     {
         parent::setUp();
@@ -130,7 +133,7 @@ class EndorsementRequestFeatureTest extends TestCase
         $endorsementRequest = EndorsementRequest::first();
         $this->assertEquals(1, EndorsementRequest::count());
         $this->assertEquals(2, Endorsement::count());
-        // $this->assertCount(2, Endorsement::all()->toArray());
+        $this->assertCount(2, Endorsement::all()->toArray());
 
         $this->assertDatabaseHas('endorsement_requests', [
             'crew_position_id' => $crewPosition->id,

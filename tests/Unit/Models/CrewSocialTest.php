@@ -21,7 +21,7 @@ class CrewSocialTest extends TestCase
         $crewSocial = factory(CrewSocial::class)->create([
             'crew_id' => $crew->id
         ]);
-        $this->assertEquals($crew->id, $crewSocial->crew->id);
+        $this->assertEquals($crew->bio, $crewSocial->crew->bio);
     }
 
     /**
@@ -37,8 +37,8 @@ class CrewSocialTest extends TestCase
 
         // then
         $this->assertEquals(
-            $socialLinkType->id,
-            $crewSocial->socialLinkType->id
+            $socialLinkType->url,
+            $crewSocial->socialLinkType->url
         );
     }
 }

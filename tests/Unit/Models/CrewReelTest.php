@@ -11,6 +11,9 @@ class CrewReelTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected $crew;
+    protected $crewReel;
+
     public function setUp()
     {
         parent::setUp();

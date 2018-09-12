@@ -11,6 +11,9 @@ class CrewResumeTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected $crew;
+    protected $crewResume;
+
     public function setUp()
     {
         parent::setUp();

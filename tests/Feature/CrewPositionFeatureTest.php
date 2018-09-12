@@ -14,6 +14,9 @@ class CrewPositionFeatureTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
 
+    protected $user;
+    protected $crew;
+
     public function setUp()
     {
         parent::setUp();

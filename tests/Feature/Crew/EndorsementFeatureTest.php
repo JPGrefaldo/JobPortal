@@ -18,6 +18,9 @@ class EndorsementFeatureTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh, WithFaker;
 
+    protected $user;
+    protected $crew;
+
     public function setUp()
     {
         parent::setup();
@@ -27,6 +30,7 @@ class EndorsementFeatureTest extends TestCase
             'user_id' => $this->user->id
         ]);
     }
+
     /** CREATE */
     // authorization
     // general logic
@@ -265,24 +269,6 @@ class EndorsementFeatureTest extends TestCase
             'id' => $endorsement2->id,
             'comment' => 'I changed my mind. Here is my new comment.'
         ]);
-    }
-
-    /**
-     * @test
-     */
-    public function endorser_cant_update_non_existing_endorsement()
-    {
-        // given
-        $this->assertTrue(true);
-
-
-        // when
-        // visits to update endorsement that he has not approved yet
-
-        // then
-        // assert missing
-        // redirect to approve it
-        // $this->assert;
     }
 
     /** DELETE */

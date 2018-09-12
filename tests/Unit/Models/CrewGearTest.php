@@ -11,6 +11,8 @@ class CrewGearTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected $crew;
+
     public function setUp()
     {
         parent::setUp();

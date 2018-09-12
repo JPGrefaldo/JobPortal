@@ -11,6 +11,9 @@ class UserNotificationSettingTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected $user;
+    protected $userNotificationSetting;
+
     public function setUp()
     {
         parent::setUp();

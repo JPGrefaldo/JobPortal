@@ -15,6 +15,9 @@ class EndorsementRequestTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected $user;
+    protected $crew;
+
     public function setUp()
     {
         parent::setUp();

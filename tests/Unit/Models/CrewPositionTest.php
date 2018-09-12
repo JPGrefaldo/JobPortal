@@ -12,6 +12,10 @@ class CrewPositionTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected $crew;
+    protected $position;
+    protected $crewPosition;
+
     public function setUp()
     {
         parent::setUp();
