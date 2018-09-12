@@ -16,7 +16,7 @@ The site allows people (producer) that are creating a media project, such as tv,
     - [Laravel Mix](docs/front-end.md#laravel-mix)
     - [JQuery](docs/front-end.md#jquery)
         - [Adding](docs/front-end.md#adding-jquery)
-- Laravel Packages
+- [Laravel Packages](docs/packages.md)
 
 ## Create test user
 
