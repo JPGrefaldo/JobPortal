@@ -69,6 +69,9 @@ class EndorsementController extends Controller
         $endorsement = $endorsementRequest->endorsementBy(auth()->user());
 
         // TODO: endorsee_is_redirected_to_endorsement_create_page_when_editing_non_existent_endorsement
+        if (! $endorsement) {
+            return redirect(route('endorsements.create', $endorsementRequest));
+        }
 
         return view('crew.endorsement.edit', compact(
             'endorsementRequest',

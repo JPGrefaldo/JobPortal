@@ -45,10 +45,6 @@
                             </span>
                         </div>
                         <div class="md:w-2/3 pr-6">
-                            {{-- only show this if the user applied for this position basing it with crew position --}}
-                            {{-- {{ dump(Auth::user()->toArray()) }} --}}
-                            {{-- {{ dump(Auth::user()->hasPosition($position)) }} --}}
-                            {{-- TODO: bugfix --}}
                             @if (auth()->user()->crew->hasPosition($position))
                                 <form action="{{ route('endorsement_requests.store', ['position' => $position]) }}" method="post">
                                     {{ csrf_field() }}

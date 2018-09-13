@@ -222,6 +222,28 @@ class EndorsementFeatureTest extends TestCase
     // authorization
     // validation
     // general logic
+    /**
+     * @test
+     */
+    public function edit()
+    {
+        // given
+        $endorsementRequest = factory(EndorsementRequest::class)->create();
+        $endorsement = factory(Endorsement::class)->states('approved')->create([
+            'endorsement_request_id' => $endorsementRequest->id,
+            'endorser_id' => $this->crew->id,
+        ]);
+
+        // when
+        $response = $this
+            ->actingAs($this->user)
+            ->get(route('endorsements.edit', $endorsementRequest));
+
+        // then
+        $response->assertSee(
+            'Please feel free to leave a comment for this endorsement request.'
+        );
+    }
 
     /** UPDATE */
     // authorization
