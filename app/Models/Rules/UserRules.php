@@ -5,6 +5,7 @@ namespace App\Models\Rules;
 
 
 use App\Models\User;
+use App\Rules\CurrentPassword;
 use App\Rules\Email;
 use App\Rules\Phone;
 use Illuminate\Validation\Rule;
@@ -40,28 +41,37 @@ class UserRules
     /**
      * @param null|int $id
      *
+     * @param bool $unique
      * @return array
      */
-    public static function email($id = null)
+    public static function email($id = null, $unique = true)
     {
-        return [
+        $defaults = [
             'required',
             'confirmed',
             'string',
             'max:255',
             new Email(),
-            Rule::unique('users')->ignore($id),
         ];
+
+        if ($unique) {
+            return array_merge($defaults, [
+                Rule::unique('users')->ignore($id),
+            ]);
+        }
+
+        return $defaults;
     }
 
     /**
      * @param null|int $id
      *
+     * @param bool $unique
      * @return array
      */
-    public static function confirmedEmail($id = null)
+    public static function confirmedEmail($id = null, $unique = true)
     {
-        return array_merge(self::email(), [
+        return array_merge(self::email($id, $unique), [
             'confirmed',
         ]);
     }
@@ -98,5 +108,16 @@ class UserRules
         return array_merge(self::password(), [
             'confirmed',
         ]);
+    }
+
+    /**
+     * @return array
+     */
+    public static function currentPassword()
+    {
+        return [
+            'required',
+            new CurrentPassword(),
+        ];
     }
 }

@@ -1,76 +1,89 @@
 <nav class="bg-white float-left w-full px-3 md:px-6 shadow flex justify-between items-center font-header">
     <div class="w-32 md:w-64 py-1 md:py-0 relative z-10">
         <a href="/" class="flex items-center">
-            <img src="/images/logos/logo-short.svg" alt="crew calls" class="mr-2" />
+            <img src="/images/logos/logo-short.svg" alt="crew calls" class="mr-2"/>
             <span class="text-blue-dark pt-6 pb-1 border-b-2 border-blue-dark text-sm font-bold font-header"/>{{ config('app.name') }}</span>
         </a>
     </div>
     <ul class="list-reset hidden md:flex items-center">
         <li class="border-b-2 border-red border-solid">
-            <a class="block py-6 px-4 tracking-wide block font-bold leading-none uppercase text-sm text-blue-dark hover:text-green" href="/my-projects/{{ Auth::user()->id }}">my projects</a>
+            <a class="block py-6 px-4 tracking-wide block font-bold leading-none uppercase text-sm text-blue-dark hover:text-green"
+               href="/my-projects/{{ Auth::user()->id }}">my projects</a>
         </li>
         <li>
-            <a class="block py-6 px-4 tracking-wide font-bold leading-none uppercase text-sm text-blue-dark hover:text-green" href="#">find projects</a>
+            <a class="block py-6 px-4 tracking-wide font-bold leading-none uppercase text-sm text-blue-dark hover:text-green"
+               href="#">find projects</a>
         </li>
         <li>
             <a class="block py-6 px-4 tracking-wide font-bold leading-none relative uppercase text-sm text-blue-dark hover:text-green"
-                href="/my-messages">messages
-                <span class="h-1 w-1 bg-red absolute rounded">
+               href="/my-messages">messages
+                <span class="h-1 w-1 bg-red absolute rounded"></span>
             </a>
         </li>
     </ul>
     <div class="w-64 hidden md:flex items-center text-right justify-end">
         <div class="mr-3 has-dropdown">
             <div class="py-1 px-2 rounded-lg hover:bg-grey-lighter block">
-                <img src="/images/bell.svg" alt="bell" />
+                <img src="/images/bell.svg" alt="bell"/>
                 <span class="h-1 w-1 bg-red absolute rounded"></span>
             </div>
             <div class="dropdown shadow-md bg-white absolute py-3 font-body">
-                    <ul class="list-reset text-left">
-                        <li class="py-2 px-4">
-                            <a href="/my-profile/{{ Auth::user()->id }}" class="block text-blue-dark hover:text-green">View profile</a>
-                        </li>
-                        <li class="py-2 px-4">
-                            <a href="#" class="block text-blue-dark hover:text-green" >Subscription</a>
-                        </li>
-                        <li class="py-2 px-4">
-                            <a href="/my-account" class="block text-blue-dark hover:text-green">Settings</a>
-                        </li>
-                        <li class="py-2 px-4 border-t mt-2 border-grey-light">
-                            <a href="{{ route('logout') }}" class="block text-blue-dark hover:text-green" onclick="event.preventDefault();
+                <ul class="list-reset text-left">
+                    <li class="py-2 px-4">
+                        <a href="/my-profile/{{ Auth::user()->id }}" class="block text-blue-dark hover:text-green">View
+                            profile</a>
+                    </li>
+                    <li class="py-2 px-4">
+                        <a href="#" class="block text-blue-dark hover:text-green">Subscription</a>
+                    </li>
+                    <li class="py-2 px-4">
+                        <a href="/my-account" class="block text-blue-dark hover:text-green">Settings</a>
+                    </li>
+                    <li class="py-2 px-4 border-t mt-2 border-grey-light">
+                        <a href="{{ route('logout') }}" class="block text-blue-dark hover:text-green" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">Sign out</a>
-                        </li>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    </li>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf
-                        </form>
-                    </ul>
-                </div>
+                    </form>
+                </ul>
+            </div>
         </div>
         <div class="mr-4 items-center cursor-pointer block relative ">
             <div class="has-dropdown">
                 <div class="relative flex justify-center items-center p-1 rounded-lg hover:bg-grey-lighter">
                     <span class="mr-2 inline-block font-semibold text-blue-dark text-sm">{{ Auth::user()->first_name }}</span>
 
-                    @if (isset($biography->photo))
-                    <span class="w-10 h-10 bg-cover rounded-full inline-block" style="background-image: url(/{{ $biography->photo }}"></span>
+                    @if (isset(Auth::user()->crew) && !empty(Auth::user()->crew->photo))
+                        <span class="w-10 h-10 bg-cover rounded-full inline-block"
+                              style="background-image: url(/{{ Auth::user()->crew->photo }}"></span>
                     @else
-                    <span class="w-10 h-10 bg-cover rounded-full inline-block" style="background-image: url(http://i.pravatar.cc/300"></span>
+                        <span class="w-10 h-10 bg-cover rounded-full inline-block background-missing-avatar"></span>
                     @endif
 
                 </div>
                 <div class="dropdown shadow-md bg-white absolute py-3 font-body">
-                <ul class="list-reset text-left">
+                    <ul class="list-reset text-left">
+                        @if(! Route::is('profile'))
+                            <li class="py-2 px-4">
+                                <a href="{{ route('profile') }}" class="block text-blue-dark hover:text-green">View
+                                    profile</a>
+                            </li>
+                        @endif
+                        @if(! Route::is('profile.create'))
+                            <li class="py-2 px-4">
+                                <a href="{{ route('profile.create') }}" class="block text-blue-dark hover:text-green">Edit
+                                    profile</a>
+                            </li>
+                        @endif
                         <li class="py-2 px-4">
-                            <a href="#" class="block text-blue-dark hover:text-green">View profile</a>
+                            <a href="#" class="block text-blue-dark hover:text-green">Subscription</a>
                         </li>
                         <li class="py-2 px-4">
-                            <a href="#" class="block text-blue-dark hover:text-green" >Subscription</a>
-                        </li>
-                        <li class="py-2 px-4">
-                            <a href="#" class="block text-blue-dark hover:text-green">Settings</a>
+                            <a href="{{ route('account.name') }}" class="block text-blue-dark hover:text-green">Account Settings</a>
                         </li>
                         <li class="py-2 px-4 border-t mt-2 border-grey-light">
-                            <a href="{{ route('logout') }}" class="block text-blue-dark hover:text-green" >Sign out</a>
+                            <a href="{{ route('logout') }}" class="block text-blue-dark hover:text-green">Sign out</a>
                         </li>
                     </ul>
                 </div>
@@ -81,28 +94,41 @@
 
 <!-- Mobile nav Section
     ******************************************-->
-    <a href="#" class="btn-nav md:hidden"><div class="icon"></div></a>
+<a href="#" class="btn-nav md:hidden">
+    <div class="icon"></div>
+</a>
 <nav class="nav-mobile bg-black fixed z-50 text-white w-full h-full pin-t pin-l">
     <div class="p-3">
-        <img src="images/logos/logo-long-white.svg" class="w-32" alt="crew calls" />
+        <img src="images/logos/logo-long-white.svg" class="w-32" alt="crew calls"/>
     </div>
     <div class="py-6 px-3 border-t border-grey-dark">
         <div class="relative flex items-center p-1 rounded-lg">
-            <span class="ml-3 w-10 h-10 bg-cover rounded-full inline-block" style="background-image: url(images/thumb.jpg)"></span>
-            <span class="ml-2 inline-block font-semibold text-white text-sm">Bryan</span>
+
+            <span class="ml-3 w-10 h-10 bg-cover rounded-full inline-block @if(! isset($user->crew) || ! $user->crew->photo) background-missing-avatar " @else "
+                  style="background-image: url(images/thumb.jpg)"
+                @endif
+            ></span>
+            <span class="ml-2 inline-block font-semibold text-white text-sm">{{ $user->full_name }}</span>
         </div>
         <ul class="list-reset text-left text-sm">
+            @if(! Route::is('profile'))
+                <li class="py-1 px-4">
+                    <a href="{{ route('profile') }}" class="block text-white">View profile</a>
+                </li>
+            @endif
+            @if(! Route::is('profile.create'))
+                <li class="py-1 px-4">
+                    <a href="{{ route('profile.create') }}" class="block text-white">Edit profile</a>
+                </li>
+            @endif
             <li class="py-1 px-4">
-                <a href="#" class="block text-white">View profile</a>
+                <a href="#" class="block text-white">Subscription</a>
             </li>
             <li class="py-1 px-4">
-                <a href="#" class="block text-white" >Subscription</a>
+                <a href="{{ route('account.name') }}" class="block text-white">Account Settings</a>
             </li>
             <li class="py-1 px-4">
-                <a href="#" class="block text-white">Settings</a>
-            </li>
-            <li class="py-1 px-4">
-                <a href="#" class="block text-white" >Sign out</a>
+                <a href="#" class="block text-white">Sign out</a>
             </li>
         </ul>
     </div>
@@ -110,19 +136,19 @@
         <ul class="list-reset">
             <li class="py-2">
                 <a class="block py-1 px-4 font-header tracking-wide block font-bold leading-none uppercase text-sm text-white hover:text-green"
-                    href="#">my projects</a>
+                   href="#">my projects</a>
             </li>
             <li class="py-2">
                 <a class="block py-1 px-4 font-header tracking-wide font-bold leading-none uppercase text-sm text-white hover:text-green"
-                    href="#">find projects</a>
+                   href="#">find projects</a>
             </li>
             <li class="py-2">
                 <a class="block py-1 px-4 font-header tracking-wide font-bold leading-none uppercase text-sm text-white hover:text-green"
-                    href="#">messages</a>
+                   href="#">messages</a>
             </li>
             <li class="py-2">
                 <a class="block py-1 px-4 font-header tracking-wide font-bold leading-none uppercase text-sm text-white hover:text-green"
-                    href="#">alerts</a>
+                   href="#">alerts</a>
             </li>
         </ul>
     </div>
@@ -130,7 +156,7 @@
         <ul class="list-reset">
             <li class="py-2">
                 <a class="block py-1 px-4 font-header tracking-wide block font-bold leading-none uppercase text-sm text-white hover:text-green"
-                    href="#">QUestions? <span class="text-green">Contact us</span>.</a>
+                   href="#">Questions? <span class="text-green">Contact us</span>.</a>
             </li>
         </ul>
     </div>

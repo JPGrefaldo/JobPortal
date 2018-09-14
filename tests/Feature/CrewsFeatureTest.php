@@ -131,7 +131,6 @@ class CrewsFeatureTest extends TestCase
 
         $user = $this->createCrewUser();
         $data = $this->getCreateData([
-            'bio'                          => '',
             'resume'                       => '',
             'reel'                         => '',
             'socials.facebook.url'         => '',
@@ -156,7 +155,6 @@ class CrewsFeatureTest extends TestCase
 
         $this->assertArraySubset(
             [
-                'bio'   => '',
                 'photo' => 'photos/' . $user->uuid . '/' . $data['photo']->hashName(),
             ],
             $crew->toArray()
@@ -205,7 +203,6 @@ class CrewsFeatureTest extends TestCase
                 'photo'                        => 'The photo must be an image.',
                 'resume'                       => 'The resume must be a file of type: pdf, doc, docx.',
                 'reel'                         => 'The reel must be a valid Reel.',
-                'socials.facebook.id'          => 'The socials.facebook.id field is required.',
                 'socials.facebook.url'         => 'facebook must be a valid Facebook URL.',
                 'socials.twitter.url'          => 'twitter must be a valid Twitter URL.',
                 'socials.youtube.url'          => 'youtube must be a valid YouTube URL.',
@@ -697,7 +694,6 @@ class CrewsFeatureTest extends TestCase
                 'photo'                        => 'The photo must be an image.',
                 'resume'                       => 'The resume must be a file of type: pdf, doc, docx.',
                 'reel'                         => 'The reel must be a valid Reel.',
-                'socials.facebook.id'          => 'The socials.facebook.id field is required.',
                 'socials.facebook.url'         => 'facebook must be a valid Facebook URL.',
                 'socials.twitter.url'          => 'twitter must be a valid Twitter URL.',
                 'socials.youtube.url'          => 'youtube must be a valid YouTube URL.',

@@ -38,51 +38,6 @@ h4,
     color: #fff;
 }
 
-/* Buttons */
-.btn-blue {
-    @apply .bg-blue .text-white .font-bold .py-2 .px-4 .rounded;
-}
-
-.btn-outline {
-    @apply .uppercase .text-sm .font-semibold .border .rounded .border-green .py-2 .px-4 .tracking-wide;
-}
-
-.btn-outline:hover {
-    @apply .border-blue .text-blue;
-}
-
-.btn-green {
-    @apply .inline-block .py-4 .px-8 .font-header .rounded-full .bg-green .uppercase .text-sm .leading-none .tracking-wide .font-bold .text-white;
-}
-
-.btn-green:hover {
-    @apply .bg-blue;
-}
-
-.btn-green-outline {
-    @apply .inline-block .py-4 .px-8 .font-header .rounded-full .border .border-green .uppercase .leading-none .font-bold .text-sm .tracking-wide .text-green;
-}
-
-.btn-green-outline:hover {
-    @apply .text-blue .border-blue;
-}
-
-.btn-white {
-    @apply .inline-block .py-4 .px-8 .font-header .rounded-full .bg-white .uppercase .text-sm .leading-none .tracking-wide .font-bold .text-blue-dark;
-}
-
-.btn-white:hover {
-    @apply .bg-green;
-}
-
-.btn-white-outline {
-    @apply .inline-block .py-4 .px-8 .font-header .rounded-full .border .border-white .uppercase .leading-none .font-bold .text-sm .tracking-wide .text-white;
-}
-
-.btn-white-outline:hover {
-    @apply .border-green .text-green;
-}
-
 /* Cards */
 .card {
     @apply .bg-white .shadow-md .rounded .p-6;
@@ -108,6 +63,67 @@ h4,
     background-repeat: no-repeat;
     background-position: center center;
     @apply .bg-green .border-green;
+}
+
+/* Buttons */
+.btn-rounded {
+    @apply .rounded-full .cursor-pointer .leading-none .tracking-wide;
+}
+
+.btn-outline {
+    @apply .uppercase .text-sm .font-semibold .border .rounded .border-green .py-2 .px-4 .tracking-wide;
+}
+
+.btn-outline:hover {
+    @apply .border-blue .text-blue;
+}
+
+.btn-blue {
+    @apply .btn-rounded .bg-blue .text-white .font-bold .py-2 .px-4;
+}
+
+.btn-blue:hover {
+    @apply .bg-green;
+}
+
+.btn-green {
+    @apply .btn-rounded .inline-block .py-4 .px-8 .font-header .bg-green .uppercase .text-sm .font-bold .text-white;
+}
+
+.btn-green:hover {
+    @apply .bg-blue;
+}
+
+.btn-red {
+    @apply .btn-rounded .inline-block .py-4 .px-8 .font-header .bg-red .uppercase .text-sm .font-bold .text-white;
+}
+
+.btn-red:hover {
+    @apply .bg-black;
+}
+
+.btn-green-outline {
+    @apply .inline-block .py-4 .px-8 .font-header .rounded-full .border .border-green .uppercase .leading-none .font-bold .text-sm .tracking-wide .text-green;
+}
+
+.btn-green-outline:hover {
+    @apply .text-blue .border-blue;
+}
+
+.btn-white {
+    @apply .btn-rounded .inline-block .py-4 .px-8 .font-header .bg-white .uppercase .text-sm .font-bold .text-blue-dark;
+}
+
+.btn-white:hover {
+    @apply .bg-green;
+}
+
+.btn-white-outline {
+    @apply .inline-block .py-4 .px-8 .font-header .rounded-full .border .border-white .uppercase .leading-none .font-bold .text-sm .tracking-wide .text-white;
+}
+
+.btn-white-outline:hover {
+    @apply .border-green .text-green;
 }
 
 /* Forms */
@@ -146,6 +162,25 @@ h4,
 
 .want-to__selected:hover {
     @apply .text-blue-dark .bg-white;
+}
+
+.background-missing-avatar {
+    background-image: url("/images/missing-avatar.png");
+    background-size: cover;
+}
+
+/* Input */
+
+.switch-on {
+    @apply .bg-green .justify-end;
+}
+
+.switch-off {
+    @apply .justify-start;
+}
+
+.tooltip {
+    @apply .ml-2 .rounded-full .bg-grey-lighter .text-grey .text-sm .py-0 .px-2 .cursor-pointer;
 }
 
 @tailwind utilities;

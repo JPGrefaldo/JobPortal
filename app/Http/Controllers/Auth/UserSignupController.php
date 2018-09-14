@@ -7,7 +7,7 @@ use App\Http\Requests\UserSignupRequest;
 use App\Models\Role;
 use App\Models\UserNotificationSetting;
 use App\Services\AuthServices;
-use App\Services\UsersServices;
+use App\Services\User\UsersServices;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 
@@ -18,7 +18,7 @@ class UserSignupController extends Controller
      */
     public function show()
     {
-        return view('auth.register');
+        return view('auth.signup');
     }
 
     /**
@@ -57,8 +57,7 @@ class UserSignupController extends Controller
         }
 
         event(new Registered($user));
-        session()->flash('register-success', 'Please check your email to confirm');
 
-        return redirect('login');
+        return redirect('login')->with('infoMessage', 'Please check your email to confirm');
     }
 }

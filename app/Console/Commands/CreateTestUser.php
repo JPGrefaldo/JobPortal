@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use App\Models\Role;
 use App\Models\Site;
 use App\Services\AuthServices;
-use App\Services\UsersServices;
+use App\Services\User\UsersServices;
 use Illuminate\Console\Command;
 
 class CreateTestUser extends Command
@@ -59,6 +59,12 @@ class CreateTestUser extends Command
         }
 
         $user->confirm();
+
+        $user->notificationSettings()->create([
+            'receive_email_notification' => true,
+            'receive_other_emails' => true,
+            'receive_sms' => true,
+        ]);
 
         $this->info('Created');
     }

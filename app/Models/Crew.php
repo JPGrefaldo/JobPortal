@@ -43,17 +43,17 @@ class Crew extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function reels()
+    public function reel()
     {
-        return $this->hasMany(CrewReel::class);
+        return $this->hasOne(CrewReel::class);
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function resumes()
+    public function resume()
     {
-        return $this->hasMany(CrewResume::class);
+        return $this->hasOne(CrewResume::class);
     }
 
     /**
@@ -67,7 +67,7 @@ class Crew extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function social()
+    public function socials()
     {
         return $this->hasMany(CrewSocial::class);
     }

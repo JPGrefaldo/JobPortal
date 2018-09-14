@@ -38,7 +38,7 @@ class SignupFeatureTest extends TestCase
             ->once()
             ->andReturn('hashed_password');
 
-        $response = $this->post('register', $data);
+        $response = $this->post('signup', $data);
 
         $this->assertSignupSuccess($response, $data);
 
@@ -77,7 +77,7 @@ class SignupFeatureTest extends TestCase
             ->once()
             ->andReturn('hashed_password');
 
-        $response = $this->post('register', $data);
+        $response = $this->post('signup', $data);
 
         $this->assertSignupSuccess($response, $data);
 
@@ -115,7 +115,7 @@ class SignupFeatureTest extends TestCase
             ->once()
             ->andReturn('hashed_password');
 
-        $response = $this->post('register', $data);
+        $response = $this->post('signup', $data);
 
         $this->assertSignupSuccess($response, $data);
 
@@ -158,7 +158,7 @@ class SignupFeatureTest extends TestCase
             ->once()
             ->andReturn('hashed_password');
 
-        $response = $this->post('register', $data);
+        $response = $this->post('signup', $data);
 
         $this->assertSignupSuccess($response,
             array_merge($data, [
@@ -190,7 +190,7 @@ class SignupFeatureTest extends TestCase
             ->once()
             ->andReturn('hashed_password');
 
-        $response = $this->post('register', $data);
+        $response = $this->post('signup', $data);
 
         $this->assertSignupSuccess($response, array_merge($data, ['receive_sms' => 0]));
     }
@@ -215,7 +215,7 @@ class SignupFeatureTest extends TestCase
             ->once()
             ->andReturn('hashed_password');
 
-        $response = $this->post('register', $data);
+        $response = $this->post('signup', $data);
 
         unset($data['password_confirmation']);
         unset($data['email_confirmation']);
@@ -236,7 +236,7 @@ class SignupFeatureTest extends TestCase
             '_token'      => csrf_token(),
         ]);
 
-        $response = $this->post('register', $data);
+        $response = $this->post('signup', $data);
 
         $response->assertSessionHasErrors([
             'email',
@@ -259,7 +259,7 @@ class SignupFeatureTest extends TestCase
             '_token'             => csrf_token(),
         ]);
 
-        $response = $this->post('register', $data);
+        $response = $this->post('signup', $data);
 
         $response->assertSessionHasErrors([
             'email' => 'The email has already been taken.',

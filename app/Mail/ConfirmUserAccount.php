@@ -35,7 +35,7 @@ class ConfirmUserAccount extends Mailable
      */
     public function build()
     {
-        $verificationUrl = url('verify/email/' . $this->user->emailVerificationCode->code);
+        $verificationUrl = route('verify.email', ['code' => $this->user->emailVerificationCode->code]);
 
         return $this->view('emails.auth.confirmAccountPlain')
             ->with(['verificationUrl' => $verificationUrl])

@@ -21,7 +21,7 @@ Vue.component('example-component', require('./components/ExampleComponent.vue'))
 //     el: '#app'
 // });
 
-function reverse_val(element, value) {
+function reverse_val(element) {
     if ($(element).attr('name') == "trash") {
         $(element).attr('name', "type[]");
         return true;
@@ -31,8 +31,8 @@ function reverse_val(element, value) {
     return false;
 }
 
-function reverse_want_to_class(element, selected) {
-    if (selected) {
+function reverse_want_to_class(element) {
+    if ($(element).hasClass("want-to__default")) {
         $(element).removeClass("want-to__default");
         $(element).addClass("want-to__selected");
     } else {
@@ -46,22 +46,59 @@ function reverse_want_to_class(element, selected) {
 $(function() {
     if ($("#select-want-project").length) {
         $("#select-want-project").click(function (event) {
-            if (reverse_val("#type-project", $(this).attr('rel'))) {
-                reverse_want_to_class($(this), true)
-            } else {
-                reverse_want_to_class($(this), false)
-            }
+            reverse_want_to_class($(this));
+            reverse_val("#type-project");
         });
     }
     if ($("#select-want-work").length) {
         $("#select-want-work").click(function (event) {
-            if (reverse_val("#type-work", $(this).attr('rel'))) {
-                reverse_want_to_class($(this), true)
+            reverse_want_to_class($(this));
+            reverse_val("#type-work");
+        });
+    }
+
+    $('.tooltip').tooltipster({
+        trigger: 'click',
+        theme: 'tooltipster-borderless'
+    });
+
+    if ($(".js-switch").length) {
+        $(".js-switch").click(function (event) {
+            if ($(this).hasClass("switch-on")) {
+                $(this).removeClass("switch-on");
+                $(this).addClass("switch-off");
+                $('[name="' + $(this).attr('id') + '"]').val(0);
+
             } else {
-                reverse_want_to_class($(this), false)
+                $(this).removeClass("switch-off");
+                $(this).addClass("switch-on");
+                $('[name="' + $(this).attr('id') + '"]').val(1);
             }
         });
     }
 
     $('.tooltip').tooltip();
+
+    if ($(".js-switch").length) {
+        $(".js-switch").click(function (event) {
+            if ($(this).hasClass("switch-on")) {
+                $(this).removeClass("switch-on");
+                $(this).addClass("switch-off");
+                $('[name="' + $(this).attr('id') + '"]').val(0);
+
+            } else {
+                $(this).removeClass("switch-off");
+                $(this).addClass("switch-on");
+                $('[name="' + $(this).attr('id') + '"]').val(1);
+            }
+        });
+    }
+    $(".url-menu").each(function() {
+        $(this).click(function () {
+            window.location = $(this).attr("href");
+        });
+    });
+
 });
+
+

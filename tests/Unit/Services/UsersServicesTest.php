@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Services;
 
-use App\Services\UsersServices;
+use App\Services\User\UsersServices;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
@@ -27,7 +27,7 @@ class UsersServicesTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Services\UsersServices::create
+     * @covers \App\Services\User\UsersServices::create
      */
     public function create()
     {
@@ -64,7 +64,7 @@ class UsersServicesTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Services\UsersServices::create
+     * @covers \App\Services\User\UsersServices::create
      */
     public function create_formatted()
     {
@@ -101,7 +101,7 @@ class UsersServicesTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Services\UsersServices::prepareData
+     * @covers \App\Services\User\UsersServices::prepareData
      */
     public function prepare_data()
     {
@@ -146,7 +146,7 @@ class UsersServicesTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Services\UsersServices::updateName
+     * @covers \App\Services\User\UsersServices::updateName
      */
     public function update_name()
     {
@@ -162,7 +162,7 @@ class UsersServicesTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Services\UsersServices::updateName
+     * @covers \App\Services\User\UsersServices::updateName
      */
     public function update_name_formatted()
     {
@@ -178,7 +178,7 @@ class UsersServicesTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Services\UsersServices::updateContact
+     * @covers \App\Services\User\UsersServices::updateContact
      */
     public function update_contact()
     {
@@ -194,7 +194,7 @@ class UsersServicesTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Services\UsersServices::updateContact
+     * @covers \App\Services\User\UsersServices::updateContact
      */
     public function update_contact_formatted()
     {
@@ -210,7 +210,7 @@ class UsersServicesTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Services\UsersServices::updatePassword
+     * @covers \App\Services\User\UsersServices::updatePassword
      */
     public function update_password()
     {

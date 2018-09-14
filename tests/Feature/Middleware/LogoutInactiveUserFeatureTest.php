@@ -18,7 +18,7 @@ class LogoutInactiveUserFeatureTest extends TestCase
 
         // user passes auth middleware
         $response = $this->actingAs($user)
-                         ->get('home');
+                         ->get('dashboard');
 
         $response->assertRedirect('login')
                  ->assertSessionHasErrors([
@@ -35,7 +35,7 @@ class LogoutInactiveUserFeatureTest extends TestCase
 
         // user passes auth middleware
         $response = $this->actingAs($user)
-                         ->get('home');
+                         ->get('dashboard');
 
         $response->assertSuccessful();
 
@@ -54,7 +54,7 @@ class LogoutInactiveUserFeatureTest extends TestCase
         $user->refresh();
 
         $response = $this->actingAs($user)
-                         ->get('home');
+                         ->get('dashboard');
 
         $response->assertRedirect('login')
                  ->assertSessionHasErrors([

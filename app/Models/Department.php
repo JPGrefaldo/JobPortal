@@ -19,4 +19,12 @@ class Department extends Model
     protected $casts = [
         'id' => 'integer',
     ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function positions()
+    {
+        return $this->hasMany(Position::class);
+    }
 }

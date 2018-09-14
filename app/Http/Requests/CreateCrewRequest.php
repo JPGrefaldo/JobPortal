@@ -34,21 +34,12 @@ class CreateCrewRequest extends FormRequest
     public function rules()
     {
         return [
-            'bio'                          => 'nullable|string',
-            'photo'                        => 'required|image',
-            'resume'                       => 'nullable|file|mimes:pdf,doc,docx',
-            'reel'                         => ['nullable', 'string', new Reel()],
-            'socials'                      => 'required|array',
-            'socials.*.id'                 => 'required|numeric',
-            'socials.facebook.url'         => ['nullable', 'string', new Facebook()],
-            'socials.twitter.url'          => ['nullable', 'string', new Twitter()],
-            'socials.youtube.url'          => ['nullable', 'string', new YouTube()],
-            'socials.google_plus.url'      => ['nullable', 'string', new GooglePlus(),],
-            'socials.imdb.url'             => ['nullable', 'string', new IMDB(),],
-            'socials.tumblr.url'           => ['nullable', 'string', new Tumblr(),],
-            'socials.vimeo.url'            => ['nullable', 'string', new Vimeo(),],
-            'socials.instagram.url'        => ['nullable', 'string', new Instagram(),],
-            'socials.personal_website.url' => ['nullable', 'string', new TLDR(),],
+            'bio'                          => 'required|nullable|string',
+            'photo'                        => 'image',
+            'resume_file'                  => 'nullable|file|mimes:pdf,doc,docx',
+            'reel_link'                    => ['nullable', 'string', new Reel()],
+            'reel_file'                    => 'nullable|file|mimes:mp4,avi,wmv | max:20000',
+            'socials'                      => 'array',
         ];
     }
 
@@ -59,15 +50,6 @@ class CreateCrewRequest extends FormRequest
     public function attributes()
     {
         return [
-            'socials.facebook.url'         => 'facebook',
-            'socials.twitter.url'          => 'twitter',
-            'socials.youtube.url'          => 'youtube',
-            'socials.google_plus.url'      => 'google plus',
-            'socials.imdb.url'             => 'imdb',
-            'socials.tumblr.url'           => 'tumblr',
-            'socials.vimeo.url'            => 'vimeo',
-            'socials.instagram.url'        => 'instagram',
-            'socials.personal_website.url' => 'personal website',
         ];
     }
 }
