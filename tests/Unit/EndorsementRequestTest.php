@@ -39,7 +39,6 @@ class EndorsementRequestTest extends TestCase
             'crew_id' => $this->crew->id,
             'position_id' => $position->id
         ]);
-        // crew
 
         // when
         $endorsementRequest = factory(EndorsementRequest::class)->create([
@@ -63,7 +62,6 @@ class EndorsementRequestTest extends TestCase
 
         // when
         factory(Endorsement::class, 2)
-            // ->states('approved')
             ->create([
                 'endorsement_request_id' => $endorsementRequest->id
             ]);

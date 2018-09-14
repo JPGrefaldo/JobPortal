@@ -322,17 +322,14 @@ class EndorsementFeatureTest extends TestCase
     {
         // $this->withoutExceptionHandling();
         // given
-        // endorsement request
         $endorsementRequest = factory(EndorsementRequest::class)->create();
 
         // when
         $response = $this->actingAs($this->user)->putJson(
             route('endorsements.update', $endorsementRequest)
         );
-        // updating endorsement
 
         // then
-        // forbidden
         $response->assertForbidden();
     }
 
