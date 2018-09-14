@@ -222,6 +222,7 @@ class EndorsementFeatureTest extends TestCase
     // authorization
     // validation
     // general logic
+
     /**
      * @test
      */
@@ -245,6 +246,26 @@ class EndorsementFeatureTest extends TestCase
         );
     }
 
+    /**
+     * @test
+     */
+    public function endorsee_is_redirected_to_endorsement_create_page_when_editing_non_existent_endorsement()
+    {
+        // $this->withoutExceptionHandling();
+        // given
+        $endorsementRequest = factory(EndorsementRequest::class)->create();
+
+        // when
+        $response = $this->actingAs($this->user)->get(
+            route('endorsements.edit', $endorsementRequest)
+        );
+
+        // then
+        $response->assertRedirect(
+            route('endorsements.create', $endorsementRequest)
+        );
+    }
+
     /** UPDATE */
     // authorization
     // validation
@@ -254,7 +275,7 @@ class EndorsementFeatureTest extends TestCase
      */
     public function endorsers_can_update_their_comment()
     {
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
 
         // given
         $endorsement = factory(Endorsement::class)
@@ -268,16 +289,18 @@ class EndorsementFeatureTest extends TestCase
             ]);
 
         // when
-        $this
-        ->actingAs($this->user)
-        ->putJson(
-            route('endorsements.update', $endorsement->request),
-            ['comment' => 'Forgot to add my comment, so here it is.']
-        );
-        $this->actingAs($this->user)->putJson(
-            route('endorsements.update', $endorsement2->request),
-            ['comment' => 'I changed my mind. Here is my new comment.']
-        );
+        $response = $this
+            ->actingAs($this->user)
+            ->putJson(
+                route('endorsements.update', $endorsement->request),
+                ['comment' => 'Forgot to add my comment, so here it is.']
+            );
+        $response2 = $this
+            ->actingAs($this->user)
+            ->putJson(
+                route('endorsements.update', $endorsement2->request),
+                ['comment' => 'I changed my mind. Here is my new comment.']
+            );
 
         // then
         $this->assertDatabaseHas('endorsements', [
@@ -288,6 +311,29 @@ class EndorsementFeatureTest extends TestCase
             'id' => $endorsement2->id,
             'comment' => 'I changed my mind. Here is my new comment.'
         ]);
+        $response->assertSee('Forgot to add my comment, so here it is.');
+        $response2->assertSee('I changed my mind. Here is my new comment.');
+    }
+
+    /**
+     * @test
+     */
+    public function endorsee_cant_update_non_existing_endorsement()
+    {
+        // $this->withoutExceptionHandling();
+        // given
+        // endorsement request
+        $endorsementRequest = factory(EndorsementRequest::class)->create();
+
+        // when
+        $response = $this->actingAs($this->user)->putJson(
+            route('endorsements.update', $endorsementRequest)
+        );
+        // updating endorsement
+
+        // then
+        // forbidden
+        $response->assertForbidden();
     }
 
     /** DELETE */
@@ -296,7 +342,6 @@ class EndorsementFeatureTest extends TestCase
     // general logic
 
     /**
-     * TODO: move this to crew/position/show
      * @test
      */
     public function endorsee_can_only_see_endorsement_form_on_applied_positions()
