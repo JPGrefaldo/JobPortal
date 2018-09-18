@@ -21,6 +21,7 @@ class CrewsFeatureTest extends TestCase
     /** @test */
     public function create()
     {
+        $this->withExceptionHandling();
         Storage::fake();
 
         $user = $this->createCrewUser();

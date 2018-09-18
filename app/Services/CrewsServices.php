@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Services;
-
 
 use App\Data\StoragePath;
 use App\Models\Crew;
@@ -101,7 +99,7 @@ class CrewsServices
             $this->prepareGeneralFileData([
                 'file' => $resumeFile,
                 'dir'  => $crew->user->uuid,
-            ] , 'resume' ),
+            ], 'resume'),
             ['general' => 1]
         );
 
@@ -128,7 +126,7 @@ class CrewsServices
             $this->prepareGeneralFileData([
                 'file' => $reelFile,
                 'dir'  => $crew->user->uuid,
-            ] , 'reel'),
+            ], 'reel'),
             ['general' => 1],
             ['type' => 'file']
         );
@@ -153,7 +151,7 @@ class CrewsServices
 
 
         foreach ($socialData as $key => $data) {
-            if (!is_null($data) && $data != ''  ) {
+            if (!is_null($data) && $data != '') {
                 $crewSocials[] = new CrewSocial([
                     'social_link_type_id' => $key,
                     'url'                 => $data,
@@ -162,7 +160,6 @@ class CrewsServices
         }
 
         $crew->socials()->saveMany($crewSocials);
-
     }
 
 
@@ -171,7 +168,7 @@ class CrewsServices
      *
      * @return \App\Models\CrewReel
      */
-    public function createGeneralReel(array $data , Crew $crew)
+    public function createGeneralReel(array $data, Crew $crew)
     {
         $data = array_merge(
             $this->prepareGeneralReelData($data),
@@ -250,7 +247,7 @@ class CrewsServices
             if ($data['reel_link']) {
                 $this->updateGeneralReel(
                     ['url' => $data['reel_link'],
-                     'type' => 'link'],
+                        'type' => 'link'],
                     $crew
                 );
             }
@@ -268,7 +265,7 @@ class CrewsServices
 
         return $crew;
     }
- 
+
     /**
      * @param array $data
      * @param null|\Illuminate\Http\UploadedFile $photoFile
@@ -369,7 +366,7 @@ class CrewsServices
         $data = $this->prepareGeneralFileData([
             'file' => $reelFile,
             'dir'  => $crew->user->uuid,
-        ],'reel');
+        ], 'reel');
 
         // delete the old resume and store the new one
         Storage::delete($reel->url);
@@ -386,21 +383,21 @@ class CrewsServices
      *
      * @return array
      */
-    public function prepareGeneralFileData(array $fileData ,string $type)
+    public function prepareGeneralFileData(array $fileData, string $type)
     {
-        if($type === 'reel'){
+        if ($type === 'reel') {
             return [
                 'url' => StoragePath::BASE_REEL
                     . '/' . $fileData['dir']
                     . '/' . $fileData['file']->hashName(),
             ];
-        }else if($type === 'resume'){
+        } elseif ($type === 'resume') {
             return [
                 'url' => StoragePath::BASE_RESUME
                     . '/' . $fileData['dir']
                     . '/' . $fileData['file']->hashName(),
             ];
-         }
+        }
     }
 
 
@@ -431,7 +428,7 @@ class CrewsServices
             return $this->createGeneralReel(array_merge(
                 $data,
                 ['crew_id' => $crew->id]
-            ),$crew);
+            ), $crew);
         }
 
         $reel->update($this->prepareGeneralReelData($data));
