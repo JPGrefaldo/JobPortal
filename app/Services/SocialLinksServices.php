@@ -2,7 +2,8 @@
 
 
 namespace App\Services;
-
+use App\Models\SocialLinkType;
+use Illuminate\Support\Facades\Log;
 
 class SocialLinksServices
 {
@@ -30,5 +31,16 @@ class SocialLinksServices
         }
 
         return 'https://' . $uri;
+    }
+
+    /**
+     * Get all the social link type in the database.
+     *
+     * @return App\Models\SocialLinkType
+     */
+   public function getAllSocialLinkTypeWithCrew($user){
+    return SocialLinkType::with(['crew' => function($q) use ($user) {
+                $q->where('crew_id' , $user->crew->id)->get();
+             }])->get();
     }
 }

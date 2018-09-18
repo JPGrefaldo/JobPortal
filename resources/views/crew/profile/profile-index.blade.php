@@ -15,42 +15,75 @@
                     <div class="md:w-1/4 md:pr-8 text-center">
                         <img src="images/thumb.jpg" class="rounded" alt="" />
                         <ul class="list-reset py-4">
-                            <li class="py-1">
-                                <a href="#" class="flex items-center">
-                                    <div class="p-1 rounded bg-yellow-imdb w-8 h-8"><img src="images/imdb.svg" alt="" class="mr-2 img-responsive"></div><span class="ml-2 text-yellow-imdb">IMDb profile</span></a>
-                            </li>
-                            <li class="py-1">
-                                <a href="#" class="flex items-center text-blue-linkedin">
-                                    <img src="images/linkedin.svg" alt="" class="mr-2">LinkedIn profile</a>
-                            </li>
+                             @foreach($socialLinkTypes as $key => $socialLinkType)
+                                 @if(isset($socialLinkType->crew[0]))
+                                 <li class="py-1">
+                                     <a href="{{$socialLinkType->crew[0]->url}}" target="_blank" class="flex items-center">
+                                        <div class="p-1 flex w-12 h-12">
+                                            <span class="flex w-10 items-center leading-normal rounded rounded-r-none  whitespace-no-wrap text-grey-dark" style="background: url(/{{ $socialLinkType->image}}); background-size: cover;"></span>
+                                        </div>
+                                    </a>
+                                </li>
+                                @endif
+                            @endforeach
                         </ul>
                     </div>
                     <div class="md:w-3/4">
-                        <h3 class="text-blue-dark font-semibold text-lg mb-1 font-header">Nathan Shaw</h3>
-                        <span class="text-grey font-semibold font-header">Director of photography</span>
+                        <h3 class="text-blue-dark font-semibold text-lg mb-1 font-header">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</h3>
+                        <span class="text-grey font-semibold font-header">{{ Auth::user()->position }}</span>
                         <div class="bg-grey-lighter p-6 rounded my-8">
-                            <p>Nathan Shaw began his career in Hollywood as an assistant director and unit production manager.
-                                After performing these jobs in such films as 'Body Heat, " he moved on to Nathan Shaw began
-                                his career in Hollywood as an assistant director and unit production manager. Nathan Shaw
-                                began his career in Hollywood as an assistant director and unit production manager.
-                                <a href="#" class="text-sm text-grey tracking-wide">Read more</a>
+                           <p>
+                            @if (isset($user->crew))
+                                {{ $user->crew->bio }} 
+                            @endif                               
                             </p>
                         </div>
                         <div class="pb-2 md:flex">
+                           @if(isset($user->crew->reel))
+                            @if($user->crew->reel->type == 'file')
+                                <a href="/storage/{{$user->crew->reel->url }}" target="_blank"
+                                   class="border md:w-1/2 flex overflow-hidden rounded md:mr-2 mb-2 md:mb-0">
+                                    <div class="w-24 relative"
+                                         style="background: url(../images/th2.jpg); background-size: cover;">
+                                        <span class="btn-play w-10 h-10"></span>
+                                    </div>
+                                    <span class='uppercase text-green font-semibold p-4 text-sm tracking-wide'>VIEW POSITION WORK REEL</span>
+                                </a>
+                            @else  
+                                <a href="{{$user->crew->reel->url }}" target="_blank"
+                                   class="border md:w-1/2 flex overflow-hidden rounded md:mr-2 mb-2 md:mb-0">
+                                    <div class="w-24 relative"
+                                         style="background: url(../images/th2.jpg); background-size: cover;">
+                                        <span class="btn-play w-10 h-10"></span>
+                                    </div>
+                                    <span class='uppercase text-green font-semibold p-4 text-sm tracking-wide'>VIEW POSITION WORK REEL</span>
+                                </a>
+                            @endif
+                        @else
                             <a href="#" class="border md:w-1/2 flex overflow-hidden rounded md:mr-2 mb-2 md:mb-0">
-                                <div class="w-24 relative" style="background: url(images/th2.jpg); background-size: cover;">
+                                <div class="w-24 relative"
+                                     style="background: url(../images/th2.jpg); background-size: cover;">
                                     <span class="btn-play w-10 h-10"></span>
                                 </div>
                                 <span class='uppercase text-green font-semibold p-4 text-sm tracking-wide'>VIEW POSITION WORK REEL</span>
                             </a>
+                        @endif
+
+                        @if (isset($user->crew->resume))
+                            <a href="/storage/{{$user->crew->resume->url }}" target="_blank"
+                               class="border md:w-1/2 flex items-center overflow-hidden rounded md:ml-2">
+                                <i class="far fa-file-alt px-6 text-lg"></i>
+                                <span class='uppercase text-green font-semibold px-0 py-6 text-sm tracking-wide'>VIEW POSITION RESUME</span>
+                            </a>
+                        @else
                             <a href="#" class="border md:w-1/2 flex items-center overflow-hidden rounded md:ml-2">
                                 <i class="far fa-file-alt px-6 text-lg"></i>
                                 <span class='uppercase text-green font-semibold px-0 py-6 text-sm tracking-wide'>VIEW POSITION RESUME</span>
                             </a>
+                        @endif
                         </div>
                     </div>
                 </div>
-
                 <div class="py-4">
                     <a href='#' class="text-grey text-sm float-right">
                         <i class="fas fa-pencil-alt mr-2"></i>Edit section</a>
