@@ -56,10 +56,16 @@ class User extends Resource
         return [
             ID::make()->sortable(),
 
-            Gravatar::make(),
-
             Text::make('Name', 'full_name')
                 ->sortable()
+                ->onlyOnIndex(),
+
+            Text::make('First Name', 'first_name')
+                ->onlyOnForms()
+                ->rules('required', 'max:255'),
+
+            Text::make('Last Name', 'last_name')
+                ->onlyOnForms()
                 ->rules('required', 'max:255'),
 
             Text::make('Email')
@@ -77,11 +83,10 @@ class User extends Resource
             }),
 
             PretendButton::make('Pretend')
-                         ->setUserID($this->id),
+                ->onlyOnIndex()
+                ->setUserID($this->id),
 
             Boolean::make('Status'),
-
-            new Panel('Address Information', $this->addressFields()),
 
             Password::make('Password')
                 ->onlyOnForms()

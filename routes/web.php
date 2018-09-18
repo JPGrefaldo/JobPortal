@@ -138,6 +138,5 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('test', function() {
-    $user = \App\Models\User::first();
-    dump($user->roles()->get()->toArray());
+    Log::info('asd');
 });
