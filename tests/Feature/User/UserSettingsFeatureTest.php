@@ -3,10 +3,11 @@
 namespace Tests\Feature\User;
 
 use App\Models\UserNotificationSetting;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UserSettingsFeatureTest extends TestCase
 {
@@ -32,8 +33,7 @@ class UserSettingsFeatureTest extends TestCase
 
         $response->assertRedirect(route('account.name'));
 
-        $this->assertArraySubset(
-            [
+        $this->assertArraySubset([
                 'first_name' => 'Adam James',
                 'last_name'  => 'Ford',
             ],
@@ -59,8 +59,7 @@ class UserSettingsFeatureTest extends TestCase
 
         $response->assertRedirect(route('account.name'));
 
-        $this->assertArraySubset(
-            [
+        $this->assertArraySubset([
                 'first_name' => 'John James',
                 'last_name'  => "O'Neal",
             ],
@@ -115,16 +114,14 @@ class UserSettingsFeatureTest extends TestCase
 
         $user->refresh();
 
-        $this->assertArraySubset(
-            [
+        $this->assertArraySubset([
                 'email' => 'updateemail@gmail.com',
                 'phone' => '1234567890',
             ],
             $user->toArray()
         );
 
-        $this->assertArraySubset(
-            [
+        $this->assertArraySubset([
                 'receive_email_notification' => true,
                 'receive_other_emails'       => true,
                 'receive_sms'                => true,
@@ -164,16 +161,14 @@ class UserSettingsFeatureTest extends TestCase
 
         $user->refresh();
 
-        $this->assertArraySubset(
-            [
+        $this->assertArraySubset([
                 'email' => 'safe@gmail.com',
                 'phone' => '1234567890',
             ],
             $user->toArray()
         );
 
-        $this->assertArraySubset(
-            [
+        $this->assertArraySubset([
                 'receive_email_notification' => true,
                 'receive_other_emails'       => true,
                 'receive_sms'                => true,
@@ -203,8 +198,7 @@ class UserSettingsFeatureTest extends TestCase
         $response = $this->actingAs($user)
                          ->put('/account/settings/notifications', $data);
 
-        $this->assertArraySubset(
-            [
+        $this->assertArraySubset([
                 'receive_email_notification' => false,
                 'receive_other_emails'       => false,
                 'receive_sms'                => false,
@@ -237,8 +231,7 @@ class UserSettingsFeatureTest extends TestCase
         $user->refresh();
         $user->notificationSettings->refresh();
 
-        $this->assertArraySubset(
-            [
+        $this->assertArraySubset([
                 'receive_email_notification' => 0,
                 'receive_other_emails'       => 1,
                 'receive_sms'                => 0,
@@ -267,8 +260,7 @@ class UserSettingsFeatureTest extends TestCase
 
         $response->assertSuccessful();
 
-        $this->assertArraySubset(
-            [
+        $this->assertArraySubset([
                 'email' => 'upper@gmail.com',
                 'phone' => '1234567890',
             ],
@@ -276,8 +268,7 @@ class UserSettingsFeatureTest extends TestCase
                  ->toArray()
         );
 
-        $this->assertArraySubset(
-            [
+        $this->assertArraySubset([
                 'receive_email_notification' => false,
                 'receive_other_emails'       => false,
                 'receive_sms'                => false,

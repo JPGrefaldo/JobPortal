@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Models\Role;
 use App\Models\Rules\UserRules;
+use App\Rules\Email;
 use App\Rules\Phone;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -42,7 +43,7 @@ class UserSignupRequest extends FormRequest
     {
         return [
             'type.in' => 'Invalid type.',
-            'type.required'    => '"I want to" is required',
+            'type.required'    => 'I want to is required',
         ];
     }
 }

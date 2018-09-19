@@ -100,9 +100,12 @@ Route::middleware('auth')->group(function () {
         Route::post('/crews', 'CrewsController@store');
         Route::put('/crews/{crew}', 'CrewsController@update');
 
+
+        // TODO: discuss if this should be public
         Route::get('/crew/positions/', 'Crew\PositionController@index')->name('crew_position.index');
         Route::get('/crew/positions/{position}', 'Crew\PositionController@show')->name('crew_position.show');
         Route::post('/crew/positions/{position}', 'Crew\PositionController@store')->name('crew_position.store');
+        Route::post('/crew/positions/', 'Crew\CrewPositionsController@store');
 
         Route::post('/crew/positions/{position}/endorsement-requests', 'Crew\EndorsementRequestController@store')->name('endorsement_requests.store');
 
