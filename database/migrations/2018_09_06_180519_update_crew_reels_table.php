@@ -14,7 +14,7 @@ class UpdateCrewReelsTable extends Migration
     public function up()
     {
         Schema::table('crew_reels', function (Blueprint $table) {
-            $table->string('type');
+            $table->string('type')->default('');
         });
     }
 
