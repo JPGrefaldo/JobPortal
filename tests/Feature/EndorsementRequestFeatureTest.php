@@ -2,12 +2,13 @@
 
 namespace Tests\Feature;
 
-use App\Models\EndorsementRequest;
 use App\Mail\EndorsementRequestEmail;
 use App\Models\Crew;
 use App\Models\CrewPosition;
 use App\Models\Endorsement;
+use App\Models\EndorsementRequest;
 use App\Models\Position;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Mail;
@@ -17,6 +18,20 @@ use Tests\TestCase;
 class EndorsementRequestFeatureTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh, WithFaker;
+
+    protected $user;
+    protected $crew;
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->user = factory(User::class)->states('withCrewRole')->create();
+        $this->crew = factory(Crew::class)->create([
+            'user_id' => $this->user->id
+        ]);
+        $this->endorsee = $this->crew;
+    }
 
     /** CREATE */
     // this is defered to Crew\PositionController@show
@@ -30,11 +45,10 @@ class EndorsementRequestFeatureTest extends TestCase
     public function endorsee_can_only_ask_endorsement_for_applied_positions()
     {
         // given
-        $endorsee = factory(Crew::class)->states('withRole')->create();
         $nonAppliedPosition = factory(Position::class)->create();
 
         // when
-        $response = $this->actingAs($endorsee->user)->post(route('endorsement_requests.store', $nonAppliedPosition));
+        $response = $this->askEndorsementFor($nonAppliedPosition);
 
         // then
         $response->assertForbidden();
@@ -47,53 +61,49 @@ class EndorsementRequestFeatureTest extends TestCase
     public function endorsee_must_provide_valid_endorser_information()
     {
         // $this->withoutExceptionHandling();
+
         // given
-        $endorsee = factory(Crew::class)->states('withRole')->create();
         $position = factory(Position::class)->create();
-        $crewPosition = factory(CrewPosition::class)->make();
-        $endorsee->applyFor($position, $crewPosition->toArray());
+        factory(CrewPosition::class)->create([
+            'crew_id' => $this->crew->id,
+            'position_id' => $position->id
+        ]);
 
         // when
-        $response = $this
-        ->actingAs($endorsee->user)
-        ->post(
-            route('endorsement_requests.store', $position),
-            [
-                'endorsers' => [
-                    [
-                        'name' => '',
-                        'email' => '',
-                    ],
-                    [
-                        'name' => 'Ron Swanson',
-                        'email' => 'Mambo No. 5',
-                    ],
+        $data = [
+            'endorsers' => [
+                [
+                    'name' => '',
+                    'email' => '',
                 ],
-                ]
-            );
+                [
+                    'name' => 'Ron Swanson',
+                    'email' => 'Mambo No. 5',
+                ],
+            ],
+        ];
+        $response = $this->askEndorsementFor($position, $data);
 
         // then
-        $response->assertSessionHasErrors([
-            'endorsers.0.name' => 'The endorsers.0.name field is required.',
-            'endorsers.0.email' => 'The endorsers.0.email field is required.',
-            'endorsers.1.email' => 'The endorsers.1.email must be a valid email address.',
+        $response->assertJsonValidationErrors([
+            'endorsers.0.name',
+            'endorsers.0.email',
+            'endorsers.1.email'
         ]);
     }
+
     // general logic
     /**
      * @test
      */
     public function endorsees_can_ask_endorsements_from_endorsers()
     {
-        Mail::fake();
-
         // $this->withoutExceptionHandling();
+
         // given
-        $endorsee = factory(Crew::class)->states('withRole')->create();
-        $user = $endorsee->user;
         $position = factory(Position::class)->create();
         $crewPosition = factory(CrewPosition::class)->create([
-            'crew_id' => $endorsee->id,
+            'crew_id' => $this->endorsee->id,
             'position_id' => $position->id,
         ]);
 
@@ -103,28 +113,26 @@ class EndorsementRequestFeatureTest extends TestCase
         $endorserName2 = $this->faker->name;
         $endorserEmail2 = $this->faker->email;
 
-        // when
-        $response = $this
-            ->actingAs($user)
-            ->postJson(
-                route('endorsement_requests.store', ['position' => $position->id]),
+        $data = [
+            'endorsers' => [
                 [
-                    'endorsers' => [
-                        [
-                            'name' => $endorserName1,
-                            'email' => $endorserEmail1,
-                        ],
-                        [
-                            'name' => $endorserName2,
-                            'email' => $endorserEmail2,
-                        ],
-                    ],
-                ]
-            );
+                    'name' => $endorserName1,
+                    'email' => $endorserEmail1,
+                ],
+                [
+                    'name' => $endorserName2,
+                    'email' => $endorserEmail2,
+                ],
+            ],
+        ];
 
-        $endorsementRequest = EndorsementRequest::first();
+        // when
+        $response = $this->askEndorsementFor($position, $data);
 
         // then
+        $endorsementRequest = EndorsementRequest::first();
+        $this->assertEquals(1, EndorsementRequest::count());
+        $this->assertEquals(2, Endorsement::count());
         $this->assertCount(2, Endorsement::all()->toArray());
 
         $this->assertDatabaseHas('endorsement_requests', [
@@ -142,10 +150,6 @@ class EndorsementRequestFeatureTest extends TestCase
             'endorser_name' => $endorserName2,
             'endorser_email' => $endorserEmail2,
         ]);
-
-        Mail::assertSent(EndorsementRequestEmail::class, function ($mail) use ($endorsementRequest) {
-            return $mail->endorsement->endorsement_request_id === $endorsementRequest->id;
-        });
     }
 
     /**
@@ -154,109 +158,78 @@ class EndorsementRequestFeatureTest extends TestCase
     public function endorsement_request_email_is_sent_to_endorsers_after_endorsees_ask_for_an_endorsement()
     {
         // $this->withoutExceptionHandling();
-        Mail::fake();
 
         // given
-        $endorsee = factory(Crew::class)->states('withRole')->create();
-        $user = $endorsee->user;
-        $position = factory(Position::class)->create(['name' => 'Makeup']);
+        Mail::fake();
+
+        $position = factory(Position::class)->create();
         $crewPosition = factory(CrewPosition::class)->create([
-            'crew_id' => $endorsee->id,
+            'crew_id' => $this->endorsee->id,
             'position_id' => $position->id,
         ]);
 
-        $endorserName1 = $this->faker->name;
-        $endorserEmail1 = $this->faker->email;
-
-        $endorserName2 = $this->faker->name;
-        $endorserEmail2 = $this->faker->email;
-
         // when
-        $response = $this
-            ->actingAs($user)
-            ->postJson(
-                route('endorsement_requests.store', ['position' => $position->id]),
-                [
-                    'endorsers' => [
-                        [
-                            'name' => $endorserName1,
-                            'email' => $endorserEmail1,
-                        ],
-                        [
-                            'name' => $endorserName2,
-                            'email' => $endorserEmail2,
-                        ],
-                    ],
-                ]
-            );
+        $response = $this->askEndorsementFor($position, $this->data());
 
         // then
+        $endorsementRequest = EndorsementRequest::first();
         Mail::assertSent(EndorsementRequestEmail::class, 2);
+        Mail::assertSent(
+            EndorsementRequestEmail::class,
+            function ($mail) use ($endorsementRequest) {
+                return $mail->endorsement->endorsement_request_id === $endorsementRequest->id;
+            }
+        );
     }
 
     /**
      * @test
      */
-    public function an_endorsee_can_only_ask_to_be_endorsed_by_the_same_crew_once()
+    public function an_endorsee_can_only_ask_to_be_endorsed_by_the_same_endorser_once()
     {
         // $this->withoutExceptionHandling();
-        Mail::fake();
         // given
-        // given an endorsee
-        $endorsee = factory(Crew::class)->states('withRole')->create();
-        $user = $endorsee->user;
+
+        Mail::fake();
         $position = factory(Position::class)->create();
         $crewPosition = factory(CrewPosition::class)->create([
-            'crew_id' => $endorsee->id,
+            'crew_id' => $this->endorsee->id,
             'position_id' => $position->id,
         ]);
 
-        $endorserName1 = $this->faker->name;
-        $endorserEmail1 = $this->faker->email;
-
-        $endorserName2 = $this->faker->name;
-        $endorserEmail2 = $this->faker->email;
-
-        $response = $this
-            ->actingAs($user)
-            ->postJson(
-                route('endorsement_requests.store', ['position' => $position->id]),
-                [
-                    'endorsers' => [
-                        [
-                            'name' => $endorserName1,
-                            'email' => $endorserEmail1,
-                        ],
-                        [
-                            'name' => $endorserName2,
-                            'email' => $endorserEmail2,
-                        ],
-                    ],
-                ]
-            );
+        $response = $this->askEndorsementFor($position, $this->data());
 
         // when
         // endorsee asks for endorsement again
-        $response = $this
-            ->actingAs($user)
-            ->postJson(
-                route('endorsement_requests.store', ['position' => $position->id]),
-                [
-                    'endorsers' => [
-                        [
-                            'name' => $endorserName1,
-                            'email' => $endorserEmail1,
-                        ],
-                        [
-                            'name' => $endorserName2,
-                            'email' => $endorserEmail2,
-                        ],
-                    ],
-                ]
-            );
-
+        $response = $this->askEndorsementFor($position, $this->data());
         // then
         Mail::assertSent(EndorsementRequestEmail::class, 2);
         $this->assertCount(2, Endorsement::all()->toArray());
+    }
+
+    protected function askEndorsementFor($position, array $formData = [])
+    {
+        return $this
+            ->actingAs($this->user)
+            ->postJson(route(
+                'endorsement_requests.store',
+                $position->id
+            ), $formData);
+    }
+
+    protected function data()
+    {
+        return [
+            'endorsers' => [
+                [
+                    'name' => 'John Doe',
+                    'email' => 'john.doe@google.com',
+                ],
+                [
+                    'name' => 'Jane Doe',
+                    'email' => 'jane.doe@yahoo.com',
+                ],
+            ],
+        ];
     }
 }

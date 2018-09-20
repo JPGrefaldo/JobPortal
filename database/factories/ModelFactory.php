@@ -16,21 +16,6 @@ use Illuminate\Support\Facades\Storage;
 
 /** @var $factory \Illuminate\Database\Eloquent\Factory */
 
-$factory->define(App\Models\User::class, function (Faker $faker) {
-    $faker->addProvider(new \App\Faker\PhoneProvider($faker));
-
-    return [
-        'uuid'           => $faker->uuid,
-        'first_name'     => $faker->firstName,
-        'last_name'      => $faker->lastName,
-        'email'          => $faker->unique()->safeEmail,
-        'phone'          => $faker->unformattedPhoneNumber(),
-        'password'       => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
-        'remember_token' => str_random(10),
-        'status'         => 1,
-        'confirmed'      => 1,
-    ];
-});
 
 $factory->define(\App\Models\UserNotificationSetting::class, function (Faker $faker) {
     return [
@@ -91,17 +76,6 @@ $factory->define(\App\Models\Department::class, function (Faker $faker) {
     return [
         'name'        => $faker->words(2, true),
         'description' => $faker->sentence,
-    ];
-});
-
-$factory->define(\App\Models\Position::class, function (Faker $faker) {
-    return [
-        'name'          => $faker->words(2, true),
-        'department_id' => function () {
-            return factory(\App\Models\Department::class)->create()->id;
-        },
-        'has_gear'      => 0,
-        'has_union'     => 0,
     ];
 });
 

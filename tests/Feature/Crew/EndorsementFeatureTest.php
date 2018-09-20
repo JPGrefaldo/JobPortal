@@ -7,6 +7,7 @@ use App\Models\CrewPosition;
 use App\Models\Endorsement;
 use App\Models\EndorsementRequest;
 use App\Models\Position;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\Support\SeedDatabaseAfterRefresh;
@@ -15,6 +16,19 @@ use Tests\TestCase;
 class EndorsementFeatureTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh, WithFaker;
+
+    protected $user;
+    protected $crew;
+
+    public function setUp()
+    {
+        parent::setup();
+
+        $this->user = factory(User::class)->states('withCrewRole')->create();
+        $this->crew = factory(Crew::class)->create([
+            'user_id' => $this->user->id
+        ]);
+    }
 
     /** CREATE */
     // authorization
@@ -26,14 +40,17 @@ class EndorsementFeatureTest extends TestCase
     {
         // $this->withoutExceptionHandling();
         // given
-        $endorser = factory(Crew::class)->states('withRole')->create();
         $endorsementRequest = factory(EndorsementRequest::class)->create();
 
         // when
-        $response = $this->actingAs($endorser->user)->get(route('endorsements.create', $endorsementRequest));
+        $response = $this
+            ->actingAs($this->user)
+            ->get(route('endorsements.create', $endorsementRequest));
 
         // then
-        $response->assertSee('Please feel free to leave a comment for this endorsement request.');
+        $response->assertSee(
+            'Please feel free to leave a comment for this endorsement request.'
+        );
     }
 
     /**
@@ -43,13 +60,14 @@ class EndorsementFeatureTest extends TestCase
     {
         // $this->withoutExceptionHandling();
         // given
-        $endorsee = factory(Crew::class)->states('withRole')->create();
         $position = factory(Position::class)->create();
-        $crewPosition = factory(CrewPosition::class)->create(['crew_id' => $endorsee->id, 'position_id' => $position->id]);
+        $crewPosition = factory(CrewPosition::class)->create([
+            'crew_id' => $this->crew->id, 'position_id' => $position->id
+        ]);
         $endorsementRequest = factory(EndorsementRequest::class)->create(['crew_position_id' => $crewPosition->id]);
 
         // when
-        $response = $this->actingAs($endorsee->user)
+        $response = $this->actingAs($this->user)
             ->get(route('endorsements.create', $endorsementRequest));
 
         // then
@@ -63,12 +81,13 @@ class EndorsementFeatureTest extends TestCase
     {
         // $this->withoutExceptionHandling();
         // given
-        $endorser = factory(Crew::class)->states('withRole')->create();
-        $endorsement = factory(Endorsement::class)->states('approved')->create(['endorser_email' => $endorser->user->email]);
+        $endorsement = factory(Endorsement::class)
+            ->states('approved')
+            ->create(['endorser_id' => $this->crew->id]);
         $endorsementRequest = $endorsement->request;
 
         // when
-        $response = $this->actingAs($endorser->user)
+        $response = $this->actingAs($this->user)
             ->get(route('endorsements.create', $endorsementRequest));
 
         // then
@@ -84,15 +103,18 @@ class EndorsementFeatureTest extends TestCase
     public function an_endorsee_can_not_endorse_himself()
     {
         // given
-        $endorsee = factory(Crew::class)->states('withRole')->create();
-        $crewPosition = factory(CrewPosition::class)->create(['crew_id' => $endorsee->id]);
-        $endorsementRequest = factory(EndorsementRequest::class)->create(['crew_position_id' => $crewPosition->id]);
+        $crewPosition = factory(CrewPosition::class)->create([
+            'crew_id' => $this->crew->id
+        ]);
+        $endorsementRequest = factory(EndorsementRequest::class)->create([
+            'crew_position_id' => $crewPosition->id
+        ]);
 
         // when
         $response = $this
-            ->actingAs($endorsee->user)
+            ->actingAs($this->user)
             ->postJson(route('endorsements.store', ['endorsementRequest' => $endorsementRequest]), [
-                'comment' => $this->faker->sentence,
+                'comment' => 'I hope I can endorse myself',
             ]);
 
         // then
@@ -104,33 +126,52 @@ class EndorsementFeatureTest extends TestCase
     /**
      * @test
      */
-    public function endorser_can_approve_an_endorsement()
+    public function endorser_can_approve_an_endorsement_request()
     {
         // $this->withoutExceptionHandling();
+
         // given
         $endorsementRequest = factory(EndorsementRequest::class)->create();
-        $endorser1 = factory(Crew::class)->states('withRole')->create();
-        $endorser2 = factory(Crew::class)->states('withRole')->create();
+        $user2 = factory(User::class)->states('withCrewRole')->create();
+        $endorser2 = factory(Crew::class)->create([
+            'user_id' => $user2->id,
+        ]);
 
         // when
         $response1 = $this
-            ->actingAs($endorser1->user)
-            ->postJson(route('endorsements.store', ['endorsementRequest' => $endorsementRequest]), [
-                'comment' => $this->faker->sentence,
-            ])
+            ->actingAs($this->user)
+            ->postJson(
+                route('endorsements.store', $endorsementRequest),
+                ['comment' => 'This is my comment',]
+            )
             ->assertSuccessful()
             ->assertJsonStructure(['approved_at', 'comment']);
 
         $response2 = $this
-            ->actingAs($endorser2->user)
-            ->postJson(route('endorsements.store', ['endorsementRequest' => $endorsementRequest]), [
-                'comment' => '',
-            ])
+            ->actingAs($user2)
+            ->postJson(
+                route('endorsements.store', $endorsementRequest),
+                ['comment' => '',]
+            )
             ->assertSuccessful()
             ->assertJsonStructure(['approved_at', 'comment']);
 
         // then
         $this->assertCount(2, Endorsement::all()->toArray());
+        $this->assertDatabaseHas('endorsements', [
+            'endorsement_request_id' => $endorsementRequest->id,
+            'endorser_id' => $this->crew->id,
+            'endorser_name' => null,
+            'endorser_email' => null,
+            'comment' => 'This is my comment'
+        ]);
+        $this->assertDatabaseHas('endorsements', [
+            'endorsement_request_id' => $endorsementRequest->id,
+            'endorser_id' => $endorser2->id,
+            'endorser_name' => null,
+            'endorser_email' => null,
+            'comment' => null
+        ]);
     }
 
     /**
@@ -141,32 +182,89 @@ class EndorsementFeatureTest extends TestCase
         // $this->withoutExceptionHandling();
         // given
         $endorsementRequest = factory(EndorsementRequest::class)->create();
-        $endorser = factory(Crew::class)->states('withRole')->create();
-        $comment = $this->faker->sentence;
 
-        $response = $this
-            ->actingAs($endorser->user)
-            ->postJson(route('endorsements.store', ['endorsementRequest' => $endorsementRequest]), [
-                'comment' => $comment,
-            ]);
+        $this
+            ->actingAs($this->user)
+            ->postJson(
+                route('endorsements.store', $endorsementRequest),
+                ['comment' => 'Approving your endorsement for the first time',]
+            );
 
         // when
         // endorser endorses the same endorsee again
         $response = $this
-            ->actingAs($endorser->user)
-            ->postJson(route('endorsements.store', ['endorsementRequest' => $endorsementRequest]), [
-                'comment' => $comment,
-            ]);
+            ->actingAs($this->user)
+            ->postJson(
+                route('endorsements.store', $endorsementRequest),
+                ['comment' => 'Approving your endorsement for the second time',]
+            );
 
         // then
-        // endorser is forbidden
-        $this->assertCount(1, Endorsement::all()->toArray());
+        $this->assertEquals(1, Endorsement::count());
+        $this->assertDatabaseHas(
+            'endorsements',
+            [
+                'endorsement_request_id' => $endorsementRequest->id,
+                'comment' => 'Approving your endorsement for the first time',
+            ]
+        );
+        $this->assertDatabaseMissing(
+            'endorsements',
+            [
+                'endorsement_request_id' => $endorsementRequest->id,
+                'comment' => 'Approving your endorsement for the second time',
+            ]
+        );
+        $response->assertForbidden();
     }
 
     /** EDIT */
     // authorization
     // validation
     // general logic
+
+    /**
+     * @test
+     */
+    public function edit()
+    {
+        // given
+        $endorsementRequest = factory(EndorsementRequest::class)->create();
+        $endorsement = factory(Endorsement::class)->states('approved')->create([
+            'endorsement_request_id' => $endorsementRequest->id,
+            'endorser_id' => $this->crew->id,
+        ]);
+
+        // when
+        $response = $this
+            ->actingAs($this->user)
+            ->get(route('endorsements.edit', $endorsementRequest));
+
+        // then
+        $response->assertSee(
+            'Please feel free to leave a comment for this endorsement request.'
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function endorsee_is_redirected_to_endorsement_create_page_when_editing_non_existent_endorsement()
+    {
+        // $this->withoutExceptionHandling();
+        // given
+        $endorsementRequest = factory(EndorsementRequest::class)->create();
+
+        // when
+        $response = $this->actingAs($this->user)->get(
+            route('endorsements.edit', $endorsementRequest)
+        );
+
+        // then
+        $response->assertRedirect(
+            route('endorsements.create', $endorsementRequest)
+        );
+    }
 
     /** UPDATE */
     // authorization
@@ -177,21 +275,62 @@ class EndorsementFeatureTest extends TestCase
      */
     public function endorsers_can_update_their_comment()
     {
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
+
         // given
-        $comment = $this->faker->sentence;
-        $comment2 = $this->faker->sentence;
-        $endorser = factory(Crew::class)->states('withRole')->create();
-        $endorsement = factory(Endorsement::class)->states('approved')->create(['endorser_email' => $endorser->user->email]);
-        $endorsement2 = factory(Endorsement::class)->states('approved', 'withComment')->create(['endorser_email' => $endorser->user->email]);
+        $endorsement = factory(Endorsement::class)
+            ->states('approved')
+            ->create(['endorser_id' => $this->crew->id]);
+        $endorsement2 = factory(Endorsement::class)
+            ->states('approved', 'withComment')
+            ->create([
+                'endorser_id' => $this->crew->id,
+                'comment' => 'First comment'
+            ]);
 
         // when
-        $response = $this->actingAs($endorser->user)->putJson(route('endorsements.update', $endorsement->request), ['comment' => $comment]);
-        $response = $this->actingAs($endorser->user)->putJson(route('endorsements.update', $endorsement2->request), ['comment' => $comment2]);
+        $response = $this
+            ->actingAs($this->user)
+            ->putJson(
+                route('endorsements.update', $endorsement->request),
+                ['comment' => 'Forgot to add my comment, so here it is.']
+            );
+        $response2 = $this
+            ->actingAs($this->user)
+            ->putJson(
+                route('endorsements.update', $endorsement2->request),
+                ['comment' => 'I changed my mind. Here is my new comment.']
+            );
 
         // then
-        $this->assertDatabaseHas('endorsements', ['comment' => $comment]);
-        $this->assertDatabaseHas('endorsements', ['comment' => $comment2]);
+        $this->assertDatabaseHas('endorsements', [
+            'id' => $endorsement->id,
+            'comment' => 'Forgot to add my comment, so here it is.'
+        ]);
+        $this->assertDatabaseHas('endorsements', [
+            'id' => $endorsement2->id,
+            'comment' => 'I changed my mind. Here is my new comment.'
+        ]);
+        $response->assertSee('Forgot to add my comment, so here it is.');
+        $response2->assertSee('I changed my mind. Here is my new comment.');
+    }
+
+    /**
+     * @test
+     */
+    public function endorsee_cant_update_non_existing_endorsement()
+    {
+        // $this->withoutExceptionHandling();
+        // given
+        $endorsementRequest = factory(EndorsementRequest::class)->create();
+
+        // when
+        $response = $this->actingAs($this->user)->putJson(
+            route('endorsements.update', $endorsementRequest)
+        );
+
+        // then
+        $response->assertForbidden();
     }
 
     /** DELETE */
@@ -200,27 +339,28 @@ class EndorsementFeatureTest extends TestCase
     // general logic
 
     /**
-     * TODO: move this to crew/position/show
      * @test
      */
     public function endorsee_can_only_see_endorsement_form_on_applied_positions()
     {
         // $this->withoutExceptionHandling();
         // given
-        $endorsee = factory(Crew::class)->states('withRole')->create();
         $appliedPosition = factory(Position::class)->create();
-        $crewPosition = factory(CrewPosition::class)->create(['crew_id' => $endorsee->id, 'position_id' => $appliedPosition->id]);
+        $crewPosition = factory(CrewPosition::class)->create([
+            'crew_id' => $this->crew->id,
+            'position_id' => $appliedPosition->id
+        ]);
         $nonAppliedPosition = factory(Position::class)->create();
 
         // when he views applied position
-        $response = $this->actingAs($endorsee->user)
+        $response = $this->actingAs($this->user)
             ->get(route('crew_position.show', $appliedPosition));
 
         // then he does see the endorsement form
         $response->assertSee('Ask Endorsement');
 
         // when he views non applied position
-        $response = $this->actingAs($endorsee->user)
+        $response = $this->actingAs($this->user)
             ->get(route('crew_position.show', $nonAppliedPosition));
 
         // then he does not see the endorsement form

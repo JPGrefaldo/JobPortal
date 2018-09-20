@@ -41,20 +41,19 @@ class Endorsement extends Model
         'endorser_email',
     ];
 
-    public function position()
-    {
-        return $this->request->crewPosition->position();
-    }
-
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function request()
     {
         return $this->belongsTo(EndorsementRequest::class, 'endorsement_request_id');
     }
 
-    // TODO: create test,
-    // NOTE: relations smell bad
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function endorser()
     {
-        return $this->belongsTo(Crew::class);
+        return $this->belongsTo(Crew::class, 'endorser_id');
     }
 }

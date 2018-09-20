@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class CrewPosition extends Model
+class CrewPosition extends Pivot
 {
     /**
      * The protected attributes
@@ -49,15 +49,4 @@ class CrewPosition extends Model
         return $query->where('crew_id', $crew->id)
                      ->where('position_id', $position->id);
     }
-
-    public function roles()
-    {
-        return $this->belongsTo(Position::class, 'position_id', 'id');
-    }
-
-    public function departments() 
-    {
-        return $this->belongsTo(Department::class, 'department_id', 'id');
-    }    
-
 }

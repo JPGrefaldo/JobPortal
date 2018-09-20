@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 class Crew extends Model
 {
@@ -28,7 +29,7 @@ class Crew extends Model
      */
     public function user()
     {
-        return $this->hasOne(User::class, 'id', 'user_id');
+        return $this->belongsTo(User::class);
     }
 
     /**
@@ -36,7 +37,7 @@ class Crew extends Model
      */
     public function positions()
     {
-        return $this->belongsToMany(Position::class, 'crew_positions');
+        return $this->belongsToMany(Position::class);
     }
 
     /**
@@ -58,7 +59,7 @@ class Crew extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function gear()
+    public function gears()
     {
         return $this->hasMany(CrewGear::class);
     }
@@ -71,11 +72,59 @@ class Crew extends Model
         return $this->hasMany(CrewSocial::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
+    public function endorsementRequests()
+    {
+        return $this->hasManyThrough(EndorsementRequest::class, CrewPosition::class, 'crew_id', 'crew_position_id', 'id', 'id');
+    }
+
+    /**
+     * @param Position $position
+     * @param $attributes
+     */
     public function applyFor(Position $position, $attributes)
     {
-        return $this->positions()->attach($position, [
+        $this->positions()->attach($position, [
             'details' => $attributes['details'],
             'union_description' => $attributes['union_description']
         ]);
+    }
+
+    /**
+     * @param EndorsementRequest $endorsementRequest
+     * @param array $attributes
+     * @return Model
+     */
+    public function approve(EndorsementRequest $endorsementRequest, $attributes = [])
+    {
+        return Endorsement::firstOrCreate(
+            [
+                'endorsement_request_id' => $endorsementRequest->id,
+                'endorser_id' => $this->id,
+            ],
+            [
+                'approved_at' => Carbon::now(),
+                'comment' => $attributes['comment'] ?? null,
+            ]
+        );
+    }
+
+    /**
+     * @param $position
+     * @return bool
+     */
+    public function hasPosition($position)
+    {
+        return $this->positions()->where('position_id', $position->id)->get()->count() > 0;
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function endorsements()
+    {
+        return $this->hasMany(Endorsement::class, 'endorser_id');
     }
 }

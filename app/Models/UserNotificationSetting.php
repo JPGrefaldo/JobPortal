@@ -30,10 +30,10 @@ class UserNotificationSetting extends Model
     /**
      * Users many to many relationship
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function users()
+    public function user()
     {
-        return $this->belongsToMany(User::class, 'user_notification_settings');
+        return $this->belongsTo(User::class);
     }
 }

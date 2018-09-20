@@ -22,36 +22,39 @@ class EndorsementRequestController extends Controller
      */
     public function store(Position $position, StoreEndorsementRequestRequest $request)
     {
-        $crewPosition = CrewPosition::byCrewAndPosition(Auth::user()->crew, $position)->first();
+        $crew = auth()->user()->crew;
+        $crewPosition = CrewPosition::byCrewAndPosition($crew, $position)->first();
 
-        $endorsementRequest = EndorsementRequest::where([
-            'crew_position_id' => $crewPosition->id,
-        ])
-            ->first();
-
-        if (! $endorsementRequest) {
-            $endorsementRequest = EndorsementRequest::create([
-                'crew_position_id' => $crewPosition->id,
-                'token'            => EndorsementRequest::generateToken(),
-            ]);
-        }
+        $this->endorsementRequest = EndorsementRequest::firstOrCreate(
+            ['crew_position_id' => $crewPosition->id],
+            ['token' => EndorsementRequest::generateToken()]
+        );
 
         // filter endorsers, only notify them once
-        $endorsers = request('endorsers');
-        foreach ($endorsers as $endorser) {
-            if (! $endorsement = $endorsementRequest->endorsements->where('endorser_email',
-                $endorser['email'])->first()) {
-                $endorsement = $endorsementRequest->endorsements()->create([
-                    'endorser_name'  => $endorser['name'],
-                    'endorser_email' => $endorser['email'],
-                ]);
+        foreach ($this->filterEndorsers($request->endorsers) as $endorser) {
+            $endorsement = $this->endorsementRequest->endorsements()->create([
+                'endorser_name'  => $endorser['name'],
+                'endorser_email' => $endorser['email'],
+            ]);
 
-                // send email
-                Mail::to($endorser['email'])
-                    ->send(new EndorsementRequestEmail($endorsement));
-            }
+            // send email
+            Mail::to($endorser['email'])
+                ->send(new EndorsementRequestEmail($endorsement));
         }
-        // TODO: return statuses foreach endorser
-        return ['done'];
+
+        return response('done');
+    }
+
+    protected function filterEndorsers($endorsers)
+    {
+        $endorserCollection = collect($endorsers);
+        $emails = $endorserCollection->pluck('email');
+        $pastEndorsers = $this->endorsementRequest
+            ->endorsements()
+            ->whereIn('endorser_email', $emails)
+            ->get(['endorser_email'])
+            ->pluck('endorser_email');
+
+        return $endorserCollection->whereNotIn('email', $pastEndorsers);
     }
 }

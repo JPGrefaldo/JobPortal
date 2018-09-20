@@ -3,13 +3,13 @@
 namespace Tests\Unit;
 
 use App\Models\Crew;
-use App\Models\Position;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Models\Department;
-use Tests\Support\SeedDatabaseAfterRefresh;
 use App\Models\CrewPosition;
+use App\Models\Department;
+use App\Models\Position;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\Support\SeedDatabaseAfterRefresh;
+use Tests\TestCase;
 
 class PositionTest extends TestCase
 {
@@ -32,11 +32,28 @@ class PositionTest extends TestCase
 
         // then
         $this->assertEquals($crew->id, $position->crews->first()->id);
-        $this->assertDatabaseHas('crew_positions', [
+        $this->assertDatabaseHas('crew_position', [
             'crew_id' => $crew->id,
             'position_id' => $position->id,
             'details' => $crewPosition->details,
             'union_description' => $crewPosition->union_description
         ]);
+    }
+
+    /**
+     * @test
+     */
+    public function department()
+    {
+        // given
+        $department = factory(Department::class)->create();
+
+        // when
+        $position = factory(Position::class)->create([
+            'department_id' => $department->id,
+        ]);
+
+        // then
+        $this->assertEquals($department->name, $position->department->name);
     }
 }

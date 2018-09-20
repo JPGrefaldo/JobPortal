@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateCrewGearTable extends Migration
 {
@@ -13,7 +13,7 @@ class CreateCrewGearTable extends Migration
      */
     public function up()
     {
-        Schema::create('crew_gear', function (Blueprint $table) {
+        Schema::create('crew_gears', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('crew_id')->unsigned();
             $table->text('description');
@@ -27,7 +27,7 @@ class CreateCrewGearTable extends Migration
 
             $table->foreign('crew_position_id')
                   ->references('id')
-                  ->on('crew_positions')
+                  ->on('crew_position')
                   ->onDelete('cascade');
         });
     }
