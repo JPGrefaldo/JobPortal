@@ -26,6 +26,28 @@ class CrewPositionFeatureTest extends TestCase
             'user_id' => $this->user->id
         ]);
     }
+
+    /**
+     * @test
+     */
+    public function crew_can_see_a_all_positions()
+    {
+        // given
+
+        // when
+        // crew visits index
+        $response = $this->actingAs($this->user)
+            ->get(route('crew_position.index'));
+
+        // then
+        // he can see the positions
+        // he can see Apply for
+        $response->assertSee('Apply for');
+        Position::all()->each(function ($position) use ($response) {
+            // dump($position->toArray());
+            $response->assertSee("Apply for $position->name");
+        });
+    }
     /**
      * @test
      */
