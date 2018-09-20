@@ -108,7 +108,7 @@
                   style="background-image: url(images/thumb.jpg)"
                 @endif
             ></span>
-            <span class="ml-2 inline-block font-semibold text-white text-sm">{{ $user->full_name }}</span>
+            <span class="ml-2 inline-block font-semibold text-white text-sm">{{ auth()->user()->full_name }}</span>
         </div>
         <ul class="list-reset text-left text-sm">
             @if(! Route::is('profile'))
