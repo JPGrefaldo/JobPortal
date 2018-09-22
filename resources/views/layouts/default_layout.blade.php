@@ -7,8 +7,8 @@
     @include('_parts.navbar.navbar-not-logged-in')
 @endif
 
-<main class="float-left w-full py-lg">
+<main class="float-left w-full py-lg" id="content">
     @yield('content')
 </main>
 
-@include('_parts.footer')
+@include('_parts.footer.footer')

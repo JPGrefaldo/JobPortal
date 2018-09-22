@@ -6,7 +6,7 @@
     @slot('accountContent')
         <div>
             <h4 class="mt-4 uppercase text-sm text-blue-dark">
-                Receive Email @include('_parts.componets.tooltip', ['tooltipText' => 'Receive email notifications of new jobs'])
+                Receive Email @include('_parts.components.tooltip', ['tooltipText' => 'Receive email notifications of new jobs'])
             </h4>
             @include('_parts.input.switch', [
                 'switchOn' => $user->notificationSettings->receive_email_notification,

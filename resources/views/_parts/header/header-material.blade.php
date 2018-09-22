@@ -8,7 +8,7 @@
 
     @include('_parts.header.header-css')
 
-    @include('_parts.header.header-javascript')
+    @include('_parts.footer.header-javascript')
 
 </head>
 

@@ -3,7 +3,7 @@
 @section('content')
 
 @section('content')
-    @component('_parts.componets.single-card-button-page')
+    @component('_parts.components.single-card-button-page')
         @slot('cardTitle')
             <div class="p-8 text-center border-b border-grey-light">
                 <h2 class="font-header text-blue-dark text-lg text-center font-semibold">Sign up</h2>
@@ -81,7 +81,7 @@
                 @include('_parts.errors.input-error-message-inline', ['input_element' => 'phone'])
             </div>
             <div class="py-2">
-                <div class="float-right">@include('_parts.componets.tooltip', ['tooltipText' => 'You will receive SMS alerts to your phone'])</div>
+                <div class="float-right">@include('_parts.components.tooltip', ['tooltipText' => 'You will receive SMS alerts to your phone'])</div>
                 <label class="block">
                     <input name="receive_sms" id="receive_sms" value="1" class="mr-1" type="checkbox" @if(old('receive_sms', 0) == 1) checked @endif> Receive text alerts
                 </label>
