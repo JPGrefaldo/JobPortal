@@ -19,15 +19,6 @@
                 producer-type="{{ \App\Models\Role::PRODUCER }}"
                 crew-type="{{ \App\Models\Role::CREW }}"
             ></signup-type>
-            {{--<div class=" bg-white md:shadow md:border border-grey-light md:rounded-full overflow-hidden md:flex text-center items-stretch">--}}
-                {{--<input type="button" class="block text-center border-grey-light p-3 mb-2 border rounded-full sm-only:w-full md:w-1/2 md:mb-0 md:rounded-none md:border-t-0 md:border-b-0 md:border-r--}}
-                                {{--@if(in_array(\App\Models\Role::PRODUCER, old('type', []))) want-to__selected @else want-to__default @endif" id="select-want-project" value="Hire for a Project">--}}
-                {{--<input type="button" class="block border md:border-none border-grey-light sm-only:w-full md:border-none text-center rounded-full md:rounded-none md:w-1/2 p-3--}}
-                                {{--@if(in_array(\App\Models\Role::CREW, old('type', []))) want-to__selected @else want-to__default @endif" id="select-want-work" value="Work as Crew">--}}
-            {{--</div>--}}
-
-            {{--<input type="hidden" @if(in_array(\App\Models\Role::PRODUCER, old('type', []))) name="type" @else name="trash" @endif id="type-project" value="{{ \App\Models\Role::PRODUCER }}">--}}
-            {{--<input type="hidden" @if(in_array(\App\Models\Role::CREW, old('type', []))) name="type" @else name="trash" @endif id="type-work" value="{{ \App\Models\Role::CREW }}">--}}
             <div class="p-2 text-center text-sm text-grey">You can choose both</div>
             <div class="py-2">
                 <label class="block font-semibold mb-2" for="">Full name</label>

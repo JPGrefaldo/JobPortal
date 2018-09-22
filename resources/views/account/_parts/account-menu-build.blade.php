@@ -1,9 +1,10 @@
 @if($accountMenuMobile)
     <ul class="list-reset text-left">
         @foreach($AccountMenu as $key => $text)
-            <li class="py-2 px-4">
-                <a href="{{ route($key) }}" class="block text-blue-dark hover:text-green url-menu">{{ $text }}</a>
-            </li>
+            <mobile-menu
+                    link="{{ route($key) }}"
+                    text="{{ $text }}"
+                ></mobile-menu>
         @endforeach
     </ul>
 @else

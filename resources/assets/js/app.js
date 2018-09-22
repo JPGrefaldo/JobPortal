@@ -22,20 +22,10 @@ Vue.component('tooltip', require('v-tooltip'));
 
 Vue.component('signup-type', require('./components/SignupTypeComponent'));
 Vue.component('bubble-slidder', require('./components/BubbleSiliderComponent'));
+Vue.component('mobile-menu', require('./components/MobileMenuComponent'));
 
 const content = new Vue({
     el: '#content',
 });
-
-//
-// $(function() {
-//
-//     $(".url-menu").each(function() {
-//         $(this).click(function () {
-//             window.location = $(this).attr("href");
-//         });
-//     });
-//
-// });
 
 
