@@ -16,47 +16,18 @@ window.Vue = require('vue');
  */
 
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
+
+//https://akryum.github.io/v-tooltip/#/
 Vue.component('tooltip', require('v-tooltip'));
 
+Vue.component('signup-type', require('./components/SignupTypeComponent'));
+
 const content = new Vue({
-    el: '#content'
+    el: '#content',
 });
-//
-// function reverse_val(element) {
-//     if ($(element).attr('name') == "trash") {
-//         $(element).attr('name', "type[]");
-//         return true;
-//     }
-//
-//     $(element).attr('name', "trash");
-//     return false;
-// }
-//
-// function reverse_want_to_class(element) {
-//     if ($(element).hasClass("want-to__default")) {
-//         $(element).removeClass("want-to__default");
-//         $(element).addClass("want-to__selected");
-//     } else {
-//         $(element).removeClass("want-to__selected");
-//         $(element).addClass("want-to__default");
-//     }
-// }
-//
-//
+
 //
 // $(function() {
-//     if ($("#select-want-project").length) {
-//         $("#select-want-project").click(function (event) {
-//             reverse_want_to_class($(this));
-//             reverse_val("#type-project");
-//         });
-//     }
-//     if ($("#select-want-work").length) {
-//         $("#select-want-work").click(function (event) {
-//             reverse_want_to_class($(this));
-//             reverse_val("#type-work");
-//         });
-//     }
 //
 //     if ($(".js-switch").length) {
 //         $(".js-switch").click(function (event) {
