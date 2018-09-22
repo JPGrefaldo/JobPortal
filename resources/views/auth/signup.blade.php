@@ -1,8 +1,6 @@
 @extends('layouts.default_layout')
 
 @section('content')
-
-@section('content')
     @component('_parts.components.single-card-button-page')
         @slot('cardTitle')
             <div class="p-8 text-center border-b border-grey-light">

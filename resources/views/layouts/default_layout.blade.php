@@ -8,6 +8,7 @@
 @endif
 
 <main class="float-left w-full py-lg" id="content">
+    @include('_parts.messagebox')
     @yield('content')
 </main>
 
