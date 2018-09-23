@@ -96,13 +96,13 @@ class CrewTest extends TestCase
     /**
      * @test
      */
-    public function social()
+    public function socials()
     {
         // when
-        $this->crew->social()->saveMany(factory(CrewSocial::class, 3)->create());
+        $this->crew->socials()->saveMany(factory(CrewSocial::class, 3)->create());
 
         // then
-        $this->assertCount(3, $this->crew->social);
+        $this->assertCount(3, $this->crew->socials);
     }
 
     /**

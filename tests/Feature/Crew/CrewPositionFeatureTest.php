@@ -42,10 +42,9 @@ class CrewPositionFeatureTest extends TestCase
         // then
         // he can see the positions
         // he can see Apply for
-        $response->assertSee('Apply for');
         Position::all()->each(function ($position) use ($response) {
             // dump($position->toArray());
-            $response->assertSee("Apply for $position->name");
+            $response->assertSee(htmlspecialchars($position->name));
         });
     }
     /**
