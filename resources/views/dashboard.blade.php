@@ -22,7 +22,7 @@
             </div>
             <div class="flex cursor-pointer border px-4 py-2 text-lg text-grey-darkest">
                 <div class="pl-2">
-                    View Open Position
+                    <a href={{ route('crew_position.index') }}>View Open Position</a>
                 </div>
             </div>
             @endif @if(Auth::user()->hasRole('Producer'))
