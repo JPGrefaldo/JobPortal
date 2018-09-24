@@ -20,6 +20,7 @@ class CreateCrewPositionsTable extends Migration
             $table->text('details');
             $table->text('union_description');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('crew_id')
                   ->references('id')

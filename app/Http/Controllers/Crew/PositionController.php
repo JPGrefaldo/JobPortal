@@ -96,5 +96,8 @@ class PositionController extends Controller
     public function destroy(Position $position)
     {
         //
+        $crewPosition::byCrewAndPosition(auth()->user()->crew, $position);
+
+        $crewPosition->delete();
     }
 }

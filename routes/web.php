@@ -101,11 +101,16 @@ Route::middleware('auth')->group(function () {
         Route::put('/crews/{crew}', 'CrewsController@update');
 
 
-        // TODO: discuss if this should be public
-        Route::get('/crew/positions/', 'Crew\PositionController@index')->name('crew_position.index');
-        Route::get('/crew/positions/{position}', 'Crew\PositionController@show')->name('crew_position.show');
-        Route::post('/crew/positions/{position}', 'Crew\PositionController@store')->name('crew_position.store');
-        Route::post('/crew/positions/', 'Crew\CrewPositionsController@store');
+        Route::prefix('/crew/positions/')->group(function () {
+            Route::get('/', 'Crew\PositionController@index')
+                ->name('crew_position.index');
+            Route::get('/{position}', 'Crew\PositionController@show')
+                ->name('crew_position.show');
+            Route::post('/{position}', 'Crew\PositionController@store')
+                ->name('crew_position.store');
+            Route::delete('/{position}', 'Crew\PositionController@destroy')
+                ->name('crew_position.destroy');
+        });
 
         Route::post('/crew/positions/{position}/endorsement-requests', 'Crew\EndorsementRequestController@store')->name('endorsement_requests.store');
 

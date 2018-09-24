@@ -5,7 +5,7 @@
         <div class="container">
             <div class="w-full pb-md md:pb-lg">
                 <h1 class="font-header text-blue-dark text-xl md:text-2xl font-semibold">
-                    Crew Position
+                    {{ $position->name }}
                 </h1>
             </div>
             <div class="w-1/4 float-left pr-8 py-md hidden md:block">
@@ -38,30 +38,44 @@
                             Job details
                         </h3>
                     </div>
-                    <div class="md:flex py-3">
-                        <div class="md:w-1/3 pr-6">
-                            <span class="block md:text-right mt-4 font-header text-blue-dark font-semibold mb-3">
-                                Ask for an endorsement.
-                            </span>
-                        </div>
-                        <div class="md:w-2/3 pr-6">
-                            @if (auth()->user()->crew->hasPosition($position))
-                                <form action="{{ route('endorsement_requests.store', ['position' => $position]) }}" method="post">
-                                    {{ csrf_field() }}
-                                    <div class="md:flex">
-                                        <div class="md:w-1/2">
-                                            <input class="form-control w-full" name="endorsers[0][name]" placeholder="Endorser's name." type="text">
+                    @if (auth()->user()->crew->hasPosition($position))
+                        <div class="md:flex py-3">
+                            <div class="md:w-1/3 pr-6">
+                                <span class="block md:text-right mt-4 font-header text-blue-dark font-semibold mb-3">
+                                    Ask for an endorsement.
+                                </span>
+                            </div>
+                            <div class="md:w-2/3 pr-6">
+                                    <form action="{{ route('endorsement_requests.store', ['position' => $position]) }}" method="post">
+                                        {{ csrf_field() }}
+                                        <div class="md:flex">
+                                            <div class="md:w-1/2">
+                                                <input class="form-control w-full" name="endorsers[0][name]" placeholder="Endorser's name." type="text">
+                                            </div>
+                                            <div class="md:w-1/2">
+                                                <input class="form-control w-full" name="endorsers[0][email]" placeholder="Endorser's email." type="text">
+                                            </div>
+                                            <input dusk="ask_endorsement" type="submit" value="Ask Endorsement">
                                         </div>
-                                        <div class="md:w-1/2">
-                                            <input class="form-control w-full" name="endorsers[0][email]" placeholder="Endorser's email." type="text">
-                                        </div>
-                                        <input dusk="ask_endorsement" type="submit" value="Ask Endorsement">
-                                    </div>
-                                </form>
-                            @endif
+                                    </form>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
+                    @else
+                        <div class="md:flex py-3">
+                            <div class="md:w-1/3 pr-6">
+                                <span class="block md:text-right mt-4 font-header text-blue-dark font-semibold mb-3">
+                                    <form action="{{ route('crew_position.store', $position) }}" method="post">
+                                        {{ csrf_field() }}
+                                        <button type="submit">Apply</button>
+                                    </form>
+                                </span>
+                            </div>
+                            <div class="md:w-2/3 pr-6">
+                                </div>
+                            </div>
+                        </div>
+                    @endif
             </div>
         </div>
     </main>

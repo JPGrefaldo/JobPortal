@@ -47,6 +47,7 @@ class CrewPositionFeatureTest extends TestCase
             $response->assertSee(htmlspecialchars($position->name));
         });
     }
+
     /**
      * @test
      */
@@ -72,5 +73,31 @@ class CrewPositionFeatureTest extends TestCase
             'details' => $crewPosition['details'],
             'union_description' => $crewPosition['union_description'],
         ]);
+    }
+
+    /**
+     * @test
+     */
+    public function crew_can_un_apply_from_a_position()
+    {
+        // given
+        $position = factory(Position::class)->create();
+        $crewPosition = factory(CrewPosition::class)
+                ->create([
+                    'crew_id' => $this->crew->id,
+                    'position_id' => $position->id
+                ]);
+
+        // when
+        $response = $this
+            ->actingAs($this->user)
+            ->delete(route(
+                'crew_position.destroy',
+                $position
+            ));
+
+
+        // then
+        dump($crewPosition->fresh());
     }
 }
