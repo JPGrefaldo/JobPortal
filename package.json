@@ -22,6 +22,7 @@
     },
     "dependencies": {
         "slick-carousel": "^1.8.1",
-        "tooltipster": "^4.2.6"
+        "tooltipster": "^4.2.6",
+        "v-tooltip": "^2.0.0-rc.33"
     }
 }

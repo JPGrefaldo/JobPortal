@@ -34,6 +34,7 @@ mix.scripts([
 /** CSS **/
 
 mix.styles(['resources/assets/css/plugins/slick.css',
+    'resources/assets/css/plugins/v-tooltip.css',
     'node_modules/tooltipster/dist/css/tooltipster.bundle.min.css',
     'node_modules/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-borderless.min.css'
 ], 'public/css/plugins.css').sourceMaps().version();

@@ -7,8 +7,6 @@
         <div class="container">
             @include('_parts.pages.page-title', ['pageTitle' => 'Account Settings'])
 
-            @include('_parts.messagebox')
-
             @include('account._parts.account-menu', ['menu_items' => [
                     'account.name' => 'Name',
                     'account.contact' => 'Contact',

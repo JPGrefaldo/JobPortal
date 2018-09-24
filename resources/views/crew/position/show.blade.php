@@ -65,5 +65,5 @@
             </div>
         </div>
     </main>
-    @include('_parts/footer')
+    @include('_parts.footer.footer')
 </body>

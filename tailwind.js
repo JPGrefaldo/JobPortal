@@ -115,6 +115,9 @@ module.exports = {
     'lg': '992px',
     'xl': '1200px',
     'sm-only': {'max': '767px'},
+    '-xl' : {'max': '1200px'},
+    '-lg' : {'max': '992px'},
+    '-md' : {'max': '768px'},
   },
 
 

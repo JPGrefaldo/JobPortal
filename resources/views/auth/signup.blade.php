@@ -1,9 +1,7 @@
 @extends('layouts.default_layout')
 
 @section('content')
-
-@section('content')
-    @component('_parts.componets.single-card-button-page')
+    @component('_parts.components.single-card-button-page')
         @slot('cardTitle')
             <div class="p-8 text-center border-b border-grey-light">
                 <h2 class="font-header text-blue-dark text-lg text-center font-semibold">Sign up</h2>
@@ -13,15 +11,12 @@
             <div class="pb-2 text-center">
                 <h4 class="uppercase text-sm">I WANT TO:</h4>
             </div>
-            <div class=" bg-white md:shadow md:border border-grey-light md:rounded-full overflow-hidden md:flex text-center items-stretch">
-                <input type="button" class="block text-center border-grey-light p-3 mb-2 border rounded-full sm-only:w-full md:w-1/2 md:mb-0 md:rounded-none md:border-t-0 md:border-b-0 md:border-r
-                                @if(in_array(\App\Models\Role::PRODUCER, old('type', []))) want-to__selected @else want-to__default @endif" id="select-want-project" value="Hire for a Project">
-                <input type="button" class="block border md:border-none border-grey-light sm-only:w-full md:border-none text-center rounded-full md:rounded-none md:w-1/2 p-3
-                                @if(in_array(\App\Models\Role::CREW, old('type', []))) want-to__selected @else want-to__default @endif" id="select-want-work" value="Work as Crew">
-            </div>
-
-            <input type="hidden" @if(in_array(\App\Models\Role::PRODUCER, old('type', []))) name="type" @else name="trash" @endif id="type-project" value="{{ \App\Models\Role::PRODUCER }}">
-            <input type="hidden" @if(in_array(\App\Models\Role::CREW, old('type', []))) name="type" @else name="trash" @endif id="type-work" value="{{ \App\Models\Role::CREW }}">
+            <signup-type
+                @if(in_array(\App\Models\Role::PRODUCER, old('type', []))) is-producer-active @endif
+                @if(in_array(\App\Models\Role::CREW, old('type', []))) is-crew-active @endif
+                producer-type="{{ \App\Models\Role::PRODUCER }}"
+                crew-type="{{ \App\Models\Role::CREW }}"
+            ></signup-type>
             <div class="p-2 text-center text-sm text-grey">You can choose both</div>
             <div class="py-2">
                 <label class="block font-semibold mb-2" for="">Full name</label>
@@ -81,7 +76,7 @@
                 @include('_parts.errors.input-error-message-inline', ['input_element' => 'phone'])
             </div>
             <div class="py-2">
-                <div class="float-right">@include('_parts.componets.tooltip', ['tooltipText' => 'You will receive SMS alerts to your phone'])</div>
+                <div class="float-right">@include('_parts.components.tooltip', ['tooltipText' => 'You will receive SMS alerts to your phone'])</div>
                 <label class="block">
                     <input name="receive_sms" id="receive_sms" value="1" class="mr-1" type="checkbox" @if(old('receive_sms', 0) == 1) checked @endif> Receive text alerts
                 </label>

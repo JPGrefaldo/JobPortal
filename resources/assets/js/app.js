@@ -16,89 +16,16 @@ window.Vue = require('vue');
  */
 
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
-//
-// const app = new Vue({
-//     el: '#app'
-// });
 
-function reverse_val(element) {
-    if ($(element).attr('name') == "trash") {
-        $(element).attr('name', "type[]");
-        return true;
-    }
+//https://akryum.github.io/v-tooltip/#/
+Vue.component('tooltip', require('v-tooltip'));
 
-    $(element).attr('name', "trash");
-    return false;
-}
+Vue.component('signup-type', require('./components/SignupTypeComponent'));
+Vue.component('bubble-slidder', require('./components/BubbleSiliderComponent'));
+Vue.component('mobile-menu', require('./components/MobileMenuComponent'));
 
-function reverse_want_to_class(element) {
-    if ($(element).hasClass("want-to__default")) {
-        $(element).removeClass("want-to__default");
-        $(element).addClass("want-to__selected");
-    } else {
-        $(element).removeClass("want-to__selected");
-        $(element).addClass("want-to__default");
-    }
-}
-
-
-
-$(function() {
-    if ($("#select-want-project").length) {
-        $("#select-want-project").click(function (event) {
-            reverse_want_to_class($(this));
-            reverse_val("#type-project");
-        });
-    }
-    if ($("#select-want-work").length) {
-        $("#select-want-work").click(function (event) {
-            reverse_want_to_class($(this));
-            reverse_val("#type-work");
-        });
-    }
-
-    $('.tooltip').tooltipster({
-        trigger: 'click',
-        theme: 'tooltipster-borderless'
-    });
-
-    if ($(".js-switch").length) {
-        $(".js-switch").click(function (event) {
-            if ($(this).hasClass("switch-on")) {
-                $(this).removeClass("switch-on");
-                $(this).addClass("switch-off");
-                $('[name="' + $(this).attr('id') + '"]').val(0);
-
-            } else {
-                $(this).removeClass("switch-off");
-                $(this).addClass("switch-on");
-                $('[name="' + $(this).attr('id') + '"]').val(1);
-            }
-        });
-    }
-
-    $('.tooltip').tooltip();
-
-    if ($(".js-switch").length) {
-        $(".js-switch").click(function (event) {
-            if ($(this).hasClass("switch-on")) {
-                $(this).removeClass("switch-on");
-                $(this).addClass("switch-off");
-                $('[name="' + $(this).attr('id') + '"]').val(0);
-
-            } else {
-                $(this).removeClass("switch-off");
-                $(this).addClass("switch-on");
-                $('[name="' + $(this).attr('id') + '"]').val(1);
-            }
-        });
-    }
-    $(".url-menu").each(function() {
-        $(this).click(function () {
-            window.location = $(this).attr("href");
-        });
-    });
-
+const content = new Vue({
+    el: '#content',
 });
 
 

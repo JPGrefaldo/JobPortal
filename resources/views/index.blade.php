@@ -416,7 +416,7 @@
 
     <!-- Footer Section
     ******************************************-->
-    @include('_parts/footer')
+    @include('_parts.footer.footer')
 
     <!-- Mobile nav Section
     ******************************************-->
