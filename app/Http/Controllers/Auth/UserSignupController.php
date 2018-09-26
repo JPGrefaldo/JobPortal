@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Actions\Auth\AddRoleToUserByRoleName;
+use App\Actions\Auth\AddUserToSite;
+use App\Actions\Auth\CreateUserEmailVerificationCode;
+use App\Actions\Auth\StubUserNotifications;
+use App\Actions\Crew\StubCrew;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserSignupRequest;
 use App\Models\Role;
 use App\Models\UserNotificationSetting;
-use App\Services\AuthServices;
 use App\Services\User\UsersServices;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
@@ -41,20 +45,19 @@ class UserSignupController extends Controller
             'phone',
         ]));
 
-        UserNotificationSetting::create([
-            'user_id'     => $user->id,
-            'receive_sms' => (in_array(Role::PRODUCER, $data['type']))
-                ? 1
-                : array_get($data, 'receive_sms', 0),
-        ]);
+        app(StubUserNotifications::class)->execute($user, $data);
 
         foreach ($data['type'] as $_ => $type) {
-            app(AuthServices::class)->createByRoleName(
-                $type,
-                $user,
-                session('site')
-            );
+            app(AddRoleToUserByRoleName::class)->execute($user, $type);
+
+            if ($type == 'Crew') {
+                app(StubCrew::class)->execute($user);
+            }
         }
+
+        app(CreateUserEmailVerificationCode::class)->execute($user);
+
+        app(AddUserToSite::class)->execute($user, session('site'));
 
         event(new Registered($user));
 
