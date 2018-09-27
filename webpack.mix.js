@@ -48,5 +48,5 @@ mix.postCss('resources/assets/css/styles.css', 'public/css', [
 
 /** Other **/
 
-//mix.browserSync('http://localhost:8000');
+mix.browserSync('http://localhost:8000');
 

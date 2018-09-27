@@ -5,6 +5,54 @@
     <div class="container">
         @include('_parts.pages.page-title', ['pageTitle' => $position->name])
 
+        <div class="flex">
+            {{-- sidecontent --}}
+            <div class="w-1/4 text-grey py-md">
+                <div class="mb-lg">
+                    <h4 class="mb-4">JOB TIPS</h4>
+                    <p>
+                        The more people you get to endorse you, the higher chance of you being selected for a job.
+                    </p>
+                </div>
+                <div class="mb-lg">
+                    <h4 class="mb-4">
+                        HOW IT WORKS VIDEO
+                    </h4>
+                    <div class=""></div>
+                    <a href="#">video</a>
+                </div>
+                <div>
+                    <h4 class="mb-4">
+                        Need help?
+                    </h4>
+                    <a href="">Contact Support</a>
+                </div>
+            </div>
+
+            {{-- main content --}}
+            <div class="bg-white rounded flex-1 shadow p-8 mb-4">
+                {{-- department --}}
+                <div class="mb-4">
+                    Department: {{ $position->department->name }}
+                </div>
+
+                {{-- if crew has gear display it --}}
+
+                {{-- if crew has union for position display it --}}
+
+                {{-- IDK this has many --}}
+
+                {{-- details --}}
+                <div>
+                    The details for job title. Only showed when crew applied
+                </div>
+
+                {{-- union description --}}
+                <div>
+                    The description for job title. Only showed when crew applied
+                </div>
+            </div>
+        </div>
         {{-- sidecontent --}}
         <div class="w-1/4 float-left pr-8 py-md hidden md:block">
             <h4 class="text-grey mb-4">

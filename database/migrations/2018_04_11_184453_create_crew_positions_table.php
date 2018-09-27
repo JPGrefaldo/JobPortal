@@ -17,7 +17,9 @@ class CreateCrewPositionsTable extends Migration
             $table->increments('id');
             $table->integer('crew_id')->unsigned();
             $table->integer('position_id')->unsigned();
+            // should be nullable or else it will conflict with logic of position
             $table->text('details');
+            // should be nullable or else it will conflict with logic of position
             $table->text('union_description');
             $table->timestamps();
             $table->softDeletes();
