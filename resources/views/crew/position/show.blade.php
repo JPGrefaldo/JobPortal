@@ -9,7 +9,9 @@
             {{-- sidecontent --}}
             <div class="w-1/4 text-grey py-md">
                 <div class="mb-lg">
-                    <h4 class="mb-4">JOB TIPS</h4>
+                    <h4 class="mb-4">
+                        JOB TIPS
+                    </h4>
                     <p>
                         The more people you get to endorse you, the higher chance of you being selected for a job.
                     </p>
@@ -30,100 +32,82 @@
             </div>
 
             {{-- main content --}}
-            <div class="bg-white rounded flex-1 shadow p-8 mb-4">
-                {{-- department --}}
-                <div class="mb-4">
-                    Department: {{ $position->department->name }}
-                </div>
-
-                {{-- if crew has gear display it --}}
-
-                {{-- if crew has union for position display it --}}
-
-                {{-- IDK this has many --}}
-
-                {{-- details --}}
-                <div>
-                    The details for job title. Only showed when crew applied
-                </div>
-
-                {{-- union description --}}
-                <div>
-                    The description for job title. Only showed when crew applied
-                </div>
-            </div>
-        </div>
-        {{-- sidecontent --}}
-        <div class="w-1/4 float-left pr-8 py-md hidden md:block">
-            <h4 class="text-grey mb-4">
-                JOB TIPS
-            </h4>
-            <p>
-                The more people you get to endorse you, the higher chance of you being selected for a job.
-            </p>
-            <div class="py-lg">
-                <h4 class="text-grey mb-4">
-                    HOW IT WORKS VIDEO
-                </h4>
-                <a class="pb-66 h-none rounded relative block" href="#" style="background: url(images/th2.jpg); background-size:cover;">
-                    <span class="btn-play w-10 h-10">
-                    </span>
-                </a>
-            </div>
             <div>
-                <h4 class="text-grey leading-loose">
-                    Need help?<br>
-                    <a class="text-green" href="#">Contact support</a>
-                </h4>
-            </div>
-        </div>
+                <div class="bg-white rounded flex-1 shadow-lg p-8 mb-4">
+                    <div class="flex mb-4 items-center">
+                        {{-- department --}}
+                        <h2 class="flex-1">
+                            Department: {{ $position->department->name }}
+                        </h2>
+                        {{-- apply or leave --}}
+                        @if ($crew->hasPosition($position))
+                            <button class="bg-red hover:bg-red-dark text-white font-bold py-2 px-4 rounded">
+                                Leave
+                            </button>
+                        @else
+                            <button class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded">
+                                Apply
+                            </button>
+                        @endif
+                    </div>
 
-        {{-- main content --}}
-        <div class="md:w-3/4 float-left">
-            <div class="card mb-8">
-                <div class="w-full mb-6">
-                    <h3 class="text-blue-dark font-semibold text-lg mb-1 font-header">
-                        Job details
-                    </h3>
+                    {{-- if crew has gear display it --}}
+                    {{-- TODO: create test --}}
+                    @if ($crew->gears->count())
+                        <div class="mb-4">
+                            {{ $crew->gears }}
+                        </div>
+                    @endif
+
+                    {{-- if crew has union for position display it --}}
+                    {{-- TODO: create test --}}
+                    @if ($crew->hasPosition($position))
+                        <div class="mb-4">
+                            Union Description: {{ App\Models\CrewPosition::byCrewAndPosition($crew, $position)->first()->union_description }}
+                        </div>
+                    @endif
+
+                    {{-- IDK this has many --}}
+
+                    @if ($crew->hasPosition($position))
+                        {{-- details --}}
+                        <div class="mb-4">
+                            Details: {{ App\Models\CrewPosition::byCrewAndPosition($crew, $position)->first()->details }}
+                        </div>
+                    @endif
                 </div>
-                @if (auth()->user()->crew->hasPosition($position))
-                    <div class="md:flex py-3">
-                        <div class="md:w-1/3 pr-6">
-                            <span class="block md:text-right mt-4 font-header text-blue-dark font-semibold mb-3">
-                                Ask for an endorsement.
-                            </span>
-                        </div>
-                        <div class="md:w-2/3 pr-6">
-                                <form action="{{ route('endorsement_requests.store', ['position' => $position]) }}" method="post">
-                                    {{ csrf_field() }}
-                                    <div class="md:flex">
-                                        <div class="md:w-1/2">
-                                            <input class="form-control w-full" name="endorsers[0][name]" placeholder="Endorser's name." type="text">
-                                        </div>
-                                        <div class="md:w-1/2">
-                                            <input class="form-control w-full" name="endorsers[0][email]" placeholder="Endorser's email." type="text">
-                                        </div>
-                                        <input dusk="ask_endorsement" type="submit" value="Ask Endorsement">
-                                    </div>
-                                </form>
+
+                <div class="bg-white rounded flex-1 shadow-lg p-8 mb-4">
+
+                    @if ($crew->hasPosition($position))
+                        <form class="w-full max-w-md">
+                            <div class="flex flex-wrap -mx-3 mb-6">
+                                <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                                    <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="endorser_name_1">
+                                        Endorser name
+                                    </label>
+                                    <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-grey"
+                                        id="endorser_name_1" type="text" placeholder="John Doe">
+                                </div>
+                                <div class="w-full md:w-1/2 px-3">
+                                    <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="endorser_email_1">
+                                        Last Name
+                                    </label>
+                                    <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-grey"
+                                        id="endorser_email_1" type="text" placeholder="joe@example.com">
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                @else
-                    <div class="md:flex py-3">
-                        <div class="md:w-1/3 pr-6">
-                            <span class="block md:text-right mt-4 font-header text-blue-dark font-semibold mb-3">
-                                <form action="{{ route('crew_position.store', $position) }}" method="post">
-                                    {{ csrf_field() }}
-                                    <button type="submit">Apply</button>
-                                </form>
-                            </span>
-                        </div>
-                        <div class="md:w-2/3 pr-6">
-                            </div>
-                        </div>
-                    </div>
-                @endif
+                            <div class="w-full md:w-1/3 px-3">
+                                <button class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded align-baseline">
+                                    Ask Endorsement
+                                </button>
+                            <div>
+                        </form>
+                    @endif
+                </div>
+            </div>
+            {{-- main content end --}}
+
         </div>
     </div>
 @endsection

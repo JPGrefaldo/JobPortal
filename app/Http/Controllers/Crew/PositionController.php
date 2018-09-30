@@ -61,7 +61,8 @@ class PositionController extends Controller
      */
     public function show(Position $position)
     {
-        return view('crew.position.show')->with('position', $position);
+        $crew = auth()->user()->crew;
+        return view('crew.position.show', compact('position', 'crew'));
     }
 
     /**
