@@ -7,7 +7,7 @@
 
         <div class="flex">
             {{-- sidecontent --}}
-            <div class="w-1/4 text-grey py-md">
+            <div class="w-1/4 text-grey mr-4">
                 <div class="mb-lg">
                     <h4 class="mb-4">
                         JOB TIPS
@@ -91,7 +91,7 @@
                                 </div>
                                 <div class="w-full md:w-1/2 px-3">
                                     <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="endorser_email_1">
-                                        Last Name
+                                        Endorser Email
                                     </label>
                                     <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-grey"
                                         id="endorser_email_1" type="text" placeholder="joe@example.com">

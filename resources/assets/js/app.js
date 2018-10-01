@@ -9,6 +9,7 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+window.form = require('./form');
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -23,6 +24,7 @@ Vue.component('tooltip', require('v-tooltip'));
 Vue.component('signup-type', require('./components/SignupTypeComponent'));
 Vue.component('bubble-slidder', require('./components/BubbleSiliderComponent'));
 Vue.component('mobile-menu', require('./components/MobileMenuComponent'));
+Vue.component('create-crew-position-form', require('./components/CreateCrewPositionFormComponent'));
 
 const content = new Vue({
     el: '#content',

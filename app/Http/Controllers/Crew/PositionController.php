@@ -20,7 +20,6 @@ class PositionController extends Controller
         // $user = auth()->user();
 
         return view('crew.position.index', compact('positions'));
-        return 'Apply for';
     }
 
     /**
@@ -28,9 +27,9 @@ class PositionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Position $position)
     {
-        //
+        return view('crew.position.create', compact('position'));
     }
 
     /**

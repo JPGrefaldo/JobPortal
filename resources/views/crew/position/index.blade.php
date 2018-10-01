@@ -15,7 +15,7 @@
                                 Leave
                             </a>
                         @else
-                            <a class="inline-block border border-blue rounded py-2 px-4 bg-blue hover:bg-blue-dark text-white" href="#">
+                            <a class="inline-block border border-blue rounded py-2 px-4 bg-blue hover:bg-blue-dark text-white" href="{{ route('crew_position.create', $position) }}">
                                 Apply
                             </a>
                         @endif
