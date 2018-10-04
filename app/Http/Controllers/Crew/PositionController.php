@@ -29,6 +29,13 @@ class PositionController extends Controller
      */
     public function create(Position $position)
     {
+        $crew = auth()->user()->crew;
+
+        // TODO: create test
+        if ($crew->hasPosition($position)) {
+            return redirect(route('crew_position.edit', $position));
+        }
+
         return view('crew.position.create', compact('position'));
     }
 
@@ -40,6 +47,10 @@ class PositionController extends Controller
      */
     public function store(Position $position, Request $request)
     {
+        $validatedData = $request->validate([
+            'details' => 'required',
+            'union_description' => 'required',
+        ]);
         $crew = auth()->user()->crew;
 
         if ($crew->hasPosition($position)) {
@@ -72,7 +83,7 @@ class PositionController extends Controller
      */
     public function edit(Position $position)
     {
-        //
+        return view('crew.position.edit', compact('position'));
     }
 
     /**

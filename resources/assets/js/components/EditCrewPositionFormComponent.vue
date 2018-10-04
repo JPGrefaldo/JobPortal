@@ -27,12 +27,12 @@
 
     export default {
         name: "CreateCrewPositionFormComponent",
-        props: ['url'],
+        props: ['url', 'details', 'union_description'],
         data() {
             return {
                 form: new Form({
-                    details: '',
-                    union_description: '',
+                    details: details,
+                    union_description: union_description,
                 })
             }
         },

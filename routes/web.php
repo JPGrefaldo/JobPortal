@@ -106,10 +106,12 @@ Route::middleware('auth')->group(function () {
                 ->name('crew_position.index');
             Route::get('/{position}/create', 'Crew\PositionController@create')
                 ->name('crew_position.create');
-            Route::get('/{position}', 'Crew\PositionController@show')
-                ->name('crew_position.show');
             Route::post('/{position}', 'Crew\PositionController@store')
                 ->name('crew_position.store');
+            Route::get('/{position}', 'Crew\PositionController@show')
+                ->name('crew_position.show');
+            Route::get('/{position}', 'Crew\PositionController@edit')
+                ->name('crew_position.edit');
             Route::delete('/{position}', 'Crew\PositionController@destroy')
                 ->name('crew_position.destroy');
         });
