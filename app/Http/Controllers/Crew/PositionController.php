@@ -45,6 +45,7 @@ class PositionController extends Controller
      */
     public function store(Position $position, Request $request)
     {
+        // TODO: create validation test
         $validatedData = $request->validate([
             'details' => 'required',
             'union_description' => 'required',
@@ -69,6 +70,7 @@ class PositionController extends Controller
      */
     public function show(Position $position)
     {
+        // TODO: create test
         $crew = auth()->user()->crew;
         return view('crew.position.show', compact('position', 'crew'));
     }
@@ -81,6 +83,7 @@ class PositionController extends Controller
      */
     public function edit(Position $position)
     {
+        // TODO: create test
         return view('crew.position.edit', compact('position'));
     }
 
@@ -104,7 +107,7 @@ class PositionController extends Controller
      */
     public function destroy(Position $position)
     {
-        //
+        // TODO: create test
         $crewPosition::byCrewAndPosition(auth()->user()->crew, $position);
 
         $crewPosition->delete();
