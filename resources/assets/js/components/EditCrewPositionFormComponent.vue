@@ -31,28 +31,23 @@
         data() {
             return {
                 form: new Form({
-                    details: details,
-                    union_description: union_description,
+                    details: this.details,
+                    union_description: this.union_description,
                 })
             }
         },
         methods: {
             create() {
-                // TODO: handle data validation after post
+                // TODO: handle data validation befor post
                 // review promise errors
                 this
                     .form
                     .post(this.url, this.form)
                     .then(
-                        () => {
-                            // things to do when success
-                            // self.form.finishProcessing();
-                            // window.location.href = '/projects/create';
-                        },
-                        (error) => {
-                            this.form.setErrors(error.response.data.errors);
-                        }
-
+                        data => console.log(data)
+                    )
+                    .catch(
+                        errors => console.log(errors)
                     );
                 // this.form.setErrors(error.response.data.errors);
             },

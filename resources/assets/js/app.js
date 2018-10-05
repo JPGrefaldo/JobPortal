@@ -24,6 +24,7 @@ Vue.component('signup-type', require('./components/SignupTypeComponent'));
 Vue.component('bubble-slidder', require('./components/BubbleSiliderComponent'));
 Vue.component('mobile-menu', require('./components/MobileMenuComponent'));
 Vue.component('create-crew-position-form', require('./components/CreateCrewPositionFormComponent'));
+Vue.component('edit-crew-position-form', require('./components/EditCrewPositionFormComponent'));
 
 const content = new Vue({
     el: '#content',

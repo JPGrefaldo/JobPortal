@@ -84,7 +84,8 @@ class PositionController extends Controller
     public function edit(Position $position)
     {
         // TODO: create test
-        return view('crew.position.edit', compact('position'));
+        $crew = auth()->user()->crew;
+        return view('crew.position.edit', compact('crew', 'position'));
     }
 
     /**
