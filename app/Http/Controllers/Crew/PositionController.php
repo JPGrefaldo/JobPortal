@@ -15,9 +15,7 @@ class PositionController extends Controller
      */
     public function index()
     {
-        //
         $positions = Position::all();
-        // $user = auth()->user();
 
         return view('crew.position.index', compact('positions'));
     }

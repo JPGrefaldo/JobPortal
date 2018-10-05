@@ -110,7 +110,7 @@ Route::middleware('auth')->group(function () {
                 ->name('crew_position.store');
             Route::get('/{position}', 'Crew\PositionController@show')
                 ->name('crew_position.show');
-            Route::get('/{position}', 'Crew\PositionController@edit')
+            Route::get('/{position}/edit', 'Crew\PositionController@edit')
                 ->name('crew_position.edit');
             Route::delete('/{position}', 'Crew\PositionController@destroy')
                 ->name('crew_position.destroy');
