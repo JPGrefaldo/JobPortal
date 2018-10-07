@@ -32,7 +32,7 @@
             </div>
 
             {{-- main content --}}
-            <div>
+            <div class="w-3/4">
                 <div class="bg-white rounded flex-1 shadow-lg p-8 mb-4">
                     <div class="flex mb-4 items-center">
                         {{-- department --}}
@@ -77,34 +77,12 @@
                     @endif
                 </div>
 
-                <div class="bg-white rounded flex-1 shadow-lg p-8 mb-4">
-
-                    @if ($crew->hasPosition($position))
-                        <form class="w-full max-w-md">
-                            <div class="flex flex-wrap -mx-3 mb-6">
-                                <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                                    <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="endorser_name_1">
-                                        Endorser name
-                                    </label>
-                                    <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-grey"
-                                        id="endorser_name_1" type="text" placeholder="John Doe">
-                                </div>
-                                <div class="w-full md:w-1/2 px-3">
-                                    <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="endorser_email_1">
-                                        Endorser Email
-                                    </label>
-                                    <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-grey"
-                                        id="endorser_email_1" type="text" placeholder="joe@example.com">
-                                </div>
-                            </div>
-                            <div class="w-full md:w-1/3 px-3">
-                                <button class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded align-baseline">
-                                    Ask Endorsement
-                                </button>
-                            <div>
-                        </form>
-                    @endif
+                @if ($crew->hasPosition($position))
+                <div>
+                    hitting
+                    <create-endorsement-request-form></create-endorsement-request-form>
                 </div>
+                @endif
             </div>
             {{-- main content end --}}
 

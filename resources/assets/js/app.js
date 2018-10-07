@@ -25,6 +25,7 @@ Vue.component('bubble-slidder', require('./components/BubbleSiliderComponent'));
 Vue.component('mobile-menu', require('./components/MobileMenuComponent'));
 Vue.component('create-crew-position-form', require('./components/CreateCrewPositionFormComponent'));
 Vue.component('edit-crew-position-form', require('./components/EditCrewPositionFormComponent'));
+Vue.component('create-endorsement-request-form', require('./components/CreateEndorsementRequestFormComponent'));
 
 const content = new Vue({
     el: '#content',
