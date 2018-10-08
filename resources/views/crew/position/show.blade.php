@@ -79,7 +79,6 @@
 
                 @if ($crew->hasPosition($position))
                 <div>
-                    hitting
                     <create-endorsement-request-form></create-endorsement-request-form>
                 </div>
                 @endif

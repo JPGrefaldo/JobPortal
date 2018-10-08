@@ -38,11 +38,12 @@ class EndorsementRequestController extends Controller
             ]);
 
             // send email
+            // TODO: defer to queue
             Mail::to($endorser['email'])
                 ->send(new EndorsementRequestEmail($endorsement));
         }
 
-        return response('done');
+        return response('Emails Sent');
     }
 
     protected function filterEndorsers($endorsers)
