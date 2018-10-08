@@ -137,4 +137,26 @@ class EndorsementRequestTest extends TestCase
         $this->assertTrue($endorsementRequest->isRequestedBy($this->crew));
         $this->assertFalse($endorsementRequest->isRequestedBy($randomCrew));
     }
+
+    /**
+     * @test
+     */
+    public function isAskedToEndorse()
+    {
+        // given
+        $endorsementRequest = factory(EndorsementRequest::class)->create();
+        $endorsement = factory(Endorsement::class)
+            ->create([
+                'endorsement_request_id' => $endorsementRequest->id
+            ]);
+
+        // when
+
+        // then
+        $this->assertTrue(
+            $endorsementRequest->isAskedToEndorse(
+                $endorsement->endorser_email
+            )
+        );
+    }
 }

@@ -71,24 +71,15 @@ class EndorsementRequestFeatureTest extends TestCase
 
         // when
         $data = [
-            'endorsers' => [
-                [
-                    'name' => '',
-                    'email' => '',
-                ],
-                [
-                    'name' => 'Ron Swanson',
-                    'email' => 'Mambo No. 5',
-                ],
-            ],
+            'name' => '',
+            'email' => '',
         ];
         $response = $this->askEndorsementFor($position, $data);
 
         // then
         $response->assertJsonValidationErrors([
-            'endorsers.0.name',
-            'endorsers.0.email',
-            'endorsers.1.email'
+            'endorsers.name',
+            'endorsers.email',
         ]);
     }
 
@@ -107,23 +98,9 @@ class EndorsementRequestFeatureTest extends TestCase
             'position_id' => $position->id,
         ]);
 
-        $endorserName1 = $this->faker->name;
-        $endorserEmail1 = $this->faker->email;
-
-        $endorserName2 = $this->faker->name;
-        $endorserEmail2 = $this->faker->email;
-
         $data = [
-            'endorsers' => [
-                [
-                    'name' => $endorserName1,
-                    'email' => $endorserEmail1,
-                ],
-                [
-                    'name' => $endorserName2,
-                    'email' => $endorserEmail2,
-                ],
-            ],
+            'name' => 'John Doe',
+            'email' => 'john@email.com',
         ];
 
         // when
@@ -131,9 +108,8 @@ class EndorsementRequestFeatureTest extends TestCase
 
         // then
         $endorsementRequest = EndorsementRequest::first();
-        $this->assertEquals(1, EndorsementRequest::count());
-        $this->assertEquals(2, Endorsement::count());
-        $this->assertCount(2, Endorsement::all()->toArray());
+        $this->assertCount(1, EndorsementRequest::all());
+        $this->assertCount(1, Endorsement::all());
 
         $this->assertDatabaseHas('endorsement_requests', [
             'crew_position_id' => $crewPosition->id,
@@ -141,14 +117,14 @@ class EndorsementRequestFeatureTest extends TestCase
 
         $this->assertDatabaseHas('endorsements', [
             'endorsement_request_id' => $endorsementRequest->id,
-            'endorser_name' => $endorserName1,
-            'endorser_email' => $endorserEmail1,
+            'endorser_name' => 'John Doe',
+            'endorser_email' => 'john@email.com',
         ]);
 
         $this->assertDatabaseHas('endorsements', [
             'endorsement_request_id' => $endorsementRequest->id,
-            'endorser_name' => $endorserName2,
-            'endorser_email' => $endorserEmail2,
+            'endorser_name' => 'John Doe',
+            'endorser_email' => 'john@emailcom',
         ]);
     }
 

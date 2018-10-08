@@ -79,7 +79,7 @@
 
                 @if ($crew->hasPosition($position))
                 <div>
-                    <create-endorsement-request-form></create-endorsement-request-form>
+                    <create-endorsement-request-form url="{{ route('endorsement_requests.store', $position) }}"></create-endorsement-request-form>
                 </div>
                 @endif
             </div>

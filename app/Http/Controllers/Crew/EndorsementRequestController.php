@@ -22,6 +22,7 @@ class EndorsementRequestController extends Controller
      */
     public function store(Position $position, StoreEndorsementRequestRequest $request)
     {
+        dump('meeseeks');
         $crew = auth()->user()->crew;
         $crewPosition = CrewPosition::byCrewAndPosition($crew, $position)->first();
 
@@ -31,19 +32,31 @@ class EndorsementRequestController extends Controller
         );
 
         // filter endorsers, only notify them once
-        foreach ($this->filterEndorsers($request->endorsers) as $endorser) {
-            $endorsement = $this->endorsementRequest->endorsements()->create([
-                'endorser_name'  => $endorser['name'],
-                'endorser_email' => $endorser['email'],
-            ]);
-
-            // send email
-            // TODO: defer to queue
-            Mail::to($endorser['email'])
+        // get all endorsements relative to request
+        if ($endorsementRequest->isAskedToEndorse($request('email'))) {
+            // respond with, hey we already sent him
+            // return response("We already sent $request['name'] a request");
+            return response('We already sent ' . $request['name'] . ' a request');
+        } else {
+            // send
+            $endorsement = $endorsementRequest->endorsements()->save($request);
+            Mail::to($request['email'])
                 ->send(new EndorsementRequestEmail($endorsement));
+            // respond with hey we successfully sent
         }
+        // foreach ($this->filterEndorsers($request->endorsers) as $endorser) {
+        //     $endorsement = $this->endorsementRequest->endorsements()->create([
+        //         'endorser_name'  => $endorser['name'],
+        //         'endorser_email' => $endorser['email'],
+        //     ]);
 
-        return response('Emails Sent');
+        //     // send email
+        //     // TODO: defer to queue
+        //     Mail::to($endorser['email'])
+        //         ->send(new EndorsementRequestEmail($endorsement));
+        // }
+
+        // return response('Emails Sent');
     }
 
     protected function filterEndorsers($endorsers)

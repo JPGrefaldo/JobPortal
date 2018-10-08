@@ -97,4 +97,9 @@ class EndorsementRequest extends Model
     {
         return $this->crewPosition->position();
     }
+
+    public function isAskedToEndorse(string $email)
+    {
+        return $this->endorsements->where('endorser_email', $email)->count() > 0;
+    }
 }

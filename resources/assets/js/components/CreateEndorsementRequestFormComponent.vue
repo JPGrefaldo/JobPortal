@@ -7,10 +7,13 @@
                 class="flex bg-green rounded-full h-8 w-8 items-center justify-center font-bold"
                 @click.prevent="addEndorserField()">+</button>
         </div>
-        <div v-for="endorser in form.endorsers">
+        <div v-for="(endorser, index) in form.endorsers">
             <div class="flex my-6">
                 <input name="endorser_name" class="w-1/3" type="text" placeholder="John Doe" v-model="endorser.endorser_name">
                 <input name="endorser_email" class="w-1/3" type="email" placeholder="john@email.com" v-model="endorser.endorser_email">
+                <button
+                    class="flex bg-grey-light rounded-full h-8 w-8 items-center justify-center"
+                    @click.prevent="removeEndorserField(index)">x</button>
             </div>
         </div>
         <div>
@@ -29,7 +32,12 @@
 
     export default {
         name: "CreateEndorsementRequestFormComponent",
-        props: ['url'],
+        props: {
+            url: {
+                type: String,
+                required: true
+            },
+        },
         data() {
             return {
                 form: new Form({
@@ -51,52 +59,29 @@
                     }
                 );
             },
+            removeEndorserField(index) {
+                if (this.form.endorsers.length === 1) {
+                   return;
+                }
+                this.form.endorsers.splice(index, 1);
+            },
             storeEndorsementRequest() {
-                // post request
-                // this
-                //     .form
-                //     .post(this.url, this.form)
-                //     .then()
-                //     .catch();
-            },
-            create() {
-                // TODO: handle data validation after post
-                // review promise errors
-                this
-                    .form
-                    .post(this.url, this.form)
-                    .then(
-                        () => {
-                            // things to do when success
-                            // self.form.finishProcessing();
-                            // window.location.href = '/projects/create';
-                        },
-                        (error) => {
-                            this.form.setErrors(error.response.data.errors);
-                        }
-
-                    );
-                // this.form.setErrors(error.response.data.errors);
-            },
-
-            validateFields() {
-                let hasErrors = false;
-
-                if (! this.form.details) {
-                    this.form.errors.set({
-                        details: ['Details is required'],
-                    });
-                    hasErrors = true;
-                }
-
-                if (! this.form.union_description) {
-                    this.form.errors.set({
-                        days: ['Union description is required'],
-                    });
-                    hasErrors = true;
-                }
-
-                return ! hasErrors;
+                // async request to send for each endorser field
+                // make sure to disable all endorsers fields
+                // change the endorser field to some sort of response
+                    // can either be
+                        // " hey you already sent",
+                        // "we sent your request. Here's to hoping endorser will approve :)"
+                this.form.endorsers.forEach(endorser => {
+                    console.log(endorser.endorser_name);
+                    this
+                        .form
+                        .post(this.url, this.form)
+                        .then(response => {
+                            console.log(response)
+                        })
+                        .catch(errors => consoloe.log(errors));
+                });
             },
         }
     }
