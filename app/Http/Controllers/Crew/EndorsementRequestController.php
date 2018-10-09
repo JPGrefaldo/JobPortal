@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreEndorsementRequestRequest;
 use App\Mail\EndorsementRequestEmail;
 use App\Models\CrewPosition;
+use App\Models\Endorsement;
 use App\Models\EndorsementRequest;
 use App\Models\Position;
 use Illuminate\Http\Request;
@@ -22,7 +23,6 @@ class EndorsementRequestController extends Controller
      */
     public function store(Position $position, StoreEndorsementRequestRequest $request)
     {
-        dump('meeseeks');
         $crew = auth()->user()->crew;
         $crewPosition = CrewPosition::byCrewAndPosition($crew, $position)->first();
 
@@ -32,43 +32,38 @@ class EndorsementRequestController extends Controller
         );
 
         // filter endorsers, only notify them once
-        // get all endorsements relative to request
-        if ($endorsementRequest->isAskedToEndorse($request('email'))) {
-            // respond with, hey we already sent him
-            // return response("We already sent $request['name'] a request");
-            return response('We already sent ' . $request['name'] . ' a request');
+        if ($this->endorsementRequest->isAskedToEndorse($request['email'])) {
+            // TODO: create test
+            return response()->json([
+                'message' => 'We already sent ' . $request['name'] . ' a request'
+            ]);
         } else {
-            // send
-            $endorsement = $endorsementRequest->endorsements()->save($request);
+            $endorsement = Endorsement::create([
+                'endorsement_request_id' => $this->endorsementRequest->id,
+                'endorser_id' => null,
+                'endorser_name' => $request['name'],
+                'endorser_email' => $request['email'],
+            ]);
+            // TODO: defer to queue
             Mail::to($request['email'])
                 ->send(new EndorsementRequestEmail($endorsement));
-            // respond with hey we successfully sent
         }
-        // foreach ($this->filterEndorsers($request->endorsers) as $endorser) {
-        //     $endorsement = $this->endorsementRequest->endorsements()->create([
-        //         'endorser_name'  => $endorser['name'],
-        //         'endorser_email' => $endorser['email'],
-        //     ]);
 
-        //     // send email
-        //     // TODO: defer to queue
-        //     Mail::to($endorser['email'])
-        //         ->send(new EndorsementRequestEmail($endorsement));
-        // }
-
-        // return response('Emails Sent');
+        return response()->json([
+            'message' => 'Success!',
+        ]);
     }
 
-    protected function filterEndorsers($endorsers)
-    {
-        $endorserCollection = collect($endorsers);
-        $emails = $endorserCollection->pluck('email');
-        $pastEndorsers = $this->endorsementRequest
-            ->endorsements()
-            ->whereIn('endorser_email', $emails)
-            ->get(['endorser_email'])
-            ->pluck('endorser_email');
+    // protected function filterEndorsers($endorsers)
+    // {
+    //     $endorserCollection = collect($endorsers);
+    //     $emails = $endorserCollection->pluck('email');
+    //     $pastEndorsers = $this->endorsementRequest
+    //         ->endorsements()
+    //         ->whereIn('endorser_email', $emails)
+    //         ->get(['endorser_email'])
+    //         ->pluck('endorser_email');
 
-        return $endorserCollection->whereNotIn('email', $pastEndorsers);
-    }
+    //     return $endorserCollection->whereNotIn('email', $pastEndorsers);
+    // }
 }

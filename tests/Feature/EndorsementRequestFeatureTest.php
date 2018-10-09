@@ -78,8 +78,32 @@ class EndorsementRequestFeatureTest extends TestCase
 
         // then
         $response->assertJsonValidationErrors([
-            'endorsers.name',
-            'endorsers.email',
+            'name',
+            'email',
+        ]);
+
+        // when
+        $data = [
+            'name' => 'John Doe',
+            'email' => 'not an email',
+        ];
+        $response = $this->askEndorsementFor($position, $data);
+
+        // then
+        $response->assertJsonValidationErrors([
+            'email',
+        ]);
+
+        // when
+        $data = [
+            'name' => '',
+            'email' => 'john@example.com',
+        ];
+        $response = $this->askEndorsementFor($position, $data);
+
+        // then
+        $response->assertJsonValidationErrors([
+            'name',
         ]);
     }
 
@@ -89,7 +113,7 @@ class EndorsementRequestFeatureTest extends TestCase
      */
     public function endorsees_can_ask_endorsements_from_endorsers()
     {
-        // $this->withoutExceptionHandling();
+        $this->withoutExceptionHandling();
 
         // given
         $position = factory(Position::class)->create();
@@ -124,7 +148,7 @@ class EndorsementRequestFeatureTest extends TestCase
         $this->assertDatabaseHas('endorsements', [
             'endorsement_request_id' => $endorsementRequest->id,
             'endorser_name' => 'John Doe',
-            'endorser_email' => 'john@emailcom',
+            'endorser_email' => 'john@email.com',
         ]);
     }
 
@@ -133,7 +157,7 @@ class EndorsementRequestFeatureTest extends TestCase
      */
     public function endorsement_request_email_is_sent_to_endorsers_after_endorsees_ask_for_an_endorsement()
     {
-        // $this->withoutExceptionHandling();
+        $this->withoutExceptionHandling();
 
         // given
         Mail::fake();
@@ -149,7 +173,7 @@ class EndorsementRequestFeatureTest extends TestCase
 
         // then
         $endorsementRequest = EndorsementRequest::first();
-        Mail::assertSent(EndorsementRequestEmail::class, 2);
+        Mail::assertSent(EndorsementRequestEmail::class, 1);
         Mail::assertSent(
             EndorsementRequestEmail::class,
             function ($mail) use ($endorsementRequest) {
@@ -178,9 +202,10 @@ class EndorsementRequestFeatureTest extends TestCase
         // when
         // endorsee asks for endorsement again
         $response = $this->askEndorsementFor($position, $this->data());
+
         // then
-        Mail::assertSent(EndorsementRequestEmail::class, 2);
-        $this->assertCount(2, Endorsement::all()->toArray());
+        Mail::assertSent(EndorsementRequestEmail::class, 1);
+        $this->assertCount(1, Endorsement::all());
     }
 
     protected function askEndorsementFor($position, array $formData = [])
@@ -196,16 +221,8 @@ class EndorsementRequestFeatureTest extends TestCase
     protected function data()
     {
         return [
-            'endorsers' => [
-                [
-                    'name' => 'John Doe',
-                    'email' => 'john.doe@google.com',
-                ],
-                [
-                    'name' => 'Jane Doe',
-                    'email' => 'jane.doe@yahoo.com',
-                ],
-            ],
+            'name' => 'John Doe',
+            'email' => 'john.doe@google.com',
         ];
     }
 }
