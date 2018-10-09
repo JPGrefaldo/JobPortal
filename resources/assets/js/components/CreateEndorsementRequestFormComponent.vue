@@ -9,7 +9,7 @@
         </div>
         <div v-for="(endorser, index) in form.endorsers">
             <div class="flex my-6">
-                <input name="endorser_name" class="w-1/3" type="text" placeholder="John Doe" v-model="endorser.endorser_name">
+                <input name="endorser_name" class="w-1/3" type="text" placeholder="John Doe" v-model="endorser.endorser_name" :disabled="isSending">
                 <input name="endorser_email" class="w-1/3" type="email" placeholder="john@email.com" v-model="endorser.endorser_email">
                 <button
                     class="flex bg-grey-light rounded-full h-8 w-8 items-center justify-center"
@@ -48,6 +48,7 @@
                         }
                     ]
                 }),
+                isSending: false,
             }
         },
         methods: {
@@ -74,13 +75,21 @@
                         // "we sent your request. Here's to hoping endorser will approve :)"
                 this.form.endorsers.forEach(endorser => {
                     console.log(endorser.endorser_name);
+                    this.isSending = true;
                     this
                         .form
                         .post(this.url, this.form)
                         .then(response => {
                             console.log(response)
+                            this.isSending = false;
                         })
-                        .catch(errors => consoloe.log(errors));
+                        .catch(errors => {
+                            console.log(errors)
+                            console.log(errors.errors)
+                            console.log(errors.errors.endorser)
+                            console.log(errors.errors.endorser.name)
+                            console.log(errors.errors.endorser.email)
+                        });
                 });
             },
         }

@@ -29,8 +29,8 @@ class StoreEndorsementRequestRequest extends FormRequest
             // 'endorsers.*.name' => 'required|string',
             // 'endorsers.*.email' => 'required|email',
 
-            'endorsers.name' => 'required|string',
-            'endorsers.email' => 'required|email',
+            'name' => 'required|string',
+            'email' => 'required|email',
         ];
     }
 }
