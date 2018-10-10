@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Actions\User;
+namespace Tests\Unit\Actions\Auth;
 
 use App\Actions\Auth\StubUserNotifications;
 use App\Models\User;
