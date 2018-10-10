@@ -16,11 +16,14 @@ class StubUserNotifications
      */
     public function execute($user, $data)
     {
+        $user->refresh();
+        if ($user->hasRole(Role::PRODUCER)) {
+            $data['receive_sms'] = true;
+        }
+
         return UserNotificationSetting::create([
             'user_id'     => $user->id,
-            'receive_sms' => (! in_array('receive_sms', $data))
-                ? 1
-                : array_get($data, 'receive_sms', 0),
+            'receive_sms' => array_get($data, 'receive_sms', 0),
         ]);
     }
 }

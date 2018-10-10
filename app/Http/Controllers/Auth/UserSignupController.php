@@ -6,6 +6,8 @@ use App\Actions\Auth\AddRoleToUserByRoleName;
 use App\Actions\Auth\AddUserToSite;
 use App\Actions\Auth\CreateUserEmailVerificationCode;
 use App\Actions\Auth\StubUserNotifications;
+use App\Actions\Crew\createCrewAccount;
+use App\Actions\Crew\createProducerAccount;
 use App\Actions\Crew\StubCrew;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserSignupRequest;
@@ -45,15 +47,15 @@ class UserSignupController extends Controller
             'phone',
         ]));
 
-        app(StubUserNotifications::class)->execute($user, $data);
-
         foreach ($data['type'] as $_ => $type) {
-            app(AddRoleToUserByRoleName::class)->execute($user, $type);
-
-            if ($type == 'Crew') {
-                app(StubCrew::class)->execute($user);
+            if ($type == Role::CREW) {
+                app(createCrewAccount::class)->execute($user);
+            } else {
+                app(createProducerAccount::class)->execute($user);
             }
         }
+
+        app(StubUserNotifications::class)->execute($user, $data);
 
         app(CreateUserEmailVerificationCode::class)->execute($user);
 
