@@ -7,7 +7,7 @@
                 class="flex bg-green rounded-full h-8 w-8 items-center justify-center font-bold"
                 @click.prevent="addEndorserField()">+</button>
         </div>
-        <div v-for="(endorser, index) in form.endorsers">
+        <div v-for="(endorser, index) in endorsers">
             <div class="flex my-6">
                 <div class="flex flex-col w-1/3">
                     <input
@@ -15,10 +15,10 @@
                         name="name"
                         type="text"
                         placeholder="John Doe"
-                        v-model="endorser.name"
+                        v-model="endorser.form.name"
                         :disabled="endorser.isSending">
-                    <p class="text-red text-xs italic" v-show="form.errors.has('name')">
-                        @{{ form.errors.get('name') }}
+                    <p class="text-red text-xs italic" v-show="endorser.form.errors.has('name')">
+                        @{{ endorser.form.errors.get('name') }}
                     </p>
                 </div>
                 <div class="flex flex-col w-1/3 justify-between">
@@ -27,10 +27,10 @@
                         name="email"
                         type="email"
                         placeholder="john@email.com"
-                        v-model="endorser.email"
+                        v-model="endorser.form.email"
                         :disabled="endorser.isSending">
-                    <p class="text-red text-xs italic" v-show="form.errors.has('email')">
-                        @{{ form.errors.get('email') }}
+                    <p class="text-red text-xs italic" v-show="endorser.form.errors.has('email')">
+                        @{{ endorser.form.errors.get('email') }}
                     </p>
                 </div>
                 <button
@@ -62,58 +62,51 @@
         },
         data() {
             return {
-                form: new Form({
-                    endorsers: [
-                        {
-                            name: '',
-                            email: '',
-                        }
-                    ]
-                }),
+                endorsers: [{
+                    form: new Form({
+                        name: '',
+                        email: '',
+                    }),
+                    isSending : false,
+                }],
             }
         },
         methods: {
             addEndorserField() {
-                this.form.endorsers.push(
-                    {
-                        "name": '',
-                        "email": ''
-                    }
-                );
+                this.endorsers.push({
+                    form: new Form({
+                        "name" : '',
+                        "email" : '',
+                    }),
+                    isSending : false,
+                });
             },
             removeEndorserField(index) {
-                if (this.form.endorsers.length === 1) {
+                if (this.endorsers.length === 1) {
                     return;
                 }
-                this.form.endorsers.splice(index, 1);
+                this.endorsers.splice(index, 1);
             },
             storeEndorsementRequest() {
-                this.form.endorsers.forEach(endorser => {
-                    console.log(endorser.name);
+                this.endorsers.forEach(endorser => {
+                    console.log(endorser.form.name);
                     // make sure to disable all endrsers fields
                     endorser.isSending = true;
                     // change the endorser field to some sort of response
-                    this
+                    endorser
                         .form
-                        .post(this.url, this.form)
+                        .post(this.url, endorser.form)
                         .then(response => {
                             // "we sent your request. Here's to hoping endorser will approve :)"
                             console.log(response)
-                            this.isSending = false;
+                            endorser.isSending = false;
                         })
                         .catch(errors => {
                             // " hey you already sent",
                             // set errors
-                            this.form.errors.record(errors);
-                            console.log(this.form.errors.errors);
-                            console.log(this.form.errors.errors.email);
-                            console.log(this.form.errors.get('endorsers[0].name'));
-                            // this.form.errors.set({
-                            //     name: errors.errors.name[0],
-                            // });
-                            // console.log(errors)
-                            // console.log(errors.errors)
-                            // console.log(errors.errors.email[0])
+                            console.log(endorser.form.errors.errors);
+                            endorser.form.errors.record(errors);
+                            console.log(endorser.form.errors.errors);
                         });
                 });
             },
