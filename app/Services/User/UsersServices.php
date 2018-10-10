@@ -4,6 +4,7 @@
 namespace App\Services\User;
 
 use App\Models\User;
+use App\Utils\FormatUtils;
 use App\Utils\StrUtils;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -30,11 +31,11 @@ class UsersServices
      */
     public function prepareData(array $data)
     {
-        $data['first_name'] = $this->formatName($data['first_name']);
-        $data['last_name'] = $this->formatName($data['last_name']);
-        $data['email'] = $this->formatEmail($data['email']);
-        $data['password'] = $this->hashPassword($data['password']);
-        $data['phone'] = $this->stripPhone($data['phone']);
+        $data['first_name'] = FormatUtils::name($data['first_name']);
+        $data['last_name'] = FormatUtils::name($data['last_name']);
+        $data['email'] = FormatUtils::email($data['email']);
+        $data['password'] = Hash::make($data['password']);
+        $data['phone'] = StrUtils::stripNonNumeric($data['phone']);
 
         return $data;
     }
@@ -49,8 +50,8 @@ class UsersServices
     public function updateName(string $firstName, string $lastName, User $user)
     {
         $user->update([
-            'first_name' => $this->formatName($firstName),
-            'last_name'  => $this->formatName($lastName),
+            'first_name' => FormatUtils::name($firstName),
+            'last_name'  => FormatUtils::name($lastName),
         ]);
 
         return $user;
@@ -67,8 +68,8 @@ class UsersServices
     public function updateContact(string $email, string $phone, User $user)
     {
         $user->update([
-            'email' => $this->formatEmail($email),
-            'phone' => $this->stripPhone($phone),
+            'email' => FormatUtils::email($email),
+            'phone' => StrUtils::stripNonNumeric($phone),
         ]);
 
         return $user;
@@ -82,48 +83,8 @@ class UsersServices
      */
     public function updatePassword(string $password, User $user)
     {
-        $user->update(['password' => $this->hashPassword($password)]);
+        $user->update(['password' => Hash::make($password)]);
 
         return $user;
-    }
-
-    /**
-     * @param $value
-     *
-     * @return string
-     */
-    public function formatName(string $value)
-    {
-        return StrUtils::formatName($value);
-    }
-
-    /**
-     * @param string $value
-     *
-     * @return string
-     */
-    public function formatEmail(string $value)
-    {
-        return strtolower($value);
-    }
-
-    /**
-     * @param string $value
-     *
-     * @return string
-     */
-    public function hashPassword(string $value)
-    {
-        return Hash::make($value);
-    }
-
-    /**
-     * @param string $value
-     *
-     * @return string
-     */
-    public function stripPhone(string $value)
-    {
-        return StrUtils::stripNonNumeric($value);
     }
 }
