@@ -7,10 +7,10 @@ use App\Actions\Auth\CreateUserEmailVerificationCode;
 use App\Actions\Auth\StubUserNotifications;
 use App\Actions\Crew\CreateCrewAccount;
 use App\Actions\Crew\CreateProducerAccount;
+use App\Actions\User\CreateUser;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserSignupRequest;
 use App\Models\Role;
-use App\Services\User\UsersServices;
 use Illuminate\Auth\Events\Registered;
 
 class UserSignupController extends Controller
@@ -35,7 +35,7 @@ class UserSignupController extends Controller
     {
         $data = $request->validated();
 
-        $user = app(UsersServices::class)->create(array_only($data, [
+        $user = app(CreateUser::class)->execute(array_only($data, [
             'first_name',
             'last_name',
             'email',

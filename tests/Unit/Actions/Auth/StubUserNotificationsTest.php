@@ -54,7 +54,7 @@ class StubUserNotificationsTest extends TestCase
 
         $this->assertDatabaseHas('user_notification_settings', [
             'user_id' => 1,
-            'receive_sms' => 1
+            'receive_sms' => 0
         ]);
     }
 

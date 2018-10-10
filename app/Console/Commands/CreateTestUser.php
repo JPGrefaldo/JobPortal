@@ -5,9 +5,9 @@ namespace App\Console\Commands;
 use App\Actions\Auth\AddRoleToUserByRoleName;
 use App\Actions\Auth\AddUserToSite;
 use App\Actions\Crew\StubCrew;
+use App\Actions\User\CreateUser;
 use App\Models\Role;
 use App\Models\Site;
-use App\Services\User\UsersServices;
 use Illuminate\Console\Command;
 
 class CreateTestUser extends Command
@@ -44,7 +44,7 @@ class CreateTestUser extends Command
      */
     public function handle()
     {
-        $user = app(UsersServices::class)->create([
+        $user = app(CreateUser::class)->execute([
             'first_name' => 'Test',
             'last_name'  => 'User',
             'email'      => $this->argument('email'),
