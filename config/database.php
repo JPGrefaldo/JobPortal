@@ -76,6 +76,8 @@ return [
             'password' => env('DB_PASSWORD', ''),
             'charset' => 'utf8',
             'prefix' => '',
+            'odbc' => true,
+            'odbc_datasource_name' => env('ODBC_DATASOURCE_NAME', ''),
         ],
 
     ],
