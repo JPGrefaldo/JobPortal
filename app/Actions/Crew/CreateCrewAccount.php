@@ -7,7 +7,7 @@ use App\Actions\Auth\AddRoleToUserByRoleName;
 use App\Models\Role;
 use App\Models\User;
 
-class createCrewAccount
+class CreateCrewAccount
 {
     /**
      * @param User $user

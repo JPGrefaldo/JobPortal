@@ -2,20 +2,16 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Actions\Auth\AddRoleToUserByRoleName;
 use App\Actions\Auth\AddUserToSite;
 use App\Actions\Auth\CreateUserEmailVerificationCode;
 use App\Actions\Auth\StubUserNotifications;
-use App\Actions\Crew\createCrewAccount;
-use App\Actions\Crew\createProducerAccount;
-use App\Actions\Crew\StubCrew;
+use App\Actions\Crew\CreateCrewAccount;
+use App\Actions\Crew\CreateProducerAccount;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserSignupRequest;
 use App\Models\Role;
-use App\Models\UserNotificationSetting;
 use App\Services\User\UsersServices;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\Request;
 
 class UserSignupController extends Controller
 {
@@ -49,9 +45,9 @@ class UserSignupController extends Controller
 
         foreach ($data['type'] as $_ => $type) {
             if ($type == Role::CREW) {
-                app(createCrewAccount::class)->execute($user);
+                app(CreateCrewAccount::class)->execute($user);
             } else {
-                app(createProducerAccount::class)->execute($user);
+                app(CreateProducerAccount::class)->execute($user);
             }
         }
 
