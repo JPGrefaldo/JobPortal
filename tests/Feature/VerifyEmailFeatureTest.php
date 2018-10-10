@@ -2,8 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\Actions\Auth\AddUserToSite;
+use App\Actions\Auth\CreateUserEmailVerificationCode;
+use App\Actions\Crew\StubCrew;
 use App\Models\Role;
-use App\Services\AuthServices;
 use App\Models\User;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
@@ -19,7 +21,10 @@ class VerifyEmailFeatureTest extends TestCase
     {
         $user = factory(User::class)->create(['confirmed' => 0]);
         $site = $this->getCurrentSite();
-        app(AuthServices::class)->createByRoleName(Role::CREW, $user, $site);
+
+        app(CreateUserEmailVerificationCode::class)->execute($user);
+        app(AddUserToSite::class)->execute($user, $site);
+
 
         $response = $this->get('verify/email/' . $user->emailVerificationCode->code);
 
@@ -57,11 +62,11 @@ class VerifyEmailFeatureTest extends TestCase
     {
         $user = factory(User::class)->create();
         $site = $this->getCurrentSite();
-        app(AuthServices::class)->createByRoleName(
-            Role::CREW,
-            $user,
-            $site
-        );
+
+        app(StubCrew::class)->execute($user);
+        app(CreateUserEmailVerificationCode::class)->execute($user);
+        app(AddUserToSite::class)->execute($user, $site);
+
 
         $response = $this->get('verify/email/' . $user->emailVerificationCode->code);
 

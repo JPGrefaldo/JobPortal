@@ -17,7 +17,10 @@ class SignupFeatureTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh, WithFaker;
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Auth\UserSignupController::signup
+     */
     public function crew()
     {
         Mail::fake();

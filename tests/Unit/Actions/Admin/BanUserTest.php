@@ -2,15 +2,15 @@
 
 namespace Tests\Unit\Services\Admin;
 
-use App\Services\Admin\AdminUsersServices;
+use App\Actions\Admin\BanUser;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 
-class AdminUsersServicesTest extends TestCase
+class BanUserTest extends TestCase
 {
     /**
-     * @var \App\Services\Admin\AdminUsersServices
+     * @var \App\Actions\Admin\BanUser
      */
     protected $service;
 
@@ -20,7 +20,7 @@ class AdminUsersServicesTest extends TestCase
     {
         parent::setUp();
 
-        $this->service = app(AdminUsersServices::class);
+        $this->service = app(BanUser::class);
     }
 
     /**
@@ -31,7 +31,7 @@ class AdminUsersServicesTest extends TestCase
     {
         $user = $this->createUser();
 
-        $this->service->ban('some reason', $user);
+        $this->service->execute('some reason', $user);
 
         $user->refresh();
 

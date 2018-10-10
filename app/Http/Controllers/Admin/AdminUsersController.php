@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Actions\Admin\BanUser;
 use App\Models\User;
-use App\Services\Admin\AdminUsersServices;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -19,6 +19,6 @@ class AdminUsersController extends Controller
             'reason' => 'required|string',
         ]);
 
-        app(AdminUsersServices::class)->ban($data['reason'], $user);
+        app(BanUser::class)->execute($data['reason'], $user);
     }
 }
