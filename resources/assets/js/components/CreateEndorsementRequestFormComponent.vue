@@ -68,7 +68,7 @@
                         name: '',
                         email: '',
                     }),
-                    // isSending : false,
+                    isSending : false,
                 }],
             }
         },
@@ -79,7 +79,7 @@
                         "name" : '',
                         "email" : '',
                     }),
-                    // isSending : false,
+                    isSending : false,
                 });
             },
             removeEndorserField(index) {
@@ -90,31 +90,21 @@
             },
             storeEndorsementRequest() {
                 this.endorsers.forEach(endorser => {
-                    console.log(endorser.form.name);
-                    console.log(endorser.form.email);
                     // make sure to disable all endorsers fields
-                    // endorser.isSending = true;
+                    endorser.isSending = true;
                     endorser
                         .form
                         .post(this.url, endorser.form)
                         .then(response => {
-                            // change the endorser field to some sort of response
+                            // open a toast with the response
                             // "we sent your request. Here's to hoping endorser will approve :)"
-                            console.log(response)
                             endorser.isSending = false;
                         })
                         .catch(response => {
                             // " hey you already sent",
+                            endorser.isSending = false;
                             // set errors
-                            // console.log(endorser.form.errors.errors.errors.name[0]);
-                            // endorser.form.errors.record(errors);
-                            // console.log(endorser.form.errors.errors);
-                            console.log(response);
-                            console.log(response.errors);
                             endorser.form.errors.record(response.errors);
-                            console.log(endorser.form.errors.any())
-                            console.log(endorser.form.errors.has('name'))
-                            console.log(endorser.form.errors.has('email'))
                         });
                 });
             },
