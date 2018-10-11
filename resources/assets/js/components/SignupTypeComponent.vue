@@ -4,7 +4,7 @@
                class="block text-center border-grey-light p-3 mb-2 border rounded-full sm-only:w-full md:w-1/2 md:mb-0 md:rounded-none md:border-t-0 md:border-b-0 md:border-r"
                id="select-want-project"
                value="Hire for a Project"
-               v-on:click="switchState('Producer')"
+               v-on:click="producer('Producer')"
                v-bind:class="[isProducerGreen ? 'want-to__selected' : 'want-to__default']"
         >
         <input type="button"
@@ -41,6 +41,18 @@
                 } else {
                     this.isCrewGreen = ! this.isCrewGreen;
                 }
+            },
+            producer: function(type) {
+                this.switchState(type);
+
+                let el = document.getElementById("div-receive-sms");
+                if (this.isProducerGreen) {
+                    el.classList.add("invisible");
+                    document.getElementById('receive_sms').checked = true;
+                } else {
+                    el.classList.remove("invisible");
+                }
+
             }
         }
     };
