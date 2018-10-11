@@ -8,35 +8,37 @@
                 @click.prevent="addEndorserField()">+</button>
         </div>
         <div v-for="(endorser, index) in endorsers">
-            <div class="flex my-6">
-                <div class="flex flex-col w-1/3">
-                    <input
-                        class="shadow appearance-none border rounded py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline"
-                        name="name"
-                        type="text"
-                        placeholder="John Doe"
-                        v-model="endorser.form.name"
-                        :disabled="endorser.isSending">
-                    <p class="text-red text-xs italic" v-show="endorser.form.errors.has('name')">
-                        @{{ endorser.form.errors.get('name') }}
-                    </p>
+            <form method="POST" action="/projects" @submit.prevent="onSubmit" @keydown="endorser.form.errors.clear($event.target.name)">
+                <div class="flex my-6 items-center">
+                    <div class="flex flex-col w-1/3">
+                        <input
+                            class="shadow appearance-none border rounded py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline"
+                            name="name"
+                            type="text"
+                            placeholder="John Doe"
+                            v-model="endorser.form.name"
+                            :disabled="endorser.isSending">
+                        <p class="text-red text-xs italic" v-show="endorser.form.errors.has('name')">
+                            {{ endorser.form.errors.get('name') }}
+                        </p>
+                    </div>
+                    <div class="flex flex-col w-1/3 justify-between">
+                        <input
+                            class="shadow appearance-none border rounded py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline"
+                            name="email"
+                            type="email"
+                            placeholder="john@email.com"
+                            v-model="endorser.form.email"
+                            :disabled="endorser.isSending">
+                        <p class="text-red text-xs italic" v-show="endorser.form.errors.has('email')">
+                            {{ endorser.form.errors.get('email') }}
+                        </p>
+                    </div>
+                    <button
+                        class="flex bg-grey-light rounded-full h-8 w-8 items-center justify-center"
+                        @click.prevent="removeEndorserField(index)">x</button>
                 </div>
-                <div class="flex flex-col w-1/3 justify-between">
-                    <input
-                        class="shadow appearance-none border rounded py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline"
-                        name="email"
-                        type="email"
-                        placeholder="john@email.com"
-                        v-model="endorser.form.email"
-                        :disabled="endorser.isSending">
-                    <p class="text-red text-xs italic" v-show="endorser.form.errors.has('email')">
-                        @{{ endorser.form.errors.get('email') }}
-                    </p>
-                </div>
-                <button
-                    class="flex bg-grey-light rounded-full h-8 w-8 items-center justify-center"
-                    @click.prevent="removeEndorserField(index)">x</button>
-            </div>
+            </form>
         </div>
         <div>
             <button
@@ -45,7 +47,6 @@
                 Ask Endorsement
             </button>
         </div>
-
     </div>
 </template>
 
@@ -67,7 +68,7 @@
                         name: '',
                         email: '',
                     }),
-                    isSending : false,
+                    // isSending : false,
                 }],
             }
         },
@@ -78,7 +79,7 @@
                         "name" : '',
                         "email" : '',
                     }),
-                    isSending : false,
+                    // isSending : false,
                 });
             },
             removeEndorserField(index) {
@@ -90,23 +91,30 @@
             storeEndorsementRequest() {
                 this.endorsers.forEach(endorser => {
                     console.log(endorser.form.name);
-                    // make sure to disable all endrsers fields
-                    endorser.isSending = true;
-                    // change the endorser field to some sort of response
+                    console.log(endorser.form.email);
+                    // make sure to disable all endorsers fields
+                    // endorser.isSending = true;
                     endorser
                         .form
                         .post(this.url, endorser.form)
                         .then(response => {
+                            // change the endorser field to some sort of response
                             // "we sent your request. Here's to hoping endorser will approve :)"
                             console.log(response)
                             endorser.isSending = false;
                         })
-                        .catch(errors => {
+                        .catch(response => {
                             // " hey you already sent",
                             // set errors
-                            console.log(endorser.form.errors.errors);
-                            endorser.form.errors.record(errors);
-                            console.log(endorser.form.errors.errors);
+                            // console.log(endorser.form.errors.errors.errors.name[0]);
+                            // endorser.form.errors.record(errors);
+                            // console.log(endorser.form.errors.errors);
+                            console.log(response);
+                            console.log(response.errors);
+                            endorser.form.errors.record(response.errors);
+                            console.log(endorser.form.errors.any())
+                            console.log(endorser.form.errors.has('name'))
+                            console.log(endorser.form.errors.has('email'))
                         });
                 });
             },
