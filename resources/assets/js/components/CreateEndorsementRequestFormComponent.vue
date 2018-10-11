@@ -8,35 +8,35 @@
                 @click.prevent="addEndorserField()">+</button>
         </div>
         <div v-for="(endorser, index) in endorsers">
-            <form method="POST" action="/projects" @submit.prevent="onSubmit" @keydown="endorser.form.errors.clear($event.target.name)">
-                <div class="flex my-6 items-center">
-                    <div class="flex flex-col w-1/3">
+            <form method="POST" @submit.prevent="" @keydown="endorser.form.errors.clear($event.target.name)">
+                <div class="my-6">
+                    <div class="flex items-center">
                         <input
-                            class="shadow appearance-none border rounded py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline"
+                            class="w-1/3 shadow appearance-none border rounded py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline"
                             name="name"
                             type="text"
                             placeholder="John Doe"
                             v-model="endorser.form.name"
                             :disabled="endorser.isSending">
-                        <p class="text-red text-xs italic" v-show="endorser.form.errors.has('name')">
-                            {{ endorser.form.errors.get('name') }}
-                        </p>
-                    </div>
-                    <div class="flex flex-col w-1/3 justify-between">
                         <input
-                            class="shadow appearance-none border rounded py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline"
+                            class="w-1/3 shadow appearance-none border rounded py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline"
                             name="email"
                             type="email"
                             placeholder="john@email.com"
                             v-model="endorser.form.email"
                             :disabled="endorser.isSending">
-                        <p class="text-red text-xs italic" v-show="endorser.form.errors.has('email')">
+                        <button
+                            class="flex bg-grey-light rounded-full h-8 w-8 items-center justify-center"
+                            @click.prevent="removeEndorserField(index)">x</button>
+                    </div>
+                    <div class="flex">
+                        <p class="w-1/3 text-red text-xs italic">
+                            {{ endorser.form.errors.get('name') }}
+                        </p>
+                        <p class="w-1/3 text-red text-xs italic">
                             {{ endorser.form.errors.get('email') }}
                         </p>
                     </div>
-                    <button
-                        class="flex bg-grey-light rounded-full h-8 w-8 items-center justify-center"
-                        @click.prevent="removeEndorserField(index)">x</button>
                 </div>
             </form>
         </div>
