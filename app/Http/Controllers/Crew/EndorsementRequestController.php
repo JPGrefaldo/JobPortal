@@ -33,21 +33,23 @@ class EndorsementRequestController extends Controller
 
         // filter endorsers, only notify them once
         if ($this->endorsementRequest->isAskedToEndorse($request['email'])) {
-            // TODO: create test
             return response()->json([
+                'errors' => [
+                    'email' => ['We already sent ' . $request['email'] . ' a request'],
+                ],
                 'message' => 'We already sent ' . $request['name'] . ' a request'
-            ]);
-        } else {
-            $endorsement = Endorsement::create([
-                'endorsement_request_id' => $this->endorsementRequest->id,
-                'endorser_id' => null,
-                'endorser_name' => $request['name'],
-                'endorser_email' => $request['email'],
-            ]);
-            // TODO: defer to queue
-            Mail::to($request['email'])
-                ->send(new EndorsementRequestEmail($endorsement));
+            ], 422);
         }
+
+        $endorsement = Endorsement::create([
+            'endorsement_request_id' => $this->endorsementRequest->id,
+            'endorser_id' => null,
+            'endorser_name' => $request['name'],
+            'endorser_email' => $request['email'],
+        ]);
+        // TODO: defer to queue
+        Mail::to($request['email'])
+            ->send(new EndorsementRequestEmail($endorsement));
 
         return response()->json([
             'message' => 'Success!',

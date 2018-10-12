@@ -206,6 +206,7 @@ class EndorsementRequestFeatureTest extends TestCase
         // then
         Mail::assertSent(EndorsementRequestEmail::class, 1);
         $this->assertCount(1, Endorsement::all());
+        $response->assertSee('We already sent john.doe@google.com a request');
     }
 
     protected function askEndorsementFor($position, array $formData = [])
