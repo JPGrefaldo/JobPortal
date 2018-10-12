@@ -32,19 +32,36 @@ class CrewPositionFeatureTest extends TestCase
      */
     public function crew_can_see_all_positions()
     {
-        // given
-
         // when
-        // crew visits index
         $response = $this->actingAs($this->user)
             ->get(route('crew_position.index'));
 
         // then
-        // he can see the positions
-        // he can see Apply for
         Position::all()->each(function ($position) use ($response) {
             $response->assertSee(htmlspecialchars($position->name));
         });
+
+        $response->assertSee('Apply');
+    }
+
+    /**
+     * @test
+     */
+    public function crew_is_redirected_when_applying_for_applied_position()
+    {
+        // given
+        $position = factory(Position::class)->create();
+        $crewPosition = factory(CrewPosition::class)->create([
+            'crew_id' => $this->crew->id,
+            'position_id' => $position->id
+        ]);
+
+        // when
+        $response = $this->actingAs($this->user)
+            ->get(route('crew_position.create', $position));
+
+        // then
+        $response->assertRedirect(route('crew_position.edit', $position));
     }
 
     /**
@@ -53,6 +70,7 @@ class CrewPositionFeatureTest extends TestCase
     public function crew_can_apply_for_a_position()
     {
         // $this->withoutExceptionHandling();
+
         // given
         $position = factory(Position::class)->create();
         $crewPosition = factory(CrewPosition::class)->make()->toArray();
