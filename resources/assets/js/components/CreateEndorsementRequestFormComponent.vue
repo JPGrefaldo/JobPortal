@@ -8,7 +8,7 @@
                 @click.prevent="addEndorserField()">+</button>
         </div>
         <div v-for="(endorser, index) in endorsers">
-            <form method="POST" @submit.prevent="" @keydown="endorser.form.errors.clear($event.target.name)">
+            <form @submit.prevent="" @keydown="endorser.form.errors.clear($event.target.name)">
                 <div class="my-6">
                     <div class="flex items-center">
                         <input
@@ -90,20 +90,17 @@
             },
             storeEndorsementRequest() {
                 this.endorsers.forEach(endorser => {
-                    // make sure to disable all endorsers fields
                     endorser.isSending = true;
                     endorser
                         .form
                         .post(this.url, endorser.form)
                         .then(response => {
-                            // open a toast with the response
+                            // TODO open a toast with the response
                             // "we sent your request. Here's to hoping endorser will approve :)"
                             endorser.isSending = false;
                         })
                         .catch(response => {
-                            // " hey you already sent",
                             endorser.isSending = false;
-                            // set errors
                             endorser.form.errors.record(response.errors);
                         });
                 });
