@@ -30,7 +30,6 @@ class PositionController extends Controller
     {
         $crew = auth()->user()->crew;
 
-        // TODO: create test
         if ($crew->hasPosition($position)) {
             return redirect(route('crew_position.edit', $position));
         }
@@ -53,6 +52,7 @@ class PositionController extends Controller
         ]);
         $crew = auth()->user()->crew;
 
+        // TODO create test
         if ($crew->hasPosition($position)) {
             return redirect(route('crew_position.edit'), $position);
         }
@@ -84,6 +84,8 @@ class PositionController extends Controller
      */
     public function edit(Position $position)
     {
+        // TODO: redirect to create page if not applied yet
+
         // TODO: create test
         $crew = auth()->user()->crew;
         return view('crew.position.edit', compact('crew', 'position'));
