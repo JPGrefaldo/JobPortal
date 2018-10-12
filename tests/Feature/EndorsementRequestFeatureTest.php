@@ -150,6 +150,8 @@ class EndorsementRequestFeatureTest extends TestCase
             'endorser_name' => 'John Doe',
             'endorser_email' => 'john@email.com',
         ]);
+        $response->assertSuccessful();
+        $response->assertSee('Success');
     }
 
     /**
