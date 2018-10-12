@@ -30,7 +30,7 @@ class CrewPositionFeatureTest extends TestCase
     /**
      * @test
      */
-    public function crew_can_see_a_all_positions()
+    public function crew_can_see_all_positions()
     {
         // given
 
@@ -43,7 +43,6 @@ class CrewPositionFeatureTest extends TestCase
         // he can see the positions
         // he can see Apply for
         Position::all()->each(function ($position) use ($response) {
-            // dump($position->toArray());
             $response->assertSee(htmlspecialchars($position->name));
         });
     }
@@ -78,7 +77,7 @@ class CrewPositionFeatureTest extends TestCase
     /**
      * @test
      */
-    public function crew_can_un_apply_from_a_position()
+    public function crew_can_leave_a_position()
     {
         // given
         $position = factory(Position::class)->create();
@@ -91,13 +90,32 @@ class CrewPositionFeatureTest extends TestCase
         // when
         $response = $this
             ->actingAs($this->user)
-            ->delete(route(
-                'crew_position.destroy',
-                $position
-            ));
-
+            ->delete(route('crew_position.destroy', $position));
 
         // then
-        dump($crewPosition->fresh());
+        $this->assertCount(0, CrewPosition::all());
+    }
+
+    /**
+     * @test
+     */
+    public function crew_can_only_leave_applied_position()
+    {
+        // given
+        $randomPosition = factory(Position::class)->create();
+        $position = factory(Position::class)->create();
+        $crewPosition = factory(CrewPosition::class)
+                ->create([
+                    'crew_id' => $this->crew->id,
+                    'position_id' => $position->id
+                ]);
+
+        // when
+        $response = $this
+            ->actingAs($this->user)
+            ->delete(route('crew_position.destroy', $randomPosition));
+
+        // then
+        $this->assertCount(1, CrewPosition::all());
     }
 }

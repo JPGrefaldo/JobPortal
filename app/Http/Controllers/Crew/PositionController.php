@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Crew;
 
 use App\Http\Controllers\Controller;
+use App\Models\CrewPosition;
 use App\Models\Position;
 use Illuminate\Http\Request;
 
@@ -108,8 +109,7 @@ class PositionController extends Controller
      */
     public function destroy(Position $position)
     {
-        // TODO: create test
-        $crewPosition::byCrewAndPosition(auth()->user()->crew, $position);
+        $crewPosition = CrewPosition::byCrewAndPosition(auth()->user()->crew, $position)->first();
 
         $crewPosition->delete();
     }
