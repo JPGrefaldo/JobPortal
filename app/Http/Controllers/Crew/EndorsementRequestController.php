@@ -55,17 +55,4 @@ class EndorsementRequestController extends Controller
             'message' => 'Success!',
         ]);
     }
-
-    // protected function filterEndorsers($endorsers)
-    // {
-    //     $endorserCollection = collect($endorsers);
-    //     $emails = $endorserCollection->pluck('email');
-    //     $pastEndorsers = $this->endorsementRequest
-    //         ->endorsements()
-    //         ->whereIn('endorser_email', $emails)
-    //         ->get(['endorser_email'])
-    //         ->pluck('endorser_email');
-
-    //     return $endorserCollection->whereNotIn('email', $pastEndorsers);
-    // }
 }
