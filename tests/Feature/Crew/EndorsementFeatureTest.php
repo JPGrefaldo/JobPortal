@@ -340,6 +340,8 @@ class EndorsementFeatureTest extends TestCase
 
     /**
      * @test
+     * ! fails because ask endorsement is rendered by js
+     * TODO: move to browser test
      */
     public function endorsee_can_only_see_endorsement_form_on_applied_positions()
     {
