@@ -339,7 +339,6 @@ class EndorsementFeatureTest extends TestCase
     // general logic
 
     /**
-     * @test
      * ! fails because ask endorsement is rendered by js
      * TODO: move to browser test
      */
