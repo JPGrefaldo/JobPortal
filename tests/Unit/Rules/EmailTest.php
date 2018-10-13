@@ -9,7 +9,10 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class EmailTest extends TestCase
 {
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Rules\Email::passes
+     */
     public function valid_email()
     {
         $this->assertTrue($this->app['validator']->make([
@@ -23,7 +26,10 @@ class EmailTest extends TestCase
         ])->passes());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Rules\Email::passes
+     */
     public function invalid_email()
     {
         $result = $this->app['validator']->make([

@@ -9,7 +9,10 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class YouTubeTest extends TestCase
 {
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Rules\YouTube::passes
+     */
     public function valid_youtube()
     {
         $this->assertTrue($this->app['validator']->make([
@@ -23,7 +26,10 @@ class YouTubeTest extends TestCase
         ])->passes());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Rules\YouTube::passes
+     */
     public function invalid_youtube()
     {
         $result = $this->app['validator']->make([

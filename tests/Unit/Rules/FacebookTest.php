@@ -9,7 +9,10 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class FacebookTest extends TestCase
 {
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Rules\Facebook::passes
+     */
     public function valid()
     {
         $result = $this->app['validator']->make(
@@ -25,7 +28,10 @@ class FacebookTest extends TestCase
         $this->assertTrue($result->passes());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Rules\Facebook::passes
+     */
     public function invalid()
     {
         $result = $this->app['validator']->make(

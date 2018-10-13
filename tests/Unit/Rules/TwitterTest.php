@@ -9,7 +9,10 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class TwitterTest extends TestCase
 {
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Rules\Twitter::passes
+     */
     public function valid()
     {
         $result = $this->app['validator']->make(
@@ -26,7 +29,10 @@ class TwitterTest extends TestCase
         $this->assertTrue($result->passes());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Rules\Twitter::passes
+     */
     public function invalid()
     {
         $result = $this->app['validator']->make(

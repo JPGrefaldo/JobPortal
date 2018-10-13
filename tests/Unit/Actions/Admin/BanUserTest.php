@@ -25,7 +25,7 @@ class BanUserTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Services\Admin\AdminUsersServices::ban
+     * @covers \App\Actions\Admin\BanUser::execute
      */
     public function ban()
     {
