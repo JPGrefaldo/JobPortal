@@ -112,6 +112,8 @@ Route::middleware('auth')->group(function () {
                 ->name('crew_position.show');
             Route::get('/{position}/edit', 'Crew\PositionController@edit')
                 ->name('crew_position.edit');
+            Route::put('/{position}', 'Crew\PositionController@update')
+                ->name('crew_position.update');
             Route::delete('/{position}', 'Crew\PositionController@destroy')
                 ->name('crew_position.destroy');
         });

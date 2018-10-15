@@ -29,6 +29,7 @@ class CrewPositionFeatureTest extends TestCase
 
     /**
      * @test
+     * @covers \App\Http\Controllers\Crew::index
      */
     public function crew_can_see_all_positions()
     {
@@ -46,6 +47,7 @@ class CrewPositionFeatureTest extends TestCase
 
     /**
      * @test
+     * @covers \App\Http\Controllers\Crew::create
      */
     public function crew_is_redirected_when_applying_for_applied_position()
     {
@@ -66,6 +68,7 @@ class CrewPositionFeatureTest extends TestCase
 
     /**
      * @test
+     * @covers \App\Http\Controllers\Crew::store
      */
     public function crew_can_apply_for_a_position()
     {
@@ -94,6 +97,52 @@ class CrewPositionFeatureTest extends TestCase
 
     /**
      * @test
+     * @covers \App\Http\Controllers\Crew::edit
+     */
+    public function crew_can_see_edit_form_to_applied_position()
+    {
+        $this->withoutExceptionHandling();
+        // given
+        $appliedPosition = factory(Position::class)->create();
+        $crewPosition = factory(CrewPosition::class)->create([
+            'crew_id' => $this->crew->id,
+            'position_id' => $appliedPosition->id,
+        ]);
+
+
+        // when
+        $response = $this
+            ->actingAs($this->user)
+            ->get(route('crew_position.edit', $appliedPosition));
+
+
+        // then
+        $response->assertSee("Edit $appliedPosition->name position");
+    }
+
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Crew::edit
+     */
+    public function crew_is_redirected_when_trying_to_edit_non_applied_position()
+    {
+        $this->withoutExceptionHandling();
+        // given
+        $nonAppliedPosition = factory(Position::class)->create();
+
+        // when
+        $response = $this
+            ->actingAs($this->user)
+            ->get(route('crew_position.edit', $nonAppliedPosition));
+
+
+        // then
+        $response->assertRedirect(route('crew_position.create', $nonAppliedPosition));
+    }
+
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Crew::destroy
      */
     public function crew_can_leave_a_position()
     {
@@ -116,6 +165,7 @@ class CrewPositionFeatureTest extends TestCase
 
     /**
      * @test
+     * @covers \App\Http\Controllers\Crew::destroy
      */
     public function crew_can_only_leave_applied_position()
     {

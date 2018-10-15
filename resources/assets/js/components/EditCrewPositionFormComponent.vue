@@ -1,24 +1,46 @@
 <template>
-    <div class="flex flex-col">
-        <div class="my-2">
-            Details:
-        </div>
-        <textarea name="details" id="" cols="30" rows="10" v-model="form.details"></textarea>
+    <div>
+        <form @submit.prevent="" @keydown="form.errors.clear($event.target.name)">
+            <div class="flex">
+                <div class="w-1/2 mr-4">
+                    <div>
+                        Details:
+                    </div>
+                    <textarea
+                        name="details"
+                        cols="30" rows="10"
+                        class="w-full"
+                        v-model="form.details"></textarea>
+                    <p class="w-1/3 text-red text-xs italic">
+                        {{ form.errors.get('details') }}
+                    </p>
+                </div>
 
-        <div class="my-2">
-            Union Description:
-        </div>
-        <textarea name="union_description" id="" cols="30" rows="10" v-model="form.union_description"></textarea>
+                <div class="w-1/2 ml-4">
+                    <div>
+                        Union Description:
+                    </div>
+                    <textarea
+                        name="union_description"
+                        cols="30"
+                        rows="10"
+                        class="w-full"
+                        v-model="form.union_description"></textarea>
+                    <p class="w-1/3 text-red text-xs italic">
+                        {{ form.errors.get('union_description') }}
+                    </p>
+                </div>
 
-        <div>
+            </div>
+
             <button
                 type="submit"
                 class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 mt-4 rounded"
-                @click.prevent="create"
+                @click.prevent="updateCrewPosition"
                 :disabled="form.busy">
-                Apply
+                Edit
             </button>
-        </div>
+        </form>
     </div>
 </template>
 
@@ -27,7 +49,20 @@
 
     export default {
         name: "CreateCrewPositionFormComponent",
-        props: ['url', 'details', 'union_description'],
+        props: {
+            url: {
+                type: String,
+                required: true
+            },
+            details: {
+                type: String,
+                required: true
+            },
+            union_description: {
+                type: String,
+                required: true
+            },
+        },
         data() {
             return {
                 form: new Form({
@@ -37,39 +72,16 @@
             }
         },
         methods: {
-            create() {
-                // TODO: handle data validation befor post
-                // review promise errors
+            updateCrewPosition() {
                 this
                     .form
-                    .post(this.url, this.form)
-                    .then(
-                        data => console.log(data)
-                    )
-                    .catch(
-                        errors => console.log(errors)
-                    );
-                // this.form.setErrors(error.response.data.errors);
-            },
-
-            validateFields() {
-                let hasErrors = false;
-
-                if (! this.form.details) {
-                    this.form.errors.set({
-                        details: ['Details is required'],
+                    .put(this.url, this.form)
+                    .then(response => {
+                        // TODO show toast success
+                    })
+                    .catch(response => {
+                        this.form.errors.record(response.errors);
                     });
-                    hasErrors = true;
-                }
-
-                if (! this.form.union_description) {
-                    this.form.errors.set({
-                        days: ['Union description is required'],
-                    });
-                    hasErrors = true;
-                }
-
-                return ! hasErrors;
             },
         }
     }

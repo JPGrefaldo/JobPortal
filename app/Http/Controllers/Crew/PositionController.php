@@ -84,10 +84,13 @@ class PositionController extends Controller
      */
     public function edit(Position $position)
     {
-        // TODO: redirect to create page if not applied yet
-
         // TODO: create test
         $crew = auth()->user()->crew;
+
+        if (! $crew->hasPosition($position)) {
+            return redirect(route('crew_position.create', $position));
+        }
+
         return view('crew.position.edit', compact('crew', 'position'));
     }
 
