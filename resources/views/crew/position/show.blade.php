@@ -41,13 +41,13 @@
                         </h2>
                         {{-- apply or leave --}}
                         @if ($crew->hasPosition($position))
-                            <button class="bg-red hover:bg-red-dark text-white font-bold py-2 px-4 rounded">
+                            <a class="inline-block border border-blue rounded py-2 px-4 bg-blue hover:bg-blue-dark text-white" href="{{ route('crew_position.create', $position) }}">
                                 Leave
-                            </button>
+                            </a>
                         @else
-                            <button class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded">
+                            <a class="inline-block border border-blue rounded py-2 px-4 bg-blue hover:bg-blue-dark text-white" href="{{ route('crew_position.create', $position) }}">
                                 Apply
-                            </button>
+                            </a>
                         @endif
                     </div>
 
