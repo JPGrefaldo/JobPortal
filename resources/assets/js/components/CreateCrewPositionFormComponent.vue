@@ -64,7 +64,7 @@
                     .form
                     .post(this.url, this.form)
                     .then(response => {
-                        // ? redirect to edit page
+                        window.location = '../';
                     })
                     .catch(response => {
                         this.form.errors.record(response.errors);

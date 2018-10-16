@@ -41,6 +41,7 @@
                         </h2>
                         {{-- apply or leave --}}
                         @if ($crew->hasPosition($position))
+                            {{-- TODO --}}
                             <a class="inline-block border border-blue rounded py-2 px-4 bg-blue hover:bg-blue-dark text-white" href="{{ route('crew_position.create', $position) }}">
                                 Leave
                             </a>
@@ -81,6 +82,11 @@
                 <div>
                     <create-endorsement-request-form url="{{ route('endorsement_requests.store', $position) }}"></create-endorsement-request-form>
                 </div>
+                @endif
+
+                {{-- TODO --}}
+                @if ($crew->endorsements()->exists())
+                    more than one endorser
                 @endif
             </div>
             {{-- main content end --}}

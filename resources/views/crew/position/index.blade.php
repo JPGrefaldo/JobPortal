@@ -10,6 +10,7 @@
                 <div class="flex items-center">
                     <div class="mr-2">Endorsers: {{ auth()->user()->crew->endorsements->count() }}</div>
                     @if (auth()->user()->crew->hasPosition($position))
+                        {{-- TODO --}}
                         <a class="inline-block border border-red rounded py-2 px-4 bg-red hover:bg-red-dark text-white" href="#">
                             Leave
                         </a>

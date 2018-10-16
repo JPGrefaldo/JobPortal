@@ -77,7 +77,7 @@
                     .form
                     .put(this.url, this.form)
                     .then(response => {
-                        // TODO show toast success
+                        window.location = '../';
                     })
                     .catch(response => {
                         this.form.errors.record(response.errors);

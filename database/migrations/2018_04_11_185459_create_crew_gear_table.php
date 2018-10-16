@@ -15,15 +15,15 @@ class CreateCrewGearTable extends Migration
     {
         Schema::create('crew_gears', function (Blueprint $table) {
             $table->increments('id');
-            // $table->integer('crew_id')->unsigned();
+            $table->integer('crew_id')->unsigned();
             $table->text('description');
             $table->integer('crew_position_id')->unsigned()->nullable()->default(null);
             $table->timestamps();
 
-            // $table->foreign('crew_id')
-            //       ->references('id')
-            //       ->on('crews')
-            //       ->onDelete('cascade');
+            $table->foreign('crew_id')
+                  ->references('id')
+                  ->on('crews')
+                  ->onDelete('cascade');
 
             $table->foreign('crew_position_id')
                   ->references('id')
