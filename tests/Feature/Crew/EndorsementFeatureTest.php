@@ -49,7 +49,7 @@ class EndorsementFeatureTest extends TestCase
 
         // then
         $response->assertSee(
-            'Please feel free to leave a comment for this endorsement request.'
+            'Approve endorsement request'
         );
     }
 
@@ -129,6 +129,7 @@ class EndorsementFeatureTest extends TestCase
     public function endorser_can_approve_an_endorsement_request()
     {
         // $this->withoutExceptionHandling();
+        // TODO fix test is passing for the wrong reason
 
         // given
         $endorsementRequest = factory(EndorsementRequest::class)->create();

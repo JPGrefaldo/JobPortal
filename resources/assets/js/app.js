@@ -26,6 +26,7 @@ Vue.component('mobile-menu', require('./components/MobileMenuComponent'));
 Vue.component('create-crew-position-form', require('./components/CreateCrewPositionFormComponent'));
 Vue.component('edit-crew-position-form', require('./components/EditCrewPositionFormComponent'));
 Vue.component('create-endorsement-request-form', require('./components/CreateEndorsementRequestFormComponent'));
+Vue.component('create-endorsement-form', require('./components/CreateEndorsementFormComponent'));
 
 const content = new Vue({
     el: '#content',

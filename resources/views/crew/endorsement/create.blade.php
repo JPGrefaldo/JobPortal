@@ -1,5 +1,8 @@
-<form action="{{ route('endorsements.store', ['endorsement-request' => $endorsementRequest]) }}" method="POST">
-    {{ csrf_field() }}
-    <input type="text" placeholder="Please feel free to leave a comment for this endorsement request." name="comment">
-    <input type="submit" value="Submit">
-</form>
+@extends('layouts.default_layout')
+@section('content')
+
+<div class="container">
+    @include('_parts.pages.page-title', ['pageTitle' => 'Approve endorsement request'])
+    <create-endorsement-form url={{ route( 'endorsements.store', $endorsementRequest) }}></create-endorsement-form>
+</div>
+@endsection
