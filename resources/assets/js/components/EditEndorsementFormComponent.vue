@@ -1,6 +1,6 @@
 <template>
     <div class="bg-white rounded flex flex-col shadow-lg p-8 mb-4">
-        <div class="my-2">You previously approved Mike Kevin Castro's endorsement request.</div>
+        <div class="my-2">You previously approved <span v-text="endorsee_name"></span>'s endorsement request for <span v-text="position"></span> position.</div>
         <div class="my-2">Comment:</div>
         <input
             class="shadow appearance-none border rounded py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline"
@@ -12,7 +12,7 @@
         <button
             class="my-2 bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded align-baseline"
             @click.prevent="updateEndorsement()">
-            Update Endorsement Request
+            Update Comment
         </button>
     </div>
 </template>
@@ -28,6 +28,14 @@
                 required: true
             },
             comment: {
+                type: String,
+                required: true
+            },
+            endorsee_name: {
+                type: String,
+                required: true
+            },
+            position: {
                 type: String,
                 required: true
             },

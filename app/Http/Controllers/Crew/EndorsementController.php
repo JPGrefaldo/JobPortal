@@ -25,11 +25,17 @@ class EndorsementController extends Controller
         }
 
         if ($endorsementRequest->isApprovedBy($crew)) {
-            return redirect(route('endorsements.edit', ['endorsementRequest' => $endorsementRequest]));
+            return redirect(route('endorsements.edit', $endorsementRequest));
         }
 
-        // show form to comment
-        return view('crew.endorsement.create', compact('endorsementRequest'));
+        $endorseeName = $endorsementRequest->endorsee->user->full_name;
+        $position = $endorsementRequest->position->name;
+
+        return view('crew.endorsement.create', compact(
+            'endorsementRequest',
+            'endorseeName',
+            'position'
+        ));
     }
 
     /**
@@ -73,9 +79,14 @@ class EndorsementController extends Controller
             return redirect(route('endorsements.create', $endorsementRequest));
         }
 
+        $endorseeName = $endorsementRequest->endorsee->user->full_name;
+        $position = $endorsementRequest->position->name;
+
         return view('crew.endorsement.edit', compact(
             'endorsementRequest',
-            'endorsement'
+            'endorsement',
+            'endorseeName',
+            'position'
         ));
     }
 

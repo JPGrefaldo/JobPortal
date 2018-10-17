@@ -1,6 +1,6 @@
 <template>
     <div class="bg-white rounded flex flex-col shadow-lg p-8 mb-4">
-        <div class="my-2">Mike Kevin Castro is asking for your to approve his endorsement request for Set Decorator</div>
+        <div class="my-2"><span v-text="endorsee_name"></span> is asking you to approve his endorsement request for <span v-text="position"></span> position.</div>
         <div class="my-4">Please feel free to leave a comment for this endorsement request.</div>
         <div class="my-2">Comment:</div>
         <input
@@ -28,6 +28,14 @@
                 type: String,
                 required: true
             },
+            endorsee_name: {
+                type: String,
+                required: true
+            },
+            position: {
+                type: String,
+                required: true
+            },
         },
         data() {
             return {
@@ -44,8 +52,7 @@
                     .form
                     .post(this.url, this.form)
                     .then(response => {
-                        endorser.isSending = false;
-                        window.location = '/dasboard';
+                        window.location = '/dashboard';
                     })
                     .catch(response => {
                         this.isSending = false;
