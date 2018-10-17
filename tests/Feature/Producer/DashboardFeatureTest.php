@@ -18,7 +18,6 @@ class DashboardFeatureTest extends TestCase
     {
         // given
         $user = factory(User::class)->states('withProducerRole')->create();
-        dump($user->roles->toArray());
 
         // when
         $response = $this->actingAs($user)->get(route('dashboard'));

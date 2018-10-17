@@ -15,6 +15,9 @@ use Tests\Support\Data\SocialLinkTypeID;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 
+/**
+ * @group CrewsServicesTest
+ */
 class CrewsServicesTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;

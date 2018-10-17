@@ -50,7 +50,7 @@ class EndorsementController extends Controller
 
         if ($endorsementRequest->endorsementBy($crew)) {
             return response()->json(
-                ['errors' => 'You already approved this endorsement.'],
+                ['errors' => ['email' => ['You already approved this endorsement.']]],
                 403
             );
         }

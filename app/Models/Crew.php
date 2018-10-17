@@ -99,14 +99,15 @@ class Crew extends Model
      */
     public function approve(EndorsementRequest $endorsementRequest, $attributes = [])
     {
-        return Endorsement::firstOrCreate(
+        return Endorsement::updateOrCreate(
             [
                 'endorsement_request_id' => $endorsementRequest->id,
-                'endorser_id' => $this->id,
+                'endorser_email' => $this->user->email,
             ],
             [
-                'approved_at' => Carbon::now(),
+                'endorser_id' => $this->id,
                 'comment' => $attributes['comment'] ?? null,
+                'approved_at' => Carbon::now(),
             ]
         );
     }

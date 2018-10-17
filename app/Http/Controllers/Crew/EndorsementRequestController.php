@@ -47,6 +47,7 @@ class EndorsementRequestController extends Controller
             'endorser_name' => $request['name'],
             'endorser_email' => $request['email'],
         ]);
+
         // TODO: defer to queue
         Mail::to($request['email'])
             ->send(new EndorsementRequestEmail($endorsement));

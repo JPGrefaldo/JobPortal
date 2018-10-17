@@ -126,52 +126,81 @@ class EndorsementFeatureTest extends TestCase
     /**
      * @test
      */
-    public function endorser_can_approve_an_endorsement_request()
+    public function endorser_can_approve_a_pending_endorsement_request()
     {
         // $this->withoutExceptionHandling();
-        // TODO fix test is passing for the wrong reason
 
         // given
+        $johnDoe = factory(User::class)->states('withCrewRole')->create([
+            'email' => 'john@gmail.com',
+        ]);
+        $johnDoeCrew = factory(Crew::class)->create([
+            'user_id' => $johnDoe->id,
+        ]);
+
         $endorsementRequest = factory(EndorsementRequest::class)->create();
-        $user2 = factory(User::class)->states('withCrewRole')->create();
-        $endorser2 = factory(Crew::class)->create([
-            'user_id' => $user2->id,
+        // user asks endorsement
+        $johnDoePendingEndorsement = factory(Endorsement::class)->create([
+            'endorsement_request_id' => $endorsementRequest->id,
+            'endorser_id' => null,
+            'endorser_name' => 'John Doe',
+            'endorser_email' => 'john@gmail.com',
         ]);
 
         // when
-        $response1 = $this
-            ->actingAs($this->user)
+        // a endorser approves endorsement that pending
+        $response = $this
+            ->actingAs($johnDoe)
             ->postJson(
                 route('endorsements.store', $endorsementRequest),
-                ['comment' => 'This is my comment',]
+                ['comment' => 'This is John Doe\'s comment.',]
             )
-            ->assertSuccessful()
-            ->assertJsonStructure(['approved_at', 'comment']);
-
-        $response2 = $this
-            ->actingAs($user2)
-            ->postJson(
-                route('endorsements.store', $endorsementRequest),
-                ['comment' => '',]
-            )
-            ->assertSuccessful()
-            ->assertJsonStructure(['approved_at', 'comment']);
+            ->assertSuccessful();
 
         // then
-        $this->assertCount(2, Endorsement::all()->toArray());
+        // only 1 instance of endorsemnt is stored
+        $this->assertCount(1, Endorsement::all());
         $this->assertDatabaseHas('endorsements', [
             'endorsement_request_id' => $endorsementRequest->id,
-            'endorser_id' => $this->crew->id,
-            'endorser_name' => null,
-            'endorser_email' => null,
-            'comment' => 'This is my comment'
+            'endorser_id' => $johnDoeCrew->id,
+            'endorser_email' => $johnDoe->email,
+            'comment' => 'This is John Doe\'s comment.',
         ]);
+    }
+
+    /**
+     * @test
+     */
+    public function endorser_can_approve_non_pending_endorsement_request()
+    {
+        // given
+        $johnDoe = factory(User::class)->states('withCrewRole')->create([
+            'email' => 'john@gmail.com',
+        ]);
+        $johnDoeCrew = factory(Crew::class)->create([
+            'user_id' => $johnDoe->id,
+        ]);
+
+        $endorsementRequest = factory(EndorsementRequest::class)->create();
+
+        // when
+        // a Jane Doe opens endorsement request that is not pending to her name
+        $response = $this
+            ->actingAs($johnDoe)
+            ->postJson(
+                route('endorsements.store', $endorsementRequest),
+                ['comment' => 'This is John Doe\'s comment.',]
+            )
+            ->assertSuccessful();
+
+        // then
+        // only 1 instance of endorsemnt is stored
+        $this->assertCount(1, Endorsement::all());
         $this->assertDatabaseHas('endorsements', [
             'endorsement_request_id' => $endorsementRequest->id,
-            'endorser_id' => $endorser2->id,
-            'endorser_name' => null,
-            'endorser_email' => null,
-            'comment' => null
+            'endorser_id' => $johnDoeCrew->id,
+            'endorser_email' => $johnDoe->email,
+            'comment' => 'This is John Doe\'s comment.',
         ]);
     }
 
