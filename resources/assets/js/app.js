@@ -27,6 +27,7 @@ Vue.component('create-crew-position-form', require('./components/CreateCrewPosit
 Vue.component('edit-crew-position-form', require('./components/EditCrewPositionFormComponent'));
 Vue.component('create-endorsement-request-form', require('./components/CreateEndorsementRequestFormComponent'));
 Vue.component('create-endorsement-form', require('./components/CreateEndorsementFormComponent'));
+Vue.component('edit-endorsement-form', require('./components/EditEndorsementFormComponent'));
 
 const content = new Vue({
     el: '#content',
