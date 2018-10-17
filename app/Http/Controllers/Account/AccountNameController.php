@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Account;
 
 use App\Http\Controllers\Controller;
 use App\Models\Rules\UserRules;
-use App\Services\User\UsersServices;
+use App\Utils\FormatUtils;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -46,11 +46,10 @@ class AccountNameController extends Controller
             'last_name'  => UserRules::lastName(),
         ]);
 
-        app(UsersServices::class)->updateName(
-            $data['first_name'],
-            $data['last_name'],
-            Auth::user()
-        );
+        Auth::user()->update([
+            'first_name' => FormatUtils::name($data['first_name']),
+            'last_name'  => FormatUtils::name($data['last_name']),
+        ]);
 
         return back();
     }

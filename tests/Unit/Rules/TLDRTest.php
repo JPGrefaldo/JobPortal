@@ -9,7 +9,10 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class TLDRTest extends TestCase
 {
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Rules\TLDR::passes
+     */
     public function valid_tldr()
     {
         $this->assertTrue($this->app['validator']->make([
@@ -33,7 +36,10 @@ class TLDRTest extends TestCase
         ])->passes());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Rules\TLDR::passes
+     */
     public function invalid_tldr()
     {
         $result = $this->app['validator']->make([

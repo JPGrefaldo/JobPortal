@@ -7,10 +7,15 @@ use Tests\TestCase;
 
 class StrUtilsTest extends TestCase
 {
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Utils\StrUtils::stripNonNumeric
+     */
     public function stripe_non_numeric_characters()
     {
-        $this->assertEquals('15555555555', StrUtils::stripNonNumeric(('+1 (555) 555-5555')));
+        $this->assertEquals('15555555555',
+            StrUtils::stripNonNumeric(('+1 (555) 555-5555'))
+        );
     }
 
     /**

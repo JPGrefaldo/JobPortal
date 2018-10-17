@@ -9,7 +9,10 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ReelTest extends TestCase
 {
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Rules\Reel::passes
+     */
     public function valid_youtube()
     {
         $result = $this->app['validator']->make(
@@ -20,7 +23,10 @@ class ReelTest extends TestCase
         $this->assertTrue($result->passes());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Rules\Reel::passes
+     */
     public function valid_vimeo()
     {
         $result = $this->app['validator']->make(
@@ -31,7 +37,10 @@ class ReelTest extends TestCase
         $this->assertTrue($result->passes());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Rules\Reel::passes
+     */
     public function invalid()
     {
         $result = $this->app['validator']->make(

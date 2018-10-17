@@ -9,7 +9,10 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class GooglePlusTest extends TestCase
 {
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Rules\GooglePlus::passes
+     */
     public function valid()
     {
         $result = $this->app['validator']->make(
@@ -25,7 +28,10 @@ class GooglePlusTest extends TestCase
         $this->assertTrue($result->passes());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Rules\GooglePlus::passes
+     */
     public function invalid()
     {
         $result = $this->app['validator']->make(

@@ -2,10 +2,12 @@
 
 namespace App\Console\Commands;
 
+use App\Actions\Auth\AddRoleToUserByRoleName;
+use App\Actions\Auth\AddUserToSite;
+use App\Actions\Crew\StubCrew;
+use App\Actions\User\CreateUser;
 use App\Models\Role;
 use App\Models\Site;
-use App\Services\AuthServices;
-use App\Services\User\UsersServices;
 use Illuminate\Console\Command;
 
 class CreateTestUser extends Command
@@ -42,7 +44,7 @@ class CreateTestUser extends Command
      */
     public function handle()
     {
-        $user = app(UsersServices::class)->create([
+        $user = app(CreateUser::class)->execute([
             'first_name' => 'Test',
             'last_name'  => 'User',
             'email'      => $this->argument('email'),
@@ -51,11 +53,11 @@ class CreateTestUser extends Command
         ]);
 
         foreach ([Role::CREW, Role::PRODUCER] as $_ => $type) {
-            app(AuthServices::class)->createByRoleName(
-                $type,
-                $user,
-                Site::whereHostname('crewcalls.test')->first()
-            );
+            app(AddRoleToUserByRoleName::class)->execute($user, $type);
+            app(AddUserToSite::class)->execute($user, Site::whereHostname('crewcalls.test')->first());
+            if ($type == Role::CREW) {
+                app(StubCrew::class)->execute($user);
+            }
         }
 
         $user->confirm();

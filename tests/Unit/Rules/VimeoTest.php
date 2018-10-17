@@ -9,7 +9,10 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class VimeoTest extends TestCase
 {
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Rules\Vimeo::passes
+     */
     public function valid()
     {
         $result = $this->app['validator']->make(
@@ -26,7 +29,10 @@ class VimeoTest extends TestCase
         $this->assertTrue($result->passes());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Rules\Vimeo::passes
+     */
     public function valid_player()
     {
         $result = $this->app['validator']->make(
@@ -43,7 +49,10 @@ class VimeoTest extends TestCase
         $this->assertTrue($result->passes());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Rules\Vimeo::passes
+     */
     public function invalid()
     {
         $result = $this->app['validator']->make(

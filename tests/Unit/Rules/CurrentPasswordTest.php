@@ -14,7 +14,10 @@ class CurrentPasswordTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Rules\CurrentPassword::passes
+     */
     public function valid()
     {
         $user = factory(User::class)->create([
