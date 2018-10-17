@@ -2,7 +2,7 @@
 @section('content')
 
 <div class="container">
-    @include('_parts.pages.page-title', ['pageTitle' => 'Edit endorsement request'])
+    @include('_parts.pages.page-title', ['pageTitle' => 'Edit endorsement'])
     <edit-endorsement-form
         url="{{ route('endorsements.update',  $endorsementRequest) }}"
         comment="{{ $endorsement->comment }}"

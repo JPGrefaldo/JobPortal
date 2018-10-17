@@ -272,7 +272,7 @@ class EndorsementFeatureTest extends TestCase
 
         // then
         $response->assertSee(
-            'Please feel free to leave a comment for this endorsement request.'
+            'Edit endorsement'
         );
     }
 

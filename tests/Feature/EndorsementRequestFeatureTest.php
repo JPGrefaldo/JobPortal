@@ -113,7 +113,7 @@ class EndorsementRequestFeatureTest extends TestCase
      */
     public function endorsees_can_ask_endorsements_from_endorsers()
     {
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
 
         // given
         $position = factory(Position::class)->create();
@@ -159,7 +159,7 @@ class EndorsementRequestFeatureTest extends TestCase
      */
     public function endorsement_request_email_is_sent_to_endorsers_after_endorsees_ask_for_an_endorsement()
     {
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
 
         // given
         Mail::fake();
