@@ -29,9 +29,9 @@ class SocialLinkType extends Model
         return $this->hasMany(CrewSocial::class);
     }
 
-    public function scopeByCode($query, $code)
-    {
-        $code = str_replace('_', ' ', $code);
-        return $query->where('name', title_case($code));
-    }
+    // public function scopeByCode($query, $code)
+    // {
+    //     $code = str_replace('_', ' ', $code);
+    //     return $query->where('name', title_case($code));
+    // }
 }

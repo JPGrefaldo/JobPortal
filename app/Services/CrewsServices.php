@@ -7,7 +7,6 @@ use App\Models\Crew;
 use App\Models\CrewReel;
 use App\Models\CrewResume;
 use App\Models\CrewSocial;
-use App\Models\SocialLinkType;
 use App\Models\User;
 use App\Utils\StrUtils;
 use Illuminate\Http\UploadedFile;
@@ -44,11 +43,14 @@ class CrewsServices
             }
         }
 
-        if (isset($data['reel_link'])) {
-            $this->createGeneralReel([
-                'url'     => $data['reel_link'],
-                'crew_id' => $crew->id,
-            ]);
+        if (isset($data['reel'])) {
+            $this->createGeneralReel(
+                [
+                    'url'     => $data['reel'],
+                    'crew_id' => $crew->id,
+                ],
+                $crew
+            );
         }
 
         if (isset($data['reel_file'])) {
@@ -64,7 +66,7 @@ class CrewsServices
 
     /**
      *
-      Create crew
+     * Create crew
      *
      * @param array $data
      * @param \Illuminate\Http\UploadedFile $photoFile
@@ -146,22 +148,15 @@ class CrewsServices
      * @param array $socialData
      * @param \App\Models\Crew $crew
      */
-    public function createSocials(array $socialData, Crew $crew)
+    public function createSocials(array $data, Crew $crew)
     {
-        $crewSocials = [];
-
-
-        foreach ($socialData as $key => $data) {
-            if (!is_null($data) && $data != '') {
-                $crewSocials[] = new CrewSocial([
-                    // 'social_link_type_id' => $key,
-                    'social_link_type_id' => SocialLinkType::byCode($key)->first()->id,
-                    'url'                 => $data,
-                ]);
-            }
+        foreach ($data as $key => $value) {
+            CrewSocial::create([
+                'crew_id' => $crew->id,
+                'social_link_type_id' => $value['id'],
+                'url' => $value['url'],
+            ]);
         }
-
-        $crew->socials()->saveMany($crewSocials);
     }
 
 
@@ -175,12 +170,11 @@ class CrewsServices
         $data = array_merge(
             $this->prepareGeneralReelData($data),
             ['general' => 1],
-            ['type' => 'link']
+            ['type' => 'link'],
+            ['crew_id' => $crew->id]
         );
 
         $reel = CrewReel::create($data);
-
-        $crew->reel()->save($reel);
 
         return $reel;
     }
