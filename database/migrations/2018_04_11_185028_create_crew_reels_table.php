@@ -15,10 +15,13 @@ class CreateCrewReelsTable extends Migration
     {
         Schema::create('crew_reels', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('crew_id')->unsigned();
+            $table->unsignedInteger('crew_id');
             $table->string('url');
-            $table->boolean('general')->default(false);
-            $table->integer('crew_position_id')->unsigned()->nullable()->default(null);
+            $table->boolean('general')
+                  ->default(false);
+            $table->unsignedInteger('crew_position_id')
+                  ->nullable()
+                  ->default(null);
             $table->timestamps();
 
             $table->foreign('crew_id')

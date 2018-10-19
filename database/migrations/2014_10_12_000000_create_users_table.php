@@ -18,12 +18,15 @@ class CreateUsersTable extends Migration
             $table->uuid('uuid');
             $table->string('first_name');
             $table->string('last_name');
-            $table->string('email')->unique();
+            $table->string('email')
+                  ->unique();
             $table->string('phone', 15);
             $table->string('password');
             $table->rememberToken();
-            $table->smallInteger('status')->default(1);
-            $table->boolean('confirmed')->default(0);
+            $table->smallInteger('status')
+                  ->default(1);
+            $table->boolean('confirmed')
+                  ->default(false);
 
             $table->timestamps();
 

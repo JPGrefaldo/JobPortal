@@ -16,9 +16,12 @@ class CreateSitesTable extends Migration
         Schema::create('sites', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('hostname')->unique();
-            $table->integer('forward_to_site_id')->default(0);
-            $table->smallInteger('status')->default(1);
+            $table->string('hostname')
+                  ->unique();
+            $table->integer('forward_to_site_id')
+                  ->default(0);
+            $table->smallInteger('status')
+                  ->default(1);
             $table->timestamps();
         });
     }

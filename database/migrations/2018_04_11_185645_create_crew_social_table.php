@@ -15,8 +15,8 @@ class CreateCrewSocialTable extends Migration
     {
         Schema::create('crew_social', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('crew_id')->unsigned();
-            $table->integer('social_link_type_id')->unsigned();
+            $table->unsignedInteger('crew_id');
+            $table->unsignedInteger('social_link_type_id');
             $table->string('url')->nullable();
             $table->timestamps();
 

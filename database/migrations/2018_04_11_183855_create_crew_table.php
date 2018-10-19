@@ -15,9 +15,11 @@ class CreateCrewTable extends Migration
     {
         Schema::create('crews', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned();
-            $table->text('bio')->nullable();
-            $table->string('photo')->default("");
+            $table->unsignedInteger('user_id');
+            $table->text('bio')
+                  ->nullable();
+            $table->string('photo')
+                  ->default("");
             $table->timestamps();
 
             $table->foreign('user_id')

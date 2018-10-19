@@ -15,8 +15,8 @@ class CreateCrewPositionsTable extends Migration
     {
         Schema::create('crew_position', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('crew_id')->unsigned();
-            $table->integer('position_id')->unsigned();
+            $table->unsignedInteger('crew_id');
+            $table->unsignedInteger('position_id');
             $table->text('details');
             $table->text('union_description');
             $table->timestamps();

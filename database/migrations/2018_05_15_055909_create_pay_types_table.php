@@ -15,8 +15,10 @@ class CreatePayTypesTable extends Migration
     {
         Schema::create('pay_types', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name')->unique();
-            $table->boolean('has_rate')->default(0);
+            $table->string('name')
+                  ->unique();
+            $table->boolean('has_rate')
+                  ->default(false);
             $table->timestamps();
         });
     }
