@@ -171,7 +171,7 @@ class CrewsFeatureTest extends TestCase
         $this->assertCount(0, $crew->reels);
 
         // assert that no socials has been created
-        $this->assertCount(0, $crew->social);
+        $this->assertCount(0, $crew->socials);
     }
 
     /** @test */

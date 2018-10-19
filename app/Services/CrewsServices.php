@@ -151,6 +151,9 @@ class CrewsServices
     public function createSocials(array $data, Crew $crew)
     {
         foreach ($data as $key => $value) {
+            if (! $value['url']) {
+                continue;
+            }
             CrewSocial::create([
                 'crew_id' => $crew->id,
                 'social_link_type_id' => $value['id'],
