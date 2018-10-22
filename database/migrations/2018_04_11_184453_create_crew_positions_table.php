@@ -15,9 +15,8 @@ class CreateCrewPositionsTable extends Migration
     {
         Schema::create('crew_position', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('crew_id')->unsigned();
-            $table->integer('position_id')->unsigned();
-            // should be nullable or else it will conflict with logic of position
+            $table->unsignedInteger('crew_id');
+            $table->unsignedInteger('position_id');
             $table->text('details');
             // should be nullable or else it will conflict with logic of position
             $table->text('union_description');

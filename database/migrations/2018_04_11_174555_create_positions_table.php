@@ -16,10 +16,13 @@ class CreatePositionsTable extends Migration
         Schema::create('positions', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->integer('department_id')->unsigned();
-            $table->boolean('has_gear')->default(false);
-            $table->boolean('has_union')->default(false);
-            $table->boolean('has_many')->default(true);
+            $table->unsignedInteger('department_id');
+            $table->boolean('has_gear')
+                  ->default(false);
+            $table->boolean('has_union')
+                  ->default(false);
+            $table->boolean('has_many')
+                  ->default(true);
             $table->timestamps();
 
             $table->foreign('department_id')

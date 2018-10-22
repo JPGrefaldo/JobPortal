@@ -15,8 +15,8 @@ class CreateRemoteProjectsTable extends Migration
     {
         Schema::create('remote_projects', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('project_id')->unsigned();
-            $table->integer('site_id')->unsigned();
+            $table->unsignedInteger('project_id');
+            $table->unsignedInteger('site_id');
             $table->timestamps();
 
             $table->foreign('project_id')

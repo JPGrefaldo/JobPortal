@@ -18,12 +18,15 @@ class CreateProjectsTable extends Migration
             $table->string('title');
             $table->text('description');
             $table->text('production_name');
-            $table->boolean('production_name_public')->default(true);
-            $table->smallInteger('status')->default(0);
-            $table->integer('project_type_id')->unsigned();
-            $table->integer('user_id')->unsigned();
-            $table->integer('site_id')->unsigned();
-            $table->string('location')->nullable();
+            $table->boolean('production_name_public')
+                  ->default(true);
+            $table->smallInteger('status')
+                  ->default(0);
+            $table->unsignedInteger('project_type_id');
+            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('site_id');
+            $table->string('location')
+                  ->nullable();
             $table->timestamps();
 
             $table->foreign('project_type_id')

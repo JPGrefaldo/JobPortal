@@ -15,18 +15,26 @@ class CreateProjectJobsTable extends Migration
     {
         Schema::create('project_jobs', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('persons_needed')->unsigned()->default(1);
+            $table->unsignedInteger('persons_needed')
+                  ->default(1);
             $table->string('dates_needed');
-            $table->decimal('pay_rate')->default(0);
-            $table->text('notes')->nullable();
+            $table->decimal('pay_rate')
+                  ->default(0);
+            $table->text('notes')
+                  ->nullable();
             $table->boolean('rush_call');
             $table->boolean('travel_expenses_paid');
-            $table->string('gear_provided')->nullable()->default(null);
-            $table->string('gear_needed')->nullable()->default(null);
-            $table->smallInteger('status')->default(0);
-            $table->integer('project_id')->unsigned();
-            $table->integer('position_id')->unsigned();
-            $table->integer('pay_type_id')->unsigned();
+            $table->string('gear_provided')
+                  ->nullable()
+                  ->default(null);
+            $table->string('gear_needed')
+                  ->nullable()
+                  ->default(null);
+            $table->smallInteger('status')
+                  ->default(0);
+            $table->unsignedInteger('project_id');
+            $table->unsignedInteger('position_id');
+            $table->unsignedInteger('pay_type_id');
             $table->timestamps();
 
             $table->foreign('project_id')
