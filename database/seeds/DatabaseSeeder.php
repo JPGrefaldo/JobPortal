@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
              SitesTableSeeder::class,
              RolesTableSeeder::class,
              SocialLinkTypesTableSeeder::class,
+             PositionTypeTableSeeder::class,
              DepartmentsTableSeeder::class,
              PositionsTableSeeder::class,
              ProjectTypesTableSeeder::class,

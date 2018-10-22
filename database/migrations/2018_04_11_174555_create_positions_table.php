@@ -17,6 +17,7 @@ class CreatePositionsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->unsignedInteger('department_id');
+            $table->unsignedInteger('position_type_id');
             $table->boolean('has_gear')
                   ->default(false);
             $table->boolean('has_union')

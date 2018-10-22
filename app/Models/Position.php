@@ -40,4 +40,12 @@ class Position extends Model
     {
         return $this->belongsTo(Department::class);
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function type()
+    {
+        return $this->belongsTo(PositionTypes::class);
+    }
 }
