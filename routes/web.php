@@ -101,32 +101,41 @@ Route::middleware('auth')->group(function () {
         Route::put('/crews/{crew}', 'CrewsController@update');
 
 
-        Route::prefix('/crew/positions/')->group(function () {
-            Route::get('/', 'Crew\PositionController@index')
-                ->name('crew_position.index');
-            Route::get('/{position}/create', 'Crew\PositionController@create')
-                ->name('crew_position.create');
-            Route::post('/{position}', 'Crew\PositionController@store')
-                ->name('crew_position.store');
-            Route::get('/{position}', 'Crew\PositionController@show')
-                ->name('crew_position.show');
-            Route::get('/{position}/edit', 'Crew\PositionController@edit')
-                ->name('crew_position.edit');
-            Route::put('/{position}', 'Crew\PositionController@update')
-                ->name('crew_position.update');
-            Route::delete('/{position}', 'Crew\PositionController@destroy')
-                ->name('crew_position.destroy');
+        Route::prefix('crew')->group(function () {
+            Route::prefix('endorsement')->group(function () {
+                Route::prefix('positions')->group(function () {
+                    Route::get('/', 'Crew\EndorsementPositionController@index')
+                        ->name('crew.endorsement.position.index');
+                    Route::get('/{position}/create', 'Crew\EndorsementPositionController@create')
+                        ->name('crew.endorsement.position.create');
+                    Route::post('/{position}', 'Crew\EndorsementPositionController@store')
+                        ->name('crew.endorsement.position.store');
+                    Route::get('/{position}', 'Crew\EndorsementPositionController@show')
+                        ->name('crew.endorsement.position.show');
+                    Route::get('/{position}/edit', 'Crew\EndorsementPositionController@edit')
+                        ->name('crew.endorsement.position.edit');
+                    Route::put('/{position}', 'Crew\EndorsementPositionController@update')
+                        ->name('crew.endorsement.position.update');
+                    Route::delete('/{position}', 'Crew\EndorsementPositionController@destroy')
+                        ->name('crew.endorsement.position.destroy');
+                });
+            });
         });
 
-        Route::post('/crew/positions/{position}/endorsement-requests', 'Crew\EndorsementRequestController@store')->name('endorsement_requests.store');
+        Route::post('/crew/positions/{position}/endorsement-requests', 'Crew\EndorsementRequestController@store')
+            ->name('endorsement_requests.store');
 
         /**
          * endorsements resource
          */
-        Route::get('/endorsement-requests/{endorsementRequest}/endorsements/create', 'Crew\EndorsementController@create')->name('endorsements.create');
-        Route::post('/endorsement-requests/{endorsementRequest}/endorsements', 'Crew\EndorsementController@store')->name('endorsements.store');
-        Route::get('/endorsement-requests/{endorsementRequest}/endorsements/edit', 'Crew\EndorsementController@edit')->name('endorsements.edit');
-        Route::put('/endorsement-requests/{endorsementRequest}/endorsements/update', 'Crew\EndorsementController@update')->name('endorsements.update');
+        Route::get('/endorsement-requests/{endorsementRequest}/endorsements/create', 'Crew\EndorsementController@create')
+            ->name('endorsements.create');
+        Route::post('/endorsement-requests/{endorsementRequest}/endorsements', 'Crew\EndorsementController@store')
+            ->name('endorsements.store');
+        Route::get('/endorsement-requests/{endorsementRequest}/endorsements/edit', 'Crew\EndorsementController@edit')
+            ->name('endorsements.edit');
+        Route::put('/endorsement-requests/{endorsementRequest}/endorsements/update', 'Crew\EndorsementController@update')
+            ->name('endorsements.update');
     });
 
     /*

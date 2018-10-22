@@ -35,7 +35,7 @@ class CrewPositionFeatureTest extends TestCase
     {
         // when
         $response = $this->actingAs($this->user)
-            ->get(route('crew_position.index'));
+            ->get(route('crew.endorsement.position.index'));
 
         // then
         Position::all()->each(function ($position) use ($response) {
@@ -60,10 +60,10 @@ class CrewPositionFeatureTest extends TestCase
 
         // when
         $response = $this->actingAs($this->user)
-            ->get(route('crew_position.create', $position));
+            ->get(route('crew.endorsement.position.create', $position));
 
         // then
-        $response->assertRedirect(route('crew_position.edit', $position));
+        $response->assertRedirect(route('crew.endorsement.position.edit', $position));
     }
 
     /**
@@ -82,7 +82,7 @@ class CrewPositionFeatureTest extends TestCase
         $response = $this
             ->actingAs($this->user)
             ->post(
-                route('crew_position.store', $position),
+                route('crew.endorsement.position.store', $position),
                 array_only($crewPosition, ['details', 'union_description'])
             );
 
@@ -113,7 +113,7 @@ class CrewPositionFeatureTest extends TestCase
         // when
         $response = $this
             ->actingAs($this->user)
-            ->get(route('crew_position.edit', $appliedPosition));
+            ->get(route('crew.endorsement.position.edit', $appliedPosition));
 
 
         // then
@@ -133,11 +133,11 @@ class CrewPositionFeatureTest extends TestCase
         // when
         $response = $this
             ->actingAs($this->user)
-            ->get(route('crew_position.edit', $nonAppliedPosition));
+            ->get(route('crew.endorsement.position.edit', $nonAppliedPosition));
 
 
         // then
-        $response->assertRedirect(route('crew_position.create', $nonAppliedPosition));
+        $response->assertRedirect(route('crew.endorsement.position.create', $nonAppliedPosition));
     }
 
     /**
@@ -157,7 +157,7 @@ class CrewPositionFeatureTest extends TestCase
         // when
         $response = $this
             ->actingAs($this->user)
-            ->delete(route('crew_position.destroy', $position));
+            ->delete(route('crew.endorsement.position.destroy', $position));
 
         // then
         $this->assertCount(0, CrewPosition::all());
@@ -181,7 +181,7 @@ class CrewPositionFeatureTest extends TestCase
         // when
         $response = $this
             ->actingAs($this->user)
-            ->delete(route('crew_position.destroy', $randomPosition));
+            ->delete(route('crew.endorsement.position.destroy', $randomPosition));
 
         // then
         $this->assertCount(1, CrewPosition::all());

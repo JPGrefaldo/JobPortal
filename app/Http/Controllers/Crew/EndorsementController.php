@@ -20,7 +20,7 @@ class EndorsementController extends Controller
         $crew = auth()->user()->crew;
         if ($endorsementRequest->isRequestedBy($crew)) {
             return redirect(
-                route('crew_position.show', $endorsementRequest->position)
+                route('crew.endorsement.position.show', $endorsementRequest->position)
             );
         }
 

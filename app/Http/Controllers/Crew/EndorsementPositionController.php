@@ -7,7 +7,7 @@ use App\Models\CrewPosition;
 use App\Models\Position;
 use Illuminate\Http\Request;
 
-class PositionController extends Controller
+class EndorsementPositionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -31,7 +31,7 @@ class PositionController extends Controller
         $crew = auth()->user()->crew;
 
         if ($crew->hasPosition($position)) {
-            return redirect(route('crew_position.edit', $position));
+            return redirect(route('crew.endorsement.position.edit', $position));
         }
 
         return view('crew.position.create', compact('position'));
@@ -54,7 +54,7 @@ class PositionController extends Controller
 
         // TODO create test
         if ($crew->hasPosition($position)) {
-            return redirect(route('crew_position.edit'), $position);
+            return redirect(route('crew.endorsement.position.edit'), $position);
         }
 
         $crew->applyFor($position, [
@@ -88,7 +88,7 @@ class PositionController extends Controller
         $crew = auth()->user()->crew;
 
         if (! $crew->hasPosition($position)) {
-            return redirect(route('crew_position.create', $position));
+            return redirect(route('crew.endorsement.position.create', $position));
         }
 
         return view('crew.position.edit', compact('crew', 'position'));

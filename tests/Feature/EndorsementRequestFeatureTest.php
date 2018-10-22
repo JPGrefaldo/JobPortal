@@ -34,7 +34,7 @@ class EndorsementRequestFeatureTest extends TestCase
     }
 
     /** CREATE */
-    // this is defered to Crew\PositionController@show
+    // this is defered to Crew\EndorsementPositionController@show
 
     /** STORE */
     // authorization

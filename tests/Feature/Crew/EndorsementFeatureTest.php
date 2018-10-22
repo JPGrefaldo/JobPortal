@@ -71,7 +71,7 @@ class EndorsementFeatureTest extends TestCase
             ->get(route('endorsements.create', $endorsementRequest));
 
         // then
-        $response->assertRedirect(route('crew_position.show', $position));
+        $response->assertRedirect(route('crew.endorsement.position.show', $position));
     }
 
     /**
@@ -385,14 +385,14 @@ class EndorsementFeatureTest extends TestCase
 
         // when he views applied position
         $response = $this->actingAs($this->user)
-            ->get(route('crew_position.show', $appliedPosition));
+            ->get(route('crew.endorsement.position.show', $appliedPosition));
 
         // then he does see the endorsement form
         $response->assertSee('Ask Endorsement');
 
         // when he views non applied position
         $response = $this->actingAs($this->user)
-            ->get(route('crew_position.show', $nonAppliedPosition));
+            ->get(route('crew.endorsement.position.show', $nonAppliedPosition));
 
         // then he does not see the endorsement form
         $response->assertDontSee('Ask Endorsement');
