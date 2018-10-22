@@ -13,26 +13,27 @@ class DepartmentsTableSeeder extends Seeder
     public function run()
     {
         Department::create([
-            'name' => 'Production'
+            'name' => 'Production',
         ]);
         Department::create([
-            'name' => 'Art'
+            'name' => 'Art',
         ]);
         Department::create([
-            'name' => 'Camera'
+            'name' => 'Camera',
         ]);
         Department::create([
-            'name' => 'Grip_Electric'
-            ]);
+            'name' => 'Grip_Electric',
+        ]);
         Department::create([
-                'name' => 'MUaH_Wardrobe'
-                ]);
+            'name' => 'MUaH_Wardrobe',
+        ]);
         Department::create([
-                    'name' => 'Sound'
-                    ]);
+            'name' => 'Sound',
+        ]);
         Department::create([
-                        'name' => 'Other'
-                        ]);
+            'name' => 'Other',
+        ]);
+
         $this->command->info('Departments seeded');
     }
 }
