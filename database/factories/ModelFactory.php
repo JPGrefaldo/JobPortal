@@ -79,6 +79,13 @@ $factory->define(\App\Models\Department::class, function (Faker $faker) {
     ];
 });
 
+$factory->define(\App\Models\PositionTypes::class, function (Faker $faker) {
+    return [
+        'name'        => $faker->words(2, true),
+        'description' => $faker->sentence,
+    ];
+});
+
 $factory->define(\App\Models\ProjectType::class, function (Faker $faker) {
     return [
         'name' => $faker->words(2, true),

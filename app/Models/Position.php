@@ -17,11 +17,12 @@ class Position extends Model
      * @var array
      */
     protected $casts = [
-        'id'            => 'integer',
-        'department_id' => 'integer',
-        'has_gear'      => 'boolean',
-        'has_union'     => 'boolean',
-        'has_many'      => 'boolean'
+        'id'               => 'integer',
+        'department_id'    => 'integer',
+        'position_type_id' => 'integer',
+        'has_gear'         => 'boolean',
+        'has_union'        => 'boolean',
+        'has_many'         => 'boolean',
     ];
 
 

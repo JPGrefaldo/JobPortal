@@ -10,5 +10,8 @@ $factory->define(App\Models\Position::class, function (Faker $faker) {
         'department_id' => $department_id ?: function () {
             return factory(\App\Models\Department::class)->create()->id;
         },
+        'position_type_id' => $department_id ?: function () {
+            return factory(\App\Models\PositionTypes::class)->create()->id;
+        },
     ];
 });
