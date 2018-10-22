@@ -4,6 +4,7 @@ namespace Tests\Feature\Admin;
 
 use App\Models\Position;
 use Tests\Support\Data\DepartmentID;
+use Tests\Support\Data\PositionTypeID;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -18,10 +19,11 @@ class PositionsFeatureTest extends TestCase
     {
         $user = $this->createAdmin();
         $data = [
-            'name'          => 'Some Position',
-            'department_id' => DepartmentID::PRODUCTION,
-            'has_gear'      => 1,
-            'has_union'     => 1,
+            'name'              => 'Some Position',
+            'department_id'     => DepartmentID::PRODUCTION,
+            'position_type_id'  => PositionTypeID::PRE_PRODUCTION,
+            'has_gear'          => 1,
+            'has_union'         => 1,
         ];
 
         $response = $this->actingAs($user)
@@ -36,6 +38,7 @@ class PositionsFeatureTest extends TestCase
             [
                 'name'          => 'Some Position',
                 'department_id' => DepartmentID::PRODUCTION,
+                'position_type_id'  => PositionTypeID::PRE_PRODUCTION,
                 'has_gear'      => true,
                 'has_union'     => true,
             ],
@@ -48,8 +51,9 @@ class PositionsFeatureTest extends TestCase
     {
         $user = $this->createAdmin();
         $data = [
-            'name'          => 'Some Position',
-            'department_id' => DepartmentID::PRODUCTION,
+            'name'              => 'Some Position',
+            'department_id'     => DepartmentID::PRODUCTION,
+            'position_type_id'  => PositionTypeID::PRE_PRODUCTION,
         ];
 
         $response = $this->actingAs($user)
@@ -62,10 +66,11 @@ class PositionsFeatureTest extends TestCase
 
         $this->assertArraySubset(
             [
-                'name'          => 'Some Position',
-                'department_id' => DepartmentID::PRODUCTION,
-                'has_gear'      => false,
-                'has_union'     => false,
+                'name'              => 'Some Position',
+                'department_id'     => DepartmentID::PRODUCTION,
+                'position_type_id'  => PositionTypeID::PRE_PRODUCTION,
+                'has_gear'          => false,
+                'has_union'         => false,
             ],
             $position->toArray()
         );
@@ -76,10 +81,11 @@ class PositionsFeatureTest extends TestCase
     {
         $user = $this->createAdmin();
         $data = [
-            'name'          => 'some position',
-            'department_id' => DepartmentID::PRODUCTION,
-            'has_gear'      => 1,
-            'has_union'     => 1,
+            'name'              => 'some position',
+            'department_id'     => DepartmentID::PRODUCTION,
+            'position_type_id'  => PositionTypeID::PRE_PRODUCTION,
+            'has_gear'          => 1,
+            'has_union'         => 1,
         ];
 
         $response = $this->actingAs($user)
@@ -92,10 +98,11 @@ class PositionsFeatureTest extends TestCase
 
         $this->assertArraySubset(
             [
-                'name'          => 'Some Position',
-                'department_id' => DepartmentID::PRODUCTION,
-                'has_gear'      => true,
-                'has_union'     => true,
+                'name'              => 'Some Position',
+                'department_id'     => DepartmentID::PRODUCTION,
+                'position_type_id'  => PositionTypeID::PRE_PRODUCTION,
+                'has_gear'          => true,
+                'has_union'         => true,
             ],
             $position->toArray()
         );
@@ -148,10 +155,11 @@ class PositionsFeatureTest extends TestCase
         $user     = $this->createAdmin();
         $position = factory(Position::class)->create();
         $data     = [
-            'name'          => 'Updated Position',
-            'department_id' => DepartmentID::PRODUCTION,
-            'has_gear'      => 1,
-            'has_union'     => 1,
+            'name'              => 'Updated Position',
+            'department_id'     => DepartmentID::PRODUCTION,
+            'position_type_id'  => PositionTypeID::PRE_PRODUCTION,
+            'has_gear'          => 1,
+            'has_union'         => 1,
         ];
 
         $response = $this->actingAs($user)
@@ -160,10 +168,11 @@ class PositionsFeatureTest extends TestCase
         $response->assertSuccessful();
 
         $this->assertArraySubset([
-                'name'          => 'Updated Position',
-                'department_id' => DepartmentID::PRODUCTION,
-                'has_gear'      => true,
-                'has_union'     => true,
+                'name'              => 'Updated Position',
+                'department_id'     => DepartmentID::PRODUCTION,
+                'position_type_id'  => PositionTypeID::PRE_PRODUCTION,
+                'has_gear'          => true,
+                'has_union'         => true,
             ],
             $position->refresh()
                      ->toArray()
@@ -176,8 +185,9 @@ class PositionsFeatureTest extends TestCase
         $user     = $this->createAdmin();
         $position = factory(Position::class)->create();
         $data     = [
-            'name'          => 'Updated Position',
-            'department_id' => DepartmentID::PRODUCTION,
+            'name'              => 'Updated Position',
+            'department_id'     => DepartmentID::PRODUCTION,
+            'position_type_id'  => PositionTypeID::PRE_PRODUCTION,
         ];
 
         $response = $this->actingAs($user)
@@ -186,10 +196,11 @@ class PositionsFeatureTest extends TestCase
         $response->assertSuccessful();
 
         $this->assertArraySubset([
-                'name'          => 'Updated Position',
-                'department_id' => DepartmentID::PRODUCTION,
-                'has_gear'      => false,
-                'has_union'     => false,
+                'name'              => 'Updated Position',
+                'department_id'     => DepartmentID::PRODUCTION,
+                'position_type_id'  => PositionTypeID::PRE_PRODUCTION,
+                'has_gear'          => false,
+                'has_union'         => false,
             ],
             $position->refresh()
                      ->toArray()
@@ -202,10 +213,11 @@ class PositionsFeatureTest extends TestCase
         $user     = $this->createAdmin();
         $position = factory(Position::class)->create();
         $data     = [
-            'name'          => 'updated position',
-            'department_id' => DepartmentID::PRODUCTION,
-            'has_gear'      => true,
-            'has_union'     => true,
+            'name'              => 'updated position',
+            'department_id'     => DepartmentID::PRODUCTION,
+            'position_type_id'  => PositionTypeID::PRE_PRODUCTION,
+            'has_gear'          => true,
+            'has_union'         => true,
         ];
 
         $response = $this->actingAs($user)
@@ -214,11 +226,12 @@ class PositionsFeatureTest extends TestCase
         $response->assertSuccessful();
 
         $this->assertArraySubset([
-                'name'          => 'Updated Position',
+                'name'              => 'Updated Position',
                 // name is formatted
-                'department_id' => DepartmentID::PRODUCTION,
-                'has_gear'      => true,
-                'has_union'     => true,
+                'department_id'     => DepartmentID::PRODUCTION,
+                'position_type_id'  => PositionTypeID::PRE_PRODUCTION,
+                'has_gear'          => true,
+                'has_union'         => true,
             ],
             $position->refresh()
                      ->toArray()
@@ -230,10 +243,11 @@ class PositionsFeatureTest extends TestCase
     {
         $user     = $this->createAdmin();
         $data     = [
-            'name'          => 'Updated Position',
-            'department_id' => DepartmentID::PRODUCTION,
-            'has_gear'      => true,
-            'has_union'     => true,
+            'name'              => 'Updated Position',
+            'department_id'     => DepartmentID::PRODUCTION,
+            'position_type_id'  => PositionTypeID::PRE_PRODUCTION,
+            'has_gear'          => true,
+            'has_union'         => true,
         ];
         $position = factory(Position::class)->create($data);
 
@@ -243,10 +257,11 @@ class PositionsFeatureTest extends TestCase
         $response->assertSuccessful();
 
         $this->assertArraySubset([
-                'name'          => 'Updated Position',
-                'department_id' => DepartmentID::PRODUCTION,
-                'has_gear'      => true,
-                'has_union'     => true,
+                'name'              => 'Updated Position',
+                'department_id'     => DepartmentID::PRODUCTION,
+                'position_type_id'  => PositionTypeID::PRE_PRODUCTION,
+                'has_gear'          => true,
+                'has_union'         => true,
             ],
             $position->refresh()
                      ->toArray()

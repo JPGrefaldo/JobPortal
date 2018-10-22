@@ -45,6 +45,7 @@ class PositionsServices
         return array_only($data, [
             'name',
             'department_id',
+            'position_type_id',
             'has_gear',
             'has_union',
         ]);

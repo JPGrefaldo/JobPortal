@@ -5,6 +5,7 @@ namespace Tests\Unit\Services;
 use App\Models\Position;
 use App\Services\PositionsServices;
 use Tests\Support\Data\DepartmentID;
+use Tests\Support\Data\PositionTypeID;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -33,10 +34,11 @@ class PositionsServicesTest extends TestCase
     public function create()
     {
         $data = [
-            'name'          => 'Some Position',
-            'department_id' => DepartmentID::PRODUCTION,
-            'has_gear'      => 1,
-            'has_union'     => 1,
+            'name'              => 'Some Position',
+            'department_id'     => DepartmentID::PRODUCTION,
+            'position_type_id'  => PositionTypeID::PRE_PRODUCTION,
+            'has_gear'          => 1,
+            'has_union'         => 1,
         ];
 
         $position = $this->service->create($data);
@@ -47,10 +49,11 @@ class PositionsServicesTest extends TestCase
 
         $this->assertArraySubset(
             [
-                'name'          => 'Some Position',
-                'department_id' => DepartmentID::PRODUCTION,
-                'has_gear'      => true,
-                'has_union'     => true,
+                'name'              => 'Some Position',
+                'department_id'     => DepartmentID::PRODUCTION,
+                'position_type_id'  => PositionTypeID::PRE_PRODUCTION,
+                'has_gear'          => true,
+                'has_union'         => true,
             ],
             $position->toArray()
         );
