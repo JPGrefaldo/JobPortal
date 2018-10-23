@@ -103,9 +103,10 @@ Route::middleware('auth')->group(function () {
 
         Route::prefix('crew')->group(function () {
             Route::prefix('endorsement')->group(function () {
+                Route::get('/', 'Crew\EndorsementPositionController@index')
+                    ->name('crew.endorsement.index');
+
                 Route::prefix('positions')->group(function () {
-                    Route::get('/', 'Crew\EndorsementPositionController@index')
-                        ->name('crew.endorsement.position.index');
                     Route::get('/{position}/create', 'Crew\EndorsementPositionController@create')
                         ->name('crew.endorsement.position.create');
                     Route::post('/{position}', 'Crew\EndorsementPositionController@store')

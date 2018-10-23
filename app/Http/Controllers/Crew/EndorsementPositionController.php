@@ -18,7 +18,7 @@ class EndorsementPositionController extends Controller
     {
         $positions = Position::all();
 
-        return view('crew.position.index', compact('positions'));
+        return view('crew.endorsement.index', compact('positions'));
     }
 
     /**

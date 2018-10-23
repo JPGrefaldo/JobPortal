@@ -12,7 +12,7 @@
 
         <div class="bg-white shadow-md rounded mb-8 border border-grey-light">
             <div class="p-8">
-                <h3 class="text-blue-dark font-semibold text-lg mb-1 font-header">Current Endorsements <span class="badge">{{ Auth::user()->crew()->endorsements()->count() }}</span></h3>
+                <h3 class="text-blue-dark font-semibold text-lg mb-1 font-header">Current Endorsements <span class="badge">{{ Auth::user()->crew->endorsements->count() }}</span></h3>
             </div>
             <div class="bg-grey-lighter pb-8 px-8 border-t border-grey-light rounded-b">
                 @foreach ($positions as $position)

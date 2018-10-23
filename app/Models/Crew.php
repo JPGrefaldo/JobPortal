@@ -128,4 +128,12 @@ class Crew extends Model
     {
         return $this->hasMany(Endorsement::class, 'endorser_id');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function approvedEndorsements()
+    {
+        return $this->hasMany(Endorsement::class, 'endorser_id')->whereNotNull('approved_at');
+    }
 }

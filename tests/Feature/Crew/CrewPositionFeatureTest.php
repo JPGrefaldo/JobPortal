@@ -35,7 +35,7 @@ class CrewPositionFeatureTest extends TestCase
     {
         // when
         $response = $this->actingAs($this->user)
-            ->get(route('crew.endorsement.position.index'));
+            ->get(route('crew.endorsement.index'));
 
         // then
         Position::all()->each(function ($position) use ($response) {

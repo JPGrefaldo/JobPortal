@@ -208,12 +208,10 @@ class CrewTest extends TestCase
 
     /**
      * @test
+     * @covers \App\Models\Crew::endorsements
      */
     public function endorsements()
     {
-        // $this->withoutExceptionHandling();
-
-        // given
         $crewPosition = factory(CrewPosition::class)->create([
             'crew_id' => $this->crew->id,
         ]);
@@ -221,16 +219,57 @@ class CrewTest extends TestCase
             'crew_position_id' => $crewPosition->id,
         ]);
 
-        // when
         $endorsements = factory(Endorsement::class)->states('approved')->create([
             'endorser_id' => $this->crew->id,
         ]);
 
-        // then
-        // equals
         $this->assertEquals(
             $this->crew->endorsements->pluck('approved_at'),
             $endorsements->pluck('approved_at')
         );
+    }
+
+    /**
+     * @test
+     * @covers \App\Models\Crew::endorsements
+     */
+    public function no_endorsements()
+    {
+        $this->assertEquals(
+            0,
+            $this->crew->endorsements->count()
+        );
+    }
+
+    /**
+     * @test
+     * @covers \App\Models\Crew::approvedEndorsements
+     */
+    public function approved_endorsements()
+    {
+        $crewPosition = factory(CrewPosition::class)->create([
+            'crew_id' => $this->crew->id,
+        ]);
+        $endorsementRequest = factory(EndorsementRequest::class)->create([
+            'crew_position_id' => $crewPosition->id,
+        ]);
+
+        $endorsements = factory(Endorsement::class)->states('approved')->create([
+            'endorser_id' => $this->crew->id,
+        ]);
+
+        $this->assertEquals(
+            $this->crew->approvedEndorsements->pluck('approved_at'),
+            $endorsements->pluck('approved_at')
+        );
+    }
+
+    /**
+     * @test
+     * @covers \App\Models\Crew::approvedEndorsements
+     */
+    public function no_approved_endorsements()
+    {
+        $this->assertEquals(0, $this->crew->approvedEndorsements->count());
     }
 }
