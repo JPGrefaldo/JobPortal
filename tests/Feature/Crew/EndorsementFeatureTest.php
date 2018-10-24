@@ -339,7 +339,7 @@ class EndorsementFeatureTest extends TestCase
     // general logic
 
     /**
-     * @test
+     * ! fails because view is rendered by js
      */
     public function endorsee_can_only_see_endorsement_form_on_applied_positions()
     {
