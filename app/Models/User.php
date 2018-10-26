@@ -6,11 +6,20 @@ use App\Models\Traits\LogsActivityOnlyDirty;
 use App\Utils\StrUtils;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Vinkla\Hashids\Facades\Hashids;
 
 class User extends Authenticatable
 {
     use Notifiable, LogsActivityOnlyDirty;
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($user) {
+            $user->hash_id = Hashids::encode($user->id);
+        });
+    }
     /**
      * The protected attributes
      *
@@ -161,5 +170,10 @@ class User extends Authenticatable
     public function getFullNameAttribute()
     {
         return $this->first_name . ' ' . $this->last_name;
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'hash_id';
     }
 }

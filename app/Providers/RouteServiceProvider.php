@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\User;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use Vinkla\Hashids\Facades\Hashids;
@@ -29,7 +30,10 @@ class RouteServiceProvider extends ServiceProvider
         parent::boot();
 
         Route::bind('user', function ($value) {
-            return Hashids::decode($value)[0];
+            if (!Hashids::decode($value)) {
+                abort(404);
+            }
+            return User::find(Hashids::decode($value)[0]);
         });
     }
 
