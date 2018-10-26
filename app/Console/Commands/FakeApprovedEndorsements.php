@@ -61,7 +61,7 @@ class FakeApprovedEndorsements extends Command
 
         $positions = $this->getPositions();
 
-        $userPositions = CrewPosition::select(['position_id'])
+        $userPositions = CrewPosition::select(['position_id', 'id'])
             ->whereCrewId($user->crew->id)
             ->get();
 
@@ -76,9 +76,11 @@ class FakeApprovedEndorsements extends Command
                 $position = $positions->first();
             }
 
-            if (! $userPositions->where('position_id', $position->id)->count()) {
+            $crewPosition = $userPositions->where('position_id', $position->id);
+
+            if (! $crewPosition->count()) {
                 if ((bool) $this->argument('create_position')) {
-                    CrewPosition::create([
+                    $crewPosition = CrewPosition::create([
                         'crew_id'           => $user->crew->id,
                         'position_id'       => $position->id,
                         'details'           => 'Faked it',
@@ -87,10 +89,12 @@ class FakeApprovedEndorsements extends Command
                 } else {
                     throw new \Exception("User does not have position ($position->id)");
                 }
+            }  else {
+                $crewPosition = $crewPosition->first();
             }
 
             $request = $user->crew->endorsementRequests()->create([
-                'crew_position_id' => $position->id,
+                'crew_position_id' => $crewPosition->id,
                 'token' => EndorsementRequest::generateToken(),
             ]);
 
