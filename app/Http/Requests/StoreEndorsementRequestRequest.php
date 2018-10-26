@@ -25,9 +25,8 @@ class StoreEndorsementRequestRequest extends FormRequest
     public function rules()
     {
         return [
-            'endorsers' => 'required|array',
-            'endorsers.*.name' => 'required|string',
-            'endorsers.*.email' => 'required|email',
+            'name' => 'required|string',
+            'email' => 'required|email',
         ];
     }
 }

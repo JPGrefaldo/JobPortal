@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreEndorsementRequestRequest;
 use App\Mail\EndorsementRequestEmail;
 use App\Models\CrewPosition;
+use App\Models\Endorsement;
 use App\Models\EndorsementRequest;
 use App\Models\Position;
 use Illuminate\Http\Request;
@@ -31,30 +32,28 @@ class EndorsementRequestController extends Controller
         );
 
         // filter endorsers, only notify them once
-        foreach ($this->filterEndorsers($request->endorsers) as $endorser) {
-            $endorsement = $this->endorsementRequest->endorsements()->create([
-                'endorser_name'  => $endorser['name'],
-                'endorser_email' => $endorser['email'],
-            ]);
-
-            // send email
-            Mail::to($endorser['email'])
-                ->send(new EndorsementRequestEmail($endorsement));
+        if ($this->endorsementRequest->isAskedToEndorse($request['email'])) {
+            return response()->json([
+                'errors' => [
+                    'email' => ['We already sent ' . $request['email'] . ' a request'],
+                ],
+                'message' => 'We already sent ' . $request['name'] . ' a request'
+            ], 422);
         }
 
-        return response('done');
-    }
+        $endorsement = Endorsement::create([
+            'endorsement_request_id' => $this->endorsementRequest->id,
+            'endorser_id' => null,
+            'endorser_name' => $request['name'],
+            'endorser_email' => $request['email'],
+        ]);
 
-    protected function filterEndorsers($endorsers)
-    {
-        $endorserCollection = collect($endorsers);
-        $emails = $endorserCollection->pluck('email');
-        $pastEndorsers = $this->endorsementRequest
-            ->endorsements()
-            ->whereIn('endorser_email', $emails)
-            ->get(['endorser_email'])
-            ->pluck('endorser_email');
+        // TODO: defer to queue
+        Mail::to($request['email'])
+            ->send(new EndorsementRequestEmail($endorsement));
 
-        return $endorserCollection->whereNotIn('email', $pastEndorsers);
+        return response()->json([
+            'message' => 'Success!',
+        ]);
     }
 }

@@ -15,6 +15,9 @@ use Tests\Support\Data\SocialLinkTypeID;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 
+/**
+ * @group CrewsServicesTest
+ */
 class CrewsServicesTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
@@ -326,7 +329,7 @@ class CrewsServicesTest extends TestCase
                     'social_link_type_id' => SocialLinkTypeID::PERSONAL_WEBSITE,
                 ],
             ],
-            $crew->social->toArray()
+            $crew->socials->toArray()
         );
     }
 

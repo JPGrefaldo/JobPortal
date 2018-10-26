@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Crew;
 
 use App\Http\Controllers\Controller;
+use App\Models\CrewPosition;
 use App\Models\Position;
 use Illuminate\Http\Request;
 
-class PositionController extends Controller
+class EndorsementPositionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +16,9 @@ class PositionController extends Controller
      */
     public function index()
     {
-        //
-        return Position::all();
+        $positions = Position::all();
+
+        return view('crew.endorsement.index', compact('positions'));
     }
 
     /**
@@ -24,9 +26,15 @@ class PositionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Position $position)
     {
-        //
+        $crew = auth()->user()->crew;
+
+        if ($crew->hasPosition($position)) {
+            return redirect(route('crew.endorsement.position.edit', $position));
+        }
+
+        return view('crew.position.create', compact('position'));
     }
 
     /**
@@ -37,10 +45,16 @@ class PositionController extends Controller
      */
     public function store(Position $position, Request $request)
     {
+        // TODO: create validation test
+        $validatedData = $request->validate([
+            'details' => 'required',
+            'union_description' => 'required',
+        ]);
         $crew = auth()->user()->crew;
 
+        // TODO create test
         if ($crew->hasPosition($position)) {
-            return redirect(route('crew_position.edit'), $position);
+            return redirect(route('crew.endorsement.position.edit'), $position);
         }
 
         $crew->applyFor($position, [
@@ -57,7 +71,9 @@ class PositionController extends Controller
      */
     public function show(Position $position)
     {
-        return view('crew.position.show')->with('position', $position);
+        // TODO: create test
+        $crew = auth()->user()->crew;
+        return view('crew.position.show', compact('position', 'crew'));
     }
 
     /**
@@ -68,7 +84,14 @@ class PositionController extends Controller
      */
     public function edit(Position $position)
     {
-        //
+        // TODO: create test
+        $crew = auth()->user()->crew;
+
+        if (! $crew->hasPosition($position)) {
+            return redirect(route('crew.endorsement.position.create', $position));
+        }
+
+        return view('crew.position.edit', compact('crew', 'position'));
     }
 
     /**
@@ -80,7 +103,7 @@ class PositionController extends Controller
      */
     public function update(Request $request, Position $position)
     {
-        //
+        // TODO
     }
 
     /**
@@ -91,6 +114,8 @@ class PositionController extends Controller
      */
     public function destroy(Position $position)
     {
-        //
+        $crewPosition = CrewPosition::byCrewAndPosition(auth()->user()->crew, $position)->first();
+
+        $crewPosition->delete();
     }
 }

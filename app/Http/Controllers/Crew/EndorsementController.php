@@ -20,16 +20,22 @@ class EndorsementController extends Controller
         $crew = auth()->user()->crew;
         if ($endorsementRequest->isRequestedBy($crew)) {
             return redirect(
-                route('crew_position.show', $endorsementRequest->position)
+                route('crew.endorsement.position.show', $endorsementRequest->position)
             );
         }
 
         if ($endorsementRequest->isApprovedBy($crew)) {
-            return redirect(route('endorsements.edit', ['endorsementRequest' => $endorsementRequest]));
+            return redirect(route('endorsements.edit', $endorsementRequest));
         }
 
-        // show form to comment
-        return view('crew.endorsement.create', compact('endorsementRequest'));
+        $endorseeName = $endorsementRequest->endorsee->user->full_name;
+        $position = $endorsementRequest->position->name;
+
+        return view('crew.endorsement.create', compact(
+            'endorsementRequest',
+            'endorseeName',
+            'position'
+        ));
     }
 
     /**
@@ -50,7 +56,7 @@ class EndorsementController extends Controller
 
         if ($endorsementRequest->endorsementBy($crew)) {
             return response()->json(
-                ['errors' => 'You already approved this endorsement.'],
+                ['errors' => ['email' => ['You already approved this endorsement.']]],
                 403
             );
         }
@@ -73,9 +79,14 @@ class EndorsementController extends Controller
             return redirect(route('endorsements.create', $endorsementRequest));
         }
 
+        $endorseeName = $endorsementRequest->endorsee->user->full_name;
+        $position = $endorsementRequest->position->name;
+
         return view('crew.endorsement.edit', compact(
             'endorsementRequest',
-            'endorsement'
+            'endorsement',
+            'endorseeName',
+            'position'
         ));
     }
 
