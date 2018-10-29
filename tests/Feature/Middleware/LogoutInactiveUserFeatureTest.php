@@ -2,10 +2,9 @@
 
 namespace Tests\Feature\Middleware;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class LogoutInactiveUserFeatureTest extends TestCase
 {
@@ -43,10 +42,10 @@ class LogoutInactiveUserFeatureTest extends TestCase
         $admin = $this->createAdmin();
 
         $response = $this->actingAs($admin)
-                         ->put(
-                             'admin/users/ban/' . $user->id,
-                             ['reason' => 'some reason']
-                         );
+            ->put(
+                route('admin.users.ban', $user),
+                ['reason' => 'some reason']
+            );
 
         $response->assertSuccessful();
 
