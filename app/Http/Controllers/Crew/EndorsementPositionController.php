@@ -91,7 +91,7 @@ class EndorsementPositionController extends Controller
             return redirect(route('crew.endorsement.position.create', $position));
         }
 
-        return view('crew.position.edit', compact('crew', 'position'));
+        return view('crew.endorsement.position.edit', compact('crew', 'position'));
     }
 
     /**
