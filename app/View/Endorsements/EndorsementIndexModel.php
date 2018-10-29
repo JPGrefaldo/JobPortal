@@ -15,7 +15,7 @@ class EndorsementIndexModel extends ViewModel
     /**
      * @var \Illuminate\Support\Collection
      */
-    public $approvedEndorsementPositions;
+    public $endorsementPositions;
 
     /**
      * EndorsementIndexModel constructor.
@@ -27,12 +27,12 @@ class EndorsementIndexModel extends ViewModel
 
         $this->loadUser();
 
-        $this->approvedEndorsementPositions = $this->getApprovedEndorsementsPositions();
+        $this->endorsementPositions = collect([]);//$this->getApprovedEndorsementsPositions();
     }
 
     private function getApprovedEndorsementsPositions()
     {
-        $endorsements = $this->user->crew->approvedEndorsements;
+        $endorsements = $this->user->crew->endorsements;
 
         if ($endorsements->count()) {
             return $this->buildEndorsementCollection($this->loadEndorsements($endorsements));
@@ -46,7 +46,6 @@ class EndorsementIndexModel extends ViewModel
         $this->user->load([
             'crew',
             'crew.endorsements',
-            'crew.approvedEndorsements',
         ]);
     }
 
@@ -75,10 +74,17 @@ class EndorsementIndexModel extends ViewModel
                     'position'    => $position,
                     'request'     => $endorsement->request,
                     'endorsement' => $endorsement,
-                    'count' => 1,
+                    'approved'    => ($endorsement->approved_at) ? 1 : 0,
+                    'unapproved'  => ($endorsement->approved_at) ? 0 : 1,
+                    'total'       => 1,
                 ];
             } else {
-                $ret[$position->id]['count']++;
+                if ($endorsement->approved_at) {
+                    $ret[$position->id]['approved']++;
+                } else {
+                    $ret[$position->id]['unapproved']++;
+                }
+                $ret[$position->id]['total']++;
             }
         }
 

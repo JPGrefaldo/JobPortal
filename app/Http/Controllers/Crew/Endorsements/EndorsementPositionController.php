@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Crew;
+namespace App\Http\Controllers\Crew\Endorsements;
 
 use App\Http\Controllers\Controller;
 use App\Models\CrewPosition;
