@@ -32,7 +32,6 @@ class CreateUsersTable extends Migration
 
             $table->timestamps();
 
-            $table->index('uuid');
             $table->index('status');
             $table->index('confirmed');
         });

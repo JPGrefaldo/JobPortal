@@ -188,11 +188,19 @@ class CrewsServices
      * @return array
      *
      */
-    public function prepareGeneralReelData(array $data)
+    public function prepareGeneralReelData(array $data): array
     {
         $data['url'] = $this->cleanReelUrl($data['url']);
 
         return $data;
+    }
+
+    public function prepareGeneralResumeData(array $data): array
+    {
+        // generate url
+        $url = 'resumes/' . $data['dir'] . '/' . $data['file']->hashName();
+
+        return compact('url');
     }
 
     /**
