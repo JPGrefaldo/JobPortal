@@ -244,25 +244,21 @@ class CrewsServices
             ]);
         }
 
-        if (isset($data['resume_file'])) {
-            if ($data['resume_file'] instanceof UploadedFile) {
-                $this->updateGeneralResume($data['resume_file'], $crew);
+        if (isset($data['resume'])) {
+            if ($data['resume'] instanceof UploadedFile) {
+                $this->updateGeneralResume($data['resume'], $crew);
             }
         }
 
-        if (isset($data['reel_link'])) {
-            if ($data['reel_link']) {
+        if (isset($data['reel'])) {
+            if ($data['reel'] instanceof UploadedFile) {
+                $this->updateGeneralReelFile($data['reel'], $crew);
+            } else {
                 $this->updateGeneralReel(
-                    ['url' => $data['reel_link'],
+                    ['url' => $data['reel'],
                         'type' => 'link'],
                     $crew
                 );
-            }
-        }
-
-        if (isset($data['reel_file'])) {
-            if ($data['reel_file'] instanceof UploadedFile) {
-                $this->updateGeneralReelFile($data['reel_file'], $crew);
             }
         }
 

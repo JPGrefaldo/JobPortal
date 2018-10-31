@@ -425,7 +425,7 @@ class CrewsServicesTest extends TestCase
         Storage::assertExists($resume->url);
 
         // assert socials
-        $this->assertCount(9, $crew->social);
+        $this->assertCount(9, $crew->socials);
         $this->assertArraySubset(
             [
                 [
@@ -465,7 +465,7 @@ class CrewsServicesTest extends TestCase
                     'social_link_type_id' => SocialLinkTypeID::PERSONAL_WEBSITE,
                 ],
             ],
-            $crew->social->toArray()
+            $crew->socials->toArray()
         );
     }
 
