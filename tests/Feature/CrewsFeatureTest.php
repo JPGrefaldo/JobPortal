@@ -368,7 +368,7 @@ class CrewsFeatureTest extends TestCase
         );
 
         // assert socials
-        $this->assertCount(9, $crew->social);
+        $this->assertCount(9, $crew->socials);
         $this->assertArraySubset(
             [
                 [
@@ -417,7 +417,7 @@ class CrewsFeatureTest extends TestCase
                     'social_link_type_id' => SocialLinkTypeID::PERSONAL_WEBSITE,
                 ],
             ],
-            $crew->social->toArray()
+            $crew->socials->toArray()
         );
     }
 
@@ -461,7 +461,7 @@ class CrewsFeatureTest extends TestCase
         );
 
         //  assert socials
-        $this->assertCount(9, $crew->social);
+        $this->assertCount(9, $crew->socials);
         $this->assertArraySubset(
             [
                 [
@@ -510,7 +510,7 @@ class CrewsFeatureTest extends TestCase
                     'social_link_type_id' => SocialLinkTypeID::PERSONAL_WEBSITE,
                 ],
             ],
-            $crew->social->toArray()
+            $crew->socials->toArray()
         );
     }
 
@@ -624,7 +624,7 @@ class CrewsFeatureTest extends TestCase
         );
 
         // assert youtube social has been cleaned
-        $social = $crew->social()
+        $social = $crew->socials()
                        ->where('social_link_type_id', SocialLinkTypeID::YOUTUBE)
                        ->first();
 
