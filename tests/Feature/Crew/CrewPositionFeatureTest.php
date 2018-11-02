@@ -33,6 +33,7 @@ class CrewPositionFeatureTest extends TestCase
      */
     public function crew_can_see_all_positions()
     {
+        // TODO need to rewrite since there have been major changes
         // when
         $response = $this->actingAs($this->user)
             ->get(route('crew.endorsement.index'));
