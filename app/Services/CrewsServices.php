@@ -202,7 +202,6 @@ class CrewsServices
 
     public function prepareGeneralResumeData(array $data): array
     {
-        // generate url
         $url = 'resumes/' . $data['dir'] . '/' . $data['file']->hashName();
 
         return compact('url');
