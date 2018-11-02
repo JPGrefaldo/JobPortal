@@ -214,7 +214,7 @@ class CrewsFeatureTest extends TestCase
                 'socials.tumblr.url'           => 'tumblr must be a valid Tumblr URL.',
                 'socials.vimeo.url'            => 'vimeo must be a valid Vimeo URL.',
                 'socials.instagram.url'        => 'instagram must be a valid Instagram URL.',
-                'socials.personal_website.url' => 'The personal website is invalid.',
+                'socials.personal_website.url' => 'The website is invalid.',
             ]
         );
     }
@@ -705,7 +705,7 @@ class CrewsFeatureTest extends TestCase
                 'socials.tumblr.url'           => 'tumblr must be a valid Tumblr URL.',
                 'socials.vimeo.url'            => 'vimeo must be a valid Vimeo URL.',
                 'socials.instagram.url'        => 'instagram must be a valid Instagram URL.',
-                'socials.personal_website.url' => 'The personal website is invalid.',
+                'socials.personal_website.url' => 'The website is invalid.',
             ]
         );
     }

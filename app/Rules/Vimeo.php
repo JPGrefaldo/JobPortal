@@ -27,6 +27,10 @@ class Vimeo implements Rule
      */
     public function passes($attribute, $value)
     {
+        if (! $value) {
+            return false;
+        }
+
         return (SocialLinksServices::cleanVimeo($value) !== '');
     }
 
@@ -37,6 +41,6 @@ class Vimeo implements Rule
      */
     public function message()
     {
-        return ':attribute must be a valid Vimeo URL.';
+        return 'vimeo must be a valid Vimeo URL.';
     }
 }

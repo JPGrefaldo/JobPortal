@@ -25,11 +25,11 @@ class Tumblr implements Rule
      */
     public function passes($attribute, $value)
     {
-        $url = parse_url($value);
-
-        if (! $url) {
+        if (! $value) {
             return false;
         }
+
+        $url = parse_url($value);
 
         if (preg_match('/\.tumblr\.com$/', $url['host'])) {
             return true;
@@ -45,6 +45,6 @@ class Tumblr implements Rule
      */
     public function message()
     {
-        return ':attribute must be a valid Tumblr URL.';
+        return 'tumblr must be a valid Tumblr URL.';
     }
 }

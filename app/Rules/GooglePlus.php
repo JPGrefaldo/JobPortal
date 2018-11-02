@@ -36,6 +36,6 @@ class GooglePlus implements Rule
      */
     public function message()
     {
-        return ':attribute must be a valid Google Plus URL.';
+        return 'google plus must be a valid Google Plus URL.';
     }
 }

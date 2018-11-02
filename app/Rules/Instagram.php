@@ -36,6 +36,6 @@ class Instagram implements Rule
      */
     public function message()
     {
-        return ':attribute must be a valid Instagram URL.';
+        return 'instagram must be a valid Instagram URL.';
     }
 }

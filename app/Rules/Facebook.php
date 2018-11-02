@@ -36,6 +36,6 @@ class Facebook implements Rule
      */
     public function message()
     {
-        return ':attribute must be a valid Facebook URL.';
+        return 'facebook must be a valid Facebook URL.';
     }
 }
