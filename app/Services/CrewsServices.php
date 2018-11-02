@@ -154,6 +154,11 @@ class CrewsServices
             if (! $value['url']) {
                 continue;
             }
+
+            if (str_contains($value['url'], ['youtube', 'youtu.be'])) {
+                $value['url'] = $this->cleanReelUrl($value['url']);
+            }
+
             CrewSocial::create([
                 'crew_id' => $crew->id,
                 'social_link_type_id' => $value['id'],
