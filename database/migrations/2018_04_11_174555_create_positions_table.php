@@ -30,6 +30,11 @@ class CreatePositionsTable extends Migration
                   ->references('id')
                   ->on('departments')
                   ->onDelete('cascade');
+
+            $table->foreign('position_type_id')
+                ->references('id')
+                ->on('position_types')
+                ->onDelete('cascade');
         });
     }
 

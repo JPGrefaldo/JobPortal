@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Crew;
+namespace App\Http\Controllers\Crew\Endorsements;
 
 use App\Http\Controllers\Controller;
 use App\Models\CrewPosition;
 use App\Models\Position;
+use App\View\Endorsements\EndorsementIndexModel;
 use Illuminate\Http\Request;
 
 class EndorsementPositionController extends Controller
@@ -16,9 +17,7 @@ class EndorsementPositionController extends Controller
      */
     public function index()
     {
-        $positions = Position::all();
-
-        return view('crew.endorsement.index', compact('positions'));
+        return view('crew.endorsement.index', (new EndorsementIndexModel(auth()->user())));
     }
 
     /**
