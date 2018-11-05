@@ -36,6 +36,6 @@ class IMDB implements Rule
      */
     public function message()
     {
-        return ':attribute must be a valid IMDB URL.';
+        return 'imdb must be a valid IMDB URL.';
     }
 }

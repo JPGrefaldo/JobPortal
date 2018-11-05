@@ -24,7 +24,7 @@ class Twitter implements Rule
      */
     public function passes($attribute, $value)
     {
-        return (substr($value,0, 20) === 'https://twitter.com/');
+        return (substr($value, 0, 20) === 'https://twitter.com/');
     }
 
     /**
@@ -34,6 +34,6 @@ class Twitter implements Rule
      */
     public function message()
     {
-        return ':attribute must be a valid Twitter URL.';
+        return 'twitter must be a valid Twitter URL.';
     }
 }

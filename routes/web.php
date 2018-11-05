@@ -75,7 +75,8 @@ Route::middleware('auth')->group(function () {
     |
      */
     Route::middleware('admin')->group(function () {
-        Route::put('/admin/users/ban/{user}', 'Admin\AdminUsersController@updateBan');
+        Route::put('/admin/users/ban/{user}', 'Admin\AdminUsersController@updateBan')
+            ->name('admin.users.ban');
 
         Route::prefix('/admin/departments')->group(function () {
             Route::post('/', 'Admin\DepartmentsController@store');

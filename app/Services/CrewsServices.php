@@ -154,6 +154,11 @@ class CrewsServices
             if (! $value['url']) {
                 continue;
             }
+
+            if (str_contains($value['url'], ['youtube', 'youtu.be'])) {
+                $value['url'] = $this->cleanReelUrl($value['url']);
+            }
+
             CrewSocial::create([
                 'crew_id' => $crew->id,
                 'social_link_type_id' => $value['id'],
@@ -188,11 +193,18 @@ class CrewsServices
      * @return array
      *
      */
-    public function prepareGeneralReelData(array $data)
+    public function prepareGeneralReelData(array $data): array
     {
         $data['url'] = $this->cleanReelUrl($data['url']);
 
         return $data;
+    }
+
+    public function prepareGeneralResumeData(array $data): array
+    {
+        $url = 'resumes/' . $data['dir'] . '/' . $data['file']->hashName();
+
+        return compact('url');
     }
 
     /**
@@ -236,25 +248,21 @@ class CrewsServices
             ]);
         }
 
-        if (isset($data['resume_file'])) {
-            if ($data['resume_file'] instanceof UploadedFile) {
-                $this->updateGeneralResume($data['resume_file'], $crew);
+        if (isset($data['resume'])) {
+            if ($data['resume'] instanceof UploadedFile) {
+                $this->updateGeneralResume($data['resume'], $crew);
             }
         }
 
-        if (isset($data['reel_link'])) {
-            if ($data['reel_link']) {
+        if (isset($data['reel'])) {
+            if ($data['reel'] instanceof UploadedFile) {
+                $this->updateGeneralReelFile($data['reel'], $crew);
+            } else {
                 $this->updateGeneralReel(
-                    ['url' => $data['reel_link'],
+                    ['url' => $data['reel'],
                         'type' => 'link'],
                     $crew
                 );
-            }
-        }
-
-        if (isset($data['reel_file'])) {
-            if ($data['reel_file'] instanceof UploadedFile) {
-                $this->updateGeneralReelFile($data['reel_file'], $crew);
             }
         }
 

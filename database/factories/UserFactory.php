@@ -8,7 +8,6 @@ $factory->define(App\Models\User::class, function (Faker $faker) {
     $faker->addProvider(new \App\Faker\PhoneProvider($faker));
 
     return [
-        'uuid'           => $faker->uuid,
         'first_name'     => $faker->firstName,
         'last_name'      => $faker->lastName,
         'email'          => $faker->unique()->safeEmail,
