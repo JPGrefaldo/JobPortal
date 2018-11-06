@@ -25,3 +25,10 @@ $factory
     ->afterCreatingState(App\Models\User::class, 'withCrewRole', function ($user, $faker) {
         $user->roles()->attach(Role::where('name', Role::CREW)->first());
     });
+
+
+$factory
+    ->state(App\Models\User::class, 'withAdminRole', [])
+    ->afterCreatingState(App\Models\User::class, 'withAdminRole', function ($user, $faker) {
+        $user->roles()->attach(Role::where('name', Role::ADMIN)->first());
+    });
