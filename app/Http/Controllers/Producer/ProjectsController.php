@@ -10,6 +10,11 @@ use App\Services\Producer\ProjectsServices;
 
 class ProjectsController extends Controller
 {
+    public function create()
+    {
+        $user = auth()->user();
+        return view('producer.projects.create', compact('user'));
+    }
     /**
      * @param \App\Http\Requests\Producer\CreateProjectRequest $request
      */
