@@ -6,7 +6,7 @@
             'pageTitle' => 'Endorsements',
             'button' => [
                 'link' => '#',
-                'text' => 'New Endorsement',
+                'text' => 'New Endorsement Request',
             ],
         ])
 
