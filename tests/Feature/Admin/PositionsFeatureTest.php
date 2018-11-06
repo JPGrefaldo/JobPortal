@@ -3,16 +3,32 @@
 namespace Tests\Feature\Admin;
 
 use App\Models\Position;
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\Data\DepartmentID;
 use Tests\Support\Data\PositionTypeID;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class PositionsFeatureTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
+
+    /**
+     * @test
+     */
+    public function index()
+    {
+        // given
+        $user = factory(User::class)->states('withAdminRole')->create();
+        $positions = Position::all();
+
+        // when
+        $response = $this->actingAs($user)->getJson(route('admin.positions'));
+
+        // then
+        $response->assertJson($positions->toArray());
+    }
 
     /** @test */
     public function create()
@@ -167,7 +183,8 @@ class PositionsFeatureTest extends TestCase
 
         $response->assertSuccessful();
 
-        $this->assertArraySubset([
+        $this->assertArraySubset(
+            [
                 'name'              => 'Updated Position',
                 'department_id'     => DepartmentID::PRODUCTION,
                 'position_type_id'  => PositionTypeID::PRE_PRODUCTION,
@@ -195,7 +212,8 @@ class PositionsFeatureTest extends TestCase
 
         $response->assertSuccessful();
 
-        $this->assertArraySubset([
+        $this->assertArraySubset(
+            [
                 'name'              => 'Updated Position',
                 'department_id'     => DepartmentID::PRODUCTION,
                 'position_type_id'  => PositionTypeID::PRE_PRODUCTION,
@@ -225,7 +243,8 @@ class PositionsFeatureTest extends TestCase
 
         $response->assertSuccessful();
 
-        $this->assertArraySubset([
+        $this->assertArraySubset(
+            [
                 'name'              => 'Updated Position',
                 // name is formatted
                 'department_id'     => DepartmentID::PRODUCTION,
@@ -256,7 +275,8 @@ class PositionsFeatureTest extends TestCase
 
         $response->assertSuccessful();
 
-        $this->assertArraySubset([
+        $this->assertArraySubset(
+            [
                 'name'              => 'Updated Position',
                 'department_id'     => DepartmentID::PRODUCTION,
                 'position_type_id'  => PositionTypeID::PRE_PRODUCTION,

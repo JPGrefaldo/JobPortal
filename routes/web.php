@@ -84,6 +84,7 @@ Route::middleware('auth')->group(function () {
         });
 
         Route::prefix('/admin/positions')->group(function () {
+            Route::get('/', 'Admin\PositionsController@index')->name('admin.positions');
             Route::post('/', 'Admin\PositionsController@store');
             Route::put('/{position}', 'Admin\PositionsController@update');
         });
