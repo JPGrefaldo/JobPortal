@@ -82,11 +82,13 @@ Route::middleware('auth')->group(function () {
         });
 
         Route::prefix('/admin/departments')->group(function () {
+            Route::get('/', 'Admin\DepartmentsController@index')->name('admin.departments');
             Route::post('/', 'Admin\DepartmentsController@store');
             Route::put('/{department}', 'Admin\DepartmentsController@update');
         });
 
         Route::prefix('/admin/positions')->group(function () {
+            Route::get('/', 'Admin\PositionsController@index')->name('admin.positions');
             Route::post('/', 'Admin\PositionsController@store');
             Route::put('/{position}', 'Admin\PositionsController@update');
         });
