@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateProjectJobsTable extends Migration
 {
@@ -15,6 +15,9 @@ class CreateProjectJobsTable extends Migration
     {
         Schema::create('project_jobs', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('project_id');
+            $table->unsignedInteger('position_id');
+            $table->unsignedInteger('pay_type_id');
             $table->unsignedInteger('persons_needed')
                   ->default(1);
             $table->string('dates_needed');
@@ -32,9 +35,6 @@ class CreateProjectJobsTable extends Migration
                   ->default(null);
             $table->smallInteger('status')
                   ->default(0);
-            $table->unsignedInteger('project_id');
-            $table->unsignedInteger('position_id');
-            $table->unsignedInteger('pay_type_id');
             $table->timestamps();
 
             $table->foreign('project_id')

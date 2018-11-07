@@ -134,6 +134,7 @@ Route::middleware('auth')->group(function () {
     */
     Route::middleware('producer')->group(function () {
         Route::prefix('/producer/projects')->group(function () {
+            Route::get('/create', 'Producer\ProjectsController@create')->name('producer.projects.create');
             Route::post('/', 'Producer\ProjectsController@store');
             Route::put('/{project}', 'Producer\ProjectsController@update');
         });
