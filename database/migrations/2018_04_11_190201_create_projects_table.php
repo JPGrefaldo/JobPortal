@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateProjectsTable extends Migration
 {
@@ -15,24 +15,19 @@ class CreateProjectsTable extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('site_id');
             $table->string('title');
-            $table->text('description');
             $table->text('production_name');
             $table->boolean('production_name_public')
                   ->default(true);
-            $table->smallInteger('status')
-                  ->default(0);
             $table->unsignedInteger('project_type_id');
-            $table->unsignedInteger('user_id');
-            $table->unsignedInteger('site_id');
+            $table->text('description');
             $table->string('location')
                   ->nullable();
+            $table->smallInteger('status')
+                  ->default(0);
             $table->timestamps();
-
-            $table->foreign('project_type_id')
-                  ->references('id')
-                  ->on('project_types')
-                  ->onDelete('cascade');
 
             $table->foreign('user_id')
                   ->references('id')
@@ -42,6 +37,11 @@ class CreateProjectsTable extends Migration
             $table->foreign('site_id')
                   ->references('id')
                   ->on('sites')
+                  ->onDelete('cascade');
+
+            $table->foreign('project_type_id')
+                  ->references('id')
+                  ->on('project_types')
                   ->onDelete('cascade');
         });
     }
