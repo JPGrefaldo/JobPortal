@@ -10,6 +10,7 @@ use App\Models\Project;
 use App\Models\ProjectType;
 use App\Models\Site;
 use App\Services\Producer\ProjectsServices;
+use App\Utils\UrlUtils;
 
 class ProjectsController extends Controller
 {
@@ -17,9 +18,10 @@ class ProjectsController extends Controller
     {
         $user = auth()->user();
         $projectTypes = ProjectType::all();
-        $departments = Department::with('positions')->get();
-        // remove current site
-        $sites = Site::all();
+        $departments = Department::with('positions')->has('positions')->get();
+        $hostname = UrlUtils::getHostNameFromBaseUrl(request()->getHttpHost());
+        $sites = Site::where('hostname', '!=', $hostname)->get();
+
         return view('producer.projects.create', compact(
             'user',
             'projectTypes',

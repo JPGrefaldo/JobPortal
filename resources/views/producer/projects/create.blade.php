@@ -3,22 +3,24 @@
 @section('content')
     @include('_parts.pages.page-title', ['pageTitle' => 'Post your project'])
     <div class="flex">
-        <div class="w-1/3">Left panel?</div>
-        <div class="w-2/3 flex-col">
-            <div>
+        <div>
+        <div>Tutorial Videos/How it Works</div>
+            <div class="flex flex-col">
                 Project title:
-                <input type="text">
+                <input type="text" name="title">
             </div>
-            <div>
+            <div class="flex flex-col">
                 Production company name (or your name if individual)
-                <input type="text">
+                <input type="text" name="production_name">
             </div>
-            <div>
+            <div class="flex flex-col">
                 Show my production company name publicly?
-                <input type="radio" id="is_public" value="Yes" selected="selected">
-                <input type="radio" id="is_public" value="No">
+                <div>
+                    <input type="radio" name="is_public" value="1" checked>Yes
+                    <input type="radio" name="is_public" value="0">No
+                </div>
             </div>
-            <div>
+            <div class="flex flex-col">
                 Project type:
                 <select name="project_type" id="project_type">
                     @foreach ($projectTypes as $projectType)
@@ -26,52 +28,81 @@
                     @endforeach
                 </select>
             </div>
-            <div>
+            <div class="flex flex-col">
                 Project information
                 <textarea name="project_information" id="project_information"></textarea>
             </div>
-            <div>
+            <div class="flex flex-col">
                 City/Area:
                 <input type="text">
             </div>
-            <div>
-                Positions needed
+            <div class="flex flex-col mb-8">
+                <h3>Positions needed</h3>
                 @foreach ($departments as $department)
                     <input type="button" value="{{ $department->name }}">
                     @foreach ($department->positions as $position)
-                        <input type="checkbox">
-                        {{ $position->name }}
+                        <div>
+                            <input type="checkbox">
+                            {{ $position->name }}
+                        </div>
                         Pay rate:
-                        $ <input type="text">
-                            <input type="radio" value="hourly">
-                            <input type="radio" value="daily">
-                            <input type="radio" value="half_day">
+                        <div>
+                        $ <input type="text" name="pay_rate">
+                            <input type="radio" value="hourly" name="pay_type_id"> Hourly
+                            <input type="radio" value="daily" name="pay_type_id"> Daily
+                            <input type="radio" value="half_day" name="pay_type_id"> Half day
+                        </div>
                         - or -
-                        <input type="checkbox"> DOE
-                        <input type="checkbox"> TBD
-                        <input type="checkbox"> Unpaid/Volunteer
-                        Producntion dates/dates needeed:
+                        <div>
+                            <input type="radio" name="pay_type_id"> DOE
+                            <input type="radio" name="pay_type_id"> TBD
+                            <input type="radio" name="pay_type_id"> Unpaid/Volunteer
+                        </div>
+                        Production dates/dates needeed:
+                        {{-- this should be some date picker that will return a string --}}
                         <input type="text">
                         Position notes:
-                        <input type="text">
-                        <input type="checkbox"> Rush Call? (interviews or works in the next 2-3 days?)
+                        <textarea name="notes" id=""></textarea>
+                        <div>
+                            <input type="checkbox" name="rush_call"> Rush Call? (interviews or works in the next 2-3 days?)
+                        </div>
                     @endforeach
                 @endforeach
-                Would you like to accpet talent submission from other Castring Calls America sites?
-                <input type="radio" selected> Yes
-                <input type="radio"> No
-                <a href="{{ route('admin.sites') }} ">See site list</a>
+            </div>
+            <div class="flex flex-col">
+                <h5>
+                    Would you like to accept talent submission from other Castring Calls America sites?
+                </h5>
+                <div>
+                    <input type="radio" selected> Yes
+                    <input type="radio"> No
+                    {{-- TODO: need to defer to producer uri instead of admin --}}
+                    <a href="{{ route('admin.sites') }} ">See site list</a>
+                </div>
+            </div>
+            <p>
                 Only roles that accept video auditions and are padi, or audio auditions can be posted on ther sites.
-
+            </p>
+            <div class="flex flex-col">
                 Sites to post on
-                <input type="checkbox">
-                <input type="checkbox"> Yourcasting Test Site
-                @foreach ($sites as $site)
-                    <input type="checkbox">{{ $site->name }}
-                @endforeach
-                Will travel/lodgin expenses be paid for out-of-area talent?
-                <input type="radio"> Yes
-                <input type="radio"> No
+                <div>
+                    <input type="checkbox"> Check All
+                </div>
+                <div>
+                    <input type="checkbox"> Yourcasting Test Site
+                </div>
+                    @foreach ($sites as $site)
+                        <div>
+                            <input type="checkbox"> {{ $site->name }}
+                        </div>
+                    @endforeach
+            </div>
+            <div>
+                Will travel/lodging expenses be paid for out-of-area talent?
+                <div>
+                    <input type="radio"> Yes
+                    <input type="radio"> No
+                </div>
             </div>
         </div>
     </div>
