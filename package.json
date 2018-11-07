@@ -16,13 +16,13 @@
     "devDependencies": {
         "@fortawesome/fontawesome-free": "^5.3.1",
         "axios": "^0.18",
-        "browser-sync": "^2.24.7",
+        "browser-sync": "^2.26.3",
         "browser-sync-webpack-plugin": "2.0.1",
         "cross-env": "^5.1",
         "jquery": "^3.2",
         "laravel-mix": "^2.1.14",
-        "lodash": "^4.17.4",
-        "tailwindcss": "^0.6.5",
+        "lodash": "^4.17.11",
+        "tailwindcss": "^0.6.6",
         "vue": "^2.5.17"
     },
     "dependencies": {
