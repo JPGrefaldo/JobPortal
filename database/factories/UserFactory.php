@@ -30,12 +30,6 @@ $factory
     ->afterCreatingState(App\Models\User::class, 'withCrewRole', function ($user, $faker) {
         $user->roles()->attach(Role::where('name', Role::CREW)->first());
     });
-
-$factory
-    ->state(App\Models\User::class, 'withProducerRole', [])
-    ->afterCreatingState(App\Models\User::class, 'withProducerRole', function ($user, $faker) {
-        $user->roles()->attach(Role::where('name', Role::PRODUCER)->first());
-    });
       
 $factory
     ->state(App\Models\User::class, 'withAdminRole', [])
