@@ -18,8 +18,10 @@ class CreateCrewPositionsTable extends Migration
             $table->unsignedInteger('crew_id');
             $table->unsignedInteger('position_id');
             $table->text('details');
+            // should be nullable or else it will conflict with logic of position
             $table->text('union_description');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('crew_id')
                   ->references('id')

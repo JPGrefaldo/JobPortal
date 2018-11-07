@@ -2,10 +2,9 @@
 
 namespace Tests\Feature\Admin;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class AdminUsersFeatureTest extends TestCase
 {
@@ -21,7 +20,7 @@ class AdminUsersFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($admin)
-                         ->put('admin/users/ban/' . $user->id, $data);
+            ->put(route('admin.users.ban', $user), $data);
 
         // assert user has been banned
         $user->refresh();
@@ -60,7 +59,7 @@ class AdminUsersFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($admin)
-                         ->put('admin/users/ban/' . $user->id, $data);
+            ->put(route('admin.users.ban', $user), $data);
 
         $response->assertSessionHasErrors([
             'reason' => 'The reason field is required.',
@@ -74,7 +73,7 @@ class AdminUsersFeatureTest extends TestCase
         $user = $this->createUser();
 
         $response = $this->actingAs($crew)
-                         ->put('admin/users/ban/' . $user->id);
+                         ->put(route('admin.users.ban', $user));
 
         $response->assertRedirect('/');
     }

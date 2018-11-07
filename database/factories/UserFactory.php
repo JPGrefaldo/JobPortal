@@ -8,7 +8,6 @@ $factory->define(App\Models\User::class, function (Faker $faker) {
     $faker->addProvider(new \App\Faker\PhoneProvider($faker));
 
     return [
-        'uuid'           => $faker->uuid,
         'first_name'     => $faker->firstName,
         'last_name'      => $faker->lastName,
         'email'          => $faker->unique()->safeEmail,
@@ -32,6 +31,12 @@ $factory
         $user->roles()->attach(Role::where('name', Role::CREW)->first());
     });
 
+$factory
+    ->state(App\Models\User::class, 'withProducerRole', [])
+    ->afterCreatingState(App\Models\User::class, 'withProducerRole', function ($user, $faker) {
+        $user->roles()->attach(Role::where('name', Role::PRODUCER)->first());
+    });
+      
 $factory
     ->state(App\Models\User::class, 'withAdminRole', [])
     ->afterCreatingState(App\Models\User::class, 'withAdminRole', function ($user, $faker) {

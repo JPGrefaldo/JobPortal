@@ -170,6 +170,6 @@ class TLDR implements Rule
      */
     public function message()
     {
-        return 'The :attribute is invalid.';
+        return 'The website is invalid.';
     }
 }

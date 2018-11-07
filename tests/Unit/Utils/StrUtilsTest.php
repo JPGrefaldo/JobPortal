@@ -13,7 +13,8 @@ class StrUtilsTest extends TestCase
      */
     public function stripe_non_numeric_characters()
     {
-        $this->assertEquals('15555555555',
+        $this->assertEquals(
+            '15555555555',
             StrUtils::stripNonNumeric(('+1 (555) 555-5555'))
         );
     }
@@ -56,6 +57,10 @@ class StrUtilsTest extends TestCase
         $this->assertEquals(
             'https://www.youtube.com/embed/0W7PlcDeJYo',
             StrUtils::cleanYouTube('https://www.youtube.com/embed/watch?v=0W7PlcDeJYo#action=share')
+        );
+        $this->assertEquals(
+            'https://www.youtube.com/embed/G8S81CEBdNs',
+            StrUtils::cleanYouTube('https://www.youtube.com/watch?v=G8S81CEBdNs')
         );
 
         //Channels

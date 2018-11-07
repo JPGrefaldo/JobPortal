@@ -2,19 +2,16 @@
 
 namespace App\Actions\User;
 
-
 use App\Models\User;
 use App\Utils\FormatUtils;
 use App\Utils\StrUtils;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 class CreateUser
 {
     public function execute($data)
     {
         $data = $this->prepareData($data);
-        $data['uuid'] = Str::uuid();
 
         return User::create($data);
     }

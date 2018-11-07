@@ -1,4 +1,4 @@
-@extends('layouts.material_layout')
+@extends('layouts.default_layout')
 
 
 @section('content')

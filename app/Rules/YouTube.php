@@ -36,6 +36,6 @@ class YouTube implements Rule
      */
     public function message()
     {
-        return ':attribute must be a valid YouTube URL.';
+        return 'youtube must be a valid YouTube URL.';
     }
 }

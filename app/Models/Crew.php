@@ -43,17 +43,17 @@ class Crew extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function reel()
+    public function reels()
     {
-        return $this->hasOne(CrewReel::class);
+        return $this->hasMany(CrewReel::class);
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function resume()
+    public function resumes()
     {
-        return $this->hasOne(CrewResume::class);
+        return $this->hasMany(CrewResume::class);
     }
 
     /**
@@ -99,14 +99,15 @@ class Crew extends Model
      */
     public function approve(EndorsementRequest $endorsementRequest, $attributes = [])
     {
-        return Endorsement::firstOrCreate(
+        return Endorsement::updateOrCreate(
             [
                 'endorsement_request_id' => $endorsementRequest->id,
-                'endorser_id' => $this->id,
+                'endorser_email' => $this->user->email,
             ],
             [
-                'approved_at' => Carbon::now(),
+                'endorser_id' => $this->id,
                 'comment' => $attributes['comment'] ?? null,
+                'approved_at' => Carbon::now(),
             ]
         );
     }
@@ -126,5 +127,13 @@ class Crew extends Model
     public function endorsements()
     {
         return $this->hasMany(Endorsement::class, 'endorser_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function approvedEndorsements()
+    {
+        return $this->hasMany(Endorsement::class, 'endorser_id')->whereNotNull('approved_at');
     }
 }

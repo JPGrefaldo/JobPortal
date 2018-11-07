@@ -15,6 +15,9 @@ use Tests\Support\Data\SocialLinkTypeID;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 
+/**
+ * @group CrewsServicesTest
+ */
 class CrewsServicesTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
@@ -124,7 +127,7 @@ class CrewsServicesTest extends TestCase
         );
 
         // assert that the socials has been created
-        $this->assertCount(9, $crew->social);
+        $this->assertCount(9, $crew->socials);
         $this->assertArraySubset(
             [
                 [
@@ -173,7 +176,7 @@ class CrewsServicesTest extends TestCase
                     'social_link_type_id' => SocialLinkTypeID::PERSONAL_WEBSITE,
                 ],
             ],
-            $crew->social->toArray()
+            $crew->socials->toArray()
         );
     }
 
@@ -326,7 +329,7 @@ class CrewsServicesTest extends TestCase
                     'social_link_type_id' => SocialLinkTypeID::PERSONAL_WEBSITE,
                 ],
             ],
-            $crew->social->toArray()
+            $crew->socials->toArray()
         );
     }
 
@@ -399,7 +402,7 @@ class CrewsServicesTest extends TestCase
         $this->assertArraySubset(
             [
                 'bio'   => 'updated bio',
-                'photo' => 'photos/' . $crew->user->uuid . '/' . $data['photo']->hashName(),
+                'photo' => 'photos/' . $crew->user->hash_id . '/' . $data['photo']->hashName(),
             ],
             $crew->toArray()
         );
@@ -412,7 +415,7 @@ class CrewsServicesTest extends TestCase
 
         $this->assertArraySubset(
             [
-                'url'     => 'resumes/' . $crew->user->uuid . '/' . $data['resume']->hashName(),
+                'url'     => 'resumes/' . $crew->user->hash_id . '/' . $data['resume']->hashName(),
                 'crew_id' => $crew->id,
                 'general' => 1,
             ],
@@ -422,7 +425,7 @@ class CrewsServicesTest extends TestCase
         Storage::assertExists($resume->url);
 
         // assert socials
-        $this->assertCount(9, $crew->social);
+        $this->assertCount(9, $crew->socials);
         $this->assertArraySubset(
             [
                 [
@@ -462,7 +465,7 @@ class CrewsServicesTest extends TestCase
                     'social_link_type_id' => SocialLinkTypeID::PERSONAL_WEBSITE,
                 ],
             ],
-            $crew->social->toArray()
+            $crew->socials->toArray()
         );
     }
 
@@ -620,6 +623,32 @@ class CrewsServicesTest extends TestCase
         );
     }
 
+    /**
+     * @test
+     */
+    public function prepareGeneralReelData()
+    {
+        // youtube
+        $this->assertEquals(
+            ['url' => 'https://www.youtube.com/embed/G8S81CEBdNs'],
+            $this->service->prepareGeneralReelData(['url' => 'https://www.youtube.com/embed/G8S81CEBdNs'])
+        );
+        $this->assertEquals(
+            ['url' => 'https://www.youtube.com/embed/2-_rLbU6zJo'],
+            $this->service->prepareGeneralReelData(['url' => 'https://www.youtube.com/watch?v=2-_rLbU6zJo'])
+        );
+
+        // vimeo
+        $this->assertEquals(
+            ['url' => 'https://player.vimeo.com/video/230046783'],
+            $this->service->prepareGeneralReelData(['url' => 'https://vimeo.com/230046783'])
+        );
+        $this->assertEquals(
+            ['url' => 'https://player.vimeo.com/video/230046783'],
+            $this->service->prepareGeneralReelData(['url' => 'https://player.vimeo.com/video/230046783'])
+        );
+    }
+
     /** @test */
     public function prepare_general_resume_data()
     {
@@ -689,7 +718,7 @@ class CrewsServicesTest extends TestCase
 
         $this->service->updateSocials($data, $crew);
 
-        $this->assertCount(9, $crew->social);
+        $this->assertCount(9, $crew->socials);
         $this->assertArraySubset(
             [
                 [
@@ -729,7 +758,7 @@ class CrewsServicesTest extends TestCase
                     'social_link_type_id' => SocialLinkTypeID::PERSONAL_WEBSITE,
                 ],
             ],
-            $crew->social->toArray()
+            $crew->socials->toArray()
         );
     }
 
@@ -745,7 +774,7 @@ class CrewsServicesTest extends TestCase
             'crew_id' => $crew->id,
         ];
 
-        $this->service->createGeneralReel($data);
+        $this->service->createGeneralReel($data, $crew);
 
         // assert general reel data
         $reel = $crew->reels->where('general', 1)->first();

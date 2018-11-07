@@ -5,13 +5,12 @@ namespace Tests\Feature;
 use App\Mail\ConfirmUserAccount;
 use App\Models\Role;
 use App\Models\User;
-use App\Models\UserRoles;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class SignupFeatureTest extends TestCase
 {
@@ -163,7 +162,8 @@ class SignupFeatureTest extends TestCase
 
         $response = $this->post('signup', $data);
 
-        $this->assertSignupSuccess($response,
+        $this->assertSignupSuccess(
+            $response,
             array_merge($data, [
                 'first_name' => 'John',
                 'last_name'  => 'Doe',
@@ -281,19 +281,20 @@ class SignupFeatureTest extends TestCase
         $user = User::where('email', $data['email'])
             ->first();
 
-        $this->assertArraySubset([
-            'first_name' => $data['first_name'],
-            'last_name'  => $data['last_name'],
-            'email'      => $data['email'],
-            'phone'      => $data['phone'],
-            'password'   => 'hashed_' . $data['password'],
-            'status'     => 1,
-            'confirmed'  => false,
-        ],
+        $this->assertArraySubset(
+            [
+                'first_name' => $data['first_name'],
+                'last_name'  => $data['last_name'],
+                'email'      => $data['email'],
+                'phone'      => $data['phone'],
+                'password'   => 'hashed_' . $data['password'],
+                'status'     => 1,
+                'confirmed'  => false,
+            ],
             $user->makeVisible('password')
-                ->toArray());
+                ->toArray()
+        );
 
-        $this->assertEquals(36, strlen($user->uuid));
 
         $this->assertArraySubset(
             [
@@ -314,10 +315,12 @@ class SignupFeatureTest extends TestCase
         $this->assertNotEmpty($user->emailVerificationCode->code);
 
         // assert that an email has been sent for verification
-        Mail::assertSent(ConfirmUserAccount::class,
+        Mail::assertSent(
+            ConfirmUserAccount::class,
             function ($mail) use ($user) {
                 return $mail->user->id === $user->id;
-            });
+            }
+        );
     }
 
     private function makeFakeUser()

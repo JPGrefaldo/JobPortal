@@ -23,6 +23,11 @@ Vue.component('tooltip', require('v-tooltip'));
 Vue.component('signup-type', require('./components/SignupTypeComponent'));
 Vue.component('bubble-slidder', require('./components/BubbleSiliderComponent'));
 Vue.component('mobile-menu', require('./components/MobileMenuComponent'));
+Vue.component('create-crew-position-form', require('./components/CreateCrewPositionFormComponent'));
+Vue.component('edit-crew-position-form', require('./components/EditCrewPositionFormComponent'));
+Vue.component('create-endorsement-request-form', require('./components/CreateEndorsementRequestFormComponent'));
+Vue.component('create-endorsement-form', require('./components/CreateEndorsementFormComponent'));
+Vue.component('edit-endorsement-form', require('./components/EditEndorsementFormComponent'));
 
 const content = new Vue({
     el: '#content',
