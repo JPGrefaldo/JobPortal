@@ -78,12 +78,18 @@ Route::middleware('auth')->group(function () {
         Route::put('/admin/users/ban/{user}', 'Admin\AdminUsersController@updateBan')
             ->name('admin.users.ban');
 
+        Route::prefix('/admin/sites')->group(function () {
+            Route::get('/', 'Admin\SiteController@index')->name('admin.sites');
+        });
+
         Route::prefix('/admin/departments')->group(function () {
+            Route::get('/', 'Admin\DepartmentsController@index')->name('admin.departments');
             Route::post('/', 'Admin\DepartmentsController@store');
             Route::put('/{department}', 'Admin\DepartmentsController@update');
         });
 
         Route::prefix('/admin/positions')->group(function () {
+            Route::get('/', 'Admin\PositionsController@index')->name('admin.positions');
             Route::post('/', 'Admin\PositionsController@store');
             Route::put('/{position}', 'Admin\PositionsController@update');
         });
@@ -150,6 +156,7 @@ Route::middleware('auth')->group(function () {
     */
     Route::middleware('producer')->group(function () {
         Route::prefix('/producer/projects')->group(function () {
+            Route::get('/create', 'Producer\ProjectsController@create')->name('producer.projects.create');
             Route::post('/', 'Producer\ProjectsController@store');
             Route::put('/{project}', 'Producer\ProjectsController@update');
         });

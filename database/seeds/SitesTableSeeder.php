@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Database\Seeder;
 use App\Models\Site;
 use App\Utils\UrlUtils;
+use Illuminate\Database\Seeder;
 
 class SitesTableSeeder extends Seeder
 {
@@ -17,6 +17,8 @@ class SitesTableSeeder extends Seeder
             'name'     => config('app.name'),
             'hostname' => UrlUtils::getHostNameFromBaseUrl(config('app.url')),
         ]);
+
+        factory(Site::class, 5)->create();
 
         $this->command->info('Current site seeded');
     }

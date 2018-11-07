@@ -9,6 +9,11 @@ use App\Services\DepartmentsServices;
 
 class DepartmentsController extends Controller
 {
+    public function index()
+    {
+        return Department::all();
+    }
+
     /**
      * @param \App\Http\Requests\Admin\DepartmentsRequest $request
      */
