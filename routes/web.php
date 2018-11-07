@@ -77,12 +77,18 @@ Route::middleware('auth')->group(function () {
     Route::middleware('admin')->group(function () {
         Route::put('/admin/users/ban/{user}', 'Admin\AdminUsersController@updateBan');
 
+        Route::prefix('/admin/sites')->group(function () {
+            Route::get('/', 'Admin\SiteController@index')->name('admin.sites');
+        });
+
         Route::prefix('/admin/departments')->group(function () {
+            Route::get('/', 'Admin\DepartmentsController@index')->name('admin.departments');
             Route::post('/', 'Admin\DepartmentsController@store');
             Route::put('/{department}', 'Admin\DepartmentsController@update');
         });
 
         Route::prefix('/admin/positions')->group(function () {
+            Route::get('/', 'Admin\PositionsController@index')->name('admin.positions');
             Route::post('/', 'Admin\PositionsController@store');
             Route::put('/{position}', 'Admin\PositionsController@update');
         });

@@ -2,14 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\PositionsRequest;
 use App\Models\Position;
 use App\Services\PositionsServices;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class PositionsController extends Controller
 {
+    public function index()
+    {
+        return Position::all();
+    }
+
     /**
      * @param \App\Http\Requests\Admin\PositionsRequest $request
      */
