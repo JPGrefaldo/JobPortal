@@ -1,5 +1,5 @@
 <template>
-    <default-field :field="field">
+    <default-field :field="field" :errors="errors">
         <template slot="field">
             <search-input
                 v-if="isSearchable && !isLocked"
@@ -40,7 +40,13 @@
                 @change="selectResourceFromSelectControl"
                 :disabled="isLocked"
             >
-                <option value="" disabled selected>{{__('Choose')}} {{ field.name }}</option>
+                <option
+                    value=""
+                    selected
+                    :disabled="!field.nullable"
+                >
+                    &mdash;
+                </option>
 
                 <option
                     v-for="resource in availableResources"
@@ -62,10 +68,6 @@
                     </span>
                 </label>
             </div>
-
-            <p v-if="hasError" class="my-2 text-danger">
-                {{ firstError }}
-            </p>
         </template>
     </default-field>
 </template>
@@ -158,10 +160,12 @@ export default {
          * Fill the forms formData with details from this field
          */
         fill(formData) {
-            if (this.selectedResource) {
-                formData.append(this.field.attribute, this.selectedResource.value)
-                formData.append(this.field.attribute + '_trashed', this.withTrashed)
-            }
+            formData.append(
+                this.field.attribute,
+                this.selectedResource ? this.selectedResource.value : ''
+            )
+
+            formData.append(this.field.attribute + '_trashed', this.withTrashed)
         },
 
         /**

@@ -12,7 +12,7 @@ use Laravel\Nova\Contracts\Deletable as DeletableContract;
 
 class Trix extends Field implements DeletableContract
 {
-    use Deletable;
+    use Deletable, Expandable;
 
     /**
      * The field's component.
@@ -171,11 +171,13 @@ class Trix extends Field implements DeletableContract
         parent::fillAttribute($request, $requestAttribute, $model, $attribute);
 
         if ($request->{$this->attribute.'DraftId'} && $this->withFiles) {
-            PendingAttachment::persistDraft(
-                $request->{$this->attribute.'DraftId'},
-                $this,
-                $model
-            );
+            return function () use ($request, $requestAttribute, $model, $attribute) {
+                PendingAttachment::persistDraft(
+                    $request->{$this->attribute.'DraftId'},
+                    $this,
+                    $model
+                );
+            };
         }
     }
 
@@ -187,6 +189,7 @@ class Trix extends Field implements DeletableContract
     public function jsonSerialize()
     {
         return array_merge(parent::jsonSerialize(), [
+            'shouldShow' => $this->shouldBeExpanded(),
             'withFiles' => $this->withFiles,
         ]);
     }

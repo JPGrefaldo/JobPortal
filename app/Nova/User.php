@@ -4,7 +4,7 @@ namespace App\Nova;
 
 use App\Models\Role;
 use App\Nova\Filters\UserCrew;
-use Cwca\PretendButton\PretendButton;
+//use Cwca\PretendButton\PretendButton;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
@@ -82,9 +82,9 @@ class User extends Resource
                 return $this->hasRole(Role::CREW);
             }),
 
-            PretendButton::make('Pretend')
+            /*PretendButton::make('Pretend')
                 ->onlyOnIndex()
-                ->setUserID($this->id),
+                ->setUserID($this->id),*/
 
             Boolean::make('Status'),
 

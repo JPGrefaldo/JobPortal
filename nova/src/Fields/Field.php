@@ -84,6 +84,13 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
     public $sortable = false;
 
     /**
+     * Indicates if the field was resolved as a pivot field.
+     *
+     * @var bool
+     */
+    public $pivot = false;
+
+    /**
      * The text alignment for the field's text in tables.
      *
      * @var string
@@ -142,11 +149,10 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
             $this->resolve($resource, $attribute);
         }
 
-        if (is_callable($this->displayCallback) &&
-            data_get($resource, $attribute, '___missing') !== '___missing') {
-            $this->value = call_user_func(
-                $this->displayCallback, data_get($resource, $attribute)
-            );
+        $value = data_get($resource, str_replace('->', '.', $attribute), '___missing');
+
+        if (is_callable($this->displayCallback) && $value !== '___missing') {
+            $this->value = call_user_func($this->displayCallback, $value);
         }
     }
 
@@ -168,11 +174,12 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
 
         if (! $this->resolveCallback) {
             $this->value = $this->resolveAttribute($resource, $attribute);
-        } elseif (is_callable($this->resolveCallback) &&
-                  data_get($resource, $attribute, '___missing') !== '___missing') {
-            $this->value = call_user_func(
-                $this->resolveCallback, data_get($resource, $attribute)
-            );
+        }
+
+        $value = data_get($resource, str_replace('->', '.', $attribute), '___missing');
+
+        if (is_callable($this->resolveCallback) && $value !== '___missing') {
+            $this->value = call_user_func($this->resolveCallback, $value, $resource);
         }
     }
 
@@ -185,11 +192,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
      */
     protected function resolveAttribute($resource, $attribute)
     {
-        if (Str::contains($attribute, '->')) {
-            return object_get($resource, str_replace('->', '.', $attribute));
-        }
-
-        return data_get($resource, $attribute);
+        return data_get($resource, str_replace('->', '.', $attribute));
     }
 
     /**
@@ -236,11 +239,11 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
      *
      * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @param  object  $model
-     * @return void
+     * @return mixed
      */
     public function fill(NovaRequest $request, $model)
     {
-        $this->fillInto($request, $model, $this->attribute);
+        return $this->fillInto($request, $model, $this->attribute);
     }
 
     /**
@@ -248,7 +251,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
      *
      * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @param  object  $model
-     * @return void
+     * @return mixed
      */
     public function fillForAction(NovaRequest $request, $model)
     {
@@ -262,11 +265,11 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
      * @param  object  $model
      * @param  string  $attribute
      * @param  string|null  $requestAttribute
-     * @return void
+     * @return mixed
      */
     public function fillInto(NovaRequest $request, $model, $attribute, $requestAttribute = null)
     {
-        $this->fillAttribute($request, $requestAttribute ?? $this->attribute, $model, $attribute);
+        return $this->fillAttribute($request, $requestAttribute ?? $this->attribute, $model, $attribute);
     }
 
     /**
@@ -286,7 +289,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
             );
         }
 
-        $this->fillAttributeFromRequest(
+        return $this->fillAttributeFromRequest(
             $request, $requestAttribute, $model, $attribute
         );
     }
@@ -298,7 +301,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
      * @param  string  $requestAttribute
      * @param  object  $model
      * @param  string  $attribute
-     * @return void
+     * @return mixed
      */
     protected function fillAttributeFromRequest(NovaRequest $request, $requestAttribute, $model, $attribute)
     {
@@ -439,7 +442,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
      */
     public function computed()
     {
-        return is_callable($this->attribute) ||
+        return (is_callable($this->attribute) && ! is_string($this->attribute)) ||
                $this->attribute == 'ComputedField';
     }
 

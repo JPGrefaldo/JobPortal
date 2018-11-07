@@ -34,6 +34,20 @@ class ResourceCreationTest extends IntegrationTest
         $this->assertEquals('taylor@laravel.com', $user->email);
     }
 
+    public function test_can_create_resources_with_null_relation()
+    {
+        $response = $this->withExceptionHandling()
+                        ->postJson('/nova-api/posts', [
+                            'title' => 'Test Post',
+                        ]);
+
+        $response->assertStatus(201);
+
+        $post = Post::first();
+
+        $this->assertNull($post->user_id);
+    }
+
     public function test_can_create_resource_fields_that_arent_authorized()
     {
         $response = $this->withExceptionHandling()
@@ -242,5 +256,19 @@ class ResourceCreationTest extends IntegrationTest
                         ]);
 
         $response->assertStatus(422);
+    }
+
+    public function test_related_resource_should_be_able_to_be_updated_even_when_full()
+    {
+        $user = factory(User::class)->create();
+        $user->address()->save($address = factory(Address::class)->make());
+
+        $response = $this->withExceptionHandling()
+                        ->putJson('/nova-api/addresses/'.$address->id.'?viaResource=users&viaResourceId=1&viaRelationship=address', [
+                            'user' => $user->id,
+                            'name' => 'Fake Name',
+                        ]);
+
+        $response->assertStatus(200);
     }
 }
