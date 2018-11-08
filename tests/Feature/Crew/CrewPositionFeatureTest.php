@@ -39,11 +39,8 @@ class CrewPositionFeatureTest extends TestCase
             ->get(route('crew.endorsement.index'));
 
         // then
-        Position::all()->each(function ($position) use ($response) {
-            $response->assertSee(htmlspecialchars($position->name));
-        });
 
-        $response->assertSee('Apply');
+        $response->assertSee('Endorsements');
     }
 
     /**
