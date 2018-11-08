@@ -14,7 +14,7 @@
         "build-pretend-button-prod": "cd nova-components/PretendButton && npm run prod"
     },
     "devDependencies": {
-        "@fortawesome/fontawesome-free": "^5.3.1",
+        "@fortawesome/fontawesome-free": "^5.5.0",
         "axios": "^0.18",
         "browser-sync": "^2.26.3",
         "browser-sync-webpack-plugin": "2.0.1",

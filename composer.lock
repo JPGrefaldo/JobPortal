@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
     "content-hash": "9bd763c30c7d33fb2f210de74e2705f8",
@@ -1031,7 +1031,7 @@
             "dist": {
                 "type": "path",
                 "url": "./nova",
-                "reference": "3f3e9f1b67293b957f5c96da00a8da56f7e263ff",
+                "reference": "6b34fd3882e3cff2dc99d288393e92025bc93094",
                 "shasum": null
             },
             "require": {
@@ -1432,16 +1432,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "1.34.0",
+            "version": "1.34.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "1dbd3cb01c5645f3e7deda7aa46ef780d95fcc33"
+                "reference": "19201b87f7dba2a7cbf1cccdf0e1da13c04ee9c9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/1dbd3cb01c5645f3e7deda7aa46ef780d95fcc33",
-                "reference": "1dbd3cb01c5645f3e7deda7aa46ef780d95fcc33",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/19201b87f7dba2a7cbf1cccdf0e1da13c04ee9c9",
+                "reference": "19201b87f7dba2a7cbf1cccdf0e1da13c04ee9c9",
                 "shasum": ""
             },
             "require": {
@@ -1483,7 +1483,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2018-09-20T19:36:25+00:00"
+            "time": "2018-11-08T13:33:47+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -5061,16 +5061,16 @@
         },
         {
             "name": "laravel/telescope",
-            "version": "v0.1.6",
+            "version": "v0.1.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/telescope.git",
-                "reference": "e3dbda59367969222603a2a20f0ee3aabe7bcdce"
+                "reference": "7183e588501de3b1de307a6f82d311e2212b0f83"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/telescope/zipball/e3dbda59367969222603a2a20f0ee3aabe7bcdce",
-                "reference": "e3dbda59367969222603a2a20f0ee3aabe7bcdce",
+                "url": "https://api.github.com/repos/laravel/telescope/zipball/7183e588501de3b1de307a6f82d311e2212b0f83",
+                "reference": "7183e588501de3b1de307a6f82d311e2212b0f83",
                 "shasum": ""
             },
             "require": {
@@ -5120,7 +5120,7 @@
                 "laravel",
                 "monitoring"
             ],
-            "time": "2018-11-02T10:45:19+00:00"
+            "time": "2018-11-08T11:21:56+00:00"
         },
         {
             "name": "maximebf/debugbar",
