@@ -25,7 +25,7 @@
                     <div class="bg-white mt-4 rounded p-4 md:p-8 shadow">
                         <div class="flex justify-between items-center">
                             <h3 class="text-blue-dark font-semibold text-md mb-1 font-header">
-                                No current endoresements
+                                No current endorsements
                             </h3>
                         </div>
                     </div>

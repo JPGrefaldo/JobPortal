@@ -39,7 +39,7 @@ class CrewPositionFeatureTest extends TestCase
 
         // then
         $response->assertSee('Endorsements');
-        $response->assertSee('No current endoresements');
+        $response->assertSee('No current endorsements');
     }
 
     /**
