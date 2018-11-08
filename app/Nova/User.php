@@ -4,14 +4,11 @@ namespace App\Nova;
 
 use App\Models\Role;
 use App\Nova\Filters\UserCrew;
-//use Cwca\PretendButton\PretendButton;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\Password;
-use Laravel\Nova\Panel;
 
 class User extends Resource
 {
@@ -81,10 +78,6 @@ class User extends Resource
             Boolean::make('Crew', function () {
                 return $this->hasRole(Role::CREW);
             }),
-
-            /*PretendButton::make('Pretend')
-                ->onlyOnIndex()
-                ->setUserID($this->id),*/
 
             Boolean::make('Status'),
 
