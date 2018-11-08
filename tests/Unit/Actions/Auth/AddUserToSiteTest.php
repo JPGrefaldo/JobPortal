@@ -10,6 +10,9 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 
+/**
+ * @group AddUserToSiteTest
+ */
 class AddUserToSiteTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;

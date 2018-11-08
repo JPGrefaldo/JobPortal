@@ -31,16 +31,15 @@ class CrewPositionFeatureTest extends TestCase
      * @test
      * @covers \App\Http\Controllers\Crew::index
      */
-    public function crew_can_see_all_positions()
+    public function crew_can_see_index_page()
     {
-        // TODO need to rewrite since there have been major changes
         // when
         $response = $this->actingAs($this->user)
             ->get(route('crew.endorsement.index'));
 
         // then
-
         $response->assertSee('Endorsements');
+        $response->assertSee('No current endorsements');
     }
 
     /**

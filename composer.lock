@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "876a574f9092872a14a654c1c700c8a7",
+    "content-hash": "9bd763c30c7d33fb2f210de74e2705f8",
     "packages": [
         {
             "name": "anahkiasen/underscore-php",
@@ -112,6 +112,67 @@
                 "time"
             ],
             "time": "2018-10-18T22:02:21+00:00"
+        },
+        {
+            "name": "cmgmyr/messenger",
+            "version": "2.16.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cmgmyr/laravel-messenger.git",
+                "reference": "9cdfb65d601442718de2d3afaa3d7ecbadbc3331"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cmgmyr/laravel-messenger/zipball/9cdfb65d601442718de2d3afaa3d7ecbadbc3331",
+                "reference": "9cdfb65d601442718de2d3afaa3d7ecbadbc3331",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/config": "~5.0",
+                "illuminate/database": "~5.0",
+                "illuminate/support": "~5.0",
+                "nesbot/carbon": "~1.0",
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "adamwathan/faktory": "0.3.*",
+                "friendsofphp/php-cs-fixer": "^2.5",
+                "orchestra/testbench": "~3.0",
+                "phpunit/phpunit": "4.*|5.*"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Cmgmyr\\Messenger\\MessengerServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Cmgmyr\\Messenger\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Chris Gmyr",
+                    "email": "cmgmyr@gmail.com",
+                    "homepage": "https://github.com/cmgmyr",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Simple user messaging tool for Laravel",
+            "keywords": [
+                "Messenger",
+                "laravel",
+                "messaging",
+                "user messaging"
+            ],
+            "time": "2018-06-16T13:16:18+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -970,7 +1031,7 @@
             "dist": {
                 "type": "path",
                 "url": "./nova",
-                "reference": "6b34fd3882e3cff2dc99d288393e92025bc93094",
+                "reference": "3f3e9f1b67293b957f5c96da00a8da56f7e263ff",
                 "shasum": null
             },
             "require": {
