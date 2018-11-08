@@ -53,7 +53,7 @@ class User extends Authenticatable
      */
     public function roles()
     {
-        return $this->belongsToMany(Role::class, 'user_roles');
+        return $this->belongsToMany(Role::class, 'user_roles', 'user_id', 'role_id', 'id');
     }
 
     /**
@@ -170,6 +170,28 @@ class User extends Authenticatable
     public function getFullNameAttribute()
     {
         return $this->first_name . ' ' . $this->last_name;
+    }
+
+    /***
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeAreCrew($query)
+    {
+        return $query->select(['users.*', 'user_roles.role_id'])
+            ->join('user_roles', 'users.id', '=', 'user_roles.user_id')
+            ->where('role_id', '=', Role::getRoleIdByName(Role::CREW));
+    }
+
+    /***
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeAreProducer($query)
+    {
+        return $query->select(['users.*', 'user_roles.role_id'])
+            ->join('user_roles', 'users.id', '=', 'user_roles.user_id')
+            ->where('role_id', '=', Role::getRoleIdByName(Role::PRODUCER));
     }
 
     public function getRouteKeyName()

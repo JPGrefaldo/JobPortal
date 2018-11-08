@@ -5,11 +5,30 @@ namespace App\Http\Controllers\Producer;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Producer\CreateProjectRequest;
 use App\Http\Requests\Producer\UpdateProjectRequest;
+use App\Models\Department;
 use App\Models\Project;
+use App\Models\ProjectType;
+use App\Models\Site;
 use App\Services\Producer\ProjectsServices;
+use App\Utils\UrlUtils;
 
 class ProjectsController extends Controller
 {
+    public function create()
+    {
+        $user = auth()->user();
+        $projectTypes = ProjectType::all();
+        $departments = Department::with('positions')->has('positions')->get();
+        $hostname = UrlUtils::getHostNameFromBaseUrl(request()->getHttpHost());
+        $sites = Site::where('hostname', '!=', $hostname)->get();
+
+        return view('producer.projects.create', compact(
+            'user',
+            'projectTypes',
+            'departments',
+            'sites'
+        ));
+    }
     /**
      * @param \App\Http\Requests\Producer\CreateProjectRequest $request
      */

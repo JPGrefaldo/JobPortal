@@ -27,7 +27,7 @@ class EndorsementIndexModel extends ViewModel
 
         $this->loadUser();
 
-        $this->endorsementPositions = collect([]);//$this->getApprovedEndorsementsPositions();
+        $this->endorsementPositions = $this->getApprovedEndorsementsPositions();
     }
 
     private function getApprovedEndorsementsPositions()

@@ -72,7 +72,7 @@ class EndorsementPositionController extends Controller
     {
         // TODO: create test
         $crew = auth()->user()->crew;
-        return view('crew.position.show', compact('position', 'crew'));
+        return view('crew.endorsement.position.show', compact('position', 'crew'));
     }
 
     /**

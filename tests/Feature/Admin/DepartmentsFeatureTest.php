@@ -3,14 +3,30 @@
 namespace Tests\Feature\Admin;
 
 use App\Models\Department;
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class DepartmentsFeatureTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
+
+    /**
+     * @test
+     */
+    public function index()
+    {
+        // given
+        $admin = factory(User::class)->states('withAdminRole')->create();
+        $departments = Department::all();
+
+        // when
+        $response = $this->actingAs($admin)->getJson(route('admin.departments'));
+
+        // then
+        $response->assertJson($departments->toArray());
+    }
 
     /** @test */
     public function create()
@@ -124,7 +140,8 @@ class DepartmentsFeatureTest extends TestCase
 
         $response->assertSuccessful();
 
-        $this->assertArraySubset([
+        $this->assertArraySubset(
+            [
                 'name'        => 'New Name',
                 'description' => 'New Description',
             ],
@@ -148,7 +165,8 @@ class DepartmentsFeatureTest extends TestCase
 
         $response->assertSuccessful();
 
-        $this->assertArraySubset([
+        $this->assertArraySubset(
+            [
                 'name'        => 'New Name',
                 'description' => '',
             ],
@@ -172,7 +190,8 @@ class DepartmentsFeatureTest extends TestCase
 
         $response->assertSuccessful();
 
-        $this->assertArraySubset([
+        $this->assertArraySubset(
+            [
                 'name'        => 'New Name',
                 'description' => '',
             ],
@@ -196,7 +215,8 @@ class DepartmentsFeatureTest extends TestCase
 
         $response->assertSuccessful();
 
-        $this->assertArraySubset([
+        $this->assertArraySubset(
+            [
                 'name'        => 'Same Name',
                 'description' => 'Same Description',
             ],

@@ -1,7 +1,10 @@
 {
     "name": "laravel/laravel",
     "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "keywords": [
+        "framework",
+        "laravel"
+    ],
     "license": "MIT",
     "type": "project",
     "require": {
@@ -19,6 +22,7 @@
         "fideloper/proxy": "^4.0",
         "intervention/image": "^2.4",
         "laravel/framework": "5.7.*",
+        "laravel/nova": "*",
         "laravel/tinker": "^1.0",
         "laravelcollective/html": "^5.7",
         "pda/pheanstalk": "^3.1",
@@ -46,6 +50,16 @@
         "nunomaduro/collision": "^2.0",
         "phpunit/phpunit": "^7.0"
     },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "./nova"
+        },
+        {
+            "type": "path",
+            "url": "./nova-components/PretendButton"
+        }
+    ],
     "autoload": {
         "classmap": [
             "database/seeds",
@@ -62,8 +76,7 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": [
-            ]
+            "dont-discover": []
         }
     },
     "scripts": {
