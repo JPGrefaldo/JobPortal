@@ -2,6 +2,8 @@
 
 use Faker\Generator as Faker;
 
+/** @var $factory \Illuminate\Database\Eloquent\Factory */
+
 $factory->define(App\Models\Site::class, function (Faker $faker) {
     $state = $faker->unique()->state;
     return [

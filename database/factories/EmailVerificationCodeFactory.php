@@ -2,6 +2,8 @@
 
 use Faker\Generator as Faker;
 
+/** @var $factory \Illuminate\Database\Eloquent\Factory */
+
 $factory->define(App\Models\EmailVerificationCode::class, function (Faker $faker) {
     static $user_id;
 

@@ -4,6 +4,8 @@ use App\Models\Role;
 use App\Utils\StrUtils;
 use Faker\Generator as Faker;
 
+/** @var $factory \Illuminate\Database\Eloquent\Factory */
+
 $factory->define(App\Models\User::class, function (Faker $faker) {
     $faker->addProvider(new \App\Faker\PhoneProvider($faker));
 
@@ -13,7 +15,6 @@ $factory->define(App\Models\User::class, function (Faker $faker) {
         'email'          => $faker->unique()->safeEmail,
         'phone'          => StrUtils::stripNonNumeric($faker->unformattedPhoneNumber()),
         'password'       => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm',
-        // secret
         'remember_token' => str_random(10),
         'status'         => 1,
         'confirmed'      => 1,
@@ -37,14 +38,3 @@ $factory
     ->afterCreatingState(App\Models\User::class, 'withAdminRole', function ($user, $faker) {
         $user->roles()->attach(Role::where('name', Role::ADMIN)->first());
     });
-
-$factory->define(\App\Models\UserNotificationSetting::class, function (Faker $faker) {
-    return [
-        'user_id'                    => function () {
-            return factory(\App\Models\User::class)->create()->id;
-        },
-        'receive_email_notification' => 1,
-        'receive_other_emails'       => 1,
-        'receive_sms'                => 1,
-    ];
-});

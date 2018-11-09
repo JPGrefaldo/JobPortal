@@ -2,6 +2,8 @@
 
 use Faker\Generator as Faker;
 
+/** @var $factory \Illuminate\Database\Eloquent\Factory */
+
 $factory->define(App\Models\Crew::class, function (Faker $faker) {
     static $user_id;
 
@@ -18,7 +20,7 @@ $factory->state(App\Models\Crew::class, 'PhotoUpload', function (Faker $faker) {
     return [
         'photo' => function () use ($faker) {
             $tmpFile = \Illuminate\Http\UploadedFile::fake()->image($faker->sha1 . '.png');
-            $path    = 'photos/' . $faker->uuid . '/' . $tmpFile->hashName();
+            $path = 'photos/' . $faker->uuid . '/' . $tmpFile->hashName();
 
             Storage::put($path, file_get_contents($tmpFile));
 

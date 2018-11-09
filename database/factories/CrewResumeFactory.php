@@ -2,6 +2,8 @@
 
 use Faker\Generator as Faker;
 
+/** @var $factory \Illuminate\Database\Eloquent\Factory */
+
 $factory->define(App\Models\CrewResume::class, function (Faker $faker) {
     return [
         'crew_id' => function () {

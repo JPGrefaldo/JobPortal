@@ -4,6 +4,8 @@ use App\Models\Crew;
 use Carbon\Carbon;
 use Faker\Generator as Faker;
 
+/** @var $factory \Illuminate\Database\Eloquent\Factory */
+
 $factory->define(App\Models\Endorsement::class, function (Faker $faker) {
     static $endorsement_request_id;
 
@@ -18,6 +20,7 @@ $factory->define(App\Models\Endorsement::class, function (Faker $faker) {
 
 $factory->state(App\Models\Endorsement::class, 'approved', function (Faker $faker) {
     $crew = factory(Crew::class)->create();
+
     return [
         'endorser_id'    => $crew->id,
         'endorser_name'  => '',
