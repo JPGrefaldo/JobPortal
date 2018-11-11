@@ -17,8 +17,8 @@
                 </h3>
             </div>
             <div class="bg-grey-lighter pb-8 px-8 border-t border-grey-light rounded-b">
-                @if ($endorsementPositions->count())
-                    @foreach($endorsementPositions as $position)
+                @if ($user->crew->positions()->count())
+                    @foreach($user->crew->positions as $position)
                         @include('crew.endorsement.__parts.endorsement-positions')
                     @endforeach
                 @else
