@@ -38,14 +38,16 @@ class StartFromScratch extends Command
      */
     public function handle()
     {
-        $bar = $this->output->createProgressBar(3);
-
+        $this->info('Start Migrations');
         Artisan::call('migrate');
-        $bar->advance();
-        Artisan::call('db:seed');
-        $bar->advance();
-        Artisan::call('test_user', ['email' => $this->argument('email')]);
+        $this->info('Migrations Completed');
 
-        $bar->finish();
+        $this->info('Start DB Seeds');
+        Artisan::call('db:seed');
+        $this->info('DB Seeded');
+
+        $this->info('Creating User');
+        Artisan::call('test_user', ['email' => $this->argument('email')]);
+        $this->info('User Created');
     }
 }

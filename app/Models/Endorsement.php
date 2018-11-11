@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Endorsement extends Model
 {
     use SoftDeletes;
+
     /**
      * The protected attributes
      *
@@ -21,39 +22,12 @@ class Endorsement extends Model
      * @var array
      */
     protected $casts = [
-        'id' => 'integer',
+        'id'                     => 'integer',
         'endorsement_request_id' => 'integer',
-        'endorser_id' => 'integer',
-        'approved_at' => 'datetime',
-        'comment' => 'string',
-        'deleted_at' => 'datetime',
+        'crew_position_id'       => 'integer',
+        'approved_at'            => 'datetime',
+        'deleted_at'             => 'datetime',
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'endorsement_request_id',
-        'endorser_id',
-        'endorser_name',
-        'endorser_email',
-    ];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function request()
-    {
-        return $this->belongsTo(EndorsementRequest::class, 'endorsement_request_id');
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function endorser()
-    {
-        return $this->belongsTo(Crew::class, 'endorser_id');
-    }
 }

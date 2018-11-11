@@ -15,33 +15,13 @@ class CreateEndorsementsTable extends Migration
     {
         Schema::create('endorsements', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('endorsement_request_id');
-            $table->unsignedInteger('endorser_id')
-                  ->nullable();
-            $table->string('endorser_name')
-                  ->nullable();
-            $table->string('endorser_email')
-                  ->nullable();
+            $table->unsignedInteger('crew_position_id');
             $table->datetime('approved_at')
-                  ->nullable();
-            $table->text('comment')
                   ->nullable();
             $table->timestamps();
             $table->softDeletes();
 
-            $table->unique(['endorsement_request_id', 'endorser_id']);
-
-            $table->foreign('endorsement_request_id')
-                ->references('id')
-                ->on('endorsement_requests')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
-
-            $table->foreign('endorser_id')
-                ->references('id')
-                ->on('users')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
+            $table->index('approved_at');
         });
     }
 
