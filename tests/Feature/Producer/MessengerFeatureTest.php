@@ -42,15 +42,25 @@ class MessengerFeatureTest extends TestCase
      */
     public function producer_cant_send_message_to_crew_who_has_not_applied()
     {
+        // $this->withoutExceptionHandling();
         // given
-        // producer
-        // random crew
+        $producer = factory(User::class)->states('withProducerRole')->create();
+        $randomCrew = factory(User::class)->states('withCrewRole')->create();
+        $data = [
+            'subject' => 'Some subject',
+            'message' => 'Some message',
+            'recipents' => [
+                $randomCrew->id,
+            ]
+        ];
 
         // when
-        // producer is sending a message to random crew
+        $response = $this
+            ->actingAs($producer)
+            ->postJson(route('messages.store'), $data);
 
         // then
-        // producer sees toast that message was not sent
+        $response->assertSee('Message not sent.');
     }
 
     /**
