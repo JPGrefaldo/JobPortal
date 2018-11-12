@@ -175,6 +175,11 @@ Route::middleware('auth')->group(function () {
     });
 });
 
+Route::prefix('theme')->group(function() {
+    Route::view('/', 'theme.index');
+});
+
+
 Route::get('test', function () {
     Log::info('asd');
 });
