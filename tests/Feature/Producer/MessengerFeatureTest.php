@@ -2,24 +2,55 @@
 
 namespace Tests\Feature\Producer;
 
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 
 class MessengerFeatureTest extends TestCase
 {
+    use RefreshDatabase, SeedDatabaseAfterRefresh;
+
     /**
      * @test
      */
     public function producer_can_send_message_to_a_crew_who_applied()
     {
+        // $this->withoutExceptionHandling();
         // given
-        // producer
-        // crew that applied to position
+        $producer = factory(User::class)->states('withProducerRole')->create();
+        $crew = factory(User::class)->states('withCrewRole')->create();
+        $data = [
+            'subject' => 'Some subject',
+            'message' => 'Some message',
+            'recipents' => [
+                $crew->id,
+            ]
+        ];
 
         // when
-        // producer is sending a message to crew
+        $response = $this
+            ->actingAs($producer)
+            ->postJson(route('messages.store'), $data);
 
         // then
-        // producer sees toast that message was sent
+        $response->assertSee('Message Sent');
+    }
+
+    /**
+     * @test
+     */
+    public function producer_cant_send_message_to_crew_who_has_not_applied()
+    {
+        // given
+        // producer
+        // random crew
+
+        // when
+        // producer is sending a message to random crew
+
+        // then
+        // producer sees toast that message was not sent
     }
 
     /**
