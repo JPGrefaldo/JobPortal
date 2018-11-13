@@ -136,4 +136,9 @@ class Crew extends Model
     {
         return $this->hasMany(Endorsement::class, 'endorser_id')->whereNotNull('approved_at');
     }
+
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class);
+    }
 }

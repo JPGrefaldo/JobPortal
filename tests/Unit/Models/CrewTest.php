@@ -11,6 +11,7 @@ use App\Models\CrewSocial;
 use App\Models\Endorsement;
 use App\Models\EndorsementRequest;
 use App\Models\Position;
+use App\Models\Project;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -271,5 +272,19 @@ class CrewTest extends TestCase
     public function no_approved_endorsements()
     {
         $this->assertEquals(0, $this->crew->approvedEndorsements->count());
+    }
+
+    /**
+     * @test
+     */
+    public function projects()
+    {
+        // when
+        $project = factory(Project::class, 3)->create()->each(function ($project) {
+            $this->crew->projects()->attach($project);
+        });
+
+        // then
+        $this->assertCount(3, $this->crew->projects);
     }
 }
