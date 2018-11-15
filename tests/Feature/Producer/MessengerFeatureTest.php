@@ -21,11 +21,18 @@ class MessengerFeatureTest extends TestCase
         $this->withoutExceptionHandling();
         // given
         $producer = factory(User::class)->states('withProducerRole')->create();
-        $project = factory(Project::class)->create(['user_id' => $producer->id]);
+        $project = factory(Project::class)->create([
+            'user_id' => $producer->id,
+            'title' => 'Some project',
+            'production_name' => 'Some production name',
+        ]);
         $crew = factory(Crew::class)->create();
         $crew->projects()->attach($project);
+        $this->assertDatabaseHas('crew_project', [
+            'crew_id' => $crew->id,
+            'project_id' => $project->id
+        ]);
         $this->assertCount(1, $crew->projects);
-        dump($crew->user->toArray());
         $data = [
             'subject' => 'Some subject',
             'message' => 'Some message',
@@ -40,7 +47,7 @@ class MessengerFeatureTest extends TestCase
             ->postJson(route('producer.messages.store'), $data);
 
         // then
-        $response->assertSee('Message Sent');
+        $response->assertSee('Message sent.');
     }
 
     /**

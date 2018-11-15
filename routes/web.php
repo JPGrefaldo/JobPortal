@@ -164,15 +164,23 @@ Route::middleware('auth')->group(function () {
             Route::post('/', 'Producer\ProjectJobsController@store');
             Route::put('/{job}', 'Producer\ProjectJobsController@update');
         });
+
+        Route::group(['prefix' => 'messages'], function () {
+            //     Route::get('/', ['as' => 'messages', 'uses' => 'MessagesController@index']);
+            //     Route::get('create', ['as' => 'messages.create', 'uses' => 'MessagesController@create']);
+            Route::post('/', ['as' => 'producer.messages.store', 'uses' => 'Producer\MessagesController@store']);
+            //     Route::get('{id}', ['as' => 'messages.show', 'uses' => 'MessagesController@show']);
+        //     Route::put('{id}', ['as' => 'messages.update', 'uses' => 'MessagesController@update']);
+        });
     });
 
-    Route::group(['prefix' => 'messages'], function () {
+    // Route::group(['prefix' => 'messages'], function () {
         //     Route::get('/', ['as' => 'messages', 'uses' => 'MessagesController@index']);
         //     Route::get('create', ['as' => 'messages.create', 'uses' => 'MessagesController@create']);
-        Route::post('/', ['as' => 'producer.messages.store', 'uses' => 'MessagesController@store']);
+        // Route::post('/', ['as' => 'producer.messages.store', 'uses' => 'Producer\MessagesController@store']);
         //     Route::get('{id}', ['as' => 'messages.show', 'uses' => 'MessagesController@show']);
         //     Route::put('{id}', ['as' => 'messages.update', 'uses' => 'MessagesController@update']);
-    });
+    // });
 });
 
 Route::prefix('theme')->group(function () {
