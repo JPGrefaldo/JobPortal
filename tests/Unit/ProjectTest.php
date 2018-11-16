@@ -27,10 +27,7 @@ class ProjectTest extends TestCase
 
 
         // then
-        $this->assertEquals(
-            $projectType->name,
-         $project->type->name
-        );
+        $this->assertEquals($projectType->name, $project->type->name);
     }
 
     /**
