@@ -29,7 +29,7 @@ class Project extends Model
      */
     public function type()
     {
-        return $this->hasOne(ProjectType::class, 'id', 'project_type_id');
+        return $this->belongsTo(ProjectType::class, 'project_type_id');
     }
 
     /**
@@ -37,7 +37,7 @@ class Project extends Model
      */
     public function remotes()
     {
-        return $this->hasMany(RemoteProject::class, 'project_id', 'id');
+        return $this->hasMany(RemoteProject::class);
     }
 
     /**
@@ -45,6 +45,6 @@ class Project extends Model
      */
     public function jobs()
     {
-        return $this->hasMany(ProjectJob::class, 'project_id', 'id');
+        return $this->hasMany(ProjectJob::class);
     }
 }
