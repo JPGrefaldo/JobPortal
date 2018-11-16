@@ -24,7 +24,10 @@ class ProducerStoreMessageRequest extends FormRequest
     public function rules()
     {
         return [
-            'subject' => 'required|string'
+            'subject' => 'required|string',
+            'message' => 'required|string',
+            'recipients' => 'required|array',
+            'recipients' => 'exists:users,hash_id',
         ];
     }
 }

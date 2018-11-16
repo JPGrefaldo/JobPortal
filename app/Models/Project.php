@@ -47,4 +47,9 @@ class Project extends Model
     {
         return $this->hasMany(ProjectJob::class, 'project_id', 'id');
     }
+
+    // TODO: create test
+    public function contributors()
+    {
+    }
 }

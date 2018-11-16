@@ -4,68 +4,68 @@ namespace App\Http\Controllers\Producer;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProducerStoreMessageRequest;
+use App\Models\Project;
 use App\Models\Role;
+use App\Models\User;
+use Illuminate\Support\Facades\Input;
 
 class MessagesController extends Controller
 {
-    public function store(ProducerStoreMessageRequest $request)
+    public function store(ProducerStoreMessageRequest $request, Project $project)
     {
+        // move this to request
         if (! auth()->user()->whereHas('roles', function ($query) {
             $query->where('name', Role::PRODUCER);
         })->get()) {
             return 'You are not a producer';
         }
 
-        $request->validate();
+        // move this to request
+        // check if producer owns the project
 
+        // move this to request
         if (! $project->exists()) {
             return 'The project does not exist.';
         }
 
+        // move this to request
         if (! Input::has('recipients')) {
-            return 'You have to select a recipeint.';
+            return 'You have to select a recipient.';
         }
 
         // find the crew with the given hash_id
-        $crew = $recipient->crew;
+        foreach (Input::get('recipients') as $recipient) {
+            $recipientUser = User::whereHashId($recipient)->first();
+            $recipentCrew = $recipientUser->crew;
 
-        if (! $crew->belongsToProject()) {
-            return 'Crew does not belong to the project.';
+            // move this to request
+            if (! $project->contributors->contains($recipentCrew)) {
+                return 'Crew does not belong to the project.';
+            }
+
+            // create thread
+            $thread = Thread::create([
+                'subject' => $request['subject'],
+            ]);
+
+            // create message
+            Message::create([
+                'thread_id' => $thread->id,
+                'user_id' => Auth::id(),
+                'body' => $request['message'],
+            ]);
+
+            // include sender in thread as participant
+            Participant::create([
+                'thread_id' => $thread->id,
+                'user_id' => Auth::id(),
+                'last_read' => new Carbon,
+            ]);
+
+            $thread->addParticipant($response['recipeint']);
         }
 
-        // get user instance of crew
-        $recipient = User::find($input['recipient']);
-
-
-        // check if crew applied to project
-        if (! $crew->hasAppliedTo($project)) {
-            return 'Message not sent.';
-        }
-
-        // message the fool
-        $data = Input::all();
-
-        // create thread
-        $thread = Thread::create([
-            'subject' => $data['subject'],
-        ]);
-
-        // create message
-        Message::create([
-            'thread_id' => $thread->id,
-            'user_id' => Auth::id(),
-            'body' => $input['message'],
-        ]);
-
-        // include sender in thread as participant
-        Participant::create([
-            'thread_id' => $thread->id,
-            'user_id' => Auth::id(),
-            'last_read' => new Carbon,
-        ]);
-
-        $thread->addParticipant($input['recipeint']);
-
+        // check number of emails sent
         return 'Message sent.';
     }
 }
