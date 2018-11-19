@@ -48,8 +48,8 @@ class Project extends Model
         return $this->hasMany(ProjectJob::class);
     }
 
-    // TODO: create test
     public function contributors()
     {
+        return $this->belongsToMany(Crew::class);
     }
 }
