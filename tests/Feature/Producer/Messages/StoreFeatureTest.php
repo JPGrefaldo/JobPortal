@@ -20,12 +20,15 @@ class StoreFeatureTest extends TestCase
     {
         $this->withoutExceptionHandling();
         $crew = factory(User::class)->states('withCrewRole')->create();
+        $project = factory(Project::class)->create([
+            'user_id' => $crew->id,
+        ]);
         $data = $this->getData();
 
         // when
         $response = $this
             ->actingAs($crew)
-            ->postJson(route('producer.messages.store'), $data);
+            ->postJson(route('producer.messages.store', $project), $data);
 
         // then
         $response->assertRedirect();
@@ -67,11 +70,14 @@ class StoreFeatureTest extends TestCase
     /**
      * @test
      */
-    public function failValidation()
+    public function fail_validation()
     {
         // $this->withoutExceptionHandling();
         // given
         $producer = factory(User::class)->states('withProducerRole')->create();
+        $project = factory(Project::class)->create([
+            'user_id' => $producer->id,
+        ]);
         $data = [
             'subject' => '',
             'message' => '',
@@ -81,7 +87,7 @@ class StoreFeatureTest extends TestCase
         // when
         $response = $this
             ->actingAs($producer)
-            ->postJson(route('producer.messages.store'), $data);
+            ->postJson(route('producer.messages.store', $project), $data);
 
         // then
         $response->assertJson([
@@ -97,11 +103,14 @@ class StoreFeatureTest extends TestCase
     /**
      * @test
      */
-    public function passValidation()
+    public function pass_validation()
     {
         $this->withoutExceptionHandling();
         // given
         $producer = factory(User::class)->states('withProducerRole')->create();
+        $project = factory(Project::class)->create([
+            'user_id' => $producer->id,
+        ]);
         factory(Crew::class, 3)->create();
         $data = $this->getData();
         $data['recipients'] = [
@@ -113,12 +122,93 @@ class StoreFeatureTest extends TestCase
         // when
         $response = $this
             ->actingAs($producer)
-            ->postJson(route('producer.messages.store'), $data);
+            ->postJson(route('producer.messages.store', $project), $data);
 
         // then
         $response->assertSuccessful();
     }
-    // "// general logic\r",
+    // "// general logic\r",    use RefreshDatabase, SeedDatabaseAfterRefresh;
+
+    /**
+     * @test
+     */
+    public function producer_can_send_message_to_a_crew_who_applied()
+    {
+        $this->withoutExceptionHandling();
+        // given
+        $producer = factory(User::class)->states('withProducerRole')->create();
+        $project = factory(Project::class)->create([
+            'user_id' => $producer->id,
+            'title' => 'Some project',
+            'production_name' => 'Some production name',
+        ]);
+        $crew = factory(Crew::class)->create();
+        $project->contributors()->attach($crew);
+        // $crew->projects()->attach($project);
+        $this->assertDatabaseHas('crew_project', [
+            'crew_id' => $crew->id,
+            'project_id' => $project->id
+        ]);
+        $this->assertCount(1, $crew->projects);
+        $data = [
+            'subject' => 'Some subject',
+            'message' => 'Some message',
+            'recipents' => [
+                $crew->user->hash_id,
+            ]
+        ];
+
+        // when
+        $response = $this
+            ->actingAs($producer)
+            ->postJson(route('producer.messages.store', $project), $data);
+
+        // then
+        $response->assertSee('Message sent.');
+    }
+
+    /**
+     * @test
+     */
+    public function producer_cant_send_message_to_crew_who_has_not_applied()
+    {
+        // $this->withoutExceptionHandling();
+        // given
+        $producer = factory(User::class)->states('withProducerRole')->create();
+        $randomCrew = factory(User::class)->states('withCrewRole')->create();
+        $data = [
+            'subject' => 'Some subject',
+            'message' => 'Some message',
+            'recipents' => [
+                $randomCrew->id,
+            ]
+        ];
+
+        // when
+        $response = $this
+            ->actingAs($producer)
+            ->postJson(route('messages.store'), $data);
+
+        // then
+        $response->assertSee('Message not sent.');
+    }
+
+    /**
+     * @test
+     */
+    public function producer_can_send_message_to_multiple_crews_who_applied()
+    {
+        // given
+        // producer
+        // crews that applied
+
+        // when
+        // procuder is trying to send message to crews
+
+        // then
+        // producer sees a toast that all of them are messaged
+    }
+
 
     public function getData($overrides = [])
     {
