@@ -144,7 +144,6 @@ class StoreFeatureTest extends TestCase
         ]);
         $crew = factory(Crew::class)->create();
         $project->contributors()->attach($crew);
-        // $crew->projects()->attach($project);
         $this->assertDatabaseHas('crew_project', [
             'crew_id' => $crew->id,
             'project_id' => $project->id
@@ -153,7 +152,7 @@ class StoreFeatureTest extends TestCase
         $data = [
             'subject' => 'Some subject',
             'message' => 'Some message',
-            'recipents' => [
+            'recipients' => [
                 $crew->user->hash_id,
             ]
         ];
@@ -176,10 +175,11 @@ class StoreFeatureTest extends TestCase
         // given
         $producer = factory(User::class)->states('withProducerRole')->create();
         $randomCrew = factory(User::class)->states('withCrewRole')->create();
+        $project = factory(Project::class)->create();
         $data = [
             'subject' => 'Some subject',
             'message' => 'Some message',
-            'recipents' => [
+            'recipients' => [
                 $randomCrew->id,
             ]
         ];
@@ -187,10 +187,15 @@ class StoreFeatureTest extends TestCase
         // when
         $response = $this
             ->actingAs($producer)
-            ->postJson(route('messages.store'), $data);
+            ->postJson(route('producer.messages.store', $project), $data);
 
         // then
-        $response->assertSee('Message not sent.');
+        $response->assertJson([
+            'message' => 'The given data was invalid.',
+            'errors' => [
+                'recipients' => ['The selected recipients is invalid.'],
+            ]
+        ]);
     }
 
     /**
@@ -199,14 +204,30 @@ class StoreFeatureTest extends TestCase
     public function producer_can_send_message_to_multiple_crews_who_applied()
     {
         // given
-        // producer
-        // crews that applied
+        $producer = factory(User::class)->states('withProducerRole')->create();
+        $crews = factory(Crew::class, 3)->create();
+        $project = factory(Project::class)->create([
+            'user_id' => $producer->id,
+        ]);
+        dump(Crew::all()->toArray());
+        $project->contributors()->attach($crews);
+        $data = [
+            'subject' => 'Some subject',
+            'message' => 'Some message',
+            'recipients' => [
+                Crew::find(1)->user->hash_id,
+                Crew::find(2)->user->hash_id,
+                Crew::find(3)->user->hash_id,
+            ]
+        ];
 
         // when
-        // procuder is trying to send message to crews
+        $response = $this
+            ->actingAs($producer)
+            ->postJson(route('producer.messages.store', $project), $data);
 
         // then
-        // producer sees a toast that all of them are messaged
+        $response->assertSee('Messages sent.');
     }
 
 

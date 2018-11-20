@@ -7,6 +7,11 @@ use App\Http\Requests\ProducerStoreMessageRequest;
 use App\Models\Project;
 use App\Models\Role;
 use App\Models\User;
+use Carbon\Carbon;
+use Cmgmyr\Messenger\Models\Message;
+use Cmgmyr\Messenger\Models\Participant;
+use Cmgmyr\Messenger\Models\Thread;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 
 class MessagesController extends Controller
@@ -59,13 +64,14 @@ class MessagesController extends Controller
             Participant::create([
                 'thread_id' => $thread->id,
                 'user_id' => Auth::id(),
-                'last_read' => new Carbon,
+                'last_read' => new Carbon(),
             ]);
 
-            $thread->addParticipant($response['recipeint']);
+            $user = User::whereHashId($recipient)->first();
+            $thread->addParticipant($user->id);
         }
 
-        // check number of emails sent
-        return 'Message sent.';
+        // TODO: check number of emails sent
+        return str_plural('Message', count($request['recipients'])) . ' sent.';
     }
 }
