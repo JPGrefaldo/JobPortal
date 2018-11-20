@@ -47,4 +47,9 @@ class Project extends Model
     {
         return $this->hasMany(ProjectJob::class);
     }
+
+    public function contributors()
+    {
+        return $this->belongsToMany(Crew::class);
+    }
 }

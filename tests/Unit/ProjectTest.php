@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Models\Crew;
 use App\Models\Project;
 use App\Models\ProjectJob;
 use App\Models\ProjectType;
@@ -62,5 +63,21 @@ class ProjectTest extends TestCase
 
         // then
         $this->assertCount(3, $project->jobs);
+    }
+
+    /**
+     * @test
+     */
+    public function contributors()
+    {
+        // given
+        $project = factory(Project::class)->create();
+        $crews = factory(Crew::class, 3)->create();
+
+        // when
+        $project->contributors()->attach($crews);
+
+        // then
+        $this->assertCount(3, $project->contributors);
     }
 }

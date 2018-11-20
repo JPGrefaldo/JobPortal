@@ -18,6 +18,7 @@ class User extends Authenticatable
 
         static::created(function ($user) {
             $user->hash_id = Hashids::encode($user->id);
+            $user->save();
         });
     }
     /**
@@ -102,6 +103,11 @@ class User extends Authenticatable
     public function crew()
     {
         return $this->hasOne(Crew::class);
+    }
+
+    public function projects()
+    {
+        return $this->hasMany(Project::class);
     }
 
     /**
