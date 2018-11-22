@@ -208,7 +208,6 @@ class StoreFeatureTest extends TestCase
         $project = factory(Project::class)->create([
             'user_id' => $producer->id,
         ]);
-        dump(Crew::all()->toArray());
         $project->contributors()->attach($crews);
         $data = [
             'subject' => 'Some subject',
