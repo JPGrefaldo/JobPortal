@@ -39,7 +39,7 @@ class CrewsFeatureTest extends TestCase
         $this->assertArraySubset(
             [
                 'bio'   => 'some bio',
-                'photo' => 'photos/' . $user->uuid . '/' . $data['photo']->hashName(),
+                'photo' => 'photos/' . $user->hash_id . '/' . $data['photo']->hashName(),
             ],
             $crew->toArray()
         );
@@ -51,7 +51,7 @@ class CrewsFeatureTest extends TestCase
 
         $this->assertArraySubset(
             [
-                'url'     => 'resumes/' . $user->uuid . '/' . $data['resume']->hashName(),
+                'url'     => 'resumes/' . $user->hash_id . '/' . $data['resume']->hashName(),
                 'crew_id' => $crew->id,
                 'general' => 1,
             ],
@@ -158,7 +158,7 @@ class CrewsFeatureTest extends TestCase
 
         $this->assertArraySubset(
             [
-                'photo' => 'photos/' . $user->uuid . '/' . $data['photo']->hashName(),
+                'photo' => 'photos/' . $user->hash_id . '/' . $data['photo']->hashName(),
             ],
             $crew->toArray()
         );
@@ -334,7 +334,7 @@ class CrewsFeatureTest extends TestCase
         $this->assertArraySubset(
             [
                 'bio'   => 'updated bio',
-                'photo' => 'photos/' . $user->uuid . '/' . $data['photo']->hashName(),
+                'photo' => 'photos/' . $user->hash_id . '/' . $data['photo']->hashName(),
             ],
             $crew->toArray()
         );
@@ -346,7 +346,7 @@ class CrewsFeatureTest extends TestCase
 
         $this->assertArraySubset(
             [
-                'url'     => 'resumes/' . $user->uuid . '/' . $data['resume']->hashName(),
+                'url'     => 'resumes/' . $user->hash_id . '/' . $data['resume']->hashName(),
                 'crew_id' => $crew->id,
                 'general' => 1,
             ],
@@ -439,7 +439,7 @@ class CrewsFeatureTest extends TestCase
 
         $this->assertArraySubset(
             [
-                'url'     => 'resumes/' . $user->uuid . '/' . $data['resume']->hashName(),
+                'url'     => 'resumes/' . $user->hash_id . '/' . $data['resume']->hashName(),
                 'crew_id' => $crew->id,
                 'general' => 1,
             ],

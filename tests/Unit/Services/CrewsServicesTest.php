@@ -94,7 +94,7 @@ class CrewsServicesTest extends TestCase
         $this->assertArraySubset(
             [
                 'bio'   => 'some bio',
-                'photo' => 'photos/' . $user->uuid . '/' . $data['photo']->hashName(),
+                'photo' => 'photos/' . $user->hash_id . '/' . $data['photo']->hashName(),
             ],
             $crew->toArray()
         );
@@ -105,7 +105,7 @@ class CrewsServicesTest extends TestCase
 
         $this->assertArraySubset(
             [
-                'url'     => 'resumes/' . $user->uuid . '/' . $data['resume']->hashName(),
+                'url'     => 'resumes/' . $user->hash_id . '/' . $data['resume']->hashName(),
                 'crew_id' => $crew->id,
                 'general' => 1,
             ],
@@ -198,7 +198,7 @@ class CrewsServicesTest extends TestCase
         $this->assertArraySubset(
             [
                 'bio'   => 'some bio',
-                'photo' => 'photos/' . $user->uuid . '/' . $photoFile->hashName(),
+                'photo' => 'photos/' . $user->hash_id . '/' . $photoFile->hashName(),
             ],
             $crew->toArray()
         );
@@ -220,7 +220,7 @@ class CrewsServicesTest extends TestCase
 
         $this->assertArraySubset(
             [
-                'url'     => 'resumes/' . $crew->user->uuid . '/' . $resumeFile->hashName(),
+                'url'     => 'resumes/' . $crew->user->hash_id . '/' . $resumeFile->hashName(),
                 'crew_id' => $crew->id,
                 'general' => 1,
             ],
@@ -485,7 +485,7 @@ class CrewsServicesTest extends TestCase
         $this->assertArraySubset(
             [
                 'bio'   => 'new bio',
-                'photo' => 'photos/' . $crew->user->uuid . '/' . $photoFile->hashName(),
+                'photo' => 'photos/' . $crew->user->hash_id . '/' . $photoFile->hashName(),
             ],
             $crew->toArray()
         );
@@ -536,7 +536,7 @@ class CrewsServicesTest extends TestCase
 
         $this->assertArraySubset(
             [
-                'url'     => 'resumes/' . $crew->user->uuid . '/' . $resumeFile->hashName(),
+                'url'     => 'resumes/' . $crew->user->hash_id . '/' . $resumeFile->hashName(),
                 'crew_id' => $crew->id,
                 'general' => 1,
             ],
@@ -560,7 +560,7 @@ class CrewsServicesTest extends TestCase
 
         $this->assertArraySubset(
             [
-                'url'     => 'resumes/' . $crew->user->uuid . '/' . $resumeFile->hashName(),
+                'url'     => 'resumes/' . $crew->user->hash_id . '/' . $resumeFile->hashName(),
                 'crew_id' => $crew->id,
                 'general' => 1,
             ],

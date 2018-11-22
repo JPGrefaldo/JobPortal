@@ -63,7 +63,6 @@ class StoreFeatureTest extends TestCase
         $response->assertDontSee('The project does not exist.');
         $response->assertDontSee('You have to select a recipient.');
         $response->assertSuccessful();
-        dump($response->getContent());
     }
 
     // "// validation\r",
