@@ -18,7 +18,7 @@ class StoreFeatureTest extends TestCase
      */
     public function fail_authorization()
     {
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
         $crew = factory(User::class)->states('withCrewRole')->create();
         $project = factory(Project::class)->create([
             'user_id' => $crew->id,
@@ -39,7 +39,7 @@ class StoreFeatureTest extends TestCase
      */
     public function pass_authorization()
     {
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
         // given
         $producer = factory(User::class)->states('withProducerRole')->create();
         $project = factory(Project::class)->create([
@@ -104,7 +104,7 @@ class StoreFeatureTest extends TestCase
      */
     public function pass_validation()
     {
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
         // given
         $producer = factory(User::class)->states('withProducerRole')->create();
         $project = factory(Project::class)->create([
@@ -126,14 +126,13 @@ class StoreFeatureTest extends TestCase
         // then
         $response->assertSuccessful();
     }
-    // "// general logic\r",    use RefreshDatabase, SeedDatabaseAfterRefresh;
 
     /**
      * @test
      */
     public function producer_can_send_message_to_a_crew_who_applied()
     {
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
         // given
         $producer = factory(User::class)->states('withProducerRole')->create();
         $project = factory(Project::class)->create([
