@@ -79,7 +79,7 @@ class CrewsServices
         $data = array_merge(
             $this->prepareCrewData($data, [
                 'file' => $photoFile,
-                'dir'  => $user->uuid,
+                'dir'  => $user->hash_id,
             ]),
             ['user_id' => $user->id]
         );
@@ -101,7 +101,7 @@ class CrewsServices
         $data = array_merge(
             $this->prepareGeneralFileData([
                 'file' => $resumeFile,
-                'dir'  => $crew->user->uuid,
+                'dir'  => $crew->user->hash_id,
             ], 'resume'),
             ['general' => 1]
         );
@@ -128,7 +128,7 @@ class CrewsServices
         $data = array_merge(
             $this->prepareGeneralFileData([
                 'file' => $reelFile,
-                'dir'  => $crew->user->uuid,
+                'dir'  => $crew->user->hash_id,
             ], 'reel'),
             ['general' => 1],
             ['type' => 'file']
@@ -285,7 +285,7 @@ class CrewsServices
         $hasPhoto = ($photoFile instanceof UploadedFile);
         $photoData = [
             'file' => $photoFile,
-            'dir'  => ($hasPhoto) ? $crew->user->uuid : '',
+            'dir'  => ($hasPhoto) ? $crew->user->hash_id : '',
         ];
         $data = $this->prepareCrewData($data, $photoData);
 
@@ -340,7 +340,7 @@ class CrewsServices
 
         $data = $this->prepareGeneralFileData([
             'file' => $resumeFile,
-            'dir'  => $crew->user->uuid,
+            'dir'  => $crew->user->hash_id,
         ], 'resume');
 
         // delete the old resume and store the new one
@@ -372,7 +372,7 @@ class CrewsServices
 
         $data = $this->prepareGeneralFileData([
             'file' => $reelFile,
-            'dir'  => $crew->user->uuid,
+            'dir'  => $crew->user->hash_id,
         ], 'reel');
 
         // delete the old resume and store the new one
