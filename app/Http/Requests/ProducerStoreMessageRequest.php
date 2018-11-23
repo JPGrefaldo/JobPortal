@@ -44,8 +44,8 @@ class ProducerStoreMessageRequest extends FormRequest
         return [
             'subject' => 'required|string',
             'message' => 'required|string',
-            'recipients' => 'required|array',
-            'recipients' => 'required|exists:users,hash_id',
+            // TODO: find a way to check if the user belongs to the project
+            'recipients' => 'required|array|exists:users,hash_id',
         ];
     }
 }
