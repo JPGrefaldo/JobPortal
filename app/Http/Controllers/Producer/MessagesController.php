@@ -74,4 +74,9 @@ class MessagesController extends Controller
         // TODO: check number of emails sent
         return str_plural('Message', count($request['recipients'])) . ' sent.';
     }
+
+    public function update()
+    {
+        return 'Message Flagged.';
+    }
 }
