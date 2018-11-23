@@ -11,14 +11,13 @@ use Cmgmyr\Messenger\Models\Message;
 use Cmgmyr\Messenger\Models\Participant;
 use Cmgmyr\Messenger\Models\Thread;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Input;
 
 class MessagesController extends Controller
 {
     public function store(ProducerStoreMessageRequest $request, Project $project)
     {
         // find the crew with the given hash_id
-        foreach (Input::get('recipients') as $recipient) {
+        foreach ($request['recipients'] as $recipient) {
             $recipientUser = User::whereHashId($recipient)->first();
             $recipentCrew = $recipientUser->crew;
 
