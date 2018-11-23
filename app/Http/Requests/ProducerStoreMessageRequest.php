@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Role;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ProducerStoreMessageRequest extends FormRequest
@@ -13,6 +14,18 @@ class ProducerStoreMessageRequest extends FormRequest
      */
     public function authorize()
     {
+        $producer = auth()->user();
+        $project = $this->route('project');
+        if (! $producer->whereHas('roles', function ($query) {
+            $query->where('name', Role::PRODUCER);
+        })->get()) {
+            return false;
+        }
+
+        if (! $producer->projects->contains($project->id)) {
+            return false;
+        }
+
         return true;
     }
 

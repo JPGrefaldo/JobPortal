@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Producer;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProducerStoreMessageRequest;
 use App\Models\Project;
-use App\Models\Role;
 use App\Models\User;
 use Carbon\Carbon;
 use Cmgmyr\Messenger\Models\Message;
@@ -18,16 +17,6 @@ class MessagesController extends Controller
 {
     public function store(ProducerStoreMessageRequest $request, Project $project)
     {
-        // move this to request
-        if (! auth()->user()->whereHas('roles', function ($query) {
-            $query->where('name', Role::PRODUCER);
-        })->get()) {
-            return 'You are not a producer';
-        }
-
-        // move this to request
-        // check if producer owns the project
-
         // move this to request
         if (! $project->exists()) {
             return 'The project does not exist.';
