@@ -16,40 +16,30 @@ class MessagesController extends Controller
 {
     public function store(ProducerStoreMessageRequest $request, Project $project)
     {
-        // find the crew with the given hash_id
         foreach ($request['recipients'] as $recipient) {
             $recipientUser = User::whereHashId($recipient)->first();
-            $recipentCrew = $recipientUser->crew;
 
-            // move this to request
-            if (! $project->contributors->contains($recipentCrew)) {
-                return 'Crew does not belong to the project.';
-            }
-
-            // create thread
             $thread = Thread::create([
                 'subject' => $request['subject'],
             ]);
 
-            // create message
             Message::create([
                 'thread_id' => $thread->id,
                 'user_id' => Auth::id(),
                 'body' => $request['message'],
             ]);
 
-            // include sender in thread as participant
             Participant::create([
                 'thread_id' => $thread->id,
                 'user_id' => Auth::id(),
                 'last_read' => new Carbon(),
             ]);
 
-            $user = User::whereHashId($recipient)->first();
-            $thread->addParticipant($user->id);
+            $thread->addParticipant($recipientUser->id);
         }
 
         // TODO: check number of emails sent
+        // TODO: queue send emails
         return str_plural('Message', count($request['recipients'])) . ' sent.';
     }
 }
