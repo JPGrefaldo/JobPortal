@@ -16,9 +16,14 @@ class ProducerStoreMessageRequest extends FormRequest
     {
         $producer = auth()->user();
         $project = $this->route('project');
+
         if (! $producer->whereHas('roles', function ($query) {
             $query->where('name', Role::PRODUCER);
         })->get()) {
+            return false;
+        }
+
+        if (! $project->exists()) {
             return false;
         }
 
@@ -40,7 +45,7 @@ class ProducerStoreMessageRequest extends FormRequest
             'subject' => 'required|string',
             'message' => 'required|string',
             'recipients' => 'required|array',
-            'recipients' => 'exists:users,hash_id',
+            'recipients' => 'required|exists:users,hash_id',
         ];
     }
 }

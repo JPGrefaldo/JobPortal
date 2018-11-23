@@ -94,7 +94,7 @@ class StoreFeatureTest extends TestCase
             'errors' => [
                 'subject' => ['The subject field is required.'],
                 'message' => ['The message field is required.'],
-                'recipients' => ['The selected recipients is invalid.'],
+                'recipients' => ['The recipients field is required.'],
             ]
         ]);
     }

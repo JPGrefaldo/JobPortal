@@ -17,16 +17,6 @@ class MessagesController extends Controller
 {
     public function store(ProducerStoreMessageRequest $request, Project $project)
     {
-        // move this to request
-        if (! $project->exists()) {
-            return 'The project does not exist.';
-        }
-
-        // move this to request
-        if (! Input::has('recipients')) {
-            return 'You have to select a recipient.';
-        }
-
         // find the crew with the given hash_id
         foreach (Input::get('recipients') as $recipient) {
             $recipientUser = User::whereHashId($recipient)->first();
