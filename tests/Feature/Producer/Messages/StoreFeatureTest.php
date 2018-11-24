@@ -94,7 +94,7 @@ class StoreFeatureTest extends TestCase
             'errors' => [
                 'subject' => ['The subject field is required.'],
                 'message' => ['The message field is required.'],
-                'recipients' => ['The selected recipients is invalid.'],
+                'recipients' => ['The recipients field is required.'],
             ]
         ]);
     }
@@ -173,7 +173,9 @@ class StoreFeatureTest extends TestCase
         // given
         $producer = factory(User::class)->states('withProducerRole')->create();
         $randomCrew = factory(User::class)->states('withCrewRole')->create();
-        $project = factory(Project::class)->create();
+        $project = factory(Project::class)->create([
+            'user_id' => $producer->id,
+        ]);
         $data = [
             'subject' => 'Some subject',
             'message' => 'Some message',
@@ -201,6 +203,7 @@ class StoreFeatureTest extends TestCase
      */
     public function producer_can_send_message_to_multiple_crews_who_applied()
     {
+        // $this->withExceptionHandling();
         // given
         $producer = factory(User::class)->states('withProducerRole')->create();
         $crews = factory(Crew::class, 3)->create();
