@@ -42,4 +42,9 @@ class MessagesController extends Controller
         // TODO: queue send emails
         return str_plural('Message', count($request['recipients'])) . ' sent.';
     }
+
+    public function update()
+    {
+        return 'Message Flagged.';
+    }
 }
