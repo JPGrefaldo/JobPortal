@@ -6,7 +6,7 @@ use Faker\Generator as Faker;
 
 $factory->define(\App\Models\PayType::class, function (Faker $faker) {
     return [
-        'name'     => $faker->word,
+        'name'     => $faker->unique()->word,
         'has_rate' => $faker->boolean,
     ];
 });

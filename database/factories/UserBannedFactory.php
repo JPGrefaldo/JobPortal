@@ -10,6 +10,6 @@ $factory->define(App\Models\UserBanned::class, function (Faker $faker) {
 
     return [
         'user_id' => factory(User::class)->create()->id,
-        'reason' => $faker->paragraph,
+        'reason' => $faker->unique()->paragraph,
     ];
 });

@@ -9,7 +9,7 @@ $factory->define(App\Models\CrewSocial::class, function (Faker $faker) {
         'crew_id'             => function () {
             return factory(\App\Models\Crew::class)->create()->id;
         },
-        'url'                 => $faker->url,
+        'url'                 => $faker->unique()->url,
         'social_link_type_id' => 1,
     ];
 });

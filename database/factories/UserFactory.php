@@ -10,8 +10,8 @@ $factory->define(App\Models\User::class, function (Faker $faker) {
     $faker->addProvider(new \App\Faker\PhoneProvider($faker));
 
     return [
-        'first_name'     => $faker->firstName,
-        'last_name'      => $faker->lastName,
+        'first_name'     => $faker->unique()->firstName,
+        'last_name'      => $faker->unique()->lastName,
         'email'          => $faker->unique()->safeEmail,
         'phone'          => StrUtils::stripNonNumeric($faker->unformattedPhoneNumber()),
         'password'       => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm',

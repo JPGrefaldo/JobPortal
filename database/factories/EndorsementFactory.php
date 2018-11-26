@@ -13,8 +13,8 @@ $factory->define(App\Models\Endorsement::class, function (Faker $faker) {
         'endorsement_request_id' => $endorsement_request_id ?: function () {
             return factory(\App\Models\EndorsementRequest::class)->create()->id;
         },
-        'endorser_name'          => $faker->name,
-        'endorser_email'         => $faker->email,
+        'endorser_name'          => $faker->unique()->name,
+        'endorser_email'         => $faker->unique()->email,
     ];
 });
 
@@ -31,6 +31,6 @@ $factory->state(App\Models\Endorsement::class, 'approved', function (Faker $fake
 
 $factory->state(App\Models\Endorsement::class, 'withComment', function (Faker $faker) {
     return [
-        'comment' => $faker->paragraph,
+        'comment' => $faker->unique()->paragraph,
     ];
 });

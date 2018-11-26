@@ -6,7 +6,7 @@ use Faker\Generator as Faker;
 
 $factory->define(\App\Models\PositionTypes::class, function (Faker $faker) {
     return [
-        'name'        => $faker->words(2, true),
+        'name'        => $faker->unique()->words(2, true),
         'description' => $faker->sentence,
     ];
 });

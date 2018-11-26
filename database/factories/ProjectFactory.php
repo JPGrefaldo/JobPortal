@@ -6,8 +6,8 @@ use Faker\Generator as Faker;
 
 $factory->define(\App\Models\Project::class, function (Faker $faker) {
     return [
-        'title'                  => $faker->words(3, true),
-        'production_name'        => $faker->word(3, true),
+        'title'                  => $faker->unique()->words(3, true),
+        'production_name'        => $faker->unique()->word(3, true),
         'production_name_public' => $faker->boolean,
         'project_type_id'        => function () {
             return factory(\App\Models\ProjectType::class)->create()->id;
@@ -18,8 +18,8 @@ $factory->define(\App\Models\Project::class, function (Faker $faker) {
         'site_id'                => function () {
             return factory(\App\Models\Site::class)->create()->id;
         },
-        'description'            => $faker->sentence,
-        'location'               => $faker->address,
+        'description'            => $faker->unique()->sentence,
+        'location'               => $faker->unique()->address,
         'status'                 => 0,
     ];
 });

@@ -9,7 +9,7 @@ $factory->define(App\Models\CrewReel::class, function (Faker $faker) {
         'crew_id' => function () {
             return factory(\App\Models\Crew::class)->create()->id;
         },
-        'url'     => $faker->url,
+        'url'     => $faker->unique()->url,
         'general' => 1,
     ];
 });

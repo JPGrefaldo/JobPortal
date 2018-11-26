@@ -6,7 +6,7 @@ use Faker\Generator as Faker;
 
 $factory->define(App\Models\SocialLinkType::class, function (Faker $faker) {
     return [
-        'name' => $faker->company,
+        'name' => $faker->unique()->company,
         'image' => 'photos/' . $faker->uuid . '/' . $faker->sha1 . '.png',
     ];
 });

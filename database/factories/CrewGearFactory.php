@@ -12,6 +12,6 @@ $factory->define(App\Models\CrewGear::class, function (Faker $faker) {
         'crew_id'     => $crew_id ?: function () {
             return factory(Crew::class)->create()->id;
         },
-        'description' => $faker->paragraph,
+        'description' => $faker->unique()->paragraph,
     ];
 });
