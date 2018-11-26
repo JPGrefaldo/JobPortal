@@ -11,6 +11,9 @@ class MessengerFeatureTest extends TestCase
      */
     public function crew_can_reply()
     {
+        $this->markTestIncomplete(
+            'This test has not been implemented yet.'
+        );
         // given
         // message from producer
         // crew
@@ -27,6 +30,9 @@ class MessengerFeatureTest extends TestCase
      */
     public function crew_cannot_initiate()
     {
+        $this->markTestIncomplete(
+            'This test has not been implemented yet.'
+        );
         // given
         // crew
 
@@ -42,6 +48,9 @@ class MessengerFeatureTest extends TestCase
      */
     public function crew_gets_an_email_when_messaged()
     {
+        $this->markTestIncomplete(
+            'This test has not been implemented yet.'
+        );
         // given
         // crew
 
