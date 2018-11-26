@@ -41,7 +41,9 @@ class AddUserToSiteTest extends TestCase
             'user_id' => $user->id,
         ]);
 
-        $this->service->execute($user, Site::whereHostname('crewcalls.test')->first());
+        $site = factory(Site::class)->create();
+
+        $this->service->execute($user, $site);
 
         $this->assertDatabaseHas('user_sites', [
             'user_id' => $user->id,
