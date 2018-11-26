@@ -109,36 +109,6 @@ class CrewTest extends TestCase
     /**
      * @test
      */
-    public function endorsementRequests()
-    {
-        // given
-        $position = factory(Position::class)->create();
-        $randomPosition = factory(Position::class)->create();
-        $crewPosition = factory(CrewPosition::class)->create([
-            'crew_id' => $this->crew->id,
-            'position_id' => $position->id
-        ]);
-
-        // when
-        $endorsementRequest = EndorsementRequest::create([
-            'crew_position_id' => $position->id,
-            'token' => EndorsementRequest::generateToken(),
-        ]);
-
-        // then
-        $this->assertEquals(
-            $endorsementRequest->token,
-            $this->crew->endorsementRequests()->first()->token
-        );
-        $this->assertInstanceOf(
-            EndorsementRequest::class,
-            $this->crew->endorsementRequests()->first()
-        );
-    }
-
-    /**
-     * @test
-     */
     public function applyFor()
     {
         // given
@@ -167,28 +137,6 @@ class CrewTest extends TestCase
     /**
      * @test
      */
-    public function approve()
-    {
-        // given
-        $endorsementRequest = factory(EndorsementRequest::class)->create();
-        $comment = 'Some comment';
-
-        // when
-        $this->crew->approve($endorsementRequest, ['comment' => $comment]);
-        $this->crew->approve($endorsementRequest, ['comment' => $comment]);
-
-        // then
-        $this->assertDatabaseHas('endorsements', [
-            'endorsement_request_id' => $endorsementRequest->id,
-            'endorser_id' => $this->crew->user->id,
-            'comment' => $comment,
-        ]);
-        $this->assertCount(1, Endorsement::all());
-    }
-
-    /**
-     * @test
-     */
     public function hasPosition()
     {
         // given
@@ -205,73 +153,6 @@ class CrewTest extends TestCase
         // then
         $this->assertTrue($this->crew->hasPosition($appliedPosition));
         $this->assertFalse($this->crew->hasPosition($randomPosition));
-    }
-
-    /**
-     * @test
-     * @covers \App\Models\Crew::endorsements
-     */
-    public function endorsements()
-    {
-        $crewPosition = factory(CrewPosition::class)->create([
-            'crew_id' => $this->crew->id,
-        ]);
-        $endorsementRequest = factory(EndorsementRequest::class)->create([
-            'crew_position_id' => $crewPosition->id,
-        ]);
-
-        $endorsements = factory(Endorsement::class)->states('approved')->create([
-            'endorser_id' => $this->crew->id,
-        ]);
-
-        $this->assertEquals(
-            $this->crew->endorsements->pluck('approved_at'),
-            $endorsements->pluck('approved_at')
-        );
-    }
-
-    /**
-     * @test
-     * @covers \App\Models\Crew::endorsements
-     */
-    public function no_endorsements()
-    {
-        $this->assertEquals(
-            0,
-            $this->crew->endorsements->count()
-        );
-    }
-
-    /**
-     * @test
-     * @covers \App\Models\Crew::approvedEndorsements
-     */
-    public function approved_endorsements()
-    {
-        $crewPosition = factory(CrewPosition::class)->create([
-            'crew_id' => $this->crew->id,
-        ]);
-        $endorsementRequest = factory(EndorsementRequest::class)->create([
-            'crew_position_id' => $crewPosition->id,
-        ]);
-
-        $endorsements = factory(Endorsement::class)->states('approved')->create([
-            'endorser_id' => $this->crew->id,
-        ]);
-
-        $this->assertEquals(
-            $this->crew->approvedEndorsements->pluck('approved_at'),
-            $endorsements->pluck('approved_at')
-        );
-    }
-
-    /**
-     * @test
-     * @covers \App\Models\Crew::approvedEndorsements
-     */
-    public function no_approved_endorsements()
-    {
-        $this->assertEquals(0, $this->crew->approvedEndorsements->count());
     }
 
     /**
