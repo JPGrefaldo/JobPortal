@@ -19,16 +19,6 @@ class ProducerStoreMessageRequest extends FormRequest
         $producer = auth()->user();
         $this->project = $this->route('project');
 
-        if (! $producer->whereHas('roles', function ($query) {
-            $query->where('name', Role::PRODUCER);
-        })->get()) {
-            return false;
-        }
-
-        if (! $this->project->exists()) {
-            return false;
-        }
-
         if (! $producer->projects->contains($this->project->id)) {
             return false;
         }

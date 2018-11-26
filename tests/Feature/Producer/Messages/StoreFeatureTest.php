@@ -13,10 +13,11 @@ class StoreFeatureTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
 
+    // authorization tests
     /**
      * @test
      */
-    public function fail_authorization()
+    public function only_producers_can_message()
     {
         // $this->withoutExceptionHandling();
         $crew = factory(User::class)->states('withCrewRole')->create();
@@ -34,11 +35,29 @@ class StoreFeatureTest extends TestCase
         $response->assertRedirect();
     }
 
+    /**
+     * @test
+     */
+    public function producer_must_own_project()
+    {
+        // given
+        $producer = factory(User::class)->states('withProducerRole')->create();
+        $project = factory(Project::class)->create();
+
+        // when
+        $response = $this
+            ->actingAs($producer)
+            ->postJson(route('producer.messages.store', $project));
+
+        // then
+        $response->assertStatus(403);
+    }
+
     // validation tests
     /**
      * @test
      */
-    public function fail_validation()
+    public function all_fields_are_required()
     {
         // $this->withoutExceptionHandling();
         // given
@@ -97,33 +116,6 @@ class StoreFeatureTest extends TestCase
                 'recipients' => ['The selected recipients is invalid.'],
             ]
         ]);
-    }
-
-    /**
-     * @test
-     */
-    public function producer_can_send_message_to_a_crew_who_applied()
-    {
-        // $this->withoutExceptionHandling();
-        // given
-        $producer = factory(User::class)->states('withProducerRole')->create();
-        $project = factory(Project::class)->create([
-            'user_id' => $producer->id,
-        ]);
-        $crew = factory(Crew::class)->create();
-        $project->contributors()->attach($crew);
-        $data = $this->getData();
-        $data['recipients'] = [
-            $crew->user->hash_id,
-        ];
-
-        // when
-        $response = $this
-            ->actingAs($producer)
-            ->postJson(route('producer.messages.store', $project), $data);
-
-        // then
-        $response->assertSee('Message sent.');
     }
 
     /**
