@@ -3,10 +3,12 @@
 namespace App\Http\Requests;
 
 use App\Models\Role;
+use App\Rules\ProducerMessage;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ProducerStoreMessageRequest extends FormRequest
 {
+    protected $project;
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -15,7 +17,7 @@ class ProducerStoreMessageRequest extends FormRequest
     public function authorize()
     {
         $producer = auth()->user();
-        $project = $this->route('project');
+        $this->project = $this->route('project');
 
         if (! $producer->whereHas('roles', function ($query) {
             $query->where('name', Role::PRODUCER);
@@ -23,11 +25,11 @@ class ProducerStoreMessageRequest extends FormRequest
             return false;
         }
 
-        if (! $project->exists()) {
+        if (! $this->project->exists()) {
             return false;
         }
 
-        if (! $producer->projects->contains($project->id)) {
+        if (! $producer->projects->contains($this->project->id)) {
             return false;
         }
 
@@ -44,8 +46,13 @@ class ProducerStoreMessageRequest extends FormRequest
         return [
             'subject' => 'required|string',
             'message' => 'required|string',
-            // TODO: find a way to check if the user belongs to the project
-            'recipients' => 'required|array|exists:users,hash_id',
+            'recipients' => [
+                'required',
+                'array',
+                'distinct',
+                'exists:users,hash_id',
+                new ProducerMessage($this->project),
+            ]
         ];
     }
 }
