@@ -16,9 +16,8 @@ class MessagesController extends Controller
 {
     public function store(ProducerStoreMessageRequest $request, Project $project)
     {
-        foreach ($request['recipients'] as $recipient) {
-            $recipientUser = User::whereHashId($recipient)->first();
-
+        $recipients = User::whereIn('hash_id', $request['recipients']);
+        foreach ($recipients as $recipient) {
             $thread = Thread::create([
                 'subject' => $request['subject'],
             ]);
@@ -35,7 +34,7 @@ class MessagesController extends Controller
                 'last_read' => new Carbon(),
             ]);
 
-            $thread->addParticipant($recipientUser->id);
+            $thread->addParticipant($recipient->id);
         }
 
         // TODO: check number of emails sent

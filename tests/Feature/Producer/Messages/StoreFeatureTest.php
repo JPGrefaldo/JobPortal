@@ -13,10 +13,11 @@ class StoreFeatureTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
 
+    // authorization tests
     /**
      * @test
      */
-    public function fail_authorization()
+    public function only_producers_can_message()
     {
         // $this->withoutExceptionHandling();
         $crew = factory(User::class)->states('withCrewRole')->create();
@@ -37,39 +38,26 @@ class StoreFeatureTest extends TestCase
     /**
      * @test
      */
-    public function pass_authorization()
+    public function producer_must_own_project()
     {
-        // $this->withoutExceptionHandling();
         // given
         $producer = factory(User::class)->states('withProducerRole')->create();
-        $project = factory(Project::class)->create([
-            'user_id' => $producer->id,
-        ]);
-        factory(Crew::class, 3)->create();
-        $data = $this->getData();
-        $data['recipients'] = [
-            Crew::find(1)->user->hash_id,
-            Crew::find(2)->user->hash_id,
-            Crew::find(3)->user->hash_id,
-        ];
+        $project = factory(Project::class)->create();
 
         // when
         $response = $this
             ->actingAs($producer)
-            ->postJson(route('producer.messages.store', $project), $data);
+            ->postJson(route('producer.messages.store', $project));
 
         // then
-        $response->assertDontSee('You are not a producer.');
-        $response->assertDontSee('The project does not exist.');
-        $response->assertDontSee('You have to select a recipient.');
-        $response->assertSuccessful();
+        $response->assertStatus(403);
     }
 
-    // "// validation\r",
+    // validation tests
     /**
      * @test
      */
-    public function fail_validation()
+    public function all_fields_are_required()
     {
         // $this->withoutExceptionHandling();
         // given
@@ -102,87 +90,19 @@ class StoreFeatureTest extends TestCase
     /**
      * @test
      */
-    public function pass_validation()
+    public function producer_cant_send_message_to_crews_who_has_not_applied()
     {
         // $this->withoutExceptionHandling();
         // given
         $producer = factory(User::class)->states('withProducerRole')->create();
+        $randomCrews = factory(Crew::class, 3)->create();
         $project = factory(Project::class)->create([
             'user_id' => $producer->id,
         ]);
-        factory(Crew::class, 3)->create();
         $data = $this->getData();
-        $data['recipients'] = [
-            Crew::find(1)->user->hash_id,
-            Crew::find(2)->user->hash_id,
-            Crew::find(3)->user->hash_id,
-        ];
-
-        // when
-        $response = $this
-            ->actingAs($producer)
-            ->postJson(route('producer.messages.store', $project), $data);
-
-        // then
-        $response->assertSuccessful();
-    }
-
-    /**
-     * @test
-     */
-    public function producer_can_send_message_to_a_crew_who_applied()
-    {
-        // $this->withoutExceptionHandling();
-        // given
-        $producer = factory(User::class)->states('withProducerRole')->create();
-        $project = factory(Project::class)->create([
-            'user_id' => $producer->id,
-            'title' => 'Some project',
-            'production_name' => 'Some production name',
-        ]);
-        $crew = factory(Crew::class)->create();
-        $project->contributors()->attach($crew);
-        $this->assertDatabaseHas('crew_project', [
-            'crew_id' => $crew->id,
-            'project_id' => $project->id
-        ]);
-        $this->assertCount(1, $crew->projects);
-        $data = [
-            'subject' => 'Some subject',
-            'message' => 'Some message',
-            'recipients' => [
-                $crew->user->hash_id,
-            ]
-        ];
-
-        // when
-        $response = $this
-            ->actingAs($producer)
-            ->postJson(route('producer.messages.store', $project), $data);
-
-        // then
-        $response->assertSee('Message sent.');
-    }
-
-    /**
-     * @test
-     */
-    public function producer_cant_send_message_to_crew_who_has_not_applied()
-    {
-        // $this->withoutExceptionHandling();
-        // given
-        $producer = factory(User::class)->states('withProducerRole')->create();
-        $randomCrew = factory(User::class)->states('withCrewRole')->create();
-        $project = factory(Project::class)->create([
-            'user_id' => $producer->id,
-        ]);
-        $data = [
-            'subject' => 'Some subject',
-            'message' => 'Some message',
-            'recipients' => [
-                $randomCrew->id,
-            ]
-        ];
+        $data['recipients'] = $randomCrews->map(function ($crew) {
+            return $crew->user->hash_id;
+        });
 
         // when
         $response = $this
@@ -211,15 +131,10 @@ class StoreFeatureTest extends TestCase
             'user_id' => $producer->id,
         ]);
         $project->contributors()->attach($crews);
-        $data = [
-            'subject' => 'Some subject',
-            'message' => 'Some message',
-            'recipients' => [
-                Crew::find(1)->user->hash_id,
-                Crew::find(2)->user->hash_id,
-                Crew::find(3)->user->hash_id,
-            ]
-        ];
+        $data = $this->getData();
+        $data['recipients'] = $crews->map(function ($crew) {
+            return $crew->user->hash_id;
+        });
 
         // when
         $response = $this
@@ -229,7 +144,6 @@ class StoreFeatureTest extends TestCase
         // then
         $response->assertSee('Messages sent.');
     }
-
 
     public function getData($overrides = [])
     {
