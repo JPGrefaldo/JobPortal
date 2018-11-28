@@ -22,7 +22,7 @@ class CreateEndorsementRequestTable extends Migration
 
             $table->foreign('endorsement_id')
                 ->references('id')
-                ->on('endorsement')
+                ->on('endorsements')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
 
