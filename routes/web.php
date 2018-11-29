@@ -173,7 +173,7 @@ Route::middleware('auth')->group(function () {
                 'uses' => 'Producer\MessagesController@store'
             ]);
             //     Route::get('{id}', ['as' => 'messages.show', 'uses' => 'MessagesController@show']);
-            Route::put('{id}', [
+            Route::put('/producer/projects/{project}/messages/{message}', [
                 'as' => 'producer.messages.update',
                 'uses' => 'Producer\MessagesController@update'
             ]);

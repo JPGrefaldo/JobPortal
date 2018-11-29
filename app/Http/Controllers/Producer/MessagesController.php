@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Producer;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Producer\Message\UpdateRequest;
 use App\Http\Requests\ProducerStoreMessageRequest;
 use App\Models\Project;
 use App\Models\User;
@@ -42,8 +43,10 @@ class MessagesController extends Controller
         return str_plural('Message', count($request['recipients'])) . ' sent.';
     }
 
-    public function update()
+    public function update(UpdateRequest $request, Project $project, Message $message)
     {
+        // TODO: notify the admin
+        // TODO: email admin
         return 'Message Flagged.';
     }
 }
