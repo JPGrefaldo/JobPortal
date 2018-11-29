@@ -145,7 +145,7 @@ class StoreFeatureTest extends TestCase
         $response->assertSee('Messages sent.');
     }
 
-    public function getData($overrides = [])
+    protected function getData($overrides = [])
     {
         return [
             'subject' => 'Some subject',
