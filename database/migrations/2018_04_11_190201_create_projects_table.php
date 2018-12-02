@@ -28,6 +28,7 @@ class CreateProjectsTable extends Migration
             $table->smallInteger('status')
                   ->default(0);
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('user_id')
                   ->references('id')
