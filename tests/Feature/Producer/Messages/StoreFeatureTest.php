@@ -145,6 +145,8 @@ class StoreFeatureTest extends TestCase
         $response->assertSee('Messages sent.');
     }
 
+    // TODO: check number of emails sent
+
     protected function getData($overrides = [])
     {
         return [

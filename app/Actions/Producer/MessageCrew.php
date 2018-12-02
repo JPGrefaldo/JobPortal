@@ -32,6 +32,8 @@ class MessageCrew
             ]);
 
             $thread->addParticipant($recipient->id);
+
+            // TODO: queue send emails
         }
     }
 }
