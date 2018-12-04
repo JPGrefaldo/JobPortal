@@ -11,23 +11,34 @@ use Tests\TestCase;
 class MessengerFeatureTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
-    /**
-     * @test
-     */
-    public function producer_is_messaged_when_project_is_denied()
+
+    /** @test */
+    public function admin_project_denied()
     {
-        // given
         $admin = factory(User::class)->states('withAdminRole')->create();
         $producer = factory(User::class)->create();
         $project = factory(Project::class)->create();
+
         $project->owner()->associate($producer);
 
-        // when
-        $response = $this
-            ->actingAs($admin)
+        $response = $this->actingAs($admin)
             ->putJson(route('admin.projects.update', $project));
 
-        // then
-        $response->assertSee('Project denied successfully.');
+        $response->assertSuccessful()
+            ->assertJson([
+                'message' => 'Project denied successfully.'
+            ]);
+    }
+
+    /** @test */
+    public function admin_project_denied_unauthorize_non_admin()
+    {
+        $user = factory(User::class)->states('withCrewRole')->create();
+        $project = factory(Project::class)->create();
+
+        $response = $this->actingAs($user)
+            ->putJson(route('admin.projects.update', $project));
+
+        $response->assertRedirect('/');
     }
 }

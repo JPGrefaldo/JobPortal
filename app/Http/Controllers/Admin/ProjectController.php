@@ -62,15 +62,15 @@ class ProjectController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Project  $project
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Project $project
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, Project $project)
     {
-        return 'Project denied successfully.';
+        return response()->json([
+            'message' => 'Project denied successfully.'
+        ]);
     }
 
     /**
