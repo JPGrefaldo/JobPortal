@@ -93,6 +93,10 @@ Route::middleware('auth')->group(function () {
             Route::post('/', 'Admin\PositionsController@store');
             Route::put('/{position}', 'Admin\PositionsController@update');
         });
+
+        Route::prefix('/admin/projects')->group(function () {
+            Route::put('/{project}', 'Admin\ProjectController@update')->name('admin.projects.update');
+        });
     });
 
     /*
