@@ -15,6 +15,7 @@ class CreateTestUserTest extends TestCase
         SeedDatabaseAfterRefresh;
 
     const CMD = 'test_user';
+    const HOST_NAME = 'test-crewcalls.dev';
 
     public function setUp()
     {
@@ -22,11 +23,11 @@ class CreateTestUserTest extends TestCase
 
         config([
             'app.name' => 'Crewcalls Test',
-            'app.url'  => 'http://crewcalls.test',
+            'app.url'  => 'http://' . self::HOST_NAME,
         ]);
         factory(Site::class)->create([
             'name'     => 'Crewcalls Test',
-            'hostname' => 'crewcalls.test',
+            'hostname' => self::HOST_NAME,
         ]);
     }
 
@@ -42,7 +43,7 @@ class CreateTestUserTest extends TestCase
 
         $user = User::where('email', 'test@test.com')
             ->whereHas('sites', function ($query) {
-                $query->where('hostname', 'crewcalls.test');
+                $query->where('hostname', self::HOST_NAME);
             })->first();
 
         $user->load('roles', 'notificationSettings');

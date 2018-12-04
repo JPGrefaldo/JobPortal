@@ -14,6 +14,7 @@ class StartFromScratchTest extends TestCase
         SeedDatabaseAfterRefresh;
 
     const CMD = 'startfromscratch';
+    const HOST_NAME = 'test-crewcalls.dev';
 
     public function setUp()
     {
@@ -21,11 +22,11 @@ class StartFromScratchTest extends TestCase
 
         config([
             'app.name' => 'Crewcalls Test',
-            'app.url'  => 'http://crewcalls.test',
+            'app.url'  => 'http://' . self::HOST_NAME,
         ]);
         factory(Site::class)->create([
             'name'     => 'Crewcalls Test',
-            'hostname' => 'crewcalls.test',
+            'hostname' => self::HOST_NAME,
         ]);
     }
 
