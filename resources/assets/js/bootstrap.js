@@ -10,6 +10,7 @@ try {
 
 window._ = require('lodash');
 window._ = require('slick-carousel');
+window._ = require('vue-sweetalert2');
 
 
 /**

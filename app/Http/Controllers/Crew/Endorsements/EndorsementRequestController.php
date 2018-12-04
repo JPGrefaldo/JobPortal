@@ -9,51 +9,28 @@ use App\Models\CrewPosition;
 use App\Models\Endorsement;
 use App\Models\EndorsementRequest;
 use App\Models\Position;
+use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class EndorsementRequestController extends Controller
 {
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Position $position, StoreEndorsementRequestRequest $request)
+    public function destroy(EndorsementRequest $endorsementRequest)
     {
-        $crew = auth()->user()->crew;
-        $crewPosition = CrewPosition::byCrewAndPosition($crew, $position)->first();
-
-        $this->endorsementRequest = EndorsementRequest::firstOrCreate(
-            ['crew_position_id' => $crewPosition->id],
-            ['token' => EndorsementRequest::generateToken()]
-        );
-
-        // filter endorsers, only notify them once
-        if ($this->endorsementRequest->isAskedToEndorse($request['email'])) {
-            return response()->json([
-                'errors' => [
-                    'email' => ['We already sent ' . $request['email'] . ' a request'],
-                ],
-                'message' => 'We already sent ' . $request['name'] . ' a request'
-            ], 422);
+        if ($endorsementRequest->endorsement->crewPosition->crew->user->id != auth()->user()->id) {
+            throw new Exception('Cannot delete');
         }
 
-        $endorsement = Endorsement::create([
-            'endorsement_request_id' => $this->endorsementRequest->id,
-            'endorser_id' => null,
-            'endorser_name' => $request['name'],
-            'endorser_email' => $request['email'],
+        $endorsementRequest->endorsement->update([
+            'deleted_at' => Carbon::now()
         ]);
 
-        // TODO: defer to queue
-        Mail::to($request['email'])
-            ->send(new EndorsementRequestEmail($endorsement));
-
-        return response()->json([
-            'message' => 'Success!',
+        $endorsementRequest->update([
+            'deleted_at' => Carbon::now(),
         ]);
+
+        return response('');
     }
 }

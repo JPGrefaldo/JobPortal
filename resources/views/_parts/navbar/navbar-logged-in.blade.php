@@ -99,7 +99,7 @@
 </a>
 <nav class="nav-mobile bg-black fixed z-50 text-white w-full h-full pin-t pin-l">
     <div class="p-3">
-        <img src="images/logos/logo-long-white.svg" class="w-32" alt="crew calls"/>
+        <img src="/images/logos/logo-long-white.svg" class="w-32" alt="crew calls"/>
     </div>
     <div class="py-6 px-3 border-t border-grey-dark">
         <div class="relative flex items-center p-1 rounded-lg">

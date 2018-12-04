@@ -25,7 +25,6 @@ class DashboardFeatureTest extends TestCase
         // then
         $response->assertSee('View Profile');
         $response->assertSee('Edit Profile');
-        $response->assertSee('View Open Position');
 
         $response->assertDontSee('Producer');
     }

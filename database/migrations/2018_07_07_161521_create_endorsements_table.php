@@ -16,10 +16,23 @@ class CreateEndorsementsTable extends Migration
         Schema::create('endorsements', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('crew_position_id');
+            $table->unsignedInteger('endorsement_request_id');
             $table->datetime('approved_at')
                   ->nullable();
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('endorsement_request_id')
+                  ->references('id')
+                  ->on('endorsement_requests')
+                  ->onDelete('cascade')
+                  ->onUpdate('cascade');
+
+            $table->foreign('crew_position_id')
+                  ->references('id')
+                  ->on('crew_positions')
+                  ->onDelete('cascade')
+                  ->onUpdate('cascade');
 
             $table->index('approved_at');
         });
