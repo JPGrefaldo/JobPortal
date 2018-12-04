@@ -23,7 +23,7 @@ class UpdateRequest extends FormRequest
         $thread = $message->thread;
         $producerUser = auth()->user();
 
-        if ($producerUser->hash_id !== $thread->creator()->first()->hash_id) {
+        if (! $producerUser->hash_id === $thread->creator()->hash_id) {
             return false;
         }
 
