@@ -111,7 +111,6 @@ Route::middleware('auth')->group(function () {
         Route::post('/crews', 'CrewsController@store');
         Route::put('/crews/{crew}', 'CrewsController@update');
 
-
         Route::prefix('crew')->group(function () {
             Route::prefix('endorsement')->group(function () {
                 Route::get('/', 'Crew\Endorsements\EndorsementPositionController@index')
@@ -148,6 +147,8 @@ Route::middleware('auth')->group(function () {
             ->name('endorsements.edit');
         Route::put('/endorsement-requests/{endorsementRequest}/endorsements/update', 'Crew\Endorsements\EndorsementController@update')
             ->name('endorsements.update');
+
+        Route::post('/crew/messages', 'Crew\MessageController@store')->name('crew.messages.store');
     });
 
     /*
