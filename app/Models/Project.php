@@ -54,4 +54,9 @@ class Project extends Model
     {
         return $this->belongsToMany(Crew::class);
     }
+
+    public function owner()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
