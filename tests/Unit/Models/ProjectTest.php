@@ -7,6 +7,7 @@ use App\Models\Project;
 use App\Models\ProjectJob;
 use App\Models\ProjectType;
 use App\Models\RemoteProject;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -79,5 +80,24 @@ class ProjectTest extends TestCase
 
         // then
         $this->assertCount(3, $project->contributors);
+    }
+
+    /**
+     * @test
+     */
+    public function owner()
+    {
+        // given
+        $project = factory(Project::class)->create();
+        $producer = factory(User::class)->create();
+
+        // when
+        $project->owner()->associate($producer);
+
+        // then
+        $this->assertEquals(
+            $project->owner->first_name,
+            $producer->first_name
+        );
     }
 }
