@@ -28,6 +28,14 @@ class SocialLinkType extends Model
     {
         return $this->hasMany(CrewSocial::class);
     }
+    public function getSnakeNameAttribute()
+    {
+        return snake_case(strtolower($this->name));
+    }
+    // public function setSlugAttribute($value)
+    // {
+    //     return (snake_case(strtolower($this->attributes['name'])));
+    // }
 
     // public function scopeByCode($query, $code)
     // {

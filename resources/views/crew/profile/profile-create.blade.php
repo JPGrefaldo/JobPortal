@@ -91,7 +91,8 @@
                                             <div class="flex -mr-px">
                                                 <span class="flex w-10 items-center leading-normal rounded rounded-r-none px-2 whitespace-no-wrap text-grey-dark" style="background: url('/{{ $socialLinkType->image}}'); background-size: cover;"></span>
                                             </div>
-                                            <input type="text" id="{{$socialLinkType->id}}" class="flex-shrink flex-grow flex-auto leading-normal w-px flex-1 border h-10 border-grey-light rounded rounded-l-none px-3 relative" placeholder="Add {{$socialLinkType->name}} link" name="socials[{{$socialLinkType->id}}]" value="{{isset($socialLinkType->crew[0])? $socialLinkType->crew[0]->url :'' }}" ></input>
+                                            <input type="text" id="{{$socialLinkType->id}}" class="flex-shrink flex-grow flex-auto leading-normal w-px flex-1 border h-10 border-grey-light rounded rounded-l-none px-3 relative" placeholder="Add {{$socialLinkType->name}} link" name="socials[{{ $socialLinkType->name }}][url]" value="" >
+	                                        <input type="hidden" name="socials[{{ $socialLinkType->name }}][id]" value="{{ $socialLinkType->id }}">
                                         </div>
                                         @endforeach
                                 </div>
