@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Cmgmyr\Messenger\Models\Thread;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -58,5 +59,10 @@ class Project extends Model
     public function owner()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function threads()
+    {
+        return $this->belongsToMany(Thread::class);
     }
 }
