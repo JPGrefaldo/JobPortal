@@ -308,7 +308,7 @@ class UpdateProjectJobTest extends TestCase
      */
     public function update_unauthorized_role()
     {
-        $user = $this->createCrewUser();
+        $user = $this->createCrew();
         $job  = factory(ProjectJob::class)->create();
         $data = [];
 

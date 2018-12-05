@@ -25,16 +25,11 @@ trait CreatesModels
      *
      * @return \App\Models\User
      */
-    public function createCrewUser($attributes = [])
+    public function createCrew($attributes = [])
     {
-        $user = $this->createUser($attributes);
-
-        UserRoles::create([
-            'user_id' => $user->id,
-            'role_id' => RoleId::CREW
-        ]);
-
-        return $user;
+        return factory(User::class)
+            ->states('withCrewRole')
+            ->create($attributes);
     }
 
     /**
@@ -44,14 +39,9 @@ trait CreatesModels
      */
     public function createAdmin($attributes = [])
     {
-        $user = $this->createUser($attributes);
-
-        UserRoles::create([
-            'user_id' => $user->id,
-            'role_id' => RoleId::ADMIN
-        ]);
-
-        return $user;
+        return factory(User::class)
+            ->states('withAdminRole')
+            ->create($attributes);
     }
 
     /**
@@ -61,13 +51,8 @@ trait CreatesModels
      */
     public function createProducer($attributes = [])
     {
-        $user = $this->createUser($attributes);
-
-        UserRoles::create([
-            'user_id' => $user->id,
-            'role_id' => RoleId::PRODUCER
-        ]);
-
-        return $user;
+        return factory(User::class)
+            ->states('withProducerRole')
+            ->create($attributes);
     }
 }

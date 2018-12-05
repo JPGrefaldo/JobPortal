@@ -367,7 +367,7 @@ class CreateProjectJobTest extends TestCase
      */
     public function create_unauthorized_role()
     {
-        $user = $this->createCrewUser();
+        $user = $this->createCrew();
         $data = [];
 
         $response = $this->actingAs($user)

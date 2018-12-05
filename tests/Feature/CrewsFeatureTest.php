@@ -29,7 +29,7 @@ class CrewsFeatureTest extends TestCase
     {
         Storage::fake();
 
-        $user = $this->createCrewUser();
+        $user = $this->createCrew();
         $data = $this->getCreateData();
 
         $response = $this->actingAs($user)
@@ -138,7 +138,7 @@ class CrewsFeatureTest extends TestCase
     {
         Storage::fake();
 
-        $user = $this->createCrewUser();
+        $user = $this->createCrew();
         $data = $this->getCreateData([
             'resume'                       => '',
             'reel'                         => '',
@@ -188,7 +188,7 @@ class CrewsFeatureTest extends TestCase
     {
         Storage::fake();
 
-        $user = $this->createCrewUser();
+        $user = $this->createCrew();
         $data = $this->getCreateData([
             'photo'                        => UploadedFile::fake()
                                                           ->create('image.php'),
@@ -236,7 +236,7 @@ class CrewsFeatureTest extends TestCase
     {
         Storage::fake();
 
-        $user = $this->createCrewUser();
+        $user = $this->createCrew();
         $data = $this->getCreateData([
             'reel'                => 'https://www.youtube.com/watch?v=2-_rLbU6zJo',
             'socials.youtube.url' => 'https://www.youtube.com/watch?v=G8S81CEBdNs',
@@ -283,7 +283,7 @@ class CrewsFeatureTest extends TestCase
     {
         Storage::fake();
 
-        $user = $this->createCrewUser();
+        $user = $this->createCrew();
         $data = $this->getCreateData(['reel' => 'https://vimeo.com/230046783']);
 
         $response = $this->actingAs($user)
@@ -329,7 +329,7 @@ class CrewsFeatureTest extends TestCase
     {
         Storage::fake();
 
-        $user   = $this->createCrewUser();
+        $user   = $this->createCrew();
         $crew   = factory(Crew::class)
             ->states('PhotoUpload')
             ->create(['user_id' => $user->id]);
@@ -450,7 +450,7 @@ class CrewsFeatureTest extends TestCase
     {
         Storage::fake();
 
-        $user = $this->createCrewUser();
+        $user = $this->createCrew();
         $crew = factory(Crew::class)->create(['user_id' => $user->id]);
         $data = $this->getUpdateData();
 
@@ -546,7 +546,7 @@ class CrewsFeatureTest extends TestCase
     {
         Storage::fake();
 
-        $user         = $this->createCrewUser();
+        $user         = $this->createCrew();
         $crew         = factory(Crew::class)
             ->states('PhotoUpload')
             ->create(['user_id' => $user->id]);
@@ -578,7 +578,7 @@ class CrewsFeatureTest extends TestCase
     {
         Storage::fake();
 
-        $user = $this->createCrewUser();
+        $user = $this->createCrew();
         $crew = factory(Crew::class)->create(['user_id' => $user->id]);
         $data = $this->getUpdateData([
             'socials.youtube.url'          => '',
@@ -632,7 +632,7 @@ class CrewsFeatureTest extends TestCase
     {
         Storage::fake();
 
-        $user = $this->createCrewUser();
+        $user = $this->createCrew();
         $crew = factory(Crew::class)->create(['user_id' => $user->id]);
         $reel = factory(CrewReel::class)->create(['crew_id' => $crew->id]);
 
@@ -679,7 +679,7 @@ class CrewsFeatureTest extends TestCase
     {
         Storage::fake();
 
-        $user = $this->createCrewUser();
+        $user = $this->createCrew();
         $crew = factory(Crew::class)->create(['user_id' => $user->id]);
         $reel = factory(CrewReel::class)->create(['crew_id' => $crew->id]);
         $data = $this->getUpdateData(['reel' => 'https://vimeo.com/230046783']);
@@ -708,7 +708,7 @@ class CrewsFeatureTest extends TestCase
     {
         Storage::fake();
 
-        $user = $this->createCrewUser();
+        $user = $this->createCrew();
         $crew = factory(Crew::class)->create(['user_id' => $user->id]);
         $data = $this->getUpdateData([
             'photo'                        => UploadedFile::fake()
@@ -757,7 +757,7 @@ class CrewsFeatureTest extends TestCase
     {
         Storage::fake();
 
-        $user = $this->createCrewUser();
+        $user = $this->createCrew();
         $data = $this->getUpdateData();
 
         $response = $this->actingAs($user)

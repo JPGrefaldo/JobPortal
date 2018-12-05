@@ -578,7 +578,7 @@ class StoreProjectFeatureTest extends TestCase
      */
     public function store_unauthorized()
     {
-        $user = $this->createCrewUser();
+        $user = $this->createCrew();
 
         $response = $this->actingAs($user)
                          ->post('producer/projects');

@@ -5,21 +5,24 @@ namespace Tests\Feature\Admin;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Support\CreatesModels;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 
 class MessengerFeatureTest extends TestCase
 {
-    use RefreshDatabase, SeedDatabaseAfterRefresh;
+    use RefreshDatabase,
+        SeedDatabaseAfterRefresh,
+        CreatesModels;
 
     /**
      * @test
-     * @covers
+     * @covers \App\Http\Controllers\Admin\ProjectController::update
      */
     public function admin_project_denied()
     {
-        $admin = factory(User::class)->states('withAdminRole')->create();
-        $producer = factory(User::class)->create();
+        $admin = $this->createAdmin();
+        $producer = $this->createProducer();
         $project = factory(Project::class)->create();
 
         $project->owner()->associate($producer);
@@ -29,17 +32,17 @@ class MessengerFeatureTest extends TestCase
 
         $response->assertSuccessful()
             ->assertJson([
-                'message' => 'Project denied successfully.'
+                'message' => 'Project denied successfully.',
             ]);
     }
 
     /**
      * @test
-     * @covers
+     * @covers \App\Http\Controllers\Admin\ProjectController::update
      */
-    public function admin_project_denied_unauthorize_non_admin()
+    public function admin_project_denied_unauthorized_non_admin()
     {
-        $user = factory(User::class)->states('withCrewRole')->create();
+        $user = $this->createCrew();
         $project = factory(Project::class)->create();
 
         $response = $this->actingAs($user)

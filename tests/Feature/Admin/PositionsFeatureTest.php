@@ -166,7 +166,7 @@ class PositionsFeatureTest extends TestCase
      */
     public function create_unauthorized()
     {
-        $user = $this->createCrewUser();
+        $user = $this->createCrew();
         $data = [
             'name'          => 'Some Position',
             'department_id' => DepartmentID::PRODUCTION,
@@ -373,7 +373,7 @@ class PositionsFeatureTest extends TestCase
      */
     public function update_unauthorized()
     {
-        $user     = $this->createCrewUser();
+        $user     = $this->createCrew();
         $data     = [
             'name'          => 'Updated Position',
             'department_id' => DepartmentID::PRODUCTION,

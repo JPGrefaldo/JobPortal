@@ -5,32 +5,34 @@ namespace Tests\Feature\Admin;
 use App\Models\Department;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Support\CreatesModels;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 
 class DepartmentsFeatureTest extends TestCase
 {
-    use RefreshDatabase, SeedDatabaseAfterRefresh;
+    use RefreshDatabase,
+        SeedDatabaseAfterRefresh,
+        CreatesModels;
 
     /**
      * @test
+     * @covers \App\Http\Controllers\Admin\DepartmentsController::index
      */
     public function index()
     {
-        // given
-        $admin = factory(User::class)->states('withAdminRole')->create();
+        $admin = $this->createAdmin();
         $departments = Department::all();
 
-        // when
-        $response = $this->actingAs($admin)->getJson(route('admin.departments'));
+        $response = $this->actingAs($admin)
+                         ->getJson(route('admin.departments'));
 
-        // then
         $response->assertJson($departments->toArray());
     }
 
     /**
      * @test
-     * @covers
+     * @covers \App\Http\Controllers\Admin\DepartmentsController::store
      */
     public function create()
     {
@@ -41,7 +43,7 @@ class DepartmentsFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post('/admin/departments', $data);
+                         ->post(route('admin.departments', $data));
 
         $response->assertSuccessful();
 
@@ -53,7 +55,7 @@ class DepartmentsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers
+     * @covers \App\Http\Controllers\Admin\DepartmentsController::store
      */
     public function create_no_description()
     {
@@ -64,7 +66,7 @@ class DepartmentsFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post('/admin/departments', $data);
+                         ->post(route('admin.departments', $data));
 
         $response->assertSuccessful();
 
@@ -76,7 +78,7 @@ class DepartmentsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers
+     * @covers \App\Http\Controllers\Admin\DepartmentsController::store
      */
     public function create_formatted_name()
     {
@@ -87,7 +89,7 @@ class DepartmentsFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post('/admin/departments', $data);
+                         ->post(route('admin.departments', $data));
 
         $response->assertSuccessful();
 
@@ -100,7 +102,7 @@ class DepartmentsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers
+     * @covers \App\Http\Controllers\Admin\DepartmentsController::store
      */
     public function create_invalid_data()
     {
@@ -111,7 +113,7 @@ class DepartmentsFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post('/admin/departments', $data);
+                         ->post(route('admin.departments', $data));
 
         $response->assertSessionHasErrors([
             'name' => 'The name field is required.',
@@ -120,7 +122,7 @@ class DepartmentsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers
+     * @covers \App\Http\Controllers\Admin\DepartmentsController::store
      */
     public function create_duplicate_name()
     {
@@ -133,7 +135,7 @@ class DepartmentsFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post('/admin/departments', $data);
+                         ->post(route('admin.departments', $data));
 
         $response->assertSessionHasErrors([
             'name' => 'The name has already been taken.',
@@ -142,7 +144,7 @@ class DepartmentsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers
+     * @covers \App\Http\Controllers\Admin\DepartmentsController::update
      */
     public function update()
     {
@@ -170,7 +172,7 @@ class DepartmentsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers
+     * @covers \App\Http\Controllers\Admin\DepartmentsController::update
      */
     public function update_no_description()
     {
@@ -198,7 +200,7 @@ class DepartmentsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers
+     * @covers \App\Http\Controllers\Admin\DepartmentsController::update
      */
     public function update_formatted_name()
     {
@@ -226,7 +228,7 @@ class DepartmentsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers
+     * @covers \App\Http\Controllers\Admin\DepartmentsController::update
      */
     public function update_same()
     {
@@ -254,7 +256,7 @@ class DepartmentsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers
+     * @covers \App\Http\Controllers\Admin\DepartmentsController::update
      */
     public function update_invalid_data()
     {
@@ -275,7 +277,7 @@ class DepartmentsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers
+     * @covers \App\Http\Controllers\Admin\DepartmentsController::update
      */
     public function update_duplicate_name()
     {
