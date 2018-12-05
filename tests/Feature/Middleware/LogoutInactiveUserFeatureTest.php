@@ -10,7 +10,10 @@ class LogoutInactiveUserFeatureTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function logout_inactive_user()
     {
         $user = $this->createUser(['status' => 0]);
@@ -27,7 +30,10 @@ class LogoutInactiveUserFeatureTest extends TestCase
         $this->assertGuest();
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function logout_inactive_user_through_banned()
     {
         $user = $this->createUser();

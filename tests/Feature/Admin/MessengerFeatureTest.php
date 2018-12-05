@@ -12,7 +12,10 @@ class MessengerFeatureTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
 
-    /** @test */
+    /**
+     * @test
+     * @covers
+     */
     public function admin_project_denied()
     {
         $admin = factory(User::class)->states('withAdminRole')->create();
@@ -30,7 +33,10 @@ class MessengerFeatureTest extends TestCase
             ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers
+     */
     public function admin_project_denied_unauthorize_non_admin()
     {
         $user = factory(User::class)->states('withCrewRole')->create();

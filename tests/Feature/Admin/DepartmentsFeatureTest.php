@@ -28,7 +28,10 @@ class DepartmentsFeatureTest extends TestCase
         $response->assertJson($departments->toArray());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers
+     */
     public function create()
     {
         $user = $this->createAdmin();
@@ -48,7 +51,10 @@ class DepartmentsFeatureTest extends TestCase
         ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers
+     */
     public function create_no_description()
     {
         $user = $this->createAdmin();
@@ -68,7 +74,10 @@ class DepartmentsFeatureTest extends TestCase
         ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers
+     */
     public function create_formatted_name()
     {
         $user = $this->createAdmin();
@@ -89,7 +98,10 @@ class DepartmentsFeatureTest extends TestCase
         $this->assertEquals('Production Sound', $department->name);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers
+     */
     public function create_invalid_data()
     {
         $user = $this->createAdmin();
@@ -106,7 +118,10 @@ class DepartmentsFeatureTest extends TestCase
         ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers
+     */
     public function create_duplicate_name()
     {
         factory(Department::class)->create(['name' => 'Lighting']);
@@ -125,7 +140,10 @@ class DepartmentsFeatureTest extends TestCase
         ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers
+     */
     public function update()
     {
         $user       = $this->createAdmin();
@@ -150,7 +168,10 @@ class DepartmentsFeatureTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers
+     */
     public function update_no_description()
     {
         $user       = $this->createAdmin();
@@ -175,7 +196,10 @@ class DepartmentsFeatureTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers
+     */
     public function update_formatted_name()
     {
         $user       = $this->createAdmin();
@@ -200,7 +224,10 @@ class DepartmentsFeatureTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers
+     */
     public function update_same()
     {
         $user       = $this->createAdmin();
@@ -225,7 +252,10 @@ class DepartmentsFeatureTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers
+     */
     public function update_invalid_data()
     {
         $user       = $this->createAdmin();
@@ -243,7 +273,10 @@ class DepartmentsFeatureTest extends TestCase
         ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers
+     */
     public function update_duplicate_name()
     {
         factory(Department::class)->create(['name' => 'Lighting']);

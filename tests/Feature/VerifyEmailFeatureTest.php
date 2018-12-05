@@ -16,7 +16,10 @@ class VerifyEmailFeatureTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function verify_email()
     {
         $user = factory(User::class)->create(['confirmed' => 0]);
@@ -42,7 +45,10 @@ class VerifyEmailFeatureTest extends TestCase
         ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function verify_email_invalid_code()
     {
         $response = $this->get('verify/email/invalid_code');
@@ -57,7 +63,10 @@ class VerifyEmailFeatureTest extends TestCase
                  );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function verify_email_already_confirmed()
     {
         $user = factory(User::class)->create();

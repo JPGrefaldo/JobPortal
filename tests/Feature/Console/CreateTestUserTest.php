@@ -31,7 +31,10 @@ class CreateTestUserTest extends TestCase
         ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function execute()
     {
         $command = $this->artisan(self::CMD, [
@@ -64,7 +67,10 @@ class CreateTestUserTest extends TestCase
         $command->assertExitCode(0);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function error_on_created()
     {
         factory(User::class)->create([

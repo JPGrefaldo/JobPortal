@@ -28,7 +28,10 @@ class UserTest extends TestCase
         $this->user = factory(User::class)->create();
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function roles()
     {
         $role = Role::whereName(Role::PRODUCER)->firstOrFail();
@@ -41,7 +44,10 @@ class UserTest extends TestCase
         $this->assertEquals("Producer", $this->user->roles->first()->name);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function sites()
     {
         $site = $this->getCurrentSite();

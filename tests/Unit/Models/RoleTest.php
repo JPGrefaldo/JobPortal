@@ -18,7 +18,10 @@ class RoleTest extends TestCase
         parent::setUp();
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function users()
     {
         $role = Role::whereName(Role::PRODUCER)->firstOrFail();

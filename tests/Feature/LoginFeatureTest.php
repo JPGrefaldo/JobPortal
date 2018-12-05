@@ -14,7 +14,10 @@ class LoginFeatureTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function login()
     {
         $user = factory(User::class)->create([
@@ -31,7 +34,10 @@ class LoginFeatureTest extends TestCase
         $this->assertAuthenticated();
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function login_invalid_password()
     {
         $user = factory(User::class)->create();
@@ -48,7 +54,10 @@ class LoginFeatureTest extends TestCase
         ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function login_unconfirmed()
     {
         $user = factory(User::class)->create([
@@ -68,7 +77,10 @@ class LoginFeatureTest extends TestCase
         $this->assertGuest();
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function login_inactive()
     {
         $user = factory(User::class)->create([
@@ -88,7 +100,10 @@ class LoginFeatureTest extends TestCase
         $this->assertGuest();
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function login_banned()
     {
         $user = factory(User::class)->create([
@@ -111,7 +126,10 @@ class LoginFeatureTest extends TestCase
         $this->assertGuest();
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function login_not_in_site()
     {
         $user = factory(User::class)->create([

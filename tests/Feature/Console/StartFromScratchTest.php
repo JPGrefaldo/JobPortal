@@ -30,7 +30,10 @@ class StartFromScratchTest extends TestCase
         ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function execute()
     {
         $command = $this->artisan(self::CMD, [

@@ -17,7 +17,10 @@ class UserBannedTest extends TestCase
         parent::setUp();
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function user()
     {
         $user = factory(User::class)->create();

@@ -16,7 +16,10 @@ class CreateProjectJobTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function create()
     {
         $user    = $this->createProducer();
@@ -59,7 +62,10 @@ class CreateProjectJobTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function create_with_invalid_data()
     {
         $user    = $this->createProducer();
@@ -103,7 +109,10 @@ class CreateProjectJobTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function create_with_non_pay_rate()
     {
         $user    = $this->createProducer();
@@ -147,7 +156,10 @@ class CreateProjectJobTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function create_has_no_gear_and_no_persons_needed()
     {
         $user    = $this->createProducer();
@@ -187,7 +199,10 @@ class CreateProjectJobTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function create_with_existing_job()
     {
         $user    = $this->createProducer();
@@ -233,7 +248,10 @@ class CreateProjectJobTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function create_invalid_required()
     {
         $user = $this->createProducer();
@@ -257,7 +275,10 @@ class CreateProjectJobTest extends TestCase
         ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function create_invalid_required_sometimes()
     {
         $user = $this->createProducer();
@@ -274,7 +295,10 @@ class CreateProjectJobTest extends TestCase
         ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function create_invalid_data()
     {
         $user = $this->createProducer();
@@ -311,7 +335,10 @@ class CreateProjectJobTest extends TestCase
         ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function create_invalid_requires_pay_type_id_when_zero_rate()
     {
         $user = $this->createProducer();
@@ -334,7 +361,10 @@ class CreateProjectJobTest extends TestCase
         ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function create_unauthorized_role()
     {
         $user = $this->createCrewUser();
@@ -346,7 +376,10 @@ class CreateProjectJobTest extends TestCase
         $response->assertRedirect('/');
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function create_unauthorized_no_project_id()
     {
         $user    = $this->createProducer();
@@ -359,7 +392,10 @@ class CreateProjectJobTest extends TestCase
         $response->assertForbidden();
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function create_unauthorized_project_does_not_exist()
     {
         $user    = $this->createProducer();
@@ -374,7 +410,10 @@ class CreateProjectJobTest extends TestCase
         $response->assertForbidden();
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function create_unauthorized_user_does_not_own_project()
     {
         $user    = $this->createProducer();

@@ -21,7 +21,10 @@ class CrewsFeatureTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function create()
     {
         Storage::fake();
@@ -127,7 +130,10 @@ class CrewsFeatureTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function create_not_required()
     {
         Storage::fake();
@@ -174,7 +180,10 @@ class CrewsFeatureTest extends TestCase
         $this->assertCount(0, $crew->socials);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function create_invalid_data()
     {
         Storage::fake();
@@ -219,7 +228,10 @@ class CrewsFeatureTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function create_youtube_cleaned()
     {
         Storage::fake();
@@ -263,7 +275,10 @@ class CrewsFeatureTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function create_vimeo_reel_cleaned()
     {
         Storage::fake();
@@ -290,7 +305,10 @@ class CrewsFeatureTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function create_unauthorized()
     {
         $user = factory(User::class)->create();
@@ -303,7 +321,10 @@ class CrewsFeatureTest extends TestCase
         $this->assertGuest();
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function update()
     {
         Storage::fake();
@@ -421,7 +442,10 @@ class CrewsFeatureTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function update_no_relations()
     {
         Storage::fake();
@@ -514,7 +538,10 @@ class CrewsFeatureTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function update_without_photo()
     {
         Storage::fake();
@@ -543,7 +570,10 @@ class CrewsFeatureTest extends TestCase
         Storage::assertExists($oldCrewPhoto);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function update_incomplete_socials()
     {
         Storage::fake();
@@ -594,7 +624,10 @@ class CrewsFeatureTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function update_youtube_cleaned()
     {
         Storage::fake();
@@ -638,7 +671,10 @@ class CrewsFeatureTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function update_vimeo_reel_cleaned()
     {
         Storage::fake();
@@ -664,7 +700,10 @@ class CrewsFeatureTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function update_invalid_data()
     {
         Storage::fake();
@@ -710,7 +749,10 @@ class CrewsFeatureTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function update_not_exists()
     {
         Storage::fake();
@@ -724,7 +766,10 @@ class CrewsFeatureTest extends TestCase
         $response->assertStatus(404);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function update_unauthorized()
     {
         $crew = factory(Crew::class)->create();
