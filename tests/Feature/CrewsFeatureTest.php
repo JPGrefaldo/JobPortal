@@ -19,7 +19,8 @@ use Tests\TestCase;
  */
 class CrewsFeatureTest extends TestCase
 {
-    use RefreshDatabase, SeedDatabaseAfterRefresh;
+    use RefreshDatabase,
+        SeedDatabaseAfterRefresh;
 
     /**
      * @test

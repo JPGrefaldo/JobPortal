@@ -18,7 +18,7 @@ class UpdateProjectTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Producer\ProjectsController::update
      */
     public function update()
     {
@@ -66,7 +66,7 @@ class UpdateProjectTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Producer\ProjectsController::update
      */
     public function update_no_location()
     {
@@ -102,7 +102,7 @@ class UpdateProjectTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Producer\ProjectsController::update
      */
     public function update_remotes_does_not_include_current_site()
     {
@@ -151,7 +151,7 @@ class UpdateProjectTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Producer\ProjectsController::update
      */
     public function update_with_existing_remotes()
     {
@@ -202,7 +202,7 @@ class UpdateProjectTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Producer\ProjectsController::update
      */
     public function update_remove_all_existing_remotes()
     {
@@ -241,7 +241,7 @@ class UpdateProjectTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Producer\ProjectsController::update
      */
     public function update_invalid_required()
     {
@@ -271,7 +271,7 @@ class UpdateProjectTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Producer\ProjectsController::update
      */
     public function update_invalid_data()
     {
@@ -305,7 +305,7 @@ class UpdateProjectTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Producer\ProjectsController::update
      */
     public function update_unauthorized()
     {
@@ -321,7 +321,7 @@ class UpdateProjectTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Producer\ProjectsController::update
      */
     public function update_unauthorized_user()
     {
@@ -337,7 +337,7 @@ class UpdateProjectTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Producer\ProjectsController::update
      */
     public function update_unauthorized_nonexisting_project()
     {

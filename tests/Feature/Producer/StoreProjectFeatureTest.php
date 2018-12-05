@@ -17,7 +17,7 @@ class StoreProjectFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers
+     * @covers \App\Http\Controllers\Producer\ProjectsController::store
      */
     public function store()
     {
@@ -104,7 +104,7 @@ class StoreProjectFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Producer\ProjectsController::store
      */
     public function store_not_required()
     {
@@ -149,7 +149,7 @@ class StoreProjectFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Producer\ProjectsController::store
      */
     public function store_with_remote_sites_excluding_current_site()
     {
@@ -206,7 +206,7 @@ class StoreProjectFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Producer\ProjectsController::store
      */
     public function store_with_job_non_pay_rate()
     {
@@ -283,7 +283,7 @@ class StoreProjectFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Producer\ProjectsController::store
      */
     public function store_with_job_has_no_gear_and_no_persons_needed()
     {
@@ -354,7 +354,7 @@ class StoreProjectFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Producer\ProjectsController::store
      */
     public function store_with_many_jobs()
     {
@@ -450,7 +450,7 @@ class StoreProjectFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Producer\ProjectsController::store
      */
     public function store_invalid()
     {
@@ -505,7 +505,7 @@ class StoreProjectFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Producer\ProjectsController::store
      */
     public function store_invalid_required()
     {
@@ -535,7 +535,7 @@ class StoreProjectFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Producer\ProjectsController::store
      */
     public function store_job_requires_pay_type_id_when_zero_rate()
     {

@@ -5,15 +5,13 @@ namespace Tests\Feature\Admin;
 use App\Models\Department;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\Support\CreatesModels;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 
 class DepartmentsFeatureTest extends TestCase
 {
     use RefreshDatabase,
-        SeedDatabaseAfterRefresh,
-        CreatesModels;
+        SeedDatabaseAfterRefresh;
 
     /**
      * @test

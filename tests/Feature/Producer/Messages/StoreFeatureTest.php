@@ -16,11 +16,12 @@ class StoreFeatureTest extends TestCase
     // authorization tests
     /**
      * @test
+     * @covers \App\Http\Controllers\Producer\MessagesController::store
      */
     public function only_producers_can_message()
     {
         // $this->withoutExceptionHandling();
-        $crew = factory(User::class)->states('withCrewRole')->create();
+        $crew = $this->createCrew();
         $project = factory(Project::class)->create([
             'user_id' => $crew->id,
         ]);
@@ -37,11 +38,12 @@ class StoreFeatureTest extends TestCase
 
     /**
      * @test
+     * @covers \App\Http\Controllers\Producer\MessagesController::store
      */
     public function producer_must_own_project()
     {
         // given
-        $producer = factory(User::class)->states('withProducerRole')->create();
+        $producer = $this->createProducer();
         $project = factory(Project::class)->create();
 
         // when
@@ -56,12 +58,13 @@ class StoreFeatureTest extends TestCase
     // validation tests
     /**
      * @test
+     * @covers \App\Http\Controllers\Producer\MessagesController::store
      */
     public function all_fields_are_required()
     {
         // $this->withoutExceptionHandling();
         // given
-        $producer = factory(User::class)->states('withProducerRole')->create();
+        $producer = $this->createProducer();
         $project = factory(Project::class)->create([
             'user_id' => $producer->id,
         ]);
@@ -89,12 +92,13 @@ class StoreFeatureTest extends TestCase
 
     /**
      * @test
+     * @covers \App\Http\Controllers\Producer\MessagesController::store
      */
     public function producer_cant_send_message_to_crews_who_has_not_applied()
     {
         // $this->withoutExceptionHandling();
         // given
-        $producer = factory(User::class)->states('withProducerRole')->create();
+        $producer = $this->createProducer();
         $randomCrews = factory(Crew::class, 3)->create();
         $project = factory(Project::class)->create([
             'user_id' => $producer->id,
@@ -120,12 +124,13 @@ class StoreFeatureTest extends TestCase
 
     /**
      * @test
+     * @covers \App\Http\Controllers\Producer\MessagesController::store
      */
     public function producer_can_send_message_to_multiple_crews_who_applied()
     {
         // $this->withExceptionHandling();
         // given
-        $producer = factory(User::class)->states('withProducerRole')->create();
+        $producer = $this->createProducer();
         $crews = factory(Crew::class, 3)->create();
         $project = factory(Project::class)->create([
             'user_id' => $producer->id,

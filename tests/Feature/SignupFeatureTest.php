@@ -60,7 +60,7 @@ class SignupFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Auth\UserSignupController::signup
      */
     public function producer()
     {
@@ -101,7 +101,7 @@ class SignupFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Auth\UserSignupController::signup
      */
     public function producer_and_crew()
     {
@@ -144,7 +144,7 @@ class SignupFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Auth\UserSignupController::signup
      */
     public function formatted()
     {
@@ -184,7 +184,7 @@ class SignupFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Auth\UserSignupController::signup
      */
     public function signup_crew_no_receive_sms()
     {
@@ -212,7 +212,7 @@ class SignupFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Auth\UserSignupController::signup
      */
     public function signup_producer_no_receive_sms()
     {
@@ -244,7 +244,7 @@ class SignupFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Auth\UserSignupController::signup
      */
     public function invalid_data()
     {
@@ -268,7 +268,7 @@ class SignupFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Auth\UserSignupController::signup
      */
     public function invalid_data_duplicate_email()
     {

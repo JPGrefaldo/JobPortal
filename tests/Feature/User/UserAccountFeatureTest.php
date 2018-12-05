@@ -11,7 +11,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UserAccountFeatureTest extends TestCase
 {
-    use RefreshDatabase, SeedDatabaseAfterRefresh;
+    use RefreshDatabase,
+        SeedDatabaseAfterRefresh;
 
     /**
      * @test

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Producer;
+namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -13,16 +13,14 @@ class DashboardFeatureTest extends TestCase
 
     /**
      * @test
+     * @covers \App\Http\Controllers\DashboardController::index
      */
     public function see_dashboard()
     {
-        // given
-        $user = factory(User::class)->states('withProducerRole')->create();
+        $user = $this->createProducer();
 
-        // when
         $response = $this->actingAs($user)->get(route('dashboard'));
 
-        // then
         $response->assertSee('Producer');
 
         $response->assertDontSee('View Profile');

@@ -27,7 +27,7 @@ class MessageCrewTest extends TestCase
     public function execute()
     {
         // given
-        $producer = factory(User::class)->states('withProducerRole')->create();
+        $producer = $this->createProducer();
         $crew = factory(Crew::class)->create();
         $project = factory(Project::class)->create([
             'user_id' => $producer->id,

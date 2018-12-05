@@ -14,11 +14,12 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UpdateProjectJobTest extends TestCase
 {
-    use RefreshDatabase, SeedDatabaseAfterRefresh;
+    use RefreshDatabase,
+        SeedDatabaseAfterRefresh;
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Producer\ProjectJobsController::update
      */
     public function update()
     {
@@ -62,7 +63,7 @@ class UpdateProjectJobTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Producer\ProjectJobsController::update
      */
     public function update_with_invalid_data()
     {
@@ -109,7 +110,7 @@ class UpdateProjectJobTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Producer\ProjectJobsController::update
      */
     public function update_non_pay_rate()
     {
@@ -154,7 +155,7 @@ class UpdateProjectJobTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Producer\ProjectJobsController::update
      */
     public function update_no_gear_and_no_persons_needed()
     {
@@ -192,7 +193,7 @@ class UpdateProjectJobTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Producer\ProjectJobsController::update
      */
     public function update_invalid_required()
     {
@@ -218,7 +219,7 @@ class UpdateProjectJobTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Producer\ProjectJobsController::update
      */
     public function update_invalid_required_sometimes()
     {
@@ -238,7 +239,7 @@ class UpdateProjectJobTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Producer\ProjectJobsController::update
      */
     public function update_invalid_data()
     {
@@ -276,7 +277,7 @@ class UpdateProjectJobTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Producer\ProjectJobsController::update
      */
     public function update_invalid_requires_pay_type_id_when_zero_rate()
     {
@@ -304,7 +305,7 @@ class UpdateProjectJobTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Producer\ProjectJobsController::update
      */
     public function update_unauthorized_role()
     {
@@ -320,7 +321,7 @@ class UpdateProjectJobTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Producer\ProjectJobsController::update
      */
     public function update_nonexisting()
     {

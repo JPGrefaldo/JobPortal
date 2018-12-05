@@ -32,7 +32,7 @@ class StartFromScratchTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Console\Commands\StartFromScratch::handle
      */
     public function execute()
     {

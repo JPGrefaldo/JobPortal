@@ -16,7 +16,7 @@ class LoginFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Auth\LoginController::login
      */
     public function login()
     {
@@ -36,7 +36,7 @@ class LoginFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Auth\LoginController::login
      */
     public function login_invalid_password()
     {
@@ -56,7 +56,7 @@ class LoginFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Auth\LoginController::login
      */
     public function login_unconfirmed()
     {
@@ -79,7 +79,7 @@ class LoginFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Auth\LoginController::login
      */
     public function login_inactive()
     {
@@ -102,7 +102,7 @@ class LoginFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Auth\LoginController::login
      */
     public function login_banned()
     {
@@ -128,7 +128,7 @@ class LoginFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Auth\LoginController::login
      */
     public function login_not_in_site()
     {

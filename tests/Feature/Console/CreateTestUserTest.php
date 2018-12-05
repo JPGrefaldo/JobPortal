@@ -33,7 +33,7 @@ class CreateTestUserTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Console\Commands\CreateTestUser::handle
      */
     public function execute()
     {
@@ -69,11 +69,11 @@ class CreateTestUserTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Console\Commands\CreateTestUser::handle
      */
     public function error_on_created()
     {
-        factory(User::class)->create([
+        $this->createUser([
             'email' => 'test@test.com'
         ]);
 

@@ -18,7 +18,7 @@ class CreateProjectJobTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Producer\ProjectJobsController::store
      */
     public function create()
     {
@@ -64,7 +64,7 @@ class CreateProjectJobTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Producer\ProjectJobsController::store
      */
     public function create_with_invalid_data()
     {
@@ -111,7 +111,7 @@ class CreateProjectJobTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Producer\ProjectJobsController::store
      */
     public function create_with_non_pay_rate()
     {
@@ -158,7 +158,7 @@ class CreateProjectJobTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Producer\ProjectJobsController::store
      */
     public function create_has_no_gear_and_no_persons_needed()
     {
@@ -201,7 +201,7 @@ class CreateProjectJobTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Producer\ProjectJobsController::store
      */
     public function create_with_existing_job()
     {
@@ -250,7 +250,7 @@ class CreateProjectJobTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Producer\ProjectJobsController::store
      */
     public function create_invalid_required()
     {
@@ -277,7 +277,7 @@ class CreateProjectJobTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Producer\ProjectJobsController::store
      */
     public function create_invalid_required_sometimes()
     {
@@ -297,7 +297,7 @@ class CreateProjectJobTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Producer\ProjectJobsController::store
      */
     public function create_invalid_data()
     {
@@ -337,7 +337,7 @@ class CreateProjectJobTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Producer\ProjectJobsController::store
      */
     public function create_invalid_requires_pay_type_id_when_zero_rate()
     {
@@ -363,7 +363,7 @@ class CreateProjectJobTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Producer\ProjectJobsController::store
      */
     public function create_unauthorized_role()
     {
@@ -378,7 +378,7 @@ class CreateProjectJobTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Producer\ProjectJobsController::store
      */
     public function create_unauthorized_no_project_id()
     {
@@ -394,7 +394,7 @@ class CreateProjectJobTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Producer\ProjectJobsController::store
      */
     public function create_unauthorized_project_does_not_exist()
     {
@@ -412,7 +412,7 @@ class CreateProjectJobTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Producer\ProjectJobsController::store
      */
     public function create_unauthorized_user_does_not_own_project()
     {
