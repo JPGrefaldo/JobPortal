@@ -70,7 +70,7 @@ class FieldControllerTest extends IntegrationTest
 
     public function test_can_return_update_fields()
     {
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
 
         $response = $this->withExceptionHandling()
                         ->get('/nova-api/users/'.$user->id.'/update-fields');
@@ -93,7 +93,7 @@ class FieldControllerTest extends IntegrationTest
 
         Gate::policy(User::class, UserPolicy::class);
 
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
 
         $response = $this->withExceptionHandling()
                         ->get('/nova-api/users/'.$user->id.'/update-fields');
@@ -118,7 +118,7 @@ class FieldControllerTest extends IntegrationTest
 
     public function test_can_return_update_pivot_fields()
     {
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
         $role = factory(Role::class)->create();
         $user->roles()->attach($role);
 

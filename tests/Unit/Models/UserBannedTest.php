@@ -23,7 +23,7 @@ class UserBannedTest extends TestCase
      */
     public function user()
     {
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
         UserBanned::create([
             'user_id' => $user->id,
             'reason' => 'Naughty',

@@ -35,7 +35,7 @@ class AddUserToSiteTest extends TestCase
      */
     public function execute()
     {
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
 
         $this->assertDatabaseMissing('user_sites', [
             'user_id' => $user->id,

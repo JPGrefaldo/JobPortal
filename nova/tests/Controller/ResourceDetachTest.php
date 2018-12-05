@@ -21,7 +21,7 @@ class ResourceDetachTest extends IntegrationTest
 
     public function test_can_detach_resources()
     {
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
         $role = factory(Role::class)->create();
         $role2 = factory(Role::class)->create();
         $role3 = factory(Role::class)->create();
@@ -46,7 +46,7 @@ class ResourceDetachTest extends IntegrationTest
 
     public function test_can_detach_resources_via_search()
     {
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
         $role = factory(Role::class)->create();
         $role2 = factory(Role::class)->create();
         $role3 = factory(Role::class)->create();
@@ -71,7 +71,7 @@ class ResourceDetachTest extends IntegrationTest
 
     public function test_can_detach_resources_via_filters()
     {
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
         $role = factory(Role::class)->create();
         $role2 = factory(Role::class)->create();
         $role3 = factory(Role::class)->create();
@@ -103,7 +103,7 @@ class ResourceDetachTest extends IntegrationTest
 
     public function test_cant_detach_resources_not_authorized_to_detach()
     {
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
         $role = factory(Role::class)->create();
         $role2 = factory(Role::class)->create();
         $role3 = factory(Role::class)->create();

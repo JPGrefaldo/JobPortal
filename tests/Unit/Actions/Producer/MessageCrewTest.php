@@ -23,6 +23,7 @@ class MessageCrewTest extends TestCase
     }
     /**
      * @test
+     * @covers \App\Actions\Admin\MessageCrew::execute
      */
     public function execute()
     {

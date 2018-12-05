@@ -40,7 +40,7 @@ class LoginFeatureTest extends TestCase
      */
     public function login_invalid_password()
     {
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
 
         $response = $this->post('login', [
             'email'    => $user->email,

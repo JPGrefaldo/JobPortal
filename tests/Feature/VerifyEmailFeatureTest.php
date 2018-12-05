@@ -69,7 +69,7 @@ class VerifyEmailFeatureTest extends TestCase
      */
     public function verify_email_already_confirmed()
     {
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
         $site = $this->getCurrentSite();
 
         app(StubCrew::class)->execute($user);

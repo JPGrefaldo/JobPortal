@@ -45,7 +45,7 @@ class EndorsementRequestFeatureTest extends TestCase
     {
         $endorser = factory(EndorsementEndorser::class)->create();
 
-        $user = factory(User::class)->state('withCrewRole')->create();
+        $user = $this->createCrew();
         $crew = factory(Crew::class)->create([
             'user_id' => $user->id,
         ]);

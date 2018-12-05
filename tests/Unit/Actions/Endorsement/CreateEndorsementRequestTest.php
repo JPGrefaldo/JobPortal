@@ -34,7 +34,7 @@ class CreateEndorsementRequestTest extends TestCase
      */
     public function execute_with_non_user_endorser()
     {
-        $user = factory(User::class)->state('withCrewRole')->create();
+        $user = $this->createCrew();
         $crew = factory(Crew::class)->create([
             'user_id' => $user->id,
         ]);
@@ -68,9 +68,9 @@ class CreateEndorsementRequestTest extends TestCase
      */
     public function execute_with_user_endorser()
     {
-        $endorser = factory(User::class)->state('withCrewRole')->create();
+        $endorser = $this->createCrew();
 
-        $user = factory(User::class)->state('withCrewRole')->create();
+        $user = $this->createCrew();
         $crew = factory(Crew::class)->create([
             'user_id' => $user->id,
         ]);
@@ -102,7 +102,7 @@ class CreateEndorsementRequestTest extends TestCase
      */
     public function execute_with_multiple_same_email_endorser()
     {
-        $user = factory(User::class)->state('withCrewRole')->create();
+        $user = $this->createCrew();
         $crew = factory(Crew::class)->create([
             'user_id' => $user->id,
         ]);

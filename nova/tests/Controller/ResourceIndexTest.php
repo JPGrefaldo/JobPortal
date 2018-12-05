@@ -23,9 +23,9 @@ class ResourceIndexTest extends IntegrationTest
 
     public function test_can_list_a_resource()
     {
-        factory(User::class)->create();
-        factory(User::class)->create();
-        $user = factory(User::class)->create();
+        $this->createUser();
+        $this->createUser();
+        $user = $this->createUser();
 
         $response = $this->withExceptionHandling()
                         ->getJson('/nova-api/users');
@@ -45,9 +45,9 @@ class ResourceIndexTest extends IntegrationTest
 
     public function test_authorization_information_is_correctly_adjusted_when_unauthorized()
     {
-        factory(User::class)->create();
-        factory(User::class)->create();
-        $user = factory(User::class)->create();
+        $this->createUser();
+        $this->createUser();
+        $user = $this->createUser();
 
         $_SERVER['nova.user.authorizable'] = true;
         $_SERVER['nova.user.updatable'] = false;
@@ -74,9 +74,9 @@ class ResourceIndexTest extends IntegrationTest
 
         Gate::policy(User::class, UserPolicy::class);
 
-        factory(User::class)->create();
-        factory(User::class)->create();
-        $user = factory(User::class)->create();
+        $this->createUser();
+        $this->createUser();
+        $user = $this->createUser();
 
         $response = $this->withExceptionHandling()
                         ->getJson('/nova-api/users');
@@ -101,9 +101,9 @@ class ResourceIndexTest extends IntegrationTest
 
     public function test_hides_resources_that_are_soft_deleted()
     {
-        factory(User::class)->create();
-        $user = factory(User::class)->create();
-        $deletedUser = factory(User::class)->create();
+        $this->createUser();
+        $user = $this->createUser();
+        $deletedUser = $this->createUser();
         $deletedUser->delete();
 
         $response = $this->withExceptionHandling()
@@ -116,11 +116,11 @@ class ResourceIndexTest extends IntegrationTest
 
     public function test_can_list_a_resource_via_a_relationship()
     {
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
         $user->posts()->saveMany(factory(Post::class, 3)->create());
         factory(Post::class)->create();
 
-        $user2 = factory(User::class)->create();
+        $user2 = $this->createUser();
 
         // User that has posts...
         $response = $this->withExceptionHandling()
@@ -138,11 +138,11 @@ class ResourceIndexTest extends IntegrationTest
 
     public function test_can_list_a_resource_via_a_many_to_many_relationship()
     {
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
         $role = factory(Role::class)->create();
         $user->roles()->attach($role);
 
-        $user2 = factory(User::class)->create();
+        $user2 = $this->createUser();
 
         $_SERVER['nova.user.authorizable'] = true;
         $_SERVER['nova.user.attachRole'] = true;
@@ -164,11 +164,11 @@ class ResourceIndexTest extends IntegrationTest
 
     public function test_can_list_a_resource_via_a_many_to_many_relationship_with_unauthorized_information()
     {
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
         $role = factory(Role::class)->create();
         $user->roles()->attach($role);
 
-        $user2 = factory(User::class)->create();
+        $user2 = $this->createUser();
 
         $_SERVER['nova.user.authorizable'] = true;
         $_SERVER['nova.user.attachRole'] = false;
@@ -195,9 +195,9 @@ class ResourceIndexTest extends IntegrationTest
 
     public function test_can_search_for_resources()
     {
-        factory(User::class)->create();
-        factory(User::class)->create();
-        $user = factory(User::class)->create();
+        $this->createUser();
+        $this->createUser();
+        $user = $this->createUser();
 
         $response = $this->withExceptionHandling()
                         ->getJson('/nova-api/users?search='.$user->email);
@@ -209,9 +209,9 @@ class ResourceIndexTest extends IntegrationTest
 
     public function test_can_filter_resources()
     {
-        factory(User::class)->create();
-        factory(User::class)->create();
-        factory(User::class)->create();
+        $this->createUser();
+        $this->createUser();
+        $this->createUser();
 
         $filters = base64_encode(json_encode([
             [
@@ -230,9 +230,9 @@ class ResourceIndexTest extends IntegrationTest
 
     public function test_filters_can_have_constructor_parameters()
     {
-        factory(User::class)->create();
-        factory(User::class)->create();
-        factory(User::class)->create();
+        $this->createUser();
+        $this->createUser();
+        $this->createUser();
 
         $filters = base64_encode(json_encode([
             [
@@ -251,9 +251,9 @@ class ResourceIndexTest extends IntegrationTest
 
     public function test_unauthorized_filters_are_not_applied()
     {
-        factory(User::class)->create();
-        factory(User::class)->create();
-        factory(User::class)->create();
+        $this->createUser();
+        $this->createUser();
+        $this->createUser();
 
         $_SERVER['nova.idFilter.canSee'] = false;
 
@@ -293,9 +293,9 @@ class ResourceIndexTest extends IntegrationTest
 
     public function test_can_limit_resources_per_page()
     {
-        factory(User::class)->create();
-        factory(User::class)->create();
-        factory(User::class)->create();
+        $this->createUser();
+        $this->createUser();
+        $this->createUser();
 
         $response = $this->withExceptionHandling()
                         ->getJson('/nova-api/users?perPage=2');
@@ -305,9 +305,9 @@ class ResourceIndexTest extends IntegrationTest
 
     public function test_can_include_soft_deleted_resources()
     {
-        factory(User::class)->create();
-        $user = factory(User::class)->create();
-        $deletedUser = factory(User::class)->create();
+        $this->createUser();
+        $user = $this->createUser();
+        $deletedUser = $this->createUser();
         $deletedUser->delete();
 
         $response = $this->withExceptionHandling()
@@ -320,9 +320,9 @@ class ResourceIndexTest extends IntegrationTest
 
     public function test_can_show_only_soft_deleted_resources()
     {
-        factory(User::class)->create();
-        $user = factory(User::class)->create();
-        $deletedUser = factory(User::class)->create();
+        $this->createUser();
+        $user = $this->createUser();
+        $deletedUser = $this->createUser();
         $deletedUser->delete();
 
         $response = $this->withExceptionHandling()

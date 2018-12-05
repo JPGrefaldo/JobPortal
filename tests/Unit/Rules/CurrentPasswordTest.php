@@ -42,7 +42,7 @@ class CurrentPasswordTest extends TestCase
 
     /**
      * @test
-     * @covers
+     * @covers \App\Rules\CurrentPassword::passes
      */
     public function invalid()
     {

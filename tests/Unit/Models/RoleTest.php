@@ -25,7 +25,7 @@ class RoleTest extends TestCase
     public function users()
     {
         $role = Role::whereName(Role::PRODUCER)->firstOrFail();
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
         UserRoles::create([
             'user_id' => $user->id,
             'role_id' => $role->id,

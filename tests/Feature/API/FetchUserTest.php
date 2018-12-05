@@ -21,7 +21,7 @@ class FetchUserTest extends TestCase
      */
     public function user()
     {
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
         $response = $this->actingAs($user, 'api')->getJson(self::URI);
 
         $response->assertSuccessful()

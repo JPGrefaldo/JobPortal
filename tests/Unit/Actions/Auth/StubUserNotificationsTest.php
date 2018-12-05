@@ -30,7 +30,7 @@ class StubUserNotificationsTest extends TestCase
      */
     public function valid_receive_sms_data()
     {
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
         $data = ['receive_sms' => 1];
 
         $this->service->execute($user, $data);
@@ -47,7 +47,7 @@ class StubUserNotificationsTest extends TestCase
      */
     public function invalid_receive_sms_data()
     {
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
         $data = [];
 
         $this->service->execute($user, $data);
@@ -64,7 +64,7 @@ class StubUserNotificationsTest extends TestCase
      */
     public function do_not_receive_sms_data()
     {
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
         $data = ['receive_sms' => 0];
 
         $this->service->execute($user, $data);

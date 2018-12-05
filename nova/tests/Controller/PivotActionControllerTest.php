@@ -65,7 +65,7 @@ class PivotActionControllerTest extends IntegrationTest
 
     public function test_pivot_actions_can_be_applied_and_pass_pivot_models_to_the_actions()
     {
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
         $role = factory(Role::class)->create();
         $user->roles()->attach($role);
 
@@ -101,7 +101,7 @@ class PivotActionControllerTest extends IntegrationTest
 
         Gate::policy(Role::class, RolePolicy::class);
 
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
         $role = factory(Role::class)->create();
         $user->roles()->attach($role);
 
@@ -132,7 +132,7 @@ class PivotActionControllerTest extends IntegrationTest
 
         Gate::policy(Role::class, RolePolicy::class);
 
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
         $role = factory(Role::class)->create();
         $user->roles()->attach($role);
 
@@ -153,7 +153,7 @@ class PivotActionControllerTest extends IntegrationTest
 
     public function test_pivot_actions_can_be_handled_by_custom_method_name()
     {
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
         $role = factory(Role::class)->create();
         $user->roles()->attach($role);
 
@@ -174,7 +174,7 @@ class PivotActionControllerTest extends IntegrationTest
 
     public function test_pivot_actions_can_be_handled_for_entire_resource()
     {
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
         $role = factory(Role::class)->create();
         $user->roles()->attach($role);
 
@@ -195,7 +195,7 @@ class PivotActionControllerTest extends IntegrationTest
 
     public function test_pivot_actions_can_update_single_event_statuses()
     {
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
         $role = factory(Role::class)->create();
         $role2 = factory(Role::class)->create();
         $user->roles()->attach($role);
@@ -216,7 +216,7 @@ class PivotActionControllerTest extends IntegrationTest
     {
         config(['queue.default' => 'sync']);
 
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
         $role = factory(Role::class)->create();
 
         $user->roles()->attach($role);
@@ -237,7 +237,7 @@ class PivotActionControllerTest extends IntegrationTest
     {
         config(['queue.default' => 'sync']);
 
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
         $role = factory(Role::class)->create();
 
         $user->roles()->attach($role);
@@ -258,7 +258,7 @@ class PivotActionControllerTest extends IntegrationTest
     {
         config(['queue.default' => 'sync']);
 
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
         $role = factory(Role::class)->create();
         $role2 = factory(Role::class)->create();
         $user->roles()->attach($role2);
@@ -288,7 +288,7 @@ class PivotActionControllerTest extends IntegrationTest
     {
         config(['queue.default' => 'redis']);
 
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
         $role = factory(Role::class)->create();
         $role2 = factory(Role::class)->create();
         $user->roles()->attach($role);

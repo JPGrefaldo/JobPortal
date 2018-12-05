@@ -42,7 +42,7 @@ class CrewsServicesTest extends TestCase
     {
         Storage::fake();
 
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
         $data = [
             'bio'     => 'some bio',
             'photo'   => UploadedFile::fake()->image('photo.png'),
@@ -188,7 +188,7 @@ class CrewsServicesTest extends TestCase
     {
         Storage::fake();
 
-        $user      = factory(User::class)->create();
+        $user      = $this->createUser();
         $data      = ['bio' => 'some bio',];
         $photoFile = UploadedFile::fake()->image('photo.png');
 

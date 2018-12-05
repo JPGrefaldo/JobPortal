@@ -89,7 +89,7 @@ class ProjectTest extends TestCase
     {
         // given
         $project = factory(Project::class)->create();
-        $producer = factory(User::class)->create();
+        $producer = $this->createUser();
 
         // when
         $project->owner()->associate($producer);
