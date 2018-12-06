@@ -58,7 +58,10 @@ class SignupFeatureTest extends TestCase
         $this->hasCrew($user);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Auth\UserSignupController::signup
+     */
     public function producer()
     {
         Mail::fake();
@@ -96,7 +99,10 @@ class SignupFeatureTest extends TestCase
         $this->hasProducerRole($user);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Auth\UserSignupController::signup
+     */
     public function producer_and_crew()
     {
         Mail::fake();
@@ -136,7 +142,10 @@ class SignupFeatureTest extends TestCase
         $this->hasProducerRole($user);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Auth\UserSignupController::signup
+     */
     public function formatted()
     {
         Mail::fake();
@@ -173,7 +182,10 @@ class SignupFeatureTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Auth\UserSignupController::signup
+     */
     public function signup_crew_no_receive_sms()
     {
         Mail::fake();
@@ -198,7 +210,10 @@ class SignupFeatureTest extends TestCase
         $this->assertSignupSuccess($response, array_merge($data, ['receive_sms' => 0]));
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Auth\UserSignupController::signup
+     */
     public function signup_producer_no_receive_sms()
     {
         Mail::fake();
@@ -227,7 +242,10 @@ class SignupFeatureTest extends TestCase
         $this->assertSignupSuccess($response, array_merge($data, ['receive_sms' => 1]));
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Auth\UserSignupController::signup
+     */
     public function invalid_data()
     {
         $data = array_merge($this->makeFakeUser()->toArray(), [
@@ -248,7 +266,10 @@ class SignupFeatureTest extends TestCase
         ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Auth\UserSignupController::signup
+     */
     public function invalid_data_duplicate_email()
     {
         $this->createUser(['email' => 'duplicate@gmail.com']);

@@ -82,9 +82,9 @@ class LensControllerTest extends IntegrationTest
 
     public function test_lenses_can_be_filtered()
     {
-        factory(User::class)->create();
-        factory(User::class)->create();
-        factory(User::class)->create();
+        $this->createUser();
+        $this->createUser();
+        $this->createUser();
 
         $filters = base64_encode(json_encode([
             [

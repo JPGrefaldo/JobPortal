@@ -31,7 +31,10 @@ class CreateTestUserTest extends TestCase
         ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Console\Commands\CreateTestUser::handle
+     */
     public function execute()
     {
         $command = $this->artisan(self::CMD, [
@@ -64,10 +67,13 @@ class CreateTestUserTest extends TestCase
         $command->assertExitCode(0);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Console\Commands\CreateTestUser::handle
+     */
     public function error_on_created()
     {
-        factory(User::class)->create([
+        $this->createUser([
             'email' => 'test@test.com'
         ]);
 

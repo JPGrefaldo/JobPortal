@@ -10,13 +10,17 @@ use Tests\TestCase;
 
 class MessengerFeatureTest extends TestCase
 {
-    use RefreshDatabase, SeedDatabaseAfterRefresh;
+    use RefreshDatabase,
+        SeedDatabaseAfterRefresh;
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Admin\ProjectController::update
+     */
     public function admin_project_denied()
     {
-        $admin = factory(User::class)->states('withAdminRole')->create();
-        $producer = factory(User::class)->create();
+        $admin = $this->createAdmin();
+        $producer = $this->createProducer();
         $project = factory(Project::class)->create();
 
         $project->owner()->associate($producer);
@@ -26,14 +30,17 @@ class MessengerFeatureTest extends TestCase
 
         $response->assertSuccessful()
             ->assertJson([
-                'message' => 'Project denied successfully.'
+                'message' => 'Project denied successfully.',
             ]);
     }
 
-    /** @test */
-    public function admin_project_denied_unauthorize_non_admin()
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Admin\ProjectController::update
+     */
+    public function admin_project_denied_unauthorized_non_admin()
     {
-        $user = factory(User::class)->states('withCrewRole')->create();
+        $user = $this->createCrew();
         $project = factory(Project::class)->create();
 
         $response = $this->actingAs($user)

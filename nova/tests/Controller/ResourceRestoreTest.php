@@ -20,8 +20,8 @@ class ResourceRestoreTest extends IntegrationTest
 
     public function test_can_restore_resources()
     {
-        $user = factory(User::class)->create();
-        $user2 = factory(User::class)->create();
+        $user = $this->createUser();
+        $user2 = $this->createUser();
 
         $user->delete();
         $user2->delete();
@@ -45,8 +45,8 @@ class ResourceRestoreTest extends IntegrationTest
 
     public function test_can_restore_resources_via_search()
     {
-        $user = factory(User::class)->create();
-        $user2 = factory(User::class)->create();
+        $user = $this->createUser();
+        $user2 = $this->createUser();
 
         $user->delete();
         $user2->delete();
@@ -70,8 +70,8 @@ class ResourceRestoreTest extends IntegrationTest
 
     public function test_can_restore_resources_via_filters()
     {
-        $user = factory(User::class)->create();
-        $user2 = factory(User::class)->create();
+        $user = $this->createUser();
+        $user2 = $this->createUser();
 
         $user->delete();
         $user2->delete();
@@ -102,8 +102,8 @@ class ResourceRestoreTest extends IntegrationTest
 
     public function test_cant_restore_resources_not_authorized_to_restore()
     {
-        $user = factory(User::class)->create();
-        $user2 = factory(User::class)->create();
+        $user = $this->createUser();
+        $user2 = $this->createUser();
 
         $user->delete();
         $user2->delete();

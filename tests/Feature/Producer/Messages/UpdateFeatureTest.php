@@ -14,14 +14,16 @@ use Tests\TestCase;
 class UpdateFeatureTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
+
     /**
      * @test
+     * @covers \App\Http\Controllers\Producer\MessagesController::update
      */
     public function producer_can_flag_a_message()
     {
         // $this->withExceptionHandling();
         // given
-        $producerUser = factory(User::class)->states('withProducerRole')->create();
+        $producerUser = $this->createProducer();
         $project = factory(Project::class)->create([
             'user_id' => $producerUser->id,
         ]);

@@ -14,9 +14,13 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UpdateProjectJobTest extends TestCase
 {
-    use RefreshDatabase, SeedDatabaseAfterRefresh;
+    use RefreshDatabase,
+        SeedDatabaseAfterRefresh;
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Producer\ProjectJobsController::update
+     */
     public function update()
     {
         $user = $this->createProducer();
@@ -57,7 +61,10 @@ class UpdateProjectJobTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Producer\ProjectJobsController::update
+     */
     public function update_with_invalid_data()
     {
         $user = $this->createProducer();
@@ -101,7 +108,10 @@ class UpdateProjectJobTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Producer\ProjectJobsController::update
+     */
     public function update_non_pay_rate()
     {
         $user = $this->createProducer();
@@ -143,7 +153,10 @@ class UpdateProjectJobTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Producer\ProjectJobsController::update
+     */
     public function update_no_gear_and_no_persons_needed()
     {
         $user = $this->createProducer();
@@ -178,7 +191,10 @@ class UpdateProjectJobTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Producer\ProjectJobsController::update
+     */
     public function update_invalid_required()
     {
         $user = $this->createProducer();
@@ -201,7 +217,10 @@ class UpdateProjectJobTest extends TestCase
         ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Producer\ProjectJobsController::update
+     */
     public function update_invalid_required_sometimes()
     {
         $user = $this->createProducer();
@@ -218,7 +237,10 @@ class UpdateProjectJobTest extends TestCase
         ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Producer\ProjectJobsController::update
+     */
     public function update_invalid_data()
     {
         $user = $this->createProducer();
@@ -253,7 +275,10 @@ class UpdateProjectJobTest extends TestCase
         ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Producer\ProjectJobsController::update
+     */
     public function update_invalid_requires_pay_type_id_when_zero_rate()
     {
         $user = $this->createProducer();
@@ -278,10 +303,13 @@ class UpdateProjectJobTest extends TestCase
         ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Producer\ProjectJobsController::update
+     */
     public function update_unauthorized_role()
     {
-        $user = $this->createCrewUser();
+        $user = $this->createCrew();
         $job  = factory(ProjectJob::class)->create();
         $data = [];
 
@@ -291,7 +319,10 @@ class UpdateProjectJobTest extends TestCase
         $response->assertRedirect('/');
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Producer\ProjectJobsController::update
+     */
     public function update_nonexisting()
     {
         $user = $this->createProducer();
@@ -303,7 +334,10 @@ class UpdateProjectJobTest extends TestCase
         $response->assertNotFound();
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function update_unauthorized_user()
     {
         $user = $this->createProducer();

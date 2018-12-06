@@ -16,7 +16,10 @@ class UpdateProjectTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Producer\ProjectsController::update
+     */
     public function update()
     {
         $user        = $this->createProducer();
@@ -61,7 +64,10 @@ class UpdateProjectTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Producer\ProjectsController::update
+     */
     public function update_no_location()
     {
         $user    = $this->createProducer();
@@ -94,7 +100,10 @@ class UpdateProjectTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Producer\ProjectsController::update
+     */
     public function update_remotes_does_not_include_current_site()
     {
         $user        = $this->createProducer();
@@ -140,7 +149,10 @@ class UpdateProjectTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Producer\ProjectsController::update
+     */
     public function update_with_existing_remotes()
     {
         $user          = $this->createProducer();
@@ -188,7 +200,10 @@ class UpdateProjectTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Producer\ProjectsController::update
+     */
     public function update_remove_all_existing_remotes()
     {
         $user           = $this->createProducer();
@@ -224,7 +239,10 @@ class UpdateProjectTest extends TestCase
         $this->assertCount(0, $project->remotes);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Producer\ProjectsController::update
+     */
     public function update_invalid_required()
     {
         $user    = $this->createProducer();
@@ -251,7 +269,10 @@ class UpdateProjectTest extends TestCase
         ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Producer\ProjectsController::update
+     */
     public function update_invalid_data()
     {
         $user    = $this->createProducer();
@@ -282,7 +303,10 @@ class UpdateProjectTest extends TestCase
         ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Producer\ProjectsController::update
+     */
     public function update_unauthorized()
     {
         $user    = $this->createUser();
@@ -295,7 +319,10 @@ class UpdateProjectTest extends TestCase
         $response->assertRedirect('/');
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Producer\ProjectsController::update
+     */
     public function update_unauthorized_user()
     {
         $user    = $this->createProducer();
@@ -308,7 +335,10 @@ class UpdateProjectTest extends TestCase
         $response->assertForbidden();
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Producer\ProjectsController::update
+     */
     public function update_unauthorized_nonexisting_project()
     {
         $user = $this->createProducer();

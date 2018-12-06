@@ -19,7 +19,7 @@ class ResourceFilledCallbackTest extends IntegrationTest
     {
         // This is primarily useful for filling in belongs-to fields that can be dervived from other fields
         // For example, deriving the server_id from a selected site...
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
 
         $response = $this->withExceptionHandling()
                         ->postJson('/nova-api/addresses', [

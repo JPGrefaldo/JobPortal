@@ -18,7 +18,7 @@ class SearchControllerTest extends IntegrationTest
 
     public function test_can_retrieve_search_results_for_all_searchable_resources()
     {
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
         $post = factory(Post::class)->create();
 
         $response = $this->withExceptionHandling()

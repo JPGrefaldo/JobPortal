@@ -10,7 +10,10 @@ class AdminUsersFeatureTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Admin\AdminUsersController::updateBan
+     */
     public function ban()
     {
         $admin = $this->createAdmin();
@@ -38,18 +41,24 @@ class AdminUsersFeatureTest extends TestCase
         $response->assertSuccessful();
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Admin\AdminUsersController::updateBan
+     */
     public function ban_user_not_exist()
     {
         $admin = $this->createAdmin();
 
         $response = $this->actingAs($admin)
-                         ->put('admin/users/ban/44');
+                         ->put(route('admin.users.ban', ['user', 44]));
 
         $response->assertNotFound();
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Admin\AdminUsersController::updateBan
+     */
     public function ban_invalid_data()
     {
         $admin = $this->createAdmin();
@@ -66,10 +75,13 @@ class AdminUsersFeatureTest extends TestCase
         ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Admin\AdminUsersController::updateBan
+     */
     public function ban_unauthorized()
     {
-        $crew = $this->createCrewUser();
+        $crew = $this->createCrew();
         $user = $this->createUser();
 
         $response = $this->actingAs($crew)
