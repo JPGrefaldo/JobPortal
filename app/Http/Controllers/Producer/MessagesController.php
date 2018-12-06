@@ -14,7 +14,7 @@ class MessagesController extends Controller
 {
     public function store(ProducerStoreMessageRequest $request, Project $project)
     {
-        app(MessageCrew::class)->execute($request, auth()->user());
+        app(MessageCrew::class)->execute($request, $project, auth()->user());
 
         return str_plural('Message', count($request['recipients'])) . ' sent.';
     }
