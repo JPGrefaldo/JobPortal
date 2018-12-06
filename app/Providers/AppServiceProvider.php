@@ -19,7 +19,7 @@ class AppServiceProvider extends ServiceProvider
         $this->setSqliteSchemaGrammarOnMigrate();
         Schema::defaultStringLength(191);
 
-        \App::singleton(InitialJS::class, function ($app) {
+        $this->app->singleton(InitialJS::class, function ($app) {
             return (new InitialJS());
         });
     }
