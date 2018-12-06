@@ -17,14 +17,6 @@ class InitialJS
     /**
      * @return int
      */
-    public function any(): int
-    {
-        return (bool) ($this->countVariables() + $this->countJSON());
-    }
-
-    /**
-     * @return int
-     */
     public function countJSON(): int
     {
         return count($this->json);
@@ -34,7 +26,7 @@ class InitialJS
      * @param $variableName
      * @param $json
      */
-    public function pushJson($variableName, $json)
+    public function pushJSON($variableName, $json)
     {
         if (is_array($json)){
             $json = json_encode($json);
@@ -46,7 +38,7 @@ class InitialJS
     /**
      * @return array
      */
-    public function getJson(): array
+    public function getJSON(): array
     {
         return $this->json;
     }

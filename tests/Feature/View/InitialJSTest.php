@@ -26,9 +26,9 @@ class InitialJSTest extends TestCase
 
     /**
      * @test
-     * @covers \App\View\InitialJS::pushJson
+     * @covers \App\View\InitialJS::pushJSON
      * @covers \App\View\InitialJS::countJSON
-     * @covers \App\View\InitialJS::getJson
+     * @covers \App\View\InitialJS::getJSON
      */
     public function push_json_one_time()
     {
@@ -36,8 +36,8 @@ class InitialJSTest extends TestCase
 
         $this->assertEquals(0, $this->service->countJSON());
 
-        $this->service->pushJson('test', $json);
-        $ret = $this->service->getJson();
+        $this->service->pushJSON('test', $json);
+        $ret = $this->service->getJSON();
 
         $this->assertEquals(1, $this->service->countJSON());
         $this->assertEquals(['test' => $json], $ret);
@@ -45,9 +45,9 @@ class InitialJSTest extends TestCase
 
     /**
      * @test
-     * @covers \App\View\InitialJS::pushJson
+     * @covers \App\View\InitialJS::pushJSON
      * @covers \App\View\InitialJS::countJSON
-     * @covers \App\View\InitialJS::getJson
+     * @covers \App\View\InitialJS::getJSON
      */
     public function push_json_multi_time()
     {
@@ -57,10 +57,10 @@ class InitialJSTest extends TestCase
 
         $this->assertEquals(0, $this->service->countJSON());
 
-        $this->service->pushJson('test', $json1);
-        $this->service->pushJson('Foo', $json2);
-        $this->service->pushJson('Site', $json3);
-        $ret = $this->service->getJson();
+        $this->service->pushJSON('test', $json1);
+        $this->service->pushJSON('Foo', $json2);
+        $this->service->pushJSON('Site', $json3);
+        $ret = $this->service->getJSON();
 
         $this->assertEquals(3, $this->service->countJSON());
         $this->assertEquals([
@@ -72,9 +72,9 @@ class InitialJSTest extends TestCase
 
     /**
      * @test
-     * @covers \App\View\InitialJS::pushJson
+     * @covers \App\View\InitialJS::pushJSON
      * @covers \App\View\InitialJS::countJSON
-     * @covers \App\View\InitialJS::getJson
+     * @covers \App\View\InitialJS::getJSON
      */
     public function push_json_over_write_previous()
     {
@@ -83,9 +83,9 @@ class InitialJSTest extends TestCase
 
         $this->assertEquals(0, $this->service->countJSON());
 
-        $this->service->pushJson('test', $json);
-        $this->service->pushJson('test', $json2);
-        $ret = $this->service->getJson();
+        $this->service->pushJSON('test', $json);
+        $this->service->pushJSON('test', $json2);
+        $ret = $this->service->getJSON();
 
         $this->assertEquals(1, $this->service->countJSON());
         $this->assertEquals(['test' => $json2], $ret);

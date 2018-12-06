@@ -52,8 +52,8 @@ class EndorsementPositionShowModel extends ViewModel
 
         $this->getEndorsements();
 
-        app(InitialJS::class)->pushJson('approved_endorsements', json_encode($this->approvedEndorsements->toArray()));
-        app(InitialJS::class)->pushJson('pending_endorsements', json_encode($this->pendingEndorsements->toArray()));
+        app(InitialJS::class)->pushJSON('approved_endorsements', json_encode($this->approvedEndorsements->toArray()));
+        app(InitialJS::class)->pushJSON('pending_endorsements', json_encode($this->pendingEndorsements->toArray()));
     }
 
     private function loadUser()
