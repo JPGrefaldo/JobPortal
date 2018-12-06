@@ -9,6 +9,7 @@ use App\Models\Endorsement;
 use App\Models\EndorsementRequest;
 use App\Models\Position;
 use App\Models\User;
+use App\View\InitialJS;
 use Spatie\ViewModels\ViewModel;
 
 class EndorsementPositionShowModel extends ViewModel
@@ -51,12 +52,8 @@ class EndorsementPositionShowModel extends ViewModel
 
         $this->getEndorsements();
 
-        $this->initJS = collect([
-            'json' => collect([
-                'approved_endorsements' => $this->approvedEndorsements,
-                'pending_endorsements' => $this->pendingEndorsements,
-            ]),
-        ]);
+        app(InitialJS::class)->pushJSON('approved_endorsements', json_encode($this->approvedEndorsements->toArray()));
+        app(InitialJS::class)->pushJSON('pending_endorsements', json_encode($this->pendingEndorsements->toArray()));
     }
 
     private function loadUser()

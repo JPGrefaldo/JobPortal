@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Database\SQLiteSchemaGrammar;
+use App\View\InitialJS;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
@@ -17,6 +18,10 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->setSqliteSchemaGrammarOnMigrate();
         Schema::defaultStringLength(191);
+
+        $this->app->singleton(InitialJS::class, function ($app) {
+            return (new InitialJS());
+        });
     }
 
     /**

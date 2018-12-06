@@ -8,5 +8,6 @@
 
     @include('_parts.header.header-css')
 
+    @include('_parts.header.header-js')
 
 </head>
