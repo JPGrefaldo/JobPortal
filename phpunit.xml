@@ -31,5 +31,6 @@
         <env name="DB_CONNECTION" value="sqlite"/>
         <env name="DB_DATABASE" value=":memory:"/>
         <env name="FILESYSTEM_DRIVER" value="local_test"/>
+        <env name="TELESCOPE_ENABLED" value="false"/>
     </php>
 </phpunit>

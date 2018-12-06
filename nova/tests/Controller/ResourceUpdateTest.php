@@ -20,7 +20,7 @@ class ResourceUpdateTest extends IntegrationTest
 
     public function test_can_update_resources()
     {
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
 
         $response = $this->withExceptionHandling()
                         ->putJson('/nova-api/users/'.$user->id, [
@@ -43,7 +43,7 @@ class ResourceUpdateTest extends IntegrationTest
 
     public function test_cant_update_resource_fields_that_arent_authorized()
     {
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
 
         $response = $this->withExceptionHandling()
                         ->putJson('/nova-api/users/'.$user->id, [
@@ -63,7 +63,7 @@ class ResourceUpdateTest extends IntegrationTest
 
     public function test_cant_update_resources_that_have_been_edited_since_retrieval()
     {
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
 
         $response = $this->withExceptionHandling()
                         ->putJson('/nova-api/users/'.$user->id, [
@@ -83,7 +83,7 @@ class ResourceUpdateTest extends IntegrationTest
 
         Gate::policy(User::class, UserPolicy::class);
 
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
 
         $response = $this->withExceptionHandling()
                         ->putJson('/nova-api/users/'.$user->id, [
@@ -102,9 +102,9 @@ class ResourceUpdateTest extends IntegrationTest
     {
         $post = factory(Post::class)->create();
 
-        $user = factory(User::class)->create();
-        $user2 = factory(User::class)->create();
-        $user3 = factory(User::class)->create();
+        $user = $this->createUser();
+        $user2 = $this->createUser();
+        $user3 = $this->createUser();
 
         $response = $this->withExceptionHandling()
                         ->putJson('/nova-api/posts/'.$post->id, [
@@ -118,7 +118,7 @@ class ResourceUpdateTest extends IntegrationTest
     public function test_parent_resource_policy_may_prevent_adding_related_resources()
     {
         $post = factory(Post::class)->create();
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
 
         $response = $this->withExceptionHandling()
                         ->putJson('/nova-api/posts/'.$post->id, [
@@ -151,7 +151,7 @@ class ResourceUpdateTest extends IntegrationTest
 
     public function test_can_update_soft_deleted_resources()
     {
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
         $user->delete();
 
         $response = $this->withExceptionHandling()
@@ -175,7 +175,7 @@ class ResourceUpdateTest extends IntegrationTest
 
     public function test_user_can_maintain_same_email_without_unique_errors()
     {
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
 
         $response = $this->withExceptionHandling()
                         ->putJson('/nova-api/users/'.$user->id, [
@@ -189,8 +189,8 @@ class ResourceUpdateTest extends IntegrationTest
 
     public function test_validation_rules_are_applied()
     {
-        $user = factory(User::class)->create();
-        $user2 = factory(User::class)->create();
+        $user = $this->createUser();
+        $user2 = $this->createUser();
 
         $response = $this->withExceptionHandling()
                         ->putJson('/nova-api/users/'.$user->id, [

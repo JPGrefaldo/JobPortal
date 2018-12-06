@@ -75,7 +75,7 @@ Route::middleware('auth')->group(function () {
     |
      */
     Route::middleware('admin')->group(function () {
-        Route::put('/admin/users/ban/{user}', 'Admin\AdminUsersController@updateBan')
+        Route::put('/admin/users/ban/{user}', [\App\Http\Controllers\Admin\AdminUsersController::class, 'updateBan'])
             ->name('admin.users.ban');
 
         Route::prefix('/admin/sites')->group(function () {

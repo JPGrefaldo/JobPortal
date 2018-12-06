@@ -15,10 +15,13 @@ class FetchUserTest extends TestCase
 
     const URI = 'api/user';
 
-    /** @test */
+    /**
+     * @test
+     * @covers
+     */
     public function user()
     {
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
         $response = $this->actingAs($user, 'api')->getJson(self::URI);
 
         $response->assertSuccessful()
@@ -29,7 +32,10 @@ class FetchUserTest extends TestCase
             ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers
+     */
     public function unauthorize_guest()
     {
         $response = $this->getJson(self::URI);

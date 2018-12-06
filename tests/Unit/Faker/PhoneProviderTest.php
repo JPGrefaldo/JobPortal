@@ -17,7 +17,10 @@ class PhoneProviderTest extends TestCase
         $this->faker->addProvider(new PhoneProvider($this->faker));
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function test_phone_number()
     {
         $fakePhoneNumber = $this->faker->phoneNumber;

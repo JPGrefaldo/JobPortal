@@ -18,7 +18,7 @@ class ResourceAttachmentUpdateTest extends IntegrationTest
 
     public function test_can_update_attached_resources()
     {
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
         $role = factory(Role::class)->create();
         $user->roles()->attach($role, ['admin' => 'Y']);
 
@@ -48,7 +48,7 @@ class ResourceAttachmentUpdateTest extends IntegrationTest
 
     public function test_cant_update_pivot_fields_that_arent_authorized()
     {
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
         $role = factory(Role::class)->create();
         $user->roles()->attach($role, ['admin' => 'Y']);
 
@@ -70,7 +70,7 @@ class ResourceAttachmentUpdateTest extends IntegrationTest
 
     public function test_can_update_attached_soft_deleted_resources()
     {
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
         $role = factory(Role::class)->create();
 
         $user->delete();
@@ -98,7 +98,7 @@ class ResourceAttachmentUpdateTest extends IntegrationTest
 
     public function test_cant_update_attached_resources_if_related_resource_is_not_relatable()
     {
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
 
         $role = factory(Role::class)->create();
         $role2 = factory(Role::class)->create();
@@ -122,7 +122,7 @@ class ResourceAttachmentUpdateTest extends IntegrationTest
 
     public function test_resource_may_specify_custom_relatable_query_customizer()
     {
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
 
         $role = factory(Role::class)->create();
         $role2 = factory(Role::class)->create();
@@ -153,7 +153,7 @@ class ResourceAttachmentUpdateTest extends IntegrationTest
 
     public function test_404_is_returned_if_resource_is_not_attached()
     {
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
         $role = factory(Role::class)->create();
         $user->roles()->attach($role);
 
@@ -170,7 +170,7 @@ class ResourceAttachmentUpdateTest extends IntegrationTest
 
     public function test_pivot_data_is_validated()
     {
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
         $role = factory(Role::class)->create();
         $user->roles()->attach($role);
 

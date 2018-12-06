@@ -30,7 +30,10 @@ class PositionsFeatureTest extends TestCase
         $response->assertJson($positions->toArray());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers
+     */
     public function create()
     {
         $user = $this->createAdmin();
@@ -62,7 +65,10 @@ class PositionsFeatureTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers
+     */
     public function create_not_required()
     {
         $user = $this->createAdmin();
@@ -92,7 +98,10 @@ class PositionsFeatureTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers
+     */
     public function create_formatted_name()
     {
         $user = $this->createAdmin();
@@ -124,7 +133,10 @@ class PositionsFeatureTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers
+     */
     public function create_invalid_data()
     {
         $user = $this->createAdmin();
@@ -148,10 +160,13 @@ class PositionsFeatureTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers
+     */
     public function create_unauthorized()
     {
-        $user = $this->createCrewUser();
+        $user = $this->createCrew();
         $data = [
             'name'          => 'Some Position',
             'department_id' => DepartmentID::PRODUCTION,
@@ -165,7 +180,10 @@ class PositionsFeatureTest extends TestCase
         $response->assertRedirect('/');
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers
+     */
     public function update()
     {
         $user     = $this->createAdmin();
@@ -196,7 +214,10 @@ class PositionsFeatureTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers
+     */
     public function update_not_required()
     {
         $user     = $this->createAdmin();
@@ -225,7 +246,10 @@ class PositionsFeatureTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers
+     */
     public function update_formatted_name()
     {
         $user     = $this->createAdmin();
@@ -257,7 +281,10 @@ class PositionsFeatureTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers
+     */
     public function update_same()
     {
         $user     = $this->createAdmin();
@@ -288,7 +315,10 @@ class PositionsFeatureTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers
+     */
     public function update_invalid_data()
     {
         $user     = $this->createAdmin();
@@ -317,7 +347,10 @@ class PositionsFeatureTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers
+     */
     public function update_not_exist()
     {
         $user = $this->createAdmin();
@@ -334,10 +367,13 @@ class PositionsFeatureTest extends TestCase
         $response->assertNotFound();
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers
+     */
     public function update_unauthorized()
     {
-        $user     = $this->createCrewUser();
+        $user     = $this->createCrew();
         $data     = [
             'name'          => 'Updated Position',
             'department_id' => DepartmentID::PRODUCTION,

@@ -18,7 +18,7 @@ class UserNotificationSettingTest extends TestCase
     {
         parent::setUp();
 
-        $this->user = factory(User::class)->create();
+        $this->user = $this->createUser();
         $this->userNotificationSetting =
             factory(UserNotificationSetting::class)
                 ->create(['user_id' => $this->user->id]);

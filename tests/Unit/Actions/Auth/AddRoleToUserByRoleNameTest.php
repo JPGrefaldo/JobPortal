@@ -31,7 +31,7 @@ class AddRoleToUserByRoleNameTest extends TestCase
      */
     public function execute()
     {
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
 
         $this->service->execute($user, Role::PRODUCER);
 

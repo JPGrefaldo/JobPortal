@@ -12,7 +12,10 @@ class SearchTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function case_insensitive_search_on_strings()
     {
         $user = $this->createUser(['first_name' => 'John', 'last_name' => 'Doe']);

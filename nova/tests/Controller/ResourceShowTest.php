@@ -29,7 +29,7 @@ class ResourceShowTest extends IntegrationTest
 
     public function test_can_show_resource()
     {
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
 
         $response = $this->withExceptionHandling()
                         ->getJson('/nova-api/users/1');
@@ -62,7 +62,7 @@ class ResourceShowTest extends IntegrationTest
 
     public function test_authorization_information_is_correctly_adjusted_when_unauthorized()
     {
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
 
         $_SERVER['nova.user.authorizable'] = true;
         $_SERVER['nova.user.updatable'] = false;
@@ -99,7 +99,7 @@ class ResourceShowTest extends IntegrationTest
 
         Gate::policy(User::class, UserPolicy::class);
 
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
 
         $response = $this->withExceptionHandling()
                         ->getJson('/nova-api/users/1');
@@ -115,7 +115,7 @@ class ResourceShowTest extends IntegrationTest
         // Verify Missing...
         $_SERVER['nova.authorize.roles'] = false;
 
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
 
         $response = $this->withExceptionHandling()
                         ->getJson('/nova-api/users/'.$user->id);
@@ -135,7 +135,7 @@ class ResourceShowTest extends IntegrationTest
 
     public function test_field_panels_are_returned_correctly_and_fields_are_correctly_assigned()
     {
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
 
         $response = $this->withExceptionHandling()
                         ->getJson('/nova-api/panels/1');

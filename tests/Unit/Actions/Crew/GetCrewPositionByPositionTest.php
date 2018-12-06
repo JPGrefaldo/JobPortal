@@ -33,7 +33,7 @@ class GetCrewPositionByPositionTest extends TestCase
      */
     public function execute()
     {
-        $user = factory(User::class)->state('withCrewRole')->create();
+        $user = $this->createCrew();
         $crew = factory(Crew::class)->create([
             'user_id' => $user->id,
         ]);
@@ -56,7 +56,7 @@ class GetCrewPositionByPositionTest extends TestCase
      */
     public function execute_no_valid_position()
     {
-        $user = factory(User::class)->state('withCrewRole')->create();
+        $user = $this->createCrew();
         $crew = factory(Crew::class)->create([
             'user_id' => $user->id,
         ]);

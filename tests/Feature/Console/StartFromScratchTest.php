@@ -30,7 +30,10 @@ class StartFromScratchTest extends TestCase
         ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Console\Commands\StartFromScratch::handle
+     */
     public function execute()
     {
         $command = $this->artisan(self::CMD, [

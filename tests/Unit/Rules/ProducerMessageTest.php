@@ -13,6 +13,7 @@ class ProducerMessageTest extends TestCase
     use RefreshDatabase;
 
     protected $recipients;
+
     public function setUp()
     {
         parent::setup();

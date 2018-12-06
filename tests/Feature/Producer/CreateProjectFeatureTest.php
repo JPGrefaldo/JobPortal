@@ -13,16 +13,14 @@ class CreateProjectFeatureTest extends TestCase
 
     /**
      * @test
+     * @covers \App\Http\Controllers\Producer\ProjectsController::create
      */
     public function create()
     {
-        // given
-        $producer = factory(User::class)->states('withProducerRole')->create();
+        $producer = $this->createProducer();
 
-        // when
         $response = $this->actingAs($producer)->get(route('producer.projects.create'));
 
-        // then
         $response->assertSee('Post your project');
         $response->assertSee('Project title:');
         $response->assertSee('Production company name (or your name if individual)');

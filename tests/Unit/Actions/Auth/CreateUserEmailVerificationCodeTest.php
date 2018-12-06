@@ -30,7 +30,7 @@ class CreateUserEmailVerificationCodeTest extends TestCase
      */
     public function execute()
     {
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
 
         $this->assertDatabaseMissing('email_verification_codes', [
             'user_id' => 1,

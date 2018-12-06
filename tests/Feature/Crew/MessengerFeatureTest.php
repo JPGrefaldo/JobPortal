@@ -20,7 +20,7 @@ class MessengerFeatureTest extends TestCase
     {
         // given
         $crew = factory(User::class)->states('withCrewRole')->create();
-        $producer = factory(User::class)->create();
+        $producer = $this->createUser();
         $thread = factory(Thread::class)->create();
         $thread->addParticipant($producer->id);
         $producerMessage = factory(Message::class)->create([

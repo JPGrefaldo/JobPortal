@@ -17,8 +17,8 @@ class LensActionControllerTest extends IntegrationTest
 
     public function test_lens_actions_can_be_applied()
     {
-        $user = factory(User::class)->create();
-        $user2 = factory(User::class)->create();
+        $user = $this->createUser();
+        $user2 = $this->createUser();
 
         $response = $this->withExceptionHandling()
                         ->post('/nova-api/users/lens/user-lens/action?action='.(new NoopAction)->uriKey(), [
@@ -32,8 +32,8 @@ class LensActionControllerTest extends IntegrationTest
 
     public function test_lens_actions_can_be_applied_to_entire_lens()
     {
-        $user = factory(User::class)->create();
-        $user2 = factory(User::class)->create();
+        $user = $this->createUser();
+        $user2 = $this->createUser();
 
         $response = $this->withExceptionHandling()
                         ->post('/nova-api/users/lens/user-lens/action?action='.(new NoopAction)->uriKey(), [
@@ -50,8 +50,8 @@ class LensActionControllerTest extends IntegrationTest
      */
     public function test_lens_actions_cant_be_applied_to_entire_lens_if_lens_returns_resource()
     {
-        $user = factory(User::class)->create();
-        $user2 = factory(User::class)->create();
+        $user = $this->createUser();
+        $user2 = $this->createUser();
 
         $response = $this->withoutExceptionHandling()
                         ->post('/nova-api/users/lens/paginating-user-lens/action?action='.(new NoopAction)->uriKey(), [

@@ -23,11 +23,12 @@ class MessageCrewTest extends TestCase
     }
     /**
      * @test
+     * @covers \App\Actions\Admin\MessageCrew::execute
      */
     public function execute()
     {
         // given
-        $producerUser = factory(User::class)->create();
+        $producer = $this->createProducer();
         $crew = factory(Crew::class)->create();
         $project = factory(Project::class)->create([
             'user_id' => $producerUser->id,

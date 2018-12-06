@@ -17,7 +17,7 @@ class PartitionMetricControllerTest extends IntegrationTest
 
     public function test_count_results_can_be_retrieved()
     {
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
         factory(Post::class, 2)->create(['user_id' => $user->id]);
 
         $user->name = 'Taylor Otwell';
@@ -32,7 +32,7 @@ class PartitionMetricControllerTest extends IntegrationTest
 
     public function test_average_results_can_be_retrieved()
     {
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
         factory(Post::class, 2)->create(['user_id' => $user->id]);
 
         $user->name = 'Taylor Otwell';

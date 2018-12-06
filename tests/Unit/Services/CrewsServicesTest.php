@@ -42,7 +42,7 @@ class CrewsServicesTest extends TestCase
     {
         Storage::fake();
 
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
         $data = [
             'bio'     => 'some bio',
             'photo'   => UploadedFile::fake()->image('photo.png'),
@@ -188,7 +188,7 @@ class CrewsServicesTest extends TestCase
     {
         Storage::fake();
 
-        $user      = factory(User::class)->create();
+        $user      = $this->createUser();
         $data      = ['bio' => 'some bio',];
         $photoFile = UploadedFile::fake()->image('photo.png');
 
@@ -205,7 +205,10 @@ class CrewsServicesTest extends TestCase
         Storage::assertExists($crew->photo);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function create_general_resume()
     {
         Storage::fake();
@@ -469,7 +472,10 @@ class CrewsServicesTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function update()
     {
         Storage::fake();
@@ -495,7 +501,10 @@ class CrewsServicesTest extends TestCase
         Storage::assertMissing($oldPhoto);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function update_without_photo()
     {
         Storage::fake();
@@ -520,7 +529,10 @@ class CrewsServicesTest extends TestCase
         Storage::assertExists($oldPhoto);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function update_crew_general_resume()
     {
         Storage::fake();
@@ -546,7 +558,10 @@ class CrewsServicesTest extends TestCase
         Storage::assertExists($resume->url);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function update_crew_general_resume_not_exists()
     {
         Storage::fake();
@@ -569,7 +584,10 @@ class CrewsServicesTest extends TestCase
         Storage::assertExists($resume->url);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function prepare_crew_data()
     {
         $data      = ['bio' => 'some bio'];
@@ -589,7 +607,10 @@ class CrewsServicesTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function prepare_crew_data_without_photo()
     {
         $data      = ['bio' => 'some bio'];
@@ -606,7 +627,10 @@ class CrewsServicesTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function prepare_crew_data_bio_is_null()
     {
         $data      = ['bio' => null];
@@ -649,7 +673,10 @@ class CrewsServicesTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function prepare_general_resume_data()
     {
         $resumeData = [
@@ -841,7 +868,10 @@ class CrewsServicesTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function update_general_reel_not_exists()
     {
         $crew = factory(Crew::class)->create();
