@@ -35,7 +35,7 @@ class AppServiceProvider extends ServiceProvider
      */
     protected function setSqliteSchemaGrammarOnMigrate()
     {
-        $this->app->afterResolving('migrator', function($migrator) {
+        $this->app->afterResolving('migrator', function ($migrator) {
             /** @var \Illuminate\Database\Connection $db */
             $db = $this->app['db.connection'];
 
