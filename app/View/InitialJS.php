@@ -14,7 +14,10 @@ class InitialJS
      */
     private $variables = [];
 
-    public function any()
+    /**
+     * @return int
+     */
+    public function any(): int
     {
         return (bool) ($this->countVariables() + $this->countJSON());
     }
@@ -33,6 +36,10 @@ class InitialJS
      */
     public function pushJson($variableName, $json)
     {
+        if (is_array($json)){
+            $json = json_encode($json);
+        }
+
         $this->json[$variableName] = $json;
     }
 
