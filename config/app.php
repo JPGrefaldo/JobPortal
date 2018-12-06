@@ -167,6 +167,7 @@ return [
         Intervention\Image\ImageServiceProvider::class,
         App\Providers\NovaServiceProvider::class,
         App\Providers\TelescopeServiceProvider::class,
+        App\Providers\ViewServiceProvider::class,
     ],
 
     /*
