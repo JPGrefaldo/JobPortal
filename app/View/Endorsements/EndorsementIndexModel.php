@@ -3,6 +3,8 @@
 namespace App\View\Endorsements;
 
 
+use App\Models\CrewPosition;
+use App\Models\Endorsement;
 use App\Models\User;
 use Spatie\ViewModels\ViewModel;
 
@@ -15,7 +17,22 @@ class EndorsementIndexModel extends ViewModel
     /**
      * @var \Illuminate\Support\Collection
      */
-    public $endorsementPositions;
+    public $endorsements;
+
+    /**
+     * @var \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public $crewPositions;
+
+    /**
+     * @var integer
+     */
+    public $total_endorsements;
+
+    /**
+     * @var \Illuminate\Support\Collection
+     */
+    public $positions;
 
     /**
      * EndorsementIndexModel constructor.
@@ -24,70 +41,71 @@ class EndorsementIndexModel extends ViewModel
     public function __construct(User $user)
     {
         $this->user = $user;
-
         $this->loadUser();
 
-        $this->endorsementPositions = $this->getApprovedEndorsementsPositions();
-    }
+        $this->crewPositions = $this->user->crew->crewPositions;
 
-    private function getApprovedEndorsementsPositions()
-    {
-        $endorsements = $this->user->crew->endorsements;
+        $this->getPositions();
 
-        if ($endorsements->count()) {
-            return $this->buildEndorsementCollection($this->loadEndorsements($endorsements));
-        }
-
-        return collect([]);
+        $this->endorsements = $this->buildEndorsementCollection();
     }
 
     private function loadUser()
     {
         $this->user->load([
             'crew',
-            'crew.endorsements',
-        ]);
-    }
-
-    private function loadEndorsements($endorsements)
-    {
-        return $endorsements->load([
-            'request',
-            'request.crewPosition',
-            'request.crewPosition.position',
+            'crew.crewPositions',
+            'crew.crewPositions.position',
+            'crew.crewPositions.endorsements',
         ]);
     }
 
     /**
-     * @param $endorsements
      * @return \Illuminate\Support\Collection
      */
-    private function buildEndorsementCollection($endorsements)
+    private function buildEndorsementCollection()
     {
         $ret = [];
+        $this->total_endorsements = 0;
 
-        foreach ($endorsements as $endorsement) {
-            $position = $endorsement->request->crewPosition->position;
-
-            if (! isset($ret[$position->id])) {
-                $ret[$position->id] = [
-                    'position'    => $position,
-                    'request'     => $endorsement->request,
-                    'endorsement' => $endorsement,
-                    'approved'    => ($endorsement->approved_at) ? 1 : 0,
-                    'unapproved'  => ($endorsement->approved_at) ? 0 : 1,
-                    'total'       => 1,
-                ];
-            } else {
-                if ($endorsement->approved_at) {
-                    $ret[$position->id]['approved']++;
+        foreach ($this->crewPositions as $position) {
+            foreach ($position->endorsements as $endorsement) {
+                $this->total_endorsements++;
+                if (! isset($ret[$position->position_id])) {
+                    $ret[$position->position_id] = [
+                        'crew_position' => $position,
+                        'position'    => $position->position,
+                        'endorsement' => $endorsement,
+                        'approved'    => ($endorsement->approved_at) ? 1 : 0,
+                        'unapproved'  => ($endorsement->approved_at) ? 0 : 1,
+                        'total'       => 1,
+                    ];
                 } else {
-                    $ret[$position->id]['unapproved']++;
+                    if ($endorsement->approved_at) {
+                        $ret[$position->position_id]['approved']++;
+                    } else {
+                        $ret[$position->position_id]['unapproved']++;
+                    }
+                    $ret[$position->position_id]['total']++;
                 }
-                $ret[$position->id]['total']++;
             }
         }
 
         return collect($ret);
+    }
+
+    public function getPositions()
+    {
+        $this->positions = collect([]);
+
+        if (! $this->crewPositions->count()) {
+            return;
+        }
+
+        foreach ($this->crewPositions as $crewPosition) {
+            $this->positions->push($crewPosition->position);
+        }
+
+        $this->positions = $this->positions->sortBy('name');
     }
 }

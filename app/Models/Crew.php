@@ -35,6 +35,14 @@ class Crew extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
+    public function crewPositions()
+    {
+        return $this->hasMany(CrewPosition::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function positions()
     {
         return $this->belongsToMany(Position::class);
@@ -70,14 +78,6 @@ class Crew extends Model
     public function socials()
     {
         return $this->hasMany(CrewSocial::class);
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
-     */
-    public function endorsementRequests()
-    {
-        return $this->hasManyThrough(EndorsementRequest::class, CrewPosition::class, 'crew_id', 'crew_position_id', 'id', 'id');
     }
 
     /**
@@ -122,19 +122,11 @@ class Crew extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
      */
     public function endorsements()
     {
-        return $this->hasMany(Endorsement::class, 'endorser_id');
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function approvedEndorsements()
-    {
-        return $this->hasMany(Endorsement::class, 'endorser_id')->whereNotNull('approved_at');
+        return $this->hasManyThrough(Endorsement::class, CrewPosition::class, 'crew_id', 'crew_position_id', 'id', 'id');
     }
 
     public function projects()

@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Role;
 use App\Rules\ProducerMessage;
 use Illuminate\Foundation\Http\FormRequest;
 

@@ -1,52 +1,44 @@
 <template>
     <div class="bg-white rounded flex-1 shadow-lg p-8 mb-4">
-        <div class="flex my-3 items-center">
-            <div class="w-1/3">Endorser name</div>
-            <div class="w-1/3">Endorser email</div>
-            <button
-                class="flex bg-green rounded-full h-8 w-8 items-center justify-center font-bold"
-                @click.prevent="addEndorserField()">+</button>
-        </div>
-        <div v-for="(endorser, index) in endorsers">
-            <form @submit.prevent="" @keydown="endorser.form.errors.clear($event.target.name)">
-                <div class="my-6">
-                    <div class="flex items-center">
-                        <input
-                            class="w-1/3 shadow appearance-none border rounded py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline"
-                            name="name"
-                            type="text"
-                            placeholder="John Doe"
-                            v-model="endorser.form.name"
-                            :disabled="endorser.isSending">
-                        <input
-                            class="w-1/3 shadow appearance-none border rounded py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline"
-                            name="email"
-                            type="email"
-                            placeholder="john@email.com"
-                            v-model="endorser.form.email"
-                            :disabled="endorser.isSending">
-                        <button
-                            class="flex bg-grey-light rounded-full h-8 w-8 items-center justify-center"
-                            @click.prevent="removeEndorserField(index)">x</button>
-                    </div>
-                    <div class="flex">
-                        <p class="w-1/3 text-red text-xs italic">
-                            {{ endorser.form.errors.get('name') }}
-                        </p>
-                        <p class="w-1/3 text-red text-xs italic">
-                            {{ endorser.form.errors.get('email') }}
-                        </p>
-                    </div>
+        <form @submit.prevent="">
+            <div class="flex-auto">
+                <div class="w-full">
+                    <label>Email:</label>
                 </div>
-            </form>
-        </div>
-        <div>
-            <button
-                class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded align-baseline"
-                @click.prevent="storeEndorsementRequest()">
-                Ask Endorsement
-            </button>
-        </div>
+                <div class="w-full">
+                    <input
+                        type="email"
+                        name="email"
+                        class="form-control md:w-1/2 -md:w-full"
+                        placeholder="Endorser Email"
+                        v-model="form.email"
+                        :disabled="isSending"
+                        required
+                    >
+                    <p class="w-1/3 text-red text-xs italic">
+                        {{ form.errors.get('email') }}
+                    </p>
+                </div>
+                <div class="w-full mt-2 mb-1">
+                    <label>Messsage:</label>
+                </div>
+                <div class="w-full">
+                    <textarea
+                        class="form-control w-full h-48"
+                        name="message"
+                        v-model="form.message"
+                        :disabled="isSending"
+                        required
+                    ></textarea>
+                    <p class="w-1/3 text-red text-xs italic">
+                        {{ form.errors.get('message') }}
+                    </p>
+                </div>
+                <div class="w-full mt-2 lg:text-right -lg:text-center">
+                    <button class="btn-blue" @click.prevent="storeEndorsementRequest()">Send email</button>
+                </div>
+            </div>
+        </form>
     </div>
 </template>
 
@@ -60,50 +52,48 @@
                 type: String,
                 required: true
             },
+            position: {
+                type: String,
+                required: true
+            },
+            full_name: {
+                type: String,
+                required: true
+            },
         },
         data() {
             return {
-                endorsers: [{
-                    form: new Form({
-                        name: '',
-                        email: '',
-                    }),
-                    isSending : false,
-                }],
+                form: new Form({
+                    email: '',
+                    message: 'Hello,\n' +
+                        '\n' +
+                        'Can you please endorse me for ' + this.position + ' by clicking on the link below?\n' +
+                        '\n' +
+                        'Thanks,\n' +
+                        this.full_name,
+                }),
+                isSending : false,
             }
         },
+
         methods: {
-            addEndorserField() {
-                this.endorsers.push({
-                    form: new Form({
-                        "name" : '',
-                        "email" : '',
-                    }),
-                    isSending : false,
-                });
-            },
-            removeEndorserField(index) {
-                if (this.endorsers.length === 1) {
-                    return;
-                }
-                this.endorsers.splice(index, 1);
-            },
             storeEndorsementRequest() {
-                this.endorsers.forEach(endorser => {
-                    endorser.isSending = true;
-                    endorser
-                        .form
-                        .post(this.url, endorser.form)
-                        .then(response => {
-                            // TODO open a toast with the response
-                            // "we sent your request. Here's to hoping endorser will approve :)"
-                            endorser.isSending = false;
-                        })
-                        .catch(response => {
-                            endorser.isSending = false;
-                            endorser.form.errors.record(response.errors);
+                this.isSending = true;
+                this.form
+                    .post(this.url, this.form)
+                    .then(response => {
+                        Vue.swal({
+                            text: 'Request email sent',
+                            type: 'success',
+                            onClose: () => {
+                                window.location.reload();
+                            }
                         });
-                });
+                    })
+                    .catch(response => {
+                        this.isSending = false;
+                        this.form.errors.record(response.errors);
+                    });
             },
         }
     }

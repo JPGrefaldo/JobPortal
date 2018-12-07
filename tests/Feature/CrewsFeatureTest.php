@@ -19,14 +19,18 @@ use Tests\TestCase;
  */
 class CrewsFeatureTest extends TestCase
 {
-    use RefreshDatabase, SeedDatabaseAfterRefresh;
+    use RefreshDatabase,
+        SeedDatabaseAfterRefresh;
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function create()
     {
         Storage::fake();
 
-        $user = $this->createCrewUser();
+        $user = $this->createCrew();
         $data = $this->getCreateData();
 
         $response = $this->actingAs($user)
@@ -127,12 +131,15 @@ class CrewsFeatureTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function create_not_required()
     {
         Storage::fake();
 
-        $user = $this->createCrewUser();
+        $user = $this->createCrew();
         $data = $this->getCreateData([
             'resume'                       => '',
             'reel'                         => '',
@@ -174,12 +181,15 @@ class CrewsFeatureTest extends TestCase
         $this->assertCount(0, $crew->socials);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function create_invalid_data()
     {
         Storage::fake();
 
-        $user = $this->createCrewUser();
+        $user = $this->createCrew();
         $data = $this->getCreateData([
             'photo'                        => UploadedFile::fake()
                                                           ->create('image.php'),
@@ -219,12 +229,15 @@ class CrewsFeatureTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function create_youtube_cleaned()
     {
         Storage::fake();
 
-        $user = $this->createCrewUser();
+        $user = $this->createCrew();
         $data = $this->getCreateData([
             'reel'                => 'https://www.youtube.com/watch?v=2-_rLbU6zJo',
             'socials.youtube.url' => 'https://www.youtube.com/watch?v=G8S81CEBdNs',
@@ -263,12 +276,15 @@ class CrewsFeatureTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function create_vimeo_reel_cleaned()
     {
         Storage::fake();
 
-        $user = $this->createCrewUser();
+        $user = $this->createCrew();
         $data = $this->getCreateData(['reel' => 'https://vimeo.com/230046783']);
 
         $response = $this->actingAs($user)
@@ -290,10 +306,13 @@ class CrewsFeatureTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function create_unauthorized()
     {
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
         $data = $this->getCreateData();
 
         $response = $this->actingAs($user)
@@ -303,12 +322,15 @@ class CrewsFeatureTest extends TestCase
         $this->assertGuest();
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function update()
     {
         Storage::fake();
 
-        $user   = $this->createCrewUser();
+        $user   = $this->createCrew();
         $crew   = factory(Crew::class)
             ->states('PhotoUpload')
             ->create(['user_id' => $user->id]);
@@ -421,12 +443,15 @@ class CrewsFeatureTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function update_no_relations()
     {
         Storage::fake();
 
-        $user = $this->createCrewUser();
+        $user = $this->createCrew();
         $crew = factory(Crew::class)->create(['user_id' => $user->id]);
         $data = $this->getUpdateData();
 
@@ -514,12 +539,15 @@ class CrewsFeatureTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function update_without_photo()
     {
         Storage::fake();
 
-        $user         = $this->createCrewUser();
+        $user         = $this->createCrew();
         $crew         = factory(Crew::class)
             ->states('PhotoUpload')
             ->create(['user_id' => $user->id]);
@@ -543,12 +571,15 @@ class CrewsFeatureTest extends TestCase
         Storage::assertExists($oldCrewPhoto);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function update_incomplete_socials()
     {
         Storage::fake();
 
-        $user = $this->createCrewUser();
+        $user = $this->createCrew();
         $crew = factory(Crew::class)->create(['user_id' => $user->id]);
         $data = $this->getUpdateData([
             'socials.youtube.url'          => '',
@@ -594,12 +625,15 @@ class CrewsFeatureTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function update_youtube_cleaned()
     {
         Storage::fake();
 
-        $user = $this->createCrewUser();
+        $user = $this->createCrew();
         $crew = factory(Crew::class)->create(['user_id' => $user->id]);
         $reel = factory(CrewReel::class)->create(['crew_id' => $crew->id]);
 
@@ -638,12 +672,15 @@ class CrewsFeatureTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function update_vimeo_reel_cleaned()
     {
         Storage::fake();
 
-        $user = $this->createCrewUser();
+        $user = $this->createCrew();
         $crew = factory(Crew::class)->create(['user_id' => $user->id]);
         $reel = factory(CrewReel::class)->create(['crew_id' => $crew->id]);
         $data = $this->getUpdateData(['reel' => 'https://vimeo.com/230046783']);
@@ -664,12 +701,15 @@ class CrewsFeatureTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function update_invalid_data()
     {
         Storage::fake();
 
-        $user = $this->createCrewUser();
+        $user = $this->createCrew();
         $crew = factory(Crew::class)->create(['user_id' => $user->id]);
         $data = $this->getUpdateData([
             'photo'                        => UploadedFile::fake()
@@ -710,12 +750,15 @@ class CrewsFeatureTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function update_not_exists()
     {
         Storage::fake();
 
-        $user = $this->createCrewUser();
+        $user = $this->createCrew();
         $data = $this->getUpdateData();
 
         $response = $this->actingAs($user)
@@ -724,7 +767,10 @@ class CrewsFeatureTest extends TestCase
         $response->assertStatus(404);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function update_unauthorized()
     {
         $crew = factory(Crew::class)->create();

@@ -42,6 +42,14 @@ class CrewPosition extends Pivot
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function endorsements()
+    {
+        return $this->hasMany(Endorsement::class, 'crew_position_id');
+    }
+
+    /**
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @param Crew $crew
      * @param Position $position

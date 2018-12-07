@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Cmgmyr\Messenger\Models\Thread;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Project extends Model
 {
+    use SoftDeletes;
     /**
      * The protected attributes
      *
@@ -51,5 +54,15 @@ class Project extends Model
     public function contributors()
     {
         return $this->belongsToMany(Crew::class);
+    }
+
+    public function owner()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function threads()
+    {
+        return $this->belongsToMany(Thread::class);
     }
 }

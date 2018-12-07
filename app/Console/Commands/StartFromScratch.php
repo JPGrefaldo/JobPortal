@@ -39,7 +39,7 @@ class StartFromScratch extends Command
     public function handle()
     {
         $this->info('Start Migrations');
-        Artisan::call('migrate');
+        Artisan::call('migrate:fresh');
         $this->info('Migrations Completed');
 
         $this->info('Start DB Seeds');

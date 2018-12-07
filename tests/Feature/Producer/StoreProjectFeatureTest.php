@@ -15,7 +15,10 @@ class StoreProjectFeatureTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Producer\ProjectsController::store
+     */
     public function store()
     {
         $user = $this->createProducer();
@@ -99,7 +102,10 @@ class StoreProjectFeatureTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Producer\ProjectsController::store
+     */
     public function store_not_required()
     {
         $user = $this->createProducer();
@@ -141,7 +147,10 @@ class StoreProjectFeatureTest extends TestCase
         $this->assertCount(0, $project->jobs);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Producer\ProjectsController::store
+     */
     public function store_with_remote_sites_excluding_current_site()
     {
         $user = $this->createProducer();
@@ -195,7 +204,10 @@ class StoreProjectFeatureTest extends TestCase
         $this->assertCount(0, $project->jobs);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Producer\ProjectsController::store
+     */
     public function store_with_job_non_pay_rate()
     {
         $user = $this->createProducer();
@@ -269,7 +281,10 @@ class StoreProjectFeatureTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Producer\ProjectsController::store
+     */
     public function store_with_job_has_no_gear_and_no_persons_needed()
     {
         $user = $this->createProducer();
@@ -337,7 +352,10 @@ class StoreProjectFeatureTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Producer\ProjectsController::store
+     */
     public function store_with_many_jobs()
     {
         $user = $this->createProducer();
@@ -430,7 +448,10 @@ class StoreProjectFeatureTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Producer\ProjectsController::store
+     */
     public function store_invalid()
     {
         $user = $this->createProducer();
@@ -482,7 +503,10 @@ class StoreProjectFeatureTest extends TestCase
         ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Producer\ProjectsController::store
+     */
     public function store_invalid_required()
     {
         $user = $this->createProducer();
@@ -509,7 +533,10 @@ class StoreProjectFeatureTest extends TestCase
         ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Producer\ProjectsController::store
+     */
     public function store_job_requires_pay_type_id_when_zero_rate()
     {
         $user = $this->createProducer();
@@ -545,10 +572,13 @@ class StoreProjectFeatureTest extends TestCase
         ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers 
+     */
     public function store_unauthorized()
     {
-        $user = $this->createCrewUser();
+        $user = $this->createCrew();
 
         $response = $this->actingAs($user)
                          ->post('producer/projects');

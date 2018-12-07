@@ -2,27 +2,42 @@
 
 namespace Tests\Feature\Crew;
 
+use App\Models\Crew;
+use App\Models\User;
+use Cmgmyr\Messenger\Models\Message;
+use Cmgmyr\Messenger\Models\Thread;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 
 class MessengerFeatureTest extends TestCase
 {
+    use RefreshDatabase, SeedDatabaseAfterRefresh;
     /**
      * @test
      */
     public function crew_can_reply()
     {
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
         // given
-        // message from producer
-        // crew
+        $crew = factory(User::class)->states('withCrewRole')->create();
+        $producer = $this->createUser();
+        $thread = factory(Thread::class)->create();
+        $thread->addParticipant($producer->id);
+        $producerMessage = factory(Message::class)->create([
+            'user_id' => $producer->id,
+        ]);
+        $thread->addParticipant($crew->id);
+        // $crewReply = factory(Message::class)->create([
+        //     'user_id' => $producer->id,
+        // ]);
 
         // when
-        // crew tires to reply to producer
+        $response = $this
+            ->actingAs($crew)
+            ->postJson(route('crew.messages.store'));
 
         // then
-        // crew sees theat his reply was sent
+        $response->assertSee('Producer messaged successfully.');
     }
 
     /**

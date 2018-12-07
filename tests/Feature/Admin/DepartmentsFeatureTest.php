@@ -10,25 +10,28 @@ use Tests\TestCase;
 
 class DepartmentsFeatureTest extends TestCase
 {
-    use RefreshDatabase, SeedDatabaseAfterRefresh;
+    use RefreshDatabase,
+        SeedDatabaseAfterRefresh;
 
     /**
      * @test
+     * @covers \App\Http\Controllers\Admin\DepartmentsController::index
      */
     public function index()
     {
-        // given
-        $admin = factory(User::class)->states('withAdminRole')->create();
+        $admin = $this->createAdmin();
         $departments = Department::all();
 
-        // when
-        $response = $this->actingAs($admin)->getJson(route('admin.departments'));
+        $response = $this->actingAs($admin)
+                         ->getJson(route('admin.departments'));
 
-        // then
         $response->assertJson($departments->toArray());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Admin\DepartmentsController::store
+     */
     public function create()
     {
         $user = $this->createAdmin();
@@ -38,7 +41,7 @@ class DepartmentsFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post('/admin/departments', $data);
+                         ->post(route('admin.departments', $data));
 
         $response->assertSuccessful();
 
@@ -48,7 +51,10 @@ class DepartmentsFeatureTest extends TestCase
         ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Admin\DepartmentsController::store
+     */
     public function create_no_description()
     {
         $user = $this->createAdmin();
@@ -58,7 +64,7 @@ class DepartmentsFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post('/admin/departments', $data);
+                         ->post(route('admin.departments', $data));
 
         $response->assertSuccessful();
 
@@ -68,7 +74,10 @@ class DepartmentsFeatureTest extends TestCase
         ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Admin\DepartmentsController::store
+     */
     public function create_formatted_name()
     {
         $user = $this->createAdmin();
@@ -78,7 +87,7 @@ class DepartmentsFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post('/admin/departments', $data);
+                         ->post(route('admin.departments', $data));
 
         $response->assertSuccessful();
 
@@ -89,7 +98,10 @@ class DepartmentsFeatureTest extends TestCase
         $this->assertEquals('Production Sound', $department->name);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Admin\DepartmentsController::store
+     */
     public function create_invalid_data()
     {
         $user = $this->createAdmin();
@@ -99,14 +111,17 @@ class DepartmentsFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post('/admin/departments', $data);
+                         ->post(route('admin.departments', $data));
 
         $response->assertSessionHasErrors([
             'name' => 'The name field is required.',
         ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Admin\DepartmentsController::store
+     */
     public function create_duplicate_name()
     {
         factory(Department::class)->create(['name' => 'Lighting']);
@@ -118,14 +133,17 @@ class DepartmentsFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post('/admin/departments', $data);
+                         ->post(route('admin.departments', $data));
 
         $response->assertSessionHasErrors([
             'name' => 'The name has already been taken.',
         ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Admin\DepartmentsController::update
+     */
     public function update()
     {
         $user       = $this->createAdmin();
@@ -150,7 +168,10 @@ class DepartmentsFeatureTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Admin\DepartmentsController::update
+     */
     public function update_no_description()
     {
         $user       = $this->createAdmin();
@@ -175,7 +196,10 @@ class DepartmentsFeatureTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Admin\DepartmentsController::update
+     */
     public function update_formatted_name()
     {
         $user       = $this->createAdmin();
@@ -200,7 +224,10 @@ class DepartmentsFeatureTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Admin\DepartmentsController::update
+     */
     public function update_same()
     {
         $user       = $this->createAdmin();
@@ -225,7 +252,10 @@ class DepartmentsFeatureTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Admin\DepartmentsController::update
+     */
     public function update_invalid_data()
     {
         $user       = $this->createAdmin();
@@ -243,7 +273,10 @@ class DepartmentsFeatureTest extends TestCase
         ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Admin\DepartmentsController::update
+     */
     public function update_duplicate_name()
     {
         factory(Department::class)->create(['name' => 'Lighting']);

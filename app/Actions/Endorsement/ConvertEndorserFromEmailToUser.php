@@ -8,7 +8,6 @@ class ConvertEndorserFromEmailToUser
 {
     /**
      * @param User $user
-     * @return \App\Models\User|null
      */
     public function execute($user)
     {

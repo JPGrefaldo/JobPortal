@@ -24,4 +24,22 @@ class EndorsementEndorser extends Model
         'email'   => 'string',
     ];
 
+    /**
+     * Users many to many relationship
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function getEmailAttribute($value)
+    {
+        if (! is_null($value)) {
+            return $value;
+        }
+
+        return $this->user->email;
+    }
 }

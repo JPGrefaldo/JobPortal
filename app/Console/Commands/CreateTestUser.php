@@ -8,6 +8,8 @@ use App\Actions\Crew\StubCrew;
 use App\Actions\User\CreateUser;
 use App\Models\Role;
 use App\Models\Site;
+use App\Models\User;
+use App\Utils\UrlUtils;
 use Illuminate\Console\Command;
 
 class CreateTestUser extends Command
@@ -44,17 +46,31 @@ class CreateTestUser extends Command
      */
     public function handle()
     {
+        $email = $this->argument('email');
+
+        if (User::where('email', $email)->count()) {
+            $this->error('Test user is already created');
+
+            return;
+        }
+
         $user = app(CreateUser::class)->execute([
             'first_name' => 'Test',
             'last_name'  => 'User',
-            'email'      => $this->argument('email'),
+            'email'      => $email,
             'password'   => 'test123',
             'phone'      => '555-555-5555',
         ]);
 
         foreach ([Role::CREW, Role::PRODUCER] as $_ => $type) {
             app(AddRoleToUserByRoleName::class)->execute($user, $type);
-            app(AddUserToSite::class)->execute($user, Site::whereHostname('crewcalls.test')->first());
+            app(AddUserToSite::class)->execute(
+                $user,
+                Site::whereHostname(
+                    UrlUtils::getHostNameFromBaseUrl(config('app.url'))
+                )->first()
+            );
+
             if ($type == Role::CREW) {
                 app(StubCrew::class)->execute($user);
             }

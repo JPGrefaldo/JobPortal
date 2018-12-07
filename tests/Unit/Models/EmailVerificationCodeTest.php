@@ -17,7 +17,7 @@ class EmailVerificationCodeTest extends TestCase
     public function user()
     {
         // given
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
 
         // when
         $emailVerificationCode = factory(EmailVerificationCode::class)->create([

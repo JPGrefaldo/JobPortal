@@ -6,11 +6,13 @@ use App\Models\Traits\LogsActivityOnlyDirty;
 use App\Utils\StrUtils;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 use Vinkla\Hashids\Facades\Hashids;
 
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
-    use Notifiable, LogsActivityOnlyDirty;
+    use Notifiable,
+        LogsActivityOnlyDirty;
 
     protected static function boot()
     {
@@ -203,5 +205,21 @@ class User extends Authenticatable
     public function getRouteKeyName()
     {
         return 'hash_id';
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    /**
+     * @return array
+     */
+    public function getJWTCustomClaims()
+    {
+        return [];
     }
 }

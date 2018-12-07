@@ -23,7 +23,7 @@ class ResourceDestroyTest extends IntegrationTest
     public function test_can_destroy_resources()
     {
         $role = factory(Role::class)->create();
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
         $role->users()->attach($user);
         $role2 = factory(Role::class)->create();
 
@@ -47,7 +47,7 @@ class ResourceDestroyTest extends IntegrationTest
         $_SERVER['__nova.role.prunable'] = true;
 
         $role = factory(Role::class)->create();
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
         $role->users()->attach($user);
 
         $response = $this->withExceptionHandling()
@@ -110,7 +110,7 @@ class ResourceDestroyTest extends IntegrationTest
 
     public function test_can_destroy_soft_deleted_resources()
     {
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
         $this->assertNull($user->deleted_at);
 
         $response = $this->withExceptionHandling()
@@ -131,7 +131,7 @@ class ResourceDestroyTest extends IntegrationTest
 
     public function test_cant_destroy_resources_not_authorized_to_destroy()
     {
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
         $this->assertNull($user->deleted_at);
 
         $_SERVER['nova.user.authorizable'] = true;

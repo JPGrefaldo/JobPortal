@@ -30,7 +30,7 @@ class UpdateUserContactSettingsTest extends TestCase
      */
     public function valid_data()
     {
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
         $data = [
             'email' => 'test@test.com',
             'phone' => '5555555555',

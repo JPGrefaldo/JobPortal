@@ -29,5 +29,19 @@ class Endorsement extends Model
         'deleted_at'             => 'datetime',
     ];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function request()
+    {
+        return $this->belongsTo(EndorsementRequest::class, 'endorsement_request_id', 'id');
+    }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function crewPosition()
+    {
+        return $this->hasOne(CrewPosition::class, 'id', 'crew_position_id');
+    }
 }

@@ -7,6 +7,9 @@ use App\Models\Project;
 use App\Models\ProjectJob;
 use App\Models\ProjectType;
 use App\Models\RemoteProject;
+use App\Models\User;
+use App\ProjectThread;
+use Cmgmyr\Messenger\Models\Thread;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -79,5 +82,44 @@ class ProjectTest extends TestCase
 
         // then
         $this->assertCount(3, $project->contributors);
+    }
+
+    /**
+     * @test
+     */
+    public function owner()
+    {
+        // given
+        $project = factory(Project::class)->create();
+        $producer = $this->createUser();
+
+        // when
+        $project->owner()->associate($producer);
+
+        // then
+        $this->assertEquals(
+            $project->owner->first_name,
+            $producer->first_name
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function threads()
+    {
+        // given
+        $project = factory(Project::class)->create();
+        $thread = factory(Thread::class)->create();
+
+        // when
+        $project->threads()->attach($thread);
+
+        // then
+        $this->assertCount(1, ProjectThread::all());
+        $this->assertDatabaseHas('project_thread', [
+            'project_id' => $project->id,
+            'thread_id' => $thread->id,
+        ]);
     }
 }

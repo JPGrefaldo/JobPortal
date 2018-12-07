@@ -3,9 +3,12 @@
 namespace App\Console\Commands;
 
 use App\Models\CrewPosition;
+use App\Models\Endorsement;
+use App\Models\EndorsementEndorser;
 use App\Models\EndorsementRequest;
 use App\Models\Position;
 use App\Models\User;
+use App\Utils\StrUtils;
 use Illuminate\Console\Command;
 
 class FakePendingEndorsements extends Command
@@ -94,15 +97,20 @@ class FakePendingEndorsements extends Command
 
             $bar->advance();
 
-            $request = $user->crew->endorsementRequests()->create([
-                'crew_position_id' => $crewPosition->id,
-                'token' => EndorsementRequest::generateToken(),
+            $endorser = EndorsementEndorser::create([
+                'email' => $faker->email,
             ]);
 
-            $user->crew->endorsements()->create([
+            $request = EndorsementRequest::create([
+                'endorsement_endorser_id' => $endorser->id,
+                'token' => StrUtils::createRandomString(),
+                'message' => $faker->text,
+            ]);
+
+            $endorsement = Endorsement::create([
+                'crew_position_id' => $crewPosition->id,
                 'endorsement_request_id' => $request->id,
-                'endorser_name' => $faker->name,
-                'endorser_email' => $faker->email,
+                'approved_at' => null,
             ]);
         }
 

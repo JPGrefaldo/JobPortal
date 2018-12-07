@@ -2,7 +2,6 @@
 
 namespace App\Actions\Admin;
 
-
 use App\Models\User;
 use App\Models\UserBanned;
 

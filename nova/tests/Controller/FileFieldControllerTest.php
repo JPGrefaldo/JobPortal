@@ -103,7 +103,7 @@ class FileFieldControllerTest extends IntegrationTest
         $_SERVER['__nova.user.pivotFile'] = true;
         $_SERVER['__nova.role.pivotFile'] = true;
 
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
         $role = factory(Role::class)->create();
 
         $response = $this->withExceptionHandling()
@@ -135,7 +135,7 @@ class FileFieldControllerTest extends IntegrationTest
         $_SERVER['__nova.user.pivotFile'] = true;
         $_SERVER['__nova.role.pivotFile'] = true;
 
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
         $role = factory(Role::class)->create();
 
         $response = $this->withExceptionHandling()

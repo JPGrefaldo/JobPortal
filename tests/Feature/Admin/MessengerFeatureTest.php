@@ -2,30 +2,50 @@
 
 namespace Tests\Feature\Admin;
 
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\Models\Project;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Support\SeedDatabaseAfterRefresh;
+use Tests\TestCase;
 
 class MessengerFeatureTest extends TestCase
 {
+    use RefreshDatabase,
+        SeedDatabaseAfterRefresh;
+
     /**
      * @test
+     * @covers \App\Http\Controllers\Admin\ProjectController::update
      */
-    public function producer_is_messaged_when_project_is_denied()
+    public function admin_project_denied()
     {
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $admin = $this->createAdmin();
+        $producer = $this->createProducer();
+        $project = factory(Project::class)->create();
 
-        // given
-        // admin
-        // producer
-        // project of producer
+        $project->owner()->associate($producer);
 
-        // when
-        // admin denies the project of the producer
+        $response = $this->actingAs($admin)
+            ->putJson(route('admin.projects.update', $project));
 
-        // then
-        // admin sees a message that producer is notified that he denied producer's project request
+        $response->assertSuccessful()
+            ->assertJson([
+                'message' => 'Project denied successfully.',
+            ]);
+    }
+
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Admin\ProjectController::update
+     */
+    public function admin_project_denied_unauthorized_non_admin()
+    {
+        $user = $this->createCrew();
+        $project = factory(Project::class)->create();
+
+        $response = $this->actingAs($user)
+            ->putJson(route('admin.projects.update', $project));
+
+        $response->assertRedirect('/');
     }
 }

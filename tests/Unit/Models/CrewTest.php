@@ -27,7 +27,7 @@ class CrewTest extends TestCase
     {
         parent::setUp();
 
-        $this->user = factory(User::class)->create();
+        $this->user = $this->createUser();
         $this->crew = factory(Crew::class)->create(['user_id' => $this->user->id]);
     }
 

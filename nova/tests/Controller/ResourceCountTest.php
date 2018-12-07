@@ -18,9 +18,9 @@ class ResourceCountTest extends IntegrationTest
 
     public function test_can_count_a_resource()
     {
-        factory(User::class)->create();
-        factory(User::class)->create();
-        factory(User::class)->create();
+        $this->createUser();
+        $this->createUser();
+        $this->createUser();
 
         $response = $this->withExceptionHandling()
                         ->getJson('/nova-api/users/count');
@@ -31,9 +31,9 @@ class ResourceCountTest extends IntegrationTest
 
     public function test_can_count_a_resource_via_search()
     {
-        factory(User::class)->create();
-        factory(User::class)->create();
-        factory(User::class)->create();
+        $this->createUser();
+        $this->createUser();
+        $this->createUser();
 
         $response = $this->withExceptionHandling()
                         ->getJson('/nova-api/users/count?search=1');
@@ -44,9 +44,9 @@ class ResourceCountTest extends IntegrationTest
 
     public function test_can_count_a_resource_via_filter()
     {
-        factory(User::class)->create();
-        factory(User::class)->create();
-        factory(User::class)->create();
+        $this->createUser();
+        $this->createUser();
+        $this->createUser();
 
         $filters = base64_encode(json_encode([
             [

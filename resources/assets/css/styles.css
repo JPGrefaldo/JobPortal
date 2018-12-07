@@ -263,4 +263,31 @@ h4,
     @apply .ml-2 .rounded-full .bg-grey-lighter .text-grey .text-sm .py-0 .px-2 .cursor-pointer;
 }
 
+/** Pills **/
+
+.pill {
+    @apply .inline-block .border .rounded .py-1 .px-3;
+}
+
+.pill-sm {
+    @apply .text-xs;
+}
+
+.pill-blue {
+    @apply .pill .border-blue .bg-blue .text-white;
+}
+
+.pill-yellow {
+    @apply .pill .border-yellow .bg-yellow .text-white;
+}
+
+/** Custom **/
+
+@screen -lg {
+    .less-than-large-padding-rl-1 {
+        @apply .pl-1 .pr-1;
+    }
+}
+
+
 @tailwind utilities;

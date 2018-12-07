@@ -2,14 +2,24 @@
 
 namespace App\Http\Controllers\Crew\Endorsements;
 
+use App\Actions\Endorsement\CreateEndorsementRequest;
 use App\Http\Controllers\Controller;
+use App\Http\Middleware\UserHasPosition;
 use App\Models\CrewPosition;
 use App\Models\Position;
 use App\View\Endorsements\EndorsementIndexModel;
+use App\View\Endorsements\EndorsementPositionShowModel;
 use Illuminate\Http\Request;
+use Mockery\Exception;
 
 class EndorsementPositionController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(UserHasPosition::class)
+            ->except('index');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -21,100 +31,37 @@ class EndorsementPositionController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create(Position $position)
-    {
-        $crew = auth()->user()->crew;
-
-        if ($crew->hasPosition($position)) {
-            return redirect(route('crew.endorsement.position.edit', $position));
-        }
-
-        return view('crew.position.create', compact('position'));
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
+     * @param Position $position
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Position $position, Request $request)
     {
-        // TODO: create validation test
         $validatedData = $request->validate([
-            'details' => 'required',
-            'union_description' => 'required',
+            'email'   => 'required|email',
+            'message' => 'required',
         ]);
-        $crew = auth()->user()->crew;
 
-        // TODO create test
-        if ($crew->hasPosition($position)) {
-            return redirect(route('crew.endorsement.position.edit'), $position);
-        }
+        app(CreateEndorsementRequest::class)->execute(
+            auth()->user(),
+            $position,
+            $validatedData['email'],
+            $validatedData['message']
+        );
 
-        $crew->applyFor($position, [
-            'details'           => $request['details'],
-            'union_description' => $request['union_description'],
-        ]);
+        return response('');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Position $position
+     * @param  Position $position
      * @return \Illuminate\Http\Response
      */
     public function show(Position $position)
     {
-        // TODO: create test
-        $crew = auth()->user()->crew;
-        return view('crew.endorsement.position.show', compact('position', 'crew'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Position $position
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Position $position)
-    {
-        // TODO: create test
-        $crew = auth()->user()->crew;
-
-        if (! $crew->hasPosition($position)) {
-            return redirect(route('crew.endorsement.position.create', $position));
-        }
-
-        return view('crew.endorsement.position.edit', compact('crew', 'position'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\Position $position
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Position $position)
-    {
-        // TODO
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Position $position
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Position $position)
-    {
-        $crewPosition = CrewPosition::byCrewAndPosition(auth()->user()->crew, $position)->first();
-
-        $crewPosition->delete();
+        return view('crew.endorsement.position.show', (new EndorsementPositionShowModel(auth()->user(), $position)));
     }
 }

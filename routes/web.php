@@ -75,7 +75,7 @@ Route::middleware('auth')->group(function () {
     |
      */
     Route::middleware('admin')->group(function () {
-        Route::put('/admin/users/ban/{user}', 'Admin\AdminUsersController@updateBan')
+        Route::put('/admin/users/ban/{user}', [\App\Http\Controllers\Admin\AdminUsersController::class, 'updateBan'])
             ->name('admin.users.ban');
 
         Route::prefix('/admin/sites')->group(function () {
@@ -93,6 +93,10 @@ Route::middleware('auth')->group(function () {
             Route::post('/', 'Admin\PositionsController@store');
             Route::put('/{position}', 'Admin\PositionsController@update');
         });
+
+        Route::prefix('/admin/projects')->group(function () {
+            Route::put('/{project}', 'Admin\ProjectController@update')->name('admin.projects.update');
+        });
     });
 
     /*
@@ -107,43 +111,28 @@ Route::middleware('auth')->group(function () {
         Route::post('/crews', 'CrewsController@store');
         Route::put('/crews/{crew}', 'CrewsController@update');
 
-
         Route::prefix('crew')->group(function () {
             Route::prefix('endorsement')->group(function () {
-                Route::get('/', 'Crew\Endorsements\EndorsementPositionController@index')
+                Route::get('/',  [App\Http\Controllers\Crew\Endorsements\EndorsementPositionController::class, 'index'] )
                     ->name('crew.endorsement.index');
 
                 Route::prefix('positions')->group(function () {
-                    Route::get('/{position}/create', 'Crew\Endorsements\EndorsementPositionController@create')
-                        ->name('crew.endorsement.position.create');
-                    Route::post('/{position}', 'Crew\Endorsements\EndorsementPositionController@store')
+                    Route::post('/{position}', [\App\Http\Controllers\Crew\Endorsements\EndorsementPositionController::class, 'store'])
                         ->name('crew.endorsement.position.store');
-                    Route::get('/{position}', 'Crew\Endorsements\EndorsementPositionController@show')
+                    Route::get('/{position}', [\App\Http\Controllers\Crew\Endorsements\EndorsementPositionController::class, 'show'])
                         ->name('crew.endorsement.position.show');
-                    Route::get('/{position}/edit', 'Crew\Endorsements\EndorsementPositionController@edit')
-                        ->name('crew.endorsement.position.edit');
-                    Route::put('/{position}', 'Crew\Endorsements\EndorsementPositionController@update')
-                        ->name('crew.endorsement.position.update');
-                    Route::delete('/{position}', 'Crew\Endorsements\EndorsementPositionController@destroy')
-                        ->name('crew.endorsement.position.destroy');
+
+                    // TODO: Delete?
+                    Route::get('endorsed/{position}',  [App\Http\Controllers\Crew\Endorsements\EndorsementEndorsedController::class, 'index'] )
+                        ->name('crew.endorsement.endorsed');
+
+                    Route::delete('request/{endorsementRequest}', [\App\Http\Controllers\Crew\Endorsements\EndorsementRequestController::class, 'destroy'])
+                        ->name('crew.endorsement.request.destroy');
                 });
             });
         });
 
-        Route::post('/crew/positions/{position}/endorsement-requests', 'Crew\Endorsements\EndorsementRequestController@store')
-            ->name('endorsement_requests.store');
-
-        /**
-         * endorsements resource
-         */
-        Route::get('/endorsement-requests/{endorsementRequest}/endorsements/create', 'Crew\Endorsements\EndorsementController@create')
-            ->name('endorsements.create');
-        Route::post('/endorsement-requests/{endorsementRequest}/endorsements', 'Crew\Endorsements\EndorsementController@store')
-            ->name('endorsements.store');
-        Route::get('/endorsement-requests/{endorsementRequest}/endorsements/edit', 'Crew\Endorsements\EndorsementController@edit')
-            ->name('endorsements.edit');
-        Route::put('/endorsement-requests/{endorsementRequest}/endorsements/update', 'Crew\Endorsements\EndorsementController@update')
-            ->name('endorsements.update');
+        Route::post('/crew/messages', 'Crew\MessageController@store')->name('crew.messages.store');
     });
 
     /*
@@ -173,7 +162,7 @@ Route::middleware('auth')->group(function () {
                 'uses' => 'Producer\MessagesController@store'
             ]);
             //     Route::get('{id}', ['as' => 'messages.show', 'uses' => 'MessagesController@show']);
-            Route::put('{id}', [
+            Route::put('/producer/projects/{project}/messages/{message}', [
                 'as' => 'producer.messages.update',
                 'uses' => 'Producer\MessagesController@update'
             ]);

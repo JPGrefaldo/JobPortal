@@ -40,7 +40,10 @@ class CurrentPasswordTest extends TestCase
         $this->assertTrue($result->passes());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Rules\CurrentPassword::passes
+     */
     public function invalid()
     {
         $user = factory(User::class)->create([
