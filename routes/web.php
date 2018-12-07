@@ -113,7 +113,7 @@ Route::middleware('auth')->group(function () {
 
         Route::prefix('crew')->group(function () {
             Route::prefix('endorsement')->group(function () {
-                Route::get('/',  [App\Http\Controllers\Crew\Endorsements\EndorsementPositionController::class, 'index'] )
+                Route::get('/', [App\Http\Controllers\Crew\Endorsements\EndorsementPositionController::class, 'index'])
                     ->name('crew.endorsement.index');
 
                 Route::prefix('positions')->group(function () {
@@ -123,7 +123,7 @@ Route::middleware('auth')->group(function () {
                         ->name('crew.endorsement.position.show');
 
                     // TODO: Delete?
-                    Route::get('endorsed/{position}',  [App\Http\Controllers\Crew\Endorsements\EndorsementEndorsedController::class, 'index'] )
+                    Route::get('endorsed/{position}', [App\Http\Controllers\Crew\Endorsements\EndorsementEndorsedController::class, 'index'])
                         ->name('crew.endorsement.endorsed');
 
                     Route::delete('request/{endorsementRequest}', [\App\Http\Controllers\Crew\Endorsements\EndorsementRequestController::class, 'destroy'])
@@ -169,13 +169,13 @@ Route::middleware('auth')->group(function () {
         });
     });
 
-    // Route::group(['prefix' => 'messages'], function () {
-        //     Route::get('/', ['as' => 'messages', 'uses' => 'MessagesController@index']);
+    Route::group(['prefix' => 'messages'], function () {
+        Route::get('/', ['as' => 'messages', 'uses' => 'MessagesDashboardController@index']);
         //     Route::get('create', ['as' => 'messages.create', 'uses' => 'MessagesController@create']);
         // Route::post('/', ['as' => 'producer.messages.store', 'uses' => 'Producer\MessagesController@store']);
         //     Route::get('{id}', ['as' => 'messages.show', 'uses' => 'MessagesController@show']);
         //     Route::put('{id}', ['as' => 'messages.update', 'uses' => 'MessagesController@update']);
-    // });
+    });
 });
 
 Route::prefix('theme')->group(function () {

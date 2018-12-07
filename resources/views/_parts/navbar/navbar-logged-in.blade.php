@@ -15,7 +15,7 @@
                href="#">find projects</a>
         </li>
         <li>
-            <a class="block py-6 px-4 tracking-wide font-bold leading-none relative uppercase text-sm text-blue-dark hover:text-green" href="/my-messages">
+            <a class="block py-6 px-4 tracking-wide font-bold leading-none relative uppercase text-sm text-blue-dark hover:text-green" href="{{ route('messages') }}">
                 messages
                 @if ($unreadCount > 0)
                     <span class="h-1 w-1 bg-red absolute rounded"></span>
