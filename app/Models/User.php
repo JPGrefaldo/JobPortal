@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Traits\LogsActivityOnlyDirty;
 use App\Utils\StrUtils;
+use Cmgmyr\Messenger\Traits\Messagable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
@@ -12,7 +13,8 @@ use Vinkla\Hashids\Facades\Hashids;
 class User extends Authenticatable implements JWTSubject
 {
     use Notifiable,
-        LogsActivityOnlyDirty;
+        LogsActivityOnlyDirty,
+        Messagable;
 
     protected static function boot()
     {
