@@ -11,6 +11,9 @@
 |
 */
 
+use App\Http\Middleware\AuthorizeRoles;
+use App\Models\Role;
+
 Route::get('/', 'IndexController@index');
 
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
@@ -176,6 +179,18 @@ Route::middleware('auth')->group(function () {
         //     Route::get('{id}', ['as' => 'messages.show', 'uses' => 'MessagesController@show']);
         //     Route::put('{id}', ['as' => 'messages.update', 'uses' => 'MessagesController@update']);
     // });
+
+    Route::group(['prefix' => 'test'], function () {
+        Route::middleware(AuthorizeRoles::parameterize(Role::CREW))
+            ->get('/rolescrew', function (\Illuminate\Http\Request $request) {
+                return response('Success');
+            });
+
+        Route::middleware(AuthorizeRoles::parameterize(Role::ADMIN))
+            ->get('/rolesadmin', function (\Illuminate\Http\Request $request) {
+                return response('Success');
+            });
+    });
 });
 
 Route::prefix('theme')->group(function () {

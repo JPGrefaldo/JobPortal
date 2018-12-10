@@ -63,6 +63,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'crew' => \App\Http\Middleware\AuthorizeCrew::class,
         'admin' => \App\Http\Middleware\AuthorizeAdmin::class,
-        'producer' => \App\Http\Middleware\AuthorizeProducer::class
+        'producer' => \App\Http\Middleware\AuthorizeProducer::class,
+        'roles' => \App\Http\Middleware\AuthorizeRoles::class
     ];
 }

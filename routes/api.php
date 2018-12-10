@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Http\Request;
+use App\Http\Middleware\AuthorizeRoles;
+use App\Models\Role;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +15,25 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:api')->group(function() {
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+
+    Route::group(['prefix' => 'test'], function () {
+        Route::middleware(AuthorizeRoles::parameterize(Role::CREW))
+            ->get('/rolescrew', function (\Illuminate\Http\Request $request) {
+                return response()->json(true);
+            });
+
+        Route::middleware(AuthorizeRoles::parameterize(Role::ADMIN))
+            ->get('/rolesadmin', function (\Illuminate\Http\Request $request) {
+                return response()->json(true);
+            });
+
+        Route::middleware(AuthorizeRoles::parameterize(Role::CREW, Role::PRODUCER))
+            ->get('/rolescrewproducer', function (\Illuminate\Http\Request $request) {
+                return response()->json(true);
+            });
+    });
 });
