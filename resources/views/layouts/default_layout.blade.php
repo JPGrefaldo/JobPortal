@@ -7,9 +7,11 @@
     @include('_parts.navbar.navbar-not-logged-in')
 @endif
 
-<main class="float-left w-full py-lg flex-1" id="content">
+<main class="float-left w-full @if (Route::current()->getName() !== 'messages')) py-lg @endif flex-1" id="content">
     @include('_parts.messagebox')
     @yield('content')
 </main>
 
-@include('_parts.footer.footer')
+@if (Route::current()->getName() !== 'messages')
+    @include('_parts.footer.footer')
+@endif
