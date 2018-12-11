@@ -1,18 +1,23 @@
 @extends('layouts.default_layout')
 
 @section('content')
-    <div class="flex flex-col">
+    <div class="flex flex-col flex-1">
         {{-- Top bar --}}
-        <div class="flex text-center">
-            <div class="w-1/5 border-b border-r border-black p-3">Search</div>
-            <div class="w-4/5 border-black border-b p-3 font-bold">Titanic: Leonardo Di Carpio</div>
+        <div class="flex h-16">
+            <div class="w-1/5 border-b border-r border-black p-3 flex items-center">
+                <input type="text" class="mr-2 rounded rounded-full bg-white flex-1" placeholder="  Search">
+                <i class="fa fa-search"></i>
+            </div>
+            <div class="w-4/5 border-black border-b p-3 font-bold flex justify-center items-center">
+                Titanic: Leonardo Di Carpio
+            </div>
         </div>
         {{-- main content --}}
         <div class="flex">
             {{-- left panel --}}
             <div class="flex w-1/5 border-r border-black">
                 {{-- projects --}}
-                <div class="bg-grey-dark">
+                <div class="bg-grey-dark overflow-auto">
                     {{-- hit an index endpoint as a role specified --}}
                     {{-- something like /crew/messages and /producer/messages --}}
                     @foreach ($projects as $project)
@@ -24,7 +29,7 @@
                     @endforeach
                 </div>
                 {{-- threads --}}
-                <div class="bg-grey flex-1">
+                <div class="bg-grey flex-1 overflow-auto">
                     {{-- this needs to be filtered out relative to role --}}
                     {{-- if you're a crew then you should see threads that are related to projects you're contributing to --}}
                     @foreach ($threads as $thread)
@@ -44,7 +49,7 @@
             </div>
             <div class="w-4/5 bg-white flex flex-col">
             {{-- conversation --}}
-            <div class="flex-1 p-4">
+            <div class="flex-1 p-4 overflow-x-auto">
                     {{-- this should be filtered out by the selected thread --}}
                     @foreach ($messages as $message)
                         @if (strpos($message, 'quis') !== false)
@@ -69,18 +74,6 @@
                         @endif
                     @endforeach
             </div>
-                <div class="flex w-full p-3 bg-grey">
-                    <div class="flex-1 bg-white rounded rounded-full m-1 p-1">
-                        Aa
-                    </div>
-                    <div class="h-8 w-8 rounded rounded-full bg-green">Send</div>
-                    <svg class="stroke-current text-white inline-block h-12 w-12" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none"
-                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="8" cy="21" r="2"></circle>
-                        <circle cx="20" cy="21" r="2"></circle>
-                        <path d="M5.67 6H23l-1.68 8.39a2 2 0 0 1-2 1.61H8.75a2 2 0 0 1-2-1.74L5.23 2.74A2 2 0 0 0 3.25 1H1"></path>
-                    </svg>
-                </div>
             </div>
         </div>
     </div>
