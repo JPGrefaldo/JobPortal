@@ -33,17 +33,16 @@ class AuthorizeRoles
             $roles[] = Role::ADMIN;
         }
 
-        $isAuthorized = (bool) $this->auth->user()
-            ->roles->whereIn('name', $roles)
-            ->count();
+        $userRoles = $this->auth->user()->roles;
 
-        if ($isAuthorized) {
-            return $next($request);
+        if (! $userRoles->count() ||
+            ! $userRoles->whereIn('name', $roles)->count()) {
+            return ($request->is('api/*'))
+                ? response('Request Unauthorized', 401)
+                : redirect('/');
         }
 
-        return ($request->is('api/*'))
-            ? response( 'Request Unauthorized', 401)
-            : redirect('/');
+        return $next($request);
     }
 
     /**

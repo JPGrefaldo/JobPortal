@@ -43,6 +43,16 @@ class AuthorizeRolesTest extends TestCase
     }
 
     /** @test */
+    public function web_unauthorize_user_with_no_roles()
+    {
+        $user = $this->createUser();
+
+        $response = $this->actingAs($user)->get('api/test/rolescrew');
+
+        $response->assertRedirect('/login');
+    }
+
+    /** @test */
     public function web_authorize_admin_only()
     {
         $user = $this->createAdmin();
@@ -83,7 +93,17 @@ class AuthorizeRolesTest extends TestCase
     }
 
     /** @test */
-    public function api_authorize_admin_always()
+    public function api_unauthorize_user_with_no_roles()
+    {
+        $user = $this->createUser();
+
+        $response = $this->actingAs($user, 'api')->get('api/test/rolescrew');
+
+        $response->assertStatus(401);
+    }
+
+    /** @test */
+    public function api_authorize_adminm_always()
     {
         $user = $this->createAdmin();
 
