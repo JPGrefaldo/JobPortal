@@ -9,6 +9,9 @@
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
+| You can add role specific middlewares through:
+| * Single, Route::middleware(AuthorizeRoles::parameterize(Role::CREW))
+| * Multiple, Route::middleware(AuthorizeRoles::parameterize(Role::CREW, Role::PRODUCER))
 */
 
 use App\Http\Middleware\AuthorizeRoles;
@@ -179,18 +182,6 @@ Route::middleware('auth')->group(function () {
         //     Route::get('{id}', ['as' => 'messages.show', 'uses' => 'MessagesController@show']);
         //     Route::put('{id}', ['as' => 'messages.update', 'uses' => 'MessagesController@update']);
     // });
-
-    Route::group(['prefix' => 'test'], function () {
-        Route::middleware(AuthorizeRoles::parameterize(Role::CREW))
-            ->get('/rolescrew', function (\Illuminate\Http\Request $request) {
-                return response('Success');
-            });
-
-        Route::middleware(AuthorizeRoles::parameterize(Role::ADMIN))
-            ->get('/rolesadmin', function (\Illuminate\Http\Request $request) {
-                return response('Success');
-            });
-    });
 });
 
 Route::prefix('theme')->group(function () {
