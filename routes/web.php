@@ -9,7 +9,13 @@
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
+| You can add role specific middlewares through:
+| * Single, Route::middleware(AuthorizeRoles::parameterize(Role::CREW))
+| * Multiple, Route::middleware(AuthorizeRoles::parameterize(Role::CREW, Role::PRODUCER))
 */
+
+use App\Http\Middleware\AuthorizeRoles;
+use App\Models\Role;
 
 Route::get('/', 'IndexController@index');
 
