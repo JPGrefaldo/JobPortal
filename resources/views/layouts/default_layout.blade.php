@@ -10,13 +10,13 @@
 @if (Route::current()->getName() === 'messages')
     @yield('content')
 @else
-    <main class="float-left w-full @if (Route::current()->getName() !== 'messages')) py-lg @endif flex-1" id="content">
+    <main class="float-left w-full py-lg flex-1" id="content">
         @include('_parts.messagebox')
         @yield('content')
     </main>
 @endif
 
-@if (Route::current()->getName() !== 'messages')
+@if (Route::current()->getName() === 'messages')
     @include('_parts.footer.messenger')
 @else
     @include('_parts.footer.footer')
