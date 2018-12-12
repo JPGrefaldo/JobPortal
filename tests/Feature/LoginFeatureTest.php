@@ -23,8 +23,7 @@ class LoginFeatureTest extends TestCase
         $user = factory(User::class)->create([
             'password' => Hash::make('testpass'),
         ]);
-        $user->sites()
-             ->save($this->getCurrentSite());
+        $user->sites()->save($this->getCurrentSite());
 
         $response = $this->post('login', [
             'email'    => $user->email,
@@ -32,6 +31,10 @@ class LoginFeatureTest extends TestCase
         ]);
 
         $this->assertAuthenticated();
+
+        $response->assertSessionHas('token');
+
+        $this->assertEquals(316, strlen(session('token')));
     }
 
     /**
@@ -136,10 +139,10 @@ class LoginFeatureTest extends TestCase
             'password' => Hash::make('testpass'),
         ]);
         $user->sites()
-             ->create([
-                 'name'     => 'Some site',
-                 'hostname' => 'somesite.test',
-             ]);
+            ->create([
+                'name'     => 'Some site',
+                'hostname' => 'somesite.test',
+            ]);
 
         $response = $this->post('login', [
             'email'    => $user->email,
