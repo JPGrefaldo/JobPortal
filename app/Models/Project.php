@@ -69,8 +69,10 @@ class Project extends Model
     public function getAcronymAttribute()
     {
         $words = explode(' ', $this->title);
+
         $acronym = '';
-        for ($i=0; $i < 2; $i++) {
+
+        for ($i = 0; $i < 2; $i++) {
             $acronym .= $words[$i][0];
         }
         return strtoupper($acronym);
