@@ -1,5 +1,5 @@
 @include('_parts.header.header')
-<body class="bg-grey-lighter font-body @if (Route::current()->getName() === 'messages')) h-screen @else min-h-screen @endif flex flex-col">
+<body class="bg-grey-lighter font-body flex flex-col @if (Route::current()->getName() === 'messages')) h-screen @else min-h-screen @endif">
 
 @if(Auth::check())
     @include('_parts.navbar.navbar-logged-in')
