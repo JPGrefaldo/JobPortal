@@ -1,5 +1,5 @@
 @include('_parts.header.header')
-<body class="bg-grey-lighter font-body min-h-screen flex flex-col">
+<body class="bg-grey-lighter font-body flex flex-col @if (Route::current()->getName() === 'messages')) h-screen @else min-h-screen @endif">
 
 @if(Auth::check())
     @include('_parts.navbar.navbar-logged-in')
@@ -7,9 +7,17 @@
     @include('_parts.navbar.navbar-not-logged-in')
 @endif
 
-<main class="float-left w-full py-lg flex-1" id="content">
-    @include('_parts.messagebox')
+@if (Route::current()->getName() === 'messages')
     @yield('content')
-</main>
+@else
+    <main class="float-left w-full py-lg flex-1" id="content">
+        @include('_parts.messagebox')
+        @yield('content')
+    </main>
+@endif
 
-@include('_parts.footer.footer')
+@if (Route::current()->getName() === 'messages')
+    @include('_parts.footer.messenger')
+@else
+    @include('_parts.footer.footer')
+@endif

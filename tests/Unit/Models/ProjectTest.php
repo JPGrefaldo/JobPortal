@@ -7,7 +7,6 @@ use App\Models\Project;
 use App\Models\ProjectJob;
 use App\Models\ProjectType;
 use App\Models\RemoteProject;
-use App\Models\User;
 use App\ProjectThread;
 use Cmgmyr\Messenger\Models\Thread;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -121,5 +120,19 @@ class ProjectTest extends TestCase
             'project_id' => $project->id,
             'thread_id' => $thread->id,
         ]);
+    }
+
+    /**
+     * @test
+     */
+    public function get_attribute_test()
+    {
+        // given
+        $project = factory(Project::class)->create([
+            'title' => 'The Hitchhiker\'s Guide to the Galaxy'
+        ]);
+
+        // then
+        $this->assertEquals('TH', $project->acronym);
     }
 }
