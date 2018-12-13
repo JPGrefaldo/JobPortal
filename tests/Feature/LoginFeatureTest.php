@@ -34,7 +34,7 @@ class LoginFeatureTest extends TestCase
 
         $response->assertSessionHas('token');
 
-        $this->assertEquals(316, strlen(session('token')));
+        $this->assertGreaterThan(250, strlen(session('token')));
     }
 
     /**
