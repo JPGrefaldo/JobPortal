@@ -14,15 +14,13 @@ class SocialLinkTypeTest extends TestCase
      */
     public function get_slug_attribute()
     {
-        $socialLinkType = factory(SocialLinkType::class)->create();
-
         $this->assertEquals('imdb',
-            with(SocialLinkType::class([name=>'IMDB']))->slug);
+            with(new SocialLinkType(['name'=>'IMDB']))->slug);
 
         $this->assertEquals('google_plus',
-            with(SocialLinkType::class([name=>'Google Plus']))->slug);
+            with(new SocialLinkType(['name'=>'Google Plus']))->slug);
 
         $this->assertEquals('facebook',
-            with(SocialLinkType::class([name=>'Facebook']))->slug);
+            with(new SocialLinkType(['name'=>'Facebook']))->slug);
     }
 }
