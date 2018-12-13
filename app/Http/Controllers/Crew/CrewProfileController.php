@@ -84,9 +84,6 @@ class CrewProfileController extends Controller
             app(CrewsServices::class)->processUpdate($data, $user->crew);
         }
 
-//        return response()->json([
-//            'infoMessage' => ($new) ? 'Created' : 'Updated',
-//        ]);
         return back()->with('infoMessage', ($new) ? 'Created' : 'Updated');
     }
 

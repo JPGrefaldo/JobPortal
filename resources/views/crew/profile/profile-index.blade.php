@@ -10,7 +10,8 @@
             @include('crew.profile.parts.profile-complete-indicator')
 
             <div class="w-full md:w-3/4 float-left">
-                <a href="{{ route('profile.create') }}" class="text-grey w-full mb-2 text-sm md:text-right float-right"><i class="fas fa-pencil-alt mr-2"></i>Edit profile</a>
+                <a href="{{ route('profile.create') }}"
+                   class="text-grey w-full mb-2 text-sm md:text-right float-right"><i class="fas fa-pencil-alt mr-2"></i>Edit profile</a>
                 <div class="card float-left md:flex mb-8">
                     <div class="md:w-1/4 md:pr-8 text-center">
                         <img src="{{ url('photos/avatar.png') }}" class="rounded" alt="" />
@@ -20,7 +21,8 @@
                                  <li class="py-1">
                                      <a href="{{$socialLinkType->crew[0]->url}}" target="_blank" class="flex items-center">
                                         <div class="p-1 flex w-12 h-12">
-                                            <span class="flex w-10 items-center leading-normal rounded rounded-r-none  whitespace-no-wrap text-grey-dark" style="background: url( '{{ $socialLinkType->image }}'); background-size: cover;"></span>
+                                            <span class="flex w-10 items-center leading-normal rounded rounded-r-none  whitespace-no-wrap text-grey-dark"
+                                                  style="background: url( '{{ $socialLinkType->image }}'); background-size: cover;"></span>
                                         </div>
                                     </a>
                                 </li>

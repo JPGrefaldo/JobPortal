@@ -24,7 +24,6 @@ class CrewsServices
      */
     public function processCreate(array $data, User $user)
     {
-
         if (isset($data['photo'])) {
             $crew = $this->create(
                 array_only($data, ['bio']),
