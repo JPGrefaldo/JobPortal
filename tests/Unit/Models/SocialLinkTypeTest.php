@@ -10,9 +10,7 @@ use App\Models\SocialLinkType;
 class SocialLinkTypeTest extends TestCase
 {
     /**
-     * A basic test example.
-     *
-     * @return void
+     * @test
      */
     public function get_slug_attribute()
     {
