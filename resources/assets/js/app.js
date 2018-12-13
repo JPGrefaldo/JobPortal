@@ -35,6 +35,7 @@ Vue.component('create-crew-position-form', require('./components/CreateCrewPosit
 Vue.component('edit-crew-position-form', require('./components/EditCrewPositionFormComponent'));
 Vue.component('create-endorsement-request-form', require('./components/CreateEndorsementRequestFormComponent'));
 Vue.component('endorsers-component', require('./components/EndorsementControlComponent'));
+Vue.component('messages-dashboard', require('./components/MessagesDashboardComponent'));
 
 const content = new Vue({
     el: '#content',
