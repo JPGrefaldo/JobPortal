@@ -99,14 +99,11 @@
         <!-- bottom bar -->
         <div class="flex h-12 w-screen">
             <div class="w-1/5 flex border-t border-r border-black">
-                <button
-                    class="flex-1 flex justify-center items-center"
-                    v-for="role in roles" :key="role.id"
-                    :class="{
-                        'bg-blue': role.name == 'Producer',
-                        'bg-green': role.name == 'Crew'
-                    }">
-                    {{ role.name }}
+                <button class="bg-blue w-1/2 flex justify-center items-center">
+                    producer
+                </button>
+                <button class="bg-green w-1/2 flex justify-center items-center">
+                    crew
                 </button>
             </div>
             <div class="w-4/5 bg-grey-light flex justify-between items-center p-3">
@@ -123,10 +120,6 @@
     export default {
         name: "MessagesDashboardComponent",
         props: {
-            roles: {
-                type: Array,
-                required: true
-            },
         },
         data() {
             return {
