@@ -111,12 +111,12 @@
             <div class="w-1/5 flex border-t border-r border-black">
                 <button
                     class="flex-1 flex justify-center items-center"
-                    v-for="role in roles" :key="role.id"
+                    v-for="(role, index) in roles" :key="index"
                     :class="{
                         'bg-blue': role == 'Producer',
                         'bg-green': role == 'Crew'
                     }"
-                    @click="setRole(role)"
+                    @click="setRole(index)"
                 >
                     {{ role }}
                 </button>
@@ -167,8 +167,8 @@
                 return acronym;
             },
 
-            setRole(role) {
-                this.role = role;
+            setRole(index) {
+                this.role = this.roles[index];
             }
         }
     }
