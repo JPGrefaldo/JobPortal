@@ -16,7 +16,7 @@ class MessagesDashboardController extends Controller
 
         $messages = Message::all();
 
-        $roles = auth()->user()->roles;
+        $roles = auth()->user()->roles->pluck('name');
 
         return view(
             'messages-dashboard',

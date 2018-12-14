@@ -27,10 +27,10 @@
                         class="uppercase flex items-center justify-center mb-2 m-1 text-white font-bold h-10 w-10 rounded"
                         v-for="project in projects" :key="project.id"
                         :class="{
-                            'bg-blue': role.name == 'Producer',
-                            'hover:bg-blue-dark': role.name == 'Producer',
-                            'bg-green': role.name == 'Crew',
-                            'hover:bg-green-dark': role.name == 'Crew',
+                            'bg-blue': role == 'Producer',
+                            'hover:bg-blue-dark': role == 'Producer',
+                            'bg-green': role == 'Crew',
+                            'hover:bg-green-dark': role == 'Crew',
                         }"
                     >
                         {{ getAcronymAttribute(project.title) }}
@@ -88,10 +88,10 @@
                     <div
                         class="rounded-lg text-white p-3 max-w-md"
                         :class="{
-                            'bg-blue': role.name == 'Producer',
-                            'hover:bg-blue-dark': role.name == 'Producer',
-                            'bg-green': role.name == 'Crew',
-                            'hover:bg-green-dark': role.name == 'Crew',
+                            'bg-blue': role == 'Producer',
+                            'hover:bg-blue-dark': role == 'Producer',
+                            'bg-green': role == 'Crew',
+                            'hover:bg-green-dark': role == 'Crew',
                         }"
                     >
                         Eveniet et neque mollitia sed. Rem rem quis dolores ea est. Tempora sit tempore asperiores necessitatibus.
@@ -113,12 +113,12 @@
                     class="flex-1 flex justify-center items-center"
                     v-for="role in roles" :key="role.id"
                     :class="{
-                        'bg-blue': role.name == 'Producer',
-                        'bg-green': role.name == 'Crew'
+                        'bg-blue': role == 'Producer',
+                        'bg-green': role == 'Crew'
                     }"
-                    @click="setRole(role.id)"
+                    @click="setRole(role)"
                 >
-                    {{ role.name }}
+                    {{ role }}
                 </button>
             </div>
             <div class="w-4/5 bg-grey-light flex justify-between items-center p-3">
@@ -153,6 +153,7 @@
         },
 
         methods: {
+            // TODO: move this to projects component when it is created
             getAcronymAttribute(text) {
                 const words = text.split(' ');
 
@@ -166,11 +167,8 @@
                 return acronym;
             },
 
-            setRole(id) {
-                let filteredRoles = this.roles.filter(role => {
-                    return role.id == id;
-                });
-                this.role = filteredRoles[0];
+            setRole(role) {
+                this.role = role;
             }
         }
     }
