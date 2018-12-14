@@ -31,7 +31,8 @@
                             'hover:bg-blue-dark': role.name == 'Producer',
                             'bg-green': role.name == 'Crew',
                             'hover:bg-green-dark': role.name == 'Crew',
-                        }">
+                        }"
+                    >
                         {{ getAcronymAttribute(project.title) }}
                     </button>
                 </div>
@@ -84,7 +85,15 @@
                 <!-- sender message -->
                 <div class="flex mb-4">
                     <div class="flex-1"></div>
-                    <div class="rounded-lg text-white bg-blue p-3 max-w-md">
+                    <div
+                        class="rounded-lg text-white p-3 max-w-md"
+                        :class="{
+                            'bg-blue': role.name == 'Producer',
+                            'hover:bg-blue-dark': role.name == 'Producer',
+                            'bg-green': role.name == 'Crew',
+                            'hover:bg-green-dark': role.name == 'Crew',
+                        }"
+                    >
                         Eveniet et neque mollitia sed. Rem rem quis dolores ea est. Tempora sit tempore asperiores necessitatibus.
                     </div>
                 </div>
@@ -106,7 +115,8 @@
                     :class="{
                         'bg-blue': role.name == 'Producer',
                         'bg-green': role.name == 'Crew'
-                    }">
+                    }"
+                >
                     {{ role.name }}
                 </button>
             </div>
