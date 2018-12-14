@@ -20,18 +20,19 @@
         <div class="flex h-full">
             <!-- left pane -->
             <div class="flex w-1/5 border-r border-black">
-                <div class="bg-grey-dark overflow-auto">
-                    <button class="uppercase flex items-center justify-center mb-2 m-1 bg-blue hover:bg-blue-dark text-white font-bold h-10 w-10 rounded">
-                        pa
-                    </button>
-                    <button class="uppercase flex items-center justify-center mb-2 m-1 bg-blue hover:bg-blue-dark text-white font-bold h-10 w-10 rounded">
-                        r
-                    </button>
-                    <div class="uppercase flex items-center justify-center mb-2 m-1 bg-blue-dark hover:bg-blue-dark text-white font-bold h-10 w-10 rounded">
-                        t
-                    </div>
-                    <button class="uppercase flex items-center justify-center mb-2 m-1 bg-blue hover:bg-blue-dark text-white font-bold h-10 w-10 rounded">
-                        z
+                <!-- projects -->
+                <div class="bg-grey-dark overflow-hidden">
+                    <!-- project -->
+                    <button
+                        class="uppercase flex items-center justify-center mb-2 m-1 text-white font-bold h-10 w-10 rounded"
+                        v-for="project in projects" :key="project.id"
+                        :class="{
+                            'bg-blue': role.name == 'Producer',
+                            'hover:bg-blue-dark': role.name == 'Producer',
+                            'bg-green': role.name == 'Crew',
+                            'hover:bg-green-dark': role.name == 'Crew',
+                        }">
+                        {{ getAcronymAttribute(project.title) }}
                     </button>
                 </div>
                 <!-- threads -->
@@ -127,14 +128,29 @@
                 type: Array,
                 required: true
             },
+            projects: {
+                type: Array,
+                required: true
+            },
         },
         data() {
             return {
-
+                role: this.roles[0],
             }
         },
 
         methods: {
+            getAcronymAttribute(text) {
+                const words = text.split(' ');
+
+                let acronym = '';
+
+                for (let index = 0; index < 2; index++) {
+                    const word = words[index];
+                    acronym += word[0];
+                }
+                return acronym;
+            },
         }
     }
 </script>
