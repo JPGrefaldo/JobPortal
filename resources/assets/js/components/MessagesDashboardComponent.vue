@@ -116,6 +116,7 @@
                         'bg-blue': role.name == 'Producer',
                         'bg-green': role.name == 'Crew'
                     }"
+                    @click="setRole(role.id)"
                 >
                     {{ role.name }}
                 </button>
@@ -133,6 +134,7 @@
 
     export default {
         name: "MessagesDashboardComponent",
+
         props: {
             roles: {
                 type: Array,
@@ -143,6 +145,7 @@
                 required: true
             },
         },
+
         data() {
             return {
                 role: this.roles[0],
@@ -159,8 +162,16 @@
                     const word = words[index];
                     acronym += word[0];
                 }
+
                 return acronym;
             },
+
+            setRole(id) {
+                let filteredRoles = this.roles.filter(role => {
+                    return role.id == id;
+                });
+                this.role = filteredRoles[0];
+            }
         }
     }
 </script>
