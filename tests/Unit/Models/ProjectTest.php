@@ -121,18 +121,4 @@ class ProjectTest extends TestCase
             'thread_id' => $thread->id,
         ]);
     }
-
-    /**
-     * @test
-     */
-    public function get_attribute_test()
-    {
-        // given
-        $project = factory(Project::class)->create([
-            'title' => 'The Hitchhiker\'s Guide to the Galaxy'
-        ]);
-
-        // then
-        $this->assertEquals('TH', $project->acronym);
-    }
 }
