@@ -22,8 +22,13 @@
                                      <a href="{{$socialLinkType->crew[0]->url}}" target="_blank" class="flex items-center">
                                         <div class="p-1 flex w-12 h-12">
                                             <span class="flex w-10 items-center leading-normal rounded rounded-r-none  whitespace-no-wrap text-grey-dark"
-                                                  style="background: url( '{{ $socialLinkType->image }}'); background-size: cover;"></span>
+                                                  style="background: url( '{{ asset($socialLinkType->image) }}'); background-size: cover;"></span>
                                         </div>
+                                         <span style="width: 100%;
+                                                overflow: hidden;
+                                               font-size: 11px;">
+                                             <p>{{$socialLinkType->crew[0]->url}}</p>
+                                         </span>
                                     </a>
                                 </li>
                                 @endif
