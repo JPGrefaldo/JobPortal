@@ -26,12 +26,7 @@
                     <button
                         class="uppercase flex items-center justify-center mb-2 m-1 text-white font-bold h-10 w-10 rounded"
                         v-for="project in projects" :key="project.id"
-                        :class="{
-                            'bg-blue': role == 'Producer',
-                            'hover:bg-blue-dark': role == 'Producer',
-                            'bg-green': role == 'Crew',
-                            'hover:bg-green-dark': role == 'Crew',
-                        }"
+                        :class="getColorByRole(role)"
                     >
                         {{ getAcronymAttribute(project.title) }}
                     </button>
@@ -87,12 +82,7 @@
                     <div class="flex-1"></div>
                     <div
                         class="rounded-lg text-white p-3 max-w-md"
-                        :class="{
-                            'bg-blue': role == 'Producer',
-                            'hover:bg-blue-dark': role == 'Producer',
-                            'bg-green': role == 'Crew',
-                            'hover:bg-green-dark': role == 'Crew',
-                        }"
+                        :class="getColorByRole(role)"
                     >
                         Eveniet et neque mollitia sed. Rem rem quis dolores ea est. Tempora sit tempore asperiores necessitatibus.
                     </div>
@@ -112,11 +102,8 @@
                 <button
                     class="flex-1 flex justify-center items-center"
                     v-for="(role, index) in roles" :key="index"
-                    :class="{
-                        'bg-blue': role == 'Producer',
-                        'bg-green': role == 'Crew'
-                    }"
                     @click="setRole(index)"
+                    :class="getColorByRole(role)"
                 >
                     {{ role }}
                 </button>
@@ -153,6 +140,20 @@
         },
 
         methods: {
+            getColorByRole: function (role) {
+                const colorDictionary = {
+                    Producer: [
+                        'bg-blue',
+                        'hover:bg-blue-dark',
+                    ],
+                    Crew: [
+                        'bg-green',
+                        'hover:bg-green-dark',
+                    ]
+                };
+
+                return colorDictionary[role];
+            },
             // TODO: move this to projects component when it is created
             getAcronymAttribute(text) {
                 const words = text.split(' ');
@@ -173,4 +174,3 @@
         }
     }
 </script>
-
