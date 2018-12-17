@@ -16,6 +16,16 @@ class MessagesDashboardController extends Controller
 
         $messages = Message::all();
 
-        return view('messages-dashboard', compact('projects', 'threads', 'messages'));
+        $roles = auth()->user()->roles->pluck('name');
+
+        return view(
+            'messages-dashboard',
+            compact(
+                'projects',
+                'threads',
+                'messages',
+                'roles'
+            )
+        );
     }
 }

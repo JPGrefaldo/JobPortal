@@ -1,5 +1,6 @@
 @extends('layouts.default_layout')
 
 @section('content')
-    <messages-dashboard></messages-dashboard>
+    <messages-dashboard :roles="{{ $roles }}"
+                        :projects="{{ $projects }}" />
 @endsection
