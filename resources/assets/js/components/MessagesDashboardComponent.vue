@@ -21,16 +21,10 @@
             <!-- left pane -->
             <div class="flex w-1/5 border-r border-black">
                 <!-- projects -->
-                <div class="bg-grey-dark overflow-hidden">
-                    <!-- project -->
-                    <button
-                        class="uppercase flex items-center justify-center mb-2 m-1 text-white font-bold h-10 w-10 rounded"
-                        v-for="project in projects" :key="project.id"
-                        :class="getColorByRole(role)"
-                    >
-                        {{ getAcronymAttribute(project.title) }}
-                    </button>
-                </div>
+                <projects
+                    :role="role"
+                    :projects="projects"
+                />
                 <!-- threads -->
                 <div class="flex-1 overflow-auto bg-white">
                     <!-- thread -->
@@ -153,19 +147,6 @@
                 };
 
                 return colorDictionary[role];
-            },
-            // TODO: move this to projects component when it is created
-            getAcronymAttribute(text) {
-                const words = text.split(' ');
-
-                let acronym = '';
-
-                for (let index = 0; index < 2; index++) {
-                    const word = words[index];
-                    acronym += word[0];
-                }
-
-                return acronym;
             },
 
             onClickSetRole(index) {
