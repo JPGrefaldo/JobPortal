@@ -29,7 +29,7 @@
                                          <span style="width: 100%;
                                                 overflow: hidden;
                                                font-size: 11px;">
-                                             <p>{{$socialLinkType->crew[0]->url}}</p>
+                                             <p>{{ $socialLinkType->crew[0]->url }}</p>
                                          </span>
                                     </a>
                                 </li>
