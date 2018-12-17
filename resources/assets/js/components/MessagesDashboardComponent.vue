@@ -102,7 +102,7 @@
                 <button
                     class="flex-1 flex justify-center items-center"
                     v-for="(role, index) in roles" :key="index"
-                    @click="setRole(index)"
+                    @click="onClickSetRole(index)"
                     :class="getColorByRole(role)"
                 >
                     {{ role }}
@@ -166,6 +166,10 @@
                 }
 
                 return acronym;
+            },
+
+            onClickSetRole(index) {
+                this.setRole(index);
             },
 
             setRole(index) {
