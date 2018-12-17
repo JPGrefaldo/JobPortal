@@ -2,5 +2,5 @@
 
 @section('content')
     <messages-dashboard :roles="{{ $roles }}"
-                        :projects="{{ $projects }}"></messages-dashboard>
+                        :projects="{{ $projects }}" />
 @endsection
