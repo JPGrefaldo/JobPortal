@@ -15,11 +15,7 @@
                 <div class="card float-left md:flex mb-8">
                     <div class="md:w-1/4 md:pr-8 text-center">
                         <img src="{{ url('photos/avatar.png') }}"
-<<<<<<< HEAD
                              class="rounded"
-=======
-                             class="rounded" 
->>>>>>> master
                              alt="Avatar" />
                         <ul class="list-reset py-4">
                              @foreach($socialLinkTypes as $key => $socialLinkType)
