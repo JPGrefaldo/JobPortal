@@ -288,8 +288,6 @@ h4,
         @apply .pl-1 .pr-1;
     }
 }
-.column-display ul {
-    columns: 3;
-}
+
 
 @tailwind utilities;

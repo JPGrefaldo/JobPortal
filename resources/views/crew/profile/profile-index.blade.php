@@ -13,18 +13,20 @@
                 <a href="{{ route('profile.create') }}"
                    class="text-grey w-full mb-2 text-sm md:text-right float-right"><i class="fas fa-pencil-alt mr-2"></i>Edit profile</a>
                 <div class="card float-left md:flex mb-8">
-                    <div class="md:w-1/4 md:pr-8 text-center column-display">
+                    <div class="md:w-1/4 md:pr-8 text-center">
                         <img src="{{ url('photos/avatar.png') }}"
                              class="rounded"
                              alt="Avatar" />
-                        <ul class="list-reset py-4">
+                        <ul class="social-links social-links-profile">
                              @foreach($socialLinkTypes as $key => $socialLinkType)
                                  @if(isset($socialLinkType->crew[0]))
-                                 <li class="py-1">
-                                     <a href="{{ $socialLinkType->crew[0]->url }}" target="_blank" class="flex items-center" title="{{ $socialLinkType->crew[0]->url }}">
-                                        <div class="p-1 flex w-12 h-12">
-                                            <span class="flex w-10 items-center leading-normal rounded rounded-r-none  whitespace-no-wrap text-grey-dark"
-                                                  style="background: url( '{{ asset($socialLinkType->image) }}'); background-size: cover;"></span>
+                                 <li class="social-links-item">
+                                     <a href="{{ $socialLinkType->crew[0]->url }}"
+                                        class="social-links-item-link"
+                                        title="{{ $socialLinkType->crew[0]->url }}"
+                                        target="_blank" >
+                                        <div class="social-links-item-icon">
+                                            <span style="background: url( '{{ asset($socialLinkType->image) }}');"></span>
                                         </div>
                                     </a>
                                 </li>
