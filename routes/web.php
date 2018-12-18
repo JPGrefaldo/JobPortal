@@ -192,3 +192,21 @@ Route::prefix('theme')->group(function () {
 Route::get('test', function () {
     Log::info('asd');
 });
+
+Route::get('/producer/projects', function () {
+    $user = auth()->user();
+
+    $projects = $user->projects;
+
+    return $projects;
+});
+
+Route::get('/crew/projects', function () {
+    $user = auth()->user();
+
+    $crew = $user->crew;
+
+    $projects = $crew->projects;
+
+    return $projects;
+});

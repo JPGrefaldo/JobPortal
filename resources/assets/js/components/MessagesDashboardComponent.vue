@@ -111,7 +111,7 @@
 </template>
 
 <script type="text/javascript">
-    import Form from '../form.js';
+    import { Form, HasError, AlertError } from 'vform'
 
     export default {
         name: "MessagesDashboardComponent",
@@ -121,15 +121,14 @@
                 type: Array,
                 required: true
             },
-            projects: {
-                type: Array,
-                required: true
-            },
         },
 
         data() {
             return {
                 role: this.roles[0],
+                form: new Form({
+                }),
+                projects: [],
             }
         },
 
@@ -151,11 +150,20 @@
 
             onClickSetRole(index) {
                 this.setRole(index);
+                this.getProjects(index);
             },
 
             setRole(index) {
                 this.role = this.roles[index];
+            },
+
+            getProjects(index) {
+                this.form.get('/' + this.role.toLowerCase() + '/projects')
+                    .then(({ data }) => {
+                        this.projects = data;
+                    });
             }
+
         }
     }
 </script>
