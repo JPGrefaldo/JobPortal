@@ -132,6 +132,10 @@
             }
         },
 
+        mounted() {
+            this.getProjects(this.role);
+        },
+
         methods: {
             getColorByRole: function (role) {
                 const colorDictionary = {
@@ -159,9 +163,7 @@
 
             getProjects(index) {
                 this.form.get('/' + this.role.toLowerCase() + '/projects')
-                    .then(({ data }) => {
-                        this.projects = data;
-                    });
+                    .then(response => (this.projects = response.data));
             }
 
         }

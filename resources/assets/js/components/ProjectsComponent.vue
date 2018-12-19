@@ -18,8 +18,6 @@
 </template>
 
 <script type="text/javascript">
-    import Form from '../form.js';
-
     export default {
 
         props: {
