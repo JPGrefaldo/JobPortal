@@ -9,6 +9,7 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+import Cookies from 'js-cookie'
 import store from './store'
 import './plugins'
 
@@ -34,6 +35,9 @@ if (! store.getters['auth/check'] && store.getters['auth/token']) {
         await store.dispatch('auth/fetchUser')
     })(store)
 }
+
+// @temp
+console.log(Cookies.get('token'))
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
