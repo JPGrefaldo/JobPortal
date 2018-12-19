@@ -30,7 +30,7 @@ export default {
 
     methods: {
         onClick (e) {
-            this.$store.dispatch('aut/logout')
+            this.$store.dispatch('auth/logout')
             this.$refs.logoutLinkForm.submit()
         }
     }

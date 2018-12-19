@@ -34,7 +34,9 @@ export const mutations = {
         state.user = null
         state.token = null
 
-        Cookies.remove('token')
+        Cookies.remove('token', {
+            domain: window.location.hostname
+        })
     }
 }
 
