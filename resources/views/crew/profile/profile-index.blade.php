@@ -18,18 +18,18 @@
                              class="rounded"
                              alt="Avatar" />
                         <ul class="social-links social-links-profile">
-                             @foreach($socialLinkTypes as $key => $socialLinkType)
-                                 @if(isset($socialLinkType->crew[0]))
-                                 <li class="social-links-item">
-                                     <a href="{{ $socialLinkType->crew[0]->url }}"
-                                        class="social-links-item-link"
-                                        title="{{ $socialLinkType->crew[0]->url }}"
-                                        target="_blank" >
-                                        <div class="social-links-item-icon">
-                                            <span style="background: url( '{{ asset($socialLinkType->image) }}');"></span>
-                                        </div>
-                                    </a>
-                                </li>
+                            @foreach($socialLinkTypes as $key => $socialLinkType)
+                                @if(isset($socialLinkType->crew[0]))
+                                    <li class="social-links-item">
+                                        <a href="{{ $socialLinkType->crew[0]->url }}"
+                                           class="social-links-item-link"
+                                           title="{{ $socialLinkType->crew[0]->url }}"
+                                           target="_blank" >
+                                            <div class="social-links-item-icon">
+                                                <span style="background-image: url( '{{ asset($socialLinkType->image) }}');"></span>
+                                            </div>
+                                        </a>
+                                    </li>
                                 @endif
                             @endforeach
                         </ul>

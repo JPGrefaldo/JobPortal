@@ -1,8 +1,10 @@
 
 .social-links {
   list-style: none;
+  padding: 0;
   padding-top: 1rem;
   padding-bottom: 1rem;
+
   &-profile {
     columns: 3;
   }
@@ -16,6 +18,8 @@
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
   }
 
@@ -25,17 +29,20 @@
     height: 3rem;
   }
   &-icon span {
-    display: flex;
-    width: 2.5rem;
+    background-position: 0% 0%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 40px;
+    height: 40px;
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
-    line-height: 1.5;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: block;
     border-radius: .25rem;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
-    white-space: nowrap;
-    color: #727477;
-    background-size: cover;
+
   }
 }
