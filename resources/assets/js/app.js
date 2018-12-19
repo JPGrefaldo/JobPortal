@@ -36,8 +36,7 @@ if (! store.getters['auth/check'] && store.getters['auth/token']) {
     })(store)
 }
 
-// @temp
-console.log(Cookies.get('token'))
+console.log(store.getters['auth/token'])
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -55,6 +54,7 @@ Vue.component('create-endorsement-request-form', require('./components/CreateEnd
 Vue.component('endorsers-component', require('./components/EndorsementControlComponent'));
 Vue.component('messages-dashboard', require('./components/MessagesDashboardComponent'));
 Vue.component('app-logout-link', require('./components/AppLogoutLink'));
+// Vue.component('app-example-user', require('./components/AppExampleUser'))
 
 new Vue({
     el: '#nav-container',

@@ -3,7 +3,6 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <link href="https://fonts.googleapis.com/css?family=Montserrat:300,600|Noto+Sans:400,600" rel="stylesheet">
 
-<meta name="csrf-token" content="{{ csrf_token() }}">
 @if (session('token'))
     <meta name="jwt-token" content="{{ session('token') }}">
 @endif

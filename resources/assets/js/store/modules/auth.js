@@ -21,8 +21,7 @@ export const mutations = {
         state.token = token
 
         Cookies.set('token', token, {
-            expires: (remember) ? 365 : null,
-            domain: window.location.hostname
+            expires: (remember) ? 365 : null
         })
     },
 
