@@ -192,6 +192,8 @@ Route::get('test', function () {
     Log::info('asd');
 });
 
+// ! TEMPORARY
+// TODO: need to move to apis
 Route::get('/producer/projects', function () {
     $user = auth()->user();
 
@@ -200,6 +202,8 @@ Route::get('/producer/projects', function () {
     return $projects;
 });
 
+// ! TEMPORARY
+// TODO: need to move to apis
 Route::get('/crew/projects', function () {
     $user = auth()->user();
 
