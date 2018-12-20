@@ -20,8 +20,7 @@
         <div class="flex h-full">
             <!-- left pane -->
             <div class="flex w-1/5 border-r border-black">
-                <cca-projects
-                    :role="role"
+                <cca-projects :role="role"
                     :projects="projects"
                 />
                 <!-- threads -->
