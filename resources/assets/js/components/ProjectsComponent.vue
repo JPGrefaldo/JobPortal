@@ -1,13 +1,7 @@
 <template>
     <div class="bg-grey-dark overflow-auto p-1 w-12">
         <!-- project -->
-        <button
-            class="
-                flex justify-center items-center
-                h-10 w-full
-                mb-1
-                rounded
-                uppercase text-white font-bold"
+        <button class="flex justify-center items-center h-10 w-full mb-1 rounded uppercase text-white font-bold"
             v-for="project in projects" :key="project.id"
             :class="getColorByRole(role)"
             @click="onClickSetProject(project)"
