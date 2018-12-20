@@ -15,19 +15,21 @@
                 <div class="card float-left md:flex mb-8">
                     <div class="md:w-1/4 md:pr-8 text-center">
                         <img src="{{ url('photos/avatar.png') }}"
-                             class="rounded" 
+                             class="rounded"
                              alt="Avatar" />
-                        <ul class="list-reset py-4">
-                             @foreach($socialLinkTypes as $key => $socialLinkType)
-                                 @if(isset($socialLinkType->crew[0]))
-                                 <li class="py-1">
-                                     <a href="{{$socialLinkType->crew[0]->url}}" target="_blank" class="flex items-center">
-                                        <div class="p-1 flex w-12 h-12">
-                                            <span class="flex w-10 items-center leading-normal rounded rounded-r-none  whitespace-no-wrap text-grey-dark"
-                                                  style="background: url( '{{ $socialLinkType->image }}'); background-size: cover;"></span>
-                                        </div>
-                                    </a>
-                                </li>
+                        <ul class="social-links social-links-profile">
+                            @foreach($socialLinkTypes as $key => $socialLinkType)
+                                @if(isset($socialLinkType->crew[0]))
+                                    <li class="social-links-item">
+                                        <a href="{{ $socialLinkType->crew[0]->url }}"
+                                           class="social-links-item-link"
+                                           title="{{ $socialLinkType->crew[0]->url }}"
+                                           target="_blank" >
+                                            <div class="social-links-item-icon">
+                                                <img src="{{ asset($socialLinkType->image) }}">
+                                            </div>
+                                        </a>
+                                    </li>
                                 @endif
                             @endforeach
                         </ul>

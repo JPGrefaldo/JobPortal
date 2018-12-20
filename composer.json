@@ -89,6 +89,7 @@
         ],
         "post-install-cmd": [
             "npm install",
+            "npm rebuild node-sass",
             "php artisan nova:publish",
             "npm run production"
         ],
