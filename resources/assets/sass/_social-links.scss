@@ -27,22 +27,22 @@
     width: 3rem;
     padding: .25rem;
     height: 3rem;
-  }
-  &-icon span {
-    background-position: 0% 0%;
-    background-repeat: no-repeat;
-    background-size: cover;
-    width: 40px;
-    height: 40px;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: block;
-    border-radius: .25rem;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
 
+    span {
+      background-position: 0% 0%;
+      background-repeat: no-repeat;
+      background-size: cover;
+      width: 40px;
+      height: 40px;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: block;
+      border-radius: .25rem;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
   }
 }
