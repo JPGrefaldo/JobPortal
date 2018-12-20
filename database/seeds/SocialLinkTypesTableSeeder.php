@@ -16,7 +16,6 @@ class SocialLinkTypesTableSeeder extends Seeder
             'Facebook',
             'Twitter',
             'Youtube',
-            'Google Plus',
             'IMDB',
             'Tumblr',
             'Vimeo',
