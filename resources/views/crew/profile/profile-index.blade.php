@@ -26,7 +26,7 @@
                                            title="{{ $socialLinkType->crew[0]->url }}"
                                            target="_blank" >
                                             <div class="social-links-item-icon">
-                                                <span style="background-image: url( '{{ asset($socialLinkType->image) }}');"></span>
+                                                <img src="{{ asset($socialLinkType->image) }}">
                                             </div>
                                         </a>
                                     </li>
