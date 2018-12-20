@@ -20,17 +20,9 @@
         <div class="flex h-full">
             <!-- left pane -->
             <div class="flex w-1/5 border-r border-black">
-                <!-- projects -->
-                <div class="bg-grey-dark overflow-hidden">
-                    <!-- project -->
-                    <button
-                        class="uppercase flex items-center justify-center mb-2 m-1 text-white font-bold h-10 w-10 rounded"
-                        v-for="project in projects" :key="project.id"
-                        :class="getColorByRole(role)"
-                    >
-                        {{ getAcronymAttribute(project.title) }}
-                    </button>
-                </div>
+                <cca-projects :role="role"
+                    :projects="projects"
+                />
                 <!-- threads -->
                 <div class="flex-1 overflow-auto bg-white">
                     <!-- thread -->
@@ -117,7 +109,7 @@
 </template>
 
 <script type="text/javascript">
-    import Form from '../form.js';
+    import { Form, HasError, AlertError } from 'vform'
 
     export default {
         name: "MessagesDashboardComponent",
@@ -127,16 +119,19 @@
                 type: Array,
                 required: true
             },
-            projects: {
-                type: Array,
-                required: true
-            },
         },
 
         data() {
             return {
                 role: this.roles[0],
+                form: new Form({
+                }),
+                projects: [],
             }
+        },
+
+        mounted() {
+            this.getProjects(this.role);
         },
 
         methods: {
@@ -154,27 +149,21 @@
 
                 return colorDictionary[role];
             },
-            // TODO: move this to projects component when it is created
-            getAcronymAttribute(text) {
-                const words = text.split(' ');
-
-                let acronym = '';
-
-                for (let index = 0; index < 2; index++) {
-                    const word = words[index];
-                    acronym += word[0];
-                }
-
-                return acronym;
-            },
 
             onClickSetRole(index) {
                 this.setRole(index);
+                this.getProjects(index);
             },
 
             setRole(index) {
                 this.role = this.roles[index];
+            },
+
+            getProjects(index) {
+                this.form.get('/' + this.role.toLowerCase() + '/projects')
+                    .then(response => (this.projects = response.data));
             }
+
         }
     }
 </script>
