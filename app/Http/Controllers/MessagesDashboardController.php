@@ -9,7 +9,7 @@ class MessagesDashboardController extends Controller
 {
     public function index()
     {
-        $threads = Thread::all();
+        $threads = Thread::with('messages')->get();
 
         $messages = Message::all();
 
