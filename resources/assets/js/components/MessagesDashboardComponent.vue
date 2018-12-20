@@ -20,20 +20,9 @@
         <div class="flex h-full">
             <!-- left pane -->
             <div class="flex w-1/5 border-r border-black">
-                <div class="bg-grey-dark overflow-auto">
-                    <button class="uppercase flex items-center justify-center mb-2 m-1 bg-blue hover:bg-blue-dark text-white font-bold h-10 w-10 rounded">
-                        pa
-                    </button>
-                    <button class="uppercase flex items-center justify-center mb-2 m-1 bg-blue hover:bg-blue-dark text-white font-bold h-10 w-10 rounded">
-                        r
-                    </button>
-                    <div class="uppercase flex items-center justify-center mb-2 m-1 bg-blue-dark hover:bg-blue-dark text-white font-bold h-10 w-10 rounded">
-                        t
-                    </div>
-                    <button class="uppercase flex items-center justify-center mb-2 m-1 bg-blue hover:bg-blue-dark text-white font-bold h-10 w-10 rounded">
-                        z
-                    </button>
-                </div>
+                <cca-projects :role="role"
+                    :projects="projects"
+                />
                 <!-- threads -->
                 <div class="flex-1 overflow-auto bg-white">
                     <!-- thread -->
@@ -83,7 +72,10 @@
                 <!-- sender message -->
                 <div class="flex mb-4">
                     <div class="flex-1"></div>
-                    <div class="rounded-lg text-white bg-blue p-3 max-w-md">
+                    <div
+                        class="rounded-lg text-white p-3 max-w-md"
+                        :class="getColorByRole(role)"
+                    >
                         Eveniet et neque mollitia sed. Rem rem quis dolores ea est. Tempora sit tempore asperiores necessitatibus.
                     </div>
                 </div>
@@ -99,11 +91,13 @@
         <!-- bottom bar -->
         <div class="flex h-12 w-screen">
             <div class="w-1/5 flex border-t border-r border-black">
-                <button class="bg-blue w-1/2 flex justify-center items-center">
-                    producer
-                </button>
-                <button class="bg-green w-1/2 flex justify-center items-center">
-                    crew
+                <button
+                    class="flex-1 flex justify-center items-center"
+                    v-for="(role, index) in roles" :key="index"
+                    @click="onClickSetRole(index)"
+                    :class="getColorByRole(role)"
+                >
+                    {{ role }}
                 </button>
             </div>
             <div class="w-4/5 bg-grey-light flex justify-between items-center p-3">
@@ -115,20 +109,61 @@
 </template>
 
 <script type="text/javascript">
-    import Form from '../form.js';
+    import { Form, HasError, AlertError } from 'vform'
 
     export default {
         name: "MessagesDashboardComponent",
+
         props: {
+            roles: {
+                type: Array,
+                required: true
+            },
         },
+
         data() {
             return {
-
+                role: this.roles[0],
+                form: new Form({
+                }),
+                projects: [],
             }
         },
 
+        mounted() {
+            this.getProjects(this.role);
+        },
+
         methods: {
+            getColorByRole: function (role) {
+                const colorDictionary = {
+                    Producer: [
+                        'bg-blue',
+                        'hover:bg-blue-dark',
+                    ],
+                    Crew: [
+                        'bg-green',
+                        'hover:bg-green-dark',
+                    ]
+                };
+
+                return colorDictionary[role];
+            },
+
+            onClickSetRole(index) {
+                this.setRole(index);
+                this.getProjects(index);
+            },
+
+            setRole(index) {
+                this.role = this.roles[index];
+            },
+
+            getProjects(index) {
+                this.form.get('/' + this.role.toLowerCase() + '/projects')
+                    .then(response => (this.projects = response.data));
+            }
+
         }
     }
 </script>
-

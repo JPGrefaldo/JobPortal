@@ -23,7 +23,6 @@ Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
 
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
-Route::get('logout', 'Auth\LoginController@logout');
 
 Route::get('signup', 'Auth\UserSignupController@show')->name('signup');
 Route::post('signup', 'Auth\UserSignupController@signup');
@@ -191,4 +190,26 @@ Route::prefix('theme')->group(function () {
 
 Route::get('test', function () {
     Log::info('asd');
+});
+
+// ! TEMPORARY
+// TODO: need to move to apis
+Route::get('/producer/projects', function () {
+    $user = auth()->user();
+
+    $projects = $user->projects;
+
+    return $projects;
+});
+
+// ! TEMPORARY
+// TODO: need to move to apis
+Route::get('/crew/projects', function () {
+    $user = auth()->user();
+
+    $crew = $user->crew;
+
+    $projects = $crew->projects;
+
+    return $projects;
 });

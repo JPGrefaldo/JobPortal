@@ -42,13 +42,13 @@
                     <li class="py-2 px-4">
                         <a href="/my-account" class="block text-blue-dark hover:text-green">Settings</a>
                     </li>
+
                     <li class="py-2 px-4 border-t mt-2 border-grey-light">
-                        <a href="{{ route('logout') }}" class="block text-blue-dark hover:text-green" onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">Sign out</a>
+                        <app-logout-link csrf="{{ csrf_token() }}"
+                                         classes="block text-blue-dark hover:text-green">
+                            {{ __('Sign Out') }}
+                        </app-logout-link>
                     </li>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                        @csrf
-                    </form>
                 </ul>
             </div>
         </div>
@@ -86,7 +86,10 @@
                             <a href="{{ route('account.name') }}" class="block text-blue-dark hover:text-green">Account Settings</a>
                         </li>
                         <li class="py-2 px-4 border-t mt-2 border-grey-light">
-                            <a href="{{ route('logout') }}" class="block text-blue-dark hover:text-green">Sign out</a>
+                            <app-logout-link csrf="{{ csrf_token() }}"
+                                             classes="block text-blue-dark hover:text-green">
+                                {{ __('Sign Out') }}
+                            </app-logout-link>
                         </li>
                     </ul>
                 </div>

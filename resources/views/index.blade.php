@@ -28,7 +28,7 @@
                                 href="#">about</a>
                         </li>
                     </ul>
-                    <div class="w-64 hidden lg:block relative z-10">
+                    <div id="nav-container" class="w-64 hidden lg:block relative z-10">
 
                         <ul class="list-reset flex items-center">
                             @guest
@@ -44,18 +44,12 @@
                                 <a class="block py-4 px-8 font-header font-bold leading-none border border-white rounded-full text-sm text-white hover:text-green" href="/my-profile">
                                     {{ Auth::user()->first_name }} <span class="caret"></span>
                                 </a>
-                            </li> 
-                            <li>
-                                    <a class="block py-4 px-8 font-header font-bold leading-none uppercase text-sm text-white hover:border-green hover:text-green" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
                             </li>
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
-                                </div>
+                            <li>
+                                <app-logout-link csrf="{{ csrf_token() }}"
+                                                 classes="block py-4 px-8 font-header font-bold leading-none uppercase text-sm text-white hover:border-green hover:text-green">
+                                    {{ __('Logout') }}
+                                </app-logout-link>
                             </li>
                         @endguest
                         </ul>
@@ -154,7 +148,7 @@
                         <span class="text-white font-bold text-md font-header p-6 absolute pin-b pin-l w-full">... and more</span>
                     </a>
                 </div>
-                
+
 
             </div>
         </div>
