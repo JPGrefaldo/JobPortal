@@ -191,3 +191,25 @@ Route::prefix('theme')->group(function () {
 Route::get('test', function () {
     Log::info('asd');
 });
+
+// ! TEMPORARY
+// TODO: need to move to apis
+Route::get('/producer/projects', function () {
+    $user = auth()->user();
+
+    $projects = $user->projects;
+
+    return $projects;
+});
+
+// ! TEMPORARY
+// TODO: need to move to apis
+Route::get('/crew/projects', function () {
+    $user = auth()->user();
+
+    $crew = $user->crew;
+
+    $projects = $crew->projects;
+
+    return $projects;
+});

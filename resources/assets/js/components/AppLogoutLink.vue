@@ -37,8 +37,10 @@ export default {
 }
 </script>
 
-<style scoped>
-    .logout-link-form {
+<style lang="scss" scoped>
+.logout-link {
+    &-form {
         display: none;
     }
+}
 </style>

@@ -39,8 +39,9 @@ mix.styles(['resources/assets/css/plugins/slick.css',
     'node_modules/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-borderless.min.css'
 ], 'public/css/plugins.css').sourceMaps().version();
 
-mix.styles(['resources/assets/css/extras.css'
-], 'public/css/main.css').sourceMaps().version();
+mix.sass('resources/assets/sass/main.scss', 'public/css/main.css')
+    .sourceMaps()
+    .version()
 
 mix.postCss('resources/assets/css/styles.css', 'public/css', [
      tailwindcss('./tailwind.js'),
