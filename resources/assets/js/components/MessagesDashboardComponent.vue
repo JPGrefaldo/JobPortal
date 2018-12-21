@@ -99,6 +99,10 @@
                 form: new Form({
                 }),
                 projects: [],
+                project: {},
+                threads: [],
+                thread: {},
+                messages: [],
             }
         },
 
@@ -134,7 +138,35 @@
             getProjects() {
                 this.form.get('/' + this.role.toLowerCase() + '/projects')
                     .then(response => (this.projects = response.data));
-            }
+            },
+
+            onClickSetProject(project) {
+                this.setProject(project);
+                this.getThreads();
+            },
+
+            setProject(project) {
+                this.project = project;
+            },
+
+            getThreads() {
+                this.form.get('/' + this.role.toLowerCase() + '/projects/' + this.project.id + '/threads')
+                    .then(response => (this.threads = response.data));
+            },
+
+            onClickSetThread(thread) {
+                this.setThread(thread);
+                this.getMessages(thread);
+            },
+
+            setThread(thread) {
+                this.thread = thread;
+            },
+
+            getMessages() {
+                this.form.get('/threads/' + this.thread.id + '/messages')
+                    .then(response => (this.messages = response.data));
+            },
 
         }
     }
