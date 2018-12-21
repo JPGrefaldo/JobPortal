@@ -4,7 +4,7 @@
         <button class="flex justify-center items-center h-10 w-full mb-1 rounded uppercase text-white font-bold"
             v-for="project in projects" :key="project.id"
             :class="getColorByRole(role)"
-            @click="onClickSetProject(project)"
+            @click="$emit('onClickSetProject', project)"
         >
             {{ getAcronymAttribute(project.title) }}
         </button>
