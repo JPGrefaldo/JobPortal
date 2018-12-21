@@ -33,13 +33,6 @@
         },
 
         methods: {
-            onClickSetThread: function (thread) {
-                this.setThread(thread);
-            },
-
-            setThread(thread) {
-                this.$emit('setThread', thread);
-            }
         }
     }
 </script>
