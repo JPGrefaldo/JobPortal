@@ -10,7 +10,7 @@
                     {{ thread.subject }}
                 </div>
                 <p class="text-xs truncate w-32">
-                    {{ thread.messages[0].body }}
+                    last message
                 </p>
             </div>
         </button>
