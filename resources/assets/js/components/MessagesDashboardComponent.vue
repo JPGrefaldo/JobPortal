@@ -93,10 +93,6 @@
                 type: Array,
                 required: true
             },
-            threads: {
-                type: Array,
-                required: true
-            },
         },
 
         data() {
