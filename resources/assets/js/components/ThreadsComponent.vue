@@ -1,7 +1,7 @@
 <template>
     <div class="flex-1 overflow-auto bg-white">
         <!-- thread -->
-        <div class="flex items-center justify-center p-2 hover:bg-grey-light"
+        <button class="flex items-center justify-center p-2 hover:bg-grey-light w-full"
             v-for="thread in threads" :key="thread.id"
             @click="$emit('onClickSetThread', thread)">
             <div class="h-10 w-10 rounded-full bg-white background-missing-avatar border"></div>
@@ -13,7 +13,7 @@
                     {{ thread.messages[0].body }}
                 </p>
             </div>
-        </div>
+        </button>
     </div>
 </template>
 
