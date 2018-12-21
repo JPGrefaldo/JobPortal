@@ -23,13 +23,12 @@
         props: {
             threads: {
                 type: Array,
-                required: true
+                required: false
             },
         },
 
         data() {
             return {
-                thread: {}
             }
         },
 
