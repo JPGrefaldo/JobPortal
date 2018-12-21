@@ -20,10 +20,8 @@
         <div class="flex h-full">
             <!-- left pane -->
             <div class="flex w-1/5 border-r border-black">
-                <cca-projects :role="role"
-                    :projects="projects"
-                />
-                <cca-threads :threads="threads"/>
+                <cca-projects :role="role" :projects="projects" @onClickSetProject="onClickSetProject" />
+                <cca-threads :threads="threads" @onClickSetThread="onClickSetThread" />
             </div>
             <!-- conversation -->
             <div class="w-4/5 bg-white flex flex-col p-4">
