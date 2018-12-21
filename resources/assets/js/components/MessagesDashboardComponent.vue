@@ -126,14 +126,14 @@
 
             onClickSetRole(index) {
                 this.setRole(index);
-                this.getProjects(index);
+                this.getProjects();
             },
 
             setRole(index) {
                 this.role = this.roles[index];
             },
 
-            getProjects(index) {
+            getProjects() {
                 this.form.get('/' + this.role.toLowerCase() + '/projects')
                     .then(response => (this.projects = response.data));
             }
