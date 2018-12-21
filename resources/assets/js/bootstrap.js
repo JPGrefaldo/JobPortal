@@ -21,7 +21,7 @@ window._ = require('vue-sweetalert2');
 
 window.axios = require('axios');
 
-// window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 window.JWT_TOKEN = (document.head.querySelector('meta[name="jwt-token"]'))
     ? document.head.querySelector('meta[name="jwt-token"]').content

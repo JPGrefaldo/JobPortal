@@ -31,12 +31,14 @@ if (window.JWT_TOKEN) {
 }
 
 if (! store.getters['auth/check'] && store.getters['auth/token']) {
-    (async function (store) {
+    /*(async function (store) {
         await store.dispatch('auth/fetchUser')
-    })(store)
+    })(store)*/
 }
 
-console.log(store.getters['auth/token'])
+setTimeout(() => {
+    console.log(Cookies.get('crewcallsamerica_session'))
+}, 10000)
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
