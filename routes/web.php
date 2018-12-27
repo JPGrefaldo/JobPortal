@@ -158,6 +158,15 @@ Route::middleware('auth')->group(function () {
             Route::post('/', 'Producer\ProjectsController@store');
             Route::put('/{project}', 'Producer\ProjectsController@update');
         });
+
+        Route::get('/producer/projects', function () {
+            $user = auth()->user();
+
+            $projects = $user->projects;
+
+            return $projects;
+        });
+
         Route::prefix('/producer/jobs')->group(function () {
             Route::post('/', 'Producer\ProjectJobsController@store');
             Route::put('/{job}', 'Producer\ProjectJobsController@update');
@@ -185,15 +194,6 @@ Route::get('test', function () {
     Log::info('asd');
 });
 
-// ! TEMPORARY
-// TODO: need to move to apis
-Route::get('/producer/projects', function () {
-    $user = auth()->user();
-
-    $projects = $user->projects;
-
-    return $projects;
-});
 
 // ! TEMPORARY
 // TODO: need to move to apis
