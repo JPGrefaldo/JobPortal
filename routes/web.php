@@ -38,9 +38,7 @@ Route::get('verify/email/{code}', 'VerifyEmailController@verify')->name('verify.
 Route::middleware('auth')->group(function () {
     Route::get('dashboard', 'DashboardController@index')->name('dashboard');
 
-    Route::group(['prefix' => 'messages'], function () {
-        Route::get('/', ['as' => 'messages', 'uses' => 'MessagesDashboardController@index']);
-    });
+    Route::get('/messages', ['as' => 'messages', 'uses' => 'MessagesDashboardController@index']);
 
     Route::prefix('account')->group(function () {
         Route::get('name', 'Account\AccountNameController@index')->name('account.name');
