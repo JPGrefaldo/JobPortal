@@ -13,71 +13,72 @@ class CreateCrewTest extends TestCase
 {
     use RefreshDatabase,
         SeedDatabaseAfterRefresh;
+
     /**
      * @test
      * @covers \App\Http\Controllers\CrewsController@store
      */
     public function validate_social_links_facebook()
     {
+        // arrange
         Storage::fake();
 
         $user = $this->createCrew();
         $data = [
-            'bio' => 'some bio',
-            'photo' => UploadedFile::fake()
+            'bio'     => 'some bio',
+            'photo'   => UploadedFile::fake()
                 ->image('photo.png'),
-            'resume' => UploadedFile::fake()
+            'resume'  => UploadedFile::fake()
                 ->create('resume.pdf'),
-            'reel' => 'http://www.youtube.com/embed/G8S81CEBdNs',
+            'reel'    => 'http://www.youtube.com/embed/G8S81CEBdNs',
             'socials' => [
-                'facebook' => [
+                'facebook'         => [
                     'url' => 'wrong_facebook_url',
-                    'id' => SocialLinkTypeID::FACEBOOK,
+                    'id'  => SocialLinkTypeID::FACEBOOK,
                 ],
-                'twitter' => [
+                'twitter'          => [
                     'url' => 'https://twitter.com/casting_america',
-                    'id' => SocialLinkTypeID::TWITTER,
+                    'id'  => SocialLinkTypeID::TWITTER,
                 ],
-                'youtube' => [
+                'youtube'          => [
                     'url' => 'https://www.youtube.com/channel/UCHBOnWRvXSZ2xzBXyoDnCJw',
-                    'id' => SocialLinkTypeID::YOUTUBE,
+                    'id'  => SocialLinkTypeID::YOUTUBE,
                 ],
-                'google_plus' => [
+                'google_plus'      => [
                     'url' => 'https://plus.google.com/+marvel',
-                    'id' => SocialLinkTypeID::GOOGLE_PLUS,
+                    'id'  => SocialLinkTypeID::GOOGLE_PLUS,
                 ],
-                'imdb' => [
+                'imdb'             => [
                     'url' => 'http://www.imdb.com/name/nm0000134/',
-                    'id' => SocialLinkTypeID::IMDB,
+                    'id'  => SocialLinkTypeID::IMDB,
                 ],
-                'tumblr' => [
+                'tumblr'           => [
                     'url' => 'http://test.tumblr.com',
-                    'id' => SocialLinkTypeID::TUMBLR,
+                    'id'  => SocialLinkTypeID::TUMBLR,
                 ],
-                'vimeo' => [
+                'vimeo'            => [
                     'url' => 'https://vimeo.com/mackevision',
-                    'id' => SocialLinkTypeID::VIMEO,
+                    'id'  => SocialLinkTypeID::VIMEO,
                 ],
-                'instagram' => [
+                'instagram'        => [
                     'url' => 'https://www.instagram.com/castingamerica/',
-                    'id' => SocialLinkTypeID::INSTAGRAM,
+                    'id'  => SocialLinkTypeID::INSTAGRAM,
                 ],
                 'personal_website' => [
                     'url' => 'https://castingcallsamerica.com',
-                    'id' => SocialLinkTypeID::PERSONAL_WEBSITE,
+                    'id'  => SocialLinkTypeID::PERSONAL_WEBSITE,
                 ],
             ],
         ];
 
+        // act
         $response = $this->actingAs($user)
             ->post('/crews', $data);
-        $response->assertSessionHasErrors(['socials.facebook.url']);
 
+        // debug
         \Log::info(session()->all());
 
-
+        // assert
+        $response->assertSessionHasErrors(['socials.facebook.url']);
     }
-
-
-
 }
