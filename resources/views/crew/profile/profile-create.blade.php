@@ -97,7 +97,7 @@
                                                    class="flex-shrink flex-grow flex-auto leading-normal w-px flex-1 border h-10 border-grey-light rounded rounded-l-none px-3 relative"
                                                    placeholder="Add {{$socialLinkType->name}} link"
                                                    name="socials[{{ $socialLinkType->slug }}][url]"
-                                                   value="{{ old('socials.'. $socialLinkType->slug .'.url', $socialLinkType->url) }}"  >
+                                                   value="{{ @old('socials.'. $socialLinkType->slug .'.url', $socialLinkType->toArray()['crew'][0]['url']) }}"  >
 	                                        <input type="hidden" name="socials[{{ $socialLinkType->slug }}][id]" value="{{ $socialLinkType->id }}">
                                         </div>
                                         @endforeach
