@@ -80,5 +80,8 @@ class CreateCrewTest extends TestCase
 
         // assert
         $response->assertSessionHasErrors(['socials.facebook.url']);
+        $this->assertArrayHasKey('socials.facebook.url', session()->get('errors')->getBag('default')->toArray());
+        $this->assertEquals('wrong_facebook_url', old('socials.facebook.url'));
+        $this->assertCount(1, session()->get('errors')->all());
     }
 }
