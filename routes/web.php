@@ -114,6 +114,16 @@ Route::middleware('auth')->group(function () {
         Route::post('/crews', 'CrewsController@store');
         Route::put('/crews/{crew}', 'CrewsController@update');
 
+        Route::get('/crew/projects', function () {
+            $user = auth()->user();
+
+            $crew = $user->crew;
+
+            $projects = $crew->projects;
+
+            return $projects;
+        });
+
         Route::prefix('crew')->group(function () {
             Route::prefix('endorsement')->group(function () {
                 Route::get('/', [App\Http\Controllers\Crew\Endorsements\EndorsementPositionController::class, 'index'])
@@ -185,17 +195,4 @@ Route::prefix('theme')->group(function () {
 
 Route::get('test', function () {
     Log::info('asd');
-});
-
-
-// ! TEMPORARY
-// TODO: need to move to apis
-Route::get('/crew/projects', function () {
-    $user = auth()->user();
-
-    $crew = $user->crew;
-
-    $projects = $crew->projects;
-
-    return $projects;
 });
