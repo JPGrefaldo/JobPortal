@@ -38,12 +38,6 @@ Route::get('verify/email/{code}', 'VerifyEmailController@verify')->name('verify.
 Route::middleware('auth')->group(function () {
     Route::get('dashboard', 'DashboardController@index')->name('dashboard');
 
-    Route::prefix('crew/profile')->group(function () {
-        Route::get('/', 'Crew\CrewProfileController@index')->name('profile');
-        Route::get('edit', 'Crew\CrewProfileController@create')->name('profile.create');
-        Route::post('/', 'Crew\CrewProfileController@store');
-    });
-
     Route::prefix('account')->group(function () {
         Route::get('name', 'Account\AccountNameController@index')->name('account.name');
         Route::post('name', 'Account\AccountNameController@store');
@@ -138,6 +132,12 @@ Route::middleware('auth')->group(function () {
         });
 
         Route::post('/crew/messages', 'Crew\MessageController@store')->name('crew.messages.store');
+
+        Route::prefix('crew/profile')->group(function () {
+            Route::get('/', 'Crew\CrewProfileController@index')->name('profile');
+            Route::get('edit', 'Crew\CrewProfileController@create')->name('profile.create');
+            Route::post('/', 'Crew\CrewProfileController@store');
+        });
     });
 
     /*
