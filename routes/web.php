@@ -64,9 +64,9 @@ Route::middleware('auth')->group(function () {
         Route::get('close', 'Account\AccountCloseController@index')->name('account.close');
         Route::put('close', 'Account\AccountCloseController@destroy');
 
-        Route::put('settings/name', 'User\UserSettingsController@updateName');
-        Route::put('settings/notifications', 'User\UserSettingsController@updateNotifications');
-        Route::put('settings/password', 'User\UserSettingsController@updatePassword');
+        // Route::put('settings/name', 'User\UserSettingsController@updateName');
+        // Route::put('settings/notifications', 'User\UserSettingsController@updateNotifications');
+        // Route::put('settings/password', 'User\UserSettingsController@updatePassword');
     });
 
     /*
