@@ -154,17 +154,10 @@ Route::middleware('auth')->group(function () {
     */
     Route::middleware('producer')->group(function () {
         Route::prefix('/producer/projects')->group(function () {
+            Route::get('/', 'Producer\ProjectsController@index')->name('producer.projects.index');
             Route::get('/create', 'Producer\ProjectsController@create')->name('producer.projects.create');
             Route::post('/', 'Producer\ProjectsController@store');
             Route::put('/{project}', 'Producer\ProjectsController@update');
-        });
-
-        Route::get('/producer/projects', function () {
-            $user = auth()->user();
-
-            $projects = $user->projects;
-
-            return $projects;
         });
 
         Route::prefix('/producer/jobs')->group(function () {
