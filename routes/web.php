@@ -143,15 +143,7 @@ Route::middleware('auth')->group(function () {
             Route::post('/', 'Crew\CrewProfileController@store');
         });
 
-        Route::get('/crew/projects', function () {
-            $user = auth()->user();
-
-            $crew = $user->crew;
-
-            $projects = $crew->projects;
-
-            return $projects;
-        });
+        Route::get('/crew/projects', 'Crew\ProjectsController@index')->name('crew.projects.index');
     });
 
     /*
