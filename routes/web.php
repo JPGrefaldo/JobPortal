@@ -114,16 +114,6 @@ Route::middleware('auth')->group(function () {
         Route::post('/crews', 'CrewsController@store');
         Route::put('/crews/{crew}', 'CrewsController@update');
 
-        Route::get('/crew/projects', function () {
-            $user = auth()->user();
-
-            $crew = $user->crew;
-
-            $projects = $crew->projects;
-
-            return $projects;
-        });
-
         Route::prefix('crew')->group(function () {
             Route::prefix('endorsement')->group(function () {
                 Route::get('/', [App\Http\Controllers\Crew\Endorsements\EndorsementPositionController::class, 'index'])
@@ -151,6 +141,16 @@ Route::middleware('auth')->group(function () {
             Route::get('/', 'Crew\CrewProfileController@index')->name('profile');
             Route::get('edit', 'Crew\CrewProfileController@create')->name('profile.create');
             Route::post('/', 'Crew\CrewProfileController@store');
+        });
+
+        Route::get('/crew/projects', function () {
+            $user = auth()->user();
+
+            $crew = $user->crew;
+
+            $projects = $crew->projects;
+
+            return $projects;
         });
     });
 
