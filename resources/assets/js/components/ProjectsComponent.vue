@@ -32,7 +32,13 @@
 
         methods: {
             getAcronymAttribute(text) {
+                text = text.replace('-', ' ');
+
                 const words = text.split(' ');
+
+                if (words.length === 1) {
+                    return text[0];
+                }
 
                 let acronym = '';
 
