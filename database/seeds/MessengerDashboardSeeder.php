@@ -43,10 +43,28 @@ class MessengerDashboardSeeder extends Seeder
             };
         };
 
-        // get the crew
-        // create projects
-        // join projects
-        // get messaged by the owners of the projects
-        // reply to those messages
+        $crew = $user->crew;
+
+        $projects = factory(Project::class, 2)->create();
+
+        $crew->projects()->attach($projects);
+
+        foreach ($projects as $project) {
+            $thread = factory(Thread::class)->create();
+
+            $project->threads()->save($thread);
+
+            $message = factory(Message::class)->create([
+                'user_id' => $project->user_id,
+            ]);
+
+            $thread->messages()->save($message);
+
+            $message = factory(Message::class)->create([
+                'user_id' => $crew->user->id,
+            ]);
+
+            $thread->messages()->save($message);
+        }
     }
 }
