@@ -3,8 +3,8 @@
     <div class="w-4/5 bg-white flex flex-col p-4">
         <div v-for="message in messages" :key="message.id">
             <!-- sender message template -->
-            <div class="flex mb-4"
-                v-if="isSender(message)">
+            <div v-if="isSender(message)"
+                class="flex mb-4">
                 <div class="flex-1"></div>
                 <div class="rounded-lg text-white p-3 max-w-md"
                     :class="getColorByRole(role)">
@@ -12,8 +12,8 @@
                 </div>
             </div>
             <!-- recipeint message template -->
-            <div class="flex items-center justify-center mb-4"
-                v-else>
+            <div v-else
+                class="flex items-center justify-center mb-4">
                 <div class="mr-4 border h-10 w-10 rounded-full bg-white background-missing-avatar"></div>
                 <div class="rounded-lg bg-grey-light p-3 max-w-md">
                     {{ message.body }}
