@@ -4,7 +4,6 @@ namespace Tests\Feature\Producer\Messages;
 
 use App\Models\Crew;
 use App\Models\Project;
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
@@ -83,7 +82,6 @@ class StoreFeatureTest extends TestCase
         $response->assertJson([
             'message' => 'The given data was invalid.',
             'errors' => [
-                'subject' => ['The subject field is required.'],
                 'message' => ['The message field is required.'],
                 'recipients' => ['The recipients field is required.'],
             ]
@@ -155,7 +153,6 @@ class StoreFeatureTest extends TestCase
     protected function getData($overrides = [])
     {
         return [
-            'subject' => 'Some subject',
             'message' => 'Some message',
         ];
     }
