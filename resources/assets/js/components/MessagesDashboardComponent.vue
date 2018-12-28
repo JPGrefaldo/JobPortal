@@ -20,36 +20,8 @@
         <div class="flex h-full">
             <!-- left pane -->
             <div class="flex w-1/5 border-r border-black">
-                <cca-projects :role="role"
-                    :projects="projects"
-                />
-                <!-- threads -->
-                <div class="flex-1 overflow-auto bg-white">
-                    <!-- thread -->
-                    <div class="flex items-center justify-center p-2 bg-grey-light">
-                        <div class="h-10 w-10 rounded-full bg-white background-missing-avatar"></div>
-                        <div class="p-2 flex-1">
-                            <div class="mb-1">
-                                Leonardo DiCarpio
-                            </div>
-                            <p class="text-xs">
-                                You: Awesome! You ar...
-                            </p>
-                        </div>
-                    </div>
-                    <!-- thread -->
-                    <div class="flex items-center justify-center p-2">
-                        <div class="h-10 w-10 rounded-full bg-white background-missing-avatar"></div>
-                        <div class="p-2 flex-1">
-                            <div class="mb-1">
-                                Kate Winslet
-                            </div>
-                            <p class="text-xs">
-                                I am happy.
-                            </p>
-                        </div>
-                </div>
-                </div>
+                <cca-projects :role="role" :projects="projects" @onClickSetProject="onClickSetProject" />
+                <cca-threads :threads="threads" @onClickSetThread="onClickSetThread" />
             </div>
             <!-- conversation -->
             <div class="w-4/5 bg-white flex flex-col p-4">
@@ -127,6 +99,10 @@
                 form: new Form({
                 }),
                 projects: [],
+                project: {},
+                threads: [],
+                thread: {},
+                messages: [],
             }
         },
 
@@ -152,17 +128,45 @@
 
             onClickSetRole(index) {
                 this.setRole(index);
-                this.getProjects(index);
+                this.getProjects();
             },
 
             setRole(index) {
                 this.role = this.roles[index];
             },
 
-            getProjects(index) {
+            getProjects() {
                 this.form.get('/' + this.role.toLowerCase() + '/projects')
                     .then(response => (this.projects = response.data));
-            }
+            },
+
+            onClickSetProject(project) {
+                this.setProject(project);
+                this.getThreads();
+            },
+
+            setProject(project) {
+                this.project = project;
+            },
+
+            getThreads() {
+                this.form.get('/' + this.role.toLowerCase() + '/projects/' + this.project.id + '/threads')
+                    .then(response => (this.threads = response.data));
+            },
+
+            onClickSetThread(thread) {
+                this.setThread(thread);
+                this.getMessages(thread);
+            },
+
+            setThread(thread) {
+                this.thread = thread;
+            },
+
+            getMessages() {
+                this.form.get('/threads/' + this.thread.id + '/messages')
+                    .then(response => (this.messages = response.data));
+            },
 
         }
     }
