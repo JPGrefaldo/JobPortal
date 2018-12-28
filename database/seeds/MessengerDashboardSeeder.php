@@ -36,6 +36,10 @@ class MessengerDashboardSeeder extends Seeder
                 ]);
 
                 $thread->messages()->save($message);
+
+                $message = factory(Message::class)->create();
+
+                $thread->messages()->save($message);
             };
         };
 
