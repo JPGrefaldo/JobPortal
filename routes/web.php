@@ -149,11 +149,11 @@ Route::middleware('auth')->group(function () {
             Route::post('/', 'Crew\CrewProfileController@store');
         });
 
-        Route::get('/crew/projects', 'Crew\ProjectsController@index')->name('crew.projects.index');
-        // ! TEMPORARY
-        // TODO: need to move to apis
-        Route::get('/crew/projects/{project}/threads', function (Project $project) {
-            return $project->threads;
+        Route::prefix('/crew/projects')->group(function () {
+            Route::get('/', 'Crew\ProjectsController@index')->name('crew.projects.index');
+            Route::get('/{project}/threads', function (Project $project) {
+                return $project->threads;
+            });
         });
     });
 
@@ -171,12 +171,9 @@ Route::middleware('auth')->group(function () {
             Route::get('/create', 'Producer\ProjectsController@create')->name('producer.projects.create');
             Route::post('/', 'Producer\ProjectsController@store');
             Route::put('/{project}', 'Producer\ProjectsController@update');
-        });
-
-        // ! TEMPORARY
-        // TODO: need to move to apis
-        Route::get('/producer/projects/{project}/threads', function (Project $project) {
-            return $project->threads;
+            Route::get('/{project}/threads', function (Project $project) {
+                return $project->threads;
+            });
         });
 
         Route::prefix('/producer/jobs')->group(function () {
