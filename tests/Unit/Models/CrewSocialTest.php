@@ -14,6 +14,7 @@ class CrewSocialTest extends TestCase
 
     /**
      * @test
+     * @covers \App\Models\CrewSocial::crew
      */
     public function crew()
     {
@@ -26,16 +27,15 @@ class CrewSocialTest extends TestCase
 
     /**
      * @test
+     * @covers \App\Models\CrewSocial::socialLinkType
      */
     public function socialLinkType()
     {
-        // when
         $socialLinkType = factory(SocialLinkType::class)->create();
         $crewSocial = factory(CrewSocial::class)->create([
             'social_link_type_id' => $socialLinkType->id
         ]);
 
-        // then
         $this->assertEquals(
             $socialLinkType->url,
             $crewSocial->socialLinkType->url

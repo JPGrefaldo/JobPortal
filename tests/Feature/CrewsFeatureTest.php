@@ -24,7 +24,7 @@ class CrewsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Crew\CrewProfileController::store
      */
     public function create()
     {
@@ -133,7 +133,7 @@ class CrewsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Crew\CrewProfileController::store
      */
     public function create_not_required()
     {
@@ -183,7 +183,7 @@ class CrewsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Crew\CrewProfileController::store
      */
     public function create_invalid_data()
     {
@@ -231,7 +231,7 @@ class CrewsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Crew\CrewProfileController::store
      */
     public function create_youtube_cleaned()
     {
@@ -278,7 +278,7 @@ class CrewsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Crew\CrewProfileController::store
      */
     public function create_vimeo_reel_cleaned()
     {
@@ -308,7 +308,7 @@ class CrewsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Crew\CrewProfileController::store
      */
     public function create_unauthorized()
     {
@@ -324,7 +324,7 @@ class CrewsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Crew\CrewProfileController::update
      */
     public function update()
     {
@@ -445,7 +445,7 @@ class CrewsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Crew\CrewProfileController::update
      */
     public function update_no_relations()
     {
@@ -541,7 +541,7 @@ class CrewsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Crew\CrewProfileController::update
      */
     public function update_without_photo()
     {
@@ -573,7 +573,7 @@ class CrewsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Crew\CrewProfileController::update
      */
     public function update_incomplete_socials()
     {
@@ -627,7 +627,7 @@ class CrewsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Crew\CrewProfileController::update
      */
     public function update_youtube_cleaned()
     {
@@ -674,7 +674,7 @@ class CrewsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Crew\CrewProfileController::update
      */
     public function update_vimeo_reel_cleaned()
     {
@@ -703,7 +703,7 @@ class CrewsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Crew\CrewProfileController::update
      */
     public function update_invalid_data()
     {
@@ -752,7 +752,7 @@ class CrewsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Crew\CrewProfileController::update
      */
     public function update_not_exists()
     {
@@ -769,7 +769,7 @@ class CrewsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Crew\CrewProfileController::update
      */
     public function update_unauthorized()
     {

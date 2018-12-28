@@ -18,7 +18,7 @@ class VerifyEmailFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\VerifyEmailController::verify
      */
     public function verify_email()
     {
@@ -47,7 +47,7 @@ class VerifyEmailFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\VerifyEmailController::verify
      */
     public function verify_email_invalid_code()
     {
@@ -65,7 +65,7 @@ class VerifyEmailFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\VerifyEmailController::verify
      */
     public function verify_email_already_confirmed()
     {

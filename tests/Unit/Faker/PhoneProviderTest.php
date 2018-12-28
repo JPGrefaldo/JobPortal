@@ -19,7 +19,7 @@ class PhoneProviderTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Utils\StrUtils::stripNonNumeric
      */
     public function test_phone_number()
     {

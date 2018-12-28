@@ -13,18 +13,19 @@ class EmailVerificationCodeTest extends TestCase
 
     /**
      * @test
+     * @covers \App\Models\EmailVerificationCode::user
      */
     public function user()
     {
-        // given
         $user = $this->createUser();
 
-        // when
         $emailVerificationCode = factory(EmailVerificationCode::class)->create([
             'user_id' => $user->id
         ]);
 
-        // then
-        $this->assertEquals($user->email, $emailVerificationCode->user->email);
+        $this->assertEquals(
+            $user->email,
+            $emailVerificationCode->user->email
+        );
     }
 }

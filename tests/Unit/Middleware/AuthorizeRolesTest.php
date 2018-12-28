@@ -9,7 +9,10 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class AuthorizeRolesTest extends TestCase
 {
-    /** @test */
+    /**
+     * @test
+     * @covers \App\Http\Middleware\AuthorizeRoles::parameterize
+     */
     public function parameterize()
     {
         $this->assertEquals(
