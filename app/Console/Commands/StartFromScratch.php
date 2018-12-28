@@ -49,5 +49,9 @@ class StartFromScratch extends Command
         $this->info('Creating User');
         Artisan::call('test_user', ['email' => $this->argument('email')]);
         $this->info('User Created');
+
+        $this->info('Seeding MessengerDashboardSeeder');
+        Artisan::call('db:seed', ['--class' => 'MessengerDashboardSeeder']);
+        $this->info('MessengerDashboard Seeded');
     }
 }
