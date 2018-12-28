@@ -15,7 +15,9 @@
 */
 
 use App\Http\Middleware\AuthorizeRoles;
+use App\Models\Project;
 use App\Models\Role;
+use Cmgmyr\Messenger\Models\Thread;
 
 Route::get('/', 'IndexController@index');
 
@@ -39,6 +41,12 @@ Route::middleware('auth')->group(function () {
     Route::get('dashboard', 'DashboardController@index')->name('dashboard');
 
     Route::get('/messages', ['as' => 'messages', 'uses' => 'MessagesDashboardController@index']);
+
+    // ! TEMPORARY
+    // TODO: need to move to apis
+    Route::get('/threads/{thread}/messages', function (Thread $thread) {
+        return $thread->messages;
+    });
 
     Route::prefix('account')->group(function () {
         Route::get('name', 'Account\AccountNameController@index')->name('account.name');
@@ -142,6 +150,11 @@ Route::middleware('auth')->group(function () {
         });
 
         Route::get('/crew/projects', 'Crew\ProjectsController@index')->name('crew.projects.index');
+        // ! TEMPORARY
+        // TODO: need to move to apis
+        Route::get('/crew/projects/{project}/threads', function (Project $project) {
+            return $project->threads;
+        });
     });
 
     /*
@@ -158,6 +171,12 @@ Route::middleware('auth')->group(function () {
             Route::get('/create', 'Producer\ProjectsController@create')->name('producer.projects.create');
             Route::post('/', 'Producer\ProjectsController@store');
             Route::put('/{project}', 'Producer\ProjectsController@update');
+        });
+
+        // ! TEMPORARY
+        // TODO: need to move to apis
+        Route::get('/producer/projects/{project}/threads', function (Project $project) {
+            return $project->threads;
         });
 
         Route::prefix('/producer/jobs')->group(function () {

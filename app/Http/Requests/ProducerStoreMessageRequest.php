@@ -33,7 +33,6 @@ class ProducerStoreMessageRequest extends FormRequest
     public function rules()
     {
         return [
-            'subject' => 'required|string',
             'message' => 'required|string',
             'recipients' => [
                 'required',
