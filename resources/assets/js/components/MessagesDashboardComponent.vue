@@ -122,6 +122,11 @@
 
             onClickSetProject(project) {
                 this.setProject(project);
+
+                this.threads = [];
+
+                this.messages = [];
+
                 this.getThreads();
             },
 
