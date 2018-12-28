@@ -1,7 +1,8 @@
 <template>
     <!-- conversation -->
     <div class="w-4/5 bg-white flex flex-col p-4">
-        <div v-for="message in messages" :key="message.id">
+        <div v-for="message in messages"
+            :key="message.id">
             <!-- sender message template -->
             <div v-if="isSender(message)"
                 class="flex mb-4">
