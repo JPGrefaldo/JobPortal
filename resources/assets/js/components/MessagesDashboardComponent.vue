@@ -97,6 +97,15 @@
 
             onClickSetRole(index) {
                 this.setRole(index);
+
+                this.projects = [];
+
+                this.project = {};
+
+                this.threads = [];
+
+                this.messages = [];
+
                 this.getProjects();
             },
 
