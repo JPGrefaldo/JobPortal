@@ -5,6 +5,7 @@
             v-for="project in projects" :key="project.id"
             :class="getColorByRole(role)"
             @click="$emit('onClickSetProject', project)"
+            :title="project.title"
         >
             {{ getAcronymAttribute(project.title) }}
         </button>
