@@ -51,7 +51,7 @@ class MessageCrewTest extends TestCase
         $this->assertDatabaseHas(
             'threads',
             [
-                'subject' => 'Some subject',
+                'subject' => $crew->user->fullName,
             ]
         );
         $this->assertDatabaseHas(
@@ -114,7 +114,7 @@ class MessageCrewTest extends TestCase
         $this->assertDatabaseHas(
             'threads',
             [
-                'subject' => 'Some subject',
+                'subject' => $crew->user->fullName,
             ]
         );
         $this->assertDatabaseHas(
@@ -182,7 +182,6 @@ class MessageCrewTest extends TestCase
     protected function getData($overrides = [])
     {
         return [
-            'subject' => 'Some subject',
             'message' => 'Some message',
         ];
     }

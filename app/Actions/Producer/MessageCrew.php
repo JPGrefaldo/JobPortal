@@ -18,7 +18,7 @@ class MessageCrew
 
             if ($thread === null) {
                 $thread = Thread::create([
-                    'subject' => $data['subject'],
+                    'subject' => $recipient->fullName,
                 ]);
                 $project->threads()->attach($thread);
                 $thread->addParticipant([$user->id, $recipient->id]);
