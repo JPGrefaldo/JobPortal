@@ -11,7 +11,9 @@
                 <button class="fa fa-edit"></button>
             </div>
             <div class="w-4/5 text-md border-black border-b font-bold flex justify-center items-center">
-                Titanic: Leonardo DiCarpio
+                <div v-if="project.title">
+                    {{ project.title }}: {{ thread.subject }}
+                </div>
                 <!-- TODO: right chevron goes here that links to the current recipient -->
                 <!-- might have to add logic depending on the role -->
             </div>
