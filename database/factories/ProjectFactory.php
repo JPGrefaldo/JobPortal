@@ -6,7 +6,7 @@ use Faker\Generator as Faker;
 
 $factory->define(\App\Models\Project::class, function (Faker $faker) {
     return [
-        'title'                  => $faker->unique()->words(3, true),
+        'title'                  => $faker->company,
         'production_name'        => $faker->unique()->word(3, true),
         'production_name_public' => $faker->boolean,
         'project_type_id'        => function () {
