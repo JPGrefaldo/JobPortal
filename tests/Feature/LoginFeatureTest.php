@@ -25,7 +25,7 @@ class LoginFeatureTest extends TestCase
         ]);
         $user->sites()->save($this->getCurrentSite());
 
-        $response = $this->post('login', [
+        $response = $this->post(route('login'), [
             'email'    => $user->email,
             'password' => 'testpass',
         ]);
@@ -45,7 +45,7 @@ class LoginFeatureTest extends TestCase
     {
         $user = $this->createUser();
 
-        $response = $this->post('login', [
+        $response = $this->post(route('login'), [
             'email'    => $user->email,
             'password' => 'asdasdasd',
         ]);
@@ -68,7 +68,7 @@ class LoginFeatureTest extends TestCase
             'confirmed' => 0,
         ]);
 
-        $response = $this->post('login', [
+        $response = $this->post(route('login'), [
             'email'    => $user->email,
             'password' => 'testpass',
         ]);
@@ -91,7 +91,7 @@ class LoginFeatureTest extends TestCase
             'status'   => 0,
         ]);
 
-        $response = $this->post('login', [
+        $response = $this->post(route('login'), [
             'email'    => $user->email,
             'password' => 'testpass',
         ]);
@@ -117,7 +117,7 @@ class LoginFeatureTest extends TestCase
             'reason'  => 'some reason',
         ]);
 
-        $response = $this->post('login', [
+        $response = $this->post(route('login'), [
             'email'    => $user->email,
             'password' => 'testpass',
         ]);
@@ -144,7 +144,7 @@ class LoginFeatureTest extends TestCase
                 'hostname' => 'somesite.test',
             ]);
 
-        $response = $this->post('login', [
+        $response = $this->post(route('login'), [
             'email'    => $user->email,
             'password' => 'testpass',
         ]);

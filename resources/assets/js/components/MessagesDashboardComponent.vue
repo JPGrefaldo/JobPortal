@@ -23,42 +23,7 @@
                 <cca-projects :role="role" :projects="projects" @onClickSetProject="onClickSetProject" />
                 <cca-threads :threads="threads" @onClickSetThread="onClickSetThread" />
             </div>
-            <!-- conversation -->
-            <div class="w-4/5 bg-white flex flex-col p-4">
-                <!-- recipient message -->
-                <div class="flex items-center justify-center mb-4">
-                    <div class="mr-4 border h-10 w-10 rounded-full bg-white background-missing-avatar"></div>
-                    <div class="rounded-lg bg-grey-light p-3 max-w-md">
-                        Impedit sit cumque ut voluptatem voluptatem est ea esse. Odit ipsa molestiae sint exercitationem quia tempora. Eaque non ipsum dolores reiciendis dicta. Eligendi minima quam dolorem quo voluptatem maxime qui.
-                    </div>
-                    <div class="flex-1"></div>
-                </div>
-                <!-- recipient message -->
-                <div class="flex items-center justify-center mb-4">
-                    <div class="mr-4 border h-10 w-10 rounded-full bg-white background-missing-avatar"></div>
-                    <div class="rounded-lg bg-grey p-3 max-w-md">
-                        Eum ut quibusdam modi dolores voluptas. Assumenda possimus assumenda et voluptatum. Facere soluta rerum nostrum eaque. Maxime consequuntur velit et et perspiciatis alias iste.
-                    </div>
-                    <div class="flex-1"></div>
-                </div>
-                <!-- sender message -->
-                <div class="flex mb-4">
-                    <div class="flex-1"></div>
-                    <div
-                        class="rounded-lg text-white p-3 max-w-md"
-                        :class="getColorByRole(role)"
-                    >
-                        Eveniet et neque mollitia sed. Rem rem quis dolores ea est. Tempora sit tempore asperiores necessitatibus.
-                    </div>
-                </div>
-                <!-- sender message -->
-                <div class="flex mb-4">
-                    <div class="flex-1"></div>
-                    <div class="rounded-lg text-white bg-blue-dark p-3 max-w-md">
-                        Awesome! You are the best!
-                    </div>
-                </div>
-            </div>
+            <cca-messages :user="user" :role="role" :messages="messages" />
         </div>
         <!-- bottom bar -->
         <div class="flex h-12 w-screen">
@@ -87,6 +52,10 @@
         name: "MessagesDashboardComponent",
 
         props: {
+            user: {
+                type: Object,
+                required: true,
+            },
             roles: {
                 type: Array,
                 required: true
