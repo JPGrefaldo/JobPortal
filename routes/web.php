@@ -164,6 +164,9 @@ Route::middleware('auth')->group(function () {
 
         Route::post('/crew/messages', [\App\Http\Controllers\Crew\MessageController::class, 'store'])
             ->name('crew.messages.store');
+
+        Route::get('/crew/projects', [\App\Http\Controllers\Crew\ProjectsController::class, 'index'])
+            ->name('crew.projects.index');
     });
 
     /*
@@ -223,18 +226,6 @@ Route::prefix('theme')->group(function () {
 
 Route::get('test', function () {
     Log::info('asd');
-});
-
-// ! TEMPORARY
-// TODO: need to move to apis
-Route::get('/crew/projects', function () {
-    $user = auth()->user();
-
-    $crew = $user->crew;
-
-    $projects = $crew->projects;
-
-    return $projects;
 });
 
 // ! TEMPORARY
