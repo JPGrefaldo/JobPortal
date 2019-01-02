@@ -46,7 +46,7 @@ class PositionsFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post('admin/positions', $data);
+                         ->post(route('admin.positions'), $data);
 
         $response->assertSuccessful();
 
@@ -79,7 +79,7 @@ class PositionsFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post('admin/positions', $data);
+                         ->post(route('admin.positions'), $data);
 
         $response->assertSuccessful();
 
@@ -114,7 +114,7 @@ class PositionsFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post('admin/positions', $data);
+                         ->post(route('admin.positions'), $data);
 
         $response->assertSuccessful();
 
@@ -148,7 +148,7 @@ class PositionsFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post('admin/positions', $data);
+                         ->post(route('admin.positions'), $data);
 
         $response->assertSessionHasErrors(
             [
@@ -175,7 +175,7 @@ class PositionsFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post('admin/positions', $data);
+                         ->post(route('admin.positions'), $data);
 
         $response->assertRedirect('/');
     }
@@ -197,7 +197,7 @@ class PositionsFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->put('admin/positions/' . $position->id, $data);
+                        ->put(route('admin.positions.update', ['position' => $position->id]), $data);
 
         $response->assertSuccessful();
 
@@ -229,7 +229,7 @@ class PositionsFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->put('admin/positions/' . $position->id, $data);
+                         ->put(route('admin.positions.update', ['position' => $position->id]), $data);
 
         $response->assertSuccessful();
 
@@ -263,7 +263,7 @@ class PositionsFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->put('admin/positions/' . $position->id, $data);
+                         ->put(route('admin.positions.update', ['position' => $position->id]), $data);
 
         $response->assertSuccessful();
 
@@ -298,7 +298,7 @@ class PositionsFeatureTest extends TestCase
         $position = factory(Position::class)->create($data);
 
         $response = $this->actingAs($user)
-                         ->put('admin/positions/' . $position->id, $data);
+                         ->put(route('admin.positions.update', ['position' => $position->id]), $data);
 
         $response->assertSuccessful();
 
@@ -331,7 +331,7 @@ class PositionsFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->put('admin/positions/' . $position->id, $data);
+                         ->put(route('admin.positions.update', ['position' => $position->id]), $data);
 
         $response->assertSessionHasErrors(
             [
@@ -362,7 +362,7 @@ class PositionsFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->put('admin/positions/999', $data);
+                         ->put(route('admin.positions.update', ['position' => '999']), $data);
 
         $response->assertNotFound();
     }
@@ -383,7 +383,7 @@ class PositionsFeatureTest extends TestCase
         $position = factory(Position::class)->create($data);
 
         $response = $this->actingAs($user)
-                         ->put('admin/positions/' . $position->id, $data);
+                         ->put(route('admin.positions.update', ['position' => $position->id]), $data);
 
         $response->assertRedirect('/');
     }
