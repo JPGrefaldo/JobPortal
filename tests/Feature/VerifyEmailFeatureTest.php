@@ -29,7 +29,7 @@ class VerifyEmailFeatureTest extends TestCase
         app(AddUserToSite::class)->execute($user, $site);
 
 
-        $response = $this->get('verify/email/' . $user->emailVerificationCode->code);
+        $response = $this->get(route('verify.email', ['code' => $user->emailVerificationCode->code]));
 
         $response->assertRedirect('login')
                  ->assertSessionHas(
@@ -51,7 +51,7 @@ class VerifyEmailFeatureTest extends TestCase
      */
     public function verify_email_invalid_code()
     {
-        $response = $this->get('verify/email/invalid_code');
+        $response = $this->get(route('verify.email', ['code' => 'invalid_code']));
 
         $response->assertRedirect('login')
                  ->assertSessionHas(
@@ -77,7 +77,7 @@ class VerifyEmailFeatureTest extends TestCase
         app(AddUserToSite::class)->execute($user, $site);
 
 
-        $response = $this->get('verify/email/' . $user->emailVerificationCode->code);
+        $response = $this->get(route('verify.email', ['code' => $user->emailVerificationCode->code]));
 
         $response->assertRedirect('login')
                  ->assertSessionHas(

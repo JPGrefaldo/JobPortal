@@ -50,7 +50,7 @@ class StoreProjectFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post('producer/projects', $data);
+                         ->post(route('producer.projects'), $data);
 
         $response->assertSuccessful();
 
@@ -121,7 +121,7 @@ class StoreProjectFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post('producer/projects', $data);
+                         ->post(route('producer.projects'), $data);
 
         $response->assertSuccessful();
 
@@ -170,7 +170,7 @@ class StoreProjectFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post('producer/projects', $data);
+                         ->post(route('producer.projects'), $data);
 
         $response->assertSuccessful();
 
@@ -237,7 +237,7 @@ class StoreProjectFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post('producer/projects', $data);
+                         ->post(route('producer.projects'), $data);
 
         $response->assertSuccessful();
 
@@ -310,7 +310,7 @@ class StoreProjectFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post('producer/projects', $data);
+                         ->post(route('producer.projects'), $data);
 
         $response->assertSuccessful();
 
@@ -393,7 +393,7 @@ class StoreProjectFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post('producer/projects', $data);
+                         ->post(route('producer.projects'), $data);
 
         $response->assertSuccessful();
 
@@ -482,7 +482,7 @@ class StoreProjectFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post('producer/projects', $data);
+                         ->post(route('producer.projects'), $data);
 
         $response->assertSessionHasErrors([
             'title', // min 3 chars
@@ -520,7 +520,7 @@ class StoreProjectFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post('producer/projects', $data);
+                         ->post(route('producer.projects'), $data);
 
         $response->assertSessionHasErrors([
             'title', // required
@@ -564,7 +564,7 @@ class StoreProjectFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post('producer/projects', $data);
+                         ->post(route('producer.projects'), $data);
 
         $response->assertSessionHasErrors([
             'jobs.*.pay_type_id',
@@ -581,7 +581,7 @@ class StoreProjectFeatureTest extends TestCase
         $user = $this->createCrew();
 
         $response = $this->actingAs($user)
-                         ->post('producer/projects');
+                         ->post(route('producer.projects'));
 
         $response->assertRedirect('/');
     }

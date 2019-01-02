@@ -41,8 +41,10 @@
                             </li>
                             @else
                             <li>
-                                <a class="block py-4 px-8 font-header font-bold leading-none border border-white rounded-full text-sm text-white hover:text-green" href="/my-profile">
-                                    {{ Auth::user()->first_name }} <span class="caret"></span>
+                                <a href="{{ route('dashboard') }}"
+                                   class="block py-4 px-8 font-header font-bold leading-none border border-white rounded-full text-sm text-white hover:text-green">
+                                    {{ Auth::user()->first_name }}
+                                    <span class="caret"></span>
                                 </a>
                             </li>
                             <li>
