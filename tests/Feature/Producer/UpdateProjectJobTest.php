@@ -41,7 +41,7 @@ class UpdateProjectJobTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->put('/producer/jobs/' . $job->id, $data);
+                         ->put(route('producer.job.update', ['job' => $job->id]), $data);
 
         $response->assertSuccessful();
 
@@ -87,7 +87,7 @@ class UpdateProjectJobTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->put('/producer/jobs/' . $job->id, $data);
+                         ->put(route('producer.job.update', ['job' => $job->id]), $data);
 
         $response->assertSuccessful();
 
@@ -133,7 +133,7 @@ class UpdateProjectJobTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->put('/producer/jobs/' . $job->id, $data);
+                         ->put(route('producer.job.update', ['job' => $job->id]), $data);
 
         $response->assertSuccessful();
 
@@ -174,7 +174,7 @@ class UpdateProjectJobTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->put('/producer/jobs/' . $job->id, $data);
+                         ->put(route('producer.job.update', ['job' => $job->id]), $data);
 
         $response->assertSuccessful();
 
@@ -207,7 +207,7 @@ class UpdateProjectJobTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->put('/producer/jobs/' . $job->id, $data);
+                         ->put(route('producer.job.update', ['job' => $job->id]), $data);
 
         $response->assertSessionHasErrors([
             'dates_needed',
@@ -230,7 +230,7 @@ class UpdateProjectJobTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->put('/producer/jobs/' . $job->id, $data);
+                         ->put(route('producer.job.update', ['job' => $job->id]), $data);
 
         $response->assertSessionHasErrors([
             'persons_needed',
@@ -259,7 +259,7 @@ class UpdateProjectJobTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->put('/producer/jobs/' . $job->id, $data);
+                         ->put(route('producer.job.update', ['job' => $job->id]), $data);
 
         $response->assertSessionHasErrors([
             'persons_needed', // must be numeric
@@ -296,7 +296,7 @@ class UpdateProjectJobTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->put('/producer/jobs/' . $job->id, $data);
+                         ->put(route('producer.job.update', ['job' => $job->id]), $data);
 
         $response->assertSessionHasErrors([
             'pay_type_id',
@@ -314,7 +314,7 @@ class UpdateProjectJobTest extends TestCase
         $data = [];
 
         $response = $this->actingAs($user)
-                         ->put('/producer/jobs/' . $job->id, $data);
+                         ->put(route('producer.job.update', ['job' => $job->id]), $data);
 
         $response->assertRedirect('/');
     }
@@ -329,7 +329,7 @@ class UpdateProjectJobTest extends TestCase
         $data = [];
 
         $response = $this->actingAs($user)
-                         ->put('/producer/jobs/' . 999, $data);
+                         ->put(route('producer.job.update', ['job' => '999']), $data);
 
         $response->assertNotFound();
     }
@@ -345,7 +345,7 @@ class UpdateProjectJobTest extends TestCase
         $data = [];
 
         $response = $this->actingAs($user)
-                         ->put('/producer/jobs/' . $job->id, $data);
+                         ->put(route('producer.job.update', ['job' => $job->id]), $data);
 
         $response->assertForbidden();
     }
