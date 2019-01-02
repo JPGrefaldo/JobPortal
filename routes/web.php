@@ -176,6 +176,8 @@ Route::middleware('auth')->group(function () {
     */
     Route::middleware('producer')->group(function () {
         Route::prefix('/producer/projects')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Producer\ProjectsController::class, 'index'])
+                ->name('producer.projects.index');
             Route::get('/create', [\App\Http\Controllers\Producer\ProjectsController::class, 'create'])
                 ->name('producer.projects.create');
             Route::post('/', [\App\Http\Controllers\Producer\ProjectsController::class, 'store'])
@@ -221,16 +223,6 @@ Route::prefix('theme')->group(function () {
 
 Route::get('test', function () {
     Log::info('asd');
-});
-
-// ! TEMPORARY
-// TODO: need to move to apis
-Route::get('/producer/projects', function () {
-    $user = auth()->user();
-
-    $projects = $user->projects;
-
-    return $projects;
 });
 
 // ! TEMPORARY
