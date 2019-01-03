@@ -54,6 +54,11 @@ Route::middleware('auth')->group(function () {
         Route::post('/', [\App\Http\Controllers\Crew\CrewProfileController::class, 'store']);
     });
 
+    // TODO: check ownership
+    Route::get('/threads/{thread}/messages', function (Thread $thread) {
+        return $thread->messages;
+    });
+
     Route::prefix('account')->group(function () {
         Route::get('name', [\App\Http\Controllers\Account\AccountNameController::class, 'index'])
             ->name('account.name');
@@ -233,10 +238,4 @@ Route::prefix('theme')->group(function () {
 
 Route::get('test', function () {
     Log::info('asd');
-});
-
-// ! TEMPORARY
-// TODO: need to move to apis
-Route::get('/threads/{thread}/messages', function (Thread $thread) {
-    return $thread->messages;
 });
