@@ -77,15 +77,15 @@ class CreateCrewTest extends TestCase
             'valid Facebook URL',
             session('errors')
             ->first('socials.facebook.url')
-            );
+        );
         $this->assertEquals(
             'wrong_facebook_url',
             old('socials.facebook.url')
-            );
+        );
         $this->assertCount(
             1,
             session('errors')
-            );
+        );
         $response->assertSessionHasErrors();
 
     }
