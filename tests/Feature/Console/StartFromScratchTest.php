@@ -3,10 +3,9 @@
 namespace Tests\Feature\Console;
 
 use App\Models\Site;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class StartFromScratchTest extends TestCase
 {
@@ -46,6 +45,29 @@ class StartFromScratchTest extends TestCase
             ->expectsOutput('DB Seeded')
             ->expectsOutput('Creating User')
             ->expectsOutput('User Created')
+            ->run();
+        $command->assertExitCode(0);
+    }
+
+    /**
+     * @test
+     * @covers \App\Console\Commands\StartFromScratch::handle
+     */
+    public function withMessenger()
+    {
+        $command = $this->artisan(self::CMD, [
+            'email' => 'test@test.com',
+            '--withMessenger' => true,
+        ]);
+
+        $command->expectsOutput('Start Migrations')
+            ->expectsOutput('Migrations Completed')
+            ->expectsOutput('Start DB Seeds')
+            ->expectsOutput('DB Seeded')
+            ->expectsOutput('Creating User')
+            ->expectsOutput('User Created')
+            ->expectsOutput('Seeding MessengerDashboardSeeder')
+            ->expectsOutput('MessengerDashboard Seeded')
             ->run();
         $command->assertExitCode(0);
     }
