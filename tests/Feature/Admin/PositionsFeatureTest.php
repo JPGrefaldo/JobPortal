@@ -16,33 +16,34 @@ class PositionsFeatureTest extends TestCase
 
     /**
      * @test
+     * @covers \App\Http\Controllers\Admin\PositionsController::index
      */
     public function index()
     {
-        // given
-        $user = factory(User::class)->states('withAdminRole')->create();
+        $user = factory(User::class)
+            ->states('withAdminRole')
+            ->create();
+
         $positions = Position::all();
 
-        // when
         $response = $this->actingAs($user)->getJson(route('admin.positions'));
 
-        // then
         $response->assertJson($positions->toArray());
     }
 
     /**
      * @test
-     * @covers
+     * @covers \App\Http\Controllers\Admin\PositionsController::store
      */
     public function create()
     {
         $user = $this->createAdmin();
         $data = [
-            'name'              => 'Some Position',
-            'department_id'     => DepartmentID::PRODUCTION,
-            'position_type_id'  => PositionTypeID::PRE_PRODUCTION,
-            'has_gear'          => 1,
-            'has_union'         => 1,
+            'name'             => 'Some Position',
+            'department_id'    => DepartmentID::PRODUCTION,
+            'position_type_id' => PositionTypeID::PRE_PRODUCTION,
+            'has_gear'         => 1,
+            'has_union'        => 1,
         ];
 
         $response = $this->actingAs($user)
@@ -51,15 +52,15 @@ class PositionsFeatureTest extends TestCase
         $response->assertSuccessful();
 
         $position = Position::whereName('Some Position')
-                            ->first();
+            ->first();
 
         $this->assertArraySubset(
             [
-                'name'          => 'Some Position',
-                'department_id' => DepartmentID::PRODUCTION,
-                'position_type_id'  => PositionTypeID::PRE_PRODUCTION,
-                'has_gear'      => true,
-                'has_union'     => true,
+                'name'             => 'Some Position',
+                'department_id'    => DepartmentID::PRODUCTION,
+                'position_type_id' => PositionTypeID::PRE_PRODUCTION,
+                'has_gear'         => true,
+                'has_union'        => true,
             ],
             $position->toArray()
         );
@@ -67,15 +68,15 @@ class PositionsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers
+     * @covers \App\Http\Controllers\Admin\PositionsController::store
      */
     public function create_not_required()
     {
         $user = $this->createAdmin();
         $data = [
-            'name'              => 'Some Position',
-            'department_id'     => DepartmentID::PRODUCTION,
-            'position_type_id'  => PositionTypeID::PRE_PRODUCTION,
+            'name'             => 'Some Position',
+            'department_id'    => DepartmentID::PRODUCTION,
+            'position_type_id' => PositionTypeID::PRE_PRODUCTION,
         ];
 
         $response = $this->actingAs($user)
@@ -84,15 +85,15 @@ class PositionsFeatureTest extends TestCase
         $response->assertSuccessful();
 
         $position = Position::whereName('Some Position')
-                            ->first();
+            ->first();
 
         $this->assertArraySubset(
             [
-                'name'              => 'Some Position',
-                'department_id'     => DepartmentID::PRODUCTION,
-                'position_type_id'  => PositionTypeID::PRE_PRODUCTION,
-                'has_gear'          => false,
-                'has_union'         => false,
+                'name'             => 'Some Position',
+                'department_id'    => DepartmentID::PRODUCTION,
+                'position_type_id' => PositionTypeID::PRE_PRODUCTION,
+                'has_gear'         => false,
+                'has_union'        => false,
             ],
             $position->toArray()
         );
@@ -100,17 +101,17 @@ class PositionsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers
+     * @covers \App\Http\Controllers\Admin\PositionsController::store
      */
     public function create_formatted_name()
     {
         $user = $this->createAdmin();
         $data = [
-            'name'              => 'some position',
-            'department_id'     => DepartmentID::PRODUCTION,
-            'position_type_id'  => PositionTypeID::PRE_PRODUCTION,
-            'has_gear'          => 1,
-            'has_union'         => 1,
+            'name'             => 'some position',
+            'department_id'    => DepartmentID::PRODUCTION,
+            'position_type_id' => PositionTypeID::PRE_PRODUCTION,
+            'has_gear'         => 1,
+            'has_union'        => 1,
         ];
 
         $response = $this->actingAs($user)
@@ -119,15 +120,15 @@ class PositionsFeatureTest extends TestCase
         $response->assertSuccessful();
 
         $position = Position::whereName('some position')
-                            ->first();
+            ->first();
 
         $this->assertArraySubset(
             [
-                'name'              => 'Some Position',
-                'department_id'     => DepartmentID::PRODUCTION,
-                'position_type_id'  => PositionTypeID::PRE_PRODUCTION,
-                'has_gear'          => true,
-                'has_union'         => true,
+                'name'             => 'Some Position',
+                'department_id'    => DepartmentID::PRODUCTION,
+                'position_type_id' => PositionTypeID::PRE_PRODUCTION,
+                'has_gear'         => true,
+                'has_union'        => true,
             ],
             $position->toArray()
         );
@@ -135,7 +136,7 @@ class PositionsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers
+     * @covers \App\Http\Controllers\Admin\PositionsController::store
      */
     public function create_invalid_data()
     {
@@ -162,7 +163,7 @@ class PositionsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers
+     * @covers \App\Http\Controllers\Admin\PositionsController::store
      */
     public function create_unauthorized()
     {
@@ -182,18 +183,18 @@ class PositionsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers
+     * @covers \App\Http\Controllers\Admin\PositionsController::update
      */
     public function update()
     {
-        $user     = $this->createAdmin();
+        $user = $this->createAdmin();
         $position = factory(Position::class)->create();
-        $data     = [
-            'name'              => 'Updated Position',
-            'department_id'     => DepartmentID::PRODUCTION,
-            'position_type_id'  => PositionTypeID::PRE_PRODUCTION,
-            'has_gear'          => 1,
-            'has_union'         => 1,
+        $data = [
+            'name'             => 'Updated Position',
+            'department_id'    => DepartmentID::PRODUCTION,
+            'position_type_id' => PositionTypeID::PRE_PRODUCTION,
+            'has_gear'         => 1,
+            'has_union'        => 1,
         ];
 
         $response = $this->actingAs($user)
@@ -203,29 +204,29 @@ class PositionsFeatureTest extends TestCase
 
         $this->assertArraySubset(
             [
-                'name'              => 'Updated Position',
-                'department_id'     => DepartmentID::PRODUCTION,
-                'position_type_id'  => PositionTypeID::PRE_PRODUCTION,
-                'has_gear'          => true,
-                'has_union'         => true,
+                'name'             => 'Updated Position',
+                'department_id'    => DepartmentID::PRODUCTION,
+                'position_type_id' => PositionTypeID::PRE_PRODUCTION,
+                'has_gear'         => true,
+                'has_union'        => true,
             ],
             $position->refresh()
-                     ->toArray()
+                ->toArray()
         );
     }
 
     /**
      * @test
-     * @covers
+     * @covers \App\Http\Controllers\Admin\PositionsController::update
      */
     public function update_not_required()
     {
-        $user     = $this->createAdmin();
+        $user = $this->createAdmin();
         $position = factory(Position::class)->create();
-        $data     = [
-            'name'              => 'Updated Position',
-            'department_id'     => DepartmentID::PRODUCTION,
-            'position_type_id'  => PositionTypeID::PRE_PRODUCTION,
+        $data = [
+            'name'             => 'Updated Position',
+            'department_id'    => DepartmentID::PRODUCTION,
+            'position_type_id' => PositionTypeID::PRE_PRODUCTION,
         ];
 
         $response = $this->actingAs($user)
@@ -235,31 +236,31 @@ class PositionsFeatureTest extends TestCase
 
         $this->assertArraySubset(
             [
-                'name'              => 'Updated Position',
-                'department_id'     => DepartmentID::PRODUCTION,
-                'position_type_id'  => PositionTypeID::PRE_PRODUCTION,
-                'has_gear'          => false,
-                'has_union'         => false,
+                'name'             => 'Updated Position',
+                'department_id'    => DepartmentID::PRODUCTION,
+                'position_type_id' => PositionTypeID::PRE_PRODUCTION,
+                'has_gear'         => false,
+                'has_union'        => false,
             ],
             $position->refresh()
-                     ->toArray()
+                ->toArray()
         );
     }
 
     /**
      * @test
-     * @covers
+     * @covers \App\Http\Controllers\Admin\PositionsController::update
      */
     public function update_formatted_name()
     {
-        $user     = $this->createAdmin();
+        $user = $this->createAdmin();
         $position = factory(Position::class)->create();
-        $data     = [
-            'name'              => 'updated position',
-            'department_id'     => DepartmentID::PRODUCTION,
-            'position_type_id'  => PositionTypeID::PRE_PRODUCTION,
-            'has_gear'          => true,
-            'has_union'         => true,
+        $data = [
+            'name'             => 'updated position',
+            'department_id'    => DepartmentID::PRODUCTION,
+            'position_type_id' => PositionTypeID::PRE_PRODUCTION,
+            'has_gear'         => true,
+            'has_union'        => true,
         ];
 
         $response = $this->actingAs($user)
@@ -269,31 +270,31 @@ class PositionsFeatureTest extends TestCase
 
         $this->assertArraySubset(
             [
-                'name'              => 'Updated Position',
+                'name'             => 'Updated Position',
                 // name is formatted
-                'department_id'     => DepartmentID::PRODUCTION,
-                'position_type_id'  => PositionTypeID::PRE_PRODUCTION,
-                'has_gear'          => true,
-                'has_union'         => true,
+                'department_id'    => DepartmentID::PRODUCTION,
+                'position_type_id' => PositionTypeID::PRE_PRODUCTION,
+                'has_gear'         => true,
+                'has_union'        => true,
             ],
             $position->refresh()
-                     ->toArray()
+                ->toArray()
         );
     }
 
     /**
      * @test
-     * @covers
+     * @covers \App\Http\Controllers\Admin\PositionsController::update
      */
     public function update_same()
     {
-        $user     = $this->createAdmin();
-        $data     = [
-            'name'              => 'Updated Position',
-            'department_id'     => DepartmentID::PRODUCTION,
-            'position_type_id'  => PositionTypeID::PRE_PRODUCTION,
-            'has_gear'          => true,
-            'has_union'         => true,
+        $user = $this->createAdmin();
+        $data = [
+            'name'             => 'Updated Position',
+            'department_id'    => DepartmentID::PRODUCTION,
+            'position_type_id' => PositionTypeID::PRE_PRODUCTION,
+            'has_gear'         => true,
+            'has_union'        => true,
         ];
         $position = factory(Position::class)->create($data);
 
@@ -304,26 +305,26 @@ class PositionsFeatureTest extends TestCase
 
         $this->assertArraySubset(
             [
-                'name'              => 'Updated Position',
-                'department_id'     => DepartmentID::PRODUCTION,
-                'position_type_id'  => PositionTypeID::PRE_PRODUCTION,
-                'has_gear'          => true,
-                'has_union'         => true,
+                'name'             => 'Updated Position',
+                'department_id'    => DepartmentID::PRODUCTION,
+                'position_type_id' => PositionTypeID::PRE_PRODUCTION,
+                'has_gear'         => true,
+                'has_union'        => true,
             ],
             $position->refresh()
-                     ->toArray()
+                ->toArray()
         );
     }
 
     /**
      * @test
-     * @covers
+     * @covers \App\Http\Controllers\Admin\PositionsController::update
      */
     public function update_invalid_data()
     {
-        $user     = $this->createAdmin();
+        $user = $this->createAdmin();
         $position = factory(Position::class)->create();
-        $data     = [
+        $data = [
             'name'          => '',
             'department_id' => 999,
             'has_gear'      => 'asdasd',
@@ -349,7 +350,7 @@ class PositionsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers
+     * @covers \App\Http\Controllers\Admin\PositionsController::update
      */
     public function update_not_exist()
     {
@@ -369,12 +370,12 @@ class PositionsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers
+     * @covers \App\Http\Controllers\Admin\PositionsController::update
      */
     public function update_unauthorized()
     {
-        $user     = $this->createCrew();
-        $data     = [
+        $user = $this->createCrew();
+        $data = [
             'name'          => 'Updated Position',
             'department_id' => DepartmentID::PRODUCTION,
             'has_gear'      => true,

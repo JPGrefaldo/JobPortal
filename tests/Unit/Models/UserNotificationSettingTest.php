@@ -26,6 +26,7 @@ class UserNotificationSettingTest extends TestCase
 
     /**
      * @test
+     * @covers \App\Models\UserNotificationSetting::user
      */
     public function user()
     {

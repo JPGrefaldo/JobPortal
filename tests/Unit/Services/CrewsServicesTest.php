@@ -20,7 +20,8 @@ use Tests\TestCase;
  */
 class CrewsServicesTest extends TestCase
 {
-    use RefreshDatabase, SeedDatabaseAfterRefresh;
+    use RefreshDatabase,
+        SeedDatabaseAfterRefresh;
 
     /**
      * @var \App\Services\CrewsServices
@@ -474,7 +475,7 @@ class CrewsServicesTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Services\CrewsServices::update
      */
     public function update()
     {
@@ -503,7 +504,7 @@ class CrewsServicesTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Services\CrewsServices::update
      */
     public function update_without_photo()
     {
@@ -531,7 +532,7 @@ class CrewsServicesTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Services\CrewsServices::updateGeneralReel
      */
     public function update_crew_general_resume()
     {
@@ -560,7 +561,7 @@ class CrewsServicesTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Services\CrewsServices::updateGeneralResume
      */
     public function update_crew_general_resume_not_exists()
     {
@@ -586,7 +587,7 @@ class CrewsServicesTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Services\CrewsServices::prepareCrewData
      */
     public function prepare_crew_data()
     {
@@ -609,7 +610,7 @@ class CrewsServicesTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Services\CrewsServices::prepareCrewData
      */
     public function prepare_crew_data_without_photo()
     {
@@ -629,7 +630,7 @@ class CrewsServicesTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Services\CrewsServices::prepareCrewData
      */
     public function prepare_crew_data_bio_is_null()
     {
@@ -649,6 +650,7 @@ class CrewsServicesTest extends TestCase
 
     /**
      * @test
+     * @covers \App\Services\CrewsServices::prepareGeneralReelData
      */
     public function prepareGeneralReelData()
     {
@@ -675,7 +677,7 @@ class CrewsServicesTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Services\CrewsServices::prepareGeneralResumeData
      */
     public function prepare_general_resume_data()
     {

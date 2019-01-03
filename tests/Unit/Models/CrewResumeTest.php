@@ -26,9 +26,13 @@ class CrewResumeTest extends TestCase
 
     /**
      * @test
+     * @covers \App\Models\CrewResume::crew
      */
     public function crew()
     {
-        $this->assertEquals($this->crew->id, $this->crewResume->crew->id);
+        $this->assertEquals(
+            $this->crew->id,
+            $this->crewResume->crew->id
+        );
     }
 }

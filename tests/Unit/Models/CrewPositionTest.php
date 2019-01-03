@@ -30,6 +30,7 @@ class CrewPositionTest extends TestCase
 
     /**
      * @test
+     * @covers \App\Models\CrewPosition::crew
      */
     public function crew()
     {
@@ -41,6 +42,7 @@ class CrewPositionTest extends TestCase
 
     /**
      * @test
+     * @covers \App\Models\CrewPosition::position
      */
     public function position()
     {
@@ -52,6 +54,7 @@ class CrewPositionTest extends TestCase
 
     /**
      * @test
+     * @covers \App\Models\CrewPosition::scopeByCrewAndPosition
      */
     public function scopeByCrewAndPosition()
     {
