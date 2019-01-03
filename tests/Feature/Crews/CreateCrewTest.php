@@ -71,12 +71,10 @@ class CreateCrewTest extends TestCase
             ],
         ];
 
-        $response = $this->actingAs($user)
-            ->post('/crews', $data);
+        $response = $this->actingAs($user)->post('/crews', $data);
         $this->assertContains(
             'valid Facebook URL',
-            session('errors')
-            ->first('socials.facebook.url')
+            session('errors')->first('socials.facebook.url')
         );
         $this->assertEquals(
             'wrong_facebook_url',
