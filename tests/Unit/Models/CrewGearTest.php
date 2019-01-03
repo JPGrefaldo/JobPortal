@@ -22,6 +22,7 @@ class CrewGearTest extends TestCase
 
     /**
      * @test
+     * @covers
      */
     public function crew()
     {

@@ -10,7 +10,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UserBannedTest extends TestCase
 {
-    use RefreshDatabase, SeedDatabaseAfterRefresh;
+    use RefreshDatabase,
+        SeedDatabaseAfterRefresh;
 
     public function setUp()
     {
@@ -19,7 +20,7 @@ class UserBannedTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Models\UserBanned::user
      */
     public function user()
     {

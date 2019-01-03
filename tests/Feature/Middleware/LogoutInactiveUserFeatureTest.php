@@ -12,7 +12,7 @@ class LogoutInactiveUserFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Middleware\LogoutInactiveUser::handle
      */
     public function logout_inactive_user()
     {
@@ -32,7 +32,7 @@ class LogoutInactiveUserFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Middleware\LogoutInactiveUser::handle
      */
     public function logout_inactive_user_through_banned()
     {

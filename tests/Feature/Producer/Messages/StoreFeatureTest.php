@@ -12,7 +12,6 @@ class StoreFeatureTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
 
-    // authorization tests
     /**
      * @test
      * @covers \App\Http\Controllers\Producer\MessagesController::store
@@ -26,12 +25,10 @@ class StoreFeatureTest extends TestCase
         ]);
         $data = $this->getData();
 
-        // when
         $response = $this
             ->actingAs($crew)
             ->postJson(route('producer.messages.store', $project), $data);
 
-        // then
         $response->assertRedirect();
     }
 
@@ -41,20 +38,16 @@ class StoreFeatureTest extends TestCase
      */
     public function producer_must_own_project()
     {
-        // given
         $producer = $this->createProducer();
         $project = factory(Project::class)->create();
 
-        // when
         $response = $this
             ->actingAs($producer)
             ->postJson(route('producer.messages.store', $project));
 
-        // then
         $response->assertStatus(403);
     }
 
-    // validation tests
     /**
      * @test
      * @covers \App\Http\Controllers\Producer\MessagesController::store
@@ -62,7 +55,6 @@ class StoreFeatureTest extends TestCase
     public function all_fields_are_required()
     {
         // $this->withoutExceptionHandling();
-        // given
         $producer = $this->createProducer();
         $project = factory(Project::class)->create([
             'user_id' => $producer->id,
@@ -73,12 +65,10 @@ class StoreFeatureTest extends TestCase
             'recipients' => '',
         ];
 
-        // when
         $response = $this
             ->actingAs($producer)
             ->postJson(route('producer.messages.store', $project), $data);
 
-        // then
         $response->assertJson([
             'message' => 'The given data was invalid.',
             'errors' => [
@@ -95,7 +85,6 @@ class StoreFeatureTest extends TestCase
     public function producer_cant_send_message_to_crews_who_has_not_applied()
     {
         // $this->withoutExceptionHandling();
-        // given
         $producer = $this->createProducer();
         $randomCrews = factory(Crew::class, 3)->create();
         $project = factory(Project::class)->create([
@@ -106,12 +95,10 @@ class StoreFeatureTest extends TestCase
             return $crew->user->hash_id;
         });
 
-        // when
         $response = $this
             ->actingAs($producer)
             ->postJson(route('producer.messages.store', $project), $data);
 
-        // then
         $response->assertJson([
             'message' => 'The given data was invalid.',
             'errors' => [
@@ -127,7 +114,6 @@ class StoreFeatureTest extends TestCase
     public function producer_can_send_message_to_multiple_crews_who_applied()
     {
         // $this->withExceptionHandling();
-        // given
         $producer = $this->createProducer();
         $crews = factory(Crew::class, 3)->create();
         $project = factory(Project::class)->create([
@@ -139,12 +125,10 @@ class StoreFeatureTest extends TestCase
             return $crew->user->hash_id;
         });
 
-        // when
         $response = $this
             ->actingAs($producer)
             ->postJson(route('producer.messages.store', $project), $data);
 
-        // then
         $response->assertSee('Messages sent.');
     }
 

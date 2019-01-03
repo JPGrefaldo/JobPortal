@@ -30,7 +30,7 @@ class UserTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Models\User::roles
      */
     public function roles()
     {
@@ -46,7 +46,7 @@ class UserTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Models\User::sites
      */
     public function sites()
     {
@@ -62,14 +62,13 @@ class UserTest extends TestCase
 
     /**
      * @test
+     * @covers \App\Models\User::notificationSettings
      */
     public function notificationSettings()
     {
-        // when
         $userNotificationSetting = factory(UserNotificationSetting::class)
             ->create(['user_id' => $this->user->id]);
 
-        // then
         $this->assertEquals(
             $userNotificationSetting->id,
             $this->user->notificationSettings->id
@@ -78,14 +77,13 @@ class UserTest extends TestCase
 
     /**
      * @test
+     * @covers \App\Models\User::emailVerificationCode
      */
     public function emailVerificationCode()
     {
-        // when
         $emailVerificationCode = factory(EmailVerificationCode::class)
             ->create(['user_id' => $this->user->id]);
 
-        // then
         $this->assertEquals(
             $emailVerificationCode->id,
             $this->user->emailVerificationCode->id
@@ -94,31 +92,30 @@ class UserTest extends TestCase
 
     /**
      * @test
+     * @covers \App\Models\User::banned
      */
     public function banned()
     {
-        // when
         $userBanned = factory(UserBanned::class)
             ->create(['user_id' => $this->user->id]);
 
-        // then
         $this->assertEquals($userBanned->id, $this->user->banned->id);
     }
 
     /**
      * @test
+     * @covers \App\Models\User::crew
      */
     public function crew()
     {
-        // when
         $crew = factory(Crew::class)->create(['user_id' => $this->user->id]);
 
-        // then
         $this->assertEquals($crew->id, $this->user->crew->id);
     }
 
     /**
      * @test
+     * @covers \App\Models\User::isConfirmed
      */
     public function isConfirmed()
     {
@@ -127,6 +124,7 @@ class UserTest extends TestCase
 
     /**
      * @test
+     * @covers \App\Models\User::isActive
      */
     public function isActive()
     {
@@ -135,6 +133,7 @@ class UserTest extends TestCase
 
     /**
      * @test
+     * @covers \App\Models\User::confirm
      */
     public function confirm()
     {
@@ -147,6 +146,7 @@ class UserTest extends TestCase
 
     /**
      * @test
+     * @covers \App\Models\User::deactivate
      */
     public function deactivate()
     {
@@ -157,50 +157,44 @@ class UserTest extends TestCase
 
     /**
      * @test
+     * @covers \App\Models\User::hasRole
      */
     public function hasRole()
     {
-        // given
         $role = factory(Role::class)->create();
         $randomRole = factory(Role::class)->create();
 
-        // when
         $this->user->roles()->save($role);
 
-        // then
         $this->assertTrue($this->user->hasRole($role->name));
         $this->assertFalse($this->user->hasRole($randomRole->name));
     }
 
     /**
      * @test
+     * @covers \App\Models\User::hasSite
      */
     public function hasSite()
     {
-        // given
         $site = factory(Site::class)->create();
         $randomSite = factory(Site::class)->create();
 
-        // when
         $this->user->sites()->attach($site);
 
-        // then
         $this->assertTrue($this->user->hasSite($site->hostname));
         $this->assertFalse($this->user->hasSite($randomSite->hostname));
     }
 
     /**
      * @test
+     * @covers \App\Models\User::getFormattedPhoneNumberAttribute
      */
     public function getFormattedPhoneNumberAttribute()
     {
-        // given
         $this->user->update(['phone' => '1234567891']);
 
-        // when
         $formattedPhoneNumber = $this->user->formatted_phone_number;
 
-        // then
         $this->assertEquals('(123) 456-7891', $formattedPhoneNumber);
     }
 }

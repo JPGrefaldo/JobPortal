@@ -574,7 +574,7 @@ class StoreProjectFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Producer\ProjectsController::store
      */
     public function store_unauthorized()
     {

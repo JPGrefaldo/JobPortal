@@ -36,7 +36,7 @@ class FetchUserTest extends TestCase
      * @test
      * @covers
      */
-    public function unauthorize_guest()
+    public function unauthorized_guest()
     {
         $response = $this->getJson(self::URI);
 
