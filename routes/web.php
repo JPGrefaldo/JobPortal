@@ -14,7 +14,6 @@
 | * Multiple, Route::middleware(AuthorizeRoles::parameterize(Role::CREW, Role::PRODUCER))
 */
 
-use Cmgmyr\Messenger\Models\Thread;
 
 Route::get('/', [\App\Http\Controllers\IndexController::class, 'index']);
 
@@ -247,18 +246,18 @@ Route::get('/crew/projects', function () {
 
 // ! TEMPORARY
 // TODO: need to move to apis
-Route::get('/crew/projects/{project}/threads', function (Project $project) {
+Route::get('/crew/projects/{project}/threads', function (App\Models\Project $project) {
     return $project->threads;
 });
 
 // ! TEMPORARY
 // TODO: need to move to apis
-Route::get('/producer/projects/{project}/threads', function (Project $project) {
+Route::get('/producer/projects/{project}/threads', function (App\Models\Project $project) {
     return $project->threads;
 });
 
 // ! TEMPORARY
 // TODO: need to move to apis
-Route::get('/threads/{thread}/messages', function (Thread $thread) {
+Route::get('/threads/{thread}/messages', function (Cmgmyr\Messenger\Models\Thread $thread) {
     return $thread->messages;
 });
