@@ -125,6 +125,8 @@
 
                 this.threads = [];
 
+                this.thread = {};
+
                 this.messages = [];
 
                 this.getThreads();
