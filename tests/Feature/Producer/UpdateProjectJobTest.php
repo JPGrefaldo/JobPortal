@@ -336,7 +336,7 @@ class UpdateProjectJobTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Producer\ProjectJobsController::update
      */
     public function update_unauthorized_user()
     {

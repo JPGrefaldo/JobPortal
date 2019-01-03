@@ -84,6 +84,7 @@ class MessageCrewTest extends TestCase
 
     /**
      * @test
+     * @covers \App\Actions\Admin\MessageCrew::execute
      */
     public function thread_is_not_duplicated_when_messaging_a_crew_twice()
     {
@@ -147,6 +148,7 @@ class MessageCrewTest extends TestCase
 
     /**
      * @test
+     * @covers \App\Actions\Admin\MessageCrew::getThread
      */
     public function get_thread()
     {

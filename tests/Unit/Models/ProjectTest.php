@@ -15,87 +15,77 @@ use Tests\TestCase;
 class ProjectTest extends TestCase
 {
     use RefreshDatabase;
+
     /**
      * @test
+     * @covers \App\Models\Project::type
      */
     public function type()
     {
-        // given
         $projectType = factory(ProjectType::class)->create();
 
-        // when
         $project = factory(Project::class)->create([
             'project_type_id' => $projectType->id,
         ]);
 
-
-        // then
         $this->assertEquals($projectType->name, $project->type->name);
     }
 
     /**
      * @test
+     * @covers \App\Models\Project::remotes
      */
     public function remotes()
     {
-        // given
         $project = factory(Project::class)->create();
 
-        // when
         $remoteProject = factory(RemoteProject::class, 3)->create([
             'project_id' => $project->id,
         ]);
 
-        // then
         $this->assertCount(3, $project->remotes);
     }
 
     /**
      * @test
+     * @covers \App\Models\Project::jobs
      */
     public function jobs()
     {
-        // given
         $project = factory(Project::class)->create();
 
-        // when
         $jobs = factory(ProjectJob::class, 3)->create([
             'project_id' => $project->id,
         ]);
 
-        // then
         $this->assertCount(3, $project->jobs);
     }
 
     /**
      * @test
+     * @covers \App\Models\Project::contributors
      */
     public function contributors()
     {
-        // given
         $project = factory(Project::class)->create();
         $crews = factory(Crew::class, 3)->create();
 
-        // when
         $project->contributors()->attach($crews);
 
-        // then
         $this->assertCount(3, $project->contributors);
     }
 
     /**
      * @test
+     * @covers \App\Models\Project::owner
      */
     public function owner()
     {
-        // given
         $project = factory(Project::class)->create();
         $producer = $this->createUser();
 
-        // when
         $project->owner()->associate($producer);
 
-        // then
         $this->assertEquals(
             $project->owner->first_name,
             $producer->first_name
@@ -104,17 +94,15 @@ class ProjectTest extends TestCase
 
     /**
      * @test
+     * @covers \App\Models\Project::threads
      */
     public function threads()
     {
-        // given
         $project = factory(Project::class)->create();
         $thread = factory(Thread::class)->create();
 
-        // when
         $project->threads()->attach($thread);
 
-        // then
         $this->assertCount(1, ProjectThread::all());
         $this->assertDatabaseHas('project_thread', [
             'project_id' => $project->id,
