@@ -14,9 +14,15 @@
                    class="text-grey w-full mb-2 text-sm md:text-right float-right"><i class="fas fa-pencil-alt mr-2"></i>Edit profile</a>
                 <div class="card float-left md:flex mb-8">
                     <div class="md:w-1/4 md:pr-8 text-center">
-                        <img src="{{ url('photos/avatar.png') }}"
+                        @if (isset($user->crew->photo))
+                            <div class="flex h-none bg-grey-light items-center justify-center text-center border border-grey-light w-full pb-full rounded relative"
+                                 style="background: url('/storage/{{ $user->crew->photo }}'); background-size: cover;">
+                            </div>
+                        @else
+                            <img src="{{ url('photos/avatar.png') }}"
                              class="rounded"
                              alt="Avatar" />
+                        @endif
                         <ul class="social-links social-links-profile">
                             @foreach($socialLinkTypes as $key => $socialLinkType)
                                 @if(isset($socialLinkType->crew[0]))

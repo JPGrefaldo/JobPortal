@@ -85,22 +85,23 @@
                                 <div class="md:w-1/3 pr-8">
                                     <h3 class="text-md font-header mt-2 mb-2 md:mb-0">Social profiles</h3>
                                 </div>
-                                   <div class="md:w-2/3">  
-                                        @foreach($socialLinkTypes as $key => $socialLinkType)
-                                        <div class="flex flex-wrap items-stretch w-full mb-2 relative">
-
-                                            <div class="flex -mr-px">
-                                                <span class="flex w-10 items-center leading-normal rounded rounded-r-none px-2 whitespace-no-wrap text-grey-dark" style="background: url('/{{ $socialLinkType->image}}'); background-size: cover;"></span>
-                                            </div>
-                                            <input type="text" id="{{$socialLinkType->id}}"
-                                                   class="flex-shrink flex-grow flex-auto leading-normal w-px flex-1 border h-10 border-grey-light rounded rounded-l-none px-3 relative"
-                                                   placeholder="Add {{$socialLinkType->name}} link"
-                                                   name="socials[{{ $socialLinkType->slug }}][url]"
-                                                   value="" >
-	                                        <input type="hidden" name="socials[{{ $socialLinkType->slug }}][id]" value="{{ $socialLinkType->id }}">
-                                        </div>
-                                        @endforeach
-                                </div>
+                                   <div class="md:w-2/3">
+                                       @if($socialLinkTypes)
+                                            @foreach($socialLinkTypes as $key => $socialLinkType)
+                                                <div class="flex flex-wrap items-stretch w-full mb-2 relative">
+                                                    <div class="flex -mr-px">
+                                                        <span class="flex w-10 items-center leading-normal rounded rounded-r-none px-2 whitespace-no-wrap text-grey-dark" style="background: url('/{{ $socialLinkType->image}}'); background-size: cover;"></span>
+                                                    </div>
+                                                    <input type="text" id="{{$socialLinkType->id}}"
+                                                           class="flex-shrink flex-grow flex-auto leading-normal w-px flex-1 border h-10 border-grey-light rounded rounded-l-none px-3 relative"
+                                                           placeholder="Add {{$socialLinkType->name}} link"
+                                                           name="socials[{{ $socialLinkType->slug }}][url]"
+                                                           value="{{ @old('socials.'. $socialLinkType->slug .'.url', $socialLinkType->toArray()['crew'][0]['url']) }}"  >
+                                                    <input type="hidden" name="socials[{{ $socialLinkType->slug }}][id]" value="{{ $socialLinkType->id }}">
+                                                </div>
+                                            @endforeach
+                                       @endif
+                                   </div>
                             </div>
                         </div>
                         <div class="pt-8 pb-4 text-right border-t-2 border-grey-lighter">
