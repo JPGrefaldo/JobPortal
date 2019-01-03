@@ -167,6 +167,9 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/crew/projects', [\App\Http\Controllers\Crew\ProjectsController::class, 'index'])
             ->name('crew.projects.index');
+
+        Route::get('/crew/projects/{project}/threads', [\App\Http\Controllers\Crew\ThreadsController::class, 'index'])
+            ->name('crew.threads.index');
     });
 
     /*
@@ -188,6 +191,7 @@ Route::middleware('auth')->group(function () {
             Route::put('/{project}', [\App\Http\Controllers\Producer\ProjectsController::class, 'update'])
                 ->name('producer.project.update');
         });
+
         Route::prefix('/producer/jobs')->group(function () {
             Route::post('/', [\App\Http\Controllers\Producer\ProjectJobsController::class, 'store'])
                 ->name('producer.jobs');
@@ -208,6 +212,9 @@ Route::middleware('auth')->group(function () {
                 'uses' => 'Producer\MessagesController@update'
             ]);
         });
+
+        Route::get('/producer/projects/{project}/threads', [\App\Http\Controllers\Producer\ThreadsController::class, 'index'])
+            ->name('producer.threads.index');
     });
 
     Route::group(['prefix' => 'messages'], function () {
@@ -226,18 +233,6 @@ Route::prefix('theme')->group(function () {
 
 Route::get('test', function () {
     Log::info('asd');
-});
-
-// ! TEMPORARY
-// TODO: need to move to apis
-Route::get('/crew/projects/{project}/threads', function (Project $project) {
-    return $project->threads;
-});
-
-// ! TEMPORARY
-// TODO: need to move to apis
-Route::get('/producer/projects/{project}/threads', function (Project $project) {
-    return $project->threads;
 });
 
 // ! TEMPORARY
