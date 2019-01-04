@@ -12,7 +12,7 @@ class StartFromScratch extends Command
      *
      * @var string
      */
-    protected $signature = 'startfromscratch {email} {--withMessenger}';
+    protected $signature = 'startfromscratch {email}';
 
     /**
      * The console command description.
@@ -49,11 +49,5 @@ class StartFromScratch extends Command
         $this->info('Creating User');
         Artisan::call('test_user', ['email' => $this->argument('email')]);
         $this->info('User Created');
-
-        if ($this->option('withMessenger')) {
-            $this->info('Seeding MessengerDashboardSeeder');
-            Artisan::call('db:seed', ['--class' => 'MessengerDashboardSeeder']);
-            $this->info('MessengerDashboard Seeded');
-        }
     }
 }
