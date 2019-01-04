@@ -19,7 +19,7 @@ class FakeMessengerDashboard extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Seeds projects that have threads that have messages for both crew and producer roles.';
 
     /**
      * Create a new command instance.
