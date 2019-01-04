@@ -3,10 +3,9 @@
 namespace Tests\Feature\Console;
 
 use App\Models\Site;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class StartFromScratchTest extends TestCase
 {
