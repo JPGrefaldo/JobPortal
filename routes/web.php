@@ -218,9 +218,7 @@ Route::middleware('auth')->group(function () {
             ->name('producer.threads.index');
     });
 
-    Route::group(['prefix' => 'messages'], function () {
-        Route::get('/', ['as' => 'messages', 'uses' => 'MessagesDashboardController@index']);
-    });
+    Route::get('/messages', ['as' => 'messages', 'uses' => 'MessagesDashboardController@index']);
 });
 
 Route::prefix('theme')->group(function () {
