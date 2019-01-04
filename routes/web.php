@@ -54,7 +54,7 @@ Route::middleware('auth')->group(function () {
     });
 
     // TODO: check ownership
-    Route::get('/threads/{thread}/messages', function (Thread $thread) {
+    Route::get('/threads/{thread}/messages', function (Cmgmyr\Messenger\Models\Thread $thread) {
         return $thread->messages;
     });
 
