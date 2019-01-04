@@ -13,12 +13,13 @@ use Tests\TestCase;
 class MessengerFeatureTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
+
     /**
      * @test
+     * @covers \App\Http\Controllers\Crew\MessageController::store
      */
     public function crew_can_reply()
     {
-        // given
         $crew = factory(User::class)->states('withCrewRole')->create();
         $producer = $this->createUser();
         $thread = factory(Thread::class)->create();
@@ -27,21 +28,17 @@ class MessengerFeatureTest extends TestCase
             'user_id' => $producer->id,
         ]);
         $thread->addParticipant($crew->id);
-        // $crewReply = factory(Message::class)->create([
-        //     'user_id' => $producer->id,
-        // ]);
 
-        // when
         $response = $this
             ->actingAs($crew)
             ->postJson(route('crew.messages.store'));
 
-        // then
         $response->assertSee('Producer messaged successfully.');
     }
 
     /**
      * @test
+     * @covers
      */
     public function crew_cannot_initiate()
     {
@@ -60,6 +57,7 @@ class MessengerFeatureTest extends TestCase
 
     /**
      * @test
+     * @covers
      */
     public function crew_gets_an_email_when_messaged()
     {

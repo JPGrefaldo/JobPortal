@@ -13,16 +13,14 @@ class DashboardFeatureTest extends TestCase
 
     /**
      * @test
+     * @covers \App\Http\Controllers\DashboardController::index
      */
     public function see_dashboard()
     {
-        // given
         $user = factory(User::class)->states('withCrewRole')->create();
 
-        // when
         $response = $this->actingAs($user)->get(route('dashboard'));
 
-        // then
         $response->assertSee('View Profile');
         $response->assertSee('Edit Profile');
 

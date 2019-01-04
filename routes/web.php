@@ -14,65 +14,83 @@
 | * Multiple, Route::middleware(AuthorizeRoles::parameterize(Role::CREW, Role::PRODUCER))
 */
 
-use App\Http\Middleware\AuthorizeRoles;
-use App\Models\Project;
-use App\Models\Role;
 use Cmgmyr\Messenger\Models\Thread;
 
-Route::get('/', 'IndexController@index');
+Route::get('/', [\App\Http\Controllers\IndexController::class, 'index']);
 
-Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
-Route::post('login', 'Auth\LoginController@login');
+Route::get('login', [\App\Http\Controllers\Auth\LoginController::class, 'showLoginForm'])
+    ->name('login');
+Route::post('login', [\App\Http\Controllers\Auth\LoginController::class, 'login'])
+    ->name('login.post');
 
-Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+Route::post('logout', [\App\Http\Controllers\Auth\LoginController::class, 'logout'])
+    ->name('logout');
 
-Route::get('signup', 'Auth\UserSignupController@show')->name('signup');
-Route::post('signup', 'Auth\UserSignupController@signup');
+Route::get('signup', [\App\Http\Controllers\Auth\UserSignupController::class, 'show'])
+    ->name('signup');
+Route::post('signup', [\App\Http\Controllers\Auth\UserSignupController::class, 'signup']);
 
-Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
-Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
-Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
-Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+Route::get('password/reset', [\App\Http\Controllers\Auth\ForgotPasswordController::class, 'showLinkRequestForm'])
+    ->name('password.request');
+Route::post('password/email', [\App\Http\Controllers\Auth\ForgotPasswordController::class, 'sendResetLinkEmail'])
+    ->name('password.email');
+Route::get('password/reset/{token}', [\App\Http\Controllers\Auth\ResetPasswordController::class, 'showResetForm'])
+    ->name('password.reset');
+Route::post('password/reset', [\App\Http\Controllers\Auth\ResetPasswordController::class, 'reset']);
 
-Route::get('verify/email/{code}', 'VerifyEmailController@verify')->name('verify.email');
+Route::get('verify/email/{code}', [\App\Http\Controllers\VerifyEmailController::class, 'verify'])
+    ->name('verify.email');
 
 
 Route::middleware('auth')->group(function () {
-    Route::get('dashboard', 'DashboardController@index')->name('dashboard');
+    Route::get('dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])
+        ->name('dashboard');
 
-    Route::get('/messages', ['as' => 'messages', 'uses' => 'MessagesDashboardController@index']);
+    Route::prefix('crew/profile')->group(function () {
+        Route::get('/', [\App\Http\Controllers\Crew\CrewProfileController::class, 'index'])
+            ->name('profile');
+        Route::get('edit', [\App\Http\Controllers\Crew\CrewProfileController::class, 'create'])
+            ->name('profile.create');
+        Route::post('/', [\App\Http\Controllers\Crew\CrewProfileController::class, 'store']);
+    });
 
-    // ! TEMPORARY
-    // TODO: need to move to apis
+    // TODO: check ownership
     Route::get('/threads/{thread}/messages', function (Thread $thread) {
         return $thread->messages;
     });
 
     Route::prefix('account')->group(function () {
-        Route::get('name', 'Account\AccountNameController@index')->name('account.name');
-        Route::post('name', 'Account\AccountNameController@store');
+        Route::get('name', [\App\Http\Controllers\Account\AccountNameController::class, 'index'])
+            ->name('account.name');
+        Route::post('name', [\App\Http\Controllers\Account\AccountNameController::class, 'store']);
 
-        Route::get('contact', 'Account\AccountContactController@index')->name('account.contact');
-        Route::post('contact', 'Account\AccountContactController@store');
+        Route::get('contact', [\App\Http\Controllers\Account\AccountContactController::class, 'index'])
+            ->name('account.contact');
+        Route::post('contact', [\App\Http\Controllers\Account\AccountContactController::class, 'store']);
 
-        Route::get('subscription', 'Account\AccountSubscriptionController@index')->name('account.subscription');
-        Route::post('subscription', 'Account\AccountSubscriptionController@store');
+        Route::get('subscription', [\App\Http\Controllers\Account\AccountSubscriptionController::class, 'index'])
+            ->name('account.subscription');
+        Route::post('subscription', [\App\Http\Controllers\Account\AccountSubscriptionController::class, 'store']);
 
-        Route::get('password', 'Account\AccountPasswordController@index')->name('account.password');
-        Route::post('password', 'Account\AccountPasswordController@store');
+        Route::get('password', [\App\Http\Controllers\Account\AccountPasswordController::class, 'index'])
+            ->name('account.password');
+        Route::post('password', [\App\Http\Controllers\Account\AccountPasswordController::class, 'store']);
 
-        Route::get('manager', 'Account\AccountManagerController@index')->name('account.manager');
-        Route::post('manager', 'Account\AccountManagerController@index');
+        Route::get('manager', [\App\Http\Controllers\Account\AccountManagerController::class, 'index'])
+            ->name('account.manager');
+        Route::post('manager', [\App\Http\Controllers\Account\AccountManagerController::class, 'index']);
 
-        Route::get('notifications', 'Account\AccountNotificationsController@index')->name('account.notifications');
-        Route::post('notifications', 'Account\AccountNotificationsController@store');
+        Route::get('notifications', [\App\Http\Controllers\Account\AccountNotificationsController::class, 'index'])
+            ->name('account.notifications');
+        Route::post('notifications', [\App\Http\Controllers\Account\AccountNotificationsController::class, 'store']);
 
-        Route::get('close', 'Account\AccountCloseController@index')->name('account.close');
-        Route::put('close', 'Account\AccountCloseController@destroy');
+        Route::get('close', [\App\Http\Controllers\Account\AccountCloseController::class, 'index'])
+            ->name('account.close');
+        Route::put('close', [\App\Http\Controllers\Account\AccountCloseController::class, 'destroy']);
 
-        // Route::put('settings/name', 'User\UserSettingsController@updateName');
-        // Route::put('settings/notifications', 'User\UserSettingsController@updateNotifications');
-        // Route::put('settings/password', 'User\UserSettingsController@updatePassword');
+        Route::put('settings/name', [\App\Http\Controllers\User\UserSettingsController::class, 'updateName']);
+        Route::put('settings/notifications', [\App\Http\Controllers\User\UserSettingsController::class, 'updateNotifications']);
+        Route::put('settings/password', [\App\Http\Controllers\User\UserSettingsController::class, 'updatePassword']);
     });
 
     /*
@@ -88,23 +106,29 @@ Route::middleware('auth')->group(function () {
             ->name('admin.users.ban');
 
         Route::prefix('/admin/sites')->group(function () {
-            Route::get('/', 'Admin\SiteController@index')->name('admin.sites');
+            Route::get('/', [\App\Http\Controllers\Admin\SiteController::class, 'index'])
+                ->name('admin.sites');
         });
 
         Route::prefix('/admin/departments')->group(function () {
-            Route::get('/', 'Admin\DepartmentsController@index')->name('admin.departments');
-            Route::post('/', 'Admin\DepartmentsController@store');
-            Route::put('/{department}', 'Admin\DepartmentsController@update');
+            Route::get('/', [\App\Http\Controllers\Admin\DepartmentsController::class, 'index'])
+                ->name('admin.departments');
+            Route::post('/', [\App\Http\Controllers\Admin\DepartmentsController::class, 'store']);
+            Route::put('/{department}', [\App\Http\Controllers\Admin\DepartmentsController::class, 'update'])
+                ->name('admin.departments.update');
         });
 
         Route::prefix('/admin/positions')->group(function () {
-            Route::get('/', 'Admin\PositionsController@index')->name('admin.positions');
-            Route::post('/', 'Admin\PositionsController@store');
-            Route::put('/{position}', 'Admin\PositionsController@update');
+            Route::get('/', [\App\Http\Controllers\Admin\PositionsController::class, 'index'])
+                ->name('admin.positions');
+            Route::post('/', [\App\Http\Controllers\Admin\PositionsController::class, 'store']);
+            Route::put('/{position}', [\App\Http\Controllers\Admin\PositionsController::class, 'update'])
+                ->name('admin.positions.update');
         });
 
         Route::prefix('/admin/projects')->group(function () {
-            Route::put('/{project}', 'Admin\ProjectController@update')->name('admin.projects.update');
+            Route::put('/{project}', [\App\Http\Controllers\Admin\ProjectController::class, 'update'])
+                ->name('admin.projects.update');
         });
     });
 
@@ -117,8 +141,10 @@ Route::middleware('auth')->group(function () {
     |
     */
     Route::middleware('crew')->group(function () {
-        Route::post('/crews', 'CrewsController@store');
-        Route::put('/crews/{crew}', 'CrewsController@update');
+        Route::post('/crews', [\App\Http\Controllers\CrewsController::class, 'store'])
+            ->name('crews');
+        Route::put('/crews/{crew}', [\App\Http\Controllers\CrewsController::class, 'update'])
+            ->name('crews.update');
 
         Route::prefix('crew')->group(function () {
             Route::prefix('endorsement')->group(function () {
@@ -141,20 +167,14 @@ Route::middleware('auth')->group(function () {
             });
         });
 
-        Route::post('/crew/messages', 'Crew\MessageController@store')->name('crew.messages.store');
+        Route::post('/crew/messages', [\App\Http\Controllers\Crew\MessageController::class, 'store'])
+            ->name('crew.messages.store');
 
-        Route::prefix('crew/profile')->group(function () {
-            Route::get('/', 'Crew\CrewProfileController@index')->name('profile');
-            Route::get('edit', 'Crew\CrewProfileController@create')->name('profile.create');
-            Route::post('/', 'Crew\CrewProfileController@store');
-        });
+        Route::get('/crew/projects', [\App\Http\Controllers\Crew\ProjectsController::class, 'index'])
+            ->name('crew.projects.index');
 
-        Route::prefix('/crew/projects')->group(function () {
-            Route::get('/', 'Crew\ProjectsController@index')->name('crew.projects.index');
-            Route::get('/{project}/threads', function (Project $project) {
-                return $project->threads;
-            });
-        });
+        Route::get('/crew/projects/{project}/threads', [\App\Http\Controllers\Crew\ThreadsController::class, 'index'])
+            ->name('crew.threads.index');
     });
 
     /*
@@ -167,30 +187,47 @@ Route::middleware('auth')->group(function () {
     */
     Route::middleware('producer')->group(function () {
         Route::prefix('/producer/projects')->group(function () {
-            Route::get('/', 'Producer\ProjectsController@index')->name('producer.projects.index');
-            Route::get('/create', 'Producer\ProjectsController@create')->name('producer.projects.create');
-            Route::post('/', 'Producer\ProjectsController@store');
-            Route::put('/{project}', 'Producer\ProjectsController@update');
-            Route::get('/{project}/threads', function (Project $project) {
-                return $project->threads;
-            });
+            Route::get('/', [\App\Http\Controllers\Producer\ProjectsController::class, 'index'])
+                ->name('producer.projects.index');
+            Route::get('/create', [\App\Http\Controllers\Producer\ProjectsController::class, 'create'])
+                ->name('producer.projects.create');
+            Route::post('/', [\App\Http\Controllers\Producer\ProjectsController::class, 'store'])
+                ->name('producer.projects');
+            Route::put('/{project}', [\App\Http\Controllers\Producer\ProjectsController::class, 'update'])
+                ->name('producer.project.update');
         });
 
         Route::prefix('/producer/jobs')->group(function () {
-            Route::post('/', 'Producer\ProjectJobsController@store');
-            Route::put('/{job}', 'Producer\ProjectJobsController@update');
+            Route::post('/', [\App\Http\Controllers\Producer\ProjectJobsController::class, 'store'])
+                ->name('producer.jobs');
+            Route::put('/{job}', [\App\Http\Controllers\Producer\ProjectJobsController::class, 'update'])
+                ->name('producer.job.update');
         });
 
         Route::group(['prefix' => 'messages'], function () {
+            //     Route::get('/', ['as' => 'messages', 'uses' => 'MessagesController@index']);
+            //     Route::get('create', ['as' => 'messages.create', 'uses' => 'MessagesController@create']);
             Route::post('/{project}', [
                 'as' => 'producer.messages.store',
                 'uses' => 'Producer\MessagesController@store'
             ]);
+            //     Route::get('{id}', ['as' => 'messages.show', 'uses' => 'MessagesController@show']);
             Route::put('/producer/projects/{project}/messages/{message}', [
                 'as' => 'producer.messages.update',
                 'uses' => 'Producer\MessagesController@update'
             ]);
         });
+
+        Route::get('/producer/projects/{project}/threads', [\App\Http\Controllers\Producer\ThreadsController::class, 'index'])
+            ->name('producer.threads.index');
+    });
+
+    Route::group(['prefix' => 'messages'], function () {
+        Route::get('/', ['as' => 'messages', 'uses' => 'MessagesDashboardController@index']);
+        //     Route::get('create', ['as' => 'messages.create', 'uses' => 'MessagesController@create']);
+        // Route::post('/', ['as' => 'producer.messages.store', 'uses' => 'Producer\MessagesController@store']);
+        //     Route::get('{id}', ['as' => 'messages.show', 'uses' => 'MessagesController@show']);
+        //     Route::put('{id}', ['as' => 'messages.update', 'uses' => 'MessagesController@update']);
     });
 });
 

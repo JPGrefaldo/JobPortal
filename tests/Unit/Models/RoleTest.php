@@ -20,7 +20,7 @@ class RoleTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Models\Role::users
      */
     public function users()
     {

@@ -17,7 +17,6 @@ class ProjectsController extends Controller
     public function index()
     {
         $user = auth()->user();
-
         $projects = $user->projects;
 
         return $projects;

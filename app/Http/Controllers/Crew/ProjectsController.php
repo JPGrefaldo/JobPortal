@@ -9,9 +9,7 @@ class ProjectsController extends Controller
     public function index()
     {
         $user = auth()->user();
-
         $crew = $user->crew;
-
         $projects = $crew->projects;
 
         return $projects;
