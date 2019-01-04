@@ -12,7 +12,7 @@
             <div class="w-full md:w-3/4 float-left">
                 <a href="{{ route('profile.create') }}"
                    class="text-grey w-full mb-2 text-sm md:text-right float-right"><i class="fas fa-pencil-alt mr-2"></i>Edit profile</a>
-                <div class="card float-left md:flex mb-8">
+                <div class="card md:flex mb-8">
                     <div class="md:w-1/4 md:pr-8 text-center">
                         @if (isset($user->crew->photo))
                             <div class="flex h-none bg-grey-light items-center justify-center text-center border border-grey-light w-full pb-full rounded relative"
