@@ -14,8 +14,6 @@
 | * Multiple, Route::middleware(AuthorizeRoles::parameterize(Role::CREW, Role::PRODUCER))
 */
 
-use Cmgmyr\Messenger\Models\Thread;
-
 Route::get('/', [\App\Http\Controllers\IndexController::class, 'index']);
 
 Route::get('login', [\App\Http\Controllers\Auth\LoginController::class, 'showLoginForm'])
@@ -55,7 +53,7 @@ Route::middleware('auth')->group(function () {
     });
 
     // TODO: check ownership
-    Route::get('/threads/{thread}/messages', function (Thread $thread) {
+    Route::get('/threads/{thread}/messages', function (Cmgmyr\Messenger\Models\Thread $thread) {
         return $thread->messages;
     });
 
