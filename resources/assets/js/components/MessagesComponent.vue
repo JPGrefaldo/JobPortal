@@ -59,13 +59,13 @@
                         'bg-green',
                         'hover:bg-green-dark',
                     ]
-                };
+                }
 
-                return colorDictionary[role];
+                return colorDictionary[role]
             },
 
             isSender: function (message) {
-                return message.user_id === this.user.id;
+                return message.user_id === this.user.id
             }
         }
     }

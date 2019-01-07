@@ -13,7 +13,6 @@
 | * Single, Route::middleware(AuthorizeRoles::parameterize(Role::CREW))
 | * Multiple, Route::middleware(AuthorizeRoles::parameterize(Role::CREW, Role::PRODUCER))
 */
-
 use Cmgmyr\Messenger\Models\Thread;
 
 Route::get('/', [\App\Http\Controllers\IndexController::class, 'index']);

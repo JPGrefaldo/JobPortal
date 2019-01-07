@@ -5,6 +5,7 @@
             v-for="project in projects" :key="project.id"
             :class="getColorByRole(role)"
             @click="$emit('onClickSetProject', project)"
+            :title="project.title"
         >
             {{ getAcronymAttribute(project.title) }}
         </button>
@@ -32,16 +33,22 @@
 
         methods: {
             getAcronymAttribute(text) {
-                const words = text.split(' ');
+                text = text.replace('-', ' ')
 
-                let acronym = '';
+                const words = text.split(' ')
 
-                for (let index = 0; index < 2; index++) {
-                    const word = words[index];
-                    acronym += word[0];
+                if (words.length === 1) {
+                    return text[0]
                 }
 
-                return acronym;
+                let acronym = ''
+
+                for (let index = 0; index < 2; index++) {
+                    const word = words[index]
+                    acronym += word[0]
+                }
+
+                return acronym
             },
 
             getColorByRole: function (role) {
@@ -54,13 +61,13 @@
                         'bg-green',
                         'hover:bg-green-dark',
                     ]
-                };
+                }
 
-                return colorDictionary[role];
+                return colorDictionary[role]
             },
 
             onClickSetProject: function (project) {
-                this.$emit('setProject', project);
+                this.$emit('setProject', project)
             }
         }
     }

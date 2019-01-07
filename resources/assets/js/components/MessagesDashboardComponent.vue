@@ -11,7 +11,9 @@
                 <button class="fa fa-edit"></button>
             </div>
             <div class="w-4/5 text-md border-black border-b font-bold flex justify-center items-center">
-                Titanic: Leonardo DiCarpio
+                <div v-if="project.title">
+                    {{ project.title }}: {{ thread.subject }}
+                </div>
                 <!-- TODO: right chevron goes here that links to the current recipient -->
                 <!-- might have to add logic depending on the role -->
             </div>
@@ -76,7 +78,7 @@
         },
 
         mounted() {
-            this.getProjects(this.role);
+            this.getProjects(this.role)
         },
 
         methods: {
@@ -90,51 +92,61 @@
                         'bg-green',
                         'hover:bg-green-dark',
                     ]
-                };
+                }
 
-                return colorDictionary[role];
+                return colorDictionary[role]
             },
 
             onClickSetRole(index) {
-                this.setRole(index);
-                this.getProjects();
+                this.setRole(index)
+
+                this.projects = []
+                this.project = {}
+                this.threads = []
+                this.messages = []
+
+                this.getProjects()
             },
 
             setRole(index) {
-                this.role = this.roles[index];
+                this.role = this.roles[index]
             },
 
             getProjects() {
                 this.form.get('/' + this.role.toLowerCase() + '/projects')
-                    .then(response => (this.projects = response.data));
+                    .then(response => (this.projects = response.data))
             },
 
             onClickSetProject(project) {
-                this.setProject(project);
-                this.getThreads();
+                this.setProject(project)
+
+                this.threads = []
+                this.thread = {}
+                this.messages = []
+                this.getThreads()
             },
 
             setProject(project) {
-                this.project = project;
+                this.project = project
             },
 
             getThreads() {
                 this.form.get('/' + this.role.toLowerCase() + '/projects/' + this.project.id + '/threads')
-                    .then(response => (this.threads = response.data));
+                    .then(response => (this.threads = response.data))
             },
 
             onClickSetThread(thread) {
-                this.setThread(thread);
-                this.getMessages(thread);
+                this.setThread(thread)
+                this.getMessages(thread)
             },
 
             setThread(thread) {
-                this.thread = thread;
+                this.thread = thread
             },
 
             getMessages() {
                 this.form.get('/threads/' + this.thread.id + '/messages')
-                    .then(response => (this.messages = response.data));
+                    .then(response => (this.messages = response.data))
             },
 
         }
