@@ -24,7 +24,7 @@ class CrewsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Crew\CrewProfileController::store
      */
     public function create()
     {
@@ -34,7 +34,7 @@ class CrewsFeatureTest extends TestCase
         $data = $this->getCreateData();
 
         $response = $this->actingAs($user)
-                         ->post('/crews', $data);
+                         ->post(route('crews'), $data);
 
         // assert crew data
         $crew = Crew::where('user_id', $user->id)
@@ -133,7 +133,7 @@ class CrewsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Crew\CrewProfileController::store
      */
     public function create_not_required()
     {
@@ -155,7 +155,7 @@ class CrewsFeatureTest extends TestCase
         ]);
 
         $response = $this->actingAs($user)
-                         ->post('/crews', $data);
+                         ->post(route('crews'), $data);
 
         $response->assertSuccessful();
 
@@ -183,7 +183,7 @@ class CrewsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Crew\CrewProfileController::store
      */
     public function create_invalid_data()
     {
@@ -209,7 +209,7 @@ class CrewsFeatureTest extends TestCase
         ]);
 
         $response = $this->actingAs($user)
-                         ->post('/crews', $data);
+                         ->post(route('crews'), $data);
 
         $response->assertSessionHasErrors(
             [
@@ -231,7 +231,7 @@ class CrewsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Crew\CrewProfileController::store
      */
     public function create_youtube_cleaned()
     {
@@ -244,7 +244,7 @@ class CrewsFeatureTest extends TestCase
         ]);
 
         $response = $this->actingAs($user)
-                         ->post('/crews', $data);
+                         ->post(route('crews'), $data);
 
         // assert general reel has been cleaned
         $crew = Crew::where('user_id', $user->id)
@@ -278,7 +278,7 @@ class CrewsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Crew\CrewProfileController::store
      */
     public function create_vimeo_reel_cleaned()
     {
@@ -288,7 +288,7 @@ class CrewsFeatureTest extends TestCase
         $data = $this->getCreateData(['reel' => 'https://vimeo.com/230046783']);
 
         $response = $this->actingAs($user)
-                         ->post('/crews', $data);
+                         ->post(route('crews'), $data);
 
         // assert general reel has been created
         $crew = Crew::where('user_id', $user->id)
@@ -308,7 +308,7 @@ class CrewsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Crew\CrewProfileController::store
      */
     public function create_unauthorized()
     {
@@ -316,7 +316,7 @@ class CrewsFeatureTest extends TestCase
         $data = $this->getCreateData();
 
         $response = $this->actingAs($user)
-                         ->post('/crews', $data);
+                         ->post(route('crews'), $data);
 
         $response->assertRedirect('login');
         $this->assertGuest();
@@ -324,7 +324,7 @@ class CrewsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Crew\CrewProfileController::update
      */
     public function update()
     {
@@ -348,7 +348,7 @@ class CrewsFeatureTest extends TestCase
         $data     = $this->getUpdateData();
 
         $response = $this->actingAs($user)
-                         ->put('/crews/' . $crew->id, $data);
+                         ->put(route('crews.update', ['crew' => $crew->id]), $data);
 
         // assert crew data
         $crew->refresh();
@@ -445,7 +445,7 @@ class CrewsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Crew\CrewProfileController::update
      */
     public function update_no_relations()
     {
@@ -456,7 +456,7 @@ class CrewsFeatureTest extends TestCase
         $data = $this->getUpdateData();
 
         $response = $this->actingAs($user)
-                         ->put('/crews/' . $crew->id, $data);
+                         ->put(route('crews.update', ['crew' => $crew->id]), $data);
 
         // assert general resume
         $resume = $crew->resumes->where('general', 1)
@@ -541,7 +541,7 @@ class CrewsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Crew\CrewProfileController::update
      */
     public function update_without_photo()
     {
@@ -555,7 +555,7 @@ class CrewsFeatureTest extends TestCase
         $data         = $data = $this->getUpdateData(['photo' => '']);
 
         $response = $this->actingAs($user)
-                         ->put('/crews/' . $crew->id, $data);
+                         ->put(route('crews.update', ['crew' => $crew->id]), $data);
 
         $response->assertSuccessful();
 
@@ -573,7 +573,7 @@ class CrewsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Crew\CrewProfileController::update
      */
     public function update_incomplete_socials()
     {
@@ -587,7 +587,7 @@ class CrewsFeatureTest extends TestCase
         ]);
 
         $response = $this->actingAs($user)
-                         ->put('/crews/' . $crew->id, $data);
+                         ->put(route('crews.update', ['crew' => $crew->id]), $data);
 
         $this->assertCount(7, $crew->socials);
         $this->assertArraySubset(
@@ -627,7 +627,7 @@ class CrewsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Crew\CrewProfileController::update
      */
     public function update_youtube_cleaned()
     {
@@ -643,7 +643,7 @@ class CrewsFeatureTest extends TestCase
         ]);
 
         $response = $this->actingAs($user)
-                         ->put('/crews/' . $crew->id, $data);
+                         ->put(route('crews.update', ['crew' => $crew->id]), $data);
 
         // assert general reel has been cleaned
         $reel->refresh();
@@ -674,7 +674,7 @@ class CrewsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Crew\CrewProfileController::update
      */
     public function update_vimeo_reel_cleaned()
     {
@@ -686,7 +686,7 @@ class CrewsFeatureTest extends TestCase
         $data = $this->getUpdateData(['reel' => 'https://vimeo.com/230046783']);
 
         $response = $this->actingAs($user)
-                         ->put('/crews/' . $crew->id, $data);
+                         ->put(route('crews.update', ['crew' => $crew->id]), $data);
 
         // assert general reel has been created
         $reel->refresh();
@@ -703,7 +703,7 @@ class CrewsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Crew\CrewProfileController::update
      */
     public function update_invalid_data()
     {
@@ -730,7 +730,7 @@ class CrewsFeatureTest extends TestCase
         ]);
 
         $response = $this->actingAs($user)
-                         ->put('/crews/' . $crew->id, $data);
+                         ->put(route('crews.update', ['crew' => $crew->id]), $data);
 
         $response->assertSessionHasErrors(
             [
@@ -752,7 +752,7 @@ class CrewsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Crew\CrewProfileController::update
      */
     public function update_not_exists()
     {
@@ -762,14 +762,14 @@ class CrewsFeatureTest extends TestCase
         $data = $this->getUpdateData();
 
         $response = $this->actingAs($user)
-                         ->put('/crews/5', $data);
+                         ->put(route('crews.update', ['crew' => '5']), $data);
 
         $response->assertStatus(404);
     }
 
     /**
      * @test
-     * @covers 
+     * @covers \App\Http\Controllers\Crew\CrewProfileController::update
      */
     public function update_unauthorized()
     {
@@ -777,7 +777,7 @@ class CrewsFeatureTest extends TestCase
         $data = $this->getUpdateData();
 
         $response = $this->actingAs($crew->user)
-                         ->put('/crews/' . $crew->id, $data);
+                         ->put(route('crews.update', ['crew' => $crew->id]), $data);
 
         $response->assertRedirect('login');
         $this->assertGuest();

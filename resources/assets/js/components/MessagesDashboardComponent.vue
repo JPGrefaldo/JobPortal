@@ -11,7 +11,9 @@
                 <button class="fa fa-edit"></button>
             </div>
             <div class="w-4/5 text-md border-black border-b font-bold flex justify-center items-center">
-                Titanic: Leonardo DiCarpio
+                <div v-if="project.title">
+                    {{ project.title }}: {{ thread.subject }}
+                </div>
                 <!-- TODO: right chevron goes here that links to the current recipient -->
                 <!-- might have to add logic depending on the role -->
             </div>
@@ -20,73 +22,10 @@
         <div class="flex h-full">
             <!-- left pane -->
             <div class="flex w-1/5 border-r border-black">
-                <cca-projects :role="role"
-                    :projects="projects"
-                />
-                <!-- threads -->
-                <div class="flex-1 overflow-auto bg-white">
-                    <!-- thread -->
-                    <div class="flex items-center justify-center p-2 bg-grey-light">
-                        <div class="h-10 w-10 rounded-full bg-white background-missing-avatar"></div>
-                        <div class="p-2 flex-1">
-                            <div class="mb-1">
-                                Leonardo DiCarpio
-                            </div>
-                            <p class="text-xs">
-                                You: Awesome! You ar...
-                            </p>
-                        </div>
-                    </div>
-                    <!-- thread -->
-                    <div class="flex items-center justify-center p-2">
-                        <div class="h-10 w-10 rounded-full bg-white background-missing-avatar"></div>
-                        <div class="p-2 flex-1">
-                            <div class="mb-1">
-                                Kate Winslet
-                            </div>
-                            <p class="text-xs">
-                                I am happy.
-                            </p>
-                        </div>
-                </div>
-                </div>
+                <cca-projects :role="role" :projects="projects" @onClickSetProject="onClickSetProject" />
+                <cca-threads :threads="threads" @onClickSetThread="onClickSetThread" />
             </div>
-            <!-- conversation -->
-            <div class="w-4/5 bg-white flex flex-col p-4">
-                <!-- recipient message -->
-                <div class="flex items-center justify-center mb-4">
-                    <div class="mr-4 border h-10 w-10 rounded-full bg-white background-missing-avatar"></div>
-                    <div class="rounded-lg bg-grey-light p-3 max-w-md">
-                        Impedit sit cumque ut voluptatem voluptatem est ea esse. Odit ipsa molestiae sint exercitationem quia tempora. Eaque non ipsum dolores reiciendis dicta. Eligendi minima quam dolorem quo voluptatem maxime qui.
-                    </div>
-                    <div class="flex-1"></div>
-                </div>
-                <!-- recipient message -->
-                <div class="flex items-center justify-center mb-4">
-                    <div class="mr-4 border h-10 w-10 rounded-full bg-white background-missing-avatar"></div>
-                    <div class="rounded-lg bg-grey p-3 max-w-md">
-                        Eum ut quibusdam modi dolores voluptas. Assumenda possimus assumenda et voluptatum. Facere soluta rerum nostrum eaque. Maxime consequuntur velit et et perspiciatis alias iste.
-                    </div>
-                    <div class="flex-1"></div>
-                </div>
-                <!-- sender message -->
-                <div class="flex mb-4">
-                    <div class="flex-1"></div>
-                    <div
-                        class="rounded-lg text-white p-3 max-w-md"
-                        :class="getColorByRole(role)"
-                    >
-                        Eveniet et neque mollitia sed. Rem rem quis dolores ea est. Tempora sit tempore asperiores necessitatibus.
-                    </div>
-                </div>
-                <!-- sender message -->
-                <div class="flex mb-4">
-                    <div class="flex-1"></div>
-                    <div class="rounded-lg text-white bg-blue-dark p-3 max-w-md">
-                        Awesome! You are the best!
-                    </div>
-                </div>
-            </div>
+            <cca-messages :user="user" :role="role" :messages="messages" />
         </div>
         <!-- bottom bar -->
         <div class="flex h-12 w-screen">
@@ -115,6 +54,10 @@
         name: "MessagesDashboardComponent",
 
         props: {
+            user: {
+                type: Object,
+                required: true,
+            },
             roles: {
                 type: Array,
                 required: true
@@ -127,11 +70,15 @@
                 form: new Form({
                 }),
                 projects: [],
+                project: {},
+                threads: [],
+                thread: {},
+                messages: [],
             }
         },
 
         mounted() {
-            this.getProjects(this.role);
+            this.getProjects(this.role)
         },
 
         methods: {
@@ -145,24 +92,62 @@
                         'bg-green',
                         'hover:bg-green-dark',
                     ]
-                };
+                }
 
-                return colorDictionary[role];
+                return colorDictionary[role]
             },
 
             onClickSetRole(index) {
-                this.setRole(index);
-                this.getProjects(index);
+                this.setRole(index)
+
+                this.projects = []
+                this.project = {}
+                this.threads = []
+                this.messages = []
+
+                this.getProjects()
             },
 
             setRole(index) {
-                this.role = this.roles[index];
+                this.role = this.roles[index]
             },
 
-            getProjects(index) {
+            getProjects() {
                 this.form.get('/' + this.role.toLowerCase() + '/projects')
-                    .then(response => (this.projects = response.data));
-            }
+                    .then(response => (this.projects = response.data))
+            },
+
+            onClickSetProject(project) {
+                this.setProject(project)
+
+                this.threads = []
+                this.thread = {}
+                this.messages = []
+                this.getThreads()
+            },
+
+            setProject(project) {
+                this.project = project
+            },
+
+            getThreads() {
+                this.form.get('/' + this.role.toLowerCase() + '/projects/' + this.project.id + '/threads')
+                    .then(response => (this.threads = response.data))
+            },
+
+            onClickSetThread(thread) {
+                this.setThread(thread)
+                this.getMessages(thread)
+            },
+
+            setThread(thread) {
+                this.thread = thread
+            },
+
+            getMessages() {
+                this.form.get('/threads/' + this.thread.id + '/messages')
+                    .then(response => (this.messages = response.data))
+            },
 
         }
     }

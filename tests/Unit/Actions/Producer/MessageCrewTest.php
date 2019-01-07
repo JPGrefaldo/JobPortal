@@ -51,7 +51,7 @@ class MessageCrewTest extends TestCase
         $this->assertDatabaseHas(
             'threads',
             [
-                'subject' => 'Some subject',
+                'subject' => $crew->user->fullName,
             ]
         );
         $this->assertDatabaseHas(
@@ -84,6 +84,7 @@ class MessageCrewTest extends TestCase
 
     /**
      * @test
+     * @covers \App\Actions\Admin\MessageCrew::execute
      */
     public function thread_is_not_duplicated_when_messaging_a_crew_twice()
     {
@@ -114,7 +115,7 @@ class MessageCrewTest extends TestCase
         $this->assertDatabaseHas(
             'threads',
             [
-                'subject' => 'Some subject',
+                'subject' => $crew->user->fullName,
             ]
         );
         $this->assertDatabaseHas(
@@ -147,6 +148,7 @@ class MessageCrewTest extends TestCase
 
     /**
      * @test
+     * @covers \App\Actions\Admin\MessageCrew::getThread
      */
     public function get_thread()
     {
@@ -182,7 +184,6 @@ class MessageCrewTest extends TestCase
     protected function getData($overrides = [])
     {
         return [
-            'subject' => 'Some subject',
             'message' => 'Some message',
         ];
     }

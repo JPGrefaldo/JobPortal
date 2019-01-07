@@ -89,11 +89,10 @@
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
-            "npm install"
+            "yarn install"
         ],
         "post-install-cmd": [
-            "npm install",
-            "npm rebuild node-sass",
+            "yarn install",
             "php artisan nova:publish",
             "npm run production"
         ],

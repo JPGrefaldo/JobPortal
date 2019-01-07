@@ -33,14 +33,19 @@ class CrewTest extends TestCase
 
     /**
      * @test
+     * @covers \App\Models\Crew::user
      */
     public function user()
     {
-        $this->assertEquals($this->user->email, $this->crew->user->email);
+        $this->assertEquals(
+            $this->user->email,
+            $this->crew->user->email
+        );
     }
 
     /**
      * @test
+     * @covers \App\Models\Crew::positions
      */
     public function positions()
     {
@@ -60,6 +65,7 @@ class CrewTest extends TestCase
 
     /**
      * @test
+     * @covers \App\Models\Crew::reels
      */
     public function reels()
     {
@@ -72,6 +78,7 @@ class CrewTest extends TestCase
 
     /**
      * @test
+     * @covers \App\Models\Crew::resumes
      */
     public function resumes()
     {
@@ -84,6 +91,7 @@ class CrewTest extends TestCase
 
     /**
      * @test
+     * @covers \App\Models\Crew::gears
      */
     public function gears()
     {
@@ -96,6 +104,7 @@ class CrewTest extends TestCase
 
     /**
      * @test
+     * @covers \App\Models\Crew::socials
      */
     public function socials()
     {
@@ -108,6 +117,7 @@ class CrewTest extends TestCase
 
     /**
      * @test
+     * @covers \App\Models\Crew::applyFor
      */
     public function applyFor()
     {
@@ -136,6 +146,7 @@ class CrewTest extends TestCase
 
     /**
      * @test
+     * @covers \App\Models\Crew::hasPosition
      */
     public function hasPosition()
     {
@@ -157,6 +168,7 @@ class CrewTest extends TestCase
 
     /**
      * @test
+     * @covers \App\Models\Crew::projects
      */
     public function projects()
     {

@@ -11,6 +11,7 @@ class SocialLinkTypeTest extends TestCase
 {
     /**
      * @test
+     * @covers  \App\Models\SocialLinkType::getSlugAttribute
      */
     public function get_slug_attribute()
     {
