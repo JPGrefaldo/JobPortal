@@ -1,25 +1,31 @@
 <template>
     <!-- conversation -->
     <div class="w-4/5 bg-white flex flex-col p-4">
-        <div v-for="message in messages"
-            :key="message.id">
-            <!-- sender message template -->
-            <div v-if="isSender(message)"
-                class="flex mb-4">
-                <div class="flex-1"></div>
-                <div class="rounded-lg text-white p-3 max-w-md"
-                    :class="getColorByRole(role)">
-                    {{ message.body }}
+        <div v-if="messages.length === 0" class="text-grey-dark">
+            <div class="fa fa-arrow-left mr-2"></div>
+            Select a thread
+        </div>
+        <div v-else>
+            <div v-for="message in messages"
+                :key="message.id">
+                <!-- sender message template -->
+                <div v-if="isSender(message)"
+                    class="flex mb-4">
+                    <div class="flex-1"></div>
+                    <div class="rounded-lg text-white p-3 max-w-md"
+                        :class="getColorByRole(role)">
+                        {{ message.body }}
+                    </div>
                 </div>
-            </div>
-            <!-- recipeint message template -->
-            <div v-else
-                class="flex items-center justify-center mb-4">
-                <div class="mr-4 border h-10 w-10 rounded-full bg-white background-missing-avatar"></div>
-                <div class="rounded-lg bg-grey-light p-3 max-w-md">
-                    {{ message.body }}
+                <!-- recipeint message template -->
+                <div v-else
+                    class="flex items-center justify-center mb-4">
+                    <div class="mr-4 border h-10 w-10 rounded-full bg-white background-missing-avatar"></div>
+                    <div class="rounded-lg bg-grey-light p-3 max-w-md">
+                        {{ message.body }}
+                    </div>
+                    <div class="flex-1"></div>
                 </div>
-                <div class="flex-1"></div>
             </div>
         </div>
     </div>
