@@ -78,7 +78,7 @@
         },
 
         mounted() {
-            this.getProjects(this.role);
+            this.getProjects(this.role)
         },
 
         methods: {
@@ -92,61 +92,61 @@
                         'bg-green',
                         'hover:bg-green-dark',
                     ]
-                };
+                }
 
-                return colorDictionary[role];
+                return colorDictionary[role]
             },
 
             onClickSetRole(index) {
-                this.setRole(index);
+                this.setRole(index)
 
-                this.projects = [];
-                this.project = {};
-                this.threads = [];
-                this.messages = [];
+                this.projects = []
+                this.project = {}
+                this.threads = []
+                this.messages = []
 
-                this.getProjects();
+                this.getProjects()
             },
 
             setRole(index) {
-                this.role = this.roles[index];
+                this.role = this.roles[index]
             },
 
             getProjects() {
                 this.form.get('/' + this.role.toLowerCase() + '/projects')
-                    .then(response => (this.projects = response.data));
+                    .then(response => (this.projects = response.data))
             },
 
             onClickSetProject(project) {
-                this.setProject(project);
+                this.setProject(project)
 
-                this.threads = [];
-                this.thread = {};
-                this.messages = [];
-                this.getThreads();
+                this.threads = []
+                this.thread = {}
+                this.messages = []
+                this.getThreads()
             },
 
             setProject(project) {
-                this.project = project;
+                this.project = project
             },
 
             getThreads() {
                 this.form.get('/' + this.role.toLowerCase() + '/projects/' + this.project.id + '/threads')
-                    .then(response => (this.threads = response.data));
+                    .then(response => (this.threads = response.data))
             },
 
             onClickSetThread(thread) {
-                this.setThread(thread);
-                this.getMessages(thread);
+                this.setThread(thread)
+                this.getMessages(thread)
             },
 
             setThread(thread) {
-                this.thread = thread;
+                this.thread = thread
             },
 
             getMessages() {
                 this.form.get('/threads/' + this.thread.id + '/messages')
-                    .then(response => (this.messages = response.data));
+                    .then(response => (this.messages = response.data))
             },
 
         }

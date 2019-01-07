@@ -33,22 +33,22 @@
 
         methods: {
             getAcronymAttribute(text) {
-                text = text.replace('-', ' ');
+                text = text.replace('-', ' ')
 
-                const words = text.split(' ');
+                const words = text.split(' ')
 
                 if (words.length === 1) {
-                    return text[0];
+                    return text[0]
                 }
 
-                let acronym = '';
+                let acronym = ''
 
                 for (let index = 0; index < 2; index++) {
-                    const word = words[index];
-                    acronym += word[0];
+                    const word = words[index]
+                    acronym += word[0]
                 }
 
-                return acronym;
+                return acronym
             },
 
             getColorByRole: function (role) {
@@ -61,13 +61,13 @@
                         'bg-green',
                         'hover:bg-green-dark',
                     ]
-                };
+                }
 
-                return colorDictionary[role];
+                return colorDictionary[role]
             },
 
             onClickSetProject: function (project) {
-                this.$emit('setProject', project);
+                this.$emit('setProject', project)
             }
         }
     }
