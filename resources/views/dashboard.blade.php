@@ -37,7 +37,7 @@
             @endif
         </div>
 
-        {{--<app-example-user />--}}
+        <app-example-user />
     </div>
 </div>
 @endsection
