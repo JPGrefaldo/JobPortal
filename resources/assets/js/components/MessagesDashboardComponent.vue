@@ -101,11 +101,8 @@
                 this.setRole(index);
 
                 this.projects = [];
-
                 this.project = {};
-
                 this.threads = [];
-
                 this.messages = [];
 
                 this.getProjects();
@@ -124,11 +121,8 @@
                 this.setProject(project);
 
                 this.threads = [];
-
                 this.thread = {};
-
                 this.messages = [];
-
                 this.getThreads();
             },
 
