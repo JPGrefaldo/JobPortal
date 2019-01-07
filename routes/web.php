@@ -46,13 +46,6 @@ Route::middleware('auth')->group(function () {
     Route::get('dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])
         ->name('dashboard');
 
-    Route::prefix('crew/profile')->group(function () {
-        Route::get('/', [\App\Http\Controllers\Crew\CrewProfileController::class, 'index'])
-            ->name('profile');
-        Route::get('edit', [\App\Http\Controllers\Crew\CrewProfileController::class, 'create'])
-            ->name('profile.create');
-        Route::post('/', [\App\Http\Controllers\Crew\CrewProfileController::class, 'store']);
-    });
 
     // TODO: check ownership
     Route::get('/threads/{thread}/messages', function (Thread $thread) {
@@ -170,6 +163,14 @@ Route::middleware('auth')->group(function () {
         Route::post('/crew/messages', [\App\Http\Controllers\Crew\MessageController::class, 'store'])
             ->name('crew.messages.store');
 
+        Route::prefix('crew/profile')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Crew\CrewProfileController::class, 'index'])
+                ->name('profile');
+            Route::get('edit', [\App\Http\Controllers\Crew\CrewProfileController::class, 'create'])
+                ->name('profile.create');
+            Route::post('/', [\App\Http\Controllers\Crew\CrewProfileController::class, 'store']);
+        });
+
         Route::get('/crew/projects', [\App\Http\Controllers\Crew\ProjectsController::class, 'index'])
             ->name('crew.projects.index');
 
@@ -205,13 +206,10 @@ Route::middleware('auth')->group(function () {
         });
 
         Route::group(['prefix' => 'messages'], function () {
-            //     Route::get('/', ['as' => 'messages', 'uses' => 'MessagesController@index']);
-            //     Route::get('create', ['as' => 'messages.create', 'uses' => 'MessagesController@create']);
             Route::post('/{project}', [
                 'as' => 'producer.messages.store',
                 'uses' => 'Producer\MessagesController@store'
             ]);
-            //     Route::get('{id}', ['as' => 'messages.show', 'uses' => 'MessagesController@show']);
             Route::put('/producer/projects/{project}/messages/{message}', [
                 'as' => 'producer.messages.update',
                 'uses' => 'Producer\MessagesController@update'
@@ -222,13 +220,7 @@ Route::middleware('auth')->group(function () {
             ->name('producer.threads.index');
     });
 
-    Route::group(['prefix' => 'messages'], function () {
-        Route::get('/', ['as' => 'messages', 'uses' => 'MessagesDashboardController@index']);
-        //     Route::get('create', ['as' => 'messages.create', 'uses' => 'MessagesController@create']);
-        // Route::post('/', ['as' => 'producer.messages.store', 'uses' => 'Producer\MessagesController@store']);
-        //     Route::get('{id}', ['as' => 'messages.show', 'uses' => 'MessagesController@show']);
-        //     Route::put('{id}', ['as' => 'messages.update', 'uses' => 'MessagesController@update']);
-    });
+    Route::get('/messages', ['as' => 'messages', 'uses' => 'MessagesDashboardController@index']);
 });
 
 Route::prefix('theme')->group(function () {
