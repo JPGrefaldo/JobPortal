@@ -36,10 +36,6 @@ if (! store.getters['auth/check'] && store.getters['auth/token']) {
     })(store)*/
 }
 
-setTimeout(() => {
-    console.log(Cookies.get('crewcallsamerica_session'))
-}, 10000)
-
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
