@@ -17,7 +17,6 @@ class MessengerDashboardSeeder extends Seeder
     public function run()
     {
         $user = User::first();
-
         $site = Site::first();
 
         $projects = factory(Project::class, 2)->create([
@@ -44,7 +43,6 @@ class MessengerDashboardSeeder extends Seeder
         };
 
         $crew = $user->crew;
-
         $projects = factory(Project::class, 2)->create();
 
         $crew->projects()->attach($projects);
