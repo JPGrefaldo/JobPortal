@@ -1,7 +1,8 @@
 <template>
     <!-- conversation -->
     <div class="w-4/5 bg-white flex flex-col p-4">
-        <div v-if="messages.length === 0" class="text-grey-dark">
+        <div v-if="messages.length === 0"
+            class="text-grey-dark">
             <div class="fa fa-arrow-left mr-2"></div>
             Select a thread
         </div>
