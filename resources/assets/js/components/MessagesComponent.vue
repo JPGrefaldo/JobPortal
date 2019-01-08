@@ -13,6 +13,9 @@
                 <div v-if="isSender(message)"
                     class="flex mb-4">
                     <div class="flex-1"></div>
+                    <button class="fa fa-flag mr-2"
+                        @click="onClickFlagMessage(message)">
+                    </button>
                     <div class="rounded-lg text-white p-3 max-w-md"
                         :class="getColorByRole(role)">
                         {{ message.body }}
@@ -33,6 +36,8 @@
 </template>
 
 <script type="text/javascript">
+    import { Form, HasError, AlertError } from 'vform';
+
     export default {
 
         props: {
@@ -52,6 +57,7 @@
 
         data() {
             return {
+                form: new Form({}),
             }
         },
 
@@ -73,7 +79,16 @@
 
             isSender: function (message) {
                 return message.user_id === this.user.id
-            }
+            },
+
+            onClickFlagMessage: function (message) {
+                this.flagMessage(message);
+            },
+
+            flagMessage: function (message) {
+                this.form.put('/messages/' + message.id)
+                    .then(response => console.log(response.data));
+            },
         }
     }
 </script>
