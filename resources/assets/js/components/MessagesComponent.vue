@@ -86,8 +86,10 @@
             },
 
             flagMessage: function (message) {
+                // TODO: show some visual that message was flagged
                 this.form.put('/messages/' + message.id)
                     .then(response => console.log(response.data));
+                // TODO: show alert that message was flagged
             },
         }
     }
