@@ -13,9 +13,6 @@
                 <div v-if="isSender(message)"
                     class="flex mb-4">
                     <div class="flex-1"></div>
-                    <button class="fa fa-flag mr-2"
-                        @click="onClickFlagMessage(message)">
-                    </button>
                     <div class="rounded-lg text-white p-3 max-w-md"
                         :class="getColorByRole(role)">
                         {{ message.body }}
@@ -28,6 +25,9 @@
                     <div class="rounded-lg bg-grey-light p-3 max-w-md">
                         {{ message.body }}
                     </div>
+                    <button class="fa fa-flag mr-2 ml-3"
+                        @click="onClickFlagMessage(message)">
+                    </button>
                     <div class="flex-1"></div>
                 </div>
             </div>
