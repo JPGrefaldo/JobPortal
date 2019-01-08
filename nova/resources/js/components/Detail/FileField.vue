@@ -2,14 +2,18 @@
     <panel-item :field="field">
         <div slot="value">
             <template v-if="shouldShowLoader">
-                <ImageLoader :src="field.thumbnailUrl" class="max-w-xs" @missing="(value) => missing = value" />
+                <ImageLoader
+                    :src="imageUrl"
+                    :maxWidth="maxWidth"
+                    @missing="value => (missing = value)"
+                />
             </template>
 
-            <template v-if="field.value && !field.thumbnailUrl">
+            <template v-if="field.value && !imageUrl">
                 {{ field.value }}
             </template>
 
-            <span v-if="!field.value && !field.thumbnailUrl">&mdash;</span>
+            <span v-if="!field.value && !imageUrl">&mdash;</span>
             <span v-if="deleted">&mdash;</span>
 
             <portal to="modals">
@@ -22,10 +26,7 @@
                 </transition>
             </portal>
 
-            <p
-                v-if="shouldShowToolbar"
-                class="flex items-center text-sm mt-3"
-            >
+            <p v-if="shouldShowToolbar" class="flex items-center text-sm mt-3">
                 <a
                     v-if="field.downloadable"
                     :dusk="field.attribute + '-download-link'"
@@ -34,10 +35,14 @@
                     tabindex="0"
                     class="cursor-pointer dim btn btn-link text-primary inline-flex items-center"
                 >
-                    <icon class="mr-2" type="download" view-box="0 0 24 24" width="16" height="16" />
-                    <span class="class mt-1">
-                        Download
-                    </span>
+                    <icon
+                        class="mr-2"
+                        type="download"
+                        view-box="0 0 24 24"
+                        width="16"
+                        height="16"
+                    />
+                    <span class="class mt-1"> Download </span>
                 </a>
             </p>
         </div>
@@ -65,7 +70,9 @@ export default {
             let link = document.createElement('a')
             link.href = `/nova-api/${resourceName}/${resourceId}/download/${attribute}`
             link.download = 'download'
+            document.body.appendChild(link)
             link.click()
+            document.body.removeChild(link)
         },
 
         /**
@@ -104,18 +111,26 @@ export default {
     computed: {
         hasValue() {
             return (
-                Boolean(this.field.value || this.field.thumbnailUrl) &&
+                Boolean(this.field.value || this.imageUrl) &&
                 !Boolean(this.deleted) &&
                 !Boolean(this.missing)
             )
         },
 
         shouldShowLoader() {
-            return !Boolean(this.deleted) && Boolean(this.field.thumbnailUrl)
+            return !Boolean(this.deleted) && Boolean(this.imageUrl)
         },
 
         shouldShowToolbar() {
             return Boolean(this.field.downloadable || this.field.deletable) && this.hasValue
+        },
+
+        imageUrl() {
+            return this.field.previewUrl || this.field.thumbnailUrl
+        },
+
+        maxWidth() {
+            return this.field.maxWidth || 320
         },
     },
 }

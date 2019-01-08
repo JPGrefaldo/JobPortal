@@ -19,7 +19,7 @@ class ResourceAttachmentTest extends IntegrationTest
 
     public function test_can_attach_resources()
     {
-        $user = $this->createUser();
+        $user = factory(User::class)->create();
         $role = factory(Role::class)->create();
 
         $response = $this->withExceptionHandling()
@@ -38,7 +38,7 @@ class ResourceAttachmentTest extends IntegrationTest
 
     public function test_cant_set_pivot_fields_that_arent_authorized()
     {
-        $user = $this->createUser();
+        $user = factory(User::class)->create();
         $role = factory(Role::class)->create();
 
         $response = $this->withExceptionHandling()
@@ -56,7 +56,7 @@ class ResourceAttachmentTest extends IntegrationTest
 
     public function test_can_attach_soft_deleted_resources()
     {
-        $user = $this->createUser();
+        $user = factory(User::class)->create();
         $role = factory(Role::class)->create();
         $user->delete();
 
@@ -79,7 +79,7 @@ class ResourceAttachmentTest extends IntegrationTest
 
     public function test_attached_resource_must_exist()
     {
-        $user = $this->createUser();
+        $user = factory(User::class)->create();
         $role = factory(Role::class)->create();
 
         $response = $this->withExceptionHandling()
@@ -97,9 +97,9 @@ class ResourceAttachmentTest extends IntegrationTest
 
     public function test_cant_attach_resources_that_arent_relatable()
     {
-        $user = $this->createUser();
-        $user2 = $this->createUser();
-        $user3 = $this->createUser();
+        $user = factory(User::class)->create();
+        $user2 = factory(User::class)->create();
+        $user3 = factory(User::class)->create();
 
         $role = factory(Role::class)->create();
 
@@ -116,7 +116,7 @@ class ResourceAttachmentTest extends IntegrationTest
     // This behavior was changed...
     // public function test_cant_attach_resources_that_arent_relatable_at_all()
     // {
-    //     $user = $this->createUser();
+    //     $user = factory(User::class)->create();
     //     $role = factory(Role::class)->create();
 
     //     $_SERVER['nova.user.authorizable'] = true;
@@ -143,7 +143,7 @@ class ResourceAttachmentTest extends IntegrationTest
 
     public function test_cant_attach_things_to_resources_that_prevent_the_attachment_via_a_policy()
     {
-        $user = $this->createUser();
+        $user = factory(User::class)->create();
         $role = factory(Role::class)->create();
 
         $_SERVER['nova.user.authorizable'] = true;
@@ -175,7 +175,7 @@ class ResourceAttachmentTest extends IntegrationTest
 
     public function test_attached_resource_must_not_already_be_attached()
     {
-        $user = $this->createUser();
+        $user = factory(User::class)->create();
         $role = factory(Role::class)->create();
         $user->roles()->attach($role);
 
@@ -194,7 +194,7 @@ class ResourceAttachmentTest extends IntegrationTest
 
     public function test_pivot_data_is_validated()
     {
-        $user = $this->createUser();
+        $user = factory(User::class)->create();
         $role = factory(Role::class)->create();
 
         $response = $this->withExceptionHandling()

@@ -4,9 +4,13 @@
             <div class="flex items-center">
                 <date-time-picker
                     class="w-full form-control form-input form-input-bordered"
-                    :field="field"
+                    :dusk="field.attribute"
+                    :name="field.name"
+                    :placeholder="placeholder"
                     :value="localizedValue"
                     :twelve-hour-time="usesTwelveHourTime"
+                    :first-day-of-week="firstDayOfWeek"
+                    :class="errorClasses"
                     @change="handleChange"
                 />
 
@@ -26,6 +30,16 @@ export default {
     components: { DateTimePicker },
 
     data: () => ({ localizedValue: '' }),
+
+    computed: {
+        firstDayOfWeek() {
+            return this.field.firstDayOfWeek || 0
+        },
+
+        placeholder() {
+            return this.field.placeholder || moment().format('YYYY-MM-DD HH:mm:ss')
+        },
+    },
 
     methods: {
         /*

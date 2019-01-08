@@ -23,6 +23,7 @@ use Laravel\Nova\Tests\Fixtures\UnrunnableAction;
 use Laravel\Nova\Tests\Fixtures\DestructiveAction;
 use Laravel\Nova\Tests\Fixtures\UnauthorizedAction;
 use Laravel\Nova\Tests\Fixtures\UpdateStatusAction;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Laravel\Nova\Tests\Fixtures\RequiredFieldAction;
 use Laravel\Nova\Tests\Fixtures\QueuedResourceAction;
 use Laravel\Nova\Tests\Fixtures\QueuedUpdateStatusAction;
@@ -59,8 +60,8 @@ class ActionControllerTest extends IntegrationTest
 
     public function test_actions_can_be_applied()
     {
-        $user = $this->createUser();
-        $user2 = $this->createUser();
+        $user = factory(User::class)->create();
+        $user2 = factory(User::class)->create();
 
         $response = $this->withExceptionHandling()
                         ->post('/nova-api/users/action?action='.(new NoopAction)->uriKey(), [
@@ -86,8 +87,8 @@ class ActionControllerTest extends IntegrationTest
 
     public function test_action_fields_are_validated()
     {
-        $user = $this->createUser();
-        $user2 = $this->createUser();
+        $user = factory(User::class)->create();
+        $user2 = factory(User::class)->create();
 
         $response = $this->withExceptionHandling()
                         ->postJson('/nova-api/users/action?action='.(new RequiredFieldAction)->uriKey(), [
@@ -106,8 +107,8 @@ class ActionControllerTest extends IntegrationTest
 
         Gate::policy(User::class, UserPolicy::class);
 
-        $user = $this->createUser();
-        $user2 = $this->createUser();
+        $user = factory(User::class)->create();
+        $user2 = factory(User::class)->create();
 
         $response = $this->withExceptionHandling()
                         ->post('/nova-api/users/action?action='.(new NoopAction)->uriKey(), [
@@ -132,7 +133,7 @@ class ActionControllerTest extends IntegrationTest
 
         Gate::policy(User::class, UserPolicy::class);
 
-        $user = $this->createUser();
+        $user = factory(User::class)->create();
 
         $response = $this->withExceptionHandling()
                         ->post('/nova-api/users/action?action='.(new DestructiveAction)->uriKey(), [
@@ -152,7 +153,7 @@ class ActionControllerTest extends IntegrationTest
 
     public function test_action_cant_be_applied_if_not_authorized_to_run_action()
     {
-        $user = $this->createUser();
+        $user = factory(User::class)->create();
 
         $response = $this->withExceptionHandling()
                         ->post('/nova-api/users/action?action='.(new UnrunnableAction)->uriKey(), [
@@ -170,10 +171,10 @@ class ActionControllerTest extends IntegrationTest
     {
         Action::$chunkCount = 2;
 
-        $user = $this->createUser();
-        $user2 = $this->createUser();
-        $user3 = $this->createUser();
-        $user4 = $this->createUser();
+        $user = factory(User::class)->create();
+        $user2 = factory(User::class)->create();
+        $user3 = factory(User::class)->create();
+        $user4 = factory(User::class)->create();
 
         $response = $this->withExceptionHandling()
                         ->post('/nova-api/users/action?action='.(new NoopAction)->uriKey(), [
@@ -191,7 +192,7 @@ class ActionControllerTest extends IntegrationTest
 
     public function test_actions_cant_be_run_if_they_are_not_authorized_to_see_the_action()
     {
-        $user = $this->createUser();
+        $user = factory(User::class)->create();
 
         $resource = new UserResource($user);
 
@@ -313,8 +314,8 @@ class ActionControllerTest extends IntegrationTest
 
     public function test_actions_can_be_applied_to_soft_deleted_resources()
     {
-        $user = $this->createUser();
-        $user2 = $this->createUser();
+        $user = factory(User::class)->create();
+        $user2 = factory(User::class)->create();
 
         $user->delete();
         $user2->delete();
@@ -334,7 +335,7 @@ class ActionControllerTest extends IntegrationTest
 
     public function test_action_event_not_created_if_action_fails()
     {
-        $user = $this->createUser();
+        $user = factory(User::class)->create();
 
         $response = $this->withExceptionHandling()
                         ->post('/nova-api/users/action?action='.(new ExceptionAction)->uriKey(), [
@@ -347,8 +348,8 @@ class ActionControllerTest extends IntegrationTest
 
     public function test_actions_can_update_single_event_statuses()
     {
-        $user = $this->createUser();
-        $user2 = $this->createUser();
+        $user = factory(User::class)->create();
+        $user2 = factory(User::class)->create();
 
         $response = $this->withExceptionHandling()
                         ->post('/nova-api/users/action?action='.(new UpdateStatusAction)->uriKey(), [
@@ -365,8 +366,8 @@ class ActionControllerTest extends IntegrationTest
     {
         config(['queue.default' => 'sync']);
 
-        $user = $this->createUser();
-        $user2 = $this->createUser();
+        $user = factory(User::class)->create();
+        $user2 = factory(User::class)->create();
 
         $response = $this->withExceptionHandling()
                         ->post('/nova-api/users/action?action='.(new QueuedAction)->uriKey(), [
@@ -389,7 +390,7 @@ class ActionControllerTest extends IntegrationTest
     {
         config(['queue.default' => 'sync']);
 
-        $user = $this->createUser();
+        $user = factory(User::class)->create();
 
         $response = $this->withExceptionHandling()
                         ->post('/nova-api/users/action?action='.(new QueuedResourceAction)->uriKey(), [
@@ -406,8 +407,8 @@ class ActionControllerTest extends IntegrationTest
     {
         config(['queue.default' => 'sync']);
 
-        $user = $this->createUser();
-        $user2 = $this->createUser();
+        $user = factory(User::class)->create();
+        $user2 = factory(User::class)->create();
 
         $user->delete();
         $user2->delete();
@@ -429,8 +430,8 @@ class ActionControllerTest extends IntegrationTest
     {
         config(['queue.default' => 'null']);
 
-        $user = $this->createUser();
-        $user2 = $this->createUser();
+        $user = factory(User::class)->create();
+        $user2 = factory(User::class)->create();
 
         $response = $this->withExceptionHandling()
                         ->post('/nova-api/users/action?action='.(new QueuedAction)->uriKey(), [
@@ -449,7 +450,7 @@ class ActionControllerTest extends IntegrationTest
     {
         config(['queue.default' => 'redis']);
 
-        $user = $this->createUser();
+        $user = factory(User::class)->create();
 
         $response = $this->withExceptionHandling()
                         ->post('/nova-api/users/action?action='.(new FailingAction)->uriKey(), [
@@ -470,7 +471,7 @@ class ActionControllerTest extends IntegrationTest
     {
         config(['queue.default' => 'redis']);
 
-        $user = $this->createUser();
+        $user = factory(User::class)->create();
 
         $response = $this->withExceptionHandling()
                         ->post('/nova-api/users/action?action='.(new FailingAction)->uriKey(), [
@@ -491,8 +492,8 @@ class ActionControllerTest extends IntegrationTest
     {
         config(['queue.default' => 'redis']);
 
-        $user = $this->createUser();
-        $user2 = $this->createUser();
+        $user = factory(User::class)->create();
+        $user2 = factory(User::class)->create();
 
         $response = $this->withExceptionHandling()
                         ->post('/nova-api/users/action?action='.(new QueuedUpdateStatusAction)->uriKey(), [
@@ -544,5 +545,50 @@ class ActionControllerTest extends IntegrationTest
                         ->post('/nova-api/users/action?action='.(new EmptyAction)->uriKey(), [
                             'resources' => 'all',
                         ]);
+    }
+
+    public function test_action_event_should_honor_custom_polymorphic_type_when_updating_status()
+    {
+        Relation::morphMap(['user' => User::class]);
+
+        $user = factory(User::class)->create();
+        $user2 = factory(User::class)->create();
+
+        $response = $this->withExceptionHandling()
+                        ->post('/nova-api/users/action?action='.(new UpdateStatusAction)->uriKey(), [
+                            'resources' => implode(',', [$user->id, $user2->id]),
+                        ]);
+
+        $actionEvent = ActionEvent::where('model_id', $user->id)->first();
+
+        $this->assertEquals('Update Status Action', $actionEvent->name);
+
+        $this->assertEquals('failed', $actionEvent->status);
+
+        $this->assertEquals('user', $actionEvent->actionable_type);
+        $this->assertEquals($user->id, $actionEvent->actionable_id);
+
+        $this->assertEquals('user', $actionEvent->target_type);
+        $this->assertEquals($user->id, $actionEvent->target_id);
+
+        $this->assertEquals('user', $actionEvent->model_type);
+        $this->assertEquals($user->id, $actionEvent->model_id);
+
+        $actionEvent2 = ActionEvent::where('model_id', $user2->id)->first();
+
+        $this->assertEquals('Update Status Action', $actionEvent2->name);
+
+        $this->assertEquals('finished', $actionEvent2->status);
+
+        $this->assertEquals('user', $actionEvent2->actionable_type);
+        $this->assertEquals($user2->id, $actionEvent2->actionable_id);
+
+        $this->assertEquals('user', $actionEvent2->target_type);
+        $this->assertEquals($user2->id, $actionEvent2->target_id);
+
+        $this->assertEquals('user', $actionEvent2->model_type);
+        $this->assertEquals($user2->id, $actionEvent2->model_id);
+
+        Relation::morphMap([], false);
     }
 }
