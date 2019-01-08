@@ -230,3 +230,9 @@ Route::prefix('theme')->group(function () {
 Route::get('test', function () {
     Log::info('asd');
 });
+
+Route::get('upload_test', function () {
+    $name = uniqid() . '.txt';
+    Storage::disk('s3')->put($name, (\Faker\Factory::create())->paragraph);
+    dump(config('filesystems.disks.s3.url') . '/' . config('filesystems.disks.s3.bucket') . '/' . $name);
+});
