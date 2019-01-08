@@ -21,8 +21,11 @@ window._ = require('vue-sweetalert2');
 
 window.axios = require('axios');
 
-//window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-window.axios.defaults.withCredentials = true
+window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+window.axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+window.axios.defaults.headers.common['Content-Type'] = 'application/json';
+
+window.axios.defaults.withCredentials = true;
 
 window.IS_AUTHORIZED = Boolean(document.head.querySelector('meta[name="is-authorized"]'))
 
@@ -32,13 +35,13 @@ window.IS_AUTHORIZED = Boolean(document.head.querySelector('meta[name="is-author
  * a simple convenience so we don't have to attach every token manually.
  */
 
-let token = document.head.querySelector('meta[name="csrf-token"]');
+/*let token = document.head.querySelector('meta[name="csrf-token"]');
 
 if (token) {
     window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
 } else {
     console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
-}
+}*/
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
