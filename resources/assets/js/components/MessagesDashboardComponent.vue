@@ -136,6 +136,8 @@
             },
 
             onClickSetThread(thread) {
+                this.messages = []
+
                 this.setThread(thread)
                 this.getMessages(thread)
             },
