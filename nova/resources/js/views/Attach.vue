@@ -1,6 +1,6 @@
 <template>
     <loading-view :loading="loading">
-        <heading class="mb-3">{{__('Attach')}} {{ relatedResourceLabel }}</heading>
+        <heading class="mb-3">{{ __('Attach') }} {{ relatedResourceLabel }}</heading>
 
         <card class="overflow-hidden">
             <form v-if="field" @submit.prevent="attachResource" autocomplete="off">
@@ -13,21 +13,31 @@
                             @input="performSearch"
                             @clear="clearSelection"
                             @selected="selectResource"
-                            :value='selectedResource'
-                            :data='availableResources'
-                            trackBy='value'
-                            searchBy='display'
+                            :value="selectedResource"
+                            :data="availableResources"
+                            trackBy="value"
+                            searchBy="display"
                             class="mb-3"
                         >
                             <div slot="default" v-if="selectedResource" class="flex items-center">
                                 <div v-if="selectedResource.avatar" class="mr-3">
-                                    <img :src="selectedResource.avatar" class="w-8 h-8 rounded-full block" />
+                                    <img
+                                        :src="selectedResource.avatar"
+                                        class="w-8 h-8 rounded-full block"
+                                    />
                                 </div>
 
                                 {{ selectedResource.display }}
                             </div>
 
-                            <div slot="option" slot-scope="{option, selected}" class="flex items-center">
+                            <div
+                                slot="option"
+                                slot-scope="{
+                                    option,
+                                    selected,
+                                }"
+                                class="flex items-center"
+                            >
                                 <div v-if="option.avatar" class="mr-3">
                                     <img :src="option.avatar" class="w-8 h-8 rounded-full block" />
                                 </div>
@@ -44,7 +54,9 @@
                             :data-testid="`${field.resourceName}-select`"
                             @change="selectResourceFromSelectControl"
                         >
-                            <option value="" disabled selected>{{__('Choose')}} {{ relatedResourceLabel }}</option>
+                            <option value="" disabled selected
+                                >{{ __('Choose') }} {{ relatedResourceLabel }}</option
+                            >
 
                             <option
                                 v-for="resource in availableResources"
@@ -52,19 +64,19 @@
                                 :value="resource.value"
                                 :selected="selectedResourceId == resource.value"
                             >
-                                {{ resource.display}}
+                                {{ resource.display }}
                             </option>
                         </select>
 
                         <!-- Trashed State -->
                         <div v-if="softDeletes">
-                            <label class="flex items-center" @input="toggleWithTrashed" @keydown.prevent.space.enter="toggleWithTrashed">
-                                <checkbox :dusk="field.resourceName + '-with-trashed-checkbox'" :checked="withTrashed" />
-
-                                <span class="ml-2">
-                                    {{__('With Trashed')}}
-                                </span>
-                            </label>
+                            <checkbox-with-label
+                                :dusk="field.resourceName + '-with-trashed-checkbox'"
+                                :checked="withTrashed"
+                                @change="toggleWithTrashed"
+                            >
+                                {{ __('With Trashed') }}
+                            </checkbox-with-label>
                         </div>
                     </template>
                 </default-field>
@@ -84,13 +96,24 @@
 
                 <!-- Attach Button -->
                 <div class="bg-30 flex px-8 py-4">
-                    <button dusk="attach-and-attach-another-button" type="button" @click="attachAndAttachAnother" class="ml-auto btn btn-default btn-primary mr-3">
-                        {{__('Attach &amp; Attach Another')}}
-                    </button>
+                    <progress-button
+                        class="ml-auto mr-3"
+                        dusk="attach-and-attach-another-button"
+                        @click.native="attachAndAttachAnother"
+                        :disabled="isWorking"
+                        :processing="submittedViaAttachAndAttachAnother"
+                    >
+                        {{ __('Attach & Attach Another') }}
+                    </progress-button>
 
-                    <button dusk="attach-button" class="btn btn-default btn-primary">
-                        {{__('Attach')}} {{ relatedResourceLabel }}
-                    </button>
+                    <progress-button
+                        dusk="attach-button"
+                        type="submit"
+                        :disabled="isWorking"
+                        :processing="submittedViaAttachResource"
+                    >
+                        {{ __('Attach') }} {{ relatedResourceLabel }}
+                    </progress-button>
                 </div>
             </form>
         </card>
@@ -131,6 +154,8 @@ export default {
 
     data: () => ({
         loading: true,
+        submittedViaAttachAndAttachAnother: false,
+        submittedViaAttachResource: false,
         field: null,
         softDeletes: false,
         fields: [],
@@ -138,6 +163,10 @@ export default {
         selectedResource: null,
         selectedResourceId: null,
     }),
+
+    created() {
+        if (Nova.missingResource(this.resourceName)) return this.$router.push({ name: '404' })
+    },
 
     /**
      * Mount the component.
@@ -241,8 +270,12 @@ export default {
          * Attach the selected resource.
          */
         async attachResource() {
+            this.submittedViaAttachResource = true
+
             try {
                 await this.attachRequest()
+
+                this.submittedViaAttachResource = false
 
                 this.$router.push({
                     name: 'detail',
@@ -252,6 +285,8 @@ export default {
                     },
                 })
             } catch (error) {
+                this.submittedViaAttachResource = false
+
                 if (error.response.status == 422) {
                     this.validationErrors = new Errors(error.response.data.errors)
                 }
@@ -262,12 +297,18 @@ export default {
          * Attach a new resource and reset the form
          */
         async attachAndAttachAnother() {
+            this.submittedViaAttachAndAttachAnother = true
+
             try {
                 await this.attachRequest()
+
+                this.submittedViaAttachAndAttachAnother = false
 
                 // Reset the form by refetching the fields
                 this.initializeComponent()
             } catch (error) {
+                this.submittedViaAttachAndAttachAnother = false
+
                 if (error.response.status == 422) {
                     this.validationErrors = new Errors(error.response.data.errors)
                 }
@@ -366,6 +407,13 @@ export default {
          */
         isSearchable() {
             return this.field.searchable
+        },
+
+        /**
+         * Determine if the form is being processed
+         */
+        isWorking() {
+            return this.submittedViaAttachResource || this.submittedViaAttachAndAttachAnother
         },
     },
 }

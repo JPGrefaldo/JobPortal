@@ -19,7 +19,7 @@ class ResourceFieldTest extends IntegrationTest
 
     public function test_can_resolve_fields()
     {
-        $user = $this->createUser();
+        $user = factory(User::class)->create();
         $resource = new UserResource($user);
         $request = NovaRequest::create('/');
 
@@ -37,7 +37,7 @@ class ResourceFieldTest extends IntegrationTest
 
     public function test_missing_fields_are_removed()
     {
-        $user = $this->createUser();
+        $user = factory(User::class)->create();
         $resource = new UserResource($user);
         $request = NovaRequest::create('/');
 
@@ -58,7 +58,7 @@ class ResourceFieldTest extends IntegrationTest
 
     public function test_index_only_fields_are_respected()
     {
-        $user = $this->createUser();
+        $user = factory(User::class)->create();
         $resource = new UserResource($user);
         $request = NovaRequest::create('/');
 
@@ -70,7 +70,7 @@ class ResourceFieldTest extends IntegrationTest
 
     public function test_detail_only_fields_are_respected()
     {
-        $user = $this->createUser();
+        $user = factory(User::class)->create();
         $resource = new UserResource($user);
         $request = NovaRequest::create('/');
 
@@ -82,7 +82,7 @@ class ResourceFieldTest extends IntegrationTest
 
     public function test_form_only_fields_are_respected()
     {
-        $user = $this->createUser();
+        $user = factory(User::class)->create();
         $resource = new UserResource($user);
         $request = NovaRequest::create('/');
 
@@ -95,7 +95,7 @@ class ResourceFieldTest extends IntegrationTest
     public function test_relationships_are_available_when_appropriate()
     {
         // Has Many...
-        $user = $this->createUser();
+        $user = factory(User::class)->create();
         $resource = new UserResource($user);
         $request = NovaRequest::create('/');
 
@@ -117,7 +117,7 @@ class ResourceFieldTest extends IntegrationTest
 
     public function test_computed_fields_are_not_available_on_forms()
     {
-        $user = $this->createUser();
+        $user = factory(User::class)->create();
         $resource = new UserResource($user);
         $request = NovaRequest::create('/');
 

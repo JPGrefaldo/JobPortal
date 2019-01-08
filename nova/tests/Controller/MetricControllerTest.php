@@ -81,7 +81,7 @@ class MetricControllerTest extends IntegrationTest
 
     public function test_can_retrieve_detail_only_metric_value()
     {
-        $user = $this->createUser();
+        $user = factory(User::class)->create();
 
         $response = $this->withExceptionHandling()
                         ->get('/nova-api/users/'.$user->id.'/metrics/customer-revenue');
@@ -133,7 +133,7 @@ class MetricControllerTest extends IntegrationTest
     {
         Nova::cards([new TotalUsers]);
 
-        $user = $this->createUser();
+        $user = factory(User::class)->create();
 
         $response = $this->withExceptionHandling()
                         ->get('/nova-api/metrics/total-users');

@@ -17,7 +17,7 @@ class AttachableControllerTest extends IntegrationTest
 
     public function test_can_retrieve_attachable_resources()
     {
-        $user = $this->createUser();
+        $user = factory(User::class)->create();
         $role = factory(Role::class)->create();
 
         $response = $this->withExceptionHandling()
@@ -39,7 +39,7 @@ class AttachableControllerTest extends IntegrationTest
 
     public function test_can_retrieve_attachable_resources_by_search()
     {
-        $user = $this->createUser();
+        $user = factory(User::class)->create();
 
         $role = factory(Role::class)->create();
         $role2 = factory(Role::class)->create();
@@ -63,7 +63,7 @@ class AttachableControllerTest extends IntegrationTest
 
     public function test_only_the_first_matching_record_may_be_retrieved()
     {
-        $user = $this->createUser();
+        $user = factory(User::class)->create();
 
         $role = factory(Role::class)->create();
         $role2 = factory(Role::class)->create();

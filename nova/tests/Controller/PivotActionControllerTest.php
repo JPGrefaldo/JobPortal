@@ -15,6 +15,7 @@ use Laravel\Nova\Tests\Fixtures\RoleAssignment;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Laravel\Nova\Tests\Fixtures\FailingPivotAction;
 use Laravel\Nova\Tests\Fixtures\UpdateStatusAction;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Laravel\Nova\Tests\Fixtures\QueuedResourceAction;
 use Laravel\Nova\Tests\Fixtures\QueuedUpdateStatusAction;
 use Laravel\Nova\Tests\Fixtures\NoopActionWithPivotHandle;
@@ -65,7 +66,7 @@ class PivotActionControllerTest extends IntegrationTest
 
     public function test_pivot_actions_can_be_applied_and_pass_pivot_models_to_the_actions()
     {
-        $user = $this->createUser();
+        $user = factory(User::class)->create();
         $role = factory(Role::class)->create();
         $user->roles()->attach($role);
 
@@ -101,7 +102,7 @@ class PivotActionControllerTest extends IntegrationTest
 
         Gate::policy(Role::class, RolePolicy::class);
 
-        $user = $this->createUser();
+        $user = factory(User::class)->create();
         $role = factory(Role::class)->create();
         $user->roles()->attach($role);
 
@@ -132,7 +133,7 @@ class PivotActionControllerTest extends IntegrationTest
 
         Gate::policy(Role::class, RolePolicy::class);
 
-        $user = $this->createUser();
+        $user = factory(User::class)->create();
         $role = factory(Role::class)->create();
         $user->roles()->attach($role);
 
@@ -153,7 +154,7 @@ class PivotActionControllerTest extends IntegrationTest
 
     public function test_pivot_actions_can_be_handled_by_custom_method_name()
     {
-        $user = $this->createUser();
+        $user = factory(User::class)->create();
         $role = factory(Role::class)->create();
         $user->roles()->attach($role);
 
@@ -174,7 +175,7 @@ class PivotActionControllerTest extends IntegrationTest
 
     public function test_pivot_actions_can_be_handled_for_entire_resource()
     {
-        $user = $this->createUser();
+        $user = factory(User::class)->create();
         $role = factory(Role::class)->create();
         $user->roles()->attach($role);
 
@@ -195,7 +196,7 @@ class PivotActionControllerTest extends IntegrationTest
 
     public function test_pivot_actions_can_update_single_event_statuses()
     {
-        $user = $this->createUser();
+        $user = factory(User::class)->create();
         $role = factory(Role::class)->create();
         $role2 = factory(Role::class)->create();
         $user->roles()->attach($role);
@@ -216,7 +217,7 @@ class PivotActionControllerTest extends IntegrationTest
     {
         config(['queue.default' => 'sync']);
 
-        $user = $this->createUser();
+        $user = factory(User::class)->create();
         $role = factory(Role::class)->create();
 
         $user->roles()->attach($role);
@@ -237,7 +238,7 @@ class PivotActionControllerTest extends IntegrationTest
     {
         config(['queue.default' => 'sync']);
 
-        $user = $this->createUser();
+        $user = factory(User::class)->create();
         $role = factory(Role::class)->create();
 
         $user->roles()->attach($role);
@@ -258,7 +259,7 @@ class PivotActionControllerTest extends IntegrationTest
     {
         config(['queue.default' => 'sync']);
 
-        $user = $this->createUser();
+        $user = factory(User::class)->create();
         $role = factory(Role::class)->create();
         $role2 = factory(Role::class)->create();
         $user->roles()->attach($role2);
@@ -288,7 +289,7 @@ class PivotActionControllerTest extends IntegrationTest
     {
         config(['queue.default' => 'redis']);
 
-        $user = $this->createUser();
+        $user = factory(User::class)->create();
         $role = factory(Role::class)->create();
         $role2 = factory(Role::class)->create();
         $user->roles()->attach($role);
@@ -308,6 +309,44 @@ class PivotActionControllerTest extends IntegrationTest
 
         $this->assertEquals('failed', ActionEvent::where('model_id', 1)->first()->status);
         $this->assertEquals('finished', ActionEvent::where('model_id', 2)->first()->status);
+    }
+
+    public function test_action_event_should_honor_custom_polymorphic_type_for_pivot_action()
+    {
+        config(['queue.default' => 'sync']);
+
+        Relation::morphMap([
+            'user' => User::class,
+            'role' => Role::class,
+            'role_user' => RoleAssignment::class,
+        ]);
+
+        $user = factory(User::class)->create();
+        $role = factory(Role::class)->create();
+
+        $user->roles()->attach($role);
+
+        $response = $this->withoutExceptionHandling()
+                        ->post($this->pivotActionUriFor(FailingPivotAction::class), [
+                            'resources' => $role->id,
+                            'test' => 'Taylor Otwell',
+                            'callback' => '',
+                        ]);
+
+        $actionEvent = ActionEvent::first();
+
+        $this->assertEquals('Failing Pivot Action', $actionEvent->name);
+
+        $this->assertEquals('user', $actionEvent->actionable_type);
+        $this->assertEquals($user->id, $actionEvent->actionable_id);
+
+        $this->assertEquals('role', $actionEvent->target_type);
+        $this->assertEquals($role->id, $actionEvent->target_id);
+
+        $this->assertEquals('role_user', $actionEvent->model_type);
+        $this->assertEquals($user->roles->first->pivot->id, $actionEvent->model_id);
+
+        Relation::morphMap([], false);
     }
 
     /**

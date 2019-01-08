@@ -18,9 +18,9 @@ class LensResourceCountTest extends IntegrationTest
 
     public function test_can_count_a_resource()
     {
-        $this->createUser();
-        $this->createUser();
-        $this->createUser();
+        factory(User::class)->create();
+        factory(User::class)->create();
+        factory(User::class)->create();
 
         $response = $this->withExceptionHandling()
                         ->getJson('/nova-api/users/lens/user-lens/count');
@@ -31,9 +31,9 @@ class LensResourceCountTest extends IntegrationTest
 
     public function test_can_count_a_resource_via_filter()
     {
-        $this->createUser();
-        $this->createUser();
-        $this->createUser();
+        factory(User::class)->create();
+        factory(User::class)->create();
+        factory(User::class)->create();
 
         $filters = base64_encode(json_encode([
             [

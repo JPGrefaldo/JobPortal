@@ -21,6 +21,20 @@ abstract class Filter implements JsonSerializable
     public $name;
 
     /**
+     * The filter's component.
+     *
+     * @var string
+     */
+    public $component = 'select-filter';
+
+    /**
+     * The meta data for the filter.
+     *
+     * @var array
+     */
+    public $meta = [];
+
+    /**
      * The callback used to authorize viewing the filter.
      *
      * @var \Closure|null
@@ -70,6 +84,16 @@ abstract class Filter implements JsonSerializable
     }
 
     /**
+     * Get the component name for the filter.
+     *
+     * @return string
+     */
+    public function component()
+    {
+        return $this->component;
+    }
+
+    /**
      * Get the displayable name of the filter.
      *
      * @return string
@@ -77,6 +101,49 @@ abstract class Filter implements JsonSerializable
     public function name()
     {
         return $this->name ?: Nova::humanize($this);
+    }
+
+    /**
+     * Get the key for the filter.
+     *
+     * @return string
+     */
+    public function key()
+    {
+        return get_class($this);
+    }
+
+    /**
+     * Set the default options for the filter.
+     *
+     * @return array
+     */
+    public function default()
+    {
+        return '';
+    }
+
+    /**
+     * Get additional meta information to merge with the filter payload.
+     *
+     * @return array
+     */
+    public function meta()
+    {
+        return $this->meta;
+    }
+
+    /**
+     * Set additional meta information for the filter.
+     *
+     * @param  array  $meta
+     * @return $this
+     */
+    public function withMeta(array $meta)
+    {
+        $this->meta = array_merge($this->meta, $meta);
+
+        return $this;
     }
 
     /**
@@ -88,13 +155,14 @@ abstract class Filter implements JsonSerializable
     {
         $container = Container::getInstance();
 
-        return [
-            'class' => get_class($this),
+        return array_merge([
+            'class' => $this->key(),
             'name' => $this->name(),
+            'component' => $this->component(),
             'options' => collect($this->options($container->make(Request::class)))->map(function ($value, $key) {
                 return ['name' => $key, 'value' => $value];
             })->values()->all(),
-            'currentValue' => '',
-        ];
+            'currentValue' => $this->default() ?? '',
+        ], $this->meta());
     }
 }

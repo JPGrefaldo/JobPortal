@@ -20,8 +20,8 @@ class ResourceForceDeleteTest extends IntegrationTest
 
     public function test_can_force_delete_resources()
     {
-        $user = $this->createUser();
-        $user2 = $this->createUser();
+        $user = factory(User::class)->create();
+        $user2 = factory(User::class)->create();
 
         $response = $this->withExceptionHandling()
                         ->deleteJson('/nova-api/users/force', [
@@ -39,11 +39,11 @@ class ResourceForceDeleteTest extends IntegrationTest
 
     public function test_can_force_delete_resources_via_search()
     {
-        $user = $this->createUser();
-        $user2 = $this->createUser();
+        $user = factory(User::class)->create();
+        $user2 = factory(User::class)->create();
 
         $response = $this->withExceptionHandling()
-                        ->deleteJson('/nova-api/users/force?search=1', [
+                        ->deleteJson('/nova-api/users/force?search='.$user->email, [
                             'resources' => 'all',
                         ]);
 
@@ -58,8 +58,8 @@ class ResourceForceDeleteTest extends IntegrationTest
 
     public function test_can_destroy_resources_via_filters()
     {
-        $user = $this->createUser();
-        $user2 = $this->createUser();
+        $user = factory(User::class)->create();
+        $user2 = factory(User::class)->create();
 
         $filters = base64_encode(json_encode([
             [
@@ -84,7 +84,7 @@ class ResourceForceDeleteTest extends IntegrationTest
 
     public function test_cant_force_delete_resources_not_authorized_to_force_delete()
     {
-        $user = $this->createUser();
+        $user = factory(User::class)->create();
 
         $_SERVER['nova.user.authorizable'] = true;
         $_SERVER['nova.user.forceDeletable'] = false;

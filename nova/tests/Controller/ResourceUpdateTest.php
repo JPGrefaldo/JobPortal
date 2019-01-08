@@ -8,6 +8,7 @@ use Laravel\Nova\Tests\Fixtures\Post;
 use Laravel\Nova\Tests\Fixtures\User;
 use Laravel\Nova\Tests\IntegrationTest;
 use Laravel\Nova\Tests\Fixtures\UserPolicy;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 class ResourceUpdateTest extends IntegrationTest
 {
@@ -20,7 +21,7 @@ class ResourceUpdateTest extends IntegrationTest
 
     public function test_can_update_resources()
     {
-        $user = $this->createUser();
+        $user = factory(User::class)->create();
 
         $response = $this->withExceptionHandling()
                         ->putJson('/nova-api/users/'.$user->id, [
@@ -43,7 +44,7 @@ class ResourceUpdateTest extends IntegrationTest
 
     public function test_cant_update_resource_fields_that_arent_authorized()
     {
-        $user = $this->createUser();
+        $user = factory(User::class)->create();
 
         $response = $this->withExceptionHandling()
                         ->putJson('/nova-api/users/'.$user->id, [
@@ -63,7 +64,7 @@ class ResourceUpdateTest extends IntegrationTest
 
     public function test_cant_update_resources_that_have_been_edited_since_retrieval()
     {
-        $user = $this->createUser();
+        $user = factory(User::class)->create();
 
         $response = $this->withExceptionHandling()
                         ->putJson('/nova-api/users/'.$user->id, [
@@ -83,7 +84,7 @@ class ResourceUpdateTest extends IntegrationTest
 
         Gate::policy(User::class, UserPolicy::class);
 
-        $user = $this->createUser();
+        $user = factory(User::class)->create();
 
         $response = $this->withExceptionHandling()
                         ->putJson('/nova-api/users/'.$user->id, [
@@ -102,9 +103,9 @@ class ResourceUpdateTest extends IntegrationTest
     {
         $post = factory(Post::class)->create();
 
-        $user = $this->createUser();
-        $user2 = $this->createUser();
-        $user3 = $this->createUser();
+        $user = factory(User::class)->create();
+        $user2 = factory(User::class)->create();
+        $user3 = factory(User::class)->create();
 
         $response = $this->withExceptionHandling()
                         ->putJson('/nova-api/posts/'.$post->id, [
@@ -118,7 +119,7 @@ class ResourceUpdateTest extends IntegrationTest
     public function test_parent_resource_policy_may_prevent_adding_related_resources()
     {
         $post = factory(Post::class)->create();
-        $user = $this->createUser();
+        $user = factory(User::class)->create();
 
         $response = $this->withExceptionHandling()
                         ->putJson('/nova-api/posts/'.$post->id, [
@@ -151,7 +152,7 @@ class ResourceUpdateTest extends IntegrationTest
 
     public function test_can_update_soft_deleted_resources()
     {
-        $user = $this->createUser();
+        $user = factory(User::class)->create();
         $user->delete();
 
         $response = $this->withExceptionHandling()
@@ -175,7 +176,7 @@ class ResourceUpdateTest extends IntegrationTest
 
     public function test_user_can_maintain_same_email_without_unique_errors()
     {
-        $user = $this->createUser();
+        $user = factory(User::class)->create();
 
         $response = $this->withExceptionHandling()
                         ->putJson('/nova-api/users/'.$user->id, [
@@ -189,8 +190,8 @@ class ResourceUpdateTest extends IntegrationTest
 
     public function test_validation_rules_are_applied()
     {
-        $user = $this->createUser();
-        $user2 = $this->createUser();
+        $user = factory(User::class)->create();
+        $user2 = factory(User::class)->create();
 
         $response = $this->withExceptionHandling()
                         ->putJson('/nova-api/users/'.$user->id, [
@@ -230,5 +231,33 @@ class ResourceUpdateTest extends IntegrationTest
 
         $response->assertStatus(422);
         $response->assertJsonValidationErrors(['user']);
+    }
+
+    public function test_action_event_should_honor_custom_polymorphic_type_for_resource_update()
+    {
+        Relation::morphMap(['post' => Post::class]);
+
+        $post = factory(Post::class)->create();
+
+        $response = $this->withExceptionHandling()
+                        ->putJson('/nova-api/posts/'.$post->id, [
+                            'user' => $post->user_id,
+                            'title' => 'Fake Title',
+                        ]);
+
+        $actionEvent = ActionEvent::first();
+
+        $this->assertEquals('Update', $actionEvent->name);
+
+        $this->assertEquals('post', $actionEvent->actionable_type);
+        $this->assertEquals($post->id, $actionEvent->actionable_id);
+
+        $this->assertEquals('post', $actionEvent->target_type);
+        $this->assertEquals($post->id, $actionEvent->target_id);
+
+        $this->assertEquals('post', $actionEvent->model_type);
+        $this->assertEquals($post->id, $actionEvent->model_id);
+
+        Relation::morphMap([], false);
     }
 }

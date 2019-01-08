@@ -85,8 +85,8 @@ class AssociatableControllerTest extends IntegrationTest
 
     public function test_soft_deleted_records_are_excluded_by_default()
     {
-        $user = $this->createUser();
-        $user2 = $this->createUser();
+        $user = factory(User::class)->create();
+        $user2 = factory(User::class)->create();
         $user2->delete();
 
         $response = $this->withExceptionHandling()
@@ -107,8 +107,8 @@ class AssociatableControllerTest extends IntegrationTest
 
     public function test_soft_deleted_records_may_be_included()
     {
-        $user = $this->createUser();
-        $user2 = $this->createUser();
+        $user = factory(User::class)->create();
+        $user2 = factory(User::class)->create();
         $user2->delete();
 
         $response = $this->withExceptionHandling()

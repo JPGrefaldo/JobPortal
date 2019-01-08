@@ -20,8 +20,8 @@ class LensResourceForceDeleteTest extends IntegrationTest
 
     public function test_can_force_delete_resources()
     {
-        $user = $this->createUser();
-        $user2 = $this->createUser();
+        $user = factory(User::class)->create();
+        $user2 = factory(User::class)->create();
 
         $response = $this->withExceptionHandling()
                         ->deleteJson('/nova-api/users/lens/user-lens/force', [
@@ -39,8 +39,8 @@ class LensResourceForceDeleteTest extends IntegrationTest
 
     public function test_can_force_delete_all_matching_resources()
     {
-        $user = $this->createUser();
-        $user2 = $this->createUser();
+        $user = factory(User::class)->create();
+        $user2 = factory(User::class)->create();
 
         $response = $this->withExceptionHandling()
                         ->deleteJson('/nova-api/users/lens/user-lens/force', [
@@ -57,8 +57,8 @@ class LensResourceForceDeleteTest extends IntegrationTest
 
     public function test_can_destroy_resources_via_filters()
     {
-        $user = $this->createUser();
-        $user2 = $this->createUser();
+        $user = factory(User::class)->create();
+        $user2 = factory(User::class)->create();
 
         $filters = base64_encode(json_encode([
             [
@@ -83,7 +83,7 @@ class LensResourceForceDeleteTest extends IntegrationTest
 
     public function test_cant_force_delete_resources_not_authorized_to_force_delete()
     {
-        $user = $this->createUser();
+        $user = factory(User::class)->create();
 
         $_SERVER['nova.user.authorizable'] = true;
         $_SERVER['nova.user.forceDeletable'] = false;

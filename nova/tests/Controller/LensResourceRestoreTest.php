@@ -20,8 +20,8 @@ class LensResourceRestoreTest extends IntegrationTest
 
     public function test_can_restore_resources()
     {
-        $user = $this->createUser();
-        $user2 = $this->createUser();
+        $user = factory(User::class)->create();
+        $user2 = factory(User::class)->create();
 
         $user->delete();
         $user2->delete();
@@ -45,8 +45,8 @@ class LensResourceRestoreTest extends IntegrationTest
 
     public function test_can_restore_all_matching_resources()
     {
-        $user = $this->createUser();
-        $user2 = $this->createUser();
+        $user = factory(User::class)->create();
+        $user2 = factory(User::class)->create();
 
         $user->delete();
         $user2->delete();
@@ -69,8 +69,8 @@ class LensResourceRestoreTest extends IntegrationTest
 
     public function test_can_restore_resources_via_filters()
     {
-        $user = $this->createUser();
-        $user2 = $this->createUser();
+        $user = factory(User::class)->create();
+        $user2 = factory(User::class)->create();
 
         $user->delete();
         $user2->delete();
@@ -101,8 +101,8 @@ class LensResourceRestoreTest extends IntegrationTest
 
     public function test_cant_restore_resources_not_authorized_to_restore()
     {
-        $user = $this->createUser();
-        $user2 = $this->createUser();
+        $user = factory(User::class)->create();
+        $user2 = factory(User::class)->create();
 
         $user->delete();
         $user2->delete();

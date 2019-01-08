@@ -106,7 +106,7 @@ class ResourceCreationTest extends IntegrationTest
 
     public function test_resource_with_parent_can_be_created()
     {
-        $user = $this->createUser();
+        $user = factory(User::class)->create();
 
         $response = $this->withExceptionHandling()
                         ->postJson('/nova-api/posts', [
@@ -119,9 +119,9 @@ class ResourceCreationTest extends IntegrationTest
 
     public function test_must_be_authorized_to_relate_related_resource_to_create_a_resource_that_it_belongs_to()
     {
-        $user = $this->createUser();
-        $user2 = $this->createUser();
-        $user3 = $this->createUser();
+        $user = factory(User::class)->create();
+        $user2 = factory(User::class)->create();
+        $user3 = factory(User::class)->create();
 
         $response = $this->withExceptionHandling()
                         ->postJson('/nova-api/posts', [
@@ -137,9 +137,9 @@ class ResourceCreationTest extends IntegrationTest
 
     public function test_resource_may_specify_custom_relatable_query_customizer()
     {
-        $user = $this->createUser();
-        $user2 = $this->createUser();
-        $user3 = $this->createUser();
+        $user = factory(User::class)->create();
+        $user2 = factory(User::class)->create();
+        $user3 = factory(User::class)->create();
 
         $_SERVER['nova.post.useCustomRelatableUsers'] = true;
         unset($_SERVER['nova.post.relatableUsers']);
@@ -160,7 +160,7 @@ class ResourceCreationTest extends IntegrationTest
 
     public function test_parent_resource_policy_may_prevent_adding_related_resources()
     {
-        $user = $this->createUser();
+        $user = factory(User::class)->create();
 
         $response = $this->withExceptionHandling()
                         ->postJson('/nova-api/posts', [
@@ -205,7 +205,7 @@ class ResourceCreationTest extends IntegrationTest
 
     public function test_can_create_resource_via_parent_resource()
     {
-        $user = $this->createUser();
+        $user = factory(User::class)->create();
 
         $response = $this->withExceptionHandling()
                         ->postJson('/nova-api/posts?viaResource=users&viaResourceId=1&viaRelationship=posts', [
@@ -218,9 +218,9 @@ class ResourceCreationTest extends IntegrationTest
 
     public function test_related_resource_must_be_relatable_to_create_resources_via_resource()
     {
-        $user = $this->createUser();
-        $user2 = $this->createUser();
-        $user3 = $this->createUser();
+        $user = factory(User::class)->create();
+        $user2 = factory(User::class)->create();
+        $user3 = factory(User::class)->create();
 
         $response = $this->withExceptionHandling()
                         ->postJson('/nova-api/posts?viaResource=users&viaResourceId=1&viaRelationship=posts', [
@@ -233,7 +233,7 @@ class ResourceCreationTest extends IntegrationTest
 
     public function test_resource_that_belongs_to_parent_via_has_one_can_be_created()
     {
-        $user = $this->createUser();
+        $user = factory(User::class)->create();
 
         $response = $this->withExceptionHandling()
                         ->postJson('/nova-api/addresses?viaResource=users&viaResourceId=1&viaRelationship=address', [
@@ -246,7 +246,7 @@ class ResourceCreationTest extends IntegrationTest
 
     public function test_related_resource_cant_be_full_for_has_one_relationships()
     {
-        $user = $this->createUser();
+        $user = factory(User::class)->create();
         $user->address()->save($address = factory(Address::class)->make());
 
         $response = $this->withExceptionHandling()
@@ -260,7 +260,7 @@ class ResourceCreationTest extends IntegrationTest
 
     public function test_related_resource_should_be_able_to_be_updated_even_when_full()
     {
-        $user = $this->createUser();
+        $user = factory(User::class)->create();
         $user->address()->save($address = factory(Address::class)->make());
 
         $response = $this->withExceptionHandling()
