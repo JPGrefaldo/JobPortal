@@ -1,14 +1,24 @@
 <template>
     <div class="bg-grey-dark overflow-auto p-1 w-12">
         <!-- project -->
-        <button class="flex justify-center items-center h-10 w-full mb-1 rounded uppercase text-white font-bold"
-            v-for="project in projects" :key="project.id"
-            :class="getColorByRole(role)"
-            @click="$emit('onClickSetProject', project)"
-            :title="project.title"
-        >
-            {{ getAcronymAttribute(project.title) }}
-        </button>
+        <div v-if="projects.length === 0">
+            <button class="flex justify-center items-center h-10 w-full mb-1 rounded uppercase text-white font-bold"
+                :class="getColorByRole(role)"
+                @click="onClickRedirect"
+                :title="getEmptyTitle">
+                +
+            </button>
+        </div>
+        <div v-else>
+            <button class="flex justify-center items-center h-10 w-full mb-1 rounded uppercase text-white font-bold"
+                v-for="project in projects" :key="project.id"
+                :class="getColorByRole(role)"
+                @click="$emit('onClickSetProject', project)"
+                :title="project.title"
+            >
+                {{ getAcronymAttribute(project.title) }}
+            </button>
+        </div>
     </div>
 </template>
 
@@ -28,6 +38,22 @@
 
         data() {
             return {
+                roleAttributes: {
+                    Producer: {
+                        title: 'Create a new project.',
+                        redirect: '/producer/projects/create',
+                    },
+                    Crew: {
+                        title: 'Join a project.',
+                        redirect: '/projects',
+                    },
+                }
+            }
+        },
+
+        computed: {
+            getEmptyTitle() {
+                return this.roleAttributes[this.role].title;
             }
         },
 
@@ -68,6 +94,14 @@
 
             onClickSetProject: function (project) {
                 this.$emit('setProject', project)
+            },
+
+            onClickRedirect: function () {
+                this.redirect();
+            },
+
+            redirect: function () {
+                window.open(this.roleAttributes[this.role].redirect);
             }
         }
     }
