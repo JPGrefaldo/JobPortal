@@ -53,6 +53,14 @@ Route::middleware('auth')->group(function () {
         return $thread->messages;
     });
 
+    // TODO: check must not own message
+    // TODO: check is message was sent to sender
+    // TODO: check is message was sent to sender
+    // ! THIS IS TEMPORARY
+    Route::put('/messages/{message}', function (Message $message) {
+        return 'Reviewing your request for flag.';
+    })->name('messages.update');
+
     Route::prefix('account')->group(function () {
         Route::get('name', [\App\Http\Controllers\Account\AccountNameController::class, 'index'])
             ->name('account.name');
@@ -238,11 +246,3 @@ Route::get('upload_test', function () {
     Storage::disk('s3')->put($name, (\Faker\Factory::create())->paragraph);
     dump(config('filesystems.disks.s3.url') . '/' . config('filesystems.disks.s3.bucket') . '/' . $name);
 });
-
-// TODO: check must not own message
-// TODO: check is message was sent to sender
-// TODO: check is message was sent to sender
-// ! THIS IS TEMPORARY
-Route::put('/messages/{message}', function (Message $message) {
-    return 'Reviewing your request for flag.';
-})->name('messages.update');
