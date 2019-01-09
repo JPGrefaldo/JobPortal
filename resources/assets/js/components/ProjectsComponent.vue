@@ -77,7 +77,7 @@
                 return acronym
             },
 
-            getColorByRole: function (role) {
+            getColorByRole(role) {
                 const colorDictionary = {
                     Producer: [
                         'bg-blue',
@@ -92,15 +92,15 @@
                 return colorDictionary[role]
             },
 
-            onClickSetProject: function (project) {
+            onClickSetProject(project) {
                 this.$emit('setProject', project)
             },
 
-            onClickRedirect: function () {
+            onClickRedirect() {
                 this.redirect();
             },
 
-            redirect: function () {
+            redirect() {
                 window.open(this.roleAttributes[this.role].redirect);
             }
         }
