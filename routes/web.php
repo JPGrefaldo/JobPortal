@@ -245,4 +245,4 @@ Route::get('upload_test', function () {
 // ! THIS IS TEMPORARY
 Route::put('/messages/{message}', function (Message $message) {
     return $message;
-});
+})->name('messages.update');
