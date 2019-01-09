@@ -52,19 +52,25 @@ class FlagMessageFeatureTest extends TestCase
         // given
         $producer = $this->createProducer();
         $crew = $this->createCrew();
-        $message = 'Hey';
+        $thread = factory(Thread::class)->create();
 
-        $producer->message($crew, $message);
+        $thread->addParticipant([$producer->id, $crew->id]);
 
-        $foulMessage = 'Glip-glop';
+        $foulMessage = factory(Message::class)->create([
+            'thread_id' => $thread->id,
+            'user_id' => $crew->id,
+            'body' => 'Glip-Glop',
+        ]);
 
-        $crew->message($producer, $foulMessage);
+        $data = [
+            'reason' => 'Glip-Glop is a derogatory term for Traflorkians',
+        ];
 
         // when
-        $this->actingAs($producer)
-            ->putJson(route('messages.update', $foulMessage));
+        $response = $this->actingAs($producer)
+            ->putJson(route('messages.update', $foulMessage), $data);
 
         // then
-        $this->assertSee('Reviewing your request for flag');
+        $response->assertSee('Reviewing your request for flag');
     }
 }
