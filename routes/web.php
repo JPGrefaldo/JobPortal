@@ -244,5 +244,5 @@ Route::get('upload_test', function () {
 // TODO: check is message was sent to sender
 // ! THIS IS TEMPORARY
 Route::put('/messages/{message}', function (Message $message) {
-    return $message;
+    return 'Reviewing your request for flag.';
 })->name('messages.update');
