@@ -25,6 +25,9 @@
                     <div class="rounded-lg bg-grey-light p-3 max-w-md">
                         {{ message.body }}
                     </div>
+                    <button class="fa fa-flag mr-2 ml-3"
+                        @click="onClickFlagMessage(message)">
+                    </button>
                     <div class="flex-1"></div>
                 </div>
             </div>
@@ -33,6 +36,8 @@
 </template>
 
 <script type="text/javascript">
+    import { Form, HasError, AlertError } from 'vform';
+
     export default {
 
         props: {
@@ -52,6 +57,9 @@
 
         data() {
             return {
+                form: new Form({
+                    reason: '',
+                }),
             }
         },
 
@@ -73,7 +81,16 @@
 
             isSender: function (message) {
                 return message.user_id === this.user.id
-            }
+            },
+
+            onClickFlagMessage: function (message) {
+                this.flagMessage(message);
+            },
+
+            flagMessage: function (message) {
+                // TODO: show some visual that message was flagged
+                this.form.put('/messages/' + message.id);
+            },
         }
     }
 </script>
