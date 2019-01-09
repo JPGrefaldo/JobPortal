@@ -4,8 +4,8 @@
         <div v-if="projects.length === 0">
             <button class="flex justify-center items-center h-10 w-full mb-1 rounded uppercase text-white font-bold"
                 :class="getColorByRole(role)"
-                @click="onClickRedirect"
-                :title="getEmptyTitle">
+                :title="getEmptyTitle"
+                @click="onClickRedirect">
                 +
             </button>
         </div>
@@ -13,8 +13,8 @@
             <button v-for="project in projects" :key="project.id"
                 class="flex justify-center items-center h-10 w-full mb-1 rounded uppercase text-white font-bold"
                 :class="getColorByRole(role)"
-                @click="$emit('onClickSetProject', project)"
                 :title="project.title"
+                @click="$emit('onClickSetProject', project)"
             >
                 {{ getAcronymAttribute(project.title) }}
             </button>
