@@ -13,6 +13,7 @@
 | * Single, Route::middleware(AuthorizeRoles::parameterize(Role::CREW))
 | * Multiple, Route::middleware(AuthorizeRoles::parameterize(Role::CREW, Role::PRODUCER))
 */
+use App\Actions\User\FlagMessage;
 use Cmgmyr\Messenger\Models\Message;
 use Cmgmyr\Messenger\Models\Thread;
 
@@ -244,5 +245,7 @@ Route::get('upload_test', function () {
 // TODO: check is message was sent to sender
 // ! THIS IS TEMPORARY
 Route::put('/messages/{message}', function (Message $message) {
+    app(FlagMessage::class)->execute($message);
+
     return $message;
 });
