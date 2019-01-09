@@ -14,7 +14,7 @@ class FlagMessageFeatureTest extends TestCase
 
     /**
      * @test
-     * @cover app\HTTP\Controllers\MessageControler::update
+     * @covers \App\Http\Controllers\MessageController::update
      */
     public function crewFlagProducerMessage()
     {
@@ -45,7 +45,7 @@ class FlagMessageFeatureTest extends TestCase
 
     /**
      * @test
-     * @cover App\HTTP\Controllers\MessageController::update
+     * @covers \App\Http\Controllers\MessageController::update
      */
     public function producerFlagCrewMessage()
     {
