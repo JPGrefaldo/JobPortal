@@ -81,14 +81,17 @@
                             </a>
                         @endif
 
-                        @if (isset($user->crew->resume))
-                            <a href="/storage/{{$user->crew->resume->url }}" target="_blank"
+                        @if (isset($user->crew->resumes))
+                            <a href="/storage/{{$user->crew->resumes->where('general', 1)->first()->url}}"
+                               target="_blank"
                                class="border md:w-1/2 flex items-center overflow-hidden rounded md:ml-2">
                                 <i class="far fa-file-alt px-6 text-lg"></i>
                                 <span class='uppercase text-green font-semibold px-0 py-6 text-sm tracking-wide'>VIEW POSITION RESUME</span>
                             </a>
                         @else
-                            <a href="#" class="border md:w-1/2 flex items-center overflow-hidden rounded md:ml-2">
+                            <a href="#"
+                               target="_blank"
+                               class="border md:w-1/2 flex items-center overflow-hidden rounded md:ml-2">
                                 <i class="far fa-file-alt px-6 text-lg"></i>
                                 <span class='uppercase text-green font-semibold px-0 py-6 text-sm tracking-wide'>VIEW POSITION RESUME</span>
                             </a>

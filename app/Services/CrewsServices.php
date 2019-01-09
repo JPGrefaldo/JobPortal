@@ -84,12 +84,11 @@ class CrewsServices
             ['user_id' => $user->id]
         );
 
-        Storage::disk('s3')->put($data['photo'], file_get_contents($photoFile));
+
+        Storage::put($data['photo'], file_get_contents($photoFile));
 
         return Crew::create($data);
     }
-
-
     /**
      * @param \Illuminate\Http\UploadedFile $resumeFile
      * @param \App\Models\Crew $crew
@@ -105,8 +104,6 @@ class CrewsServices
             ], 'resume'),
             ['general' => 1]
         );
-
-
 
         Storage::put($data['url'], file_get_contents($resumeFile));
 
