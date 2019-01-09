@@ -57,7 +57,9 @@
 
         data() {
             return {
-                form: new Form({}),
+                form: new Form({
+                    reason: '',
+                }),
             }
         },
 
