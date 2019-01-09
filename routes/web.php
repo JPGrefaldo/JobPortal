@@ -46,21 +46,6 @@ Route::middleware('auth')->group(function () {
     Route::get('dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])
         ->name('dashboard');
 
-
-    // TODO: check ownership
-    // TODO: filter messages that are flagged
-    Route::get('/threads/{thread}/messages', function (Thread $thread) {
-        return $thread->messages;
-    });
-
-    // TODO: check must not own message
-    // TODO: check is message was sent to sender
-    // TODO: check is message was sent to sender
-    // ! THIS IS TEMPORARY
-    Route::put('/messages/{message}', function (Message $message) {
-        return 'Reviewing your request for flag.';
-    })->name('messages.update');
-
     Route::prefix('account')->group(function () {
         Route::get('name', [\App\Http\Controllers\Account\AccountNameController::class, 'index'])
             ->name('account.name');
@@ -94,6 +79,20 @@ Route::middleware('auth')->group(function () {
         Route::put('settings/notifications', [\App\Http\Controllers\User\UserSettingsController::class, 'updateNotifications']);
         Route::put('settings/password', [\App\Http\Controllers\User\UserSettingsController::class, 'updatePassword']);
     });
+
+    // TODO: check ownership
+    // TODO: filter messages that are flagged
+    Route::get('/threads/{thread}/messages', function (Thread $thread) {
+        return $thread->messages;
+    });
+
+    // TODO: check must not own message
+    // TODO: check is message was sent to sender
+    // TODO: check is message was sent to sender
+    // ! THIS IS TEMPORARY
+    Route::put('/messages/{message}', function (Message $message) {
+        return 'Reviewing your request for flag.';
+    })->name('messages.update');
 
     /*
     |--------------------------------------------------------------------------
