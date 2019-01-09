@@ -10,8 +10,8 @@
             </button>
         </div>
         <div v-else>
-            <button class="flex justify-center items-center h-10 w-full mb-1 rounded uppercase text-white font-bold"
-                v-for="project in projects" :key="project.id"
+            <button v-for="project in projects" :key="project.id"
+                class="flex justify-center items-center h-10 w-full mb-1 rounded uppercase text-white font-bold"
                 :class="getColorByRole(role)"
                 @click="$emit('onClickSetProject', project)"
                 :title="project.title"
