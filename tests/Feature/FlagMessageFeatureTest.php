@@ -36,11 +36,11 @@ class FlagMessageFeatureTest extends TestCase
         ];
 
         // when
-        $this->actingAs($crew)
+        $response = $this->actingAs($crew)
             ->putJson(route('messages.update', $foulMessage), $data);
 
         // then
-        $this->assertSee('Reviewing your request for flag');
+        $response->assertSee('Reviewing your request for flag');
     }
 
     /**
