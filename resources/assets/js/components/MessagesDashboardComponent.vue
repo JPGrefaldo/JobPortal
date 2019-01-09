@@ -33,8 +33,8 @@
                 <button
                     class="flex-1 flex justify-center items-center"
                     v-for="(role, index) in roles" :key="index"
-                    @click="onClickSetRole(index)"
                     :class="getColorByRole(role)"
+                    @click="onClickSetRole(index)"
                 >
                     {{ role }}
                 </button>
