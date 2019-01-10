@@ -13,6 +13,8 @@
 | * Single, Route::middleware(AuthorizeRoles::parameterize(Role::CREW))
 | * Multiple, Route::middleware(AuthorizeRoles::parameterize(Role::CREW, Role::PRODUCER))
 */
+use App\Actions\User\FlagMessage;
+use Cmgmyr\Messenger\Models\Message;
 use Cmgmyr\Messenger\Models\Thread;
 
 Route::get('/', [\App\Http\Controllers\IndexController::class, 'index']);
@@ -47,6 +49,7 @@ Route::middleware('auth')->group(function () {
 
 
     // TODO: check ownership
+    // TODO: filter messages that are flagged
     Route::get('/threads/{thread}/messages', function (Thread $thread) {
         return $thread->messages;
     });
@@ -235,4 +238,14 @@ Route::get('upload_test', function () {
     $name = uniqid() . '.txt';
     Storage::disk('s3')->put($name, (\Faker\Factory::create())->paragraph);
     dump(config('filesystems.disks.s3.url') . '/' . config('filesystems.disks.s3.bucket') . '/' . $name);
+});
+
+// TODO: check must not own message
+// TODO: check is message was sent to sender
+// TODO: check is message was sent to sender
+// ! THIS IS TEMPORARY
+Route::put('/messages/{message}', function (Message $message) {
+    app(FlagMessage::class)->execute($message);
+
+    return $message;
 });
