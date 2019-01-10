@@ -84,8 +84,8 @@ class CrewsServices
             ['user_id' => $user->id]
         );
 
-
-        Storage::put($data['photo'], file_get_contents($photoFile));
+        dump($data['photo']);
+        Storage::disk('s3')->put($data['photo'], file_get_contents($photoFile));
 
         return Crew::create($data);
     }
@@ -310,6 +310,8 @@ class CrewsServices
             $data['photo'] = StoragePath::BASE_PHOTO
                 . '/'
                 . $photoData['dir']
+                . '/'
+                . 'photo'
                 . '/'
                 . $photoData['file']->hashName();
         }
