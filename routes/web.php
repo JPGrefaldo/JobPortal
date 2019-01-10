@@ -253,5 +253,7 @@ Route::get('upload_test', function () {
 Route::put('/messages/{message}', function (Message $message) {
     app(FlagMessage::class)->execute($message);
 
-    return $message;
-});
+    return response()->json([
+        'message' => 'Reviewing your request for flag'
+    ]);
+})->name('messages.update');
