@@ -7,18 +7,23 @@ axios.interceptors.request.use(request => {
     }
 
     let method = request.method
-
-    Object.assign(request, {
-        method: 'options',
-        adapter: jsonpAdapter,
-        headers: {
-            common: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Access-Control-Allow-Origin': 'http://champ-crewcalls.test',
-                'Access-Control-Request-Method': method.toUpperCase(),
-                'Content-Type': 'application/json'
+    let adapter = new jsonpAdapter({
+        params: {
+            method: 'options',
+            headers: {
+                common: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Access-Control-Allow-Origin': 'http://champ-crewcalls.test',
+                    'Access-Control-Request-Method': method.toUpperCase(),
+                    'Content-Type': 'application/json'
+                }
             }
         }
+    })
+
+
+    Object.assign(request, {
+        adapter,
     })
 
     console.log(request)
