@@ -25,8 +25,6 @@ class CrewProfileController extends Controller
             'crew'
         ]);
 
-
-
         return view('crew.profile.profile-index', [
             'user' => $user,
             'socialLinkTypes' => $this->getAllSocialLinkTypes($user),
@@ -49,8 +47,6 @@ class CrewProfileController extends Controller
             'user' => $user,
             'socialLinkTypes' => $this->getAllSocialLinkTypes($user),
             'departments' => $this->getDepartments()
-
-            
         ]);
     }
 
@@ -80,8 +76,6 @@ class CrewProfileController extends Controller
         $data = $request->validated();
         $user = Auth::user();
         $new = (! $user->crew);
-
-        \Log::info($data);
 
         if ($new) {
             app(CrewsServices::class)->processCreate($data, $user);
