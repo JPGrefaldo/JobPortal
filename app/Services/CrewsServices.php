@@ -105,7 +105,7 @@ class CrewsServices
             ['general' => 1]
         );
 
-        Storage::put($data['url'], file_get_contents($resumeFile));
+        Storage::disk('s3')->put($data['url'], file_get_contents($resumeFile));
 
         $resume = new CrewResume($data);
 
@@ -287,8 +287,8 @@ class CrewsServices
         $data = $this->prepareCrewData($data, $photoData);
 
         if ($hasPhoto) {
-            Storage::delete($crew->photo); // delete old photo
-            Storage::put($data['photo'], file_get_contents($photoFile));
+            Storage::disk('s3')->delete($crew->photo); // delete old photo
+            Storage::disk('s3')->put($data['photo'], file_get_contents($photoFile));
         }
 
         $crew->update($data);
@@ -307,8 +307,7 @@ class CrewsServices
         $data['bio'] = $data['bio'] ?: '';
 
         if ($photoData['file'] instanceof UploadedFile) {
-            $data['photo'] = StoragePath::BASE_PHOTO
-                . '/'
+            $data['photo'] = '/'
                 . $photoData['dir']
                 . '/'
                 . 'photo'
@@ -343,8 +342,8 @@ class CrewsServices
         ], 'resume');
 
         // delete the old resume and store the new one
-        Storage::delete($resume->url);
-        Storage::put($data['url'], file_get_contents($resumeFile));
+        Storage::disk('s3')->delete($resume->url);
+        Storage::disk('s3')->put($data['url'], file_get_contents($resumeFile));
 
         $resume->update($data);
 
@@ -375,8 +374,8 @@ class CrewsServices
         ], 'reel');
 
         // delete the old resume and store the new one
-        Storage::delete($reel->url);
-        Storage::put($data['url'], file_get_contents($reelFile));
+        Storage::disk('s3')->delete($reel->url);
+        Storage::disk('s3')->put($data['url'], file_get_contents($reelFile));
 
         $reel->update($data);
 
@@ -393,15 +392,15 @@ class CrewsServices
     {
         if ($type === 'reel') {
             return [
-                'url' => StoragePath::BASE_REEL
-                    . '/' . $fileData['dir']
-                    . '/' . $fileData['file']->hashName(),
+                'url' => '/'
+                    . $fileData['dir']
+                    . '/reel/' . $fileData['file']->hashName(),
             ];
         } elseif ($type === 'resume') {
             return [
-                'url' => StoragePath::BASE_RESUME
-                    . '/' . $fileData['dir']
-                    . '/' . $fileData['file']->hashName(),
+                'url' => '/'
+                    . $fileData['dir']
+                    . '/resume/' . $fileData['file']->hashName(),
             ];
         }
     }
