@@ -16,7 +16,7 @@ class CreatePendingFlagMessageTest extends TestCase
      * @test
      * @cover \App\Http\Controller\PendingMessage\Controller::store
      */
-    public function crewPendingFlagProducer()
+    public function execute()
     {
         Mail::fake();
 
