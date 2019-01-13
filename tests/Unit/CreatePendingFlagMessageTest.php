@@ -44,7 +44,7 @@ class CreatePendingFlagMessageTest extends TestCase
             PendingMessageFlagged::class,
             function ($mail) use ($message) {
                 return
-                    $mail->message->id === $message->id &&
+                    $mail->message->body === $message->body &&
                     $mail->hasTo('admin@admin.com');
             }
         );
