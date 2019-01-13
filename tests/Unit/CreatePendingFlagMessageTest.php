@@ -12,9 +12,10 @@ use Tests\TestCase;
 class CreatePendingFlagMessageTest extends TestCase
 {
     use RefreshDatabase;
+
     /**
      * @test
-     * @cover \App\Http\Controller\PendingMessage\Controller::store
+     * @cover \App\Actions\User::execute
      */
     public function execute()
     {
@@ -40,6 +41,7 @@ class CreatePendingFlagMessageTest extends TestCase
             'disapproved_at' => null,
         ]);
 
+        // TODO: test if event is fired instead
         Mail::assertSent(
             PendingMessageFlagged::class,
             function ($mail) use ($message) {

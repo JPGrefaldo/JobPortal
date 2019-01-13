@@ -75,6 +75,7 @@ class PendingFlagMessageController extends Controller
      */
     public function update(Request $request, PendingFlagMessage $pendingFlagMessage)
     {
+        // TODO: refactor to action classes
         if ($request->action === 'approve') {
             $pendingFlagMessage->approved_at = Carbon::now();
             $pendingFlagMessage->save();

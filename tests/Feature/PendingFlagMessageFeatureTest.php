@@ -19,8 +19,6 @@ class PendingFlagMessageFeatureTest extends TestCase
      */
     public function crewFlagProducerMessage()
     {
-        $this->withoutExceptionHandling();
-
         // given
         $crew = $this->createCrew();
         $producer = $this->createProducer();

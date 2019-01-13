@@ -12,7 +12,7 @@ class FlagMessageFeatureTest extends TestCase
     use RefreshDatabase, SeedDatabaseAfterRefresh;
     /**
      * @test
-     * @cover \App\Http\Controllers\FlagMessageController::update
+     * @cover \App\Http\Controllers\PendingFlagMessageController::update
      */
     public function approvePendingFlagMessage()
     {
@@ -34,7 +34,7 @@ class FlagMessageFeatureTest extends TestCase
 
     /**
      * @test
-     * @cover \App\Http\Controllers\FlagMessageController::update
+     * @cover \App\Http\Controllers\PendingFlagMessageController::update
      */
     public function disapprovePendingFlagMessage()
     {
