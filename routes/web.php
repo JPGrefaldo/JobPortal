@@ -13,7 +13,6 @@
 | * Single, Route::middleware(AuthorizeRoles::parameterize(Role::CREW))
 | * Multiple, Route::middleware(AuthorizeRoles::parameterize(Role::CREW, Role::PRODUCER))
 */
-use App\Actions\User\CreatePendingFlagMessage;
 use App\Models\PendingFlagMessage;
 use Cmgmyr\Messenger\Models\Message;
 use Cmgmyr\Messenger\Models\Thread;
@@ -252,13 +251,8 @@ Route::get('upload_test', function () {
 // TODO: check must not own message
 // TODO: check is message was sent to sender
 // ! THIS IS TEMPORARY
-Route::post('/pending-flag-messages', function (Request $request) {
-    app(CreatePendingFlagMessage::class)->execute($request);
-
-    return response()->json([
-        'message' => 'Reviewing your request for flag'
-    ]);
-})->name('pending-flag-messages.store');
+Route::post('/pending-flag-messages', [\App\Http\Controllers\PendingFlagMessageController::class, 'store'])
+    ->name('pending-flag-messages.store');
 
 Route::put('/pending-flag-messages', function (Request $request) {
     $pendingFlagMessage = PendingFlagMessage::find($request->pending_flag_message_id);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\User\CreatePendingFlagMessage;
 use App\Models\PendingFlagMessage;
 use Illuminate\Http\Request;
 
@@ -35,7 +36,11 @@ class PendingFlagMessageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        app(CreatePendingFlagMessage::class)->execute($request);
+
+        return response()->json([
+            'message' => 'Reviewing your request for flag'
+        ]);
     }
 
     /**
