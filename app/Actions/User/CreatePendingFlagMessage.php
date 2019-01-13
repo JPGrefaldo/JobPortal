@@ -23,6 +23,7 @@ class CreatePendingFlagMessage
             'reason' => $data['reason'],
         ]);
 
+        // TODO: defer to on PendingFlagMessage create
         Mail::to('admin@admin.com')->send(new PendingMessageFlagged($message));
     }
 }
