@@ -13,9 +13,12 @@
 | * Single, Route::middleware(AuthorizeRoles::parameterize(Role::CREW))
 | * Multiple, Route::middleware(AuthorizeRoles::parameterize(Role::CREW, Role::PRODUCER))
 */
-use App\Actions\User\FlagMessage;
+use App\Actions\User\CreatePendingFlagMessage;
+use App\Models\PendingFlagMessage;
 use Cmgmyr\Messenger\Models\Message;
 use Cmgmyr\Messenger\Models\Thread;
+use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 Route::get('/', [\App\Http\Controllers\IndexController::class, 'index']);
 
@@ -257,3 +260,23 @@ Route::post('/pending-flag-messages', function (Request $request) {
     ]);
 })->name('pending-flag-messages.store');
 
+Route::put('/pending-flag-messages', function (Request $request) {
+    $pendingFlagMessage = PendingFlagMessage::find($request->pending_flag_message_id);
+
+    if ($request->action === 'approve') {
+        $pendingFlagMessage->approved_at = Carbon::now();
+        $pendingFlagMessage->save();
+
+        $message = $pendingFlagMessage->message;
+
+        $message->flagged_at = Carbon::now();
+        $message->save();
+
+        return 'Pending flag message approved';
+    } elseif ($request->action === 'disapprove') {
+        $pendingFlagMessage->disapproved_at = Carbon::now();
+        $pendingFlagMessage->save();
+
+        return 'Pending flag message disapproved';
+    }
+})->name('pending-flag-messages.update');
