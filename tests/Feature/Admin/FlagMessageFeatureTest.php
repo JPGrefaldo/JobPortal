@@ -21,13 +21,12 @@ class FlagMessageFeatureTest extends TestCase
         $pendingFlagMessage = factory(PendingFlagMessage::class)->create();
 
         $data = [
-            'pending_flag_message_id' => $pendingFlagMessage->id,
             'action' => 'approve',
         ];
 
         // when
         $response = $this->actingAs($admin)
-            ->putJson(route('pending-flag-messages.update'), $data);
+            ->putJson(route('pending-flag-messages.update', $pendingFlagMessage), $data);
 
         // then
         $response->assertSee('Pending flag message approved');
@@ -50,7 +49,7 @@ class FlagMessageFeatureTest extends TestCase
 
         // when
         $response = $this->actingAs($admin)
-            ->putJson(route('pending-flag-messages.update'), $data);
+            ->putJson(route('pending-flag-messages.update', $pendingFlagMessage), $data);
 
         // then
         $response->assertSee('Pending flag message disapproved');
