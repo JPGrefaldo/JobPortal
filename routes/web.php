@@ -248,12 +248,12 @@ Route::get('upload_test', function () {
 
 // TODO: check must not own message
 // TODO: check is message was sent to sender
-// TODO: check is message was sent to sender
 // ! THIS IS TEMPORARY
-Route::put('/messages/{message}', function (Message $message) {
-    app(FlagMessage::class)->execute($message);
+Route::post('/pending-flag-messages', function (Request $request) {
+    app(CreatePendingFlagMessage::class)->execute($request);
 
     return response()->json([
         'message' => 'Reviewing your request for flag'
     ]);
-})->name('messages.update');
+})->name('pending-flag-messages.store');
+
