@@ -7,7 +7,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class MessageFlagged extends Mailable
+class PendingMessageFlagged extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -35,7 +35,7 @@ class MessageFlagged extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.message-flagged')
+        return $this->markdown('emails.pending-message-flagged')
             ->with('message', $this->message);
     }
 }
