@@ -3,18 +3,19 @@
 namespace Tests\Feature;
 
 use Cmgmyr\Messenger\Models\Message;
+use Cmgmyr\Messenger\Models\Participant;
 use Cmgmyr\Messenger\Models\Thread;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 
-class FlagMessageFeatureTest extends TestCase
+class PendingFlagMessageFeatureTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
 
     /**
      * @test
-     * @covers \App\Http\Controllers\MessageController::update
+     * @covers \App\Http\Controllers\PendingFlagMessageController::store
      */
     public function crewFlagProducerMessage()
     {
@@ -23,7 +24,15 @@ class FlagMessageFeatureTest extends TestCase
         $producer = $this->createProducer();
         $thread = factory(Thread::class)->create();
 
-        $thread->addParticipant([$producer->id, $crew->id]);
+        factory(Participant::class)->create([
+            'thread_id' => $thread->id,
+            'user_id' => $producer->id,
+        ]);
+
+        factory(Participant::class)->create([
+            'thread_id' => $thread->id,
+            'user_id' => $crew->id,
+        ]);
 
         $foulMessage = factory(Message::class)->create([
             'thread_id' => $thread->id,
@@ -32,12 +41,13 @@ class FlagMessageFeatureTest extends TestCase
         ]);
 
         $data = [
+            'message_id' => $foulMessage->id,
             'reason' => 'Glip-Glop is a derogatory term for Traflorkians',
         ];
 
         // when
         $response = $this->actingAs($crew)
-            ->putJson(route('messages.update', $foulMessage), $data);
+            ->postJson(route('pending-flag-messages.store'), $data);
 
         // then
         $response->assertSee('Reviewing your request for flag');
@@ -45,7 +55,7 @@ class FlagMessageFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\MessageController::update
+     * @covers \App\Http\Controllers\PendingFlagMessageController::store
      */
     public function producerFlagCrewMessage()
     {
@@ -54,7 +64,15 @@ class FlagMessageFeatureTest extends TestCase
         $crew = $this->createCrew();
         $thread = factory(Thread::class)->create();
 
-        $thread->addParticipant([$producer->id, $crew->id]);
+        factory(Participant::class)->create([
+            'thread_id' => $thread->id,
+            'user_id' => $producer->id,
+        ]);
+
+        factory(Participant::class)->create([
+            'thread_id' => $thread->id,
+            'user_id' => $crew->id,
+        ]);
 
         $foulMessage = factory(Message::class)->create([
             'thread_id' => $thread->id,
@@ -63,12 +81,13 @@ class FlagMessageFeatureTest extends TestCase
         ]);
 
         $data = [
+            'message_id' => $foulMessage->id,
             'reason' => 'Glip-Glop is a derogatory term for Traflorkians',
         ];
 
         // when
         $response = $this->actingAs($producer)
-            ->putJson(route('messages.update', $foulMessage), $data);
+            ->postJson(route('pending-flag-messages.store'), $data);
 
         // then
         $response->assertSee('Reviewing your request for flag');

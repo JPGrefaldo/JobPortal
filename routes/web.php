@@ -13,7 +13,6 @@
 | * Single, Route::middleware(AuthorizeRoles::parameterize(Role::CREW))
 | * Multiple, Route::middleware(AuthorizeRoles::parameterize(Role::CREW, Role::PRODUCER))
 */
-use App\Actions\User\FlagMessage;
 use Cmgmyr\Messenger\Models\Message;
 use Cmgmyr\Messenger\Models\Thread;
 
@@ -248,12 +247,9 @@ Route::get('upload_test', function () {
 
 // TODO: check must not own message
 // TODO: check is message was sent to sender
-// TODO: check is message was sent to sender
 // ! THIS IS TEMPORARY
-Route::put('/messages/{message}', function (Message $message) {
-    app(FlagMessage::class)->execute($message);
+Route::post('/pending-flag-messages', [\App\Http\Controllers\PendingFlagMessageController::class, 'store'])
+    ->name('pending-flag-messages.store');
 
-    return response()->json([
-        'message' => 'Reviewing your request for flag'
-    ]);
-})->name('messages.update');
+Route::put('/pending-flag-messages/{pendingFlagMessage}', [\App\Http\Controllers\PendingFlagMessageController::class, 'update'])
+    ->name('pending-flag-messages.update');
