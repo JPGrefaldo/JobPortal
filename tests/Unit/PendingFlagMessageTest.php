@@ -13,7 +13,7 @@ class PendingFlagMessageTest extends TestCase
 
     /**
      * @test
-     * @cover \App\Models\PendingFlagMessage::message
+     * @covers \App\Models\PendingFlagMessage::message
      */
     public function message()
     {

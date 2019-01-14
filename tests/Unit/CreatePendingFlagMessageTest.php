@@ -15,7 +15,7 @@ class CreatePendingFlagMessageTest extends TestCase
 
     /**
      * @test
-     * @cover \App\Actions\User::execute
+     * @covers \App\Actions\User::execute
      */
     public function execute()
     {
