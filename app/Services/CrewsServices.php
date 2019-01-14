@@ -84,7 +84,7 @@ class CrewsServices
             ['user_id' => $user->id]
         );
 
-        Storage::disk('s3')->put($data['photo'], file_get_contents($photoFile));
+        Storage::disk('s3')->put($data['photo'], file_get_contents($photoFile),'public');
 
         return Crew::create($data);
     }
@@ -306,10 +306,11 @@ class CrewsServices
         $data['bio'] = $data['bio'] ?: '';
 
         if ($photoData['file'] instanceof UploadedFile) {
-            $data['photo'] = '/'
+            $data['photo'] = StoragePath::BASE_AWS
+                .'/'
                 . $photoData['dir']
                 . '/'
-                . 'photo'
+                . 'photos'
                 . '/'
                 . $photoData['file']->hashName();
         }

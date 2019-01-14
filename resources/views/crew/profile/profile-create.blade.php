@@ -23,7 +23,7 @@
 
                                 @if (isset($user->crew->photo))
                                 <div class="flex h-none bg-grey-light items-center justify-center text-center border border-grey-light w-full pb-full rounded relative"
-                                     style="background: url('https://s3-us-west-2.amazonaws.com/test.crewcalls.info{{ $user->crew->photo }}'); background-size: cover;">
+                                     style="background: url('{{ $user->crew->photo_url }}'); background-size: cover;">
                                 </div>
                                 @else
                                 <div class="flex h-none bg-grey-light items-center justify-center cursor-pointer text-center border border-grey-light w-full pb-full rounded relative background-missing-avatar" >
