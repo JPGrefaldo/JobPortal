@@ -306,8 +306,7 @@ class CrewsServices
         $data['bio'] = $data['bio'] ?: '';
 
         if ($photoData['file'] instanceof UploadedFile) {
-            $data['photo'] = StoragePath::BASE_AWS
-                .'/'
+            $data['photo'] = '/'
                 . $photoData['dir']
                 . '/'
                 . 'photos'
