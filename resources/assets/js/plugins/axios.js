@@ -1,7 +1,9 @@
 import axios from 'axios'
-import jsonpAdapter from 'axios-jsonp';
+import JsonpAdapter from './../lib/axios/JsonpAdapter'
 
-window.jsonpCallback = (params) => {}
+window.jsonpCallback = (params) => {
+    ocnsole.log(params)
+}
 
 axios.interceptors.request.use(request => {
     if (! /^\/?api/.test(request.url)) {
@@ -10,16 +12,16 @@ axios.interceptors.request.use(request => {
 
     let url = request.url
     let method = request.method
-    let adapter = new jsonpAdapter({
+    let adapter = new JsonpAdapter({
         method,
         url,
         callbackParamName: 'jsonpCallback'
     })
 
-
-
-
     Object.assign(request, {
+        adapter
+    });
+    /*Object.assign(request, {
         method: 'options',
         adapter,
         headers: {
@@ -27,12 +29,10 @@ axios.interceptors.request.use(request => {
                 'X-Requested-With': 'XMLHttpRequest',
                 'Access-Control-Allow-Origin': 'http://champ-crewcalls.test',
                 'Access-Control-Request-Method': method.toUpperCase(),
-                'Content-Type': 'application/json'
+             /!*   'Content-Type': 'application/json'*!/
             }
         }
-    })
-
-    console.log(request)
+    })*/
 
     return request
 });
