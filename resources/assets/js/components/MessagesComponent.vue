@@ -26,7 +26,7 @@
                         {{ message.body }}
                     </div>
                     <button class="fa fa-flag mr-2 ml-3"
-                        @click="onClickFlagMessage(message)">
+                        @click="onClickRequestFlag(message)">
                     </button>
                     <div class="flex-1"></div>
                 </div>
@@ -58,6 +58,7 @@
         data() {
             return {
                 form: new Form({
+                    message_id: '',
                     reason: '',
                 }),
             }
@@ -83,12 +84,34 @@
                 return message.user_id === this.user.id
             },
 
-            onClickFlagMessage: function (message) {
-                this.flagMessage(message);
+            onClickRequestFlag: function (message) {
+                this.requestFlag(message);
             },
 
-            flagMessage: function (message) {
-                // TODO: show some visual that message was flagged
+            requestFlag: function (message) {
+                Vue.swal({
+                    title: 'Report this message',
+                    text: 'Help us understand what\'s happening with this message.',
+                    input: 'textarea',
+                    inputPlaceholder: 'Enter reason',
+                    showCancelButton: true,
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonColor: '#d33',
+                    confirmButtonText: 'Flag message'
+                }).then((result) => {
+                    if (result.value) {
+                        this.form.message_id = message.id;
+                        this.form.reason = result.value;
+                        this.form.post('/pending-flag-messages')
+                            .then(response => {
+                                Vue.swal({
+                                    title: '',
+                                    text: response.data.message,
+                                    type: 'success',
+                                });
+                            });
+                    }
+                });
                 this.form.put('/messages/' + message.id);
             },
         }
