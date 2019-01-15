@@ -93,6 +93,16 @@ Route::middleware('auth')->group(function () {
         return 'Reviewing your request for flag.';
     })->name('messages.update');
 
+
+    // TODO: check must not own message
+    // TODO: check is message was sent to sender
+    // ! THIS IS TEMPORARY
+    Route::post('/pending-flag-messages', [\App\Http\Controllers\PendingFlagMessageController::class, 'store'])
+        ->name('pending-flag-messages.store');
+
+    Route::put('/pending-flag-messages/{pendingFlagMessage}', [\App\Http\Controllers\PendingFlagMessageController::class, 'update'])
+        ->name('pending-flag-messages.update');
+
     /*
     |--------------------------------------------------------------------------
     | Admin Routes
@@ -244,12 +254,3 @@ Route::get('upload_test', function () {
     Storage::disk('s3')->put($name, (\Faker\Factory::create())->paragraph);
     dump(config('filesystems.disks.s3.url') . '/' . config('filesystems.disks.s3.bucket') . '/' . $name);
 });
-
-// TODO: check must not own message
-// TODO: check is message was sent to sender
-// ! THIS IS TEMPORARY
-Route::post('/pending-flag-messages', [\App\Http\Controllers\PendingFlagMessageController::class, 'store'])
-    ->name('pending-flag-messages.store');
-
-Route::put('/pending-flag-messages/{pendingFlagMessage}', [\App\Http\Controllers\PendingFlagMessageController::class, 'update'])
-    ->name('pending-flag-messages.update');
