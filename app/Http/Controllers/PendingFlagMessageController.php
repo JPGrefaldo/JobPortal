@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Admin\ApproveFlagMessage;
+use App\Actions\Admin\DisapproveFlagMessage;
 use App\Actions\User\CreatePendingFlagMessage;
 use App\Models\PendingFlagMessage;
 use Illuminate\Http\Request;
-use App\Actions\Admin\DisapproveFlagMessage;
 
 class PendingFlagMessageController extends Controller
 {
@@ -76,14 +76,14 @@ class PendingFlagMessageController extends Controller
      */
     public function update(Request $request, PendingFlagMessage $pendingFlagMessage)
     {
-        if ($request->action === 'approve') {
-            app(ApproveFlagMessage::class)->execute($pendingFlagMessage);
-
-            return 'Pending flag message approved';
-        } elseif ($request->action === 'disapprove') {
+        if ($request->action === 'disapprove') {
             app(DisapproveFlagMessage::class)->execute($pendingFlagMessage);
 
             return 'Pending flag message disapproved';
+        } elseif ($request->action === 'approve') {
+            app(ApproveFlagMessage::class)->execute($pendingFlagMessage);
+
+            return 'Pending flag message approved';
         }
     }
 
