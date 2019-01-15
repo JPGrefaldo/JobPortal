@@ -42,6 +42,14 @@ Route::get('verify/email/{code}', [\App\Http\Controllers\VerifyEmailController::
     ->name('verify.email');
 
 
+/*
+|--------------------------------------------------------------------------
+| Auth Routes
+|--------------------------------------------------------------------------
+|
+| User must be logged in
+|
+*/
 Route::middleware('auth')->group(function () {
     Route::get('dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])
         ->name('dashboard');
