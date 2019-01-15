@@ -15,10 +15,9 @@ class StorePendingFlagMessageRequest extends FormRequest
     public function authorize()
     {
         $message = Message::find($this->input('message_id'));
-        $recipients = $message->recipients;
 
         return $this->requesterDoesntOwn($message)
-            && $this->requesterIsRecipient($recipients);
+            && $this->requesterIsRecipient($message);
     }
 
     /**
@@ -39,8 +38,10 @@ class StorePendingFlagMessageRequest extends FormRequest
         return auth()->user()->id !== $message->user->id;
     }
 
-    private function requesterIsRecipient($recipients)
+    private function requesterIsRecipient($message)
     {
+        $recipients = $message->recipients;
+
         return auth()->user()->id === $recipients->first()->user->id;
     }
 }
