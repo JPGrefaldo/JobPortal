@@ -95,13 +95,7 @@
                     return
                 }
 
-                this.form.message_id = message.id;
-                this.form.reason = result.value;
-
-                const response = await this.form.post('/pending-flag-messages')
-
-                this.form.message_id = '';
-                this.form.reason = '';
+                const response = await this.submitRequestFlagForm(message, result)
 
                 this.$swal({
                     title: '',
@@ -121,7 +115,20 @@
                     confirmButtonColor: '#d33',
                     confirmButtonText: 'Flag message'
                 });
-            }
+            },
+
+
+            submitRequestFlagForm: function (message, result) {
+                this.form.message_id = message.id;
+                this.form.reason = result.value;
+
+                const response = this.form.post('/pending-flag-messages')
+
+                this.form.message_id = '';
+                this.form.reason = '';
+
+                return response;
+            },
         }
     }
 </script>
