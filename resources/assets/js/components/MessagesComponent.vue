@@ -106,14 +106,14 @@
 
                 this.form.message_id = message.id;
                 this.form.reason = result.value;
-                this.form.post('/pending-flag-messages')
-                    .then(response => {
-                        Vue.swal({
-                            title: '',
-                            text: response.data.message,
-                            type: 'success',
-                        });
-                    });
+
+                const response = await this.form.post('/pending-flag-messages')
+
+                this.$swal({
+                    title: '',
+                    text: response.data.message,
+                    type: 'success',
+                });
                 this.form.put('/messages/' + message.id);
             },
         }
