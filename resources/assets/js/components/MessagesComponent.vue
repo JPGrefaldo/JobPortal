@@ -88,8 +88,8 @@
                 this.requestFlag(message);
             },
 
-            requestFlag: function (message) {
-                Vue.swal({
+            async requestFlag (message) {
+                const result = await this.$swal({
                     title: 'Report this message',
                     text: 'Help us understand what\'s happening with this message.',
                     input: 'textarea',
@@ -98,20 +98,22 @@
                     cancelButtonColor: '#3085d6',
                     confirmButtonColor: '#d33',
                     confirmButtonText: 'Flag message'
-                }).then((result) => {
-                    if (result.value) {
-                        this.form.message_id = message.id;
-                        this.form.reason = result.value;
-                        this.form.post('/pending-flag-messages')
-                            .then(response => {
-                                Vue.swal({
-                                    title: '',
-                                    text: response.data.message,
-                                    type: 'success',
-                                });
-                            });
-                    }
-                });
+                })
+
+                if (!result.value) {
+                    return
+                }
+
+                this.form.message_id = message.id;
+                this.form.reason = result.value;
+                this.form.post('/pending-flag-messages')
+                    .then(response => {
+                        Vue.swal({
+                            title: '',
+                            text: response.data.message,
+                            type: 'success',
+                        });
+                    });
                 this.form.put('/messages/' + message.id);
             },
         }
