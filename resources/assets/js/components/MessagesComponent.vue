@@ -89,7 +89,19 @@
             },
 
             async requestFlag (message) {
-                const result = await this.$swal({
+                const result = await this.displayRequestFlagForm();
+
+                if (!result.value) {
+                    return
+                }
+
+                const response = await this.submitRequestFlagForm(message, result)
+
+                this.displaySuccess(response);
+            },
+
+            displayRequestFlagForm: function () {
+                return this.$swal({
                     title: 'Report this message',
                     text: 'Help us understand what\'s happening with this message.',
                     input: 'textarea',
@@ -98,24 +110,28 @@
                     cancelButtonColor: '#3085d6',
                     confirmButtonColor: '#d33',
                     confirmButtonText: 'Flag message'
-                })
+                });
+            },
 
-                if (!result.value) {
-                    return
-                }
-
+            submitRequestFlagForm: function (message, result) {
                 this.form.message_id = message.id;
                 this.form.reason = result.value;
 
-                const response = await this.form.post('/pending-flag-messages')
+                const response = this.form.post('/pending-flag-messages')
 
+                this.form.message_id = '';
+                this.form.reason = '';
+
+                return response;
+            },
+
+            displaySuccess: function (response) {
                 this.$swal({
                     title: '',
                     text: response.data.message,
                     type: 'success',
                 });
-                this.form.put('/messages/' + message.id);
-            },
+            }
         }
     }
 </script>
