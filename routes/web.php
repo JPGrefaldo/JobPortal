@@ -54,6 +54,8 @@ Route::middleware('auth')->group(function () {
     Route::get('dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])
         ->name('dashboard');
 
+    Route::get('/messages', ['as' => 'messages', 'uses' => 'MessagesDashboardController@index']);
+
     Route::prefix('account')->group(function () {
         Route::get('name', [\App\Http\Controllers\Account\AccountNameController::class, 'index'])
             ->name('account.name');
@@ -242,7 +244,6 @@ Route::middleware('auth')->group(function () {
             ->name('producer.threads.index');
     });
 
-    Route::get('/messages', ['as' => 'messages', 'uses' => 'MessagesDashboardController@index']);
 });
 
 Route::prefix('theme')->group(function () {
