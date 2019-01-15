@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Admin\ApproveFlagMessage;
 use App\Actions\User\CreatePendingFlagMessage;
 use App\Models\PendingFlagMessage;
 use Illuminate\Http\Request;
@@ -75,15 +76,8 @@ class PendingFlagMessageController extends Controller
      */
     public function update(Request $request, PendingFlagMessage $pendingFlagMessage)
     {
-        // TODO: refactor to action classes
         if ($request->action === 'approve') {
-            $pendingFlagMessage->approved_at = Carbon::now();
-            $pendingFlagMessage->save();
-
-            $message = $pendingFlagMessage->message;
-
-            $message->flagged_at = Carbon::now();
-            $message->save();
+            app(ApproveFlagMessage::class)->execute($pendingFlagMessage);
 
             return 'Pending flag message approved';
         } elseif ($request->action === 'disapprove') {
