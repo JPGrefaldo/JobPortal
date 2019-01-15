@@ -97,11 +97,7 @@
 
                 const response = await this.submitRequestFlagForm(message, result)
 
-                this.$swal({
-                    title: '',
-                    text: response.data.message,
-                    type: 'success',
-                });
+                this.displaySuccess(response);
             },
 
             displayRequestFlagForm: function () {
@@ -117,7 +113,6 @@
                 });
             },
 
-
             submitRequestFlagForm: function (message, result) {
                 this.form.message_id = message.id;
                 this.form.reason = result.value;
@@ -129,6 +124,14 @@
 
                 return response;
             },
+
+            displaySuccess: function (response) {
+                this.$swal({
+                    title: '',
+                    text: response.data.message,
+                    type: 'success',
+                });
+            }
         }
     }
 </script>
