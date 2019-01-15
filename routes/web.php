@@ -233,7 +233,6 @@ Route::middleware('auth')->group(function () {
             ]);
 
             // TODO: defer to common route for both crew and admin
-            Route::post('/{project}', [
             Route::put('/producer/projects/{project}/messages/{message}', [
                 'as' => 'producer.messages.update',
                 'uses' => 'Producer\MessagesController@update'
@@ -243,7 +242,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/producer/projects/{project}/threads', [\App\Http\Controllers\Producer\ThreadsController::class, 'index'])
             ->name('producer.threads.index');
     });
-
 });
 
 Route::prefix('theme')->group(function () {
