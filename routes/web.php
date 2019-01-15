@@ -14,7 +14,6 @@
 | * Multiple, Route::middleware(AuthorizeRoles::parameterize(Role::CREW, Role::PRODUCER))
 */
 use Cmgmyr\Messenger\Models\Message;
-use Cmgmyr\Messenger\Models\Thread;
 
 Route::get('/', [\App\Http\Controllers\IndexController::class, 'index']);
 
@@ -90,11 +89,7 @@ Route::middleware('auth')->group(function () {
         Route::put('settings/password', [\App\Http\Controllers\User\UserSettingsController::class, 'updatePassword']);
     });
 
-    // TODO: check ownership
-    // TODO: filter messages that are flagged
-    Route::get('/threads/{thread}/messages', function (Thread $thread) {
-        return $thread->messages;
-    });
+    Route::get('/threads/{thread}/messages', [\App\Http\Controllers\MessagesController::class, 'index']);
 
     // TODO: check must not own message
     // TODO: check is message was sent to sender
