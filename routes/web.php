@@ -97,14 +97,6 @@ Route::middleware('auth')->group(function () {
     // TODO: check must not own message
     // TODO: check is message was sent to sender
     // ! THIS IS TEMPORARY
-    Route::put('/messages/{message}', function (Message $message) {
-        return 'Reviewing your request for flag.';
-    })->name('messages.update');
-
-
-    // TODO: check must not own message
-    // TODO: check is message was sent to sender
-    // ! THIS IS TEMPORARY
     Route::post('/pending-flag-messages', [\App\Http\Controllers\PendingFlagMessageController::class, 'store'])
         ->name('pending-flag-messages.store');
 
