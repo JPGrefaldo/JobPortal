@@ -177,6 +177,7 @@ Route::middleware('auth')->group(function () {
             });
         });
 
+        // TODO: defer to common route for both crew and admin
         Route::post('/crew/messages', [\App\Http\Controllers\Crew\MessageController::class, 'store'])
             ->name('crew.messages.store');
 
@@ -223,10 +224,14 @@ Route::middleware('auth')->group(function () {
         });
 
         Route::group(['prefix' => 'messages'], function () {
+            // TODO: defer to common route for both crew and admin
             Route::post('/{project}', [
                 'as' => 'producer.messages.store',
                 'uses' => 'Producer\MessagesController@store'
             ]);
+
+            // TODO: defer to common route for both crew and admin
+            Route::post('/{project}', [
             Route::put('/producer/projects/{project}/messages/{message}', [
                 'as' => 'producer.messages.update',
                 'uses' => 'Producer\MessagesController@update'
