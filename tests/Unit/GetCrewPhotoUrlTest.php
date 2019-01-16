@@ -5,14 +5,13 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Models\Crew;
+use Illuminate\Foundation\Testing\DatabaseMigrations  ;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
-use Tests\Support\Data\SocialLinkTypeID;
 use Tests\Support\SeedDatabaseAfterRefresh;
 
 class GetCrewPhotoUrlTest extends TestCase
 {
+    use DatabaseMigrations;
     use RefreshDatabase,
         SeedDatabaseAfterRefresh;
     /**
@@ -21,11 +20,9 @@ class GetCrewPhotoUrlTest extends TestCase
      */
     public function get_photo_url_attribute()
     {
-        Storage::fake();
 
         $user = $this->createCrew();
         $data = $this->getUploadData();
-
 
         $this->assertEquals(config('disks.s3.url') . '/' . config('disks.s3.bucket') .  $user->hash_id . '/' . 'photo' . '/' . $data['photo']->hashName(),
             $user->photo_url);
