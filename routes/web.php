@@ -13,7 +13,6 @@
 | * Single, Route::middleware(AuthorizeRoles::parameterize(Role::CREW))
 | * Multiple, Route::middleware(AuthorizeRoles::parameterize(Role::CREW, Role::PRODUCER))
 */
-use Cmgmyr\Messenger\Models\Message;
 use Cmgmyr\Messenger\Models\Thread;
 
 Route::get('/', [\App\Http\Controllers\IndexController::class, 'index']);
@@ -96,9 +95,6 @@ Route::middleware('auth')->group(function () {
         return $thread->messages;
     });
 
-    // TODO: check must not own message
-    // TODO: check is message was sent to sender
-    // ! THIS IS TEMPORARY
     Route::post('/pending-flag-messages', [\App\Http\Controllers\PendingFlagMessageController::class, 'store'])
         ->name('pending-flag-messages.store');
 

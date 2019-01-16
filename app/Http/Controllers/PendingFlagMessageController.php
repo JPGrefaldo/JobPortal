@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Actions\Admin\ApproveFlagMessage;
 use App\Actions\Admin\DisapproveFlagMessage;
 use App\Actions\User\CreatePendingFlagMessage;
+use App\Http\Requests\StorePendingFlagMessageRequest;
 use App\Models\PendingFlagMessage;
 use Illuminate\Http\Request;
 
@@ -36,7 +37,7 @@ class PendingFlagMessageController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StorePendingFlagMessageRequest $request)
     {
         app(CreatePendingFlagMessage::class)->execute($request);
 
