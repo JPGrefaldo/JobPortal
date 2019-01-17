@@ -594,7 +594,7 @@ class CrewsServicesTest extends TestCase
         $data      = ['bio' => 'some bio'];
         $photoData = [
             'file' => UploadedFile::fake()->image('photo.png'),
-            'dir'  => 'f5972b6f-5f55-49d2-8a79-e2c20cf39122',
+            'dir'  => 'dWNDq',
         ];
 
         $result = $this->service->prepareCrewData($data, $photoData);
@@ -602,7 +602,7 @@ class CrewsServicesTest extends TestCase
         $this->assertEquals(
             [
                 'bio'   => 'some bio',
-                'photo' => 'photos/f5972b6f-5f55-49d2-8a79-e2c20cf39122/' . $photoData['file']->hashName(),
+                'photo' => '/dWNDq/photos/' . $photoData['file']->hashName(),
             ],
             $result
         );
