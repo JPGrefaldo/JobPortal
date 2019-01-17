@@ -30,6 +30,8 @@ class MessengerDashboardSeeder extends Seeder
             $project->threads()->saveMany($threads);
 
             foreach ($threads as $thread) {
+                $thread->addParticipant([$user->id]);
+
                 $message = factory(Message::class)->create([
                     'user_id' => $user->id,
                 ]);
