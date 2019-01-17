@@ -23,7 +23,7 @@ Vue.component('tooltip', require('v-tooltip'));
 import VueSweetalert2 from 'vue-sweetalert2';
 Vue.use(VueSweetalert2);
 
-if (IS_AUTHORIZED) {
+if (window.IS_AUTHORIZED) {
     (async function (store) {
         await store.dispatch('auth/fetchUser')
     })(store)

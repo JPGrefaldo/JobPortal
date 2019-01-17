@@ -28,6 +28,7 @@ window.axios.defaults.withCredentials = true;
 window.IS_AUTHORIZED = Boolean(document.head.querySelector('meta[name="is-authorized"]'))
 
 if (window.IS_AUTHORIZED) {
+    window.API_TOKEN = document.head.querySelector('meta[name="api-token"]').content
 }
 /**
  * Next we will register the CSRF Token as a common header with Axios so that

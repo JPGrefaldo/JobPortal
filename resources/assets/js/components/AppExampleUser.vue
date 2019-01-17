@@ -14,6 +14,12 @@ export default {
         ...mapGetters({
             user: 'auth/user'
         })
+    },
+
+    mounted () {
+        this.$nextTick(() => {
+            console.log(this.user)
+        })
     }
 }
 </script>
