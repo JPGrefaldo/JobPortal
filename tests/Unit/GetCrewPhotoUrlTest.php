@@ -24,8 +24,14 @@ class GetCrewPhotoUrlTest extends TestCase
         $user = $this->createCrew();
         $data = $this->getUploadData();
 
-        $this->assertEquals(config('disks.s3.url') . '/' . config('disks.s3.bucket') .  $user->hash_id . '/' . 'photo' . '/' . $data['photo']->hashName(),
-            $user->photo_url);
+        $this->assertEquals(config('disks.s3.url')
+                . '/' . config('disks.s3.bucket')
+                .  $user->hash_id
+                . '/'
+                . 'photo'
+                . '/'
+                . $data['photo']->hashName(),
+                $user->photo_url);
     }
 
     public function getUploadData($customData = [])

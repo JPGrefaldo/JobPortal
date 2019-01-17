@@ -81,8 +81,8 @@
                             </a>
                         @endif
 
-                        @if (isset($user->crew->resumes->where('general', 1)->first()->url))
-                            <a href="https://s3-us-west-2.amazonaws.com/test.crewcalls.info{{$user->crew->resumes->where('general', 1)->first()->url}}"
+                        @if (isset($resume_url))
+                            <a href="https://s3-us-west-2.amazonaws.com/test.crewcalls.info{{$resume_url}}"
                                target="_blank"
                                class="border md:w-1/2 flex items-center overflow-hidden rounded md:ml-2">
                                 <i class="far fa-file-alt px-6 text-lg"></i>

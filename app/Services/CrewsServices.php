@@ -84,7 +84,7 @@ class CrewsServices
             ['user_id' => $user->id]
         );
 
-        Storage::disk('s3')->put($data['photo'], file_get_contents($photoFile),'public');
+        Storage::disk('s3')->put($data['photo'], file_get_contents($photoFile), 'public');
 
         return Crew::create($data);
     }
