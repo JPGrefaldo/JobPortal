@@ -44,10 +44,10 @@
                     </li>
 
                     <li class="py-2 px-4 border-t mt-2 border-grey-light">
-                        <app-logout-link csrf="{{ csrf_token() }}"
+                        <cca-logout-link csrf="{{ csrf_token() }}"
                                          classes="block text-blue-dark hover:text-green">
                             {{ __('Sign Out') }}
-                        </app-logout-link>
+                        </cca-logout-link>
                     </li>
                 </ul>
             </div>
@@ -86,10 +86,10 @@
                             <a href="{{ route('account.name') }}" class="block text-blue-dark hover:text-green">Account Settings</a>
                         </li>
                         <li class="py-2 px-4 border-t mt-2 border-grey-light">
-                            <app-logout-link csrf="{{ csrf_token() }}"
+                            <cca-logout-link csrf="{{ csrf_token() }}"
                                              classes="block text-blue-dark hover:text-green">
                                 {{ __('Sign Out') }}
-                            </app-logout-link>
+                            </cca-logout-link>
                         </li>
                     </ul>
                 </div>
