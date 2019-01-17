@@ -2,12 +2,11 @@
 
 namespace Tests\Unit;
 
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\DatabaseMigrations  ;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Tests\Support\SeedDatabaseAfterRefresh;
+use Tests\TestCase;
 
 class GetCrewPhotoUrlTest extends TestCase
 {
@@ -20,18 +19,17 @@ class GetCrewPhotoUrlTest extends TestCase
      */
     public function get_photo_url_attribute()
     {
-
         $user = $this->createCrew();
         $data = $this->getUploadData();
 
-        $this->assertEquals(config('disks.s3.url')
-                . '/' . config('disks.s3.bucket')
-                .  $user->hash_id
-                . '/'
-                . 'photo'
-                . '/'
-                . $data['photo']->hashName(),
-                $user->photo_url);
+        $this->assertEquals(
+            config('disks.s3.url') . '/' .
+            config('disks.s3.bucket') .
+            $user->hash_id . '/' .
+            'photo' . '/' .
+            $data['photo']->hashName(),
+            $user->photo_url
+        );
     }
 
     public function getUploadData($customData = [])
