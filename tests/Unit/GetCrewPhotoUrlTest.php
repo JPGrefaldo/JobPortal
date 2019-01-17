@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Models\Crew;
 use Illuminate\Foundation\Testing\DatabaseMigrations  ;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
@@ -19,16 +20,23 @@ class GetCrewPhotoUrlTest extends TestCase
      */
     public function get_photo_url_attribute()
     {
-        $user = $this->createCrew();
+        $crew = factory(Crew::class)->create();
         $data = $this->getUploadData();
 
+        $crew->photo =
+            config('filesystems.disks.s3.url') . '/' .
+            config('filesystems.disks.s3.bucket') .
+            $crew->hash_id . '/' .
+            'photo' . '/' .
+            $data['photo']->hashName();
+
         $this->assertEquals(
-            config('disks.s3.url') . '/' .
-            config('disks.s3.bucket') .
-            $user->hash_id . '/' .
+            config('filesystems.disks.s3.url') . '/' .
+            config('filesystems.disks.s3.bucket') .
+            $crew->hash_id . '/' .
             'photo' . '/' .
             $data['photo']->hashName(),
-            $user->photo_url
+            $crew->photo_url
         );
     }
 
