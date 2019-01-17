@@ -2,7 +2,8 @@
     <span v-if="user"
           id="example-user"
           class="display-none">
-        Some Text
+        {{ user.first_name }}
+        {{ user.last_name }}
     </span>
 </template>
 
@@ -15,12 +16,6 @@ export default {
             user: 'auth/user'
         })
     },
-
-    mounted () {
-        this.$nextTick(() => {
-            console.log(this.user)
-        })
-    }
 }
 </script>
 
