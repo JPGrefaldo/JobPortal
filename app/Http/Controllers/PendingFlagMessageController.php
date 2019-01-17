@@ -77,14 +77,18 @@ class PendingFlagMessageController extends Controller
      */
     public function update(Request $request, PendingFlagMessage $pendingFlagMessage)
     {
-        if ($request->action === 'disapprove') {
-            app(DisapproveFlagMessage::class)->execute($pendingFlagMessage);
+        switch ($request->action) {
+            case 'disapprove':
+                app(DisapproveFlagMessage::class)->execute($pendingFlagMessage);
 
-            return 'Pending flag message disapproved';
-        } elseif ($request->action === 'approve') {
-            app(ApproveFlagMessage::class)->execute($pendingFlagMessage);
+                return 'Pending flag message disapproved';
+                break;
 
-            return 'Pending flag message approved';
+            case 'approve':
+                app(ApproveFlagMessage::class)->execute($pendingFlagMessage);
+
+                return 'Pending flag message approved';
+                break;
         }
     }
 
