@@ -46,7 +46,7 @@ class CrewsFeatureTest extends TestCase
             ],
             $crew->toArray()
         );
-        Storage::assertExists($crew->photo);
+        Storage::disk('s3')->assertExists($crew->photo);
 
         // assert general resume
         $resume = $crew->resumes->where('general', 1)
@@ -54,14 +54,14 @@ class CrewsFeatureTest extends TestCase
 
         $this->assertArraySubset(
             [
-                'url'     => 'resumes/' . $user->hash_id . '/' . $data['resume']->hashName(),
+                'url' => '/' . $user->hash_id . '/resume/' . $data['resume']->hashName(),
                 'crew_id' => $crew->id,
                 'general' => 1,
             ],
             $resume->toArray()
         );
 
-        Storage::assertExists($resume->url);
+        Storage::disk('s3')->assertExists($resume->url);
 
         // assert general reel has been created
         $reel = $crew->reels->where('general', 1)
@@ -168,7 +168,7 @@ class CrewsFeatureTest extends TestCase
             ],
             $crew->toArray()
         );
-        Storage::assertExists($crew->photo);
+        Storage::disk('s3')->assertExists($crew->photo);
 
         // assert that there are no resumes
         $this->assertCount(0, $crew->resumes);
@@ -359,22 +359,22 @@ class CrewsFeatureTest extends TestCase
             ],
             $crew->toArray()
         );
-        Storage::assertMissing($oldFiles['photo']);
-        Storage::assertExists($crew->photo);
+        Storage::disk('s3')->assertMissing($oldFiles['photo']);
+        Storage::disk('s3')->assertExists($crew->photo);
 
         // assert general resume
         $resume->refresh();
 
         $this->assertArraySubset(
             [
-                'url'     => 'resumes/' . $user->hash_id . '/' . $data['resume']->hashName(),
+                'url' => '/' . $user->hash_id . '/resume/' . $data['resume']->hashName(),
                 'crew_id' => $crew->id,
                 'general' => 1,
             ],
             $resume->toArray()
         );
-        Storage::assertMissing($oldFiles['resume']);
-        Storage::assertExists($resume->url);
+        Storage::disk('s3')->assertMissing($oldFiles['resume']);
+        Storage::disk('s3')->assertExists($resume->url);
 
         // assert reel
         $reel->refresh();
@@ -469,7 +469,7 @@ class CrewsFeatureTest extends TestCase
             ],
             $resume->toArray()
         );
-        Storage::assertExists($resume->url);
+        Storage::disk('s3')->assertExists($resume->url);
 
         // assert general reel
         $reel = $crew->reels->where('general', 1)

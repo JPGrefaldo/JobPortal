@@ -98,21 +98,21 @@ class CrewsServicesTest extends TestCase
             ],
             $crew->toArray()
         );
-        Storage::assertExists($crew->photo);
+        Storage::disk('s3')->assertExists($crew->photo);
 
         // assert general resume
         $resume = $crew->resumes->where('general', 1)->first();
 
         $this->assertArraySubset(
             [
-                'url'     => 'resumes/' . $user->hash_id . '/' . $data['resume']->hashName(),
+                'url' => '/' . $user->hash_id . '/resume/' . $data['resume']->hashName(),
                 'crew_id' => $crew->id,
                 'general' => 1,
             ],
             $resume->toArray()
         );
 
-        Storage::assertExists($resume->url);
+        Storage::disk('s3')->assertExists($resume->url);
 
         // assert general reel has been created
         $reel = $crew->reels->where('general', 1)->first();
@@ -202,7 +202,7 @@ class CrewsServicesTest extends TestCase
             ],
             $crew->toArray()
         );
-        Storage::assertExists($crew->photo);
+        Storage::disk('s3')->assertExists($crew->photo);
     }
 
     /**
@@ -231,7 +231,7 @@ class CrewsServicesTest extends TestCase
         );
 
         // assert file exists
-        Storage::assertExists($resume->url);
+        Storage::disk('s3')->assertExists($resume->url);
     }
 
     /**
@@ -410,22 +410,22 @@ class CrewsServicesTest extends TestCase
             $crew->toArray()
         );
 
-        Storage::assertMissing($oldFiles['photo']);
-        Storage::assertExists($crew->photo);
+        Storage::disk('s3')->assertMissing($oldFiles['photo']);
+        Storage::disk('s3')->assertExists($crew->photo);
 
         // assert general resume
         $resume->refresh();
 
         $this->assertArraySubset(
             [
-                'url'     => 'resumes/' . $crew->user->hash_id . '/' . $data['resume']->hashName(),
+                'url' => '/' . $crew->user->hash_id . '/resume/' . $data['resume']->hashName(),
                 'crew_id' => $crew->id,
                 'general' => 1,
             ],
             $resume->toArray()
         );
-        Storage::assertMissing($oldFiles['resume']);
-        Storage::assertExists($resume->url);
+        Storage::disk('s3')->assertMissing($oldFiles['resume']);
+        Storage::disk('s3')->assertExists($resume->url);
 
         // assert socials
         $this->assertCount(9, $crew->socials);
@@ -497,8 +497,8 @@ class CrewsServicesTest extends TestCase
         );
 
         // assert storage
-        Storage::assertExists($crew->photo);
-        Storage::assertMissing($oldPhoto);
+        Storage::disk('s3')->assertExists($crew->photo);
+        Storage::disk('s3')->assertMissing($oldPhoto);
     }
 
     /**
@@ -526,7 +526,7 @@ class CrewsServicesTest extends TestCase
         );
 
         // assert storage
-        Storage::assertExists($oldPhoto);
+        Storage::disk('s3')->assertMissing($oldPhoto);
     }
 
     /**
@@ -554,8 +554,8 @@ class CrewsServicesTest extends TestCase
             ],
             $resume->toArray()
         );
-        Storage::assertMissing($oldResumeUrl);
-        Storage::assertExists($resume->url);
+        Storage::disk('s3')->assertMissing($oldResumeUrl);
+        Storage::disk('s3')->assertExists($resume->url);
     }
 
     /**
@@ -581,7 +581,7 @@ class CrewsServicesTest extends TestCase
             ],
             $resume->toArray()
         );
-        Storage::assertExists($resume->url);
+        Storage::disk('s3')->assertExists($resume->url);
     }
 
     /**
