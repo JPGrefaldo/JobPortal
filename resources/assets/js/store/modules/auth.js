@@ -1,26 +1,18 @@
 import axios from 'axios'
-import Cookies from 'js-cookie'
 import * as types from '../mutation-types'
 
 // state
 export const state = {
-    user: null,
-    token: null,
+    user: null
 }
 
 // getters
 export const getters = {
-    user: state => state.user,
-    token: state => state.token,
-    check: state => state.user !== null
+    user: state => state.user
 }
 
 // mutations
 export const mutations = {
-    [types.AUTH_SAVE_TOKEN] (state, { token, remember }) {
-        state.token = token
-    },
-
     [types.AUTH_FETCH_USER_SUCCESS] (state, { user }) {
         state.user = user
     },
@@ -32,11 +24,7 @@ export const mutations = {
 
 // actions
 export const actions = {
-    saveToken ({ commit, dispatch }, payload) {
-        commit(types.AUTH_SAVE_TOKEN, payload)
-    },
-
-    async fetchUser ({ commit }, payload) {
+    async fetchUser ({ commit }) {
         return new Promise((resolve, reject) => {
             axios.get('/api/user')
                 .then(({ data }) => {
@@ -45,7 +33,7 @@ export const actions = {
                     })
                     resolve(true)
                 }).catch(e => {
-                    resolve(false)
+                    resolve(e)
                 })
         })
     },

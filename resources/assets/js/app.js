@@ -9,7 +9,6 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
-import Cookies from 'js-cookie'
 import store from './store'
 import './plugins'
 
