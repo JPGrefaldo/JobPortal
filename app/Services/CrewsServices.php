@@ -391,9 +391,10 @@ class CrewsServices
     {
         if ($type === 'reel') {
             return [
-                'url' => '/'
-                    . $fileData['dir']
-                    . '/reel/' . $fileData['file']->hashName(),
+                'url' => '/' .
+                    $fileData['dir'] .
+                    StoragePath::BASE_REEL .
+                    $fileData['file']->hashName(),
             ];
         } elseif ($type === 'resume') {
             return [
