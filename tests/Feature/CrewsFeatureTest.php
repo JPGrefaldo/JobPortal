@@ -6,7 +6,6 @@ use App\Models\Crew;
 use App\Models\CrewReel;
 use App\Models\CrewResume;
 use App\Models\CrewSocial;
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -43,11 +42,11 @@ class CrewsFeatureTest extends TestCase
         $this->assertArraySubset(
             [
                 'bio'   => 'some bio',
-                'photo' => 'photos/' . $user->hash_id . '/' . $data['photo']->hashName(),
+                'photo' =>  '/' . $user->hash_id . '/photos/' . $data['photo']->hashName(),
             ],
             $crew->toArray()
         );
-        Storage::assertExists($crew->photo);
+        Storage::disk('s3')->assertExists($crew->photo);
 
         // assert general resume
         $resume = $crew->resumes->where('general', 1)
@@ -55,14 +54,14 @@ class CrewsFeatureTest extends TestCase
 
         $this->assertArraySubset(
             [
-                'url'     => 'resumes/' . $user->hash_id . '/' . $data['resume']->hashName(),
+                'url' => '/' . $user->hash_id . '/resumes/' . $data['resume']->hashName(),
                 'crew_id' => $crew->id,
-                'general' => 1,
+                'general' => true,
             ],
             $resume->toArray()
         );
 
-        Storage::assertExists($resume->url);
+        Storage::disk('s3')->assertExists($resume->url);
 
         // assert general reel has been created
         $reel = $crew->reels->where('general', 1)
@@ -72,7 +71,7 @@ class CrewsFeatureTest extends TestCase
             [
                 'crew_id' => $crew->id,
                 'url'     => 'https://www.youtube.com/embed/G8S81CEBdNs',
-                'general' => 1,
+                'general' => true,
             ],
             $reel->toArray()
         );
@@ -165,11 +164,11 @@ class CrewsFeatureTest extends TestCase
 
         $this->assertArraySubset(
             [
-                'photo' => 'photos/' . $user->hash_id . '/' . $data['photo']->hashName(),
+                'photo' => '/' . $user->hash_id . '/photos/' . $data['photo']->hashName(),
             ],
             $crew->toArray()
         );
-        Storage::assertExists($crew->photo);
+        Storage::disk('s3')->assertExists($crew->photo);
 
         // assert that there are no resumes
         $this->assertCount(0, $crew->resumes);
@@ -256,7 +255,7 @@ class CrewsFeatureTest extends TestCase
             [
                 'crew_id' => $crew->id,
                 'url'     => 'https://www.youtube.com/embed/2-_rLbU6zJo',
-                'general' => 1,
+                'general' => true,
             ],
             $reel->toArray()
         );
@@ -300,7 +299,7 @@ class CrewsFeatureTest extends TestCase
             [
                 'crew_id' => $crew->id,
                 'url'     => 'https://player.vimeo.com/video/230046783',
-                'general' => 1,
+                'general' => true,
             ],
             $reel->toArray()
         );
@@ -356,26 +355,26 @@ class CrewsFeatureTest extends TestCase
         $this->assertArraySubset(
             [
                 'bio'   => 'updated bio',
-                'photo' => 'photos/' . $user->hash_id . '/' . $data['photo']->hashName(),
+                'photo' =>  '/' . $user->hash_id . '/photos/' . $data['photo']->hashName(),
             ],
             $crew->toArray()
         );
-        Storage::assertMissing($oldFiles['photo']);
-        Storage::assertExists($crew->photo);
+        Storage::disk('s3')->assertMissing($oldFiles['photo']);
+        Storage::disk('s3')->assertExists($crew->photo);
 
         // assert general resume
         $resume->refresh();
 
         $this->assertArraySubset(
             [
-                'url'     => 'resumes/' . $user->hash_id . '/' . $data['resume']->hashName(),
+                'url' => '/' . $user->hash_id . '/resumes/' . $data['resume']->hashName(),
                 'crew_id' => $crew->id,
-                'general' => 1,
+                'general' => true,
             ],
             $resume->toArray()
         );
-        Storage::assertMissing($oldFiles['resume']);
-        Storage::assertExists($resume->url);
+        Storage::disk('s3')->assertMissing($oldFiles['resume']);
+        Storage::disk('s3')->assertExists($resume->url);
 
         // assert reel
         $reel->refresh();
@@ -384,7 +383,7 @@ class CrewsFeatureTest extends TestCase
             [
                 'crew_id' => $crew->id,
                 'url'     => 'https://www.youtube.com/embed/WI5AF1DCQlc',
-                'general' => 1,
+                'general' => true,
             ],
             $reel->toArray()
         );
@@ -464,13 +463,13 @@ class CrewsFeatureTest extends TestCase
 
         $this->assertArraySubset(
             [
-                'url'     => 'resumes/' . $user->hash_id . '/' . $data['resume']->hashName(),
+                'url' => '/' . $user->hash_id . '/resumes/' . $data['resume']->hashName(),
                 'crew_id' => $crew->id,
-                'general' => 1,
+                'general' => true,
             ],
             $resume->toArray()
         );
-        Storage::assertExists($resume->url);
+        Storage::disk('s3')->assertExists($resume->url);
 
         // assert general reel
         $reel = $crew->reels->where('general', 1)
@@ -480,7 +479,7 @@ class CrewsFeatureTest extends TestCase
             [
                 'crew_id' => $crew->id,
                 'url'     => 'https://www.youtube.com/embed/WI5AF1DCQlc',
-                'general' => 1,
+                'general' => true,
             ],
             $reel->toArray()
         );
@@ -652,7 +651,7 @@ class CrewsFeatureTest extends TestCase
             [
                 'crew_id' => $crew->id,
                 'url'     => 'https://www.youtube.com/embed/2-_rLbU6zJo',
-                'general' => 1,
+                'general' => true,
             ],
             $reel->toArray()
         );
@@ -695,7 +694,7 @@ class CrewsFeatureTest extends TestCase
             [
                 'crew_id' => $crew->id,
                 'url'     => 'https://player.vimeo.com/video/230046783',
-                'general' => 1,
+                'general' => true,
             ],
             $reel->toArray()
         );

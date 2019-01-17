@@ -6,7 +6,6 @@ use App\Models\Crew;
 use App\Models\CrewReel;
 use App\Models\CrewResume;
 use App\Models\CrewSocial;
-use App\Models\User;
 use App\Services\CrewsServices;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
@@ -95,25 +94,25 @@ class CrewsServicesTest extends TestCase
         $this->assertArraySubset(
             [
                 'bio'   => 'some bio',
-                'photo' => 'photos/' . $user->hash_id . '/' . $data['photo']->hashName(),
+                'photo' => '/' . $user->hash_id . '/photos/' . $data['photo']->hashName(),
             ],
             $crew->toArray()
         );
-        Storage::assertExists($crew->photo);
+        Storage::disk('s3')->assertExists($crew->photo);
 
         // assert general resume
         $resume = $crew->resumes->where('general', 1)->first();
 
         $this->assertArraySubset(
             [
-                'url'     => 'resumes/' . $user->hash_id . '/' . $data['resume']->hashName(),
+                'url' => '/' . $user->hash_id . '/resumes/' . $data['resume']->hashName(),
                 'crew_id' => $crew->id,
-                'general' => 1,
+                'general' => true,
             ],
             $resume->toArray()
         );
 
-        Storage::assertExists($resume->url);
+        Storage::disk('s3')->assertExists($resume->url);
 
         // assert general reel has been created
         $reel = $crew->reels->where('general', 1)->first();
@@ -199,16 +198,16 @@ class CrewsServicesTest extends TestCase
         $this->assertArraySubset(
             [
                 'bio'   => 'some bio',
-                'photo' => 'photos/' . $user->hash_id . '/' . $photoFile->hashName(),
+                'photo' => '/' . $user->hash_id . '/photos/' . $photoFile->hashName(),
             ],
             $crew->toArray()
         );
-        Storage::assertExists($crew->photo);
+        Storage::disk('s3')->assertExists($crew->photo);
     }
 
     /**
      * @test
-     * @covers 
+     * @covers
      */
     public function create_general_resume()
     {
@@ -224,15 +223,15 @@ class CrewsServicesTest extends TestCase
 
         $this->assertArraySubset(
             [
-                'url'     => 'resumes/' . $crew->user->hash_id . '/' . $resumeFile->hashName(),
+                'url' => '/' . $crew->user->hash_id . '/resumes/' . $resumeFile->hashName(),
                 'crew_id' => $crew->id,
-                'general' => 1,
+                'general' => true,
             ],
             $resume->toArray()
         );
 
         // assert file exists
-        Storage::assertExists($resume->url);
+        Storage::disk('s3')->assertExists($resume->url);
     }
 
     /**
@@ -406,27 +405,27 @@ class CrewsServicesTest extends TestCase
         $this->assertArraySubset(
             [
                 'bio'   => 'updated bio',
-                'photo' => 'photos/' . $crew->user->hash_id . '/' . $data['photo']->hashName(),
+                'photo' => '/' . $crew->user->hash_id . '/photos/' . $data['photo']->hashName(),
             ],
             $crew->toArray()
         );
 
-        Storage::assertMissing($oldFiles['photo']);
-        Storage::assertExists($crew->photo);
+        Storage::disk('s3')->assertMissing($oldFiles['photo']);
+        Storage::disk('s3')->assertExists($crew->photo);
 
         // assert general resume
         $resume->refresh();
 
         $this->assertArraySubset(
             [
-                'url'     => 'resumes/' . $crew->user->hash_id . '/' . $data['resume']->hashName(),
+                'url' => '/' . $crew->user->hash_id . '/resumes/' . $data['resume']->hashName(),
                 'crew_id' => $crew->id,
-                'general' => 1,
+                'general' => true,
             ],
             $resume->toArray()
         );
-        Storage::assertMissing($oldFiles['resume']);
-        Storage::assertExists($resume->url);
+        Storage::disk('s3')->assertMissing($oldFiles['resume']);
+        Storage::disk('s3')->assertExists($resume->url);
 
         // assert socials
         $this->assertCount(9, $crew->socials);
@@ -492,14 +491,14 @@ class CrewsServicesTest extends TestCase
         $this->assertArraySubset(
             [
                 'bio'   => 'new bio',
-                'photo' => 'photos/' . $crew->user->hash_id . '/' . $photoFile->hashName(),
+                'photo' => '/' . $crew->user->hash_id . '/photos/' . $photoFile->hashName(),
             ],
             $crew->toArray()
         );
 
         // assert storage
-        Storage::assertExists($crew->photo);
-        Storage::assertMissing($oldPhoto);
+        Storage::disk('s3')->assertExists($crew->photo);
+        Storage::disk('s3')->assertMissing($oldPhoto);
     }
 
     /**
@@ -527,7 +526,7 @@ class CrewsServicesTest extends TestCase
         );
 
         // assert storage
-        Storage::assertExists($oldPhoto);
+        Storage::disk('s3')->assertMissing($oldPhoto);
     }
 
     /**
@@ -549,14 +548,14 @@ class CrewsServicesTest extends TestCase
 
         $this->assertArraySubset(
             [
-                'url'     => 'resumes/' . $crew->user->hash_id . '/' . $resumeFile->hashName(),
+                'url' => '/' . $crew->user->hash_id . '/resumes/' . $resumeFile->hashName(),
                 'crew_id' => $crew->id,
-                'general' => 1,
+                'general' => true,
             ],
             $resume->toArray()
         );
-        Storage::assertMissing($oldResumeUrl);
-        Storage::assertExists($resume->url);
+        Storage::disk('s3')->assertMissing($oldResumeUrl);
+        Storage::disk('s3')->assertExists($resume->url);
     }
 
     /**
@@ -576,13 +575,13 @@ class CrewsServicesTest extends TestCase
 
         $this->assertArraySubset(
             [
-                'url'     => 'resumes/' . $crew->user->hash_id . '/' . $resumeFile->hashName(),
+                'url' => '/' . $crew->user->hash_id . '/resumes/' . $resumeFile->hashName(),
                 'crew_id' => $crew->id,
-                'general' => 1,
+                'general' => true,
             ],
             $resume->toArray()
         );
-        Storage::assertExists($resume->url);
+        Storage::disk('s3')->assertExists($resume->url);
     }
 
     /**
@@ -594,7 +593,7 @@ class CrewsServicesTest extends TestCase
         $data      = ['bio' => 'some bio'];
         $photoData = [
             'file' => UploadedFile::fake()->image('photo.png'),
-            'dir'  => 'f5972b6f-5f55-49d2-8a79-e2c20cf39122',
+            'dir'  => 'dWNDq',
         ];
 
         $result = $this->service->prepareCrewData($data, $photoData);
@@ -602,7 +601,7 @@ class CrewsServicesTest extends TestCase
         $this->assertEquals(
             [
                 'bio'   => 'some bio',
-                'photo' => 'photos/f5972b6f-5f55-49d2-8a79-e2c20cf39122/' . $photoData['file']->hashName(),
+                'photo' => '/dWNDq/photos/' . $photoData['file']->hashName(),
             ],
             $result
         );
@@ -872,7 +871,7 @@ class CrewsServicesTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers
      */
     public function update_general_reel_not_exists()
     {

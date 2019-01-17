@@ -16,7 +16,7 @@
                     <div class="md:w-1/4 md:pr-8 text-center">
                         @if (isset($user->crew->photo))
                             <div class="flex h-none bg-grey-light items-center justify-center text-center border border-grey-light w-full pb-full rounded relative"
-                                 style="background: url('/storage/{{ $user->crew->photo }}'); background-size: cover;">
+                                 style="background: url('https://s3-us-west-2.amazonaws.com/test.crewcalls.info{{ $user->crew->photo_url }}'); background-size: cover;">
                             </div>
                         @else
                             <img src="{{ url('photos/avatar.png') }}"
@@ -81,14 +81,17 @@
                             </a>
                         @endif
 
-                        @if (isset($user->crew->resume))
-                            <a href="/storage/{{$user->crew->resume->url }}" target="_blank"
+                        @if (isset($resume_url))
+                            <a href="https://s3-us-west-2.amazonaws.com/test.crewcalls.info{{$resume_url}}"
+                               target="_blank"
                                class="border md:w-1/2 flex items-center overflow-hidden rounded md:ml-2">
                                 <i class="far fa-file-alt px-6 text-lg"></i>
                                 <span class='uppercase text-green font-semibold px-0 py-6 text-sm tracking-wide'>VIEW POSITION RESUME</span>
                             </a>
                         @else
-                            <a href="#" class="border md:w-1/2 flex items-center overflow-hidden rounded md:ml-2">
+                            <a href="#"
+                               target="_blank"
+                               class="border md:w-1/2 flex items-center overflow-hidden rounded md:ml-2">
                                 <i class="far fa-file-alt px-6 text-lg"></i>
                                 <span class='uppercase text-green font-semibold px-0 py-6 text-sm tracking-wide'>VIEW POSITION RESUME</span>
                             </a>

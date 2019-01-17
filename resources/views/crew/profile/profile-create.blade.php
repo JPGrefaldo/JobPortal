@@ -20,15 +20,15 @@
 
                         <div class="md:flex">
                           <div class="md:w-1/3 md:pr-6 mb-6">
-                                
+
                                 @if (isset($user->crew->photo))
                                 <div class="flex h-none bg-grey-light items-center justify-center text-center border border-grey-light w-full pb-full rounded relative"
-                                     style="background: url('/storage/{{ $user->crew->photo }}'); background-size: cover;">
+                                     style="background: url('https://s3-us-west-2.amazonaws.com/test.crewcalls.info{{ $user->crew->photo_url }}'); background-size: cover;">
                                 </div>
-                                @else 
+                                @else
                                 <div class="flex h-none bg-grey-light items-center justify-center cursor-pointer text-center border border-grey-light w-full pb-full rounded relative background-missing-avatar" >
                                     <span class="text-center uppercase text-sm font-semibold text-white px-2 pos-center w-full">
-                                    
+
                                     <label for="photo-file" class="inline-block text-black cursor-pointer">UPLOAD PROFILE PHOTO</label>
                                     <input type="file" name="photo" id="photo-file" class="invisible"></input>
                                     </span>
@@ -64,8 +64,12 @@
                                     <h3 class="text-md font-header mb-2 md:mb-0">General resume</h3>
                                 </div>
                                 <div class="md:w-2/3">
-                                    <label for="resume-file" class="btn-outline text-green inline-block" >Upload file</label>
-                                    <input type="file" name="resume_file" id="resume-file" class="invisible"></input>
+                                    <label for="resume" class="btn-outline text-green inline-block" >Upload file</label>
+
+                                    <input id="resume"
+                                           type="file"
+                                           name="resume"
+                                           class="invisible">
                                 </div>
                             </div>
                         </div>
@@ -129,7 +133,7 @@
                 <div class="card mb-6">
                     <div class="pb-6">
                         <h3 class="text-blue-dark font-semibold text-lg mb-1 font-header">{{$department->name}}</h3>
-                    </div>      
+                    </div>
                     @foreach($department->positions as $key => $position)
                     <div class="p-2 md:p-4 border-t-2 border-grey-lighter bg-white">
                         <div class="py-2">
@@ -143,7 +147,7 @@
                     <div class="pt-8 pb-4 text-right border-t-2 border-grey-lighter">
                         <a href="#" class="text-grey bold mr-4 hover:text-green">Cancel</a>
                         <a href="#" class="btn-green">SAVE CHANGES</a>
-                    </div>          
+                    </div>
                 </div>
                 @endforeach
             </div>

@@ -59,7 +59,7 @@
 
                     @if (isset(Auth::user()->crew) && !empty(Auth::user()->crew->photo))
                         <span class="w-10 h-10 bg-cover rounded-full inline-block"
-                              style="background-image: url(/{{ Auth::user()->crew->photo }}"></span>
+                              style="background-image: url('https://s3-us-west-2.amazonaws.com/test.crewcalls.info{{ $user->crew->photo_url }}')"></span>
                     @else
                         <span class="w-10 h-10 bg-cover rounded-full inline-block background-missing-avatar"></span>
                     @endif

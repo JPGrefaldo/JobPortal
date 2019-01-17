@@ -24,10 +24,13 @@ class CrewProfileController extends Controller
         $user = Auth::user()->load([
             'crew'
         ]);
+        $resume_url = $user->crew->resumes->where( 'general',1)->first()->url;
+
         return view('crew.profile.profile-index', [
             'user' => $user,
             'socialLinkTypes' => $this->getAllSocialLinkTypes($user),
-            'departments' => $this->getDepartments()
+            'departments' => $this->getDepartments(),
+            'resume_url' => $resume_url,
         ]);
     }
 
@@ -46,8 +49,6 @@ class CrewProfileController extends Controller
             'user' => $user,
             'socialLinkTypes' => $this->getAllSocialLinkTypes($user),
             'departments' => $this->getDepartments()
-
-            
         ]);
     }
 

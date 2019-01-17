@@ -40,6 +40,11 @@ class Crew extends Model
         return $this->hasMany(CrewPosition::class);
     }
 
+    public function getPhotoUrlAttribute()
+    {
+        return $this->photo;
+    }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
