@@ -41,15 +41,19 @@ Route::get('verify/email/{code}', [\App\Http\Controllers\VerifyEmailController::
     ->name('verify.email');
 
 
+/*
+|--------------------------------------------------------------------------
+| Auth Routes
+|--------------------------------------------------------------------------
+|
+| User must be logged in
+|
+*/
 Route::middleware('auth')->group(function () {
     Route::get('dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])
         ->name('dashboard');
 
-
-    // TODO: check ownership
-    Route::get('/threads/{thread}/messages', function (Thread $thread) {
-        return $thread->messages;
-    });
+    Route::get('/messages', ['as' => 'messages', 'uses' => 'MessagesDashboardController@index']);
 
     Route::prefix('account')->group(function () {
         Route::get('name', [\App\Http\Controllers\Account\AccountNameController::class, 'index'])
@@ -84,6 +88,18 @@ Route::middleware('auth')->group(function () {
         Route::put('settings/notifications', [\App\Http\Controllers\User\UserSettingsController::class, 'updateNotifications']);
         Route::put('settings/password', [\App\Http\Controllers\User\UserSettingsController::class, 'updatePassword']);
     });
+
+    // TODO: check ownership
+    // TODO: filter messages that are flagged
+    Route::get('/threads/{thread}/messages', function (Thread $thread) {
+        return $thread->messages;
+    });
+
+    Route::post('/pending-flag-messages', [\App\Http\Controllers\PendingFlagMessageController::class, 'store'])
+        ->name('pending-flag-messages.store');
+
+    Route::put('/pending-flag-messages/{pendingFlagMessage}', [\App\Http\Controllers\PendingFlagMessageController::class, 'update'])
+        ->name('pending-flag-messages.update');
 
     /*
     |--------------------------------------------------------------------------
@@ -159,6 +175,7 @@ Route::middleware('auth')->group(function () {
             });
         });
 
+        // TODO: defer to common route for both crew and admin
         Route::post('/crew/messages', [\App\Http\Controllers\Crew\MessageController::class, 'store'])
             ->name('crew.messages.store');
 
@@ -205,10 +222,13 @@ Route::middleware('auth')->group(function () {
         });
 
         Route::group(['prefix' => 'messages'], function () {
+            // TODO: defer to common route for both crew and admin
             Route::post('/{project}', [
                 'as' => 'producer.messages.store',
                 'uses' => 'Producer\MessagesController@store'
             ]);
+
+            // TODO: defer to common route for both crew and admin
             Route::put('/producer/projects/{project}/messages/{message}', [
                 'as' => 'producer.messages.update',
                 'uses' => 'Producer\MessagesController@update'
@@ -218,8 +238,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/producer/projects/{project}/threads', [\App\Http\Controllers\Producer\ThreadsController::class, 'index'])
             ->name('producer.threads.index');
     });
-
-    Route::get('/messages', ['as' => 'messages', 'uses' => 'MessagesDashboardController@index']);
 });
 
 Route::prefix('theme')->group(function () {
@@ -229,4 +247,10 @@ Route::prefix('theme')->group(function () {
 
 Route::get('test', function () {
     Log::info('asd');
+});
+
+Route::get('upload_test', function () {
+    $name = uniqid() . '.txt';
+    Storage::disk('s3')->put($name, (\Faker\Factory::create())->paragraph);
+    dump(config('filesystems.disks.s3.url') . '/' . config('filesystems.disks.s3.bucket') . '/' . $name);
 });

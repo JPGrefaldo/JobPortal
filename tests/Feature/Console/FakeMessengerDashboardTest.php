@@ -8,7 +8,7 @@ class FakeMessengerDashboardTest extends TestCase
 {
     /**
      * @test
-     * @cover \App\Console\Commands\FkaeMessengerDashboardTest
+     * @covers \App\Console\Commands\FkaeMessengerDashboardTest
      */
     public function execute()
     {
