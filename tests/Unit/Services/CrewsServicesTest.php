@@ -6,7 +6,6 @@ use App\Models\Crew;
 use App\Models\CrewReel;
 use App\Models\CrewResume;
 use App\Models\CrewSocial;
-use App\Models\User;
 use App\Services\CrewsServices;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
@@ -95,7 +94,7 @@ class CrewsServicesTest extends TestCase
         $this->assertArraySubset(
             [
                 'bio'   => 'some bio',
-                'photo' => 'photos/' . $user->hash_id . '/' . $data['photo']->hashName(),
+                'photo' => '/' . $user->hash_id . '/photos/' . $data['photo']->hashName(),
             ],
             $crew->toArray()
         );
@@ -199,7 +198,7 @@ class CrewsServicesTest extends TestCase
         $this->assertArraySubset(
             [
                 'bio'   => 'some bio',
-                'photo' => 'photos/' . $user->hash_id . '/' . $photoFile->hashName(),
+                'photo' => '/' . $user->hash_id . '/photos/' . $photoFile->hashName(),
             ],
             $crew->toArray()
         );
@@ -208,7 +207,7 @@ class CrewsServicesTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers
      */
     public function create_general_resume()
     {
@@ -224,7 +223,7 @@ class CrewsServicesTest extends TestCase
 
         $this->assertArraySubset(
             [
-                'url'     => 'resumes/' . $crew->user->hash_id . '/' . $resumeFile->hashName(),
+                'url' => '/' . $crew->user->hash_id . '/resume/' . $resumeFile->hashName(),
                 'crew_id' => $crew->id,
                 'general' => 1,
             ],
@@ -406,7 +405,7 @@ class CrewsServicesTest extends TestCase
         $this->assertArraySubset(
             [
                 'bio'   => 'updated bio',
-                'photo' => 'photos/' . $crew->user->hash_id . '/' . $data['photo']->hashName(),
+                'photo' => '/' . $crew->user->hash_id . '/photos/' . $data['photo']->hashName(),
             ],
             $crew->toArray()
         );
@@ -492,7 +491,7 @@ class CrewsServicesTest extends TestCase
         $this->assertArraySubset(
             [
                 'bio'   => 'new bio',
-                'photo' => 'photos/' . $crew->user->hash_id . '/' . $photoFile->hashName(),
+                'photo' => '/' . $crew->user->hash_id . '/photos/' . $photoFile->hashName(),
             ],
             $crew->toArray()
         );
@@ -549,7 +548,7 @@ class CrewsServicesTest extends TestCase
 
         $this->assertArraySubset(
             [
-                'url'     => 'resumes/' . $crew->user->hash_id . '/' . $resumeFile->hashName(),
+                'url' => '/' . $crew->user->hash_id . '/resume/' . $resumeFile->hashName(),
                 'crew_id' => $crew->id,
                 'general' => 1,
             ],
@@ -576,7 +575,7 @@ class CrewsServicesTest extends TestCase
 
         $this->assertArraySubset(
             [
-                'url'     => 'resumes/' . $crew->user->hash_id . '/' . $resumeFile->hashName(),
+                'url' => '/' . $crew->user->hash_id . '/resume/' . $resumeFile->hashName(),
                 'crew_id' => $crew->id,
                 'general' => 1,
             ],
@@ -872,7 +871,7 @@ class CrewsServicesTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers
      */
     public function update_general_reel_not_exists()
     {

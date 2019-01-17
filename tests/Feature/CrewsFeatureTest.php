@@ -6,7 +6,6 @@ use App\Models\Crew;
 use App\Models\CrewReel;
 use App\Models\CrewResume;
 use App\Models\CrewSocial;
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -464,7 +463,7 @@ class CrewsFeatureTest extends TestCase
 
         $this->assertArraySubset(
             [
-                'url'     => 'resumes/' . $user->hash_id . '/' . $data['resume']->hashName(),
+                'url' => '/' . $user->hash_id . '/resume/' . $data['resume']->hashName(),
                 'crew_id' => $crew->id,
                 'general' => 1,
             ],
