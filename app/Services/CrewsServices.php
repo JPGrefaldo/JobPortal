@@ -308,8 +308,8 @@ class CrewsServices
         if ($photoData['file'] instanceof UploadedFile) {
             $data['photo'] = '/'
                 . $photoData['dir']
-                . '/'
-                . 'photos'
+                . '/' .
+                StoragePath::BASE_PHOTO
                 . '/'
                 . $photoData['file']->hashName();
         }
