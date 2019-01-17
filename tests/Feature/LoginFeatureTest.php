@@ -32,9 +32,9 @@ class LoginFeatureTest extends TestCase
 
         $this->assertAuthenticated();
 
-        $response->assertSessionHas('token');
+        $response->assertSessionHas('api-token');
 
-        $this->assertGreaterThan(250, strlen(session('token')));
+        $this->assertGreaterThan(250, strlen(session('api-token')));
     }
 
     /**

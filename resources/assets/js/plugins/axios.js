@@ -1,12 +1,19 @@
 import axios from 'axios'
-import store from './../store'
 
 axios.interceptors.request.use(request => {
-    const token = store.getters['auth/token']
-
-    if (token) {
-        request.headers.common['Authorization'] = `Bearer ${token}`
+    if (!/^\/?api/.test(request.url)) {
+        return request
     }
 
+    Object.assign(request, {
+        headers: {
+            common: {
+                'Authorization': `Bearer ${window.API_TOKEN}`,
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json',
+            }
+        }
+    })
+
     return request
-})
+});

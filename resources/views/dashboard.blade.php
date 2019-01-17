@@ -36,6 +36,8 @@
                 </div>
             @endif
         </div>
+
+        <app-example-user />
     </div>
 </div>
 @endsection

@@ -22,14 +22,7 @@ Vue.component('tooltip', require('v-tooltip'));
 import VueSweetalert2 from 'vue-sweetalert2';
 Vue.use(VueSweetalert2);
 
-if (window.JWT_TOKEN) {
-    store.dispatch('auth/saveToken', {
-        token: window.JWT_TOKEN,
-        remember: true
-    })
-}
-
-if (! store.getters['auth/check'] && store.getters['auth/token']) {
+if (window.IS_AUTHORIZED) {
     (async function (store) {
         await store.dispatch('auth/fetchUser')
     })(store)
@@ -54,6 +47,7 @@ Vue.component('cca-projects', require('./components/ProjectsComponent'));
 Vue.component('cca-threads', require('./components/ThreadsComponent'));
 Vue.component('cca-messages', require('./components/MessagesComponent'));
 Vue.component('app-logout-link', require('./components/AppLogoutLink'));
+Vue.component('app-example-user', require('./components/AppExampleUser'));
 
 new Vue({
     el: '#nav-container',

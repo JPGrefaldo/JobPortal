@@ -81,9 +81,9 @@ class LoginController extends AbstractLoginController
      */
     protected function sendLoginResponse(Request $request)
     {
-        $token = JWTAuth::fromUser($this->guard()->user());
+        $apiToken = JWTAuth::fromUser($this->guard()->user());
 
-        session()->flash('token', $token);
+        session()->put('api-token', $apiToken);
 
         return parent::sendLoginResponse($request);
     }
