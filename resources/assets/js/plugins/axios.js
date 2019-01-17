@@ -2,7 +2,7 @@ import axios from 'axios'
 
 axios.interceptors.request.use(request => {
     if (!/^\/?api/.test(request.url)) {
-        return
+        return request
     }
 
     Object.assign(request, {
