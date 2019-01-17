@@ -24,7 +24,7 @@ class CrewProfileController extends Controller
         $user = Auth::user()->load([
             'crew'
         ]);
-        $resume_url = $user->crew->resumes->where('general',1)->first()->url;
+        $resume_url = $user->crew->resumes->where( 'general',1)->first()->url;
 
         return view('crew.profile.profile-index', [
             'user' => $user,

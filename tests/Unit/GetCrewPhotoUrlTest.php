@@ -37,7 +37,7 @@ class GetCrewPhotoUrlTest extends TestCase
     public function getUploadData($customData = [])
     {
         $data = [
-            'photo'   => UploadedFile::fake()
+            'photo' => UploadedFile::fake()
                 ->image('photo.png'),
         ];
 
