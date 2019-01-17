@@ -6,4 +6,5 @@
 
 @auth
     <meta name="is-authorized" content="1">
+    <meta name="api-token" content="{{ session('api-token') }}">
 @endauth
