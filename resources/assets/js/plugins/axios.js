@@ -1,16 +1,10 @@
 import axios from 'axios'
-import JsonpAdapter from './../lib/axios/JsonpAdapter'
-
-window.jsonpCallback = (params) => {
-    ocnsole.log(params)
-}
 
 axios.interceptors.request.use(request => {
-    if (! /^\/?api/.test(request.url)) {
+    if (!/^\/?api/.test(request.url)) {
         return
     }
 
-    let url = request.url
     let method = request.method
     let adapter = new JsonpAdapter({
         method,
@@ -21,18 +15,17 @@ axios.interceptors.request.use(request => {
     Object.assign(request, {
         adapter
     });
-    /*Object.assign(request, {
+    Object.assign(request, {
         method: 'options',
         adapter,
         headers: {
             common: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Access-Control-Allow-Origin': 'http://champ-crewcalls.test',
+                'Access-Control-Allow-Origin': '*',
                 'Access-Control-Request-Method': method.toUpperCase(),
-             /!*   'Content-Type': 'application/json'*!/
+                'Content-Type': 'application/json',
             }
         }
-    })*/
+    })
 
     return request
 });

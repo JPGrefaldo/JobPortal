@@ -22,13 +22,13 @@ window._ = require('vue-sweetalert2');
 window.axios = require('axios');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-window.axios.defaults.headers.common['Access-Control-Allow-Origin'] = 'http://champ-crewcalls.test';
-window.axios.defaults.headers.common['Content-Type'] = 'application/json';
 
 window.axios.defaults.withCredentials = true;
 
 window.IS_AUTHORIZED = Boolean(document.head.querySelector('meta[name="is-authorized"]'))
 
+if (window.IS_AUTHORIZED) {
+}
 /**
  * Next we will register the CSRF Token as a common header with Axios so that
  * all outgoing HTTP requests automatically have it attached. This is just
