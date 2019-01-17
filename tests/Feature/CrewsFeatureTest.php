@@ -43,7 +43,7 @@ class CrewsFeatureTest extends TestCase
         $this->assertArraySubset(
             [
                 'bio'   => 'some bio',
-                'photo' => 'photos/' . $user->hash_id . '/' . $data['photo']->hashName(),
+                'photo' =>  '/' . $user->hash_id . '/photos/' . $data['photo']->hashName(),
             ],
             $crew->toArray()
         );
@@ -165,7 +165,7 @@ class CrewsFeatureTest extends TestCase
 
         $this->assertArraySubset(
             [
-                'photo' => 'photos/' . $user->hash_id . '/' . $data['photo']->hashName(),
+                'photo' => '/' . $user->hash_id . '/photos/' . $data['photo']->hashName(),
             ],
             $crew->toArray()
         );
@@ -356,7 +356,7 @@ class CrewsFeatureTest extends TestCase
         $this->assertArraySubset(
             [
                 'bio'   => 'updated bio',
-                'photo' => 'photos/' . $user->hash_id . '/' . $data['photo']->hashName(),
+                'photo' =>  '/' . $user->hash_id . '/photos/' . $data['photo']->hashName(),
             ],
             $crew->toArray()
         );
