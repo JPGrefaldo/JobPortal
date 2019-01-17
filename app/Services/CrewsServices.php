@@ -398,9 +398,12 @@ class CrewsServices
             ];
         } elseif ($type === 'resume') {
             return [
-                'url' => '/'
-                    . $fileData['dir']
-                    . '/resume/' . $fileData['file']->hashName(),
+                'url' => '/' .
+                    $fileData['dir'] .
+                    '/' .
+                    StoragePath::BASE_RESUME .
+                    '/' .
+                    $fileData['file']->hashName(),
             ];
         }
     }

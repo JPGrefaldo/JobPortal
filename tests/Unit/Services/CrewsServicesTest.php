@@ -105,9 +105,9 @@ class CrewsServicesTest extends TestCase
 
         $this->assertArraySubset(
             [
-                'url' => '/' . $user->hash_id . '/resume/' . $data['resume']->hashName(),
+                'url' => '/' . $user->hash_id . '/resumes/' . $data['resume']->hashName(),
                 'crew_id' => $crew->id,
-                'general' => 1,
+                'general' => true,
             ],
             $resume->toArray()
         );
@@ -223,9 +223,9 @@ class CrewsServicesTest extends TestCase
 
         $this->assertArraySubset(
             [
-                'url' => '/' . $crew->user->hash_id . '/resume/' . $resumeFile->hashName(),
+                'url' => '/' . $crew->user->hash_id . '/resumes/' . $resumeFile->hashName(),
                 'crew_id' => $crew->id,
-                'general' => 1,
+                'general' => true,
             ],
             $resume->toArray()
         );
@@ -418,9 +418,9 @@ class CrewsServicesTest extends TestCase
 
         $this->assertArraySubset(
             [
-                'url' => '/' . $crew->user->hash_id . '/resume/' . $data['resume']->hashName(),
+                'url' => '/' . $crew->user->hash_id . '/resumes/' . $data['resume']->hashName(),
                 'crew_id' => $crew->id,
-                'general' => 1,
+                'general' => true,
             ],
             $resume->toArray()
         );
@@ -548,9 +548,9 @@ class CrewsServicesTest extends TestCase
 
         $this->assertArraySubset(
             [
-                'url' => '/' . $crew->user->hash_id . '/resume/' . $resumeFile->hashName(),
+                'url' => '/' . $crew->user->hash_id . '/resumes/' . $resumeFile->hashName(),
                 'crew_id' => $crew->id,
-                'general' => 1,
+                'general' => true,
             ],
             $resume->toArray()
         );
@@ -575,9 +575,9 @@ class CrewsServicesTest extends TestCase
 
         $this->assertArraySubset(
             [
-                'url' => '/' . $crew->user->hash_id . '/resume/' . $resumeFile->hashName(),
+                'url' => '/' . $crew->user->hash_id . '/resumes/' . $resumeFile->hashName(),
                 'crew_id' => $crew->id,
-                'general' => 1,
+                'general' => true,
             ],
             $resume->toArray()
         );

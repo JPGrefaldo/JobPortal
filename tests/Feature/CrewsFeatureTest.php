@@ -54,9 +54,9 @@ class CrewsFeatureTest extends TestCase
 
         $this->assertArraySubset(
             [
-                'url' => '/' . $user->hash_id . '/resume/' . $data['resume']->hashName(),
+                'url' => '/' . $user->hash_id . '/resumes/' . $data['resume']->hashName(),
                 'crew_id' => $crew->id,
-                'general' => 1,
+                'general' => true,
             ],
             $resume->toArray()
         );
@@ -71,7 +71,7 @@ class CrewsFeatureTest extends TestCase
             [
                 'crew_id' => $crew->id,
                 'url'     => 'https://www.youtube.com/embed/G8S81CEBdNs',
-                'general' => 1,
+                'general' => true,
             ],
             $reel->toArray()
         );
@@ -255,7 +255,7 @@ class CrewsFeatureTest extends TestCase
             [
                 'crew_id' => $crew->id,
                 'url'     => 'https://www.youtube.com/embed/2-_rLbU6zJo',
-                'general' => 1,
+                'general' => true,
             ],
             $reel->toArray()
         );
@@ -299,7 +299,7 @@ class CrewsFeatureTest extends TestCase
             [
                 'crew_id' => $crew->id,
                 'url'     => 'https://player.vimeo.com/video/230046783',
-                'general' => 1,
+                'general' => true,
             ],
             $reel->toArray()
         );
@@ -367,9 +367,9 @@ class CrewsFeatureTest extends TestCase
 
         $this->assertArraySubset(
             [
-                'url' => '/' . $user->hash_id . '/resume/' . $data['resume']->hashName(),
+                'url' => '/' . $user->hash_id . '/resumes/' . $data['resume']->hashName(),
                 'crew_id' => $crew->id,
-                'general' => 1,
+                'general' => true,
             ],
             $resume->toArray()
         );
@@ -383,7 +383,7 @@ class CrewsFeatureTest extends TestCase
             [
                 'crew_id' => $crew->id,
                 'url'     => 'https://www.youtube.com/embed/WI5AF1DCQlc',
-                'general' => 1,
+                'general' => true,
             ],
             $reel->toArray()
         );
@@ -463,9 +463,9 @@ class CrewsFeatureTest extends TestCase
 
         $this->assertArraySubset(
             [
-                'url' => '/' . $user->hash_id . '/resume/' . $data['resume']->hashName(),
+                'url' => '/' . $user->hash_id . '/resumes/' . $data['resume']->hashName(),
                 'crew_id' => $crew->id,
-                'general' => 1,
+                'general' => true,
             ],
             $resume->toArray()
         );
@@ -479,7 +479,7 @@ class CrewsFeatureTest extends TestCase
             [
                 'crew_id' => $crew->id,
                 'url'     => 'https://www.youtube.com/embed/WI5AF1DCQlc',
-                'general' => 1,
+                'general' => true,
             ],
             $reel->toArray()
         );
@@ -651,7 +651,7 @@ class CrewsFeatureTest extends TestCase
             [
                 'crew_id' => $crew->id,
                 'url'     => 'https://www.youtube.com/embed/2-_rLbU6zJo',
-                'general' => 1,
+                'general' => true,
             ],
             $reel->toArray()
         );
@@ -694,7 +694,7 @@ class CrewsFeatureTest extends TestCase
             [
                 'crew_id' => $crew->id,
                 'url'     => 'https://player.vimeo.com/video/230046783',
-                'general' => 1,
+                'general' => true,
             ],
             $reel->toArray()
         );
