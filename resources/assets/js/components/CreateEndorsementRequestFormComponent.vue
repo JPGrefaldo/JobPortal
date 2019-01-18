@@ -2,11 +2,12 @@
     <div class="bg-white rounded flex-1 shadow-lg p-8 mb-4">
         <form @submit.prevent="">
             <div class="flex-auto">
-                <div class="w-full">
+                <div class="w-full mb-3">
                     <label>Email:</label>
                 </div>
-                <div class="w-full">
+                <div class="w-full mb-3">
                     <input
+                        ref="email"
                         type="email"
                         name="email"
                         class="form-control md:w-1/2 -md:w-full"
@@ -19,11 +20,12 @@
                         {{ form.errors.get('email') }}
                     </p>
                 </div>
-                <div class="w-full mt-2 mb-1">
+                <div class="w-full mt-2 mb-3">
                     <label>Messsage:</label>
                 </div>
                 <div class="w-full">
                     <textarea
+                        ref="message"
                         class="form-control w-full h-48"
                         name="message"
                         v-model="form.message"
@@ -92,7 +94,14 @@
                     })
                     .catch(response => {
                         this.isSending = false;
+
                         this.form.errors.record(response.errors);
+
+                        if (this.form.errors.has('email')) {
+                            this.$nextTick(() => this.$refs.email.focus());
+                        } else if (this.form.errors.has('message')) {
+                            this.$nextTick(() => this.$refs.message.focus());
+                        }
                     });
             },
         }

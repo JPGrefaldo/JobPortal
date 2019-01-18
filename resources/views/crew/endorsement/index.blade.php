@@ -12,10 +12,13 @@
                     {{ str_plural('Endorsement', $total_endorsements) }}
                 </h3>
             </div>
-            <div class="bg-grey-lighter pb-2 px-2 border-t border-grey-light rounded-b">
+            <div class="bg-grey-lighter pb-2 px-2 border-t border-grey-light rounded-b flex flex-wrap">
                 @if ($positions->count())
                     @foreach($positions as $position)
-                        @include('crew.endorsement.__parts.endorsement-positions')
+                        @include('crew.endorsement.__parts.endorsement-positions', [
+                            'approvedEndorsements'   => isset($endorsements[$position->id]['approved']) ? $endorsements[$position->id]['approved'] : 0,
+                            'unapprovedEndorsements' => isset($endorsements[$position->id]['unapproved']) ? $endorsements[$position->id]['unapproved'] : 0,
+                        ])
                     @endforeach
                 @endif
             </div>
