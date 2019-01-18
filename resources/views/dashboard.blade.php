@@ -36,8 +36,6 @@
                 </div>
             @endif
         </div>
-
-        <cca-example-user />
     </div>
 </div>
 @endsection
