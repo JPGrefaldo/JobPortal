@@ -37,7 +37,7 @@
             @endif
         </div>
 
-        <app-example-user />
+        <cca-example-user />
     </div>
 </div>
 @endsection

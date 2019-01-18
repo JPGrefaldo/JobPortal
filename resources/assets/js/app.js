@@ -46,8 +46,8 @@ Vue.component('cca-messages-dashboard', require('./components/MessagesDashboardC
 Vue.component('cca-projects', require('./components/ProjectsComponent'));
 Vue.component('cca-threads', require('./components/ThreadsComponent'));
 Vue.component('cca-messages', require('./components/MessagesComponent'));
-Vue.component('app-logout-link', require('./components/AppLogoutLink'));
-Vue.component('app-example-user', require('./components/AppExampleUser'));
+Vue.component('cca-logout-link', require('./components/LogoutLink'));
+Vue.component('cca-example-user', require('./components/ExampleUser'));
 
 new Vue({
     el: '#nav-container',

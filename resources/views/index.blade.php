@@ -48,10 +48,10 @@
                                 </a>
                             </li>
                             <li>
-                                <app-logout-link csrf="{{ csrf_token() }}"
+                                <cca-logout-link csrf="{{ csrf_token() }}"
                                                  classes="block py-4 px-8 font-header font-bold leading-none uppercase text-sm text-white hover:border-green hover:text-green">
                                     {{ __('Logout') }}
-                                </app-logout-link>
+                                </cca-logout-link>
                             </li>
                         @endguest
                         </ul>
