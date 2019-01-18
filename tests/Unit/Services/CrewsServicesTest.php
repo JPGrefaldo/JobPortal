@@ -40,7 +40,7 @@ class CrewsServicesTest extends TestCase
      */
     public function process_create()
     {
-        Storage::fake();
+        Storage::fake('s3');
 
         $user = $this->createUser();
         $data = [
@@ -186,7 +186,7 @@ class CrewsServicesTest extends TestCase
      */
     public function create()
     {
-        Storage::fake();
+        Storage::fake('s3');
 
         $user      = $this->createUser();
         $data      = ['bio' => 'some bio',];
@@ -211,7 +211,7 @@ class CrewsServicesTest extends TestCase
      */
     public function create_general_resume()
     {
-        Storage::fake();
+        Storage::fake('s3');
 
         $crew       = factory(Crew::class)->create();
         $resumeFile = UploadedFile::fake()->create('resume.pdf');
@@ -240,7 +240,7 @@ class CrewsServicesTest extends TestCase
      */
     public function create_socials()
     {
-        Storage::fake();
+        Storage::fake('s3');
 
         $crew = factory(Crew::class)->create();
         $data = [
@@ -342,7 +342,7 @@ class CrewsServicesTest extends TestCase
      */
     public function process_update()
     {
-        Storage::fake();
+        Storage::fake('s3');
 
         $crew   = factory(Crew::class)->states('PhotoUpload')->create();
         $resume = factory(CrewResume::class)->states('Upload')->create(['crew_id' => $crew->id]);
@@ -478,7 +478,7 @@ class CrewsServicesTest extends TestCase
      */
     public function update()
     {
-        Storage::fake();
+        Storage::fake('s3');
 
         $crew      = factory(Crew::class)->states('PhotoUpload')->create();
         $data      = ['bio' => 'new bio'];
@@ -507,7 +507,7 @@ class CrewsServicesTest extends TestCase
      */
     public function update_without_photo()
     {
-        Storage::fake();
+        Storage::fake('s3');
 
         $crew      = factory(Crew::class)->states('PhotoUpload')->create();
         $data      = ['bio' => 'new bio'];
@@ -535,7 +535,7 @@ class CrewsServicesTest extends TestCase
      */
     public function update_crew_general_resume()
     {
-        Storage::fake();
+        Storage::fake('s3');
 
         $crew         = factory(Crew::class)->create();
         $resume       = factory(CrewResume::class)->states('Upload')->create(['crew_id' => $crew->id]);
@@ -564,7 +564,7 @@ class CrewsServicesTest extends TestCase
      */
     public function update_crew_general_resume_not_exists()
     {
-        Storage::fake();
+        Storage::fake('s3');
 
         $crew       = factory(Crew::class)->create();
         $resumeFile = UploadedFile::fake()->create('new-resume.pdf');
@@ -699,7 +699,7 @@ class CrewsServicesTest extends TestCase
      */
     public function update_socials()
     {
-        Storage::fake();
+        Storage::fake('s3');
 
         $crew = factory(Crew::class)->create();
 
