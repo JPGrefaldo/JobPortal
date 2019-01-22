@@ -23,7 +23,7 @@ class Project extends Model
         'id'                     => 'integer',
         'project_type_id'        => 'integer',
         'user_id'                => 'integer',
-        'site_id' => 'integer',
+        'site_id'                => 'integer',
         'status'                 => 'integer',
         'production_name_public' => 'boolean',
     ];
