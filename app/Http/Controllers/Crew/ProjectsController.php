@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Crew;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ProjectResource;
 
 class ProjectsController extends Controller
 {
@@ -10,8 +11,8 @@ class ProjectsController extends Controller
     {
         $user = auth()->user();
         $crew = $user->crew;
-        $projects = $crew->projects;
+        $projects = $crew->projects->paginate();
 
-        return $projects;
+        return ProjectResource::collection($projects);
     }
 }

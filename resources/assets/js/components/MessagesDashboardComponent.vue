@@ -49,6 +49,7 @@
 
 <script type="text/javascript">
     import { Form, HasError, AlertError } from 'vform'
+    import { mapGetters } from 'vuex'
 
     export default {
         name: "MessagesDashboardComponent",
@@ -113,8 +114,8 @@
             },
 
             getProjects() {
-                this.form.get('/' + this.role.toLowerCase() + '/projects')
-                    .then(response => (this.projects = response.data))
+                this.form.get('/api/' + this.role.toLowerCase() + '/projects')
+                    .then(response => (this.projects = response.data.data))
             },
 
             onClickSetProject(project) {

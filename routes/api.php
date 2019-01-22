@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Http\Request;
 use App\Http\Middleware\AuthorizeRoles;
 use App\Models\Role;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,8 +18,18 @@ use App\Models\Role;
 | * Multiple, Route::middleware(AuthorizeRoles::parameterize(Role::CREW, Role::PRODUCER))
 */
 
-Route::middleware('auth:api')->group(function() {
+Route::middleware('auth:api')->group(function () {
     Route::get('/user', function (Request $request) {
         return response()->json($request->user());
     });
+
+    Route::get('/crew/projects', [
+        \App\Http\Controllers\Crew\ProjectsController::class,
+        'index'
+    ])->name('crew.projects.index');
+
+    Route::get('/producer/projects', [
+        \App\Http\Controllers\Producer\ProjectsController::class,
+        'index'
+    ])->name('producer.projects.index');
 });

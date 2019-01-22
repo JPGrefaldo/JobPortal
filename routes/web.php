@@ -182,9 +182,6 @@ Route::middleware('auth')->group(function () {
             Route::post('/', [\App\Http\Controllers\Crew\CrewProfileController::class, 'store']);
         });
 
-        Route::get('/crew/projects', [\App\Http\Controllers\Crew\ProjectsController::class, 'index'])
-            ->name('crew.projects.index');
-
         Route::get('/crew/projects/{project}/threads', [\App\Http\Controllers\Crew\ThreadsController::class, 'index'])
             ->name('crew.threads.index');
     });
@@ -199,8 +196,6 @@ Route::middleware('auth')->group(function () {
     */
     Route::middleware('producer')->group(function () {
         Route::prefix('/producer/projects')->group(function () {
-            Route::get('/', [\App\Http\Controllers\Producer\ProjectsController::class, 'index'])
-                ->name('producer.projects.index');
             Route::get('/create', [\App\Http\Controllers\Producer\ProjectsController::class, 'create'])
                 ->name('producer.projects.create');
             Route::post('/', [\App\Http\Controllers\Producer\ProjectsController::class, 'store'])
