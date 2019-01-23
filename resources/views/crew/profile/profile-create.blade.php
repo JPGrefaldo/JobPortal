@@ -129,6 +129,7 @@
                 </div>
                 @endforeach -->
 
+                <form>
                 @foreach($departments as $key => $department)
                 <div class="card mb-6">
                     <div class="pb-6">
@@ -184,10 +185,16 @@
                                             <h3 class="text-md font-header mt-2 mb-2 md:mb-0">Gear</h3>
                                         </div>
                                         <div class="md:w-2/3">
-                                            <div class="container">
-                                                <label class="switch" for="checkbox">
-                                                    <input type="checkbox" id="checkbox-gear" />
-                                                    <div class="slider round"></div>
+                                            {{--<div class="container">--}}
+                                                {{--<label class="switch" for="checkbox">--}}
+                                                    {{--<input type="checkbox" id="checkbox-gear" />--}}
+                                                    {{--<div class="slider round"></div>--}}
+                                                {{--</label>--}}
+                                            {{--</div>--}}
+                                            <div class="display">
+                                                <label class="label toggle">
+                                                    <input type="checkbox" class="toggle_input" />
+                                                    <div class="toggle-control"></div>
                                                 </label>
                                             </div>
                                         </div>
@@ -214,6 +221,7 @@
                     </div>
                 </div>
                 @endforeach
+                </form>
             </div>
         </div>
     </main>
