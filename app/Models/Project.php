@@ -33,7 +33,7 @@ class Project extends Model
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function type()
     {
@@ -56,16 +56,25 @@ class Project extends Model
         return $this->hasMany(ProjectJob::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function contributors()
     {
         return $this->belongsToMany(Crew::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function owner()
     {
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function threads()
     {
         return $this->belongsToMany(Thread::class);

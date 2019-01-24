@@ -42,6 +42,9 @@ class Crew extends Model
         return $this->hasMany(CrewPosition::class);
     }
 
+    /**
+     * @return string
+     */
     public function getPhotoUrlAttribute()
     {
         return $this->photo;
@@ -136,6 +139,9 @@ class Crew extends Model
         return $this->hasManyThrough(Endorsement::class, CrewPosition::class, 'crew_id', 'crew_position_id', 'id', 'id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function projects()
     {
         return $this->belongsToMany(Project::class);

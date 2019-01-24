@@ -31,10 +31,11 @@ class SocialLinkType extends Model
         return $this->hasMany(CrewSocial::class);
     }
 
-
-     public function getSlugAttribute()
+    /**
+     * @return string
+     */
+    public function getSlugAttribute()
      {
          return snake_case(strtolower($this->name));
      }
-
 }

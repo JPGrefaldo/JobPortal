@@ -22,6 +22,9 @@ class PendingFlagMessage extends Model
         'disapproved_at' => 'datetime',
     ];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function message()
     {
         return $this->belongsTo(Message::class);
