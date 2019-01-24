@@ -1,10 +1,14 @@
 <?php
 
+use App\Models\PayType;
+use App\Models\Position;
+use App\Models\Project;
+use App\Models\ProjectJob;
 use Faker\Generator as Faker;
 
 /** @var $factory \Illuminate\Database\Eloquent\Factory */
 
-$factory->define(\App\Models\ProjectJob::class, function (Faker $faker) {
+$factory->define(ProjectJob::class, function (Faker $faker) {
     return [
         'persons_needed'       => $faker->numberBetween(1, 10),
         'dates_needed'         => $faker->date(),
@@ -15,14 +19,8 @@ $factory->define(\App\Models\ProjectJob::class, function (Faker $faker) {
         'gear_provided'        => $faker->sentence,
         'gear_needed'          => $faker->sentence,
         'status'               => 0,
-        'project_id'           => function () {
-            return factory(\App\Models\Project::class)->create()->id;
-        },
-        'position_id'          => function () {
-            return factory(\App\Models\Position::class)->create()->id;
-        },
-        'pay_type_id'          => function () {
-            return factory(App\Models\PayType::class)->create()->id;
-        },
+        'project_id'           => factory(Project::class),
+        'position_id'          => factory(Position::class),
+        'pay_type_id'          => factory(PayType::class),
     ];
 });

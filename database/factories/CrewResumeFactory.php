@@ -1,23 +1,26 @@
 <?php
 
+use App\Models\Crew;
+use App\Models\CrewResume;
 use Faker\Generator as Faker;
+use Illuminate\Http\UploadedFile;
 
 /** @var $factory \Illuminate\Database\Eloquent\Factory */
 
-$factory->define(App\Models\CrewResume::class, function (Faker $faker) {
+// TODO: restructure url, must include user hash id
+$factory->define(CrewResume::class, function (Faker $faker) {
     return [
-        'crew_id' => function () {
-            return factory(\App\Models\Crew::class)->create()->id;
-        },
+        'crew_id' => factory(Crew::class),
         'url'     => 'resumes/' . $faker->uuid . '/' . $faker->sha1 . '.pdf',
         'general' => 1,
     ];
 });
 
-$factory->state(App\Models\CrewResume::class, 'Upload', function (Faker $faker) {
+// TODO: restructure url, must include user hash id
+$factory->state(CrewResume::class, 'Upload', function (Faker $faker) {
     return [
         'url' => function () use ($faker) {
-            $tmpFile = \Illuminate\Http\UploadedFile::fake()->create($faker->sha1 . '.pdf');
+            $tmpFile = UploadedFile::fake()->create($faker->sha1 . '.pdf');
             $path    = 'resumes/' . $faker->uuid . '/' . $tmpFile->hashName();
 
             Storage::put($path, file_get_contents($tmpFile));

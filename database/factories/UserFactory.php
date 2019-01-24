@@ -1,13 +1,15 @@
 <?php
 
+use App\Faker\PhoneProvider;
 use App\Models\Role;
+use App\Models\User;
 use App\Utils\StrUtils;
 use Faker\Generator as Faker;
 
 /** @var $factory \Illuminate\Database\Eloquent\Factory */
 
-$factory->define(App\Models\User::class, function (Faker $faker) {
-    $faker->addProvider(new \App\Faker\PhoneProvider($faker));
+$factory->define(User::class, function (Faker $faker) {
+    $faker->addProvider(new PhoneProvider($faker));
 
     return [
         'first_name'     => $faker->unique()->firstName,
@@ -22,19 +24,20 @@ $factory->define(App\Models\User::class, function (Faker $faker) {
 });
 
 $factory
-    ->state(App\Models\User::class, 'withProducerRole', [])
-    ->afterCreatingState(App\Models\User::class, 'withProducerRole', function ($user, $faker) {
+    ->state(User::class, 'withProducerRole', [])
+    ->afterCreatingState(User::class, 'withProducerRole', function ($user, $faker) {
         $user->roles()->attach(Role::where('name', Role::PRODUCER)->first());
     });
 
+// TODO: consider creating crew model connected to the user
 $factory
-    ->state(App\Models\User::class, 'withCrewRole', [])
-    ->afterCreatingState(App\Models\User::class, 'withCrewRole', function ($user, $faker) {
+    ->state(User::class, 'withCrewRole', [])
+    ->afterCreatingState(User::class, 'withCrewRole', function ($user, $faker) {
         $user->roles()->attach(Role::where('name', Role::CREW)->first());
     });
 
 $factory
-    ->state(App\Models\User::class, 'withAdminRole', [])
-    ->afterCreatingState(App\Models\User::class, 'withAdminRole', function ($user, $faker) {
+    ->state(User::class, 'withAdminRole', [])
+    ->afterCreatingState(User::class, 'withAdminRole', function ($user, $faker) {
         $user->roles()->attach(Role::where('name', Role::ADMIN)->first());
     });

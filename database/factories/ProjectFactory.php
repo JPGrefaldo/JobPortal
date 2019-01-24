@@ -13,15 +13,9 @@ $factory->define(Project::class, function (Faker $faker) {
         'title'                  => $faker->company,
         'production_name'        => $faker->unique()->word(3, true),
         'production_name_public' => $faker->boolean,
-        'project_type_id'        => function () {
-            return factory(ProjectType::class)->create()->id;
-        },
-        'user_id'                => function () {
-            return factory(User::class)->create()->id;
-        },
-        'site_id'                => function () {
-            return factory(Site::class)->create()->id;
-        },
+        'project_type_id'        => factory(ProjectType::class),
+        'user_id'                => factory(User::class),
+        'site_id'                => factory(Site::class),
         'description'            => $faker->unique()->sentence,
         'location'               => $faker->unique()->address,
         'status'                 => 0,

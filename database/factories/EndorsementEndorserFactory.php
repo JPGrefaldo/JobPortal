@@ -1,33 +1,28 @@
 <?php
 
-use App\Models\Crew;
-use Carbon\Carbon;
+use App\Models\EndorsementEndorser;
+use App\Models\User;
 use Faker\Generator as Faker;
 
 /** @var $factory \Illuminate\Database\Eloquent\Factory */
 
-$factory->define(App\Models\EndorsementEndorser::class, function (Faker $faker) {
+$factory->define(EndorsementEndorser::class, function (Faker $faker) {
     return [
-        'user_id' => function () {
-            return factory(\App\Models\User::class)->create()->id;
-        },
+        'user_id' => factory(User::class),
         'email'   => $faker->email,
     ];
 });
 
-$factory->state(App\Models\EndorsementEndorser::class, 'isUser', function (Faker $faker) {
+$factory->state(EndorsementEndorser::class, 'isUser', function (Faker $faker) {
     return [
-        'user_id' => function () {
-            return factory(\App\Models\User::class)->create()->id;
-        },
+        'user_id' => factory(User::class),
         'email'   => null,
     ];
 });
 
-$factory->state(App\Models\EndorsementEndorser::class, 'notUser', function (Faker $faker) {
+$factory->state(EndorsementEndorser::class, 'notUser', function (Faker $faker) {
     return [
         'user_id' => null,
         'email'   => $faker->email,
     ];
 });
-
