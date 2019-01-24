@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Crew;
+namespace App\Http\Controllers\API\Crew;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProjectResource;

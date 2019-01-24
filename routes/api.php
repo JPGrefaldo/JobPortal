@@ -19,17 +19,17 @@ use App\Models\Role;
 
 Route::middleware('auth:api')->group(function () {
     Route::get('/user', [
-        App\Http\Controllers\UserController::class,
+        \App\Http\Controllers\API\UserController::class,
         'show'
     ]);
 
     Route::get('/crew/projects', [
-        \App\Http\Controllers\Crew\ProjectsController::class,
+        \App\Http\Controllers\API\Crew\ProjectsController::class,
         'index'
     ])->name('crew.projects.index');
 
     Route::get('/producer/projects', [
-        \App\Http\Controllers\Producer\ProjectsController::class,
+        \App\Http\Controllers\API\Producer\ProjectsController::class,
         'index'
     ])->name('producer.projects.index');
 });
