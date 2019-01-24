@@ -2,7 +2,6 @@
 
 use App\Http\Middleware\AuthorizeRoles;
 use App\Models\Role;
-use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,9 +18,10 @@ use Illuminate\Http\Request;
 */
 
 Route::middleware('auth:api')->group(function () {
-    Route::get('/user', function (Request $request) {
-        return response()->json($request->user());
-    });
+    Route::get('/user', [
+        App\Http\Controllers\UserController::class,
+        'show'
+    ]);
 
     Route::get('/crew/projects', [
         \App\Http\Controllers\Crew\ProjectsController::class,
