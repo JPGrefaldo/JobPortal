@@ -19,8 +19,9 @@ class CrewResume extends Model
     protected $casts = [
         'id'               => 'integer',
         'crew_id'          => 'integer',
-        'crew_position_id' => 'integer',
+        'url'              => 'string',
         'general'          => 'boolean',
+        'crew_position_id' => 'integer',
     ];
 
     /**

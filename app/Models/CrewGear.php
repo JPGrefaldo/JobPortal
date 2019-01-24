@@ -19,8 +19,8 @@ class CrewGear extends Model
     protected $casts = [
         'id'               => 'integer',
         'crew_id'          => 'integer',
+        'description'      => 'string',
         'crew_position_id' => 'integer',
-
     ];
 
     /**

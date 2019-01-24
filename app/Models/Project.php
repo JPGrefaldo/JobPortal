@@ -21,11 +21,15 @@ class Project extends Model
      */
     protected $casts = [
         'id'                     => 'integer',
-        'project_type_id'        => 'integer',
         'user_id'                => 'integer',
         'site_id'                => 'integer',
-        'status'                 => 'integer',
+        'title'                  => 'string',
+        'production_name'        => 'string',
         'production_name_public' => 'boolean',
+        'project_type_id'        => 'integer',
+        'description'            => 'string',
+        'location'               => 'string',
+        'status'                 => 'integer',
     ];
 
     /**

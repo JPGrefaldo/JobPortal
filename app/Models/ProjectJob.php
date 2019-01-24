@@ -18,15 +18,18 @@ class ProjectJob extends Model
      */
     protected $casts = [
         'id'                   => 'integer',
-        'persons_needed'       => 'integer',
-        'pay_rate'             => 'float',
-        'rush_call'            => 'boolean',
-        'travel_expenses_paid' => 'boolean',
-        'remote'               => 'boolean',
-        'status'               => 'integer',
         'project_id'           => 'integer',
         'position_id'          => 'integer',
         'pay_type_id'          => 'integer',
+        'persons_needed'       => 'integer',
+        'dates_needed'         => 'array',
+        'pay_rate'             => 'float',
+        'notes'                => 'string',
+        'rush_call'            => 'boolean',
+        'travel_expenses_paid' => 'boolean',
+        'gear_provided'        => 'string',
+        'gear_needed'          => 'string',
+        'status'               => 'integer',
     ];
 
     /**

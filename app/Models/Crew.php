@@ -20,6 +20,8 @@ class Crew extends Model
     protected $casts = [
         'id'      => 'integer',
         'user_id' => 'integer',
+        'bio'     => 'string',
+        'photo'   => 'string',
     ];
 
     /**

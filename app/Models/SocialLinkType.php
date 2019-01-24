@@ -18,6 +18,8 @@ class SocialLinkType extends Model
      */
     protected $casts = [
         'id'         => 'integer',
+        'name'       => 'string',
+        'image'      => 'string',
         'sort_order' => 'integer',
     ];
 

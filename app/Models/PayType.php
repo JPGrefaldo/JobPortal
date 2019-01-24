@@ -18,6 +18,7 @@ class PayType extends Model
      */
     protected $casts = [
         'id'       => 'integer',
+        'name'     => 'string',
         'has_rate' => 'boolean',
     ];
 }

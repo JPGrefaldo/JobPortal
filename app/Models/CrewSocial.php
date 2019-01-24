@@ -22,6 +22,7 @@ class CrewSocial extends Model
         'id'                  => 'integer',
         'crew_id'             => 'integer',
         'social_link_type_id' => 'integer',
+        'url'                 => 'string',
     ];
 
     /**

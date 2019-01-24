@@ -20,7 +20,7 @@ class CreateProjectJobsTable extends Migration
             $table->unsignedInteger('pay_type_id');
             $table->unsignedInteger('persons_needed')
                   ->default(1);
-            $table->string('dates_needed');
+            $table->text('dates_needed');
             $table->decimal('pay_rate')
                   ->default(0);
             $table->text('notes')
