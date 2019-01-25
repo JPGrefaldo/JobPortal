@@ -1,13 +1,100 @@
-<script>
+<template>
+    <form>
+        <div class="card mb-6">
+            <div class="pb-6">
+                <h3 class="text-blue-dark font-semibold text-lg mb-1 font-header">{{$department->name}}</h3>
+            </div>
+            @foreach($department->positions as $key => $position)
+            <div id="position" class="p-2 md:p-4 border-t-2 border-grey-lighter bg-white">
+                <div class="py-2">
+                    <label class="checkbox-control"><h3 class="text-md">{{$position->name}}</h3>
+                        <input type="checkbox"
+                               id ="{{ $position->id }}"
+                               v-model="checked"/>
+                        <div class="control-indicator"></div>
+                    </label>
+                </div>
+                <div class="position-form" v-if="checked" >
+                    <div class="p-2 md:p-4 border-t-2 border-grey-lighter bg-white">
+                        <div class="py-2">
+                            <div class="mb-2">
+                                <textarea class="form-control w-full h-64" placeholder="Biography" name="bio"></textarea>
+                            </div>
+                        </div>
+                        <div class="border-t-2 border-grey-lighter py-4">
+                            <div class="md:flex">
+                                <div class="md:w-1/3 pr-8">
+                                    <h3 class="text-md font-header mb-2 md:mb-0">Resume</h3>
+                                </div>
+                                <div class="md:w-2/3">
+                                    <label for="resume" class="btn-outline text-green inline-block" >Upload file</label>
+                                    <input id="resume"
+                                           type="file"
+                                           name="resume"
+                                           class="invisible">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="border-t-2 border-grey-lighter py-4">
+                            <div class="md:flex">
+                                <div class="md:w-1/3 pr-8">
+                                    <h3 class="text-md font-header mt-2 mb-2 md:mb-0">Reel</h3>
+                                </div>
+                                <div class="md:w-2/3">
+                                    <input type="text" name="reel_link" class="form-control bg-light w-64 mr-2 mb-2 md:mb-0" placeholder="Add link"> or
+                                    <label for="resume" class="btn-outline text-green inline-block" >Upload file</label>
+                                    <input id="resume"
+                                           type="file"
+                                           name="resume"
+                                           class="invisible">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="border-t-2 border-grey-lighter py-4">
+                            <div class="md:flex">
+                                <div class="md:w-1/3 pr-8">
+                                    <h3 class="text-md font-header mt-2 mb-2 md:mb-0">Gear</h3>
+                                </div>
+                                <div class="md:w-2/3">
+                                    <div class="display">
+                                        <label class="label toggle">
+                                            <input type="checkbox" class="toggle_input" />
+                                            <div class="toggle-control"></div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="md:flex">
+                                <div class="md:w-1/3 pr-8">
+                                </div>
+                                <div class="md:w-2/3">
+                                    <h3 class="text-md font-header mt-2 mb-2 md:mb-0">What gear do you have for this position?</h3>
+                                    <br>
+                                    <div class="mb-2">
+                                        <textarea class="form-control w-full h-64" placeholder="Your gear" name="gear"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endforeach
+            <div class="pt-8 pb-4 text-right border-t-2 border-grey-lighter">
+                <a href="#" class="text-grey bold mr-4 hover:text-green">Cancel</a>
+                <a href="#" class="btn-green">SAVE CHANGES</a>
+            </div>
+        </div>
+    </form>
+</template>
+<script type="text/javascript">
     export default {
-        name: "WorkPositionComponent",
-        el: '#position',
-        data: {
-            checked: false
+
+        data () {
+            return {
+                checked: false
+            }
         }
+
     }
 </script>
-
-<style scoped>
-
-</style>
