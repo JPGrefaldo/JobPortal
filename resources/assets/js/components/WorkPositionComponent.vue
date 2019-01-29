@@ -7,13 +7,16 @@
         data () {
             return {
                 checked: false,
-                showForm: 'false',
+                showForm: true,
             }
         },
         methods : {
             check() {
                 this.checked = !this.checked;
                 if(this.checked) {
+                    this.showForm = false;
+                }
+                else {
                     this.showForm = true;
                 }
             }
@@ -23,5 +26,5 @@
 </script>
 
 <style>
-    .is-displayed {display:block;}
+    .is-displayed {display:none;}
 </style>
