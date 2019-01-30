@@ -120,9 +120,8 @@
                 <div class="py-4">
                     <h4 class='text-grey'>WORK POSITIONS</h4>
                 </div>
-                @foreach($departments as $key => $department)
-                    <work-position-component :department="{{ $department }}">
-                    </work-position-component>
+                @foreach($departments as department)
+                    <cca-work-position-component :department="{{ $department }}" />
                 @endforeach
             </div>
         </div>
