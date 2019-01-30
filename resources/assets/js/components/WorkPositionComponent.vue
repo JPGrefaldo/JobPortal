@@ -5,7 +5,6 @@
         </div>
         <div class="p-2 md:p-4 border-t-2 border-grey-lighter bg-white"
              v-for="position in department.positions" :key="position.id">
-
             <cca-position-component :position="position"/>
         </div>
     </div>
