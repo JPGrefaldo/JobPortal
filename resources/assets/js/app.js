@@ -48,6 +48,7 @@ Vue.component('cca-threads', require('./components/ThreadsComponent'));
 Vue.component('cca-messages', require('./components/MessagesComponent'));
 Vue.component('cca-logout-link', require('./components/LogoutLink'));
 Vue.component('work-position-component', require('./components/WorkPositionComponent'));
+Vue.component('position-component', require('./components/PositionComponent'));
 
 new Vue({
     el: '#nav-container',
