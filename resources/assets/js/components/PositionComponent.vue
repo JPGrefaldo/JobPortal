@@ -1,4 +1,10 @@
 <template>
+    <div class="py-2">
+        <label class="checkbox-control"><h3 class="text-md">{{position.name}}</h3>
+            <input type="checkbox">
+            <div class="control-indicator"></div>
+        </label>
+    </div>
     <div>
         <div>
             <div class="p-2 md:p-4 border-t-2 border-grey-lighter bg-white">
@@ -71,7 +77,8 @@
 
 <script>
     export default {
-        name: "PositionComponent"
+        name: "PositionComponent",
+
     }
 </script>
 

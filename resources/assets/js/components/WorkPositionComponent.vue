@@ -5,23 +5,20 @@
         </div>
         <div class="p-2 md:p-4 border-t-2 border-grey-lighter bg-white"
              v-for="position in department.positions" :key="position.id">
-            <div class="py-2">
-                <label class="checkbox-control"><h3 class="text-md">{{position.name}}</h3>
-                    <input type="checkbox">
-                    <div class="control-indicator"></div>
-                </label>
-            </div>
-            <cca-position-component />
+
+            <cca-position-component :position="position"/>
         </div>
     </div>
 
 </template>
 <script type="text/javascript">
+    import PositionComponent from "./PositionComponent";
     export default {
         components: {PositionComponent},
         props : {
-          department: Object,
-        },
+              department: Object,
+              position: Object,
+            },
     }
 </script>
 
