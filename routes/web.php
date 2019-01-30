@@ -181,9 +181,6 @@ Route::middleware('auth')->group(function () {
                 ->name('profile.create');
             Route::post('/', [\App\Http\Controllers\Crew\CrewProfileController::class, 'store']);
         });
-
-        Route::get('/crew/projects/{project}/threads', [\App\Http\Controllers\Crew\ThreadsController::class, 'index'])
-            ->name('crew.threads.index');
     });
 
     /*
@@ -224,9 +221,6 @@ Route::middleware('auth')->group(function () {
                 'uses' => 'Producer\MessagesController@update'
             ]);
         });
-
-        Route::get('/producer/projects/{project}/threads', [\App\Http\Controllers\Producer\ThreadsController::class, 'index'])
-            ->name('producer.threads.index');
     });
 });
 

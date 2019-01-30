@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\Project;
-use App\ProjectThread;
+use App\Models\ProjectThread;
 use Cmgmyr\Messenger\Models\Thread;
 use Faker\Generator as Faker;
 

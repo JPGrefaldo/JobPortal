@@ -132,8 +132,8 @@
             },
 
             getThreads() {
-                this.form.get('/' + this.role.toLowerCase() + '/projects/' + this.project.id + '/threads')
-                    .then(response => (this.threads = response.data))
+                this.form.get('/api/' + this.role.toLowerCase() + '/projects/' + this.project.id + '/threads')
+                    .then(response => this.threads = response.data.data);
             },
 
             onClickSetThread(thread) {

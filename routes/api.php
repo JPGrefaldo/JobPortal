@@ -32,4 +32,14 @@ Route::middleware('auth:api')->group(function () {
         \App\Http\Controllers\API\Producer\ProjectsController::class,
         'index'
     ])->name('producer.projects.index');
+
+    Route::get('/producer/projects/{project}/threads', [
+        \App\Http\Controllers\Producer\ThreadsController::class,
+        'index'
+    ])->name('producer.threads.index');
+
+    Route::get('/crew/projects/{project}/threads', [
+        \App\Http\Controllers\Crew\ThreadsController::class,
+        'index'
+    ])->name('crew.threads.index');
 });
