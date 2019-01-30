@@ -2,11 +2,8 @@
 
 namespace Tests\Browser;
 
-use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
-use App\Models\User;
-use Laravel\Dusk\Chrome;
-use Illuminate\FoundModels\ation\Testing\DatabaseMigrations;
+use Tests\DuskTestCase;
 
 class ExampleTest extends DuskTestCase
 {
@@ -17,10 +14,9 @@ class ExampleTest extends DuskTestCase
      */
     public function testBasicExample()
     {
-    /*    $this->browse(function ($browser)  {
-            $browser->visit('/my-profile/524')
-                    ->clickLink('Edit profile')
-                    ->assertPathIs('/my-profile/524/edit');
-        });*/
+        $this->browse(function ($browser) {
+            $browser->visit('/')
+                    ->assertPathIs('/');
+        });
     }
 }

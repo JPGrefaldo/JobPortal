@@ -46,9 +46,14 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $casts = [
-        'id'        => 'integer',
-        'status'    => 'integer',
-        'confirmed' => 'boolean',
+        'id'         => 'integer',
+        'hash_id'    => 'string',
+        'first_name' => 'string',
+        'last_name'  => 'string',
+        'email'      => 'string',
+        'phone'      => 'string',
+        'status'     => 'integer',
+        'confirmed'  => 'boolean',
     ];
 
     /**
@@ -109,6 +114,9 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasOne(Crew::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function projects()
     {
         return $this->hasMany(Project::class);
@@ -130,6 +138,9 @@ class User extends Authenticatable implements JWTSubject
         return ($this->status === 1);
     }
 
+    /**
+     *
+     */
     public function confirm()
     {
         $this->update([
@@ -137,6 +148,9 @@ class User extends Authenticatable implements JWTSubject
         ]);
     }
 
+    /**
+     *
+     */
     public function deactivate()
     {
         $this->update([
@@ -204,6 +218,9 @@ class User extends Authenticatable implements JWTSubject
             ->where('role_id', '=', Role::getRoleIdByName(Role::PRODUCER));
     }
 
+    /**
+     * @return string
+     */
     public function getRouteKeyName()
     {
         return 'hash_id';

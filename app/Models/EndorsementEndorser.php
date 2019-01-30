@@ -34,6 +34,10 @@ class EndorsementEndorser extends Model
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * @param $value
+     * @return null|string
+     */
     public function getEmailAttribute($value)
     {
         if (! is_null($value)) {

@@ -18,6 +18,7 @@ class Position extends Model
      */
     protected $casts = [
         'id'               => 'integer',
+        'name'             => 'string',
         'department_id'    => 'integer',
         'position_type_id' => 'integer',
         'has_gear'         => 'boolean',

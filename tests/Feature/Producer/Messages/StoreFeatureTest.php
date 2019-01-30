@@ -8,6 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 
+// TODO: restructure
 class StoreFeatureTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;

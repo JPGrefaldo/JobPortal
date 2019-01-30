@@ -18,6 +18,8 @@ class SocialLinkType extends Model
      */
     protected $casts = [
         'id'         => 'integer',
+        'name'       => 'string',
+        'image'      => 'string',
         'sort_order' => 'integer',
     ];
 
@@ -29,10 +31,11 @@ class SocialLinkType extends Model
         return $this->hasMany(CrewSocial::class);
     }
 
-
-     public function getSlugAttribute()
+    /**
+     * @return string
+     */
+    public function getSlugAttribute()
      {
          return snake_case(strtolower($this->name));
      }
-
 }

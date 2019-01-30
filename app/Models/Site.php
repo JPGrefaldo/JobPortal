@@ -18,6 +18,8 @@ class Site extends Model
      */
     protected $casts = [
         'id'                 => 'integer',
+        'name'               => 'string',
+        'hostname'           => 'string',
         'forward_to_site_id' => 'integer',
         'status'             => 'integer',
     ];

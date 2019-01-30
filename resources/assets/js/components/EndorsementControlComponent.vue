@@ -1,13 +1,10 @@
 <template>
     <div class="my-6">
         <div v-for="(endorsement, index) in endorsements" class="flex items-center mb-2">
-            <div class="w-5/6">{{ endorsement.request.endorser.email }}</div>
-            <div class="w-1/6 text-right">
-                <button
-                    class="btn-red-small"
-                    v-on:click.prevent="remove(endorsement, index)"
-                >X</button>
+            <div class="mr-2 pr-2 border-r-2">
+                <a href="#" @click.prevent="deleteEndorsement(endorsement, index)">Delete</a>
             </div>
+            <div class="">{{ endorsement.request.endorser.email }}</div>
         </div>
     </div>
 </template>
@@ -30,10 +27,10 @@
             }
         },
         methods: {
-            remove(endorsement, index) {
-                Vue.swal({
+            deleteEndorsement(endorsement, index) {
+                this.$swal({
                     title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
+                    html: "Delete <u>" + endorsement.request.endorser.email + "</u> endorsement?<br />You won't be able to revert this!",
                     type: 'warning',
                     showCancelButton: true,
                     cancelButtonColor: '#3085d6',
@@ -43,7 +40,7 @@
                     if (result.value) {
                         axios.delete('/crew/endorsement/positions/request/' + endorsement.id).then(response => {
                             this.endorsements.splice(index, 1);
-                            Vue.swal({
+                            this.$swal({
                                 title: '',
                                 text: "Endorsement has been deleted!",
                                 type: 'success',

@@ -14,14 +14,6 @@ use App\Utils\UrlUtils;
 
 class ProjectsController extends Controller
 {
-    public function index()
-    {
-        $user = auth()->user();
-        $projects = $user->projects;
-
-        return $projects;
-    }
-
     public function create()
     {
         $user = auth()->user();

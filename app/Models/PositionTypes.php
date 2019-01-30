@@ -18,6 +18,9 @@ class PositionTypes extends Model
      */
     protected $casts = [
         'id' => 'integer',
+        'name' => 'string',
+        'name' => 'description',
+        'order' => 'integer',
     ];
 
     /**

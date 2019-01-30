@@ -3,10 +3,9 @@
 namespace Tests\Feature\API;
 
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class FetchUserTest extends TestCase
 {
@@ -28,7 +27,8 @@ class FetchUserTest extends TestCase
             ->assertJsonStructure([
                 'id',
                 'first_name',
-                'last_name'
+                'last_name',
+                'roles'
             ]);
     }
 

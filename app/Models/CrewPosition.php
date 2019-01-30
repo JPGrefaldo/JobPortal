@@ -20,9 +20,11 @@ class CrewPosition extends Pivot
      * @var array
      */
     protected $casts = [
-        'id'          => 'integer',
-        'crew_id'     => 'integer',
-        'position_id' => 'integer',
+        'id'                => 'integer',
+        'crew_id'           => 'integer',
+        'position_id'       => 'integer',
+        'details'           => 'string',
+        'union_description' => 'string',
     ];
 
     /**

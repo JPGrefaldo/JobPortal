@@ -6,7 +6,7 @@ use Faker\Generator as Faker;
 
 $factory->define(PendingFlagMessage::class, function (Faker $faker) {
     return [
-        'message_id' => factory(Message::class)->create()->id,
+        'message_id' => factory(Message::class),
         'reason' => $faker->paragraph,
     ];
 });

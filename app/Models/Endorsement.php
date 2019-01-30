@@ -23,8 +23,8 @@ class Endorsement extends Model
      */
     protected $casts = [
         'id'                     => 'integer',
-        'endorsement_request_id' => 'integer',
         'crew_position_id'       => 'integer',
+        'endorsement_request_id' => 'integer',
         'approved_at'            => 'datetime',
         'deleted_at'             => 'datetime',
     ];

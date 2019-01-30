@@ -6,9 +6,9 @@ use Faker\Generator as Faker;
 
 /** @var $factory \Illuminate\Database\Eloquent\Factory */
 
-$factory->define(App\Models\EndorsementRequest::class, function (Faker $faker) {
+$factory->define(EndorsementRequest::class, function (Faker $faker) {
     return [
-        'crew_position_id' => factory(CrewPosition::class)->create()->id,
+        'crew_position_id' => factory(CrewPosition::class),
         'token' => EndorsementRequest::generateToken(),
     ];
 });

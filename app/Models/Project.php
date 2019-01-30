@@ -21,14 +21,19 @@ class Project extends Model
      */
     protected $casts = [
         'id'                     => 'integer',
-        'project_type_id'        => 'integer',
         'user_id'                => 'integer',
-        'status'                 => 'integer',
+        'site_id'                => 'integer',
+        'title'                  => 'string',
+        'production_name'        => 'string',
         'production_name_public' => 'boolean',
+        'project_type_id'        => 'integer',
+        'description'            => 'string',
+        'location'               => 'string',
+        'status'                 => 'integer',
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function type()
     {
@@ -51,16 +56,25 @@ class Project extends Model
         return $this->hasMany(ProjectJob::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function contributors()
     {
         return $this->belongsToMany(Crew::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function owner()
     {
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function threads()
     {
         return $this->belongsToMany(Thread::class);

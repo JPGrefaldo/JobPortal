@@ -1,19 +1,16 @@
 <?php
 
+use App\Models\Department;
+use App\Models\Position;
+use App\Models\PositionTypes;
 use Faker\Generator as Faker;
 
 /** @var $factory \Illuminate\Database\Eloquent\Factory */
 
-$factory->define(App\Models\Position::class, function (Faker $faker) {
-    static $department_id;
-
+$factory->define(Position::class, function (Faker $faker) {
     return [
         'name'             => $faker->unique()->words(2, true),
-        'department_id'    => $department_id ?: function () {
-            return factory(\App\Models\Department::class)->create()->id;
-        },
-        'position_type_id' => $department_id ?: function () {
-            return factory(\App\Models\PositionTypes::class)->create()->id;
-        },
+        'department_id'    => factory(Department::class),
+        'position_type_id' => factory(PositionTypes::class),
     ];
 });
