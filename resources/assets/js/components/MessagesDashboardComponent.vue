@@ -148,8 +148,8 @@
             },
 
             getMessages() {
-                this.form.get('/threads/' + this.thread.id + '/messages')
-                    .then(response => (this.messages = response.data))
+                this.form.get('api/threads/' + this.thread.id + '/messages')
+                    .then(response => (this.messages = response.data.data))
             },
 
         }

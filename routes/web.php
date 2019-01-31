@@ -88,8 +88,6 @@ Route::middleware('auth')->group(function () {
         Route::put('settings/password', [\App\Http\Controllers\User\UserSettingsController::class, 'updatePassword']);
     });
 
-    Route::get('/threads/{thread}/messages', [\App\Http\Controllers\MessagesController::class, 'index']);
-
     Route::post('/pending-flag-messages', [\App\Http\Controllers\PendingFlagMessageController::class, 'store'])
         ->name('pending-flag-messages.store');
 
