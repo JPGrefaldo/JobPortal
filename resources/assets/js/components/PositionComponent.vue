@@ -1,17 +1,20 @@
 <template>
     <div>
         <div class="py-2">
-            <label class="checkbox-control"><h3 class="text-md">{{position.name}}</h3>
+            <label class="checkbox-control">
+                <h3 class="text-md" v-text="position.name"></h3>
                 <input type="checkbox" v-model="selected">
                 <div class="control-indicator"></div>
             </label>
         </div>
         <div v-if="selected">
-            <div>
-                <div class="p-2 md:p-4 border-t-2 border-grey-lighter bg-white">
+            <div class="p-2 md:p-4 border-t-2 border-grey-lighter bg-white">
                     <div class="py-2">
                         <div class="mb-2">
-                            <textarea class="form-control w-full h-64" placeholder="Biography" v-model="bio"></textarea>
+                            <textarea class="form-control w-full h-64"
+                                      placeholder="Biography"
+                                      v-model="bio">
+                            </textarea>
                         </div>
                     </div>
                     <div class="border-t-2 border-grey-lighter py-4">
@@ -20,7 +23,8 @@
                                 <h3 class="text-md font-header mb-2 md:mb-0">Resume</h3>
                             </div>
                             <div class="md:w-2/3">
-                                <label for="resume" class="btn-outline text-green inline-block" >Upload file</label>
+                                <label for="resume"
+                                       class="btn-outline text-green inline-block" >Upload file</label>
                                 <input type="file"
                                        name="resume"
                                        class="invisible">
@@ -33,7 +37,10 @@
                                 <h3 class="text-md font-header mt-2 mb-2 md:mb-0">Reel</h3>
                             </div>
                             <div class="md:w-2/3">
-                                <input type="text" v-model="reel_link" class="form-control bg-light w-64 mr-2 mb-2 md:mb-0" placeholder="Add link"> or
+                                <input type="text"
+                                       class="form-control bg-light w-64 mr-2 mb-2 md:mb-0"
+                                       placeholder="Add link"
+                                       v-model="reel_link"> or
                                 <label for="resume" class="btn-outline text-green inline-block" >Upload file</label>
                                 <input type="file"
                                        name="resume"
@@ -62,19 +69,21 @@
                                 <h3 class="text-md font-header mt-2 mb-2 md:mb-0">What gear do you have for this position?</h3>
                                 <br>
                                 <div class="mb-2">
-                                    <textarea class="form-control w-full h-64" placeholder="Your gear" v-model="gear"></textarea>
+                                    <textarea class="form-control w-full h-64"
+                                              placeholder="Your gear"
+                                              v-model="gear"></textarea>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="pt-8 pb-4 text-right border-t-2 border-grey-lighter">
+                    <a href="#" class="text-grey bold mr-4 hover:text-green">Cancel</a>
+                    <a href="#" class="btn-green" @click="onClickSave">SAVE CHANGES</a>
+                </div>
             </div>
-            <div class="pt-8 pb-4 text-right border-t-2 border-grey-lighter">
-                <a href="#" class="text-grey bold mr-4 hover:text-green">Cancel</a>
-                <a href="#" class="btn-green" @click="onClickSave">SAVE CHANGES</a>
-            </div>
+
         </div>
-    </div>
 </template>
 
 <script>
