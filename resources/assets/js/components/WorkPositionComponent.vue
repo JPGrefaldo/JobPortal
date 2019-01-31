@@ -16,10 +16,7 @@
         props : {
               department: Object,
               position: Object,
-            },
+        },
     }
 </script>
 
-<style>
-    .is-displayed {display:none;}
-</style>

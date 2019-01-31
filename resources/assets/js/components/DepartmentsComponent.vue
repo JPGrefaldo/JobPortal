@@ -12,10 +12,7 @@
         components: {WorkPositionComponent},
         props :{
                 departments: Array,
-            }
+        },
     }
 </script>
 
-<style scoped>
-
-</style>

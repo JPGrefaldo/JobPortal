@@ -49,7 +49,7 @@ Vue.component('cca-messages', require('./components/MessagesComponent'));
 Vue.component('cca-logout-link', require('./components/LogoutLink'));
 Vue.component('cca-work-position-component', require('./components/WorkPositionComponent'));
 Vue.component('cca-position-component', require('./components/PositionComponent'));
-Vue.component('cca-department-component', require('./components/DepartmentComponent'));
+Vue.component('cca-department-component', require('./components/DepartmentsComponent'));
 
 new Vue({
     el: '#nav-container',

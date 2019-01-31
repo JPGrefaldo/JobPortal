@@ -120,7 +120,9 @@
                 <div class="py-4">
                     <h4 class='text-grey'>WORK POSITIONS</h4>
                 </div>
+
                 <cca-department-component :departments="{{ $departments }}" />
+
             </div>
         </div>
     </main>
