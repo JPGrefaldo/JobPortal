@@ -91,18 +91,17 @@
         name: "PositionComponent",
         props : {
             position: Object,
-            selected: Boolean,
         },
         data () {
             return{
-                selected: true,
+                selected: false,
                 bio: "",
                 reel_link: "",
-                gear:"",
+                gear: "",
             }
         },
         methods: {
-            onClickSave: {
+            onClickSave: function() {
                 //TODO
             }
         },
