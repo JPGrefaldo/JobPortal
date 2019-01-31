@@ -8,7 +8,6 @@
             <cca-position-component :position="position"/>
         </div>
     </div>
-
 </template>
 <script type="text/javascript">
     import PositionComponent from "./PositionComponent";

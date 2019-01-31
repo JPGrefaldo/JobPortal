@@ -2,7 +2,7 @@
     <div>
         <div class="py-2">
             <label class="checkbox-control"><h3 class="text-md">{{position.name}}</h3>
-                <input type="checkbox" :value="position.id" v-model="selected">
+                <input type="checkbox" v-model="selected">
                 <div class="control-indicator"></div>
             </label>
         </div>
@@ -82,17 +82,19 @@
         name: "PositionComponent",
         props : {
             position: Object,
-            bio: Text,
-            reel_link: Text,
-            gear: Text,
             selected: Boolean,
         },
-        data : {
-            selected: true,
+        data () {
+            return{
+                selected: true,
+                bio: "",
+                reel_link: "",
+                gear:"",
+            }
         },
         methods: {
             onClickSave: {
-
+                //TODO
             }
         },
     }
