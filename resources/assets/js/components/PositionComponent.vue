@@ -56,13 +56,13 @@
                             <div class="md:w-2/3">
                                 <div class="display">
                                     <label class="label toggle">
-                                        <input type="checkbox" class="toggle_input" />
+                                        <input type="checkbox" class="toggle_input" v-model="has_gear"/>
                                         <div class="toggle-control"></div>
                                     </label>
                                 </div>
                             </div>
                         </div>
-                        <div class="md:flex">
+                        <div class="md:flex" v-if="has_gear">
                             <div class="md:w-1/3 pr-8">
                             </div>
                             <div class="md:w-2/3">
@@ -94,6 +94,7 @@
         },
         data () {
             return{
+                has_gear: false,
                 selected: false,
                 bio: "",
                 reel_link: "",
