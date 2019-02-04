@@ -25,6 +25,7 @@ class CrewProfileController extends Controller
             'crew'
         ]);
 
+        $resume_url = '';
         if(isset($user->crew->resumes->where( 'general',1)->first()->url)){
             $resume_url = $user->crew->resumes->where( 'general',1)->first()->url;
         }
