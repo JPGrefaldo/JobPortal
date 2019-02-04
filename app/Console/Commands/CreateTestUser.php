@@ -58,6 +58,7 @@ class CreateTestUser extends Command
             'first_name' => 'Test',
             'last_name'  => 'User',
             'email'      => $email,
+            'nickname'   => 'TU',
             'password'   => 'test123',
             'phone'      => '555-555-5555',
         ]);
