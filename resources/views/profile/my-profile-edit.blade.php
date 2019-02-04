@@ -40,7 +40,7 @@
                 <div class="card mb-8">
                     <div class="w-full mb-6">
                         <h3 class="text-blue-dark font-semibold text-md md:text-lg mb-1 font-header">
-                            {{ $user->first_name }} {{ $user->last_name }}</h3>
+                            {{ $user->nickname }}</h3>
                     </div>
 
                      {{ Form::open(array('route' => 'profile-update', 'files' => true)) }}
