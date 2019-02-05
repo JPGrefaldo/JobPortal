@@ -46,18 +46,6 @@
                             </div>
                         </div>
 
-                        <div class="border-t-2 border-grey-lighter py-4">
-                            <div class="md:flex">
-                                <div class="md:w-1/3 pr-8">
-                                    <h3 class="text-md font-header mt-2 mb-2 md:mb-0">Nickname</h3>
-                                </div>
-                                <div class="md:w-2/3">
-                                    <input type="text" name="nickname" class="form-control bg-light w-64 mr-2 mb-2 md:mb-0" placeholder="Nickname" 
-                                    value="{{ old('nickname', (isset($user->nickname) ? $user->nickname : '')) }}">
-                                </div>
-                            </div>
-                        </div>
-
                         <div class="border-t-2 border-grey-lighter mt-6 py-4">
                             <div class="md:flex">
                                 <div class="md:w-1/3 pr-8">
