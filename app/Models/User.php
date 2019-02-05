@@ -200,9 +200,20 @@ class User extends Authenticatable implements JWTSubject
     /**
      * @return string
      */
+    public function getNicknameAttribute()
+    {
+        if(isset($this->nickname))
+        {
+            return $this->nickname;
+        }
+    }
+
+    /**
+     * @return string
+     */
     public function getNicknameOrFullNameAttribute()
     {
-        if($this->nickname)
+        if(isset($this->nickname))
         {
             return $this->nickname;
         }
