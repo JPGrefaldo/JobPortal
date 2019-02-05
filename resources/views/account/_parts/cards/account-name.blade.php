@@ -26,7 +26,7 @@
                    type="text"
                    name="nickname"
                    value="{{ old('nickname', $user->nickname_or_full_name) }}"
-                   placeholder="Last name">
+                   placeholder="Nickname">
         </div>
     @endslot
 
