@@ -79,6 +79,7 @@ class CrewProfileController extends Controller
      */
     public function store(CreateCrewRequest $request)
     {
+        dd($request);
         $data = $request->validated();
         $user = Auth::user();
         $new = (! $user->crew);
