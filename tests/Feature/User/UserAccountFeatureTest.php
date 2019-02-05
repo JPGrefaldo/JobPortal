@@ -24,6 +24,7 @@ class UserAccountFeatureTest extends TestCase
         $data = [
             'first_name' => 'Adam James',
             'last_name'  => 'Ford',
+            'nickname'   => 'The Rock'
         ];
 
         $this->actingAs($user)
@@ -37,6 +38,7 @@ class UserAccountFeatureTest extends TestCase
         $this->assertArraySubset([
             'first_name' => 'Adam James',
             'last_name'  => 'Ford',
+            'nickname'   => 'The Rock'
         ],
             $user->refresh()
                 ->toArray()
@@ -53,6 +55,7 @@ class UserAccountFeatureTest extends TestCase
         $data = [
             'first_name' => 'JoHn jAMES',
             'last_name'  => "O'neal",
+            'nickname' => ''
         ];
 
         $this->actingAs($user)
@@ -66,6 +69,7 @@ class UserAccountFeatureTest extends TestCase
         $this->assertArraySubset([
             'first_name' => 'John James',
             'last_name'  => "O'Neal",
+            'nickname' => ''
         ],
             $user->refresh()
                 ->toArray()
