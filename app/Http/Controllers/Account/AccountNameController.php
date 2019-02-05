@@ -44,12 +44,13 @@ class AccountNameController extends Controller
         $data = $this->validate($request, [
             'first_name' => UserRules::firstName(),
             'last_name'  => UserRules::lastName(),
+            'nickname'  => UserRules::nickname(),
         ]);
 
         Auth::user()->update([
             'first_name' => FormatUtils::name($data['first_name']),
             'last_name'  => FormatUtils::name($data['last_name']),
-            'nickname'  => FormatUtils::name($request['nickname']),
+            'nickname'  => $data['nickname'],
         ]);
 
         return back();
