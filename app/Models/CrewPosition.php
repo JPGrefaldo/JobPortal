@@ -25,7 +25,7 @@ class CrewPosition extends Pivot
         'position_id'       => 'integer',
         'details'           => 'string',
         'union_description' => 'string',
-    ];
+];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

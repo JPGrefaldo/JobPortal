@@ -3,7 +3,7 @@
         <div class="py-2">
             <label class="checkbox-control">
                 <h3 class="text-md" v-text="position.name"></h3>
-                <input type="checkbox" v-model="selected">
+                <input type="checkbox" v-model="selected" :id="position.id">
                 <div class="control-indicator"></div>
             </label>
         </div>
@@ -13,7 +13,7 @@
                         <div class="mb-2">
                             <textarea class="form-control w-full h-64"
                                       placeholder="Biography"
-                                      v-model="bio">
+                                      v-model="form.bio">
                             </textarea>
                         </div>
                     </div>
@@ -40,7 +40,7 @@
                                 <input type="text"
                                        class="form-control bg-light w-64 mr-2 mb-2 md:mb-0"
                                        placeholder="Add link"
-                                       v-model="reel_link"> or
+                                       v-model="form.reel_link"> or
                                 <label for="resume" class="btn-outline text-green inline-block" >Upload file</label>
                                 <input type="file"
                                        name="resume"
@@ -71,7 +71,7 @@
                                 <div class="mb-2">
                                     <textarea class="form-control w-full h-64"
                                               placeholder="Your gear"
-                                              v-model="gear"></textarea>
+                                              v-model="form.gear"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -87,6 +87,8 @@
 </template>
 
 <script>
+    import { Form, HasError, AlertError } from 'vform';
+
     export default {
         name: "PositionComponent",
         props : {
@@ -96,16 +98,24 @@
             return{
                 has_gear: false,
                 selected: false,
-                bio: "",
-                reel_link: "",
-                gear: "",
+                form: new Form({
+                    bio: "",
+                    reel_link: "",
+                    gear: "",
+                })
             }
         },
         methods: {
             onClickSave: function() {
-                //TODO
-            }
-        },
+                this.saveCrewPosition();
+            },
+
+            saveCrewPosition: function() {
+                this.form.post('/crew/positions/' + this.position.id);
+            },
+
+        }
+
     }
 </script>
 
