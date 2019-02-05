@@ -49,6 +49,7 @@ class AccountNameController extends Controller
         Auth::user()->update([
             'first_name' => FormatUtils::name($data['first_name']),
             'last_name'  => FormatUtils::name($data['last_name']),
+            'nickname'  => FormatUtils::name($request['nickname']),
         ]);
 
         return back();

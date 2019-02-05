@@ -20,6 +20,14 @@
                    value="{{ old('last_name', $user->last_name) }}"
                    placeholder="Last name">
         </div>
+        <div>
+            <h4 class="mt-2 uppercase text-sm text-blue-dark">Nickname</h4>
+            <input class="w-full border border-light-grey max-w-sm p-4 my-4"
+                   type="text"
+                   name="nickname"
+                   value="{{ old('nickname', $user->nickname_or_full_name) }}"
+                   placeholder="Last name">
+        </div>
     @endslot
 
     @slot('accountSaveURL')
