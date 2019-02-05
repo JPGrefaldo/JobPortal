@@ -25,7 +25,7 @@
             <input class="w-full border border-light-grey max-w-sm p-4 my-4"
                    type="text"
                    name="nickname"
-                   value="{{ old('nickname', $user->nickname_or_full_name) }}"
+                   value="{{ old('nickname', $user->nickname) }}"
                    placeholder="Nickname">
         </div>
     @endslot
