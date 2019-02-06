@@ -4,7 +4,8 @@
     @endslot
 
     @slot('accountContent')
-    <input name="email" placeholder="Email Address of the manager" />
+    <input name="email" placeholder="Email Address of the manager" 
+           value="{{ isset($manager->email) ? $manager->email : old('email') }}"/>
     @endslot
 
     @slot('accountSaveURL')
