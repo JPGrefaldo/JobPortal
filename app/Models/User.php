@@ -244,11 +244,12 @@ class User extends Authenticatable implements JWTSubject
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeAreManager($query)
+    public function scopeManager($query)
     {
         return $query->select(['users.*', 'managers.manager_id'])
-            ->join('managers', 'users.id', '=', 'managers.manager_id')
-            ->where('manager_id', '=', Role::getRoleIdByName(Role::MANAGER));
+        ->join('managers', 'users.id', '=', 'managers.manager_id')
+        ->where('role_id', '=', Role::getRoleIdByName(Role::MANAGER))
+        ->first();
     }
 
     /**
