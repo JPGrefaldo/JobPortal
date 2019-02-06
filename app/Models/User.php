@@ -246,8 +246,8 @@ class User extends Authenticatable implements JWTSubject
      */
     public function scopeAreManager($query)
     {
-        return $query->select(['users.*', 'management.manager_id'])
-            ->join('management', 'users.id', '=', 'management.manager_id')
+        return $query->select(['users.*', 'managers.manager_id'])
+            ->join('managers', 'users.id', '=', 'managers.manager_id')
             ->where('manager_id', '=', Role::getRoleIdByName(Role::MANAGER));
     }
 
