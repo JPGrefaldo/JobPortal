@@ -94,6 +94,8 @@ class UserTest extends TestCase
         $this->assertEquals($crew->id, $this->user->crew->id);
     }
 
+    // TODO: test projects
+
     /**
      * @test
      * @covers \App\Models\User::isConfirmed
@@ -163,4 +165,14 @@ class UserTest extends TestCase
 
         $this->assertEquals('(123) 456-7891', $formattedPhoneNumber);
     }
+
+    // TODO: get full name attribute
+
+    // TODO: get nickname attribute
+
+    // TODO: get nickname or full name attribute
+
+    // TODO: scope are crew
+
+    // TODO: scope are producer
 }
