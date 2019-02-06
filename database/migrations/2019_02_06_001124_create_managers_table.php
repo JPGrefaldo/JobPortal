@@ -17,6 +17,7 @@ class CreateManagersTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('manager_id');
             $table->unsignedInteger('subordinate_id');
+            $table->unsignedInteger('role_id');
             $table->timestamps();
 
             $table->unique(['manager_id', 'subordinate_id']);
