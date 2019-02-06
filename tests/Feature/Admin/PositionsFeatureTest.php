@@ -19,9 +19,7 @@ class PositionsFeatureTest extends TestCase
      */
     public function index()
     {
-        $user = factory(User::class)
-            ->states('withAdminRole')
-            ->create();
+        $user = $this->createAdmin();
 
         $positions = Position::all();
 

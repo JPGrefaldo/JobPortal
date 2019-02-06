@@ -3,7 +3,6 @@
 namespace Tests\Feature\Crew;
 
 use App\Models\Crew;
-use App\Models\User;
 use Cmgmyr\Messenger\Models\Message;
 use Cmgmyr\Messenger\Models\Thread;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -20,8 +19,8 @@ class MessengerFeatureTest extends TestCase
      */
     public function crew_can_reply()
     {
-        $crew = factory(User::class)->states('withCrewRole')->create();
-        $producer = $this->createUser();
+        $crew = $this->createCrew();
+        $producer = $this->createProducer();
         $thread = factory(Thread::class)->create();
         $thread->addParticipant($producer->id);
         $producerMessage = factory(Message::class)->create([

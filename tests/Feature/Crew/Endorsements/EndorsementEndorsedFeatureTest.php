@@ -8,7 +8,6 @@ use App\Models\Endorsement;
 use App\Models\EndorsementEndorser;
 use App\Models\EndorsementRequest;
 use App\Models\Position;
-use App\Models\User;
 use App\Utils\StrUtils;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -29,7 +28,7 @@ class EndorsementEndorsedFeatureTest extends TestCase
 
         $this->actingAs($user);
 
-        $response = $this->json('GET', route('crew.endorsement.endorsed', ['position' => $position->id]));
+        $response = $this->getJson(route('crew.endorsement.endorsed', ['position' => $position->id]));
 
         $response->assertStatus(200)
             ->assertJsonFragment([
