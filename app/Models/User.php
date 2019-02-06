@@ -60,16 +60,6 @@ class User extends Authenticatable implements JWTSubject
     ];
 
     /**
-     * roles many to many relationship
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function roles()
-    {
-        return $this->belongsToMany(Role::class, 'user_roles', 'user_id', 'role_id', 'id');
-    }
-
-    /**
      * sites many to many relationship
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -159,17 +149,6 @@ class User extends Authenticatable implements JWTSubject
         $this->update([
             'status' => 0,
         ]);
-    }
-
-    /**
-     * @param string $name
-     *
-     * @return bool
-     */
-    public function hasRole($name)
-    {
-        return $this->roles()->get()
-                    ->contains('name', $name);
     }
 
     /**
