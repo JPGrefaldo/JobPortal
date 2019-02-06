@@ -197,4 +197,30 @@ class UserTest extends TestCase
 
         $this->assertEquals('(123) 456-7891', $formattedPhoneNumber);
     }
+
+    /**
+     * @test
+     * @covers \App\Models\User::getNicknameOrFullNameAttribute
+     */
+    public function getNicknameOrFullNameAttribute_with_nickname()
+    {
+        $this->user->update([
+            'nickname' => 'The Rock'
+        ]);
+
+        $this->assertEquals('The Rock', $this->user->NicknameOrFull_Name);
+    }
+
+    /**
+     * @test
+     * @covers \App\Models\User::getNicknameOrFullNameAttribute
+     */
+    public function getNicknameOrFullNameAttribute_without_nickname()
+    {
+        $this->user->update([
+            'nickname' => '',
+        ]);
+
+        $this->assertEquals($this->user->full_name, $this->user->NicknameOrFullName);
+    }
 }
