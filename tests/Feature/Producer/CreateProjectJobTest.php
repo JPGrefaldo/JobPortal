@@ -373,7 +373,7 @@ class CreateProjectJobTest extends TestCase
         $response = $this->actingAs($user)
                          ->post(route('producer.jobs'), $data);
 
-        $response->assertRedirect('/');
+        $response->assertForbidden();
     }
 
     /**

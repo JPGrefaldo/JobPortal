@@ -316,7 +316,7 @@ class UpdateProjectTest extends TestCase
         $response = $this->actingAs($user)
                          ->put(route('producer.project.update', ['job' => $project->id]), $data);
 
-        $response->assertRedirect('/');
+        $response->assertForbidden();
     }
 
     /**

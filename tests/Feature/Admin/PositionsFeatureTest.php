@@ -3,7 +3,6 @@
 namespace Tests\Feature\Admin;
 
 use App\Models\Position;
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\Data\DepartmentID;
 use Tests\Support\Data\PositionTypeID;
@@ -178,7 +177,7 @@ class PositionsFeatureTest extends TestCase
         $response = $this->actingAs($user)
                          ->post(route('admin.positions'), $data);
 
-        $response->assertRedirect('/');
+        $response->assertForbidden();
     }
 
     /**
@@ -386,6 +385,6 @@ class PositionsFeatureTest extends TestCase
         $response = $this->actingAs($user)
                          ->put(route('admin.positions.update', ['position' => $position->id]), $data);
 
-        $response->assertRedirect('/');
+        $response->assertForbidden();
     }
 }
