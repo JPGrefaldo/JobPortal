@@ -31,6 +31,7 @@ class UserSignupRequest extends FormRequest
         return [
             'first_name'  => UserRules::firstName(),
             'last_name'   => UserRules::lastName(),
+            'nickname'    => UserRules::nickname(),
             'email'       => UserRules::confirmedEmail(),
             'password'    => UserRules::confirmedPassword(),
             'phone'       => UserRules::phone(),

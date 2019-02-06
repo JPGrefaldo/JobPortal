@@ -39,6 +39,7 @@ class UserSignupController extends Controller
         $user = app(CreateUser::class)->execute(array_only($data, [
             'first_name',
             'last_name',
+            'nickname',
             'email',
             'password',
             'phone',

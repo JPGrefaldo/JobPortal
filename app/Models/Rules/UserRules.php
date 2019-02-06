@@ -39,6 +39,19 @@ class UserRules
     }
 
     /**
+     * @return array
+     */
+    public static function nickname()
+    {
+        return [
+            'nullable',
+            'string',
+            'max:255',
+            "regex:/^[a-z'\- ]*$/i",
+        ];
+    }
+
+    /**
      * @param null|int $id
      *
      * @param bool $unique

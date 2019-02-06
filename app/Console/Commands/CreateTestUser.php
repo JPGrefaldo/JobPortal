@@ -57,6 +57,7 @@ class CreateTestUser extends Command
         $user = app(CreateUser::class)->execute([
             'first_name' => 'Test',
             'last_name'  => 'User',
+            'nickname'   => 'The User',
             'email'      => $email,
             'password'   => 'test123',
             'phone'      => '555-555-5555',

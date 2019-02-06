@@ -51,6 +51,7 @@ class User extends Authenticatable implements JWTSubject
         'first_name' => 'string',
         'last_name'  => 'string',
         'email'      => 'string',
+        'nickname'   => 'string',
         'phone'      => 'string',
         'status'     => 'integer',
         'confirmed'  => 'boolean',
@@ -193,6 +194,27 @@ class User extends Authenticatable implements JWTSubject
      */
     public function getFullNameAttribute()
     {
+        return $this->first_name . ' ' . $this->last_name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNicknameAttribute($nickname)
+    {
+        return $nickname;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNicknameOrFullNameAttribute()
+    {
+        if(isset($this->nickname))
+        {
+            return $this->nickname;
+        }
+        
         return $this->first_name . ' ' . $this->last_name;
     }
 
