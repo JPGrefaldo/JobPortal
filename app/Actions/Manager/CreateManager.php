@@ -10,16 +10,30 @@ use App\Utils\FormatUtils;
 
 class CreateManager
 {
+    /**
+     * @param string $email
+     * @param User $user
+     */
     public function execute($email, $user)
     {
         $email = FormatUtils::email($email);
 
-        $manager = User::where('email', $email)->first();
+        if ($manager = User::where('email', $email)->first()){
+            
+            $oldData = Manager::where('subordinate_id', $user->id)->first();
 
-        return Manager::create([
-            'manager_id' => $manager->id,
-            'subordinate_id' => $user->id,
-            'role_id' => Role::getRoleIdByName(Role::MANAGER),
-        ]);
+            if($oldData->id)
+            {
+                return $oldData->update([
+                    'manager_id' => $manager->id,
+                ]);
+            }
+
+            return Manager::create([
+                'manager_id' => $manager->id,
+                'subordinate_id' => $user->id,
+                'role_id' => Role::getRoleIdByName(Role::MANAGER),
+            ]);
+        }
     }
 }

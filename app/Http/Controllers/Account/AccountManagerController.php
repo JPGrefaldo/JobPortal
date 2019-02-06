@@ -44,7 +44,11 @@ class AccountManagerController extends Controller
         $email = $request['email'];
         $user = Auth::user();
         
-        app(CreateManager::class)->execute($email, $user);
+        if (! app(CreateManager::class)->execute($email, $user) ){
+            return back()->withErrors(['Make sure the email is already registered.']);
+        }
+
+        return back();
     }
 
     /**
