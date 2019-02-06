@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers\Account;
 
+use App\Actions\Manager\CreateManager;
 use App\Http\Controllers\Controller;
-use App\Models\Manager;
-use App\Models\Rules\UserRules;
-use App\Models\User;
-use App\Utils\FormatUtils;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -43,18 +40,10 @@ class AccountManagerController extends Controller
      */
     public function store(Request $request)
     {
-        $data['email'] = "raf@raf.com";
-        // $data = $this->validate($request, [
-        //     'email' => UserRules::email()
-        // ]);
-
-        $manager = User::where('email', $data['email'])->first();
-        $subordinate = Auth::user();
-
-        Manager::create([
-            'manager_id' => $manager->id,
-            'subordinate_id' => $subordinate->id,
-        ]);
+        $email = $request['email'];
+        $user = Auth::user();
+        
+        app(CreateManager::class)->execute($email, $user);
     }
 
     /**
