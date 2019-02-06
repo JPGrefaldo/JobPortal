@@ -170,7 +170,31 @@ class UserTest extends TestCase
 
     // TODO: get nickname attribute
 
-    // TODO: get nickname or full name attribute
+    /**
+     * @test
+     * @covers \App\Models\User::getNicknameOrFullNameAttribute
+     */
+    public function getNicknameOrFullNameAttribute_with_nickname()
+    {
+        $this->user->update([
+            'nickname' => 'The Rock'
+        ]);
+
+        $this->assertEquals('The Rock', $this->user->NicknameOrFull_Name);
+    }
+
+    /**
+     * @test
+     * @covers \App\Models\User::getNicknameOrFullNameAttribute
+     */
+    public function getNicknameOrFullNameAttribute_without_nickname()
+    {
+        $this->user->update([
+            'nickname' => '',
+        ]);
+
+        $this->assertEquals($this->user->full_name, $this->user->NicknameOrFullName);
+    }
 
     // TODO: scope are crew
 
