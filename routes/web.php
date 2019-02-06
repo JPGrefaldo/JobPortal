@@ -181,6 +181,8 @@ Route::middleware('auth')->group(function () {
                 ->name('profile.create');
             Route::post('/', [\App\Http\Controllers\Crew\CrewProfileController::class, 'store']);
         });
+
+        Route::post('/crew/positions/{position}','CrewPositionController@applyFor');
     });
 
     /*

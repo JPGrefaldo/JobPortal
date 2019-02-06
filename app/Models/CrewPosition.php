@@ -23,6 +23,7 @@ class CrewPosition extends Pivot
         'id'                => 'integer',
         'crew_id'           => 'integer',
         'position_id'       => 'integer',
+        'gear'              => 'string',
         'details'           => 'string',
         'union_description' => 'string',
 ];
@@ -51,6 +52,10 @@ class CrewPosition extends Pivot
         return $this->hasMany(Endorsement::class, 'crew_position_id');
     }
 
+    public function crewReel()
+    {
+        return $this->hasMany(CrewReel::class,'crew_position_id');
+    }
     /**
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @param Crew $crew
