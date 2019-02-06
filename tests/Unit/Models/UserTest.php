@@ -4,12 +4,9 @@ namespace Tests\Unit\Models;
 
 use App\Models\Crew;
 use App\Models\EmailVerificationCode;
-use App\Models\Role;
 use App\Models\Site;
-use App\Models\User;
 use App\Models\UserBanned;
 use App\Models\UserNotificationSetting;
-use App\Models\UserRoles;
 use App\Models\UserSites;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
@@ -26,22 +23,6 @@ class UserTest extends TestCase
         parent::setUp();
 
         $this->user = $this->createUser();
-    }
-
-    /**
-     * @test
-     * @covers \App\Models\User::roles
-     */
-    public function roles()
-    {
-        $role = Role::whereName(Role::PRODUCER)->firstOrFail();
-        UserRoles::create([
-            'user_id' => $this->user->id,
-            'role_id' => $role->id,
-        ]);
-
-        $this->assertEquals(1, $this->user->roles->count());
-        $this->assertEquals("Producer", $this->user->roles->first()->name);
     }
 
     /**
@@ -153,21 +134,6 @@ class UserTest extends TestCase
         $this->assertTrue($this->user->isActive());
         $this->user->deactivate();
         $this->assertFalse($this->user->isActive());
-    }
-
-    /**
-     * @test
-     * @covers \App\Models\User::hasRole
-     */
-    public function hasRole()
-    {
-        $role = factory(Role::class)->create();
-        $randomRole = factory(Role::class)->create();
-
-        $this->user->roles()->save($role);
-
-        $this->assertTrue($this->user->hasRole($role->name));
-        $this->assertFalse($this->user->hasRole($randomRole->name));
     }
 
     /**
