@@ -18,6 +18,7 @@ class AccountManagerController extends Controller
     {
         return view('account.account', [
             'user' => Auth::user(),
+            'manager' => Auth::user()->manager(),
             'accountType' => 'manager',
         ]);
     }
