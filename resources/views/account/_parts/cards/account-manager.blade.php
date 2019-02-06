@@ -4,7 +4,7 @@
     @endslot
 
     @slot('accountContent')
-
+    <input name="email" placeholder="Email Address of the manager" />
     @endslot
 
     @slot('accountSaveURL')

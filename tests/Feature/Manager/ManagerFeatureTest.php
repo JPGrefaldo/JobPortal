@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Manager;
 
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\Support\SeedDatabaseAfterRefresh;
@@ -11,18 +12,21 @@ class ManagerFeatureTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
 
-    public function setUp()
-    {
-        $this->user = $this->createUser();
-    }
-
     /**
      * @test
      * @covers \App\Http\Controllers\Account\AccountManagerController::store
      */
     public function user_can_add_manager()
     {
-        
+        $user = $this->createUser();
+        $email = ["manager@email.com"];
+
+        $this->actingAs($user)
+             ->get(route('account.manager'));
+
+        $response = $this->actingAs($user)
+                         ->post(route('account.manager'), $email)
+                         ->assertStatus(200);
     }
 
     /**

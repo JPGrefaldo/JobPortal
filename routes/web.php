@@ -73,7 +73,7 @@ Route::middleware('auth')->group(function () {
 
         Route::get('manager', [\App\Http\Controllers\Account\AccountManagerController::class, 'index'])
             ->name('account.manager');
-        Route::post('manager', [\App\Http\Controllers\Account\AccountManagerController::class, 'index']);
+        Route::post('manager', [\App\Http\Controllers\Account\AccountManagerController::class, 'store']);
 
         Route::get('notifications', [\App\Http\Controllers\Account\AccountNotificationsController::class, 'index'])
             ->name('account.notifications');
