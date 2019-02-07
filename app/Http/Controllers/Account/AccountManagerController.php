@@ -50,9 +50,8 @@ class AccountManagerController extends Controller
         if ($manager = app(CheckManagerIsRegistered::class)->execute($email)){
 
             if($manager->id != $user->id) {
-                $oldManager = Manager::where('subordinate_id', $user->id)->first();
-
-                if(isset($oldManager->id)) {
+            
+                if(Manager::where('subordinate_id', $user->id)->first()) {
                     app(UpdateManager::class)->execute($user, $manager->id);
                 }
                 
