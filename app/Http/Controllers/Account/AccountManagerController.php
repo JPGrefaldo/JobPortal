@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Account;
 
-use App\Actions\Manager\CheckManagerIsRegistered;
 use App\Actions\Manager\CreateManager;
 use App\Actions\Manager\UpdateManager;
+use App\Actions\User\IsUserRegistered;
 use App\Http\Controllers\Controller;
 use App\Models\Manager;
 use Illuminate\Http\Request;
@@ -47,23 +47,21 @@ class AccountManagerController extends Controller
         $email = $request['email'];
         $user = Auth::user();
         
-        if ($manager = app(CheckManagerIsRegistered::class)->execute($email)){
-
-            if($manager->id != $user->id) {
-            
-                if(Manager::where('subordinate_id', $user->id)->first()) {
-                    app(UpdateManager::class)->execute($user, $manager->id);
-                }
-                
-                app(CreateManager::class)->execute($manager->id, $user->id);
-
-                return back();
-            }
-
-            return back()->withErrors(['own_email' => 'You have entered your own email address']);
+        if (! $manager = app(IsUserRegistered::class)->execute($email)){
+            return back()->withErrors(['unregistered_email' => 'Make sure the email address is already registered.']);
         }
 
-        return back()->withErrors(['unregistered_email' => 'Make sure the email address is already registered.']);
+        if ($manager->id == $user->id) {
+            return back()->withErrors(['own_email' => 'You have entered your own email address.']);
+        }
+
+        if (Manager::where('subordinate_id', $user->id)->first()) {
+            app(UpdateManager::class)->execute($user, $manager->id);
+        }
+        
+        app(CreateManager::class)->execute($manager->id, $user->id);
+
+        return back();
     }
 
     /**
