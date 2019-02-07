@@ -57,6 +57,8 @@ class AccountManagerController extends Controller
 
         if (Manager::where('subordinate_id', $user->id)->first()) {
             app(UpdateManager::class)->execute($user, $manager->id);
+            
+            return back();
         }
         
         app(CreateManager::class)->execute($manager->id, $user->id);
