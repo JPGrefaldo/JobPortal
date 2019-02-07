@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Account;
 
+use App\Actions\Manager\CheckManagerIsRegistered;
 use App\Actions\Manager\CreateManager;
+use App\Actions\Manager\UpdateManager;
 use App\Http\Controllers\Controller;
+use App\Models\Manager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -44,11 +47,24 @@ class AccountManagerController extends Controller
         $email = $request['email'];
         $user = Auth::user();
         
-        if (! app(CreateManager::class)->execute($email, $user) ){
-            return back()->withErrors(['Make sure the email is already registered.']);
+        if ($manager = app(CheckManagerIsRegistered::class)->execute($email)){
+
+            if($manager->id != $user->id) {
+                $oldManager = Manager::where('subordinate_id', $user->id)->first();
+
+                if(isset($oldManager->id)) {
+                    app(UpdateManager::class)->execute($user, $manager->id);
+                }
+                
+                app(CreateManager::class)->execute($manager->id, $user->id);
+
+                return back();
+            }
+
+            return back()->withErrors(['You have entered your own email address']);
         }
 
-        return back();
+        return back()->withErrors(['Make sure the email address is already registered.']);
     }
 
     /**
