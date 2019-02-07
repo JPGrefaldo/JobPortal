@@ -248,7 +248,6 @@ class User extends Authenticatable implements JWTSubject
     {
         return $query->select(['users.*', 'managers.manager_id'])
         ->join('managers', 'users.id', '=', 'managers.manager_id')
-        ->where('role_id', '=', Role::getRoleIdByName(Role::MANAGER))
         ->first();
     }
 
