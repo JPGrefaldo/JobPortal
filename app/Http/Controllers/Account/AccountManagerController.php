@@ -60,10 +60,10 @@ class AccountManagerController extends Controller
                 return back();
             }
 
-            return back()->withErrors(['You have entered your own email address']);
+            return back()->withErrors(['own_email' => 'You have entered your own email address']);
         }
 
-        return back()->withErrors(['Make sure the email address is already registered.']);
+        return back()->withErrors(['unregistered_email' => 'Make sure the email address is already registered.']);
     }
 
     /**
