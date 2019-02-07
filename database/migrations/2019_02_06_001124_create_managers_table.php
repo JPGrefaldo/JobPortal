@@ -27,6 +27,11 @@ class CreateManagersTable extends Migration
                   ->references('id')
                   ->on('users')
                   ->onDelete('cascade');
+
+            $table->foreign('subordinate_id')
+                  ->references('id')
+                  ->on('users')
+                  ->onDelete('cascade');
         });
     }
 
@@ -37,6 +42,6 @@ class CreateManagersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('managements');
+        Schema::dropIfExists('managers');
     }
 }
