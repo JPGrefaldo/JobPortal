@@ -3,7 +3,7 @@
         <div class="py-2">
             <label class="checkbox-control">
                 <h3 class="text-md" v-text="position.name"></h3>
-                <input type="checkbox" v-model="selected" :id="position.id">
+                <input type="checkbox" v-model="selected">
                 <div class="control-indicator"></div>
             </label>
         </div>
@@ -15,6 +15,14 @@
                                       placeholder="Biography"
                                       v-model="form.bio">
                             </textarea>
+                        </div>
+                    </div>
+                    <div class="py-2">
+                        <div class="mb-2">
+                                <textarea class="form-control w-full h-64"
+                                          placeholder="Union Description"
+                                          v-model="form.description">
+                                </textarea>
                         </div>
                     </div>
                     <div class="border-t-2 border-grey-lighter py-4">
@@ -102,6 +110,8 @@
                     bio: "",
                     reel_link: "",
                     gear: "",
+                    description: "",
+                    position: this.position.id,
                 })
             }
         },

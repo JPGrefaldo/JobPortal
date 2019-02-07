@@ -23,7 +23,6 @@ class CrewPosition extends Pivot
         'id'                => 'integer',
         'crew_id'           => 'integer',
         'position_id'       => 'integer',
-        'gear'              => 'string',
         'details'           => 'string',
         'union_description' => 'string',
 ];
