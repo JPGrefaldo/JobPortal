@@ -224,9 +224,12 @@ class User extends Authenticatable implements JWTSubject
      */
     public function scopeAreCrew($query)
     {
-        return $query->select(['users.*', 'user_roles.role_id'])
-            ->join('user_roles', 'users.id', '=', 'user_roles.user_id')
-            ->where('role_id', '=', Role::getRoleIdByName(Role::CREW));
+        return $query->select([
+                        'users.*', 
+                        'user_roles.role_id'
+                     ])
+                     ->join('user_roles', 'users.id', '=', 'user_roles.user_id')
+                     ->where('role_id', '=', Role::getRoleIdByName(Role::CREW));
     }
 
     /***
@@ -235,9 +238,12 @@ class User extends Authenticatable implements JWTSubject
      */
     public function scopeAreProducer($query)
     {
-        return $query->select(['users.*', 'user_roles.role_id'])
-            ->join('user_roles', 'users.id', '=', 'user_roles.user_id')
-            ->where('role_id', '=', Role::getRoleIdByName(Role::PRODUCER));
+        return $query->select([
+                        'users.*', 
+                        'user_roles.role_id'
+                     ])
+                     ->join('user_roles', 'users.id', '=', 'user_roles.user_id')
+                     ->where('role_id', '=', Role::getRoleIdByName(Role::PRODUCER));
     }
 
     /***
@@ -246,9 +252,12 @@ class User extends Authenticatable implements JWTSubject
      */
     public function scopeManager($query)
     {
-        return $query->select(['users.*', 'managers.manager_id'])
-        ->join('managers', 'users.id', '=', 'managers.manager_id')
-        ->first();
+        return $query->select([
+                        'users.*', 
+                        'managers.manager_id'
+                     ])
+                     ->join('managers', 'users.id', '=', 'managers.manager_id')
+                     ->first();
     }
 
     /**
