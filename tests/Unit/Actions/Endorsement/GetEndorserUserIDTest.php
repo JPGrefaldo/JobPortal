@@ -30,7 +30,7 @@ class GetEndorserUserIDTest extends TestCase
      */
     public function execute()
     {
-        $user = factory(User::class)->create([
+        $user = $this->createUser([
             'email' => 'test@test.com'
         ]);
 
