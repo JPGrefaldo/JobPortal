@@ -2,8 +2,6 @@
 
 namespace App\Actions\Crew;
 
-
-use App\Actions\Auth\AddRoleToUserByRoleName;
 use App\Models\Role;
 use App\Models\User;
 
@@ -15,7 +13,8 @@ class CreateCrewAccount
      */
     public function execute($user)
     {
-        app(AddRoleToUserByRoleName::class)->execute($user, Role::CREW);
+        $user->assignRole(Role::CREW);
+
         app(StubCrew::class)->execute($user);
 
         return $user;

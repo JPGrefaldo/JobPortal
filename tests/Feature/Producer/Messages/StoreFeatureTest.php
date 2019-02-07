@@ -30,7 +30,7 @@ class StoreFeatureTest extends TestCase
             ->actingAs($crew)
             ->postJson(route('producer.messages.store', $project), $data);
 
-        $response->assertRedirect();
+        $response->assertForbidden();
     }
 
     /**

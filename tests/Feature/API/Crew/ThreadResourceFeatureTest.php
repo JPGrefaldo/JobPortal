@@ -9,11 +9,12 @@ use App\Models\Project;
 use App\Models\ProjectThread;
 use Cmgmyr\Messenger\Models\Thread;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 
 class ThreadResourceFeatureTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, SeedDatabaseAfterRefresh;
 
     /**
      * @test

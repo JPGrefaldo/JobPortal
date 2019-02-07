@@ -583,6 +583,6 @@ class StoreProjectFeatureTest extends TestCase
         $response = $this->actingAs($user)
                          ->post(route('producer.projects'));
 
-        $response->assertRedirect('/');
+        $response->assertForbidden();
     }
 }

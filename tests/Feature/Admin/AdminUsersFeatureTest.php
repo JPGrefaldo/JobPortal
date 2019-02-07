@@ -87,6 +87,6 @@ class AdminUsersFeatureTest extends TestCase
         $response = $this->actingAs($crew)
                          ->put(route('admin.users.ban', $user));
 
-        $response->assertRedirect('/');
+        $response->assertForbidden();
     }
 }
