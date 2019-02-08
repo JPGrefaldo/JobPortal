@@ -70,5 +70,28 @@ jQuery(document).ready(function ($) {
 		reset: false
 	});
 
+	$('#removeManager').on('click', function(e){
+        e.preventDefault();
+		
+		let id = $(this).data('id')
+		let token = $(this).data('token')
+
+		//Temporary confirmation dialog
+		var toDelete = confirm('Are you sure you want to delete this manager?')
+
+		if (toDelete){
+			$.ajax({
+				type: 'POST',
+				url: '/account/manager/remove/'+id,
+				data: {
+					_token: token
+				}
+			})
+			.done(function(res){
+				location.reload()
+			})
+		}
+    })
+
 });
 
