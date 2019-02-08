@@ -108,6 +108,6 @@ class AccountManagerController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Manager::where('manager_id', $id)->delete();
     }
 }
