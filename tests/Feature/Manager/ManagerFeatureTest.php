@@ -145,4 +145,34 @@ class ManagerFeatureTest extends TestCase
                     ->toArray()
         );
     }
+
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Account\AccountManagerController::destroy
+     */
+    public function user_can_remove_manager()
+    {
+        $subordinate = $this->createUser();
+        $manager = $this->createUser([
+                        'email' => 'manager@email.com'
+                   ]);
+
+        $this->actingAs($subordinate)
+             ->get(route('account.manager'));
+
+        $this->actingAs($subordinate)
+             ->post(route('account.manager'), [
+                'email' => $manager->email
+             ]);
+
+        $this->actingAs($subordinate)
+             ->call('DELETE', '/account/manager/remove/'.$manager->id, [
+                 '_token' => csrf_token()
+             ]);
+
+        $this->assertDatabaseMissing('managers', 
+                    $manager->refresh()
+                            ->toArray()
+                );
+    }
 }
