@@ -41,7 +41,7 @@ class ManagerFeatureTest extends TestCase
      * @test
      * @covers \App\Http\Controllers\Account\AccountManagerController::store
      */
-    public function cannnot_add_manager_using_unregistered_email()
+    public function cannot_add_manager_using_unregistered_email()
     {
         $subordinate = $this->createUser();
         $manager = [
@@ -63,7 +63,7 @@ class ManagerFeatureTest extends TestCase
      * @test
      * @covers \App\Http\Controllers\Account\AccountManagerController::store
      */
-    public function cannnot_add_manager_using_own_email()
+    public function cannot_add_manager_using_own_email()
     {
         $user = $this->createUser();
 
