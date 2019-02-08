@@ -15,6 +15,7 @@ class RolesTableSeeder extends Seeder
         Role::create(['name' => Role::ADMIN]);
         Role::create(['name' => Role::PRODUCER]);
         Role::create(['name' => Role::CREW]);
+        Role::create(['name' => Role::MANAGER]);
 
         $this->command->info('Role table seeded!');
     }
