@@ -12,17 +12,16 @@
                     <div class="py-2">
                         <div class="mb-2">
                             <textarea class="form-control w-full h-64"
-                                      placeholder="Biography"
+                                      placeholder="Position Biography"
                                       v-model="form.bio">
                             </textarea>
                         </div>
                     </div>
                     <div class="py-2">
                         <div class="mb-2">
-                                <textarea class="form-control w-full h-64"
+                                <input type="text" class="form-control w-full"
                                           placeholder="Union Description"
-                                          v-model="form.description">
-                                </textarea>
+                                          v-model="form.description" />
                         </div>
                     </div>
                     <div class="border-t-2 border-grey-lighter py-4">

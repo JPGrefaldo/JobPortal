@@ -16,7 +16,6 @@
         components: {PositionComponent},
         props : {
               department: Object,
-              position: Object,
         },
     }
 </script>
