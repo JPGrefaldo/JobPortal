@@ -63,7 +63,7 @@ class Crew extends Model
      */
     public function reels()
     {
-        return $this->belongsToMany(CrewReel::class);
+        return $this->hasMany(CrewReel::class);
     }
 
     /**
@@ -79,7 +79,7 @@ class Crew extends Model
      */
     public function gears()
     {
-        return $this->belongsToMany(CrewGear::class);
+        return $this->hasMany(CrewGear::class);
     }
 
     /**

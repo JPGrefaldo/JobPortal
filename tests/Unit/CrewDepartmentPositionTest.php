@@ -34,16 +34,16 @@ class CrewDepartmentPositionTest extends TestCase
             'union_description' => $crewPosition->union_description,
         ]);
 
-        $crewGear->crew()->attach($crew,[
+        $crewGear->crew()->save($crew,[
             'crew_id' => $crew->id,
             'description' => $crewGear->gear,
-            'crew_position_id' => $crewPosition->id,
+            'crew_position_id' => $crewPosition->id
         ]);
 
-        $crewReel->crew()->attach($crew,[
+        $crewReel->crew()->save($crew,[
             'crew_id' => $crew->id,
             'url' => $crewReel->reel,
-            'crew_position_id' => $crewPosition->id,
+            'crew_position_id' => $crewPosition->id
         ]);
 
         $this->assertEquals($crew->id, $position->crews->first()->id);
@@ -61,7 +61,7 @@ class CrewDepartmentPositionTest extends TestCase
         $this->assertDatabaseHas('crew_gear', [
             'crew_id' => $crew->id,
             'description' => $crewGear->gear,
-            'crew_position_id' => $crewPosition->id,
+            'crew_position_id' => $crewPosition->id
         ]);
     }
 
