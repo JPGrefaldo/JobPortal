@@ -7,6 +7,7 @@ use App\Utils\StrUtils;
 use Cmgmyr\Messenger\Traits\Messagable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasRoles;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Vinkla\Hashids\Facades\Hashids;
 
@@ -14,7 +15,8 @@ class User extends Authenticatable implements JWTSubject
 {
     use Notifiable,
         LogsActivityOnlyDirty,
-        Messagable;
+        Messagable,
+        HasRoles;
 
     protected static function boot()
     {
@@ -56,16 +58,6 @@ class User extends Authenticatable implements JWTSubject
         'status'     => 'integer',
         'confirmed'  => 'boolean',
     ];
-
-    /**
-     * roles many to many relationship
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function roles()
-    {
-        return $this->belongsToMany(Role::class, 'user_roles', 'user_id', 'role_id', 'id');
-    }
 
     /**
      * sites many to many relationship
@@ -160,17 +152,6 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
-     * @param string $name
-     *
-     * @return bool
-     */
-    public function hasRole($name)
-    {
-        return $this->roles()->get()
-                    ->contains('name', $name);
-    }
-
-    /**
      * @param string $hostname
      *
      * @return bool
@@ -210,12 +191,9 @@ class User extends Authenticatable implements JWTSubject
      */
     public function getNicknameOrFullNameAttribute()
     {
-        if(isset($this->nickname))
-        {
-            return $this->nickname;
-        }
-        
-        return $this->first_name . ' ' . $this->last_name;
+        return (isset($this->nickname) && $this->nickname) ?
+                $this->nickname :
+                $this->full_name;
     }
 
     /***

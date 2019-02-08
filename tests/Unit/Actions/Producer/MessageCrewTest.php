@@ -11,11 +11,12 @@ use Cmgmyr\Messenger\Models\Participant;
 use Cmgmyr\Messenger\Models\Thread;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
+use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 
 class MessageCrewTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, SeedDatabaseAfterRefresh;
 
     public function setUp()
     {

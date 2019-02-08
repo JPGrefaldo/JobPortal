@@ -317,8 +317,7 @@ class CrewsFeatureTest extends TestCase
         $response = $this->actingAs($user)
                          ->post(route('crews'), $data);
 
-        $response->assertRedirect('login');
-        $this->assertGuest();
+        $response->assertForbidden();
     }
 
     /**
@@ -778,8 +777,7 @@ class CrewsFeatureTest extends TestCase
         $response = $this->actingAs($crew->user)
                          ->put(route('crews.update', ['crew' => $crew->id]), $data);
 
-        $response->assertRedirect('login');
-        $this->assertGuest();
+        $response->assertForbidden();
     }
 
     /**

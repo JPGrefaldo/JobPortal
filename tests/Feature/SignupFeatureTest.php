@@ -356,10 +356,7 @@ class SignupFeatureTest extends TestCase
      */
     public function hasCrewRole($user)
     {
-        $this->assertDatabaseHas('user_roles', [
-            'user_id' => $user->id,
-            'role_id' => Role::whereName(Role::CREW)->first()->id,
-        ]);
+        $user->hasRole(Role::CREW);
     }
 
     /**
@@ -377,9 +374,6 @@ class SignupFeatureTest extends TestCase
      */
     public function hasProducerRole($user)
     {
-        $this->assertDatabaseHas('user_roles', [
-            'user_id' => $user->id,
-            'role_id' => Role::whereName(Role::PRODUCER)->first()->id,
-        ]);
+        $user->hasRole(Role::PRODUCER);
     }
 }

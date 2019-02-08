@@ -52,17 +52,15 @@ class CreateTestUserTest extends TestCase
         $user->load('roles', 'notificationSettings');
 
         $this->assertArraySubset([
-            'confirmed'             => 1,
-            'roles'                 => [
-                ['name' => Role::PRODUCER],
-                ['name' => Role::CREW],
-            ],
+            'confirmed'             => true,
             'notification_settings' => [
                 'receive_email_notification' => true,
                 'receive_other_emails'       => true,
                 'receive_sms'                => true,
             ],
         ], $user->toArray());
+
+        $this->assertTrue($user->hasAllRoles([Role::PRODUCER, Role::CREW]));
 
         $command->assertExitCode(0);
     }

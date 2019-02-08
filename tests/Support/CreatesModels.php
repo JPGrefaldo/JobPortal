@@ -1,12 +1,9 @@
 <?php
 
-
 namespace Tests\Support;
 
-
+use App\Models\Role;
 use App\Models\User;
-use App\Models\UserRoles;
-use Tests\Support\Data\RoleId;
 
 trait CreatesModels
 {
@@ -27,9 +24,11 @@ trait CreatesModels
      */
     public function createCrew($attributes = [])
     {
-        return factory(User::class)
-            ->states('withCrewRole')
-            ->create($attributes);
+        $user = $this->createUser($attributes);
+
+        $user->assignRole(Role::CREW);
+
+        return $user;
     }
 
     /**
@@ -39,9 +38,11 @@ trait CreatesModels
      */
     public function createAdmin($attributes = [])
     {
-        return factory(User::class)
-            ->states('withAdminRole')
-            ->create($attributes);
+        $user = $this->createUser($attributes);
+
+        $user->assignRole(Role::ADMIN);
+
+        return $user;
     }
 
     /**
@@ -51,8 +52,10 @@ trait CreatesModels
      */
     public function createProducer($attributes = [])
     {
-        return factory(User::class)
-            ->states('withProducerRole')
-            ->create($attributes);
+        $user = $this->createUser($attributes);
+
+        $user->assignRole(Role::PRODUCER);
+
+        return $user;
     }
 }

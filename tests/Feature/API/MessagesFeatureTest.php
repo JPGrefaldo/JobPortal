@@ -5,7 +5,6 @@ namespace Tests\Feature\API;
 use App\Http\Resources\MessageResource;
 use App\Models\Crew;
 use App\Models\User;
-use App\Models\UserRoles;
 use Cmgmyr\Messenger\Models\Message;
 use Cmgmyr\Messenger\Models\Participant;
 use Cmgmyr\Messenger\Models\Thread;
@@ -41,7 +40,6 @@ class MessagesFeatureTest extends TestCase
         ]);
 
         $this->assertCount(1, User::all());
-        $this->assertCount(1, UserRoles::all());
         $this->assertCount(1, Crew::all());
         $this->assertCount(1, Thread::all());
         $this->assertCount(1, Participant::all());
@@ -84,7 +82,6 @@ class MessagesFeatureTest extends TestCase
         ]);
 
         $this->assertCount(1, User::all());
-        $this->assertCount(1, UserRoles::all());
         $this->assertCount(1, Thread::all());
         $this->assertCount(1, Participant::all());
         $this->assertCount(3, Message::all());

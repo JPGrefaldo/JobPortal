@@ -103,7 +103,7 @@ Route::middleware('auth')->group(function () {
     | User must have Admin role
     |
      */
-    Route::middleware('admin')->group(function () {
+    Route::middleware('role:Admin')->group(function () {
         Route::put('/admin/users/ban/{user}', [\App\Http\Controllers\Admin\AdminUsersController::class, 'updateBan'])
             ->name('admin.users.ban');
 
@@ -142,7 +142,7 @@ Route::middleware('auth')->group(function () {
     | User must have Crew role
     |
     */
-    Route::middleware('crew')->group(function () {
+    Route::middleware('role:Crew')->group(function () {
         Route::post('/crews', [\App\Http\Controllers\CrewsController::class, 'store'])
             ->name('crews');
         Route::put('/crews/{crew}', [\App\Http\Controllers\CrewsController::class, 'update'])
@@ -190,7 +190,7 @@ Route::middleware('auth')->group(function () {
     | User must have Producer role
     |
     */
-    Route::middleware('producer')->group(function () {
+    Route::middleware('role:Producer')->group(function () {
         Route::prefix('/producer/projects')->group(function () {
             Route::get('/create', [\App\Http\Controllers\Producer\ProjectsController::class, 'create'])
                 ->name('producer.projects.create');
