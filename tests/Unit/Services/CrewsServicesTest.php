@@ -91,7 +91,7 @@ class CrewsServicesTest extends TestCase
         // assert crew data
         $crew = $this->service->processCreate($data, $user);
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'bio'   => 'some bio',
                 'photo' => '/' . $user->hash_id . '/photos/' . $data['photo']->hashName(),
@@ -103,7 +103,7 @@ class CrewsServicesTest extends TestCase
         // assert general resume
         $resume = $crew->resumes->where('general', 1)->first();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'url' => '/' . $user->hash_id . '/resumes/' . $data['resume']->hashName(),
                 'crew_id' => $crew->id,
@@ -117,7 +117,7 @@ class CrewsServicesTest extends TestCase
         // assert general reel has been created
         $reel = $crew->reels->where('general', 1)->first();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'crew_id' => $crew->id,
                 'url'     => 'https://www.youtube.com/embed/G8S81CEBdNs',
@@ -128,7 +128,7 @@ class CrewsServicesTest extends TestCase
 
         // assert that the socials has been created
         $this->assertCount(9, $crew->socials);
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 [
                     'crew_id'             => $crew->id,
@@ -195,7 +195,7 @@ class CrewsServicesTest extends TestCase
         $crew = $this->service->create($data, $photoFile, $user);
 
         // assert data
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'bio'   => 'some bio',
                 'photo' => '/' . $user->hash_id . '/photos/' . $photoFile->hashName(),
@@ -221,7 +221,7 @@ class CrewsServicesTest extends TestCase
         // assert data
         $resume = $crew->resumes->where('general', 1)->first();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'url' => '/' . $crew->user->hash_id . '/resumes/' . $resumeFile->hashName(),
                 'crew_id' => $crew->id,
@@ -284,7 +284,7 @@ class CrewsServicesTest extends TestCase
 
         $this->service->createSocials($data, $crew);
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 [
                     'crew_id'             => $crew->id,
@@ -402,7 +402,7 @@ class CrewsServicesTest extends TestCase
         $crew = $this->service->processUpdate($data, $crew);
 
         // assert crew
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'bio'   => 'updated bio',
                 'photo' => '/' . $crew->user->hash_id . '/photos/' . $data['photo']->hashName(),
@@ -416,7 +416,7 @@ class CrewsServicesTest extends TestCase
         // assert general resume
         $resume->refresh();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'url' => '/' . $crew->user->hash_id . '/resumes/' . $data['resume']->hashName(),
                 'crew_id' => $crew->id,
@@ -429,7 +429,7 @@ class CrewsServicesTest extends TestCase
 
         // assert socials
         $this->assertCount(9, $crew->socials);
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 [
                     'url'                 => 'https://www.facebook.com/new-castingcallsamerica/',
@@ -488,7 +488,7 @@ class CrewsServicesTest extends TestCase
         $crew = $this->service->update($data, $photoFile, $crew);
 
         // assert data
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'bio'   => 'new bio',
                 'photo' => '/' . $crew->user->hash_id . '/photos/' . $photoFile->hashName(),
@@ -517,7 +517,7 @@ class CrewsServicesTest extends TestCase
         $crew = $this->service->update($data, $photoFile, $crew);
 
         // assert data
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'bio'   => 'new bio',
                 'photo' => $oldPhoto,
@@ -546,7 +546,7 @@ class CrewsServicesTest extends TestCase
         // assert data
         $resume->refresh();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'url' => '/' . $crew->user->hash_id . '/resumes/' . $resumeFile->hashName(),
                 'crew_id' => $crew->id,
@@ -573,7 +573,7 @@ class CrewsServicesTest extends TestCase
 
         $resume = $crew->resumes->where('general', 1)->first();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'url' => '/' . $crew->user->hash_id . '/resumes/' . $resumeFile->hashName(),
                 'crew_id' => $crew->id,
@@ -747,7 +747,7 @@ class CrewsServicesTest extends TestCase
         $this->service->updateSocials($data, $crew);
 
         $this->assertCount(9, $crew->socials);
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 [
                     'url'                 => 'https://www.facebook.com/new-castingcallsamerica/',
@@ -807,7 +807,7 @@ class CrewsServicesTest extends TestCase
         // assert general reel data
         $reel = $crew->reels->where('general', 1)->first();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'crew_id' => $data['crew_id'],
                 'url'     => 'https://www.youtube.com/embed/G8S81CEBdNs',
@@ -859,7 +859,7 @@ class CrewsServicesTest extends TestCase
         // assert updated data
         $reel->refresh();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'crew_id' => $crew->id,
                 'url'     => 'https://www.youtube.com/embed/WI5AF1DCQlc',
@@ -883,7 +883,7 @@ class CrewsServicesTest extends TestCase
         // assert data
         $reel = $crew->reels->where('general', 1)->first();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'crew_id' => $crew->id,
                 'url'     => 'https://www.youtube.com/embed/WI5AF1DCQlc',

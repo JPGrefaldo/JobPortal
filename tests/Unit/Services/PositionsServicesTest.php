@@ -47,7 +47,7 @@ class PositionsServicesTest extends TestCase
             'id' => $position->id,
         ]);
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'name'              => 'Some Position',
                 'department_id'     => DepartmentID::PRODUCTION,
@@ -116,7 +116,7 @@ class PositionsServicesTest extends TestCase
 
         $position = $this->service->update($data, $position);
 
-        $this->assertArraySubset([
+        $this->assertArrayHas([
             'name'          => 'Updated Position',
             'department_id' => DepartmentID::PRODUCTION,
             'has_gear'      => true,

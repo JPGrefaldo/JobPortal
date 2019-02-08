@@ -96,7 +96,7 @@ class DepartmentsServicesTest extends TestCase
 
         $department->refresh();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'name'        => 'New Name',
                 'description' => 'New Description',

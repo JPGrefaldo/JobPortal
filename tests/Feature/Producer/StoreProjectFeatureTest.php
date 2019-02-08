@@ -57,7 +57,7 @@ class StoreProjectFeatureTest extends TestCase
         $project = Project::whereTitle('Some Title')
                           ->first();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'title'                  => 'Some Title',
                 'production_name'        => 'Some Production Name',
@@ -73,7 +73,7 @@ class StoreProjectFeatureTest extends TestCase
         );
 
         $this->assertCount(2, $project->remotes);
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 ['site_id' => $data['sites'][0]],
                 ['site_id' => $data['sites'][1]],
@@ -82,7 +82,7 @@ class StoreProjectFeatureTest extends TestCase
         );
 
         $this->assertCount(1, $project->jobs);
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 [
                     'persons_needed'       => 2,
@@ -128,7 +128,7 @@ class StoreProjectFeatureTest extends TestCase
         $project = Project::whereTitle('Some Title')
                           ->first();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'title'                  => 'Some Title',
                 'production_name'        => 'Some Production Name',
@@ -177,7 +177,7 @@ class StoreProjectFeatureTest extends TestCase
         $project = Project::whereTitle('Some Title')
                           ->first();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'title'                  => 'Some Title',
                 'production_name'        => 'Some Production Name',
@@ -193,7 +193,7 @@ class StoreProjectFeatureTest extends TestCase
         );
 
         $this->assertCount(2, $project->remotes);
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 ['site_id' => $data['sites'][1]],
                 ['site_id' => $data['sites'][2]],
@@ -244,7 +244,7 @@ class StoreProjectFeatureTest extends TestCase
         $project = Project::whereTitle('Some Title')
                           ->first();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'title'                  => 'Some Title',
                 'production_name'        => 'Some Production Name',
@@ -261,7 +261,7 @@ class StoreProjectFeatureTest extends TestCase
         $this->assertCount(0, $project->remotes);
 
         $this->assertCount(1, $project->jobs);
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 [
                     'persons_needed'       => 2,
@@ -317,7 +317,7 @@ class StoreProjectFeatureTest extends TestCase
         $project = Project::whereTitle('Some Title')
                           ->first();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'title'                  => 'Some Title',
                 'production_name'        => 'Some Production Name',
@@ -332,7 +332,7 @@ class StoreProjectFeatureTest extends TestCase
         );
 
         $this->assertCount(1, $project->jobs);
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 [
                     'persons_needed'       => 1,
@@ -400,7 +400,7 @@ class StoreProjectFeatureTest extends TestCase
         $project = Project::whereTitle('Some Title')
                           ->first();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'title'                  => 'Some Title',
                 'production_name'        => 'Some Production Name',
@@ -415,7 +415,7 @@ class StoreProjectFeatureTest extends TestCase
         );
 
         $this->assertCount(2, $project->jobs);
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 [
                     'persons_needed'       => 2,
