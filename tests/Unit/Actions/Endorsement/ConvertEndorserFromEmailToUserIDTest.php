@@ -35,7 +35,7 @@ class ConvertEndorserFromEmailToUserIDTest extends TestCase
             'email' => 'test@test.com',
         ]);
 
-        $user = factory(User::class)->create([
+        $user = $this->createUser([
             'email' => 'test@test.com'
         ]);
 
@@ -53,7 +53,7 @@ class ConvertEndorserFromEmailToUserIDTest extends TestCase
      */
     public function not_an_endorser_yet()
     {
-        $user = factory(User::class)->create([
+        $user = $this->createUser([
             'email' => 'test@test.com'
         ]);
 

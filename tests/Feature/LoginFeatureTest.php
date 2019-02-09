@@ -20,7 +20,7 @@ class LoginFeatureTest extends TestCase
      */
     public function login()
     {
-        $user = factory(User::class)->create([
+        $user = $this->createUser([
             'password' => Hash::make('testpass'),
         ]);
         $user->sites()->save($this->getCurrentSite());
@@ -63,7 +63,7 @@ class LoginFeatureTest extends TestCase
      */
     public function login_unconfirmed()
     {
-        $user = factory(User::class)->create([
+        $user = $this->createUser([
             'password'  => Hash::make('testpass'),
             'confirmed' => 0,
         ]);
@@ -86,7 +86,7 @@ class LoginFeatureTest extends TestCase
      */
     public function login_inactive()
     {
-        $user = factory(User::class)->create([
+        $user = $this->createUser([
             'password' => Hash::make('testpass'),
             'status'   => 0,
         ]);
@@ -109,7 +109,7 @@ class LoginFeatureTest extends TestCase
      */
     public function login_banned()
     {
-        $user = factory(User::class)->create([
+        $user = $this->createUser([
             'password' => Hash::make('testpass'),
         ]);
         UserBanned::create([
@@ -135,7 +135,7 @@ class LoginFeatureTest extends TestCase
      */
     public function login_not_in_site()
     {
-        $user = factory(User::class)->create([
+        $user = $this->createUser([
             'password' => Hash::make('testpass'),
         ]);
         $user->sites()

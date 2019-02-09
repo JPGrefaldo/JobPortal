@@ -22,7 +22,7 @@ class VerifyEmailFeatureTest extends TestCase
      */
     public function verify_email()
     {
-        $user = factory(User::class)->create(['confirmed' => 0]);
+        $user = $this->createUser(['confirmed' => 0]);
         $site = $this->getCurrentSite();
 
         app(CreateUserEmailVerificationCode::class)->execute($user);
