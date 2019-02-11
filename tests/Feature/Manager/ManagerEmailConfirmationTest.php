@@ -15,7 +15,7 @@ class ManagerEmailConfirmationTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Account\AccountManagerController::index
+     * @covers \App\Http\Controllers\Account\ManagerConfirmationController::index
      */
     public function will_not_update_status_twice()
     {
@@ -44,9 +44,8 @@ class ManagerEmailConfirmationTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Account\AccountManagerController::index
+     * @covers \App\Http\Controllers\Account\ManagerConfirmationController::index
      */
-
      public function update_manager_status()
      {
         $manager = $this->createUser();

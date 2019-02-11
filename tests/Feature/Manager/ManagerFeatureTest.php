@@ -2,8 +2,10 @@
 
 namespace Tests\Feature\Manager;
 
-use App\Models\User;
+use App\Events\ManagerAdded;
+use App\Mail\ManagerConfirmationEmail;
 use App\Models\Manager;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\Support\SeedDatabaseAfterRefresh;
@@ -144,6 +146,21 @@ class ManagerFeatureTest extends TestCase
             $manager->refresh()
                     ->toArray()
         );
+    }
+
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Account\AccountManagerController::destroy
+     */
+    public function a_confirmation_email_is_sent_to_the_manager()
+    {
+        \Mail::fake();
+        $manager = $this->createUser();
+        $subordinate = $this->createUser();
+
+        event(new ManagerAdded($manager, $subordinate));
+
+        \Mail::assertSent(ManagerConfirmationEmail::class);
     }
 
     /**
