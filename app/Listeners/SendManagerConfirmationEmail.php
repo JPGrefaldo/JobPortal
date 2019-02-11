@@ -2,10 +2,10 @@
 
 namespace App\Listeners;
 
-use App\Mail\ConfirmUserAccount;
+use App\Events\ManagerAdded;
+use App\Mail\ManagerConfirmationEmail;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Support\Facades\Mail;
 
 class SendManagerConfirmationEmail
 {
@@ -22,12 +22,13 @@ class SendManagerConfirmationEmail
     /**
      * Handle the event.
      *
-     * @param  object  $event
+     * @param  ManagerAdded  $event
      * @return void
      */
-    public function handle($event)
+    public function handle(ManagerAdded $event)
     {
-        Mail::to($event->user->email)
-            ->send(new ManagerConfirmationEmail($event->user));
+        \Mail::to($event->manager->email)->send(
+            new ManagerConfirmationEmail($event->manager, $event->subordinate)
+        );
     }
 }
