@@ -44,7 +44,7 @@ class CreatePermissionTables extends Migration
 
             $table->primary(
                 ['permission_id', $columnNames['model_morph_key'], 'model_type'],
-                    'model_has_permissions_permission_model_type_primary'
+                'model_has_permissions_permission_model_type_primary'
             );
         });
 
