@@ -1,11 +1,10 @@
 <?php
 
-
 namespace App\Database;
 
-use Illuminate\Support\Fluent;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\Grammars\SQLiteGrammar as BaseSQLiteGrammar;
+use Illuminate\Support\Fluent;
 
 class SQLiteSchemaGrammar extends BaseSQLiteGrammar
 {
