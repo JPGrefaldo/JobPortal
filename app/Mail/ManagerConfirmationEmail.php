@@ -11,14 +11,19 @@ class ManagerConfirmationEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $manager;
+
+    public $subordinate;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($manager, $subordinate)
     {
-        //
+        $this->manager = $manager;
+        $this->subordinate = $subordinate;
     }
 
     /**
