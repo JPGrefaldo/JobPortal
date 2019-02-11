@@ -39,7 +39,8 @@ Route::post('password/reset', [\App\Http\Controllers\Auth\ResetPasswordControlle
 Route::get('verify/email/{code}', [\App\Http\Controllers\VerifyEmailController::class, 'verify'])
     ->name('verify.email');
 
-
+Route::get('confirm/{manager}/{subordinate}', [\App\Http\Controllers\Manager\ManagerConfirmationController::class, 'index'])
+      ->name('manager.confirm');
 /*
 |--------------------------------------------------------------------------
 | Auth Routes
@@ -74,7 +75,6 @@ Route::middleware('auth')->group(function () {
         Route::get('manager', [\App\Http\Controllers\Account\AccountManagerController::class, 'index'])
             ->name('account.manager');
         Route::post('manager', [\App\Http\Controllers\Account\AccountManagerController::class, 'store']);
-        Route::post('manager/confirm', [\App\Http\Controllers\Manager\ManagerConfirmationController::class, 'index']);
         Route::delete('manager/remove/{id}', [\App\Http\Controllers\Account\AccountManagerController::class, 'destroy']);
 
         Route::get('notifications', [\App\Http\Controllers\Account\AccountNotificationsController::class, 'index'])
