@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Account;
 use App\Actions\Manager\CreateManager;
 use App\Actions\Manager\UpdateManager;
 use App\Actions\User\IsUserRegistered;
+use App\Events\ManagerAdded;
 use App\Http\Controllers\Controller;
 use App\Models\Manager;
 use Illuminate\Http\Request;
@@ -56,12 +57,15 @@ class AccountManagerController extends Controller
         }
 
         if (Manager::where('subordinate_id', $user->id)->first()) {
+            $email = $manager->email;
             app(UpdateManager::class)->execute($user, $manager->id);
             
             return back();
         }
         
         app(CreateManager::class)->execute($manager->id, $user->id);
+
+        event(new ManagerAdded($manager, $user));
 
         return back();
     }
