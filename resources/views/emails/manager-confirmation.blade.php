@@ -3,7 +3,9 @@
 <br>
 {{$subordinate->full_name}} added you as manager.
 
-@component('mail::button', ['url' => url('/account/manager/confirm/' . $manager->id)])
+@component('mail::button', [
+    'url' => url('/confirm/' . $manager->hash_id . '/' . $subordinate->hash_id)
+])
 Accept
 @endcomponent
 
