@@ -3,7 +3,6 @@
 namespace Tests\Unit\Utils;
 
 use App\Utils\FormatUtils;
-use App\Utils\StrUtils;
 use Tests\TestCase;
 
 class FormatUtilsTest extends TestCase

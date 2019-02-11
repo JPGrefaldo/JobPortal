@@ -4,12 +4,11 @@ namespace Tests\Unit\Services;
 
 use App\Models\Position;
 use App\Services\PositionsServices;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\Data\DepartmentID;
 use Tests\Support\Data\PositionTypeID;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class PositionsServicesTest extends TestCase
 {

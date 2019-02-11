@@ -2,13 +2,10 @@
 
 namespace Tests\Unit\Rules;
 
-use App\Models\User;
 use App\Rules\CurrentPassword;
-use App\Rules\Facebook;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CurrentPasswordTest extends TestCase
 {

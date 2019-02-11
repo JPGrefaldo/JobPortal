@@ -5,12 +5,11 @@ namespace Tests\Feature\Producer;
 use App\Models\Project;
 use App\Models\ProjectJob;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\Data\PayTypeID;
 use Tests\Support\Data\PositionID;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CreateProjectJobTest extends TestCase
 {

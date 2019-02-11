@@ -2,7 +2,6 @@
 
 namespace Tests\Support;
 
-
 trait CustomAsserts
 {
     /**
