@@ -5,12 +5,10 @@ namespace App\Http\Controllers\Crew;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateCrewRequest;
 use App\Services\CrewsServices;
-use App\Services\SocialLinksServices;
 use App\Services\DepartmentsServices;
+use App\Services\SocialLinksServices;
 use Auth;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-
 
 class CrewProfileController extends Controller
 {
@@ -26,8 +24,8 @@ class CrewProfileController extends Controller
         ]);
 
         $resume_url = '';
-        if (isset($user->crew->resumes->where('general',1)->first()->url)){
-            $resume_url = $user->crew->resumes->where( 'general',1)->first()->url;
+        if (isset($user->crew->resumes->where('general', 1)->first()->url)) {
+            $resume_url = $user->crew->resumes->where('general', 1)->first()->url;
         }
 
         return view('crew.profile.profile-index', [
@@ -45,10 +43,9 @@ class CrewProfileController extends Controller
      */
     public function create()
     {
-
         $user = Auth::user()->load([
-                'crew'
-            ]);
+            'crew'
+        ]);
         return view('crew.profile.profile-create', [
             'user' => $user,
             'socialLinkTypes' => $this->getAllSocialLinkTypes($user),
@@ -61,12 +58,14 @@ class CrewProfileController extends Controller
      *
      * @return App\Models\SocialLinkType
      */
-    public function getAllSocialLinkTypes($user){
+    public function getAllSocialLinkTypes($user)
+    {
         $socialLinkTypes =  app(SocialLinksServices::class)->getAllSocialLinkTypeWithCrew($user);
         return $socialLinkTypes;
     }
 
-    public function getDepartments(){
+    public function getDepartments()
+    {
         $departments = app(DepartmentsServices::class)->getAllWithPositions();
         return $departments;
     }
