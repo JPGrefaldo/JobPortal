@@ -1,9 +1,9 @@
 @component('mail::message')
-# Someone added you as manager.
+# Hello {{$manager->first_name}},
+<br>
+{{$subordinate->full_name}} added you as manager.
 
-TODO: The body of your message.
-
-@component('mail::button', ['url' => ''])
+@component('mail::button', ['url' => url('/account/manager/confirm/' . $manager->id)])
 Accept
 @endcomponent
 
