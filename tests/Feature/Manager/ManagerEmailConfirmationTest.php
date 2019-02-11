@@ -45,9 +45,6 @@ class ManagerEmailConfirmationTest extends TestCase
      {
         $manager = $this->createUser();
         $subordinate = $this->createUser();
-        
-        $this->actingAs($subordinate)
-             ->get(route('account.manager'));
 
         $this->actingAs($subordinate)
              ->post(route('account.manager'), [
