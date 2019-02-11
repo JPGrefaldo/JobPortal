@@ -14,7 +14,8 @@ class CrewPositionController extends Controller
     public function applyFor(Position $position, Request $request)
     {
         $crew = new CrewPosition();
-        $crew->position()->attach($position, [
+
+        $crew->position->attach($position, [
             'details' => $request->details,
             'union_description' => $request->description,
         ]);

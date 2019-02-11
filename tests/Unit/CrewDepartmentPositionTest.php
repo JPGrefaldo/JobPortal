@@ -19,43 +19,50 @@ class CrewDepartmentPositionTest extends TestCase
         WithFaker;
     /**
      * @test
-     * @covers \App\Http\Controllers\Crew\CrewPositionController
+     * @covers \App\Models\CrewPosition
      */
-    public function applyFor()
+    public function add_position_to_crews()
     {
-        $this->withoutExceptionHandling();
-
-        $user = $this->createCrew();
-        $crew = $user->crew;
+        $crewPosition = factory(CrewPosition::class)->make();
         $position = factory(Position::class)->create();
-        $reels = factory(CrewReel::class)->create();
-        $gears = factory(CrewGear::class)->create();
+        $crew = factory(Crew::class)->create();
+        $crewGear = factory(CrewGear::class)->make();
+        $crewReel = factory(CrewReel::class)->make();
 
-
-        $crew->reels()->attach($reels,[
-            'crew_id' =>$crew->id,
-            'url' =>'https:://www.youtube.com',
-            'general'=> false,
-            'crew_position_id' =>$position->id
+        $position->crews()->attach($crew, [
+            'details' => $crewPosition->details,
+            'union_description' => $crewPosition->union_description,
         ]);
 
-        $crew->gears()->attach($gears,[
-            'crew_id' =>$crew->id,
-            'description' => 'This is the gear description',
-            'crew_position_id' =>$position->id
+        $crewGear->crew()->save($crew,[
+            'crew_id' => $crew->id,
+            'description' => $crewGear->gear,
+            'crew_position_id' => $crewPosition->id
         ]);
 
-        $data = [
+        $crewReel->crew()->save($crew,[
+            'crew_id' => $crew->id,
+            'url' => $crewReel->reel,
+            'crew_position_id' => $crewPosition->id
+        ]);
+
+        $this->assertEquals($crew->id, $position->crews->first()->id);
+        $this->assertDatabaseHas('crew_position', [
+            'crew_id' => $crew->id,
             'position_id' => $position->id,
-            'bio' => 'This is the bio',
-            'gear' => 'This is the gear',
-            'reel_link' => 'This is the reel link',
-        ];
-
-        $response = $this->actingAs($user)
-            ->postJson(route('crew-position.applyFor', $position->id), $data);
-
-        $response->assertSuccessful();
+            'details' => $crewPosition->details,
+            'union_description' => $crewPosition->union_description
+        ]);
+        $this->assertDatabaseHas('crew_reel', [
+            'crew_id' => $crew->id,
+            'url' => $crewReel->reel,
+            'crew_position_id' => $crewPosition->id
+        ]);
+        $this->assertDatabaseHas('crew_gear', [
+            'crew_id' => $crew->id,
+            'description' => $crewGear->gear,
+            'crew_position_id' => $crewPosition->id
+        ]);
     }
 
 }
