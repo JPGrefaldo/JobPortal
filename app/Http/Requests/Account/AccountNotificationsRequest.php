@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Account;
 
-use App\Models\Rules\UserRules;
 use Illuminate\Foundation\Http\FormRequest;
 
 class AccountNotificationsRequest extends FormRequest
