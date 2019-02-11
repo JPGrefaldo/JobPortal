@@ -19,21 +19,27 @@ class ManagerEmailConfirmationTest extends TestCase
      */
     public function will_not_update_status_twice()
     {
-       $manager = $this->createUser();
-       $subordinate = $this->createUser();
-       
-       $this->actingAs($subordinate)
+        $manager = $this->createUser();
+        $subordinate = $this->createUser();
+
+        $this->actingAs($subordinate)
             ->get(route('account.manager'));
 
-       $this->actingAs($subordinate)
+        $this->actingAs($subordinate)
             ->post(route('account.manager'), [
                 'email' => $manager->email
             ]);
 
-       $this->get('/confirm/' . $manager->hash_id . '/'. $subordinate->hash_id);
-       $response = $this->get('/confirm/' . $manager->hash_id . '/'. $subordinate->hash_id);
+        $this->get(route('manager.confirm', [
+            'user' => $manager->hash_id,
+            'subordinate' =>$subordinate->hash_id
+        ]));
+        $response = $this->get(route('manager.confirm', [
+            'user' => $manager->hash_id,
+            'subordinate' =>$subordinate->hash_id
+        ]));
 
-       $response->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     /**
@@ -51,7 +57,10 @@ class ManagerEmailConfirmationTest extends TestCase
                 'email' => $manager->email
              ]);
 
-        $this->get('/confirm/' . $manager->hash_id . '/'. $subordinate->hash_id);
+        $this->get(route('manager.confirm', [
+            'user' => $manager->hash_id,
+            'subordinate' =>$subordinate->hash_id
+        ]));
 
         $this->assertDatabaseHas('managers', [
                 'manager_id' => $manager->id,

@@ -4,10 +4,10 @@
 {{$subordinate->full_name}} added you as manager.
 
 @component('mail::button', [
-    'url' => url(route('confirm.manager'), [
-        'user' => $manager->hash_id,
-        'subordinate' =>$subordinate->hash_id
-    ])
+    'url' => route('manager.confirm', [
+            'user' => $manager->hash_id,
+            'subordinate' =>$subordinate->hash_id
+        ])
 ])
 Accept
 @endcomponent
