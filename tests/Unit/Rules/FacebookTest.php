@@ -21,7 +21,8 @@ class FacebookTest extends TestCase
                     'string',
                     new Facebook(),
                 ],
-            ]);
+            ]
+        );
 
         $this->assertTrue($result->passes());
     }
@@ -39,8 +40,9 @@ class FacebookTest extends TestCase
                     'required',
                     'string',
                     new Facebook(),
-                 ],
-            ]);
+                ],
+            ]
+        );
 
         $this->assertFalse($result->passes());
         $this->assertEquals(

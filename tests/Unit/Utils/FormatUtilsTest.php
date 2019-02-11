@@ -23,7 +23,8 @@ class FormatUtilsTest extends TestCase
     public function name()
     {
         $this->assertSame('Test User', FormatUtils::name('test user'));
-        $this->assertSame('D\'Angelo Jean-Luc Jean-Claude McDermott McDermott',
+        $this->assertSame(
+            'D\'Angelo Jean-Luc Jean-Claude McDermott McDermott',
             FormatUtils::name('D\'angelo Jean-luc Jean-claude mcdermott MCDERMOTT')
         );
     }

@@ -23,10 +23,12 @@ class UpdateProjectJobTest extends TestCase
     public function update()
     {
         $user = $this->createProducer();
-        $job  = $this->createJob($user,
+        $job  = $this->createJob(
+            $user,
             [
                 'position_id' => PositionID::CAMERA_OPERATOR,
-            ]);
+            ]
+        );
         $data = [
             'persons_needed'       => '3',
             'gear_provided'        => 'Updated Gear Provided',
@@ -44,17 +46,18 @@ class UpdateProjectJobTest extends TestCase
 
         $response->assertSuccessful();
 
-        $this->assertArrayHas([
-            'persons_needed'       => 3,
-            'gear_provided'        => 'Updated Gear Provided',
-            'gear_needed'          => 'Updated Gear Needed',
-            'pay_rate'             => 17.00,
-            'pay_type_id'          => PayTypeID::PER_HOUR,
-            'dates_needed'         => '6/15/2018 - 6/25/2018',
-            'notes'                => 'Updated Notes',
-            'travel_expenses_paid' => true,
-            'rush_call'            => false,
-        ],
+        $this->assertArrayHas(
+            [
+                'persons_needed'       => 3,
+                'gear_provided'        => 'Updated Gear Provided',
+                'gear_needed'          => 'Updated Gear Needed',
+                'pay_rate'             => 17.00,
+                'pay_type_id'          => PayTypeID::PER_HOUR,
+                'dates_needed'         => '6/15/2018 - 6/25/2018',
+                'notes'                => 'Updated Notes',
+                'travel_expenses_paid' => true,
+                'rush_call'            => false,
+            ],
             $job->refresh()
                 ->toArray()
         );
@@ -67,10 +70,12 @@ class UpdateProjectJobTest extends TestCase
     public function update_with_invalid_data()
     {
         $user = $this->createProducer();
-        $job  = $this->createJob($user,
+        $job  = $this->createJob(
+            $user,
             [
                 'position_id' => PositionID::CAMERA_OPERATOR,
-            ]);
+            ]
+        );
         $data = [
             'persons_needed'       => '3',
             'gear_provided'        => 'Updated Gear Provided',
@@ -90,18 +95,19 @@ class UpdateProjectJobTest extends TestCase
 
         $response->assertSuccessful();
 
-        $this->assertArrayHas([
-            'persons_needed'       => 3,
-            'gear_provided'        => 'Updated Gear Provided',
-            'gear_needed'          => 'Updated Gear Needed',
-            'pay_rate'             => 17.00,
-            'pay_type_id'          => PayTypeID::PER_HOUR,
-            'dates_needed'         => '6/15/2018 - 6/25/2018',
-            'notes'                => 'Updated Notes',
-            'travel_expenses_paid' => true,
-            'rush_call'            => false,
-            'position_id'          => PositionID::CAMERA_OPERATOR,
-        ],
+        $this->assertArrayHas(
+            [
+                'persons_needed'       => 3,
+                'gear_provided'        => 'Updated Gear Provided',
+                'gear_needed'          => 'Updated Gear Needed',
+                'pay_rate'             => 17.00,
+                'pay_type_id'          => PayTypeID::PER_HOUR,
+                'dates_needed'         => '6/15/2018 - 6/25/2018',
+                'notes'                => 'Updated Notes',
+                'travel_expenses_paid' => true,
+                'rush_call'            => false,
+                'position_id'          => PositionID::CAMERA_OPERATOR,
+            ],
             $job->refresh()
                 ->toArray()
         );
@@ -114,10 +120,12 @@ class UpdateProjectJobTest extends TestCase
     public function update_non_pay_rate()
     {
         $user = $this->createProducer();
-        $job  = $this->createJob($user,
+        $job  = $this->createJob(
+            $user,
             [
                 'position_id' => PositionID::CAMERA_OPERATOR,
-            ]);
+            ]
+        );
         $data = [
             'persons_needed'       => '3',
             'gear_provided'        => 'Updated Gear Provided',
@@ -136,17 +144,18 @@ class UpdateProjectJobTest extends TestCase
 
         $response->assertSuccessful();
 
-        $this->assertArrayHas([
-            'persons_needed'       => 3,
-            'gear_provided'        => 'Updated Gear Provided',
-            'gear_needed'          => 'Updated Gear Needed',
-            'pay_rate'             => 0.00,
-            'pay_type_id'          => PayTypeID::DOE,
-            'dates_needed'         => '6/15/2018 - 6/25/2018',
-            'notes'                => 'Updated Notes',
-            'travel_expenses_paid' => true,
-            'rush_call'            => false,
-        ],
+        $this->assertArrayHas(
+            [
+                'persons_needed'       => 3,
+                'gear_provided'        => 'Updated Gear Provided',
+                'gear_needed'          => 'Updated Gear Needed',
+                'pay_rate'             => 0.00,
+                'pay_type_id'          => PayTypeID::DOE,
+                'dates_needed'         => '6/15/2018 - 6/25/2018',
+                'notes'                => 'Updated Notes',
+                'travel_expenses_paid' => true,
+                'rush_call'            => false,
+            ],
             $job->refresh()
                 ->toArray()
         );
@@ -159,10 +168,12 @@ class UpdateProjectJobTest extends TestCase
     public function update_no_gear_and_no_persons_needed()
     {
         $user = $this->createProducer();
-        $job  = $this->createJob($user,
+        $job  = $this->createJob(
+            $user,
             [
                 'position_id' => PositionID::FIRST_ASSISTANT_DIRECTOR,
-            ]);
+            ]
+        );
         $data = [
             'pay_rate'             => '17',
             'pay_rate_type_id'     => PayTypeID::PER_HOUR,
@@ -177,14 +188,15 @@ class UpdateProjectJobTest extends TestCase
 
         $response->assertSuccessful();
 
-        $this->assertArrayHas([
-            'pay_rate'             => 17.00,
-            'pay_type_id'          => PayTypeID::PER_HOUR,
-            'dates_needed'         => '6/15/2018 - 6/25/2018',
-            'notes'                => 'Updated Notes',
-            'travel_expenses_paid' => true,
-            'rush_call'            => false,
-        ],
+        $this->assertArrayHas(
+            [
+                'pay_rate'             => 17.00,
+                'pay_type_id'          => PayTypeID::PER_HOUR,
+                'dates_needed'         => '6/15/2018 - 6/25/2018',
+                'notes'                => 'Updated Notes',
+                'travel_expenses_paid' => true,
+                'rush_call'            => false,
+            ],
             $job->refresh()
                 ->toArray()
         );
@@ -281,10 +293,12 @@ class UpdateProjectJobTest extends TestCase
     public function update_invalid_requires_pay_type_id_when_zero_rate()
     {
         $user = $this->createProducer();
-        $job  = $this->createJob($user,
+        $job  = $this->createJob(
+            $user,
             [
                 'position_id' => PositionID::FIRST_ASSISTANT_DIRECTOR,
-            ]);
+            ]
+        );
         $data = [
             'pay_rate'             => '0',
             'pay_rate_type_id'     => PayTypeID::PER_HOUR,

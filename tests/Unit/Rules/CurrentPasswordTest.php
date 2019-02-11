@@ -32,7 +32,8 @@ class CurrentPasswordTest extends TestCase
                     'required',
                     new CurrentPassword(),
                 ],
-            ]);
+            ]
+        );
 
         $this->assertTrue($result->passes());
     }
@@ -58,7 +59,8 @@ class CurrentPasswordTest extends TestCase
                     'required',
                     new CurrentPassword(),
                 ],
-            ]);
+            ]
+        );
 
         $this->assertFalse($result->passes());
         $this->assertEquals(

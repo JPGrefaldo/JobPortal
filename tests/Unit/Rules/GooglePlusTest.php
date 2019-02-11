@@ -21,7 +21,8 @@ class GooglePlusTest extends TestCase
                     'string',
                     new GooglePlus(),
                 ],
-            ]);
+            ]
+        );
 
         $this->assertTrue($result->passes());
     }
@@ -40,7 +41,8 @@ class GooglePlusTest extends TestCase
                     'string',
                     new GooglePlus(),
                 ],
-            ]);
+            ]
+        );
 
         $this->assertFalse($result->passes());
         $this->assertEquals(
