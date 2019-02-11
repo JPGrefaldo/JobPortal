@@ -39,7 +39,7 @@ Route::post('password/reset', [\App\Http\Controllers\Auth\ResetPasswordControlle
 Route::get('verify/email/{code}', [\App\Http\Controllers\VerifyEmailController::class, 'verify'])
     ->name('verify.email');
 
-Route::get('confirm/{manager}/{subordinate}', [\App\Http\Controllers\Manager\ManagerConfirmationController::class, 'index'])
+Route::get('confirm/{user}/{subordinate}', [\App\Http\Controllers\Manager\ManagerConfirmationController::class, 'index'])
       ->name('manager.confirm');
 /*
 |--------------------------------------------------------------------------

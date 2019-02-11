@@ -9,24 +9,24 @@ use App\Http\Controllers\Controller;
 
 class ManagerConfirmationController extends Controller
 {
-    public function index($managerId, $subordinateId)
+    public function index(User $user, $subordinate)
     {
-        $manager = User::where('hash_id', $managerId)->first();
-        $subordinate = User::where('hash_id', $subordinateId)->first();
+        $manager = User::where('hash_id', $user->id)->first();
+        $subordinate = User::where('hash_id', $subordinate)->first();
 
         $manager = Manager::where([
-            'manager_id'=> $manager->id,
+            'manager_id'=> $user->id,
             'subordinate_id'=> $subordinate->id
         ])->first();
 
         if($manager->status == 1) {
-            return redirect('login')->withError('confirmed', 'You already accepted '.$subordinate->fullname.'\'s request');
+            return redirect(route('login'))->withError('confirmed', 'You already accepted '.$subordinate->fullname.'\'s request');
         }
 
         $manager->update([
             'status' => 1
         ]);
 
-        return redirect('/login')->with('infoMessage', 'You are now '.$subordinate->fullname.'\'s manager');
+        return redirect(route('login'))->with('infoMessage', 'You are now '.$subordinate->fullname.'\'s manager');
     }
 }

@@ -17,7 +17,6 @@ class ManagerEmailConfirmationTest extends TestCase
      * @test
      * @covers \App\Http\Controllers\Account\AccountManagerController::index
      */
-
     public function will_not_update_status_twice()
     {
        $manager = $this->createUser();
@@ -26,12 +25,10 @@ class ManagerEmailConfirmationTest extends TestCase
        $this->actingAs($subordinate)
             ->get(route('account.manager'));
 
-       $response = $this->actingAs($subordinate)
-                        ->post(route('account.manager'), [
-                            'email' => $manager->email
-                        ]);
-
-       $response->assertRedirect(route('account.manager'));
+       $this->actingAs($subordinate)
+            ->post(route('account.manager'), [
+                'email' => $manager->email
+            ]);
 
        $this->get('/confirm/' . $manager->hash_id . '/'. $subordinate->hash_id);
        $response = $this->get('/confirm/' . $manager->hash_id . '/'. $subordinate->hash_id);
@@ -52,12 +49,10 @@ class ManagerEmailConfirmationTest extends TestCase
         $this->actingAs($subordinate)
              ->get(route('account.manager'));
 
-        $response = $this->actingAs($subordinate)
-                         ->post(route('account.manager'), [
-                             'email' => $manager->email
-                         ]);
-
-        $response->assertRedirect(route('account.manager'));
+        $this->actingAs($subordinate)
+             ->post(route('account.manager'), [
+                'email' => $manager->email
+             ]);
 
         $this->get('/confirm/' . $manager->hash_id . '/'. $subordinate->hash_id);
 
