@@ -1,10 +1,9 @@
 <?php
 
-
 namespace Tests\Support;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Contracts\Console\Kernel;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 trait SeedDatabaseAfterRefresh
 {

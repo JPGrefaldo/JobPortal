@@ -3,7 +3,6 @@
 namespace Tests\Unit\Actions\Auth;
 
 use App\Actions\Auth\StubUserNotifications;
-use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;

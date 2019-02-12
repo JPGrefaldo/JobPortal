@@ -4,7 +4,6 @@ namespace Tests\Unit\Actions\Endorsement;
 
 use App\Actions\Endorsement\CreateOrGetEndorserByEmail;
 use App\Models\EndorsementEndorser;
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
@@ -69,7 +68,7 @@ class CreateOrGetEndorserByEmailTest extends TestCase
      */
     public function execute_already_a_user()
     {
-        $user = factory(User::class)->create([
+        $user = $this->createUser([
             'email' => $this->email,
         ]);
         $this->service->execute($this->email);
@@ -93,7 +92,7 @@ class CreateOrGetEndorserByEmailTest extends TestCase
      */
     public function execute_already_a_user_and_endorser()
     {
-        $user = factory(User::class)->create([
+        $user = $this->createUser([
             'email' => $this->email,
         ]);
 

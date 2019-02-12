@@ -21,5 +21,4 @@ class CloseUserAccount
             'status' => 0,
         ]);
     }
-
 }

@@ -4,7 +4,6 @@ namespace Tests\Unit\Actions\Endorsement;
 
 use App\Actions\Endorsement\ConvertEndorserFromEmailToUser;
 use App\Models\EndorsementEndorser;
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
@@ -35,7 +34,7 @@ class ConvertEndorserFromEmailToUserIDTest extends TestCase
             'email' => 'test@test.com',
         ]);
 
-        $user = factory(User::class)->create([
+        $user = $this->createUser([
             'email' => 'test@test.com'
         ]);
 
@@ -53,7 +52,7 @@ class ConvertEndorserFromEmailToUserIDTest extends TestCase
      */
     public function not_an_endorser_yet()
     {
-        $user = factory(User::class)->create([
+        $user = $this->createUser([
             'email' => 'test@test.com'
         ]);
 

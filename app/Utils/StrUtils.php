@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Utils;
 
 class StrUtils

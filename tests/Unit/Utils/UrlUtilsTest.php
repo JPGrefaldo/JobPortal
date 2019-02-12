@@ -4,8 +4,6 @@ namespace Tests\Unit\Utils;
 
 use App\Utils\UrlUtils;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UrlUtilsTest extends TestCase
 {

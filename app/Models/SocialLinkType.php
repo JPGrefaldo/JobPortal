@@ -35,7 +35,7 @@ class SocialLinkType extends Model
      * @return string
      */
     public function getSlugAttribute()
-     {
-         return snake_case(strtolower($this->name));
-     }
+    {
+        return snake_case(strtolower($this->name));
+    }
 }

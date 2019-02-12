@@ -15,7 +15,7 @@ class IsUserRegistered
     {
         $email = FormatUtils::email($email);
 
-        if ($user = User::where('email', $email)->first()){
+        if ($user = User::where('email', $email)->first()) {
             return $user;
         }
 

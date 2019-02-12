@@ -5,12 +5,11 @@ namespace Tests\Unit\Services\Producer;
 use App\Models\Project;
 use App\Models\ProjectJob;
 use App\Services\Producer\ProjectJobsService;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\Data\PayTypeID;
 use Tests\Support\Data\PositionID;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ProjectJobsServiceTest extends TestCase
 {
@@ -51,7 +50,7 @@ class ProjectJobsServiceTest extends TestCase
 
         $job = $this->service->create($input);
 
-        $this->assertArraySubset([
+        $this->assertArrayHas([
             'persons_needed'       => 2,
             'gear_provided'        => 'Some Gear Provided',
             'gear_needed'          => 'Some Gear Needed',
@@ -91,7 +90,7 @@ class ProjectJobsServiceTest extends TestCase
 
         $job = $this->service->create($input);
 
-        $this->assertArraySubset([
+        $this->assertArrayHas([
             'persons_needed'       => 2,
             'gear_provided'        => 'Some Gear Provided',
             'gear_needed'          => 'Some Gear Needed',
@@ -132,7 +131,7 @@ class ProjectJobsServiceTest extends TestCase
 
         $job = $this->service->create($input);
 
-        $this->assertArraySubset([
+        $this->assertArrayHas([
             'persons_needed'       => 2,
             'gear_provided'        => 'Some Gear Provided',
             'gear_needed'          => 'Some Gear Needed',
@@ -168,7 +167,7 @@ class ProjectJobsServiceTest extends TestCase
 
         $job = $this->service->create($input);
 
-        $this->assertArraySubset([
+        $this->assertArrayHas([
             'persons_needed'       => 1,
             'gear_provided'        => null,
             'gear_needed'          => null,
@@ -204,7 +203,7 @@ class ProjectJobsServiceTest extends TestCase
 
         $this->service->update($input, $job);
 
-        $this->assertArraySubset([
+        $this->assertArrayHas([
             'persons_needed'       => 3,
             'gear_provided'        => 'Updated Gear Provided',
             'gear_needed'          => 'Updated Gear Needed',
@@ -242,7 +241,7 @@ class ProjectJobsServiceTest extends TestCase
 
         $this->service->update($input, $job);
 
-        $this->assertArraySubset([
+        $this->assertArrayHas([
             'persons_needed'       => 3,
             'gear_provided'        => 'Updated Gear Provided',
             'gear_needed'          => 'Updated Gear Needed',
@@ -278,7 +277,7 @@ class ProjectJobsServiceTest extends TestCase
 
         $this->service->update($input, $job);
 
-        $this->assertArraySubset([
+        $this->assertArrayHas([
             'persons_needed'       => 3,
             'gear_provided'        => 'Updated Gear Provided',
             'gear_needed'          => 'Updated Gear Needed',

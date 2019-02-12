@@ -4,8 +4,6 @@ namespace Tests\Unit\Rules;
 
 use App\Rules\Tumblr;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class TumblrTest extends TestCase
 {

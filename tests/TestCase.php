@@ -2,13 +2,14 @@
 
 namespace Tests;
 
+use App\Exceptions\Handler;
 use App\Models\Site;
 use App\Utils\UrlUtils;
+use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Tests\Support\CreatesModels;
+use Tests\Support\CustomAsserts;
 use Tests\Support\SeedDatabaseAfterRefresh;
-use App\Exceptions\Handler;
-use Illuminate\Contracts\Debug\ExceptionHandler;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -17,7 +18,7 @@ abstract class TestCase extends BaseTestCase
      */
     private static $site = null;
 
-    use CreatesApplication, CreatesModels;
+    use CreatesApplication, CreatesModels, CustomAsserts;
 
     /**
      * Add custom setup traits

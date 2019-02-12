@@ -38,5 +38,4 @@ class EndorsementRequest extends Model
     {
         return $this->hasOne(Endorsement::class);
     }
-
 }

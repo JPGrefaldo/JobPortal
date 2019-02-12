@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Faker;
 
 use Faker\Provider\en_US\PhoneNumber;
