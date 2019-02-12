@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Events\ManagerAdded;
+use App\Listeners\SendManagerConfirmationEmail;
 use App\Listeners\SendUserConfirmationEmail;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Event;
@@ -16,8 +18,12 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         Registered::class => [
-            SendUserConfirmationEmail::class,
+            SendUserConfirmationEmail::class
         ],
+
+        ManagerAdded::class => [
+            SendManagerConfirmationEmail::class
+        ]
     ];
 
     /**
