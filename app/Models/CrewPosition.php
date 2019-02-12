@@ -38,10 +38,7 @@ class CrewPosition extends Pivot
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function position()
-    {
-        return $this->belongsTo(Position::class);
-    }
+
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -54,6 +51,16 @@ class CrewPosition extends Pivot
     public function crewReel()
     {
         return $this->hasMany(CrewReel::class,'crew_position_id');
+    }
+
+    public function crewGear()
+    {
+        return $this->hasMany(CrewGear::class,'crew_position_id');
+    }
+    public function position()
+    {
+        return $this->hasMany(Position::class,'id','position_id');
+
     }
     /**
      * @param \Illuminate\Database\Eloquent\Builder $query

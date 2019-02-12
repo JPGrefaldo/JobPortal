@@ -27,8 +27,22 @@ class CrewDepartmentPositionTest extends TestCase
         $this->withoutExceptionHandling();
 
         $user = $this->createCrew();
-        $crew = $user->crew;
+        $crew = factory(Crew::class)->create();
+        $reels = factory(CrewReel::class)->create();
+        $gears = factory(CrewGear::class)->create();
         $position = factory(Position::class)->create();
+
+        $crew->reels()->save($reels,[
+            'crew_id' => $crew->id,
+            'url' => 'This is a test url',
+            'general' => false,
+            'crew_position_id' => $position->id,
+        ]);
+        $crew->gears()->save($gears,[
+            'crew_id' => $crew->id,
+            'description' => 'This is a test description',
+            'crew_position_id' => $position->id,
+        ]);
 
         $data = [
             'position_id' => $position->id,

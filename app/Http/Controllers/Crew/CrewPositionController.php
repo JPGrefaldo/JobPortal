@@ -15,7 +15,7 @@ class CrewPositionController extends Controller
     {
         $crew = new CrewPosition();
 
-        $crew->position->attach($position, [
+        $crew->position()->save($position, [
             'details' => $request->details,
             'union_description' => $request->description,
         ]);
