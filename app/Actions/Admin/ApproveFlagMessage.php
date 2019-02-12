@@ -7,7 +7,10 @@ use Illuminate\Support\Carbon;
 
 class ApproveFlagMessage
 {
-    public function execute(PendingFlagMessage $pendingFlagMessage)
+    /**
+     * @param \App\Models\PendingFlagMessage $pendingFlagMessage
+     */
+    public function execute(PendingFlagMessage $pendingFlagMessage): void
     {
         $pendingFlagMessage->approved_at = Carbon::now();
         $pendingFlagMessage->save();

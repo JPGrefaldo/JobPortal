@@ -15,12 +15,13 @@ use App\Utils\StrUtils;
 class CreateEndorsementRequest
 {
     /**
-     * @param $user
+     * @param User $user
      * @param Position $position
-     * @param $email
+     * @param string $email
+     * @param string $message
      * @return Endorsement
      */
-    public function execute($user, Position $position, $email, $message)
+    public function execute(User $user, Position $position, $email, $message)
     {
         $crewPosition = CrewPosition::where('crew_id', $user->crew->id)
                                     ->where('position_id', $position->id)

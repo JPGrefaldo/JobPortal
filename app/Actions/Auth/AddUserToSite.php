@@ -14,7 +14,7 @@ class AddUserToSite
      * @param Site $site
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function execute($user, $site)
+    public function execute(User $user, Site $site)
     {
         return UserSites::firstOrCreate([
             'user_id' => $user->id,

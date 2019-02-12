@@ -13,7 +13,7 @@ class CreateUserEmailVerificationCode
      * @param User $user
      * @param $roleName
      */
-    public function execute($user)
+    public function execute(User $user): void
     {
         $user->emailVerificationCode()->create([
             'code' => StrUtils::createRandomString(),

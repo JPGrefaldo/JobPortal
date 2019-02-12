@@ -9,7 +9,7 @@ class ConvertEndorserFromEmailToUser
     /**
      * @param User $user
      */
-    public function execute($user)
+    public function execute(User $user): void
     {
         if (! $endorser = EndorsementEndorser::whereEmail($user->email)->first()) {
             return;

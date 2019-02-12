@@ -12,7 +12,7 @@ class CloseUserAccount
     /**
      * @param User $user
      */
-    public function execute($user)
+    public function execute(User $user): void
     {
         app(CloseProducerAccount::class)->execute($user);
 
