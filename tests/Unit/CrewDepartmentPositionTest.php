@@ -21,48 +21,27 @@ class CrewDepartmentPositionTest extends TestCase
      * @test
      * @covers \App\Models\CrewPosition
      */
-    public function add_position_to_crews()
+
+    public function apply_for()
     {
-        $crewPosition = factory(CrewPosition::class)->make();
+        $this->withoutExceptionHandling();
+
+        $user = $this->createCrew();
+        $crew = $user->crew;
         $position = factory(Position::class)->create();
-        $crew = factory(Crew::class)->create();
-        $crewGear = factory(CrewGear::class)->make();
-        $crewReel = factory(CrewReel::class)->make();
 
-        $position->crews()->attach($crew, [
-            'details' => $crewPosition->details,
-            'union_description' => $crewPosition->union_description,
-        ]);
-
-        $crewGear->crew()->save($crew,[
-            'crew_id' => $crew->id,
-            'description' => $crewGear->gear,
-            'crew_position_id' => $crewPosition->id
-        ]);
-
-        $crewReel->crew()->save($crew,[
-            'crew_id' => $crew->id,
-            'url' => $crewReel->reel,
-            'crew_position_id' => $crewPosition->id
-        ]);
-
-        $this->assertEquals($crew->id, $position->crews->first()->id);
-        $this->assertDatabaseHas('crew_position', [
-            'crew_id' => $crew->id,
+        $data = [
             'position_id' => $position->id,
-            'details' => $crewPosition->details,
-            'union_description' => $crewPosition->union_description
-        ]);
-        $this->assertDatabaseHas('crew_reel', [
-            'crew_id' => $crew->id,
-            'url' => $crewReel->reel,
-            'crew_position_id' => $crewPosition->id
-        ]);
-        $this->assertDatabaseHas('crew_gear', [
-            'crew_id' => $crew->id,
-            'description' => $crewGear->gear,
-            'crew_position_id' => $crewPosition->id
-        ]);
+            'bio' => 'This is the bio',
+            'gear' => 'This is the gear',
+            'reel_link' => 'This is the reel link',
+        ];
+
+        $response = $this->actingAs($user)
+            ->postJson(route('crew-position.store',$position->id), $data);
+
+
+        $response->assertSuccessful();
     }
 
 }
