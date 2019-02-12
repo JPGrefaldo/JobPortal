@@ -4,12 +4,11 @@ namespace Tests\Unit\Services;
 
 use App\Models\Position;
 use App\Services\PositionsServices;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\Data\DepartmentID;
 use Tests\Support\Data\PositionTypeID;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class PositionsServicesTest extends TestCase
 {
@@ -47,7 +46,7 @@ class PositionsServicesTest extends TestCase
             'id' => $position->id,
         ]);
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'name'              => 'Some Position',
                 'department_id'     => DepartmentID::PRODUCTION,
@@ -116,7 +115,7 @@ class PositionsServicesTest extends TestCase
 
         $position = $this->service->update($data, $position);
 
-        $this->assertArraySubset([
+        $this->assertArrayHas([
             'name'          => 'Updated Position',
             'department_id' => DepartmentID::PRODUCTION,
             'has_gear'      => true,

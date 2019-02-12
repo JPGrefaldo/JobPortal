@@ -4,9 +4,8 @@ namespace Tests\Unit\Services;
 
 use App\Models\Department;
 use App\Services\DepartmentsServices;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class DepartmentsServicesTest extends TestCase
 {
@@ -96,7 +95,7 @@ class DepartmentsServicesTest extends TestCase
 
         $department->refresh();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'name'        => 'New Name',
                 'description' => 'New Description',

@@ -3,8 +3,6 @@
 namespace Tests\Unit\Services;
 
 use App\Services\SocialLinksServices;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 
 class SocialLinksServicesTest extends TestCase

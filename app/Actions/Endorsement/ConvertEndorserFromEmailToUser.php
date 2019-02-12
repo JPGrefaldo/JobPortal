@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Actions\Endorsement;
 
 use App\Models\EndorsementEndorser;

@@ -2,9 +2,8 @@
 
 namespace App\Http\Middleware;
 
-use Illuminate\Contracts\Auth\Guard;
-use App\Models\Role;
 use Closure;
+use Illuminate\Contracts\Auth\Guard;
 
 class UserHasPosition
 {

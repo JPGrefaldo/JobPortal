@@ -3,7 +3,6 @@
 namespace Tests\Unit\Actions\Endorsement;
 
 use App\Actions\Endorsement\GetEndorserUserID;
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
@@ -30,7 +29,7 @@ class GetEndorserUserIDTest extends TestCase
      */
     public function execute()
     {
-        $user = factory(User::class)->create([
+        $user = $this->createUser([
             'email' => 'test@test.com'
         ]);
 

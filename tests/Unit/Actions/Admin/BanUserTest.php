@@ -35,7 +35,7 @@ class BanUserTest extends TestCase
 
         $user->refresh();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'user_id' => $user->id,
                 'reason'  => 'some reason',

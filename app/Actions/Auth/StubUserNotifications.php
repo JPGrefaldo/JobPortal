@@ -2,7 +2,6 @@
 
 namespace App\Actions\Auth;
 
-
 use App\Models\Role;
 use App\Models\User;
 use App\Models\UserNotificationSetting;

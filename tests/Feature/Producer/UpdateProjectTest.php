@@ -6,11 +6,10 @@ use App\Models\Project;
 use App\Models\RemoteProject;
 use App\Models\Site;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\Data\ProjectTypeID;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UpdateProjectTest extends TestCase
 {
@@ -43,7 +42,8 @@ class UpdateProjectTest extends TestCase
 
         $response->assertSuccessful();
 
-        $this->assertArraySubset([
+        $this->assertArrayHas(
+            [
                 'title'                  => 'Updated Title',
                 'production_name'        => 'Updated Production Name',
                 'production_name_public' => 1,
@@ -56,7 +56,8 @@ class UpdateProjectTest extends TestCase
         );
 
         $this->assertCount(2, $project->remotes);
-        $this->assertArraySubset([
+        $this->assertArrayHas(
+            [
                 ['site_id' => $remoteSites[0]->id],
                 ['site_id' => $remoteSites[1]->id],
             ],
@@ -87,7 +88,8 @@ class UpdateProjectTest extends TestCase
 
         $response->assertSuccessful();
 
-        $this->assertArraySubset([
+        $this->assertArrayHas(
+            [
                 'title'                  => 'Updated Title',
                 'production_name'        => 'Updated Production Name',
                 'production_name_public' => 1,
@@ -128,7 +130,8 @@ class UpdateProjectTest extends TestCase
 
         $response->assertSuccessful();
 
-        $this->assertArraySubset([
+        $this->assertArrayHas(
+            [
                 'title'                  => 'Updated Title',
                 'production_name'        => 'Updated Production Name',
                 'production_name_public' => 1,
@@ -141,7 +144,8 @@ class UpdateProjectTest extends TestCase
         );
 
         $this->assertCount(2, $project->remotes);
-        $this->assertArraySubset([
+        $this->assertArrayHas(
+            [
                 ['site_id' => $remoteSites[0]->id],
                 ['site_id' => $remoteSites[1]->id],
             ],
@@ -178,7 +182,8 @@ class UpdateProjectTest extends TestCase
 
         $response->assertSuccessful();
 
-        $this->assertArraySubset([
+        $this->assertArrayHas(
+            [
                 'title'                  => 'Updated Title',
                 'production_name'        => 'Updated Production Name',
                 'production_name_public' => 1,
@@ -191,7 +196,8 @@ class UpdateProjectTest extends TestCase
         );
 
         $this->assertCount(3, $project->remotes);
-        $this->assertArraySubset([
+        $this->assertArrayHas(
+            [
                 ['site_id' => $remoteProject->site_id],
                 ['site_id' => $remoteSites[0]->id],
                 ['site_id' => $remoteSites[1]->id],
@@ -224,7 +230,8 @@ class UpdateProjectTest extends TestCase
 
         $response->assertSuccessful();
 
-        $this->assertArraySubset([
+        $this->assertArrayHas(
+            [
                 'title'                  => 'Updated Title',
                 'production_name'        => 'Updated Production Name',
                 'production_name_public' => 1,

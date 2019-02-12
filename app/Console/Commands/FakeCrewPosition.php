@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use App\Models\CrewPosition;
-use App\Models\EndorsementRequest;
 use App\Models\Position;
 use App\Models\User;
 use Illuminate\Console\Command;

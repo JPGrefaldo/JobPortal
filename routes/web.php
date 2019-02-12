@@ -96,138 +96,22 @@ Route::middleware('auth')->group(function () {
     Route::put('/pending-flag-messages/{pendingFlagMessage}', [\App\Http\Controllers\PendingFlagMessageController::class, 'update'])
         ->name('pending-flag-messages.update');
 
-    /*
-    |--------------------------------------------------------------------------
-    | Admin Routes
-    |--------------------------------------------------------------------------
-    |
-    | User must have Admin role
-    |
-     */
-    Route::middleware('role:Admin')->group(function () {
-        Route::put('/admin/users/ban/{user}', [\App\Http\Controllers\Admin\AdminUsersController::class, 'updateBan'])
-            ->name('admin.users.ban');
+    Route::middleware('role:Admin')
+        ->namespace('App\Http\Controllers\Admin')
+        ->group(base_path('routes/admin.php'));
 
-        Route::prefix('/admin/sites')->group(function () {
-            Route::get('/', [\App\Http\Controllers\Admin\SiteController::class, 'index'])
-                ->name('admin.sites');
-        });
+    Route::middleware('role:Crew')
+        ->namespace('App\Http\Controllers\Crew')
+        ->group(base_path('routes/crew.php'));
 
-        Route::prefix('/admin/departments')->group(function () {
-            Route::get('/', [\App\Http\Controllers\Admin\DepartmentsController::class, 'index'])
-                ->name('admin.departments');
-            Route::post('/', [\App\Http\Controllers\Admin\DepartmentsController::class, 'store']);
-            Route::put('/{department}', [\App\Http\Controllers\Admin\DepartmentsController::class, 'update'])
-                ->name('admin.departments.update');
-        });
-
-        Route::prefix('/admin/positions')->group(function () {
-            Route::get('/', [\App\Http\Controllers\Admin\PositionsController::class, 'index'])
-                ->name('admin.positions');
-            Route::post('/', [\App\Http\Controllers\Admin\PositionsController::class, 'store']);
-            Route::put('/{position}', [\App\Http\Controllers\Admin\PositionsController::class, 'update'])
-                ->name('admin.positions.update');
-        });
-
-        Route::prefix('/admin/projects')->group(function () {
-            Route::put('/{project}', [\App\Http\Controllers\Admin\ProjectController::class, 'update'])
-                ->name('admin.projects.update');
-        });
-    });
-
-    /*
-    |--------------------------------------------------------------------------
-    | Crew Routes
-    |--------------------------------------------------------------------------
-    |
-    | User must have Crew role
-    |
-    */
-    Route::middleware('role:Crew')->group(function () {
-        Route::post('/crews', [\App\Http\Controllers\CrewsController::class, 'store'])
-            ->name('crews');
-        Route::put('/crews/{crew}', [\App\Http\Controllers\CrewsController::class, 'update'])
-            ->name('crews.update');
-
-        Route::prefix('crew')->group(function () {
-            Route::prefix('endorsement')->group(function () {
-                Route::get('/', [App\Http\Controllers\Crew\Endorsements\EndorsementPositionController::class, 'index'])
-                    ->name('crew.endorsement.index');
-
-                Route::prefix('positions')->group(function () {
-                    Route::post('/{position}', [\App\Http\Controllers\Crew\Endorsements\EndorsementPositionController::class, 'store'])
-                        ->name('crew.endorsement.position.store');
-                    Route::get('/{position}', [\App\Http\Controllers\Crew\Endorsements\EndorsementPositionController::class, 'show'])
-                        ->name('crew.endorsement.position.show');
-
-                    // TODO: Delete?
-                    Route::get('endorsed/{position}', [App\Http\Controllers\Crew\Endorsements\EndorsementEndorsedController::class, 'index'])
-                        ->name('crew.endorsement.endorsed');
-
-                    Route::delete('request/{endorsementRequest}', [\App\Http\Controllers\Crew\Endorsements\EndorsementRequestController::class, 'destroy'])
-                        ->name('crew.endorsement.request.destroy');
-                });
-            });
-        });
-
-        // TODO: defer to common route for both crew and admin
-        Route::post('/crew/messages', [\App\Http\Controllers\Crew\MessageController::class, 'store'])
-            ->name('crew.messages.store');
-
-        Route::prefix('crew/profile')->group(function () {
-            Route::get('/', [\App\Http\Controllers\Crew\CrewProfileController::class, 'index'])
-                ->name('profile');
-            Route::get('edit', [\App\Http\Controllers\Crew\CrewProfileController::class, 'create'])
-                ->name('profile.create');
-            Route::post('/', [\App\Http\Controllers\Crew\CrewProfileController::class, 'store']);
-        });
-    });
-
-    /*
-    |--------------------------------------------------------------------------
-    | Producer Routes
-    |--------------------------------------------------------------------------
-    |
-    | User must have Producer role
-    |
-    */
-    Route::middleware('role:Producer')->group(function () {
-        Route::prefix('/producer/projects')->group(function () {
-            Route::get('/create', [\App\Http\Controllers\Producer\ProjectsController::class, 'create'])
-                ->name('producer.projects.create');
-            Route::post('/', [\App\Http\Controllers\Producer\ProjectsController::class, 'store'])
-                ->name('producer.projects');
-            Route::put('/{project}', [\App\Http\Controllers\Producer\ProjectsController::class, 'update'])
-                ->name('producer.project.update');
-        });
-
-        Route::prefix('/producer/jobs')->group(function () {
-            Route::post('/', [\App\Http\Controllers\Producer\ProjectJobsController::class, 'store'])
-                ->name('producer.jobs');
-            Route::put('/{job}', [\App\Http\Controllers\Producer\ProjectJobsController::class, 'update'])
-                ->name('producer.job.update');
-        });
-
-        Route::group(['prefix' => 'messages'], function () {
-            // TODO: defer to common route for both crew and admin
-            Route::post('/{project}', [
-                'as' => 'producer.messages.store',
-                'uses' => 'Producer\MessagesController@store'
-            ]);
-
-            // TODO: defer to common route for both crew and admin
-            Route::put('/producer/projects/{project}/messages/{message}', [
-                'as' => 'producer.messages.update',
-                'uses' => 'Producer\MessagesController@update'
-            ]);
-        });
-    });
+    Route::middleware('role:Producer')
+        ->namespace('App\Http\Controllers\Producer')
+        ->group(base_path('routes/producer.php'));
 });
 
 Route::prefix('theme')->group(function () {
     Route::view('/', 'theme.index');
 });
-
 
 Route::get('test', function () {
     Log::info('asd');

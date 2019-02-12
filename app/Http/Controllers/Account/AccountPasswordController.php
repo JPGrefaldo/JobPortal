@@ -33,5 +33,4 @@ class AccountPasswordController extends Controller
 
         return back()->with('infoMessage', 'Password Updated');
     }
-
 }
