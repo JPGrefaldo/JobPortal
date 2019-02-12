@@ -2,11 +2,7 @@
 
 namespace App\View\Endorsements;
 
-use App\Actions\Crew\GetCrewPositionByPosition;
 use App\Actions\Endorsement\GetEndorsements;
-use App\Models\CrewPosition;
-use App\Models\Endorsement;
-use App\Models\EndorsementRequest;
 use App\Models\Position;
 use App\Models\User;
 use App\View\InitialJS;

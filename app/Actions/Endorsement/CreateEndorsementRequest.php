@@ -2,11 +2,8 @@
 
 namespace App\Actions\Endorsement;
 
-
-use App\Models\Crew;
 use App\Models\CrewPosition;
 use App\Models\Endorsement;
-use App\Models\EndorsementEndorser;
 use App\Models\EndorsementRequest;
 use App\Models\Position;
 use App\Models\User;
@@ -40,6 +37,4 @@ class CreateEndorsementRequest
             'approved_at'            => null,
         ]);
     }
-
-
 }

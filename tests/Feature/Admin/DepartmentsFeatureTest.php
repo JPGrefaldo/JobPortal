@@ -3,7 +3,6 @@
 namespace Tests\Feature\Admin;
 
 use App\Models\Department;
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;

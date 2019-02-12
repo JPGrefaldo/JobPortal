@@ -1,10 +1,7 @@
 <?php
 
-
 namespace App\Models\Rules;
 
-
-use App\Models\User;
 use App\Rules\CurrentPassword;
 use App\Rules\Email;
 use App\Rules\Phone;

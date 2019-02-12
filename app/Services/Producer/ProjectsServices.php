@@ -1,11 +1,8 @@
 <?php
 
-
 namespace App\Services\Producer;
 
-
 use App\Models\Project;
-use App\Models\ProjectJob;
 use App\Models\RemoteProject;
 use App\Models\Site;
 use App\Models\User;

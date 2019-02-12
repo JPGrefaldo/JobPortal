@@ -4,9 +4,9 @@ namespace Tests\Unit\Models;
 
 use App\Models\User;
 use App\Models\UserBanned;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UserBannedTest extends TestCase
 {
