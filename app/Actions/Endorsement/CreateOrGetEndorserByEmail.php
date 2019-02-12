@@ -2,7 +2,6 @@
 
 namespace App\Actions\Endorsement;
 
-
 use App\Models\EndorsementEndorser;
 use App\Models\User;
 

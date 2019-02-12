@@ -2,7 +2,6 @@
 
 namespace App\Actions\User;
 
-
 use App\Actions\Crew\CloseCrewAccount;
 use App\Actions\Producer\CloseProducerAccount;
 use App\Models\User;

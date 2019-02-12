@@ -2,7 +2,6 @@
 
 namespace App\Actions\Crew;
 
-
 use App\Models\CrewPosition;
 use App\Models\Position;
 use App\Models\User;

@@ -2,7 +2,6 @@
 
 namespace App\Actions\User;
 
-
 use App\Models\User;
 
 class ChangeUserPassword

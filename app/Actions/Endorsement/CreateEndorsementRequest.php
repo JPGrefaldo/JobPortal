@@ -2,7 +2,6 @@
 
 namespace App\Actions\Endorsement;
 
-
 use App\Models\Crew;
 use App\Models\CrewPosition;
 use App\Models\Endorsement;
