@@ -35,11 +35,12 @@ class UserAccountFeatureTest extends TestCase
 
         $response->assertRedirect(route('account.name'));
 
-        $this->assertArrayHas([
-            'first_name' => 'Adam James',
-            'last_name'  => 'Ford',
-            'nickname'   => 'The Rock'
-        ],
+        $this->assertArrayHas(
+            [
+                'first_name' => 'Adam James',
+                'last_name'  => 'Ford',
+                'nickname'   => 'The Rock'
+            ],
             $user->refresh()
                 ->toArray()
         );
@@ -66,11 +67,12 @@ class UserAccountFeatureTest extends TestCase
 
         $response->assertRedirect(route('account.name'));
 
-        $this->assertArrayHas([
-            'first_name' => 'John James',
-            'last_name'  => "O'Neal",
-            'nickname' => ''
-        ],
+        $this->assertArrayHas(
+            [
+                'first_name' => 'John James',
+                'last_name'  => "O'Neal",
+                'nickname' => ''
+            ],
             $user->refresh()
                 ->toArray()
         );
@@ -125,10 +127,11 @@ class UserAccountFeatureTest extends TestCase
 
         $response->assertRedirect(route('account.contact'));
 
-        $this->assertArrayHas([
-            'email' => $emailAddress,
-            'phone' => '5555555555',
-        ],
+        $this->assertArrayHas(
+            [
+                'email' => $emailAddress,
+                'phone' => '5555555555',
+            ],
             $user->refresh()
                 ->toArray()
         );
@@ -322,11 +325,12 @@ class UserAccountFeatureTest extends TestCase
 
         $user->refresh();
 
-        $this->assertArrayHas([
-            'receive_email_notification' => false,
-            'receive_other_emails'       => false,
-            'receive_sms'                => false,
-        ],
+        $this->assertArrayHas(
+            [
+                'receive_email_notification' => false,
+                'receive_other_emails'       => false,
+                'receive_sms'                => false,
+            ],
             $user->notificationSettings->toArray()
         );
     }

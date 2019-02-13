@@ -2,7 +2,6 @@
 
 namespace Tests\Support;
 
-
 trait CustomAsserts
 {
     /**
@@ -36,4 +35,5 @@ trait CustomAsserts
 
         return $array;
     }
+    
 }

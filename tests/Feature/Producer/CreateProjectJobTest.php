@@ -43,7 +43,8 @@ class CreateProjectJobTest extends TestCase
 
         $response->assertSuccessful();
 
-        $this->assertArrayHas([
+        $this->assertArrayHas(
+            [
                 'persons_needed'       => 2,
                 'gear_provided'        => 'Some Gear Provided',
                 'gear_needed'          => 'Some Gear Needed',
@@ -90,7 +91,8 @@ class CreateProjectJobTest extends TestCase
 
         $response->assertSuccessful();
 
-        $this->assertArrayHas([
+        $this->assertArrayHas(
+            [
                 'persons_needed'       => 2,
                 'gear_provided'        => 'Some Gear Provided',
                 'gear_needed'          => 'Some Gear Needed',
@@ -137,7 +139,8 @@ class CreateProjectJobTest extends TestCase
 
         $response->assertSuccessful();
 
-        $this->assertArrayHas([
+        $this->assertArrayHas(
+            [
                 'persons_needed'       => 2,
                 'gear_provided'        => 'Some Gear Provided',
                 'gear_needed'          => 'Some Gear Needed',
@@ -180,7 +183,8 @@ class CreateProjectJobTest extends TestCase
 
         $response->assertSuccessful();
 
-        $this->assertArrayHas([
+        $this->assertArrayHas(
+            [
                 'persons_needed'       => 1,
                 'gear_provided'        => null,
                 'gear_needed'          => null,
@@ -230,7 +234,8 @@ class CreateProjectJobTest extends TestCase
         $response->assertSuccessful();
 
         $this->assertCount(2, $project->jobs);
-        $this->assertArrayHas([
+        $this->assertArrayHas(
+            [
                 'persons_needed'       => 2,
                 'gear_provided'        => 'Some Gear Provided',
                 'gear_needed'          => 'Some Gear Needed',
