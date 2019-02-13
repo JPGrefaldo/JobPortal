@@ -6,8 +6,6 @@ use App\Actions\Manager\CreateManager;
 use App\Actions\Manager\DeleteManager;
 use App\Actions\Manager\UpdateManager;
 use App\Actions\User\IsUserRegistered;
-use App\Events\ManagerAdded;
-use App\Events\ManagerDeleted;
 use App\Http\Controllers\Controller;
 use App\Models\Manager;
 use App\Models\User;
@@ -68,8 +66,6 @@ class AccountManagerController extends Controller
         
         app(CreateManager::class)->execute($manager->id, $user->id);
 
-        event(new ManagerAdded($manager, $user));
-
         return back();
     }
 
@@ -118,8 +114,6 @@ class AccountManagerController extends Controller
         $manager = User::findOrfail($manager)->first();
         $subordinate = Auth::user();
 
-        if (app(DeleteManager::class)->execute($manager, $subordinate)){
-            event(new ManagerDeleted($manager, $subordinate));
-        }
+        app(DeleteManager::class)->execute($manager, $subordinate);
     }
 }
