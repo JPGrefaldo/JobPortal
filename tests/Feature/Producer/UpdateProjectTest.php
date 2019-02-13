@@ -57,7 +57,8 @@ class UpdateProjectTest extends TestCase
         );
 
         $this->assertCount(2, $project->remotes);
-        $this->assertArrayHas([
+        $this->assertArrayHas(
+            [
                 ['site_id' => $remoteSites[0]->id],
                 ['site_id' => $remoteSites[1]->id],
             ],

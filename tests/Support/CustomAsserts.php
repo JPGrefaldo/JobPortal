@@ -35,5 +35,4 @@ trait CustomAsserts
 
         return $array;
     }
-    
 }
