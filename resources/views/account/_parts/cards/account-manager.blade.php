@@ -18,12 +18,6 @@
             </a>
         @endif
     </div>
-    <br>
-    <a href="{{ route('manager.resend-confirmation', [
-            'id' =>$manager->id
-        ]) }}" 
-        class="text-red text-bold">Not yet accepted. <small class="text-blue">Resend email confirmation</small>
-    </a>
     @endslot
 
     @if (isset($manager->email))
