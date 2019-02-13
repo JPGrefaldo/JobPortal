@@ -6,6 +6,7 @@ use App\Models\Crew;
 use App\Models\CrewReel;
 use App\Models\CrewResume;
 use App\Models\CrewSocial;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -136,9 +137,11 @@ class CrewsFeatureTest extends TestCase
      */
     public function create_not_required()
     {
+        // $this->withoutExceptionHandling();
+
         Storage::fake('s3');
 
-        $user = $this->createCrew();
+        $user = factory(User::class)->create();
         $data = $this->getCreateData([
             'resume'                       => '',
             'reel'                         => '',
