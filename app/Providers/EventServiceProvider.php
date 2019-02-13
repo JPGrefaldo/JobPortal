@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Events\ManagerAdded;
+use App\Events\ManagerDeleted;
 use App\Listeners\SendManagerConfirmationEmail;
+use App\Listeners\SendManagerDeletedEmail;
 use App\Listeners\SendUserConfirmationEmail;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Event;
@@ -23,6 +25,10 @@ class EventServiceProvider extends ServiceProvider
 
         ManagerAdded::class => [
             SendManagerConfirmationEmail::class
+        ],
+
+        ManagerDeleted::class => [
+            SendManagerDeletedEmail::class
         ]
     ];
 

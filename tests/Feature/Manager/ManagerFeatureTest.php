@@ -3,7 +3,9 @@
 namespace Tests\Feature\Manager;
 
 use App\Events\ManagerAdded;
+use App\Events\ManagerDeleted;
 use App\Mail\ManagerConfirmationEmail;
+use App\Mail\ManagerDeletedEmail;
 use App\Models\Manager;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -183,7 +185,7 @@ class ManagerFeatureTest extends TestCase
              ]);
 
         $this->actingAs($subordinate)
-             ->call('DELETE', '/account/manager/remove/'.$manager->id, [
+             ->call('DELETE', '/account/manager/'.$manager->id.'/remove', [
                  '_token' => csrf_token()
              ]);
 
@@ -191,5 +193,20 @@ class ManagerFeatureTest extends TestCase
                     $manager->refresh()
                             ->toArray()
                 );
+    }
+
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Account\AccountManagerController::destroy
+     */
+    public function email_sent_to_manager_when_deleted()
+    {
+        \Mail::fake();
+        $manager = $this->createUser();
+        $subordinate = $this->createUser();
+
+        event(new ManagerDeleted($manager, $subordinate));
+
+        \Mail::assertSent(ManagerDeletedEmail::class);
     }
 }
