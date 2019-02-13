@@ -102,9 +102,7 @@ class CreateEndorsementRequestTest extends TestCase
     public function execute_with_multiple_same_email_endorser()
     {
         $user = $this->createCrew();
-        $crew = factory(Crew::class)->create([
-            'user_id' => $user->id,
-        ]);
+        $crew = $user->crew;
         $position = Position::inRandomOrder()->get()->first();
 
         $crewPosition = factory(CrewPosition::class)->create([
