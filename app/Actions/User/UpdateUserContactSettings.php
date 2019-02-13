@@ -16,12 +16,16 @@ class UpdateUserContactSettings
      * @param User $user
      * @param array $data
      */
-    public function execute($user, $data)
+    public function execute(User $user, array $data)
     {
         $user->update($this->cleanData($data));
     }
 
-    public function cleanData($data)
+    /**
+     * @param $data
+     * @return array
+     */
+    public function cleanData(array $data)
     {
         $data = array_only($data, $this::FIELDS);
 

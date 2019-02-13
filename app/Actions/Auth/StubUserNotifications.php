@@ -13,7 +13,7 @@ class StubUserNotifications
      * @param array $data
      * @return UserNotificationSetting|\Illuminate\Database\Eloquent\Model
      */
-    public function execute($user, $data)
+    public function execute(User $user, array $data)
     {
         $user->refresh();
         if ($user->hasRole(Role::PRODUCER)) {

@@ -9,6 +9,7 @@ class IsUserRegistered
 {
     /**
      * @param string $email
+     * @return \App\Models\User|false
      */
     public function execute($email)
     {

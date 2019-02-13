@@ -41,9 +41,10 @@ class GetEndorserUserIDTest extends TestCase
     /**
      * @test
      * @covers GetEndorserUserID::execute
+     * @expectedException Illuminate\Database\Eloquent\ModelNotFoundException
      */
     public function no_a_user_yet()
     {
-        $this->assertNull($this->service->execute('test@test.com'));
+        $this->service->execute('test@test.com');
     }
 }

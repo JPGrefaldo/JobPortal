@@ -4,10 +4,18 @@ namespace App\Actions\Endorsement;
 
 use App\Actions\Crew\GetCrewPositionByPosition;
 use App\Models\Endorsement;
+use App\Models\Position;
+use App\Models\User;
 
 class GetEndorsements
 {
-    public function execute($user, $position, $approved = false)
+    /**
+     * @param \App\Models\User $user
+     * @param \App\Models\Position $position
+     * @param bool $approved
+     * @return \App\Models\Endorsement
+     */
+    public function execute(User $user, Position $position, bool $approved = false)
     {
         $crewPosition = app(GetCrewPositionByPosition::class)->execute($user, $position);
 

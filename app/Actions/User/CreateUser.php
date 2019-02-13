@@ -9,7 +9,11 @@ use Illuminate\Support\Facades\Hash;
 
 class CreateUser
 {
-    public function execute($data)
+    /**
+     * @param array $data
+     * @return \App\Models\User
+     */
+    public function execute(array $data)
     {
         $data = $this->prepareData($data);
 
