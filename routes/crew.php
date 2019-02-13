@@ -1,7 +1,5 @@
 <?php
 
-Route::post('/crews', [\App\Http\Controllers\CrewsController::class, 'store'])
-    ->name('crews');
 Route::put('/crews/{crew}', [\App\Http\Controllers\CrewsController::class, 'update'])
     ->name('crews.update');
 
