@@ -13,9 +13,9 @@ class CrewPositionController extends Controller
 {
     public function applyFor(Position $position, Request $request)
     {
-        $crew = new CrewPosition();
+        $crew = auth()->user()->crew;
 
-        $crew->position()->save($position, [
+        $crew->positions()->attach($position, [
             'details' => $request->details,
             'union_description' => $request->description,
         ]);
@@ -25,13 +25,13 @@ class CrewPositionController extends Controller
         CrewGear::create([
             'crew_id' => $crew->id,
             'description' => $request->gear,
-            'crew_position_id' => $crew->id,
+            'crew_position_id' => $position->id,
         ]);
 
         CrewReel::create([
             'crew_id' => $crew->id,
             'url' => $request->reel,
-            'crew_position_id' => $crew->id,
+            'crew_position_id' => $position->id,
         ]);
     }
 }

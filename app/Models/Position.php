@@ -35,10 +35,6 @@ class Position extends Model
         return $this->belongsToMany(Crew::class);
     }
 
-    public function crewPosition()
-    {
-        return $this->belongsTo(CrewPosition::class);
-    }
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

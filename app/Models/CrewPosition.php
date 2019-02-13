@@ -57,11 +57,7 @@ class CrewPosition extends Pivot
     {
         return $this->hasMany(CrewGear::class,'crew_position_id');
     }
-    public function position()
-    {
-        return $this->hasMany(Position::class,'id','position_id');
 
-    }
     /**
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @param Crew $crew
