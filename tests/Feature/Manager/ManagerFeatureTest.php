@@ -154,21 +154,6 @@ class ManagerFeatureTest extends TestCase
      * @test
      * @covers \App\Http\Controllers\Account\AccountManagerController::destroy
      */
-    public function a_confirmation_email_is_sent_to_the_manager()
-    {
-        \Mail::fake();
-        $manager = $this->createUser();
-        $subordinate = $this->createUser();
-
-        event(new ManagerAdded($manager, $subordinate));
-
-        \Mail::assertSent(ManagerConfirmationEmail::class);
-    }
-
-    /**
-     * @test
-     * @covers \App\Http\Controllers\Account\AccountManagerController::destroy
-     */
     public function user_can_remove_manager()
     {
         $subordinate = $this->createUser();
@@ -185,28 +170,14 @@ class ManagerFeatureTest extends TestCase
              ]);
 
         $this->actingAs($subordinate)
-             ->call('DELETE', '/account/manager/'.$manager->id.'/remove', [
-                 '_token' => csrf_token()
-             ]);
+             ->call('DELETE', route('manager.remove', [
+                '_token' => csrf_token(),
+                'manager' => $manager->id
+             ]));
 
         $this->assertDatabaseMissing('managers', 
                     $manager->refresh()
                             ->toArray()
                 );
-    }
-
-    /**
-     * @test
-     * @covers \App\Http\Controllers\Account\AccountManagerController::destroy
-     */
-    public function email_sent_to_manager_when_deleted()
-    {
-        \Mail::fake();
-        $manager = $this->createUser();
-        $subordinate = $this->createUser();
-
-        event(new ManagerDeleted($manager, $subordinate));
-
-        \Mail::assertSent(ManagerDeletedEmail::class);
     }
 }

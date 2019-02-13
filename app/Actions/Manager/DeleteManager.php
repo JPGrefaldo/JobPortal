@@ -8,9 +8,9 @@ class DeleteManager
 {
     public function execute($manager, $subordinate)
     {
-        return !! Manager::where([
-                      ['manager_id', '=', $manager->id],
-                      ['subordinate_id', '=', $subordinate->id]
-                  ])->delete();
+        Manager::where([
+                ['manager_id', '=', $manager->id],
+                ['subordinate_id', '=', $subordinate->id]
+            ])->delete();
     }
 }
