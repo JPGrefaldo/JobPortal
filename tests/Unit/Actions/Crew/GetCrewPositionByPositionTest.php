@@ -55,9 +55,6 @@ class GetCrewPositionByPositionTest extends TestCase
     public function execute_no_valid_position()
     {
         $user = $this->createCrew();
-        $crew = factory(Crew::class)->create([
-            'user_id' => $user->id,
-        ]);
         $position = Position::inRandomOrder()->get()->first();
 
         $this->service->execute($user, $position);
