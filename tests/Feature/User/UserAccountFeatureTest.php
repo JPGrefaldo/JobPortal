@@ -35,7 +35,7 @@ class UserAccountFeatureTest extends TestCase
 
         $response->assertRedirect(route('account.name'));
 
-        $this->assertArraySubset([
+        $this->assertArrayHas([
             'first_name' => 'Adam James',
             'last_name'  => 'Ford',
             'nickname'   => 'The Rock'
@@ -66,7 +66,7 @@ class UserAccountFeatureTest extends TestCase
 
         $response->assertRedirect(route('account.name'));
 
-        $this->assertArraySubset([
+        $this->assertArrayHas([
             'first_name' => 'John James',
             'last_name'  => "O'Neal",
             'nickname' => ''
@@ -125,7 +125,7 @@ class UserAccountFeatureTest extends TestCase
 
         $response->assertRedirect(route('account.contact'));
 
-        $this->assertArraySubset([
+        $this->assertArrayHas([
             'email' => $emailAddress,
             'phone' => '5555555555',
         ],
@@ -322,7 +322,7 @@ class UserAccountFeatureTest extends TestCase
 
         $user->refresh();
 
-        $this->assertArraySubset([
+        $this->assertArrayHas([
             'receive_email_notification' => false,
             'receive_other_emails'       => false,
             'receive_sms'                => false,

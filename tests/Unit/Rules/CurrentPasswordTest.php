@@ -20,7 +20,7 @@ class CurrentPasswordTest extends TestCase
      */
     public function valid()
     {
-        $user = factory(User::class)->create([
+        $user = $this->createUser([
             'password' => \Hash::make('test'),
         ]);
 
@@ -46,7 +46,7 @@ class CurrentPasswordTest extends TestCase
      */
     public function invalid()
     {
-        $user = factory(User::class)->create([
+        $user = $this->createUser([
             'password' => \Hash::make('test'),
         ]);
 

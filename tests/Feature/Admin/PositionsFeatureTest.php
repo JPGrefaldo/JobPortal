@@ -51,7 +51,7 @@ class PositionsFeatureTest extends TestCase
         $position = Position::whereName('Some Position')
             ->first();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'name'             => 'Some Position',
                 'department_id'    => DepartmentID::PRODUCTION,
@@ -84,7 +84,7 @@ class PositionsFeatureTest extends TestCase
         $position = Position::whereName('Some Position')
             ->first();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'name'             => 'Some Position',
                 'department_id'    => DepartmentID::PRODUCTION,
@@ -119,7 +119,7 @@ class PositionsFeatureTest extends TestCase
         $position = Position::whereName('some position')
             ->first();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'name'             => 'Some Position',
                 'department_id'    => DepartmentID::PRODUCTION,
@@ -199,7 +199,7 @@ class PositionsFeatureTest extends TestCase
 
         $response->assertSuccessful();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'name'             => 'Updated Position',
                 'department_id'    => DepartmentID::PRODUCTION,
@@ -231,7 +231,7 @@ class PositionsFeatureTest extends TestCase
 
         $response->assertSuccessful();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'name'             => 'Updated Position',
                 'department_id'    => DepartmentID::PRODUCTION,
@@ -265,7 +265,7 @@ class PositionsFeatureTest extends TestCase
 
         $response->assertSuccessful();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'name'             => 'Updated Position',
                 // name is formatted
@@ -300,7 +300,7 @@ class PositionsFeatureTest extends TestCase
 
         $response->assertSuccessful();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'name'             => 'Updated Position',
                 'department_id'    => DepartmentID::PRODUCTION,

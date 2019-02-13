@@ -45,7 +45,7 @@ class UpdateProjectJobTest extends TestCase
 
         $response->assertSuccessful();
 
-        $this->assertArraySubset([
+        $this->assertArrayHas([
             'persons_needed'       => 3,
             'gear_provided'        => 'Updated Gear Provided',
             'gear_needed'          => 'Updated Gear Needed',
@@ -91,7 +91,7 @@ class UpdateProjectJobTest extends TestCase
 
         $response->assertSuccessful();
 
-        $this->assertArraySubset([
+        $this->assertArrayHas([
             'persons_needed'       => 3,
             'gear_provided'        => 'Updated Gear Provided',
             'gear_needed'          => 'Updated Gear Needed',
@@ -137,7 +137,7 @@ class UpdateProjectJobTest extends TestCase
 
         $response->assertSuccessful();
 
-        $this->assertArraySubset([
+        $this->assertArrayHas([
             'persons_needed'       => 3,
             'gear_provided'        => 'Updated Gear Provided',
             'gear_needed'          => 'Updated Gear Needed',
@@ -178,7 +178,7 @@ class UpdateProjectJobTest extends TestCase
 
         $response->assertSuccessful();
 
-        $this->assertArraySubset([
+        $this->assertArrayHas([
             'pay_rate'             => 17.00,
             'pay_type_id'          => PayTypeID::PER_HOUR,
             'dates_needed'         => '6/15/2018 - 6/25/2018',

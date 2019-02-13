@@ -25,10 +25,9 @@ class AdminUsersFeatureTest extends TestCase
         $response = $this->actingAs($admin)
             ->put(route('admin.users.ban', $user), $data);
 
-        // assert user has been banned
         $user->refresh();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'user_id' => $user->id,
                 'reason'  => 'some reason',
@@ -50,7 +49,10 @@ class AdminUsersFeatureTest extends TestCase
         $admin = $this->createAdmin();
 
         $response = $this->actingAs($admin)
-                         ->put(route('admin.users.ban', ['user', 44]));
+                         ->put(route('admin.users.ban', [
+                             'user',
+                             44,
+                         ]));
 
         $response->assertNotFound();
     }

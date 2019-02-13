@@ -51,7 +51,7 @@ class CreateTestUserTest extends TestCase
 
         $user->load('roles', 'notificationSettings');
 
-        $this->assertArraySubset([
+        $this->assertArrayHas([
             'confirmed'             => true,
             'notification_settings' => [
                 'receive_email_notification' => true,
