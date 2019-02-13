@@ -157,7 +157,7 @@ class CrewsFeatureTest extends TestCase
         ]);
 
         $response = $this->actingAs($user)
-                         ->post(route('crews'), $data);
+                         ->post(route('crews.store'), $data);
 
         $response->assertSuccessful();
 
