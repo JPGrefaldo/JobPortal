@@ -2,6 +2,7 @@
 
 namespace Tests\Support;
 
+use App\Models\Crew;
 use App\Models\Role;
 use App\Models\User;
 
@@ -27,6 +28,10 @@ trait CreatesModels
         $user = $this->createUser($attributes);
 
         $user->assignRole(Role::CREW);
+
+        factory(Crew::class)->create([
+            'user_id' => $user->id,
+        ]);
 
         return $user;
     }
