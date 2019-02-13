@@ -10,7 +10,7 @@ class StubCrew
      * @param User $user
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function execute($user)
+    public function execute(User $user)
     {
         return $user->crew()->create([
             'user_id'   => $user->id,

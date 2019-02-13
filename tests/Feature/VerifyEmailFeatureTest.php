@@ -5,12 +5,9 @@ namespace Tests\Feature;
 use App\Actions\Auth\AddUserToSite;
 use App\Actions\Auth\CreateUserEmailVerificationCode;
 use App\Actions\Crew\StubCrew;
-use App\Models\Role;
-use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class VerifyEmailFeatureTest extends TestCase
 {

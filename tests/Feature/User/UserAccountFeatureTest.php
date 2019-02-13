@@ -3,11 +3,10 @@
 namespace Tests\Feature\User;
 
 use App\Models\UserNotificationSetting;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UserAccountFeatureTest extends TestCase
 {

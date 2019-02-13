@@ -3,10 +3,10 @@
 namespace Tests\Feature\Crews;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\Support\SeedDatabaseAfterRefresh;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Tests\Support\Data\SocialLinkTypeID;
+use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 
 class CreateCrewTest extends TestCase
@@ -85,6 +85,5 @@ class CreateCrewTest extends TestCase
             session('errors')
         );
         $response->assertSessionHasErrors();
-
     }
 }

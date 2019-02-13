@@ -5,7 +5,6 @@ namespace Tests\Unit\Actions\Producer;
 use App\Actions\Admin\MessageCrew;
 use App\Models\Crew;
 use App\Models\Project;
-use App\Models\User;
 use Cmgmyr\Messenger\Models\Message;
 use Cmgmyr\Messenger\Models\Participant;
 use Cmgmyr\Messenger\Models\Thread;

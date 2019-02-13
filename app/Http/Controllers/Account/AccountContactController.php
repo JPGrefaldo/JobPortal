@@ -6,7 +6,6 @@ use App\Actions\User\UpdateUserContactSettings;
 use App\Actions\User\UpdateUserNotificationSettings;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Account\AccountContactRequest;
-use App\Http\Requests\Account\AccountNotificationsRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 

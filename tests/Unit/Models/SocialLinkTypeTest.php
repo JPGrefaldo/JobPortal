@@ -2,10 +2,8 @@
 
 namespace Tests\Unit\Models;
 
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\SocialLinkType;
+use Tests\TestCase;
 
 class SocialLinkTypeTest extends TestCase
 {

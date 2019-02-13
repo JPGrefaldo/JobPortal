@@ -2,13 +2,11 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
 use App\Models\UserBanned;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class LoginFeatureTest extends TestCase
 {

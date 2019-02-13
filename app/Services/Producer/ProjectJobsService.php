@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Services\Producer;
-
 
 use App\Models\ProjectJob;
 

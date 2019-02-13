@@ -4,8 +4,6 @@ namespace Tests\Unit\Rules;
 
 use App\Rules\GooglePlus;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class GooglePlusTest extends TestCase
 {
@@ -23,7 +21,8 @@ class GooglePlusTest extends TestCase
                     'string',
                     new GooglePlus(),
                 ],
-            ]);
+            ]
+        );
 
         $this->assertTrue($result->passes());
     }
@@ -42,7 +41,8 @@ class GooglePlusTest extends TestCase
                     'string',
                     new GooglePlus(),
                 ],
-            ]);
+            ]
+        );
 
         $this->assertFalse($result->passes());
         $this->assertEquals(

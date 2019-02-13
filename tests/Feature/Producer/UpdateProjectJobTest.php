@@ -5,12 +5,11 @@ namespace Tests\Feature\Producer;
 use App\Models\Project;
 use App\Models\ProjectJob;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\Data\PayTypeID;
 use Tests\Support\Data\PositionID;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UpdateProjectJobTest extends TestCase
 {
@@ -24,10 +23,12 @@ class UpdateProjectJobTest extends TestCase
     public function update()
     {
         $user = $this->createProducer();
-        $job  = $this->createJob($user,
+        $job  = $this->createJob(
+            $user,
             [
                 'position_id' => PositionID::CAMERA_OPERATOR,
-            ]);
+            ]
+        );
         $data = [
             'persons_needed'       => '3',
             'gear_provided'        => 'Updated Gear Provided',
@@ -69,10 +70,12 @@ class UpdateProjectJobTest extends TestCase
     public function update_with_invalid_data()
     {
         $user = $this->createProducer();
-        $job  = $this->createJob($user,
+        $job  = $this->createJob(
+            $user,
             [
                 'position_id' => PositionID::CAMERA_OPERATOR,
-            ]);
+            ]
+        );
         $data = [
             'persons_needed'       => '3',
             'gear_provided'        => 'Updated Gear Provided',
@@ -117,10 +120,12 @@ class UpdateProjectJobTest extends TestCase
     public function update_non_pay_rate()
     {
         $user = $this->createProducer();
-        $job  = $this->createJob($user,
+        $job  = $this->createJob(
+            $user,
             [
                 'position_id' => PositionID::CAMERA_OPERATOR,
-            ]);
+            ]
+        );
         $data = [
             'persons_needed'       => '3',
             'gear_provided'        => 'Updated Gear Provided',
@@ -163,10 +168,12 @@ class UpdateProjectJobTest extends TestCase
     public function update_no_gear_and_no_persons_needed()
     {
         $user = $this->createProducer();
-        $job  = $this->createJob($user,
+        $job  = $this->createJob(
+            $user,
             [
                 'position_id' => PositionID::FIRST_ASSISTANT_DIRECTOR,
-            ]);
+            ]
+        );
         $data = [
             'pay_rate'             => '17',
             'pay_rate_type_id'     => PayTypeID::PER_HOUR,
@@ -286,10 +293,12 @@ class UpdateProjectJobTest extends TestCase
     public function update_invalid_requires_pay_type_id_when_zero_rate()
     {
         $user = $this->createProducer();
-        $job  = $this->createJob($user,
+        $job  = $this->createJob(
+            $user,
             [
                 'position_id' => PositionID::FIRST_ASSISTANT_DIRECTOR,
-            ]);
+            ]
+        );
         $data = [
             'pay_rate'             => '0',
             'pay_rate_type_id'     => PayTypeID::PER_HOUR,

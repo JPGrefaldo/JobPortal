@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Tests\Support\Data;
-
 
 class ProjectTypeID
 {

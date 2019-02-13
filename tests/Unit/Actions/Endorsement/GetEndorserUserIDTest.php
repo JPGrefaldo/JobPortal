@@ -3,7 +3,6 @@
 namespace Tests\Unit\Actions\Endorsement;
 
 use App\Actions\Endorsement\GetEndorserUserID;
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
@@ -42,9 +41,10 @@ class GetEndorserUserIDTest extends TestCase
     /**
      * @test
      * @covers GetEndorserUserID::execute
+     * @expectedException Illuminate\Database\Eloquent\ModelNotFoundException
      */
     public function no_a_user_yet()
     {
-        $this->assertNull($this->service->execute('test@test.com'));
+        $this->service->execute('test@test.com');
     }
 }

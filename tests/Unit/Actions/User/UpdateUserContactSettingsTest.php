@@ -3,7 +3,6 @@
 namespace Tests\Actions\User;
 
 use App\Actions\User\UpdateUserContactSettings;
-use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;

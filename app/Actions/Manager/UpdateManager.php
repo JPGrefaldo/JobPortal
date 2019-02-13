@@ -2,16 +2,18 @@
 
 namespace App\Actions\Manager;
 
+use App\Models\Manager;
+
 class UpdateManager
 {
     /**
-     * @param Manager $manager
-     * @param string  $newManagerId
+     * @param \App\Models\Manager $currentManager
+     * @param int $newManagerID
      */
-    public function execute($manager, $currentManager)
+    public function execute(Manager $currentManager, $newManagerID): void
     {
-        return $manager->update([
-            'manager_id' => $currentManager,
+        $currentManager->update([
+            'manager_id' => $newManagerID,
         ]);
     }
 }

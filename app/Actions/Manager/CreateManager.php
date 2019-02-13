@@ -7,8 +7,9 @@ use App\Models\Manager;
 class CreateManager
 {
     /**
-     * @param string $manager_id
-     * @param string $subordinate_id
+     * @param string $managerId
+     * @param string $subordinateId
+     * @return \App\Models\Manager
      */
     public function execute($manager, $subordinate)
     {

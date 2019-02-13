@@ -4,8 +4,6 @@ namespace Tests\Unit\Utils;
 
 use App\Rules\Email;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class EmailTest extends TestCase
 {

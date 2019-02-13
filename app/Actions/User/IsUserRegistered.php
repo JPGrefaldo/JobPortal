@@ -9,12 +9,13 @@ class IsUserRegistered
 {
     /**
      * @param string $email
+     * @return \App\Models\User|false
      */
     public function execute($email)
     {
         $email = FormatUtils::email($email);
 
-        if ($user = User::where('email', $email)->first()){
+        if ($user = User::where('email', $email)->first()) {
             return $user;
         }
 

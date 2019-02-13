@@ -2,7 +2,6 @@
 
 namespace App\View;
 
-
 class InitialJS
 {
     /**
@@ -28,7 +27,7 @@ class InitialJS
      */
     public function pushJSON($variableName, $json)
     {
-        if (is_array($json)){
+        if (is_array($json)) {
             $json = json_encode($json);
         }
 
