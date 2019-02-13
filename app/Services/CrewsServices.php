@@ -7,6 +7,7 @@ use App\Models\Crew;
 use App\Models\CrewReel;
 use App\Models\CrewResume;
 use App\Models\CrewSocial;
+use App\Models\Role;
 use App\Models\User;
 use App\Utils\StrUtils;
 use Illuminate\Http\UploadedFile;
@@ -24,6 +25,8 @@ class CrewsServices
      */
     public function processCreate(array $data, User $user)
     {
+        $user->assignRole(Role::CREW);
+
         if (isset($data['photo'])) {
             $crew = $this->create(
                 array_only($data, ['bio']),
