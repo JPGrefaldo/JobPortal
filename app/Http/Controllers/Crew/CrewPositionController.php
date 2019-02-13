@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Crew;
 
+use App\Models\Crew;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\CrewPosition;
@@ -13,25 +14,29 @@ class CrewPositionController extends Controller
 {
     public function applyFor(Position $position, Request $request)
     {
+//        dump($request->toArray());
         $crew = auth()->user()->crew;
 
         $crew->positions()->attach($position, [
-            'details' => $request->details,
-            'union_description' => $request->description,
+            'details'           => $request->bio,
+            'union_description' => $request->union_description,
         ]);
 
-        $crew::byCrewAndPosition($crew, $position)->first()->id;
+        $crewPosition = CrewPosition::byCrewAndPosition($crew, $position)->first()->id;
 
-        CrewGear::create([
-            'crew_id' => $crew->id,
-            'description' => $request->gear,
+        $crewGear = new CrewGear([
+            'crew_id'          => $crew->id,
+            'description'      => $request->gear,
+            'crew_position_id' => $position->id
+        ]);
+        $crew->gears()->save($crewGear);
+
+        $crewReel = new CrewReel([
+            'crew_id'          => $crew->id,
+            'url'              => $request->reel_link,
             'crew_position_id' => $position->id,
         ]);
+        $crew->reels()->save($crewReel);
 
-        CrewReel::create([
-            'crew_id' => $crew->id,
-            'url' => $request->reel,
-            'crew_position_id' => $position->id,
-        ]);
     }
 }

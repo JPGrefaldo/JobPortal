@@ -19,9 +19,10 @@
                     </div>
                     <div class="py-2">
                         <div class="mb-2">
-                                <input type="text" class="form-control w-full"
-                                          placeholder="Union Description"
-                                          v-model="form.description" />
+                                <input type="text"
+                                       class="form-control w-full"
+                                       placeholder="Union Description"
+                                       v-model="form.union_description" />
                         </div>
                     </div>
                     <div class="border-t-2 border-grey-lighter py-4">
@@ -107,9 +108,9 @@
                 selected: false,
                 form: new Form({
                     bio: "",
+                    union_description: "",
                     reel_link: "",
                     gear: "",
-                    description: "",
                     position: this.position.id,
                 })
             }

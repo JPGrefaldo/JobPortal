@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use App\Models\Crew;
 use App\Models\CrewPosition;
 use App\Models\Position;
+use App\Models\User;
 use App\Models\CrewGear;
 use App\Models\CrewReel;
 use Tests\TestCase;
@@ -19,41 +20,28 @@ class CrewDepartmentPositionTest extends TestCase
         WithFaker;
     /**
      * @test
-     * @covers \App\Models\CrewPosition
+     * @covers \App\Http\Controllers\Crew\CrewPositioncontroller::applyFor
      */
-
     public function apply_for()
     {
-        $this->withoutExceptionHandling();
+       $this->withoutExceptionHandling();
 
         $user = $this->createCrew();
-        $crew = factory(Crew::class)->create();
-        $reels = factory(CrewReel::class)->create();
-        $gears = factory(CrewGear::class)->create();
+        $crew = factory(Crew::class)->create([
+            'user_id' => $user->id,
+        ]);
         $position = factory(Position::class)->create();
-
-        $crew->reels()->save($reels,[
-            'crew_id' => $crew->id,
-            'url' => 'This is a test url',
-            'general' => false,
-            'crew_position_id' => $position->id,
-        ]);
-        $crew->gears()->save($gears,[
-            'crew_id' => $crew->id,
-            'description' => 'This is a test description',
-            'crew_position_id' => $position->id,
-        ]);
 
         $data = [
             'position_id' => $position->id,
             'bio' => 'This is the bio',
             'gear' => 'This is the gear',
+            'union_description' => 'Some union description',
             'reel_link' => 'This is the reel link',
         ];
 
         $response = $this->actingAs($user)
-            ->postJson(route('crew-position.store',$position->id), $data);
-
+            ->postJson(route('crew-position.store', $position), $data);
 
         $response->assertSuccessful();
     }
