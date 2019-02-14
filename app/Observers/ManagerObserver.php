@@ -6,27 +6,26 @@ use App\Mail\ManagerDeletedEmail;
 use App\Mail\ManagerConfirmationEmail;
 use App\Models\Manager;
 use App\Models\User;
-use Illuminate\Support\Facades\Mail;
 
 class ManagerObserver
 {
-    public function creating(Manager $manager)
+    public function created(Manager $manager)
     {
-        $subordinate = User::findOrFail($manager->subordinate_id)->first();
-        $manager = User::findOrFail($manager->manager_id)->first();
-
-        Mail::to($manager->email)->send(
-            new ManagerConfirmationEmail($manager, $subordinate)
-        );
+        $this->sendMailable($manager, ManagerConfirmationEmail::class);
     }
 
-    public function deleting(Manager $manager)
+    public function deleted(Manager $manager)
+    {
+        $this->sendMailable($manager, ManagerDeletedEmail::class);
+    }
+
+    private function sendMailable(Manager $manager, $mailable)
     {
         $subordinate = User::findOrFail($manager->subordinate_id)->first();
         $manager = User::findOrFail($manager->manager_id)->first();
 
-        Mail::to($manager->email)->send(
-            new ManagerDeletedEmail($event->manager, $event->subordinate)
+        \Mail::to($manager->email)->send(
+            new $mailable($manager, $subordinate)
         );
     }
 }

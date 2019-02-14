@@ -49,7 +49,7 @@ class ManagerFeatureTest extends TestCase
             'email' => 'manager@email.com'
         ];
 
-       $this->actingAs($subordinate)
+        $this->actingAs($subordinate)
              ->get(route('account.manager'));
 
         $response = $this->actingAs($subordinate)
