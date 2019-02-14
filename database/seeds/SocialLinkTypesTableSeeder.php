@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Seeder;
 use App\Models\SocialLinkType;
+use Illuminate\Database\Seeder;
 
 class SocialLinkTypesTableSeeder extends Seeder
 {

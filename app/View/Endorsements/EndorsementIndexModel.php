@@ -2,9 +2,6 @@
 
 namespace App\View\Endorsements;
 
-
-use App\Models\CrewPosition;
-use App\Models\Endorsement;
 use App\Models\User;
 use Spatie\ViewModels\ViewModel;
 

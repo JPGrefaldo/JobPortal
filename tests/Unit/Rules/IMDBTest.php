@@ -4,8 +4,6 @@ namespace Tests\Unit\Rules;
 
 use App\Rules\IMDB;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class IMDBTest extends TestCase
 {

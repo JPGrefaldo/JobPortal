@@ -11,10 +11,9 @@ use Illuminate\Support\Facades\Mail;
 class CreatePendingFlagMessage
 {
     /**
-     * @param User $user
-     * @param string $password
+     * @param array $data
      */
-    public function execute($data)
+    public function execute($data): void
     {
         $message = Message::find($data['message_id']);
 

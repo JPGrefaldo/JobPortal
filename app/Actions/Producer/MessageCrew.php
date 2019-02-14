@@ -9,7 +9,12 @@ use Cmgmyr\Messenger\Models\Thread;
 
 class MessageCrew
 {
-    public function execute($data, Project $project, User $user)
+    /**
+     * @param $data
+     * @param \App\Models\Project $project
+     * @param \App\Models\User $user
+     */
+    public function execute($data, Project $project, User $user): void
     {
         $recipients = User::whereIn('hash_id', $data['recipients'])->get();
 
@@ -33,6 +38,11 @@ class MessageCrew
         }
     }
 
+    /**
+     * @param $project
+     * @param $participant
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|object|null
+     */
     public function getThread($project, $participant)
     {
         return Thread::query()

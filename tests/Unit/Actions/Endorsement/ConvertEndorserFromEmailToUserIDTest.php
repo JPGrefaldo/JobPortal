@@ -4,7 +4,6 @@ namespace Tests\Unit\Actions\Endorsement;
 
 use App\Actions\Endorsement\ConvertEndorserFromEmailToUser;
 use App\Models\EndorsementEndorser;
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;

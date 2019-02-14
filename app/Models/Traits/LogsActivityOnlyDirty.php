@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Models\Traits;
-
 
 use Spatie\Activitylog\Traits\LogsActivity;
 

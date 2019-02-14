@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Session;
-
 
 use Illuminate\Session\Store;
 

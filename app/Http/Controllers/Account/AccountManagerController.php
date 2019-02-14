@@ -49,7 +49,7 @@ class AccountManagerController extends Controller
         $email = $request['email'];
         $user = Auth::user();
         
-        if (! $manager = app(IsUserRegistered::class)->execute($email)){
+        if (! $manager = app(IsUserRegistered::class)->execute($email)) {
             return back()->withErrors(['unregistered_email' => 'Make sure the email address is already registered.']);
         }
 

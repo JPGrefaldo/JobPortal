@@ -6,7 +6,6 @@ use App\Events\ManagerAdded;
 use App\Events\ManagerDeleted;
 use App\Mail\ManagerConfirmationEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 
@@ -22,8 +21,8 @@ class ManagerFeatureTest extends TestCase
     {
         $subordinate = $this->createUser();
         $manager = $this->createUser([
-                        'email' => 'manager@email.com'
-                   ]);
+            'email' => 'manager@email.com'
+        ]);
 
         $this->actingAs($subordinate)
              ->get(route('account.manager'));
@@ -89,8 +88,8 @@ class ManagerFeatureTest extends TestCase
     {
         $subordinate = $this->createUser();
         $manager = $this->createUser([
-                        'email' => 'manager@email.com'
-                   ]);
+            'email' => 'manager@email.com'
+        ]);
 
         $this->actingAs($subordinate)
              ->get(route('account.manager'));
@@ -102,9 +101,10 @@ class ManagerFeatureTest extends TestCase
 
         $response->assertRedirect(route('account.manager'));
 
-        $this->assertContains([
-            'manager_id' => 2
-        ],
+        $this->assertContains(
+            [
+                'manager_id' => 2
+            ],
             $manager->refresh()
                     ->toArray()
         );
@@ -118,11 +118,11 @@ class ManagerFeatureTest extends TestCase
     {
         $subordinate = $this->createUser();
         $manager = $this->createUser([
-                        'email' => 'manager@email.com'
-                   ]);
+            'email' => 'manager@email.com'
+        ]);
         $manager2 = $this->createUser([
-                            'email' => 'manager2@email.com'
-                    ]);
+            'email' => 'manager2@email.com'
+        ]);
 
         $this->actingAs($subordinate)
              ->get(route('account.manager'));
@@ -139,9 +139,10 @@ class ManagerFeatureTest extends TestCase
                              'email' => $manager2->email
                          ]);
 
-        $this->assertContains([
-            'manager_id' => 3
-        ],
+        $this->assertContains(
+            [
+                'manager_id' => 3
+            ],
             $manager->refresh()
                     ->toArray()
         );
@@ -155,15 +156,15 @@ class ManagerFeatureTest extends TestCase
     {
         $subordinate = $this->createUser();
         $manager = $this->createUser([
-                        'email' => 'manager@email.com'
-                   ]);
+            'email' => 'manager@email.com'
+        ]);
 
         $this->actingAs($subordinate)
              ->get(route('account.manager'));
 
         $this->actingAs($subordinate)
              ->post(route('account.manager'), [
-                'email' => $manager->email
+                 'email' => $manager->email
              ]);
 
         $this->actingAs($subordinate)
@@ -172,7 +173,8 @@ class ManagerFeatureTest extends TestCase
                 'manager' => $manager->id
              ]));
 
-        $this->assertDatabaseMissing('managers', 
+        $this->assertDatabaseMissing(
+            'managers',
                     $manager->refresh()
                             ->toArray()
                 );

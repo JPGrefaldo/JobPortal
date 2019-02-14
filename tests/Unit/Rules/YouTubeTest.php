@@ -4,8 +4,6 @@ namespace Tests\Unit\Utils;
 
 use App\Rules\YouTube;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class YouTubeTest extends TestCase
 {

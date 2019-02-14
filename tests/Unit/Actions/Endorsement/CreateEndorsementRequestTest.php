@@ -7,7 +7,6 @@ use App\Models\Crew;
 use App\Models\CrewPosition;
 use App\Models\EndorsementEndorser;
 use App\Models\Position;
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
