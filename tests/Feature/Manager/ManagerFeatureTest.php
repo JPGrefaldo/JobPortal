@@ -2,9 +2,6 @@
 
 namespace Tests\Feature\Manager;
 
-use App\Events\ManagerAdded;
-use App\Events\ManagerDeleted;
-use App\Mail\ManagerConfirmationEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
@@ -169,8 +166,7 @@ class ManagerFeatureTest extends TestCase
 
         $this->actingAs($subordinate)
              ->call('DELETE', route('manager.remove', [
-                '_token' => csrf_token(),
-                'manager' => $manager->id
+                 'manager' => $manager->id
              ]));
 
         $this->assertDatabaseMissing(

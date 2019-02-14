@@ -2,8 +2,8 @@
 
 namespace App\Observers;
 
-use App\Mail\ManagerDeletedEmail;
 use App\Mail\ManagerConfirmationEmail;
+use App\Mail\ManagerDeletedEmail;
 use App\Models\Manager;
 use App\Models\User;
 

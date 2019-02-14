@@ -48,7 +48,7 @@ class AccountManagerController extends Controller
     {
         $email = $request['email'];
         $user = Auth::user();
-        
+
         if (! $manager = app(IsUserRegistered::class)->execute($email)) {
             return back()->withErrors(['unregistered_email' => 'Make sure the email address is already registered.']);
         }
@@ -58,12 +58,11 @@ class AccountManagerController extends Controller
         }
 
         if (Manager::where('subordinate_id', $user->id)->first()) {
-            $email = $manager->email;
             app(UpdateManager::class)->execute($user, $manager->id);
-            
+
             return back();
         }
-        
+
         app(CreateManager::class)->execute($manager->id, $user->id);
 
         return back();
