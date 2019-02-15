@@ -9,19 +9,24 @@ use Illuminate\Support\Facades\Auth;
 
 class AccountChangeController extends Controller
 {
-    public function index()
+    protected $user;
+
+    public function __construct()
     {
-        $user = Auth::user();
-        $role = $user->roles->pluck('name')[0];
-        
-        if ($role == Role::CREW) {
-            $user->syncRoles(Role::PRODUCER);
-        }
+        $this->user = Auth::user();
+    }
 
-        if ($role == Role::PRODUCER) {
-            $user->syncRoles(Role::CREW);
-        }
+    public function crew()
+    {
+        $this->user->syncRoles(Role::CREW);
 
-        return $user;
+        return $this->user;
+    }
+
+    public function producer()
+    {
+        $this->user->syncRoles(Role::PRODUCER);
+
+        return $this->user;
     }
 }
