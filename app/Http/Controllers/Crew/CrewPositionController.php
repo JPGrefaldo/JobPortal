@@ -2,19 +2,17 @@
 
 namespace App\Http\Controllers\Crew;
 
-use App\Models\Crew;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\CrewPosition;
 use App\Models\CrewGear;
+use App\Models\CrewPosition;
 use App\Models\CrewReel;
 use App\Models\Position;
+use Illuminate\Http\Request;
 
 class CrewPositionController extends Controller
 {
     public function applyFor(Position $position, Request $request)
     {
-//        dump($request->toArray());
         $crew = auth()->user()->crew;
 
         $crew->positions()->attach($position, [
@@ -29,6 +27,7 @@ class CrewPositionController extends Controller
             'description'      => $request->gear,
             'crew_position_id' => $position->id
         ]);
+
         $crew->gears()->save($crewGear);
 
         $crewReel = new CrewReel([
@@ -36,7 +35,7 @@ class CrewPositionController extends Controller
             'url'              => $request->reel_link,
             'crew_position_id' => $position->id,
         ]);
-        $crew->reels()->save($crewReel);
 
+        $crew->reels()->save($crewReel);
     }
 }
