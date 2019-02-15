@@ -3,6 +3,9 @@
 Route::put('/crews/{crew}', [\App\Http\Controllers\CrewsController::class, 'update'])
     ->name('crews.update');
 
+Route::post('/crews', [\App\Http\Controllers\CrewsController::class, 'store'])
+    ->name('crews.store');
+
 Route::prefix('crew')->group(function () {
     Route::prefix('endorsement')->group(function () {
         Route::get('/', [App\Http\Controllers\Crew\Endorsements\EndorsementPositionController::class, 'index'])

@@ -312,7 +312,7 @@ class CrewsFeatureTest extends TestCase
      */
     public function create_unauthorized()
     {
-        // $user = $this-createUser();
+        $user = $this->createUser();
         $data = $this->getCreateData();
 
         $response = $this->actingAs($user)
