@@ -3,9 +3,7 @@
 namespace Tests\Unit\Actions\Auth;
 
 use App\Actions\Auth\AddUserToSite;
-use App\Models\Role;
 use App\Models\Site;
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;

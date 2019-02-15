@@ -4,12 +4,9 @@ namespace Tests\Unit\Models;
 
 use App\Models\Crew;
 use App\Models\EmailVerificationCode;
-use App\Models\Role;
 use App\Models\Site;
-use App\Models\User;
 use App\Models\UserBanned;
 use App\Models\UserNotificationSetting;
-use App\Models\UserRoles;
 use App\Models\UserSites;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
@@ -26,22 +23,6 @@ class UserTest extends TestCase
         parent::setUp();
 
         $this->user = $this->createUser();
-    }
-
-    /**
-     * @test
-     * @covers \App\Models\User::roles
-     */
-    public function roles()
-    {
-        $role = Role::whereName(Role::PRODUCER)->firstOrFail();
-        UserRoles::create([
-            'user_id' => $this->user->id,
-            'role_id' => $role->id,
-        ]);
-
-        $this->assertEquals(1, $this->user->roles->count());
-        $this->assertEquals("Producer", $this->user->roles->first()->name);
     }
 
     /**
@@ -113,6 +94,8 @@ class UserTest extends TestCase
         $this->assertEquals($crew->id, $this->user->crew->id);
     }
 
+    // TODO: test projects
+
     /**
      * @test
      * @covers \App\Models\User::isConfirmed
@@ -157,21 +140,6 @@ class UserTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Models\User::hasRole
-     */
-    public function hasRole()
-    {
-        $role = factory(Role::class)->create();
-        $randomRole = factory(Role::class)->create();
-
-        $this->user->roles()->save($role);
-
-        $this->assertTrue($this->user->hasRole($role->name));
-        $this->assertFalse($this->user->hasRole($randomRole->name));
-    }
-
-    /**
-     * @test
      * @covers \App\Models\User::hasSite
      */
     public function hasSite()
@@ -197,4 +165,38 @@ class UserTest extends TestCase
 
         $this->assertEquals('(123) 456-7891', $formattedPhoneNumber);
     }
+
+    // TODO: get full name attribute
+
+    // TODO: get nickname attribute
+
+    /**
+     * @test
+     * @covers \App\Models\User::getNicknameOrFullNameAttribute
+     */
+    public function getNicknameOrFullNameAttribute_with_nickname()
+    {
+        $this->user->update([
+            'nickname' => 'The Rock'
+        ]);
+
+        $this->assertEquals('The Rock', $this->user->NicknameOrFull_Name);
+    }
+
+    /**
+     * @test
+     * @covers \App\Models\User::getNicknameOrFullNameAttribute
+     */
+    public function getNicknameOrFullNameAttribute_without_nickname()
+    {
+        $this->user->update([
+            'nickname' => '',
+        ]);
+
+        $this->assertEquals($this->user->full_name, $this->user->NicknameOrFullName);
+    }
+
+    // TODO: scope are crew
+
+    // TODO: scope are producer
 }

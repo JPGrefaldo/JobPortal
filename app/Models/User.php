@@ -7,6 +7,7 @@ use App\Utils\StrUtils;
 use Cmgmyr\Messenger\Traits\Messagable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasRoles;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Vinkla\Hashids\Facades\Hashids;
 
@@ -14,7 +15,8 @@ class User extends Authenticatable implements JWTSubject
 {
     use Notifiable,
         LogsActivityOnlyDirty,
-        Messagable;
+        Messagable,
+        HasRoles;
 
     protected static function boot()
     {
@@ -51,20 +53,11 @@ class User extends Authenticatable implements JWTSubject
         'first_name' => 'string',
         'last_name'  => 'string',
         'email'      => 'string',
+        'nickname'   => 'string',
         'phone'      => 'string',
         'status'     => 'integer',
         'confirmed'  => 'boolean',
     ];
-
-    /**
-     * roles many to many relationship
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function roles()
-    {
-        return $this->belongsToMany(Role::class, 'user_roles', 'user_id', 'role_id', 'id');
-    }
 
     /**
      * sites many to many relationship
@@ -159,17 +152,6 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
-     * @param string $name
-     *
-     * @return bool
-     */
-    public function hasRole($name)
-    {
-        return $this->roles()->get()
-                    ->contains('name', $name);
-    }
-
-    /**
      * @param string $hostname
      *
      * @return bool
@@ -196,26 +178,22 @@ class User extends Authenticatable implements JWTSubject
         return $this->first_name . ' ' . $this->last_name;
     }
 
-    /***
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent\Builder
+    /**
+     * @return string
      */
-    public function scopeAreCrew($query)
+    public function getNicknameAttribute($nickname)
     {
-        return $query->select(['users.*', 'user_roles.role_id'])
-            ->join('user_roles', 'users.id', '=', 'user_roles.user_id')
-            ->where('role_id', '=', Role::getRoleIdByName(Role::CREW));
+        return $nickname;
     }
 
-    /***
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent\Builder
+    /**
+     * @return string
      */
-    public function scopeAreProducer($query)
+    public function getNicknameOrFullNameAttribute()
     {
-        return $query->select(['users.*', 'user_roles.role_id'])
-            ->join('user_roles', 'users.id', '=', 'user_roles.user_id')
-            ->where('role_id', '=', Role::getRoleIdByName(Role::PRODUCER));
+        return (isset($this->nickname) && $this->nickname) ?
+                $this->nickname :
+                $this->full_name;
     }
 
     /**

@@ -3,7 +3,6 @@
 namespace Tests\Feature\Admin;
 
 use App\Models\Department;
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
@@ -158,7 +157,7 @@ class DepartmentsFeatureTest extends TestCase
 
         $response->assertSuccessful();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'name'        => 'New Name',
                 'description' => 'New Description',
@@ -186,7 +185,7 @@ class DepartmentsFeatureTest extends TestCase
 
         $response->assertSuccessful();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'name'        => 'New Name',
                 'description' => '',
@@ -214,7 +213,7 @@ class DepartmentsFeatureTest extends TestCase
 
         $response->assertSuccessful();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'name'        => 'New Name',
                 'description' => '',
@@ -242,7 +241,7 @@ class DepartmentsFeatureTest extends TestCase
 
         $response->assertSuccessful();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'name'        => 'Same Name',
                 'description' => 'Same Description',

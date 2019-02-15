@@ -2,12 +2,10 @@
 
 namespace Tests\Unit\Actions\Crew;
 
-
 use App\Actions\Crew\GetCrewPositionByPosition;
 use App\Models\Crew;
 use App\Models\CrewPosition;
 use App\Models\Position;
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;

@@ -2,7 +2,13 @@
 
 namespace App\Http\Controllers\Account;
 
+use App\Actions\Manager\CreateManager;
+use App\Actions\Manager\DeleteManager;
+use App\Actions\Manager\UpdateManager;
+use App\Actions\User\IsUserRegistered;
 use App\Http\Controllers\Controller;
+use App\Models\Manager;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,6 +23,7 @@ class AccountManagerController extends Controller
     {
         return view('account.account', [
             'user' => Auth::user(),
+            'manager' => Auth::user()->manager(),
             'accountType' => 'manager',
         ]);
     }
@@ -39,7 +46,26 @@ class AccountManagerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $email = $request['email'];
+        $user = Auth::user();
+
+        if (! $manager = app(IsUserRegistered::class)->execute($email)) {
+            return back()->withErrors(['unregistered_email' => 'Make sure the email address is already registered.']);
+        }
+
+        if ($manager->id == $user->id) {
+            return back()->withErrors(['own_email' => 'You have entered your own email address.']);
+        }
+
+        if (Manager::where('subordinate_id', $user->id)->first()) {
+            app(UpdateManager::class)->execute($user, $manager->id);
+
+            return back();
+        }
+
+        app(CreateManager::class)->execute($manager->id, $user->id);
+
+        return back();
     }
 
     /**
@@ -82,8 +108,11 @@ class AccountManagerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($manager)
     {
-        //
+        $manager = User::findOrfail($manager)->first();
+        $subordinate = Auth::user();
+
+        app(DeleteManager::class)->execute($manager, $subordinate);
     }
 }

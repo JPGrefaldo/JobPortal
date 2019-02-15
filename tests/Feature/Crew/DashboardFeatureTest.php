@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Crew;
 
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
@@ -17,7 +16,7 @@ class DashboardFeatureTest extends TestCase
      */
     public function see_dashboard()
     {
-        $user = factory(User::class)->states('withCrewRole')->create();
+        $user = $this->createCrew();
 
         $response = $this->actingAs($user)->get(route('dashboard'));
 

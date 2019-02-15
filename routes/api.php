@@ -33,6 +33,11 @@ Route::middleware('auth:api')->group(function () {
         'index'
     ])->name('producer.projects.index');
 
+    Route::get('/threads/{thread}/messages', [
+        \App\Http\Controllers\MessagesController::class,
+        'index'
+    ])->name('messages.index')->middleware('thread');
+
     Route::get('/producer/projects/{project}/threads', [
         \App\Http\Controllers\Producer\ThreadsController::class,
         'index'

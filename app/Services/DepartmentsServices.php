@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Services;
-
 
 use App\Models\Department;
 use App\Utils\StrUtils;
@@ -62,7 +60,8 @@ class DepartmentsServices
         return $data;
     }
 
-    public function getAllWithPositions(){
+    public function getAllWithPositions()
+    {
         return Department::with('positions')->get();
     }
 }

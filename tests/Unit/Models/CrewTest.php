@@ -8,8 +8,6 @@ use App\Models\CrewPosition;
 use App\Models\CrewReel;
 use App\Models\CrewResume;
 use App\Models\CrewSocial;
-use App\Models\Endorsement;
-use App\Models\EndorsementRequest;
 use App\Models\Position;
 use App\Models\Project;
 use App\Models\User;

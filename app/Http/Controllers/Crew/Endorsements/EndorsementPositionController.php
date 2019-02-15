@@ -5,12 +5,10 @@ namespace App\Http\Controllers\Crew\Endorsements;
 use App\Actions\Endorsement\CreateEndorsementRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Middleware\UserHasPosition;
-use App\Models\CrewPosition;
 use App\Models\Position;
 use App\View\Endorsements\EndorsementIndexModel;
 use App\View\Endorsements\EndorsementPositionShowModel;
 use Illuminate\Http\Request;
-use Mockery\Exception;
 
 class EndorsementPositionController extends Controller
 {

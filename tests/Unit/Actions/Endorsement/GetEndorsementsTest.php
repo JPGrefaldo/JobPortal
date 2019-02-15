@@ -9,7 +9,6 @@ use App\Models\Endorsement;
 use App\Models\EndorsementEndorser;
 use App\Models\EndorsementRequest;
 use App\Models\Position;
-use App\Models\User;
 use App\Utils\StrUtils;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;

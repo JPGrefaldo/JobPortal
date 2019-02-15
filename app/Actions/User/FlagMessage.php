@@ -3,15 +3,13 @@
 namespace App\Actions\User;
 
 use App\Mail\MessageFlagged;
-use App\Models\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Mail;
 
 class FlagMessage
 {
     /**
-     * @param User $user
-     * @param string $password
+     * @param $message
      */
     public function execute($message)
     {
