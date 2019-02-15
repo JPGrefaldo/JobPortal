@@ -284,7 +284,7 @@ class CrewsFeatureTest extends TestCase
     {
         Storage::fake('s3');
 
-        $user = $this->createCrew();
+        $user = $this->createUser();
         $data = $this->getCreateData(['reel' => 'https://vimeo.com/230046783']);
 
         $response = $this->actingAs($user)
