@@ -91,6 +91,14 @@ Route::middleware('auth')->group(function () {
         Route::put('settings/name', [\App\Http\Controllers\User\UserSettingsController::class, 'updateName']);
         Route::put('settings/notifications', [\App\Http\Controllers\User\UserSettingsController::class, 'updateNotifications']);
         Route::put('settings/password', [\App\Http\Controllers\User\UserSettingsController::class, 'updatePassword']);
+
+        Route::get('change/crew', [\App\Http\Controllers\Account\AccountChangeController::class, 'crew'])
+             ->name('account.change-to.crew')
+             ->middleware('role:Producer');
+
+        Route::get('change/producer', [\App\Http\Controllers\Account\AccountChangeController::class, 'producer'])
+             ->name('account.change-to.producer')
+             ->middleware('role:Crew');
     });
 
     Route::post('/pending-flag-messages', [\App\Http\Controllers\PendingFlagMessageController::class, 'store'])
