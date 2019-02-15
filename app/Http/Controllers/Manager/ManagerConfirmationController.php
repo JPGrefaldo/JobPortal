@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Manager;
 
-use App\Events\ManagerAdded;
 use App\Http\Controllers\Controller;
+use App\Mail\ManagerConfirmationEmail;
 use App\Models\Manager;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class ManagerConfirmationController extends Controller
 {
@@ -44,7 +45,9 @@ class ManagerConfirmationController extends Controller
             ->where('status', 0)
             ->first()
         ) {
-            event(new ManagerAdded($manager, $subordinate));
+            Mail::to($manager->email)->send(
+                new ManagerConfirmationEmail($manager, $subordinate)
+            );
         }
 
         return back()->with('info', 'Sending confirmation email to the manager');
