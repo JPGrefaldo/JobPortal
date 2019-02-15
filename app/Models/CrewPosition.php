@@ -48,16 +48,6 @@ class CrewPosition extends Pivot
         return $this->hasMany(Endorsement::class, 'crew_position_id');
     }
 
-    public function crewReel()
-    {
-        return $this->hasMany(CrewReel::class,'crew_position_id');
-    }
-
-    public function crewGear()
-    {
-        return $this->hasMany(CrewGear::class,'crew_position_id');
-    }
-
     /**
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @param Crew $crew

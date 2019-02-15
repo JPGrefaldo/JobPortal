@@ -30,9 +30,4 @@ class CrewGear extends Model
     {
         return $this->belongsTo(Crew::class);
     }
-
-    public function crewPosition()
-    {
-        return $this->hasOne(CrewPosition::class, 'id', 'crew_position_id');
-    }
 }
