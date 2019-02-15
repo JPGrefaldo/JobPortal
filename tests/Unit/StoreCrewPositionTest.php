@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Actions\Crew\StoreCrewPosition;
+use App\Models\Crew;
 use App\Models\CrewPosition;
 use App\Models\Position;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -20,7 +21,9 @@ class StoreCrewPositionTest extends TestCase
     {
         // given
         $user = $this->createUser();
-        $crew = $user->crew;
+        $crew = factory(Crew::class)->create([
+            'user_id' => $user->id,
+        ]);
         $position = factory(Position::class)->create();
 
         $data = [
@@ -28,24 +31,24 @@ class StoreCrewPositionTest extends TestCase
             'bio' => 'This is the bio',
             'gear' => 'This is the gear',
             'reel_link' => 'www.this-is-my-link.com',
+            'union_description' => 'This is the union description',
         ];
 
         // when
-        app(StoreCrewPosition::class)->execute();
+        app(StoreCrewPosition::class)->execute($crew, $position, $data);
 
-        $crewPosition = CrewPosition::byCrewAndPosition($crew, $position);
+        $crewPosition = CrewPosition::byCrewAndPosition($crew, $position)->first();
 
         // then
         $this->assertDatabaseHas('crew_position', [
             'crew_id' => $crew->id,
             'position_id' => $position->id,
-            'description' => 'This is the bio',
+            'details' => 'This is the bio',
             'union_description' => 'This is the union description',
         ]);
 
         $this->assertDatabaseHas('crew_gears', [
             'crew_id' => $crew->id,
-            'position_id' => $position->id,
             'description' => 'This is the gear',
             'crew_position_id' => $crewPosition->id,
         ]);

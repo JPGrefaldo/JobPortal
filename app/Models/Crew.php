@@ -55,7 +55,7 @@ class Crew extends Model
      */
     public function positions()
     {
-        return $this->belongsToMany(Position::class);
+        return $this->belongsToMany(Position::class)->withTimestamps();
     }
 
     /**
