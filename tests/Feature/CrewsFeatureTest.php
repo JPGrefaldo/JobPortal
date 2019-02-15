@@ -6,8 +6,10 @@ use App\Models\Crew;
 use App\Models\CrewReel;
 use App\Models\CrewResume;
 use App\Models\CrewSocial;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Tests\Support\Data\SocialLinkTypeID;
@@ -20,7 +22,8 @@ use Tests\TestCase;
 class CrewsFeatureTest extends TestCase
 {
     use RefreshDatabase,
-        SeedDatabaseAfterRefresh;
+        SeedDatabaseAfterRefresh,
+        WithFaker;
 
     /**
      * @test
@@ -312,14 +315,16 @@ class CrewsFeatureTest extends TestCase
      */
     public function update()
     {
+        // $this->withoutExceptionHandling();
         Storage::fake('s3');
 
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
+        $user->assignRole(Role::CREW);
         $crew   = factory(Crew::class)
             ->states('PhotoUpload')
             ->create([
                 'user_id' => $user->id,
-                'bio' => 'updated bio'
+                'bio' => 'updated bio',
             ]);
         $resume = factory(CrewResume::class)
             ->states('Upload')
