@@ -12,9 +12,17 @@
                     <div class="py-2">
                         <div class="mb-2">
                             <textarea class="form-control w-full h-64"
-                                      placeholder="Biography"
-                                      v-model="bio">
+                                      placeholder="Position Biography"
+                                      v-model="form.bio">
                             </textarea>
+                        </div>
+                    </div>
+                    <div class="py-2">
+                        <div class="mb-2">
+                                <input type="text"
+                                       class="form-control w-full"
+                                       placeholder="Union Description"
+                                       v-model="form.union_description" />
                         </div>
                     </div>
                     <div class="border-t-2 border-grey-lighter py-4">
@@ -40,7 +48,7 @@
                                 <input type="text"
                                        class="form-control bg-light w-64 mr-2 mb-2 md:mb-0"
                                        placeholder="Add link"
-                                       v-model="reel_link"> or
+                                       v-model="form.reel_link"> or
                                 <label for="resume" class="btn-outline text-green inline-block" >Upload file</label>
                                 <input type="file"
                                        name="resume"
@@ -71,7 +79,7 @@
                                 <div class="mb-2">
                                     <textarea class="form-control w-full h-64"
                                               placeholder="Your gear"
-                                              v-model="gear"></textarea>
+                                              v-model="form.gear"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -87,6 +95,8 @@
 </template>
 
 <script>
+    import { Form, HasError, AlertError } from 'vform';
+
     export default {
         name: "PositionComponent",
         props : {
@@ -96,16 +106,26 @@
             return{
                 has_gear: false,
                 selected: false,
-                bio: "",
-                reel_link: "",
-                gear: "",
+                form: new Form({
+                    bio: "",
+                    union_description: "",
+                    reel_link: "",
+                    gear: "",
+                    position: this.position.id,
+                })
             }
         },
         methods: {
             onClickSave: function() {
-                //TODO
-            }
-        },
+                this.saveCrewPosition();
+            },
+
+            saveCrewPosition: function() {
+                this.form.post('/crew/positions/' + this.position.id);
+            },
+
+        }
+
     }
 </script>
 

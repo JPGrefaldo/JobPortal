@@ -36,14 +36,6 @@ class CrewPosition extends Pivot
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function position()
-    {
-        return $this->belongsTo(Position::class);
-    }
-
-    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function endorsements()

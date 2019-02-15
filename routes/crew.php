@@ -37,3 +37,5 @@ Route::prefix('crew/profile')->group(function () {
         ->name('profile.create');
     Route::post('/', [\App\Http\Controllers\Crew\CrewProfileController::class, 'store']);
 });
+
+Route::post('/crew/positions/{position}', [\App\Http\Controllers\Crew\CrewPositionController::class, 'applyFor'])->name('crew-position.store');
