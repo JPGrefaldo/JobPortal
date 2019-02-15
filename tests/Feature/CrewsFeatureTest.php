@@ -7,7 +7,6 @@ use App\Models\CrewReel;
 use App\Models\CrewResume;
 use App\Models\CrewSocial;
 use App\Models\Role;
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
@@ -143,7 +142,7 @@ class CrewsFeatureTest extends TestCase
 
         Storage::fake('s3');
 
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
         $data = $this->getCreateData([
             'resume'                       => '',
             'reel'                         => '',
