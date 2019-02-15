@@ -30,7 +30,7 @@ class CrewsFeatureTest extends TestCase
     {
         Storage::fake('s3');
 
-        $user = $this->createCrew();
+        $user = $this->createUser();
         $data = $this->getCreateData();
 
         $response = $this->actingAs($user)
