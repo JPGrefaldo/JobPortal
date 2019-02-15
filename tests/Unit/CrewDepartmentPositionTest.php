@@ -18,7 +18,7 @@ class CrewDepartmentPositionTest extends TestCase
     use RefreshDatabase,
         SeedDatabaseAfterRefresh,
         WithFaker;
-    
+
     /**
      * @test
      * @covers \App\Http\Controllers\Crew\CrewPositioncontroller::applyFor
