@@ -2,8 +2,6 @@
 
 namespace Tests\Feature\Manager;
 
-use App\Events\ManagerAdded;
-use App\Mail\ManagerConfirmationEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
@@ -151,21 +149,6 @@ class ManagerFeatureTest extends TestCase
      * @test
      * @covers \App\Http\Controllers\Account\AccountManagerController::destroy
      */
-    public function a_confirmation_email_is_sent_to_the_manager()
-    {
-        \Mail::fake();
-        $manager = $this->createUser();
-        $subordinate = $this->createUser();
-
-        event(new ManagerAdded($manager, $subordinate));
-
-        \Mail::assertSent(ManagerConfirmationEmail::class);
-    }
-
-    /**
-     * @test
-     * @covers \App\Http\Controllers\Account\AccountManagerController::destroy
-     */
     public function user_can_remove_manager()
     {
         $subordinate = $this->createUser();
@@ -182,9 +165,9 @@ class ManagerFeatureTest extends TestCase
              ]);
 
         $this->actingAs($subordinate)
-             ->call('DELETE', '/account/manager/remove/'.$manager->id, [
-                 '_token' => csrf_token()
-             ]);
+             ->call('DELETE', route('manager.remove', [
+                 'manager' => $manager->id
+             ]));
 
         $this->assertDatabaseMissing(
             'managers',

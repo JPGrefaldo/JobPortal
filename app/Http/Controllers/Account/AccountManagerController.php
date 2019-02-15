@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Account;
 
 use App\Actions\Manager\CreateManager;
+use App\Actions\Manager\DeleteManager;
 use App\Actions\Manager\UpdateManager;
 use App\Actions\User\IsUserRegistered;
-use App\Events\ManagerAdded;
 use App\Http\Controllers\Controller;
 use App\Models\Manager;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -47,7 +48,7 @@ class AccountManagerController extends Controller
     {
         $email = $request['email'];
         $user = Auth::user();
-        
+
         if (! $manager = app(IsUserRegistered::class)->execute($email)) {
             return back()->withErrors(['unregistered_email' => 'Make sure the email address is already registered.']);
         }
@@ -57,15 +58,12 @@ class AccountManagerController extends Controller
         }
 
         if (Manager::where('subordinate_id', $user->id)->first()) {
-            $email = $manager->email;
             app(UpdateManager::class)->execute($user, $manager->id);
-            
+
             return back();
         }
-        
-        app(CreateManager::class)->execute($manager->id, $user->id);
 
-        event(new ManagerAdded($manager, $user));
+        app(CreateManager::class)->execute($manager->id, $user->id);
 
         return back();
     }
@@ -110,8 +108,11 @@ class AccountManagerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($manager)
     {
-        Manager::where('manager_id', $id)->delete();
+        $manager = User::findOrfail($manager)->first();
+        $subordinate = Auth::user();
+
+        app(DeleteManager::class)->execute($manager, $subordinate);
     }
 }

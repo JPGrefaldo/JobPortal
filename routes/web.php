@@ -75,7 +75,10 @@ Route::middleware('auth')->group(function () {
         Route::get('manager', [\App\Http\Controllers\Account\AccountManagerController::class, 'index'])
             ->name('account.manager');
         Route::post('manager', [\App\Http\Controllers\Account\AccountManagerController::class, 'store']);
-        Route::delete('manager/remove/{id}', [\App\Http\Controllers\Account\AccountManagerController::class, 'destroy']);
+        Route::delete('manager/{manager}/remove', [\App\Http\Controllers\Account\AccountManagerController::class, 'destroy'])
+             ->name('manager.remove');
+        Route::get('manager/{manager}/resend-confirmation', [\App\Http\Controllers\Manager\ManagerConfirmationController::class, 'resend'])
+             ->name('manager.resend-confirmation');
 
         Route::get('notifications', [\App\Http\Controllers\Account\AccountNotificationsController::class, 'index'])
             ->name('account.notifications');
@@ -88,6 +91,14 @@ Route::middleware('auth')->group(function () {
         Route::put('settings/name', [\App\Http\Controllers\User\UserSettingsController::class, 'updateName']);
         Route::put('settings/notifications', [\App\Http\Controllers\User\UserSettingsController::class, 'updateNotifications']);
         Route::put('settings/password', [\App\Http\Controllers\User\UserSettingsController::class, 'updatePassword']);
+
+        Route::get('change/crew', [\App\Http\Controllers\Account\AccountChangeController::class, 'crew'])
+             ->name('account.change-to.crew')
+             ->middleware('role:Producer');
+
+        Route::get('change/producer', [\App\Http\Controllers\Account\AccountChangeController::class, 'producer'])
+             ->name('account.change-to.producer')
+             ->middleware('role:Crew');
     });
 
     Route::post('/pending-flag-messages', [\App\Http\Controllers\PendingFlagMessageController::class, 'store'])

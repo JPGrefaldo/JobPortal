@@ -11,11 +11,11 @@ class CreateManager
      * @param string $subordinateId
      * @return \App\Models\Manager
      */
-    public function execute($managerId, $subordinateId)
+    public function execute($manager, $subordinate)
     {
         return Manager::create([
-            'manager_id' => $managerId,
-            'subordinate_id' => $subordinateId
+            'manager_id' => $manager,
+            'subordinate_id' => $subordinate
         ]);
     }
 }

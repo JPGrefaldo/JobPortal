@@ -48,6 +48,7 @@
         "codedungeon/phpunit-result-printer": "^0.6.1",
         "doctrine/dbal": "^2.7",
         "filp/whoops": "^2.0",
+        "friendsofphp/php-cs-fixer": "^2.14",
         "fzaninotto/faker": "^1.4",
         "laravel/dusk": "^3.0",
         "laravel/telescope": "^1.0.0",
@@ -84,6 +85,9 @@
         }
     },
     "scripts": {
+	"format": [
+            "vendor/bin/php-cs-fixer fix"
+	],
         "pre-install-cmd": [
             "@rm ./vendor/laravel/nova"
         ],
