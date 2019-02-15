@@ -18,7 +18,7 @@ class StoreCrewPositionFeatureTest extends TestCase
      */
     public function store()
     {
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
 
         // given
         $user = $this->createCrew();

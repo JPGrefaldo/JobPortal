@@ -36,11 +36,6 @@ class CrewPosition extends Pivot
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-
-
-    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function endorsements()

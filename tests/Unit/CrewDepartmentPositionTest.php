@@ -3,15 +3,11 @@
 namespace Tests\Unit;
 
 use App\Models\Crew;
-use App\Models\CrewPosition;
 use App\Models\Position;
-use App\Models\User;
-use App\Models\CrewGear;
-use App\Models\CrewReel;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
 use Tests\Support\SeedDatabaseAfterRefresh;
+use Tests\TestCase;
 
 class CrewDepartmentPositionTest extends TestCase
 {
@@ -25,7 +21,7 @@ class CrewDepartmentPositionTest extends TestCase
      */
     public function apply_for()
     {
-       $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
 
         $user = $this->createCrew();
         $crew = factory(Crew::class)->create([
@@ -46,5 +42,4 @@ class CrewDepartmentPositionTest extends TestCase
 
         $response->assertSuccessful();
     }
-
 }
