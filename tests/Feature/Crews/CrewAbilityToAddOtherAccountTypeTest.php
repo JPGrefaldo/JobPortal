@@ -18,9 +18,33 @@ class CrewAbilityToAddOtherAccountTypeTest extends TestCase
         $user->assignRole(Role::CREW);
         $this->assertEquals($user->roles->pluck('name')[0], Role::CREW);
 
-        $user->removeRole(Role::CREW);
+        $user->syncRoles(Role::PRODUCER);
+        $this->assertEquals($user->roles->pluck('name')[0], Role::PRODUCER);
+    }
 
+    public function test_change_to_crew_account_type()
+    {
+        $this->withoutExceptionHandling();
+        
+        $user = $this->createUser();
         $user->assignRole(Role::PRODUCER);
+
+        $this->actingAs($user)
+             ->get(route('account.change'));
+
+        $this->assertEquals($user->roles->pluck('name')[0], Role::CREW);
+    }
+
+    public function test_change_to_producer_account_type()
+    {
+        $this->withoutExceptionHandling();
+        
+        $user = $this->createUser();
+        $user->assignRole(Role::CREW);
+
+        $this->actingAs($user)
+             ->get(route('account.change'));
+
         $this->assertEquals($user->roles->pluck('name')[0], Role::PRODUCER);
     }
 

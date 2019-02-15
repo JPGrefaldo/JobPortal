@@ -90,6 +90,9 @@ Route::middleware('auth')->group(function () {
         Route::put('settings/name', [\App\Http\Controllers\User\UserSettingsController::class, 'updateName']);
         Route::put('settings/notifications', [\App\Http\Controllers\User\UserSettingsController::class, 'updateNotifications']);
         Route::put('settings/password', [\App\Http\Controllers\User\UserSettingsController::class, 'updatePassword']);
+
+        Route::get('change', [\App\Http\Controllers\Account\AccountChangeController::class, 'index'])
+             ->name('account.change');
     });
 
     Route::post('/pending-flag-messages', [\App\Http\Controllers\PendingFlagMessageController::class, 'store'])
