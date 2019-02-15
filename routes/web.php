@@ -75,7 +75,9 @@ Route::middleware('auth')->group(function () {
         Route::get('manager', [\App\Http\Controllers\Account\AccountManagerController::class, 'index'])
             ->name('account.manager');
         Route::post('manager', [\App\Http\Controllers\Account\AccountManagerController::class, 'store']);
-        Route::delete('manager/remove/{id}', [\App\Http\Controllers\Account\AccountManagerController::class, 'destroy']);
+        Route::delete('manager/{manager}/remove', [\App\Http\Controllers\Account\AccountManagerController::class, 'destroy']);
+        Route::get('manager/{manager}/resend-confirmation', [\App\Http\Controllers\Manager\ManagerConfirmationController::class, 'resend'])
+                ->name('manager.resend-confirmation');
 
         Route::get('notifications', [\App\Http\Controllers\Account\AccountNotificationsController::class, 'index'])
             ->name('account.notifications');
