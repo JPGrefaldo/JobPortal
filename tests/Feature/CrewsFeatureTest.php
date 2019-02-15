@@ -238,7 +238,7 @@ class CrewsFeatureTest extends TestCase
     {
         Storage::fake('s3');
 
-        $user = $this->createCrew();
+        $user = $this->createUser();
         $data = $this->getCreateData([
             'reel'                => 'https://www.youtube.com/watch?v=2-_rLbU6zJo',
             'socials.youtube.url' => 'https://www.youtube.com/watch?v=G8S81CEBdNs',
