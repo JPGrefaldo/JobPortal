@@ -308,21 +308,6 @@ class CrewsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Crew\CrewProfileController::store
-     */
-    public function create_unauthorized()
-    {
-        // $user = $this-createUser();
-        $data = $this->getCreateData();
-
-        $response = $this->actingAs($user)
-                         ->post(route('crews.store'), $data);
-
-        $response->assertForbidden();
-    }
-
-    /**
-     * @test
      * @covers \App\Http\Controllers\Crew\CrewProfileController::update
      */
     public function update()
