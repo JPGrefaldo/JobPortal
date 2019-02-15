@@ -12,7 +12,7 @@
                 id="removeManager" 
                 data-id="{{$manager->id}}" 
                 data-token="{{csrf_token()}}" 
-                class="bg-red-light hover:bg-grey text-red font-bold max-w-sm p-4 my-4 rounded-r"
+                class="bg-red-light hover:bg-grey text-red max-w-sm p-4 my-4 rounded-r"
                 >
                 Remove
             </a>

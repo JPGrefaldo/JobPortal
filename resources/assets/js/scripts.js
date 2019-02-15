@@ -82,7 +82,7 @@ jQuery(document).ready(function ($) {
 		if (toDelete){
 			$.ajax({
 				type: 'DELETE',
-				url: '/account/manager/remove/'+id,
+				url: `/account/manager/${id}/remove`,
 				data: {
 					_token: token
 				}
