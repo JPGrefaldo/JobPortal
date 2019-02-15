@@ -1,10 +1,7 @@
 <?php
 
-
 namespace App\Models\Rules;
 
-
-use App\Models\User;
 use App\Rules\CurrentPassword;
 use App\Rules\Email;
 use App\Rules\Phone;
@@ -32,6 +29,19 @@ class UserRules
     {
         return [
             'required',
+            'string',
+            'max:255',
+            "regex:/^[a-z'\- ]*$/i",
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public static function nickname()
+    {
+        return [
+            'nullable',
             'string',
             'max:255',
             "regex:/^[a-z'\- ]*$/i",

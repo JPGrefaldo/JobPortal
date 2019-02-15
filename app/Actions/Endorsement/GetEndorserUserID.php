@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Actions\Endorsement;
 
 use App\Models\User;
@@ -11,6 +12,6 @@ class GetEndorserUserID
      */
     public function execute($email)
     {
-        return User::whereEmail($email)->first();
+        return User::whereEmail($email)->firstOrFail();
     }
 }

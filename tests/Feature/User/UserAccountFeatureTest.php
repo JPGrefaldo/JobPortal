@@ -3,11 +3,10 @@
 namespace Tests\Feature\User;
 
 use App\Models\UserNotificationSetting;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UserAccountFeatureTest extends TestCase
 {
@@ -24,6 +23,7 @@ class UserAccountFeatureTest extends TestCase
         $data = [
             'first_name' => 'Adam James',
             'last_name'  => 'Ford',
+            'nickname'   => 'The Rock'
         ];
 
         $this->actingAs($user)
@@ -34,10 +34,12 @@ class UserAccountFeatureTest extends TestCase
 
         $response->assertRedirect(route('account.name'));
 
-        $this->assertArraySubset([
-            'first_name' => 'Adam James',
-            'last_name'  => 'Ford',
-        ],
+        $this->assertArrayHas(
+            [
+                'first_name' => 'Adam James',
+                'last_name'  => 'Ford',
+                'nickname'   => 'The Rock'
+            ],
             $user->refresh()
                 ->toArray()
         );
@@ -53,6 +55,7 @@ class UserAccountFeatureTest extends TestCase
         $data = [
             'first_name' => 'JoHn jAMES',
             'last_name'  => "O'neal",
+            'nickname' => ''
         ];
 
         $this->actingAs($user)
@@ -63,10 +66,12 @@ class UserAccountFeatureTest extends TestCase
 
         $response->assertRedirect(route('account.name'));
 
-        $this->assertArraySubset([
-            'first_name' => 'John James',
-            'last_name'  => "O'Neal",
-        ],
+        $this->assertArrayHas(
+            [
+                'first_name' => 'John James',
+                'last_name'  => "O'Neal",
+                'nickname' => ''
+            ],
             $user->refresh()
                 ->toArray()
         );
@@ -121,10 +126,11 @@ class UserAccountFeatureTest extends TestCase
 
         $response->assertRedirect(route('account.contact'));
 
-        $this->assertArraySubset([
-            'email' => $emailAddress,
-            'phone' => '5555555555',
-        ],
+        $this->assertArrayHas(
+            [
+                'email' => $emailAddress,
+                'phone' => '5555555555',
+            ],
             $user->refresh()
                 ->toArray()
         );
@@ -318,11 +324,12 @@ class UserAccountFeatureTest extends TestCase
 
         $user->refresh();
 
-        $this->assertArraySubset([
-            'receive_email_notification' => false,
-            'receive_other_emails'       => false,
-            'receive_sms'                => false,
-        ],
+        $this->assertArrayHas(
+            [
+                'receive_email_notification' => false,
+                'receive_other_emails'       => false,
+                'receive_sms'                => false,
+            ],
             $user->notificationSettings->toArray()
         );
     }

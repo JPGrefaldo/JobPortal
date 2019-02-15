@@ -5,17 +5,17 @@ namespace Tests\Unit\Actions\Producer;
 use App\Actions\Admin\MessageCrew;
 use App\Models\Crew;
 use App\Models\Project;
-use App\Models\User;
 use Cmgmyr\Messenger\Models\Message;
 use Cmgmyr\Messenger\Models\Participant;
 use Cmgmyr\Messenger\Models\Thread;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
+use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 
 class MessageCrewTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, SeedDatabaseAfterRefresh;
 
     public function setUp()
     {
@@ -89,7 +89,7 @@ class MessageCrewTest extends TestCase
     public function thread_is_not_duplicated_when_messaging_a_crew_twice()
     {
         // given
-        $producerUser = factory(User::class)->create();
+        $producerUser = $this->createUser();
         $crew = factory(Crew::class)->create();
         $project = factory(Project::class)->create([
             'user_id' => $producerUser->id,
@@ -153,8 +153,8 @@ class MessageCrewTest extends TestCase
     public function get_thread()
     {
         // given
-        $producerUser = factory(User::class)->create();
-        $crewUser = factory(User::class)->create();
+        $producerUser = $this->createProducer();
+        $crewUser = $this->createUser();
         $project = factory(Project::class)->create();
         $thread = factory(Thread::class)->create([
             'subject' => 'asdf'

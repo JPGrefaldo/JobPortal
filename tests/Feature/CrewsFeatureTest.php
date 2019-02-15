@@ -39,7 +39,7 @@ class CrewsFeatureTest extends TestCase
         $crew = Crew::where('user_id', $user->id)
                     ->first();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'bio'   => 'some bio',
                 'photo' =>  '/' . $user->hash_id . '/photos/' . $data['photo']->hashName(),
@@ -52,7 +52,7 @@ class CrewsFeatureTest extends TestCase
         $resume = $crew->resumes->where('general', 1)
                                 ->first();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'url' => '/' . $user->hash_id . '/resumes/' . $data['resume']->hashName(),
                 'crew_id' => $crew->id,
@@ -67,7 +67,7 @@ class CrewsFeatureTest extends TestCase
         $reel = $crew->reels->where('general', 1)
                             ->first();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'crew_id' => $crew->id,
                 'url'     => 'https://www.youtube.com/embed/G8S81CEBdNs',
@@ -78,7 +78,7 @@ class CrewsFeatureTest extends TestCase
 
         // assert that the socials has been created
         $this->assertCount(9, $crew->socials);
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 [
                     'crew_id'             => $crew->id,
@@ -162,7 +162,7 @@ class CrewsFeatureTest extends TestCase
         $crew = Crew::where('user_id', $user->id)
                     ->first();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'photo' => '/' . $user->hash_id . '/photos/' . $data['photo']->hashName(),
             ],
@@ -251,7 +251,7 @@ class CrewsFeatureTest extends TestCase
         $reel = $crew->reels->where('general', 1)
                             ->first();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'crew_id' => $crew->id,
                 'url'     => 'https://www.youtube.com/embed/2-_rLbU6zJo',
@@ -265,7 +265,7 @@ class CrewsFeatureTest extends TestCase
                        ->where('social_link_type_id', SocialLinkTypeID::YOUTUBE)
                        ->first();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'crew_id'             => $crew->id,
                 'url'                 => 'https://www.youtube.com/embed/G8S81CEBdNs',
@@ -295,7 +295,7 @@ class CrewsFeatureTest extends TestCase
         $reel = $crew->reels->where('general', 1)
                             ->first();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'crew_id' => $crew->id,
                 'url'     => 'https://player.vimeo.com/video/230046783',
@@ -317,8 +317,7 @@ class CrewsFeatureTest extends TestCase
         $response = $this->actingAs($user)
                          ->post(route('crews'), $data);
 
-        $response->assertRedirect('login');
-        $this->assertGuest();
+        $response->assertForbidden();
     }
 
     /**
@@ -352,7 +351,7 @@ class CrewsFeatureTest extends TestCase
         // assert crew data
         $crew->refresh();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'bio'   => 'updated bio',
                 'photo' =>  '/' . $user->hash_id . '/photos/' . $data['photo']->hashName(),
@@ -365,7 +364,7 @@ class CrewsFeatureTest extends TestCase
         // assert general resume
         $resume->refresh();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'url' => '/' . $user->hash_id . '/resumes/' . $data['resume']->hashName(),
                 'crew_id' => $crew->id,
@@ -379,7 +378,7 @@ class CrewsFeatureTest extends TestCase
         // assert reel
         $reel->refresh();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'crew_id' => $crew->id,
                 'url'     => 'https://www.youtube.com/embed/WI5AF1DCQlc',
@@ -390,7 +389,7 @@ class CrewsFeatureTest extends TestCase
 
         // assert socials
         $this->assertCount(9, $crew->socials);
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 [
                     'crew_id'             => $crew->id,
@@ -461,7 +460,7 @@ class CrewsFeatureTest extends TestCase
         $resume = $crew->resumes->where('general', 1)
                                 ->first();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'url' => '/' . $user->hash_id . '/resumes/' . $data['resume']->hashName(),
                 'crew_id' => $crew->id,
@@ -475,7 +474,7 @@ class CrewsFeatureTest extends TestCase
         $reel = $crew->reels->where('general', 1)
                             ->first();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'crew_id' => $crew->id,
                 'url'     => 'https://www.youtube.com/embed/WI5AF1DCQlc',
@@ -486,7 +485,7 @@ class CrewsFeatureTest extends TestCase
 
         //  assert socials
         $this->assertCount(9, $crew->socials);
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 [
                     'crew_id'             => $crew->id,
@@ -560,7 +559,7 @@ class CrewsFeatureTest extends TestCase
 
         $crew->refresh();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'bio'   => 'updated bio',
                 'photo' => $oldCrewPhoto,
@@ -589,7 +588,7 @@ class CrewsFeatureTest extends TestCase
                          ->put(route('crews.update', ['crew' => $crew->id]), $data);
 
         $this->assertCount(7, $crew->socials);
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 [
                     'url'                 => 'https://www.facebook.com/new-castingcallsamerica/',
@@ -647,7 +646,7 @@ class CrewsFeatureTest extends TestCase
         // assert general reel has been cleaned
         $reel->refresh();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'crew_id' => $crew->id,
                 'url'     => 'https://www.youtube.com/embed/2-_rLbU6zJo',
@@ -661,7 +660,7 @@ class CrewsFeatureTest extends TestCase
                        ->where('social_link_type_id', SocialLinkTypeID::YOUTUBE)
                        ->first();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'crew_id'             => $crew->id,
                 'url'                 => 'https://www.youtube.com/embed/G8S81CEBdNs',
@@ -690,7 +689,7 @@ class CrewsFeatureTest extends TestCase
         // assert general reel has been created
         $reel->refresh();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'crew_id' => $crew->id,
                 'url'     => 'https://player.vimeo.com/video/230046783',
@@ -778,8 +777,7 @@ class CrewsFeatureTest extends TestCase
         $response = $this->actingAs($crew->user)
                          ->put(route('crews.update', ['crew' => $crew->id]), $data);
 
-        $response->assertRedirect('login');
-        $this->assertGuest();
+        $response->assertForbidden();
     }
 
     /**

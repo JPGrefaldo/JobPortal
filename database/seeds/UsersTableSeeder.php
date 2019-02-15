@@ -4,8 +4,6 @@ use App\Models\Role;
 use App\Models\Site;
 use App\Models\User;
 use App\Utils\UrlUtils;
-use App\Models\UserRoles;
-use App\Models\UserSites;
 use Illuminate\Database\Seeder;
 
 class UsersTableSeeder extends Seeder

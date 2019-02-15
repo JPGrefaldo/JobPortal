@@ -92,7 +92,7 @@ class FakeApprovedEndorsements extends Command
                 } else {
                     throw new \Exception("User does not have position ($position->id)");
                 }
-            }  else {
+            } else {
                 $crewPosition = $crewPosition->first();
             }
 

@@ -11,7 +11,10 @@ class PostCreateUser
         ConvertEndorserFromEmailToUser::class,
     ];
 
-    public function execute(User $user)
+    /**
+     * @param \App\Models\User $user
+     */
+    public function execute(User $user): void
     {
         foreach ($this->actions as $action) {
             app($action)->execute($user);

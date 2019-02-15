@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Actions\Auth\AddRoleToUserByRoleName;
 use App\Actions\Auth\AddUserToSite;
 use App\Actions\Crew\StubCrew;
 use App\Actions\User\CreateUser;
@@ -57,13 +56,15 @@ class CreateTestUser extends Command
         $user = app(CreateUser::class)->execute([
             'first_name' => 'Test',
             'last_name'  => 'User',
+            'nickname'   => 'The User',
             'email'      => $email,
             'password'   => 'test123',
             'phone'      => '555-555-5555',
         ]);
 
-        foreach ([Role::CREW, Role::PRODUCER] as $_ => $type) {
-            app(AddRoleToUserByRoleName::class)->execute($user, $type);
+        foreach ([Role::CREW, Role::PRODUCER] as $role) {
+            $user->assignRole($role);
+
             app(AddUserToSite::class)->execute(
                 $user,
                 Site::whereHostname(
@@ -71,7 +72,7 @@ class CreateTestUser extends Command
                 )->first()
             );
 
-            if ($type == Role::CREW) {
+            if ($role == Role::CREW) {
                 app(StubCrew::class)->execute($user);
             }
         }

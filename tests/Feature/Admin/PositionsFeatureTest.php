@@ -3,7 +3,6 @@
 namespace Tests\Feature\Admin;
 
 use App\Models\Position;
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\Data\DepartmentID;
 use Tests\Support\Data\PositionTypeID;
@@ -20,9 +19,7 @@ class PositionsFeatureTest extends TestCase
      */
     public function index()
     {
-        $user = factory(User::class)
-            ->states('withAdminRole')
-            ->create();
+        $user = $this->createAdmin();
 
         $positions = Position::all();
 
@@ -54,7 +51,7 @@ class PositionsFeatureTest extends TestCase
         $position = Position::whereName('Some Position')
             ->first();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'name'             => 'Some Position',
                 'department_id'    => DepartmentID::PRODUCTION,
@@ -87,7 +84,7 @@ class PositionsFeatureTest extends TestCase
         $position = Position::whereName('Some Position')
             ->first();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'name'             => 'Some Position',
                 'department_id'    => DepartmentID::PRODUCTION,
@@ -122,7 +119,7 @@ class PositionsFeatureTest extends TestCase
         $position = Position::whereName('some position')
             ->first();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'name'             => 'Some Position',
                 'department_id'    => DepartmentID::PRODUCTION,
@@ -178,7 +175,7 @@ class PositionsFeatureTest extends TestCase
         $response = $this->actingAs($user)
                          ->post(route('admin.positions'), $data);
 
-        $response->assertRedirect('/');
+        $response->assertForbidden();
     }
 
     /**
@@ -202,7 +199,7 @@ class PositionsFeatureTest extends TestCase
 
         $response->assertSuccessful();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'name'             => 'Updated Position',
                 'department_id'    => DepartmentID::PRODUCTION,
@@ -234,7 +231,7 @@ class PositionsFeatureTest extends TestCase
 
         $response->assertSuccessful();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'name'             => 'Updated Position',
                 'department_id'    => DepartmentID::PRODUCTION,
@@ -268,7 +265,7 @@ class PositionsFeatureTest extends TestCase
 
         $response->assertSuccessful();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'name'             => 'Updated Position',
                 // name is formatted
@@ -303,7 +300,7 @@ class PositionsFeatureTest extends TestCase
 
         $response->assertSuccessful();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'name'             => 'Updated Position',
                 'department_id'    => DepartmentID::PRODUCTION,
@@ -386,6 +383,6 @@ class PositionsFeatureTest extends TestCase
         $response = $this->actingAs($user)
                          ->put(route('admin.positions.update', ['position' => $position->id]), $data);
 
-        $response->assertRedirect('/');
+        $response->assertForbidden();
     }
 }

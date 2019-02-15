@@ -2,13 +2,10 @@
 
 namespace Tests\Unit\Rules;
 
-use App\Models\User;
 use App\Rules\CurrentPassword;
-use App\Rules\Facebook;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CurrentPasswordTest extends TestCase
 {
@@ -20,7 +17,7 @@ class CurrentPasswordTest extends TestCase
      */
     public function valid()
     {
-        $user = factory(User::class)->create([
+        $user = $this->createUser([
             'password' => \Hash::make('test'),
         ]);
 
@@ -35,7 +32,8 @@ class CurrentPasswordTest extends TestCase
                     'required',
                     new CurrentPassword(),
                 ],
-            ]);
+            ]
+        );
 
         $this->assertTrue($result->passes());
     }
@@ -46,7 +44,7 @@ class CurrentPasswordTest extends TestCase
      */
     public function invalid()
     {
-        $user = factory(User::class)->create([
+        $user = $this->createUser([
             'password' => \Hash::make('test'),
         ]);
 
@@ -61,7 +59,8 @@ class CurrentPasswordTest extends TestCase
                     'required',
                     new CurrentPassword(),
                 ],
-            ]);
+            ]
+        );
 
         $this->assertFalse($result->passes());
         $this->assertEquals(

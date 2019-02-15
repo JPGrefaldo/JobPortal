@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Database\Eloquent\Model;
 
-class UserRoles extends Pivot
+class Manager extends Model
 {
     /**
      * The protected attributes
@@ -14,16 +14,11 @@ class UserRoles extends Pivot
     protected $guarded = ['id'];
 
     /**
-     * @var string
-     */
-    protected $table = 'user_roles';
-
-    /**
      * @var array
      */
     protected $casts = [
         'id'      => 'integer',
-        'user_id' => 'integer',
-        'role_id' => 'integer',
+        'manager_id' => 'integer',
+        'subordinate_id' => 'integer',
     ];
 }

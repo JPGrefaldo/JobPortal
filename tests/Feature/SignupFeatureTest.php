@@ -302,7 +302,7 @@ class SignupFeatureTest extends TestCase
         $user = User::where('email', $data['email'])
             ->first();
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'first_name' => $data['first_name'],
                 'last_name'  => $data['last_name'],
@@ -317,7 +317,7 @@ class SignupFeatureTest extends TestCase
         );
 
 
-        $this->assertArraySubset(
+        $this->assertArrayHas(
             [
                 'receive_email_notification' => true,
                 'receive_other_emails'       => true,
@@ -356,10 +356,7 @@ class SignupFeatureTest extends TestCase
      */
     public function hasCrewRole($user)
     {
-        $this->assertDatabaseHas('user_roles', [
-            'user_id' => $user->id,
-            'role_id' => Role::whereName(Role::CREW)->first()->id,
-        ]);
+        $user->hasRole(Role::CREW);
     }
 
     /**
@@ -377,9 +374,6 @@ class SignupFeatureTest extends TestCase
      */
     public function hasProducerRole($user)
     {
-        $this->assertDatabaseHas('user_roles', [
-            'user_id' => $user->id,
-            'role_id' => Role::whereName(Role::PRODUCER)->first()->id,
-        ]);
+        $user->hasRole(Role::PRODUCER);
     }
 }

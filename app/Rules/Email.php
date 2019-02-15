@@ -67,7 +67,7 @@ class Email implements Rule
             return true;
         }
 
-        return Cache::rememberForever('valid_mx_' . $domain, function() use ($domain) {
+        return Cache::rememberForever('valid_mx_' . $domain, function () use ($domain) {
             $mxhosts = [];
             return ((getmxrr($domain, $mxhosts) == true) && ! empty($mxhosts));
         });

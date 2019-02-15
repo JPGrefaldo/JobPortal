@@ -4,7 +4,6 @@ namespace App\Http\Requests;
 
 use App\Models\Role;
 use App\Models\Rules\UserRules;
-use App\Rules\Email;
 use App\Rules\Phone;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -31,6 +30,7 @@ class UserSignupRequest extends FormRequest
         return [
             'first_name'  => UserRules::firstName(),
             'last_name'   => UserRules::lastName(),
+            'nickname'    => UserRules::nickname(),
             'email'       => UserRules::confirmedEmail(),
             'password'    => UserRules::confirmedPassword(),
             'phone'       => UserRules::phone(),
