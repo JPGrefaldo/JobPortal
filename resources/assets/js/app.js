@@ -42,23 +42,21 @@ Vue.component('create-crew-position-form', require('./components/CreateCrewPosit
 Vue.component('edit-crew-position-form', require('./components/EditCrewPositionFormComponent'));
 Vue.component('create-endorsement-request-form', require('./components/CreateEndorsementRequestFormComponent'));
 Vue.component('endorsers-component', require('./components/EndorsementControlComponent'));
-Vue.component('cca-messages-dashboard', require('./components/MessagesDashboardComponent'));
+Vue.component('cca-messages-dashboard', require('./components/MessagesDashboardComponent').default);
 Vue.component('cca-projects', require('./components/ProjectsComponent'));
-Vue.component('cca-threads', require('./components/ThreadsComponent'));
-Vue.component('cca-messages', require('./components/MessagesComponent'));
-Vue.component('cca-logout-link', require('./components/LogoutLink'));
+Vue.component('cca-threads', require('./components/ThreadsComponent').default);
+Vue.component('cca-messages', require('./components/MessagesComponent').default);
+Vue.component('cca-logout-link', require('./components/LogoutLink').default);
 Vue.component('cca-work-position-component', require('./components/WorkPositionComponent'));
 Vue.component('cca-position-component', require('./components/PositionComponent'));
 Vue.component('cca-department-component', require('./components/DepartmentsComponent'));
 
 new Vue({
-    el: '#nav-container',
-    store
+    el: '#nav-container'
 })
 
 const content = new Vue({
-    el: '#content',
-    store
+    el: '#content'
 });
 
 
