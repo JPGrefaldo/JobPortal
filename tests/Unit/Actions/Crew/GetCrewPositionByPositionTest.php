@@ -3,7 +3,6 @@
 namespace Tests\Unit\Actions\Crew;
 
 use App\Actions\Crew\GetCrewPositionByPosition;
-use App\Models\Crew;
 use App\Models\CrewPosition;
 use App\Models\Position;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -32,9 +31,7 @@ class GetCrewPositionByPositionTest extends TestCase
     public function execute()
     {
         $user = $this->createCrew();
-        $crew = factory(Crew::class)->create([
-            'user_id' => $user->id,
-        ]);
+        $crew = $user->crew;
         $position = Position::inRandomOrder()->get()->first();
 
         $crewPosition = factory(CrewPosition::class)->create([
@@ -55,9 +52,6 @@ class GetCrewPositionByPositionTest extends TestCase
     public function execute_no_valid_position()
     {
         $user = $this->createCrew();
-        $crew = factory(Crew::class)->create([
-            'user_id' => $user->id,
-        ]);
         $position = Position::inRandomOrder()->get()->first();
 
         $this->service->execute($user, $position);

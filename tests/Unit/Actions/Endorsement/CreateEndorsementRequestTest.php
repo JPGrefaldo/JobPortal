@@ -3,7 +3,6 @@
 namespace Tests\Unit\Actions\Endorsement;
 
 use App\Actions\Endorsement\CreateEndorsementRequest;
-use App\Models\Crew;
 use App\Models\CrewPosition;
 use App\Models\EndorsementEndorser;
 use App\Models\Position;
@@ -34,9 +33,7 @@ class CreateEndorsementRequestTest extends TestCase
     public function execute_with_non_user_endorser()
     {
         $user = $this->createCrew();
-        $crew = factory(Crew::class)->create([
-            'user_id' => $user->id,
-        ]);
+        $crew = $user->crew;
         $position = Position::inRandomOrder()->get()->first();
 
         $crewPosition = factory(CrewPosition::class)->create([
@@ -70,9 +67,7 @@ class CreateEndorsementRequestTest extends TestCase
         $endorser = $this->createCrew();
 
         $user = $this->createCrew();
-        $crew = factory(Crew::class)->create([
-            'user_id' => $user->id,
-        ]);
+        $crew = $user->crew;
         $position = Position::inRandomOrder()->get()->first();
         $crewPosition = factory(CrewPosition::class)->create([
             'crew_id'     => $crew->id,
@@ -102,9 +97,7 @@ class CreateEndorsementRequestTest extends TestCase
     public function execute_with_multiple_same_email_endorser()
     {
         $user = $this->createCrew();
-        $crew = factory(Crew::class)->create([
-            'user_id' => $user->id,
-        ]);
+        $crew = $user->crew;
         $position = Position::inRandomOrder()->get()->first();
 
         $crewPosition = factory(CrewPosition::class)->create([
