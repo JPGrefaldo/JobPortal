@@ -52,11 +52,13 @@ Vue.component('cca-position-component', require('./components/PositionComponent'
 Vue.component('cca-department-component', require('./components/DepartmentsComponent'));
 
 new Vue({
-    el: '#nav-container'
+    el: '#nav-container',
+    store
 })
 
 const content = new Vue({
-    el: '#content'
+    el: '#content',
+    store
 });
 
 
