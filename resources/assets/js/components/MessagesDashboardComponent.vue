@@ -11,9 +11,9 @@
                 <button class="fa fa-edit"></button>
             </div>
             <div class="w-4/5 text-md border-black border-b font-bold flex justify-center items-center">
-                <div v-if="project.title">
+                <!-- <div v-if="project.title">
                     {{ project.title }}: {{ thread.subject }}
-                </div>
+                </div> -->
                 <!-- TODO: right chevron goes here that links to the current recipient -->
                 <!-- might have to add logic depending on the role -->
             </div>
@@ -23,7 +23,7 @@
             <!-- left pane -->
             <div class="flex w-1/5 border-r border-black">
                 <cca-projects :role="role" :projects="projects" @onClickSetProject="onClickSetProject" />
-                <cca-threads :threads="threads" @onClickSetThread="onClickSetThread" />
+                <!-- <cca-threads :threads="threads" @onClickSetThread="onClickSetThread" /> -->
             </div>
             <cca-messages :user="user" :role="role" :messages="messages" />
         </div>
@@ -70,16 +70,23 @@
                 role: this.roles[0],
                 form: new Form({
                 }),
-                projects: [],
-                project: {},
                 threads: [],
                 thread: {},
-                messages: [],
             }
         },
 
         mounted() {
-            this.getProjects(this.role)
+            this.$store.dispatch('projects/fetch', this.role)
+            //TODO: Replace 1 with thread.id
+            this.$store.dispatch('messages/fetch', 1)
+        },
+
+        computed: {
+            ...mapGetters({
+                messages: 'messages/data',
+                // project: 'project',
+                projects: 'projects/projects',
+            })
         },
 
         methods: {
@@ -113,11 +120,6 @@
                 this.role = this.roles[index]
             },
 
-            getProjects() {
-                this.form.get('/api/' + this.role.toLowerCase() + '/projects')
-                    .then(response => (this.projects = response.data.data))
-            },
-
             onClickSetProject(project) {
                 this.setProject(project)
 
@@ -146,12 +148,6 @@
             setThread(thread) {
                 this.thread = thread
             },
-
-            getMessages() {
-                this.form.get('api/threads/' + this.thread.id + '/messages')
-                    .then(response => (this.messages = response.data.data))
-            },
-
         }
     }
 </script>
