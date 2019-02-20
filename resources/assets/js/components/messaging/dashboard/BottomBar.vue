@@ -18,26 +18,33 @@
 </template>
 
 <script>
-export default {
-    props: [
-        'roles'
-    ],
+    import { color } from '../../../mixins'
 
-    methods: {
-        onClickSetRole(index) {
-            this.setRole(index)
+    export default {
+        
+        props: [
+            'roles'
+        ],
+        
+        mixins: [
+            color
+        ],
 
-            this.projects = []
-            this.project = {}
-            this.threads = []
-            this.messages = []
+        methods: {
+            onClickSetRole(index) {
+                this.setRole(index)
 
-            this.getProjects()
-        },
+                this.projects = []
+                this.project = {}
+                this.threads = []
+                this.messages = []
 
-        setRole(index) {
-            this.role = this.roles[index]
-        },
+                this.getProjects()
+            },
+
+            setRole(index) {
+                this.role = this.roles[index]
+            },
+        }
     }
-}
 </script>
