@@ -1,7 +1,7 @@
-import Alert from './alert'
-import Color from './color'
-import MessageFlag from './message-flag'
+import alert from './alert.js'
+import color from './color.js'
+import messageFlag from './message-flag.js'
 
 export {
-    Alert, Color, MessageFlag
+    alert, color, messageFlag
 }
