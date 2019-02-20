@@ -10,26 +10,9 @@
             <div v-for="message in messages"
                 :key="message.id">
                 <!-- sender message template -->
-                <div v-if="isSender(message)"
-                    class="flex mb-4">
-                    <div class="flex-1"></div>
-                    <div class="rounded-lg text-white p-3 max-w-md"
-                        :class="getColorByRole(role)">
-                        {{ message.body }}
-                    </div>
-                </div>
-                <!-- recipeint message template -->
-                <div v-else
-                    class="flex items-center justify-center mb-4">
-                    <div class="mr-4 border h-10 w-10 rounded-full bg-white background-missing-avatar"></div>
-                    <div class="rounded-lg bg-grey-light p-3 max-w-md">
-                        {{ message.body }}
-                    </div>
-                    <button class="fa fa-flag mr-2 ml-3"
-                        @click="onClickRequestFlag(message)">
-                    </button>
-                    <div class="flex-1"></div>
-                </div>
+                <message-sender  v-if="isSender(message)" :message="message"></message-sender>
+                <!-- recipient message template -->
+                <message-recepient v-else :message="message"></message-recepient>
             </div>
         </div>
     </div>
@@ -37,8 +20,14 @@
 
 <script type="text/javascript">
     import { Form, HasError, AlertError } from 'vform';
+    import MessageRecepient from './MessageRecepient.vue'
+    import MessageSender from './MessageSender.vue'
 
     export default {
+        components: {
+            'message-recepient': MessageRecepient,
+            'message-sender': MessageSender
+        },
 
         props: {
             user: {
