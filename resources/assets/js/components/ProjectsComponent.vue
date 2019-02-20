@@ -23,6 +23,8 @@
 </template>
 
 <script type="text/javascript">
+    import { color } from '../mixins'
+
     export default {
 
         props: {
@@ -75,21 +77,6 @@
                 }
 
                 return acronym
-            },
-
-            getColorByRole(role) {
-                const colorDictionary = {
-                    Producer: [
-                        'bg-blue',
-                        'hover:bg-blue-dark',
-                    ],
-                    Crew: [
-                        'bg-green',
-                        'hover:bg-green-dark',
-                    ]
-                }
-
-                return colorDictionary[role]
             },
 
             onClickSetProject(project) {
