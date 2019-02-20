@@ -1,4 +1,5 @@
 import * as types from '../mutation-types'
+let csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
 
 export const state = {
     data: [],
@@ -19,6 +20,6 @@ export const mutations = {
 export const actions = {
     fetch(context, thread) {
         axios.get('api/threads/' + thread + '/messages')
-             .then(response => (context.commit(types.MESSAGES, response.data)))
+        .then(response => (context.commit(types.MESSAGES, response.data.data)))
     },
 }
