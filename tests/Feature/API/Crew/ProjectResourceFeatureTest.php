@@ -3,7 +3,6 @@
 namespace Tests\Feature\API\Crew;
 
 use App\Http\Resources\ProjectResource;
-use App\Models\Crew;
 use App\Models\CrewProject;
 use App\Models\Project;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -24,9 +23,7 @@ class ProjectResourceFeatureTest extends TestCase
 
         // given
         $user = $this->createCrew();
-        $crew = factory(Crew::class)->create([
-            'user_id' => $user->id,
-        ]);
+        $crew = $user->crew;
         factory(CrewProject::class, 3)->create([
             'crew_id' => $crew->id,
         ]);
