@@ -15,10 +15,10 @@
         <div class="flex h-full">
             <!-- left pane -->
             <div class="flex w-1/5 border-r border-black">
-                <cca-projects :role="role" :projects="projects" @onClickSetProject="onClickSetProject" />
+                <!-- <cca-projects :role="role" @onClickSetProject="onClickSetProject" /> -->
                 <!-- <cca-threads :threads="threads" @onClickSetThread="onClickSetThread" /> -->
             </div>
-            <cca-messages :user="user" :role="role" :messages="messages" />
+            <cca-messages :user="user" :role="role" />
         </div>
         <bottom-bar :roles="roles"></bottom-bar>
     </div>
@@ -26,7 +26,6 @@
 
 <script type="text/javascript">
     import { Form, HasError, AlertError } from 'vform'
-    import { mapGetters } from 'vuex'
     import BottomBar from './dashboard/BottomBar.vue'
     import Messages from './messages/index.vue'
     import Search from './dashboard/Search.vue'
@@ -53,11 +52,7 @@
 
         data() {
             return {
-                role: this.roles[0],
-                form: new Form({
-                }),
-                threads: [],
-                thread: {},
+                role: this.roles[0]
             }
         },
 
@@ -65,14 +60,6 @@
             this.$store.dispatch('projects/fetch', this.role)
             //TODO: Replace 1 with thread.id
             this.$store.dispatch('messages/fetch', 1)
-        },
-
-        computed: {
-            ...mapGetters({
-                messages: 'messages/data',
-                // project: 'project',
-                projects: 'projects/projects',
-            })
         },
 
         methods: {
@@ -87,11 +74,6 @@
 
             setProject(project) {
                 this.project = project
-            },
-
-            getThreads() {
-                this.form.get('/api/' + this.role.toLowerCase() + '/projects/' + this.project.id + '/threads')
-                    .then(response => this.threads = response.data.data);
             },
 
             onClickSetThread(thread) {
