@@ -2,14 +2,7 @@
     <div class="flex flex-col h-full">
         <!-- top bar -->
         <div class="flex h-12 bg-grey-light">
-            <div class="w-1/5 border-b border-r border-black flex items-center justify-center px-2">
-                <button class="fa fa-search mr-2"></button>
-                <input type="text" class="hidden rounded-full bg-white flex-1 px-3 mr-2" placeholder="Search">
-                <div class="bg-white rounded-full h-5 flex-1 pl-3 mr-2 text-grey">
-                    Search
-                </div>
-                <button class="fa fa-edit"></button>
-            </div>
+            <search></search>
             <div class="w-4/5 text-md border-black border-b font-bold flex justify-center items-center">
                 <!-- <div v-if="project.title">
                     {{ project.title }}: {{ thread.subject }}
@@ -27,32 +20,25 @@
             </div>
             <cca-messages :user="user" :role="role" :messages="messages" />
         </div>
-        <!-- bottom bar -->
-        <div class="flex h-12 w-screen">
-            <div class="w-1/5 flex border-t border-r border-black">
-                <button
-                    class="flex-1 flex justify-center items-center"
-                    v-for="(role, index) in roles" :key="index"
-                    :class="getColorByRole(role)"
-                    @click="onClickSetRole(index)"
-                >
-                    {{ role }}
-                </button>
-            </div>
-            <div class="w-4/5 bg-grey-light flex justify-between items-center p-3">
-                <input type="text" class="w-64 rounded-full flex-1 mr-2 px-3" placeholder="Aa">
-                <button class="fa fa-paper-plane mr-1"></button>
-            </div>
-        </div>
+        <bottom-bar :roles="roles"></bottom-bar>
     </div>
 </template>
 
 <script type="text/javascript">
     import { Form, HasError, AlertError } from 'vform'
     import { mapGetters } from 'vuex'
+    import BottomBar from './dashboard/BottomBar.vue'
+    import Messages from './messages/index.vue'
+    import Search from './dashboard/Search.vue'
 
     export default {
-        name: "MessagesDashboardComponent",
+        name: "messaging",
+
+        components: {
+            'bottom-bar': BottomBar,
+            'cca-messages': Messages,
+            'search': Search
+        },
 
         props: {
             user: {
@@ -90,36 +76,6 @@
         },
 
         methods: {
-            getColorByRole: function (role) {
-                const colorDictionary = {
-                    Producer: [
-                        'bg-blue',
-                        'hover:bg-blue-dark',
-                    ],
-                    Crew: [
-                        'bg-green',
-                        'hover:bg-green-dark',
-                    ]
-                }
-
-                return colorDictionary[role]
-            },
-
-            onClickSetRole(index) {
-                this.setRole(index)
-
-                this.projects = []
-                this.project = {}
-                this.threads = []
-                this.messages = []
-
-                this.getProjects()
-            },
-
-            setRole(index) {
-                this.role = this.roles[index]
-            },
-
             onClickSetProject(project) {
                 this.setProject(project)
 
