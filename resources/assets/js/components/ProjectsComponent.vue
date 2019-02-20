@@ -26,7 +26,7 @@
     import { color } from '../mixins'
 
     export default {
-
+        
         props: {
             role: {
                 type: String,
@@ -37,6 +37,10 @@
                 required: false
             },
         },
+
+        mixins: [
+            color
+        ],
 
         data() {
             return {
