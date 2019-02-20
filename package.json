@@ -16,11 +16,15 @@
         "browser-sync-webpack-plugin": "2.0.1",
         "cross-env": "^5.1",
         "jquery": "^3.2",
-        "laravel-mix": "^2.1.14",
+        "laravel-mix": "^4.0.14",
         "lodash": "^4.17.11",
         "prettier": "1.16.4",
+        "resolve-url-loader": "^2.3.1",
+        "sass": "^1.17.0",
+        "sass-loader": "^7.1.0",
         "tailwindcss": "^0.6.6",
-        "vue": "^2.5.21"
+        "vue": "^2.6.6",
+        "vue-template-compiler": "^2.6.6"
     },
     "dependencies": {
         "slick-carousel": "^1.8.1",
