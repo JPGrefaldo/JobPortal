@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Models\Crew;
 use App\Models\CrewPosition;
 use App\Models\Endorsement;
 use App\Models\EndorsementEndorser;
@@ -60,9 +59,7 @@ class EndorsementEndorsedFeatureTest extends TestCase
         $endorser = factory(EndorsementEndorser::class)->create();
 
         $user = $this->createCrew();
-        $crew = factory(Crew::class)->create([
-            'user_id' => $user->id,
-        ]);
+        $crew = $user->crew;
         $position = Position::inRandomOrder()->get()->first();
         $crewPosition = factory(CrewPosition::class)->create([
             'crew_id' => $crew->id,
