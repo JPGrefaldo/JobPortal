@@ -3,4 +3,6 @@ export const AUTH_LOGOUT = 'AUTH_LOGOUT'
 export const MESSAGES = 'MESSAGES'
 export const PROJECT = 'PROJECT'
 export const PROJECTS = 'PROJECTS'
+export const THREAD = 'THREAD'
+export const THREADS = 'THREADS'
 
