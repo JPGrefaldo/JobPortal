@@ -2,7 +2,7 @@ import * as types from '../mutation-types'
 
 export const state = {
     project: {},
-    projects: [],
+    list: [],
 }
 
 export const getters = {
@@ -10,8 +10,8 @@ export const getters = {
         return state.project
     },
     
-    projects(state) {
-        return state.projects
+    list(state) {
+        return state.list
     },
 }
 
@@ -21,7 +21,7 @@ export const mutations = {
     },
 
     [types.PROJECTS](state, payload) {
-        state.projects = payload
+        state.list = payload
     },
 }
 

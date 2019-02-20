@@ -1,19 +1,18 @@
 import * as types from '../mutation-types'
-let csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
 
 export const state = {
-    data: [],
+    list: [],
 }
 
 export const getters = {
-    data(state) {
-        return state.data
+    list(state) {
+        return state.list
     }
 }
 
 export const mutations = {
     [types.MESSAGES](state, payload){
-        state.data = payload
+        state.list = payload
     }
 }
 
