@@ -20,6 +20,7 @@ export const mutations = {
 
     [types.AUTH_LOGOUT] (state) {
         state.user = null
+        localStorage.removeItem('user')
     }
 }
 
