@@ -10,7 +10,7 @@
             <div v-for="message in messages"
                 :key="message.id">
                 <!-- sender message template -->
-                <cca-recipient-message  v-if="isSender(message)" :message="message"></cca-recipient-message>
+                <cca-sender-message  v-if="isSender(message)" :message="message"></cca-sender-message>
                 <!-- recipient message template -->
                 <cca-recipient-message v-else :message="message"></cca-recipient-message>
             </div>
