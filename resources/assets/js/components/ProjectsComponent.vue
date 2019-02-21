@@ -23,8 +23,10 @@
 </template>
 
 <script type="text/javascript">
-    export default {
+    import { color } from '../mixins'
 
+    export default {
+        
         props: {
             role: {
                 type: String,
@@ -35,6 +37,10 @@
                 required: false
             },
         },
+
+        mixins: [
+            color
+        ],
 
         data() {
             return {
@@ -75,21 +81,6 @@
                 }
 
                 return acronym
-            },
-
-            getColorByRole(role) {
-                const colorDictionary = {
-                    Producer: [
-                        'bg-blue',
-                        'hover:bg-blue-dark',
-                    ],
-                    Crew: [
-                        'bg-green',
-                        'hover:bg-green-dark',
-                    ]
-                }
-
-                return colorDictionary[role]
             },
 
             onClickSetProject(project) {
