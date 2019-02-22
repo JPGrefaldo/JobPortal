@@ -38,6 +38,8 @@ Route::middleware('auth:api')->group(function () {
         'index'
     ])->name('messages.index');
 
+    Route::post('/threads', 'MessagesController@store');
+
     Route::get('/producer/projects/{project}/threads', [
         \App\Http\Controllers\Producer\ThreadsController::class,
         'index'
