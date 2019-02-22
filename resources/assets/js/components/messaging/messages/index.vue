@@ -8,9 +8,9 @@
         </div>
         <div v-else>
             <div v-for="message in messages"
-                :key="message.id">
+                :key="message.id" >
                 <!-- sender message template -->
-                <cca-sender-message  v-if="isSender(message)" :message="message"></cca-sender-message>
+                <cca-sender-message  v-if="isSender(message)" :message="message" :role="role"></cca-sender-message>
                 <!-- recipient message template -->
                 <cca-recipient-message v-else :message="message"></cca-recipient-message>
             </div>
@@ -24,6 +24,9 @@
     import SenderMessage from './SenderMessage.vue'
 
     export default {
+        props: [
+            'role'
+        ],
         
         components: {
             'cca-recipient-message': RecipientMessage,
@@ -32,13 +35,14 @@
 
         computed: {
             ...mapGetters({
-                messages: 'messages/list',
+                messages: 'message/list',
             })
         },
 
         methods: {
             isSender: function (message) {
-                return message.user_id === localStorage.user.id
+                let user = JSON.parse(localStorage.getItem('user'))
+                return message.user_id === user.id
             },
         }
     }

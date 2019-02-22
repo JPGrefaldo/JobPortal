@@ -19,9 +19,4 @@ class ProjectThread extends Pivot
                     ->as('threads')
                     ->withPivot('threads');
     }
-
-    public function isNotAdmin(User $user)
-    {
-        return !! $user->hasRole(Role::ADMIN);
-    }
 }
