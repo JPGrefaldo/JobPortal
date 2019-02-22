@@ -20,7 +20,7 @@
             </div>
             <cca-messages :user="user" :role="role" />
         </div>
-        <bottom-bar :roles="roles"></bottom-bar>
+        <bottom-bar :roles="roles" :user="user" ></bottom-bar>
     </div>
 </template>
 
@@ -57,9 +57,9 @@
         },
 
         mounted() {
-            this.$store.dispatch('projects/fetch', this.role)
+            this.$store.dispatch('project/fetch', this.role)
             //TODO: Replace 1 with thread.id
-            this.$store.dispatch('messages/fetch', 1)
+            this.$store.dispatch('message/fetch', 1)
         },
 
         methods: {

@@ -11,8 +11,8 @@
             </button>
         </div>
         <div class="w-4/5 bg-grey-light flex justify-between items-center p-3">
-            <input type="text" class="w-64 rounded-full flex-1 mr-2 px-3" placeholder="Aa">
-            <button class="fa fa-paper-plane mr-1"></button>
+            <input v-model="message" type="text" class="w-64 rounded-full flex-1 mr-2 px-3" placeholder="Aa">
+            <button class="fa fa-paper-plane mr-1" @click.stop="sendMessage"></button>
         </div>
     </div>
 </template>
@@ -23,12 +23,18 @@
     export default {
         
         props: [
-            'roles'
+            'roles', 'thread', 'user'
         ],
         
         mixins: [
             color
         ],
+
+        data() {
+            return {
+                message: null
+            }
+        },
 
         methods: {
             onClickSetRole(index) {
@@ -45,6 +51,15 @@
             setRole(index) {
                 this.role = this.roles[index]
             },
+
+            sendMessage() {
+                let params = {
+                    message: this.message,
+                    sender: this.user.id,
+                    thread: 3
+                }
+                this.$store.dispatch('message/send', params)
+            }
         }
     }
 </script>
