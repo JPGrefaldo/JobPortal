@@ -2,7 +2,6 @@
 
 namespace Tests\Unit;
 
-use App\Models\Crew;
 use App\Models\Position;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -24,9 +23,6 @@ class CrewDepartmentPositionTest extends TestCase
         // $this->withoutExceptionHandling();
 
         $user = $this->createCrew();
-        $crew = factory(Crew::class)->create([
-            'user_id' => $user->id,
-        ]);
         $position = factory(Position::class)->create();
 
         $data = [

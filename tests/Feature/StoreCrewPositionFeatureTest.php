@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Models\Crew;
 use App\Models\Position;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
@@ -22,9 +21,6 @@ class StoreCrewPositionFeatureTest extends TestCase
 
         // given
         $user = $this->createCrew();
-        $crew = factory(Crew::class)->create([
-            'user_id' => $user->id,
-        ]);
         $position = factory(Position::class)->create();
 
         $data = [
