@@ -109,10 +109,7 @@ class MessagesFeatureTest extends TestCase
         // $this->withoutExceptionHandling();
 
         // given
-        $user = $this->createUser();
-        $crew = factory(Crew::class)->create([
-            'user_id' => $user->id,
-        ]);
+        $user = $this->createCrew();
         $thread = factory(Thread::class)->create();
 
         // when
@@ -145,7 +142,7 @@ class MessagesFeatureTest extends TestCase
         // $this->withoutExceptionHandling();
 
         // given
-        $user = $this->createUser();
+        $user = $this->createProducer();
         $thread = factory(Thread::class)->create();
 
         // when

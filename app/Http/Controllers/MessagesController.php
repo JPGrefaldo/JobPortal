@@ -17,6 +17,12 @@ class MessagesController extends Controller
      */
     public function index(Thread $thread)
     {
+        $user = auth()->user();
+
+        if (! $thread->hasParticipant($user->id)) {
+            return abort(403);
+        }
+
         $messages = $thread->messages()->where('flagged_at', null)->get();
 
         return MessageResource::collection($messages);
