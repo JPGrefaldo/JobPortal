@@ -2,26 +2,16 @@
 
 namespace Tests\Feature\Messenger;
 
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
-use Cmgmyr\Messenger\Models\Message;
 use App\Models\Project;
 use Cmgmyr\Messenger\Models\Thread;
-use App\Models\ProjectThread;
 use App\Models\Role;
-use Cmgmyr\Messenger\Models\Participant;
 
 class MessengerFeatureTest extends TestCase
 {
-
     use RefreshDatabase, SeedDatabaseAfterRefresh;
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
 
     public function test_project_thread_pivot_table()
     {
@@ -46,28 +36,9 @@ class MessengerFeatureTest extends TestCase
         ]);
     }
 
-    public function test_participants_pivot_table()
-    {
-        $user = $this->createUser();
-
-        $thread = factory(Thread::class)->create([
-            'subject' => 'Thread Test Subject'
-        ]);
-
-        $thread->users()->save($user, [
-            'user_id' => $user->id
-        ]);
-
-        $this->assertDatabaseHas('participants', [
-            'thread_id' => $thread->id,
-            'user_id' => $user->id
-        ]);
-    }
-
     public function test_admin_is_not_allowed_to_participate_in_the_threads()
     {
-        $admin = $this->createUser();
-        $admin->assignRole(Role::ADMIN);
+        $admin = $this->createAdmin();
 
         $thread = factory(Thread::class)->create([
             'subject' => 'Thread Test Subject'
@@ -81,15 +52,15 @@ class MessengerFeatureTest extends TestCase
 
         $this->actingAs($admin, 'api')
               ->get(route('messages.index', [
-                    'thread' => $thread->id
-                ]
+                      'thread' => $thread->id
+                  ]
               ));
 
         $response = $this->actingAs($admin)
-                         ->json('POST', '/api/threads', [
-                             'thread' => 1,
-                             'sender' => $admin->id,
-                             'message' => 'Test Message'
+                         ->postJson('/api/threads', [
+                            'thread' => 1,
+                            'sender' => $admin->id,
+                            'message' => 'Test Message'
                          ]);
 
         $response->assertJson([
@@ -116,13 +87,13 @@ class MessengerFeatureTest extends TestCase
         ];
 
         $this->actingAs($user, 'api')
-              ->get(route('messages.index', [
+             ->get(route('messages.index', [
                     'thread' => $thread->id
                 ]
-              ));
+             ));
 
         $response = $this->actingAs($user)
-                         ->json('POST', '/api/threads', $message);
+                         ->postJson('/api/threads', $message);
 
         $response->assertJsonFragment([
             'thread_id' => $thread->id,
