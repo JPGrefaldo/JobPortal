@@ -19,8 +19,7 @@ class MessagesController extends Controller
     {
         $user = auth()->user();
 
-        // Comment this to get messages to work temporarily
-        if (! $thread->hasParticipant($user)) {
+        if (! $thread->hasParticipant($user->id)) {
             return abort(403);
         }
 
