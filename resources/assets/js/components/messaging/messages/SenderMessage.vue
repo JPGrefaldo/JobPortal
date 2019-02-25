@@ -13,7 +13,11 @@
 
     export default {
         props: [
-            'message'
+            'message', 'role'
+        ],
+
+        mixins: [
+            color
         ]
     }
 </script>
