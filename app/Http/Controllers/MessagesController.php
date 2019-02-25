@@ -19,7 +19,8 @@ class MessagesController extends Controller
     {
         $user = auth()->user();
 
-        if (! $thread->hasParticipant($user->id)) {
+        // Comment this to get messages to work temporarily
+        if (! $thread->hasParticipant($user)) {
             return abort(403);
         }
 
@@ -36,29 +37,17 @@ class MessagesController extends Controller
      */
     public function store(Request $request)
     {
-        // return $request->all();
         $thread = Thread::findOrFail($request->thread);
-        $sender = $request->sender;
+        $sender = auth()->user();
         $body = $request->message;
 
-        $participant = $thread->users()
-                              ->where('user_id', $sender)
-                              ->first();
-
-        // Optional
-        if(! isset($participant)) {
-            return response()->json([
-                'error' => 'You are not included to this thread'
-            ]);
-        }
-
-        if($participant->hasRole(Role::ADMIN)) {
+        if($sender->hasRole(Role::ADMIN)) {
             return response()->json([
                 'error' => 'Admin is not allowed to participate on this thread'
             ]);
         }
 
-        $message = app(CreateMessage::class)->execute($thread->id, $sender, $body);
+        $message = app(CreateMessage::class)->execute($thread->id, $sender->id, $body);
         return response()->json(compact('message'));
     }
 }

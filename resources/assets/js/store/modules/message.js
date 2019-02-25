@@ -23,7 +23,7 @@ export const actions = {
     },
 
     send(context, params) {
-        axios.post('api/threads', params)
+        axios.post('api/threads/' + params.thread + '/messages', params)
              .then(response => {
                  //TODO: Update the message list
              })
