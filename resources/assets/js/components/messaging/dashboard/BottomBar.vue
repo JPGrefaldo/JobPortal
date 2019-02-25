@@ -55,7 +55,6 @@
             sendMessage() {
                 let params = {
                     message: this.message,
-                    sender: this.user.id,
                     thread: 3
                 }
                 this.$store.dispatch('message/send', params)

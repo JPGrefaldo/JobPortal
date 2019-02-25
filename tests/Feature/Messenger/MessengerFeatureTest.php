@@ -57,11 +57,11 @@ class MessengerFeatureTest extends TestCase
               ));
 
         $response = $this->actingAs($admin)
-                         ->postJson('/api/threads', [
-                            'thread' => 1,
+                         ->postJson(route('messages.store', [
+                            'thread' => $thread->id,
                             'sender' => $admin->id,
                             'message' => 'Test Message'
-                         ]);
+                         ]));
 
         $response->assertJson([
             'error' => 'Admin is not allowed to participate on this thread'

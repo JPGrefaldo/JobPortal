@@ -15,8 +15,8 @@
         <div class="flex h-full">
             <!-- left pane -->
             <div class="flex w-1/5 border-r border-black">
-                <!-- <cca-projects :role="role" @onClickSetProject="onClickSetProject" /> -->
-                <!-- <cca-threads :threads="threads" @onClickSetThread="onClickSetThread" /> -->
+                <cca-projects :role="role" @onClickSetProject="onClickSetProject" />
+                <cca-threads :threads="threads" @onClickSetThread="onClickSetThread" />
             </div>
             <cca-messages :user="user" :role="role" />
         </div>
@@ -25,6 +25,7 @@
 </template>
 
 <script type="text/javascript">
+    import { mapGetters } from 'vuex'
     import { Form, HasError, AlertError } from 'vform'
     import BottomBar from './dashboard/BottomBar.vue'
     import Messages from './messages/index.vue'
@@ -58,8 +59,12 @@
 
         mounted() {
             this.$store.dispatch('project/fetch', this.role)
-            //TODO: Replace 1 with thread.id
-            this.$store.dispatch('message/fetch', 1)
+        },
+
+        computed: {
+            ...mapGetters({
+                project : 'project/project',
+            })
         },
 
         methods: {
