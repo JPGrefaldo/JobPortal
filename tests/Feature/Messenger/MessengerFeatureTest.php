@@ -93,7 +93,7 @@ class MessengerFeatureTest extends TestCase
              ));
 
         $response = $this->actingAs($user)
-                         ->postJson('/api/threads', $message);
+                         ->postJson(route('messages.store', $message));
 
         $response->assertJsonFragment([
             'thread_id' => $thread->id,
