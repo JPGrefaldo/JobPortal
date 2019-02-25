@@ -2,16 +2,16 @@
 
 namespace App\Models;
 
+use App\Models\Role;
+use App\Models\Project;
+use Cmgmyr\Messenger\Models\Thread;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class ProjectThread extends Pivot
 {
-<<<<<<< HEAD
-    //
-=======
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
+    * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    */
     public function threads()
     {
         return $this->belongsToMany(Project::class, 'project_id')
@@ -19,5 +19,4 @@ class ProjectThread extends Pivot
                     ->as('threads')
                     ->withPivot('threads');
     }
->>>>>>> 41a52c5... Refactor and made some small changes
 }
