@@ -63,12 +63,4 @@ class Participant extends Eloquent
     {
         return $this->belongsTo(Models::user(), 'user_id');
     }
-
-    public function users()
-    {
-        return $this->belongsToMany(Thread::class, 'thread_id')
-                    ->using(Models::user())
-                    ->as('users')
-                    ->withPivot('users');
-    }
 }

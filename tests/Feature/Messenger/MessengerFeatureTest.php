@@ -13,29 +13,6 @@ class MessengerFeatureTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
 
-    public function test_project_thread_pivot_table()
-    {
-        $user = $this->createUser();
-        
-        $project = factory(Project::class)->create([
-            'user_id' => $user->id,
-            'title' => 'Project Test Title'
-        ]);
-
-        $thread = factory(Thread::class)->create([
-            'subject' => 'Thread Test Subject'
-        ]);
-
-        $project->threads()->save($thread, [
-            'thread_id' => $thread->id
-        ]);
-
-        $this->assertDatabaseHas('project_thread', [
-            'project_id' => $project->id,
-            'thread_id' => $thread->id
-        ]);
-    }
-
     public function test_admin_is_not_allowed_to_participate_in_the_threads()
     {
         $admin = $this->createAdmin();
@@ -64,13 +41,13 @@ class MessengerFeatureTest extends TestCase
                          ]));
 
         $response->assertJson([
-            'error' => 'Admin is not allowed to participate on this thread'
+            'message' => 'User does not have the right roles.'
         ]);
     }
 
     public function test_save_send_message()
     {
-        $user = $this->createUser();
+        $user = $this->createProducer();
 
         $thread = factory(Thread::class)->create([
             'subject' => 'Thread Test Subject'

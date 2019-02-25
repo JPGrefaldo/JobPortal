@@ -42,7 +42,7 @@ Vue.component('create-crew-position-form', require('./components/CreateCrewPosit
 Vue.component('edit-crew-position-form', require('./components/EditCrewPositionFormComponent'));
 Vue.component('create-endorsement-request-form', require('./components/CreateEndorsementRequestFormComponent'));
 Vue.component('endorsers-component', require('./components/EndorsementControlComponent'));
-Vue.component('cca-messages-dashboard', require('./components/messaging/index').default);
+Vue.component('cca-messages-dashboard', require('./components/messenger/index').default);
 Vue.component('cca-projects', require('./components/ProjectsComponent').default);
 Vue.component('cca-threads', require('./components/ThreadsComponent').default);
 Vue.component('cca-logout-link', require('./components/LogoutLink').default);

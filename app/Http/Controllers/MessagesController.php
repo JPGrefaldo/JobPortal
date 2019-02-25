@@ -41,13 +41,8 @@ class MessagesController extends Controller
         $sender = auth()->user();
         $body = $request->message;
 
-        if($sender->hasRole(Role::ADMIN)) {
-            return response()->json([
-                'error' => 'Admin is not allowed to participate on this thread'
-            ]);
-        }
-
         $message = app(CreateMessage::class)->execute($thread->id, $sender->id, $body);
+        
         return response()->json(compact('message'));
     }
 }
