@@ -21,4 +21,11 @@ export const actions = {
         axios.get('api/threads/' + thread + '/messages')
         .then(response => (context.commit(types.MESSAGES, response.data.data)))
     },
+
+    send(context, params) {
+        axios.post('api/threads/' + params.thread + '/messages', params)
+             .then(response => {
+                 //TODO: Update the message list
+             })
+    }
 }

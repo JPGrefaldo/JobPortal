@@ -14,7 +14,7 @@ export const getters = {
 // mutations
 export const mutations = {
     [types.AUTH_FETCH_USER_SUCCESS] (state, payload) {
-        state.user = user
+        state.user = payload.user
         localStorage.setItem('user', JSON.stringify(state.user))
     },
 
