@@ -25,8 +25,8 @@ export const mutations = {
 }
 
 export const actions = {
-    fetch(context, role) {
-        axios.get('/api/' + role.toLowerCase() + '/projects/' + this.project.id + '/threads')
+    fetch(context, params) {
+        axios.get('/api/' + params.role + '/projects/' + params.project + '/threads')
             .then(response => context.commit( types.THREADS, response.data.data) );
     },
 }

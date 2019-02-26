@@ -18,12 +18,13 @@
 </template>
 
 <script>
+    import { mapGetters } from 'vuex'
     import { color } from '../../../mixins'
 
     export default {
         
         props: [
-            'roles', 'thread', 'user'
+            'roles', 'user'
         ],
         
         mixins: [
@@ -36,16 +37,22 @@
             }
         },
 
+        computed: {
+            ...mapGetters({
+                thread: 'thread/thread'
+            })
+        },
+
         methods: {
             onClickSetRole(index) {
                 this.setRole(index)
 
-                this.projects = []
-                this.project = {}
-                this.threads = []
-                this.messages = []
+                this.$store.commit('message/MESSAGES', [])
+                this.$store.commit('project/PROJECT', [])
+                this.$store.commit('project/PROJECTS', [])
+                this.$store.commit('thread/THREADS', [])
 
-                this.getProjects()
+                this.$store.dispatch('project/fetch', this.role.toLowerCase())
             },
 
             setRole(index) {
@@ -55,7 +62,7 @@
             sendMessage() {
                 let params = {
                     message: this.message,
-                    thread: 3
+                    thread: this.thread.id
                 }
                 this.$store.dispatch('message/send', params)
             }
