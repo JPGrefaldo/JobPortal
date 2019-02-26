@@ -4,19 +4,18 @@
         <div class="flex h-12 bg-grey-light">
             <search></search>
             <div class="w-4/5 text-md border-black border-b font-bold flex justify-center items-center">
-                <!-- <div v-if="project.title">
+                <div v-if="project.title">
                     {{ project.title }}: {{ thread.subject }}
-                </div> -->
-                <!-- TODO: right chevron goes here that links to the current recipient -->
-                <!-- might have to add logic depending on the role -->
+                </div>
+                <div v-else>No Project Selected</div>
             </div>
         </div>
         <!-- main -->
         <div class="flex h-full">
             <!-- left pane -->
             <div class="flex w-1/5 border-r border-black">
-                <cca-projects :role="role" @onClickSetProject="onClickSetProject" />
-                <cca-threads :threads="threads" @onClickSetThread="onClickSetThread" />
+                <cca-projects :role="role" />
+                <cca-threads :role="role"/>
             </div>
             <cca-messages :user="user" :role="role" />
         </div>
@@ -29,7 +28,9 @@
     import { Form, HasError, AlertError } from 'vform'
     import BottomBar from './dashboard/BottomBar.vue'
     import Messages from './messages/index.vue'
+    import Projects from './dashboard/Projects.vue'
     import Search from './dashboard/Search.vue'
+    import Threads from './dashboard/Threads.vue'
 
     export default {
         name: "messaging",
@@ -37,6 +38,8 @@
         components: {
             'bottom-bar': BottomBar,
             'cca-messages': Messages,
+            'cca-projects': Projects,
+            'cca-threads': Threads,
             'search': Search
         },
 
@@ -57,40 +60,11 @@
             }
         },
 
-        mounted() {
-            this.$store.dispatch('project/fetch', this.role)
-        },
-
         computed: {
             ...mapGetters({
-                project : 'project/project',
+                project: 'project/project',
+                thread: 'thread/thread',
             })
-        },
-
-        methods: {
-            onClickSetProject(project) {
-                this.setProject(project)
-
-                this.threads = []
-                this.thread = {}
-                this.messages = []
-                this.getThreads()
-            },
-
-            setProject(project) {
-                this.project = project
-            },
-
-            onClickSetThread(thread) {
-                this.messages = []
-
-                this.setThread(thread)
-                this.getMessages(thread)
-            },
-
-            setThread(thread) {
-                this.thread = thread
-            },
         }
     }
 </script>

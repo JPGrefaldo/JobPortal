@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-grey-dark overflow-auto p-1 w-12">
+    <div class="bg-grey-dark overflow-auto p-1 w-12"  @onClickSetProject="onClickSetProject">
         <!-- project -->
         <div v-if="projects.length === 0">
             <button class="flex justify-center items-center h-10 w-full mb-1 rounded uppercase text-white font-bold"
@@ -14,7 +14,7 @@
                 class="flex justify-center items-center h-10 w-full mb-1 rounded uppercase text-white font-bold"
                 :class="getColorByRole(role)"
                 :title="project.title"
-                @click="$emit('onClickSetProject', project)"
+                @click="onClickSetProject(project)"
             >
                 {{ getAcronymAttribute(project.title) }}
             </button>
@@ -23,7 +23,8 @@
 </template>
 
 <script type="text/javascript">
-    import { color } from '../mixins'
+    import { mapGetters } from 'vuex'
+    import { color } from '../../../mixins'
 
     export default {
         
@@ -31,11 +32,7 @@
             role: {
                 type: String,
                 required: true
-            },
-            projects: {
-                type: Array,
-                required: false
-            },
+            }
         },
 
         mixins: [
@@ -57,13 +54,39 @@
             }
         },
 
+        mounted() {
+            this.$store.dispatch('project/fetch', this.role.toLowerCase())
+        },
+
         computed: {
+            ...mapGetters({
+                projects: 'project/list'
+            }),
+
             getEmptyTitle() {
                 return this.roleAttributes[this.role].title;
             }
         },
 
         methods: {
+            onClickSetProject(project) {
+                this.setProject(project)
+                
+                this.$store.commit('thread/THREADS', [])
+                this.$store.commit('message/MESSAGES', [])
+
+                let params = {
+                    role: this.role.toLowerCase(),
+                    project: project.id
+                }
+
+                this.$store.dispatch('thread/fetch', params)
+            },
+
+            setProject(project) {
+                this.$store.commit('project/PROJECT', project)
+            },
+
             getAcronymAttribute(text) {
                 text = text.replace('-', ' ')
 
@@ -81,10 +104,6 @@
                 }
 
                 return acronym
-            },
-
-            onClickSetProject(project) {
-                this.$emit('setProject', project)
             },
 
             onClickRedirect() {

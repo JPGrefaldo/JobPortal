@@ -33,11 +33,6 @@
             'cca-sender-message': SenderMessage
         },
 
-        mounted() {
-            //TODO: Replace 3 with thread.id
-            this.$store.dispatch('message/fetch', 3)
-        },
-
         computed: {
             ...mapGetters({
                 messages: 'message/list',
