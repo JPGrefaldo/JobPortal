@@ -47,6 +47,50 @@ class MessengerFeatureTest extends TestCase
 
     public function test_save_send_message()
     {
+        $this->saveNewThreadMessage();
+    }
+
+    public function test_send_email_notification_to_user_for_unread_messages_in_the_thread()
+    {
+        // NOTE: don't subscribe it to an event
+        // https://laravel.com/docs/5.7/scheduling
+        
+        
+        //get the thread
+        $thread = $this->saveNewThreadMessage();
+
+        //get all messages that is created_at && updated_at < 30 mins.
+
+        //check if there is no existing email notification scheduled
+
+        //schedule an email notification
+
+        $crew = $this->createCrew();
+
+        $threadId = $crew->threadsWithNewMessages()
+                            ->map(function ($thread){
+                                return $thread->id;
+                            });
+
+        $message = [
+            'thread_id' => $threadId[0],
+            'user_id' => $crew->id,
+            'body' => 'This is a reply Message'
+        ];
+
+        \Cmgmyr\Messenger\Models\Message::create($message);
+
+        $this->assertDatabaseHas('messages',$message);
+
+        $crew->threadsWithNewMessages()
+             ->map(function ($thread){
+                return $thread->messages()->get();
+             });
+
+    }
+
+    private function saveNewThreadMessage()
+    {
         $user = $this->createProducer();
 
         $thread = factory(Thread::class)->create([
@@ -77,5 +121,7 @@ class MessengerFeatureTest extends TestCase
             'user_id' => $user->id,
             'body' => 'Test Message'
         ]);
+
+        return $thread;
     }
 }
