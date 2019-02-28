@@ -7,6 +7,10 @@ use App\Http\Resources\MessageResource;
 use App\Models\Role;
 use Cmgmyr\Messenger\Models\Thread;
 use Illuminate\Http\Request;
+use App\Actions\Messenger\FetchNewMessages;
+use App\Mail\UnreadMessageNotification;
+use App\Models\User;
+use App\Notifications\UnreadMessagesInThread;
 
 class MessagesController extends Controller
 {
@@ -43,5 +47,11 @@ class MessagesController extends Controller
         $message = app(CreateMessage::class)->execute($thread->id, $sender->id, $body);
         
         return response()->json(compact('message'));
+    }
+
+    public function temp()
+    {
+        $user = User::find(1)->first();
+        $user->notify(new UnreadMessagesInThread($user));
     }
 }
