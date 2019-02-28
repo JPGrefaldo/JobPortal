@@ -4,6 +4,7 @@ namespace App\Actions\Messenger;
 
 use Cmgmyr\Messenger\Models\Thread;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class FetchNewMessages
 {
@@ -20,7 +21,10 @@ class FetchNewMessages
     {
         $threadMessages = $threads->map(function($thread){
 
+            $time = Carbon::now()->addMinutes(30);
+
             $messages = $thread->messages()
+                               ->where('created_at', '<=', $time)
                                ->where('user_id', '!=', Auth::id())
                                ->get();
 
