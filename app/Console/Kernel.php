@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Notifications\UnreadMessagesInThread;
 
 class Kernel extends ConsoleKernel
 {
@@ -26,6 +27,17 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+
+        //TODO: put last login field or pivot table which can be used to
+        //get only the users who are currently online at least an hour or more
+        $schedule->call(function() {
+
+            $users = User::all();
+            $users->flatMap(function($user){
+                $user->notify(new UnreadMessagesInThread($user));
+            });
+
+        })->everyThirtyMinutes();
     }
 
     /**
