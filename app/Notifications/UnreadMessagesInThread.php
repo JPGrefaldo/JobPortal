@@ -5,21 +5,22 @@ namespace App\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
+use App\Actions\Messenger\FetchNewMessages;
 
 class UnreadMessagesInThread extends Notification
 {
     use Queueable;
 
-    public $threads;
+    protected $user;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($threads)
+    public function __construct($user)
     {
-        $this->threads = $threads;
+       $this->user = $user;
     }
 
     /**
@@ -41,7 +42,12 @@ class UnreadMessagesInThread extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)->markdown('emails.thread-unread-messages');
+        $messages = app(FetchNewMessages::class)->execute($this->user);
+
+        return (new MailMessage)->markdown('emails.thread-unread-messages',[
+                                    'messages' => $messages,
+                                    'user' => $this->user
+                                ]);
     }
 
     /**
