@@ -2,12 +2,14 @@
 
 namespace Tests\Feature\Messenger;
 
+use App\Models\Role;
+use Carbon\Carbon;
+use Cmgmyr\Messenger\Models\Thread;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Notification;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
-use App\Models\Project;
-use Cmgmyr\Messenger\Models\Thread;
-use App\Models\Role;
+use App\Notifications\UnreadMessagesInThread;
 
 class MessengerFeatureTest extends TestCase
 {
@@ -47,50 +49,6 @@ class MessengerFeatureTest extends TestCase
 
     public function test_save_send_message()
     {
-        $this->saveNewThreadMessage();
-    }
-
-    public function test_send_email_notification_to_user_for_unread_messages_in_the_thread()
-    {
-        // NOTE: don't subscribe it to an event
-        // https://laravel.com/docs/5.7/scheduling
-        
-        
-        //get the thread
-        $thread = $this->saveNewThreadMessage();
-
-        //get all messages that is created_at && updated_at < 30 mins.
-
-        //check if there is no existing email notification scheduled
-
-        //schedule an email notification
-
-        $crew = $this->createCrew();
-
-        $threadId = $crew->threadsWithNewMessages()
-                            ->map(function ($thread){
-                                return $thread->id;
-                            });
-
-        $message = [
-            'thread_id' => $threadId[0],
-            'user_id' => $crew->id,
-            'body' => 'This is a reply Message'
-        ];
-
-        \Cmgmyr\Messenger\Models\Message::create($message);
-
-        $this->assertDatabaseHas('messages',$message);
-
-        $crew->threadsWithNewMessages()
-             ->map(function ($thread){
-                return $thread->messages()->get();
-             });
-
-    }
-
-    private function saveNewThreadMessage()
-    {
         $user = $this->createProducer();
 
         $thread = factory(Thread::class)->create([
@@ -121,7 +79,71 @@ class MessengerFeatureTest extends TestCase
             'user_id' => $user->id,
             'body' => 'Test Message'
         ]);
+    }
 
-        return $thread;
+    //test should_not_get_threads_that_are_read_more_than_30_minutes
+
+    public function test_get_thread_messages_that_are_added_less_than_30_minutes_ago()
+    {
+        $crew = $this->createCrew();
+        $producer = $this->createProducer();
+
+        $thread = factory(Thread::class)->create([
+            'subject' => 'Thread Test Subject'
+        ]);
+
+        $thread->users()->save($producer, [
+            'user_id' => $producer->id
+        ]);
+
+        $message = [
+            'thread_id' => $thread->id,
+            'user_id' => $producer->id,
+            'body' => 'Test Message'
+        ];
+
+        $producer->messages()->create($message);
+        
+        $replyFromCrew = [
+            'thread_id' => $thread->id,
+            'user_id' => $crew->id,
+            'body' => 'Test Reply Message'
+        ];
+
+        $crew->messages()->create($replyFromCrew);
+
+        $time = Carbon::now()->addMinutes(30);
+
+        $producerThreadMessage = $producer->threadsWithNewMessages()
+                                           ->map(function($thread) use ($time, $producer) {
+                                               return $thread->messages()
+                                                             ->where('created_at', '<=', $time)
+                                                             ->where('user_id', '!=', $producer->id)
+                                                             ->first();
+                                           })
+                                           ->map(function ($thread) {
+                                               return $thread->toArray();
+                                           });
+
+        $this->assertArrayHas($replyFromCrew, $producerThreadMessage[0]);
+        $this->assertLessThan($time, $producerThreadMessage[0]['created_at']);
+
+    }
+
+    public function test_send_notification()
+    {
+        $producer = $this->createProducer();
+
+        Notification::fake();
+
+        Notification::assertNothingSent();
+
+        Notification::assertSentTo(
+            $producer, 
+            UnreadMessagesInThread::class,
+            function($notification, $channels) use($thread) {
+                return $notification->thread->id === $thread->id;
+            }
+        );
     }
 }
