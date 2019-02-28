@@ -9,8 +9,6 @@
 <p>{{$item->body}}</p>
 <small>Time Sent: <strong>{{\Carbon\Carbon::parse($item->created_at)->diffForHumans()}}</strong></small>
 @endforeach
-<hr>
-<br>
 @endforeach
 
 @component('mail::button', ['url' => ''])
