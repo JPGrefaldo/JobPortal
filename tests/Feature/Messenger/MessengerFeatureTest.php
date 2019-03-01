@@ -10,6 +10,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
+use App\Models\User;
+use App\Actions\Messenger\FetchNewMessages;
 
 class MessengerFeatureTest extends TestCase
 {
@@ -81,7 +83,83 @@ class MessengerFeatureTest extends TestCase
         ]);
     }
 
-    //test should_not_get_threads_that_are_read_more_than_30_minutes
+    /**
+     * @test
+     * @covers App\Actions\Messenger\FetchNewMessages::execute
+     */
+    public function get_the_threads_that_has_new_messages()
+    {
+        $threads = $this->seedThreadAndMessages();
+
+        $threads->map(function ($thread){
+            $message = $thread->messages()->get()->toArray();
+
+            $this->assertArrayHas([
+                'thread_id' => $thread->id,
+                'user_id' => 1,
+                'body' => 'Test Reply Message'
+            ], $message[0]);
+        });
+    }
+
+    /**
+     * @test
+     * @covers App\Actions\Messenger\FetchNewMessages::dataFormat
+     */
+    public function format_email_notification()
+    {
+        $threads = $this->seedThreadAndMessages();
+
+        $threads->flatMap(function($thread){
+                    return $thread->messages()
+                                    ->get()
+                                    ->each(function($message){
+                                        $thread = Thread::where('id', $message->thread_id)->pluck('subject');
+                                        $message['thread'] = $thread[0];
+
+                                        return $message;
+                                    });
+                })
+                ->flatMap(function($emailFormat){
+                    $this->assertEquals('Thread Test Subject', $emailFormat->thread);
+                    $this->assertArrayHas(
+                        [
+                            "thread_id" => "1",
+                            "user_id" => "1",
+                            "body" => "Test Reply Message"
+                        ], 
+                        $emailFormat->toArray()
+                    );
+                });
+    }
+
+    private function seedThreadAndMessages()
+    {
+        $crew = $this->createCrew();
+        $producer = $this->createProducer();
+
+        $thread = factory(Thread::class)->create([
+            'subject' => 'Thread Test Subject'
+        ]);
+
+        $thread->users()->save($producer, [
+            'user_id' => $producer->id
+        ]);
+
+        $replyFromCrew = [
+            'thread_id' => $thread->id,
+            'user_id' => $crew->id,
+            'body' => 'Test Reply Message'
+        ];
+
+        $crew->messages()->create($replyFromCrew);
+
+        $threads = Thread::forUserWithNewMessages($producer->id)
+                         ->latest('updated_at')
+                         ->get();
+
+        return $threads;
+    }
 
     public function test_get_thread_messages_that_are_added_less_than_30_minutes_ago()
     {
@@ -110,26 +188,38 @@ class MessengerFeatureTest extends TestCase
             'body' => 'Test Reply Message'
         ];
 
-        $crew->messages()->create($replyFromCrew);
+        $oldReplyFromCrew = [
+            'thread_id' => $thread->id,
+            'user_id' => $crew->id,
+            'body' => 'Test Old Reply Message',
+        ];
 
-        $time = Carbon::now()->addMinutes(30);
+        $crew->messages()->create($replyFromCrew);
+        $crew->messages()->create($oldReplyFromCrew);
+
+        $time = Carbon::now()->addMinutes(30)->toDateTimeString();
 
         $producerThreadMessage = $producer->threadsWithNewMessages()
-                                           ->map(function($thread) use ($time, $producer) {
-                                               return $thread->messages()
+                                           ->flatMap(function($thread) use ($time, $producer) {
+                                               $messages = $thread->messages()
                                                              ->where('created_at', '<=', $time)
                                                              ->where('user_id', '!=', $producer->id)
-                                                             ->first();
-                                           })
-                                           ->map(function ($thread) {
-                                               return $thread->toArray();
+                                                             ->get()
+                                                             ->toArray();
+
+                                                return $messages;
                                            });
 
-        $this->assertArrayHas($replyFromCrew, $producerThreadMessage[0]);
-        $this->assertLessThan($time, $producerThreadMessage[0]['created_at']);
+        dd($producerThreadMessage);
+        $this->assertArrayHas($replyFromCrew, $producerThreadMessage);
+        $this->assertLessThan($time, $producerThreadMessage['created_at']);
 
     }
 
+    /**
+     * @test
+     * @covers App\Notifications\UnreadMessagesInThread::handle
+     */
     public function test_sending_email_notification()
     {
         $producer = $this->createProducer();
@@ -145,5 +235,24 @@ class MessengerFeatureTest extends TestCase
         $producer->notify(new UnreadMessagesInThread($message, $producer));
 
         Notification::assertSentTo([$producer], UnreadMessagesInThread::class);
+    }
+
+    /**
+     * @test
+     * @covers App\Console\Commands\SendUnreadMessagesEmail::handle
+     */
+    public function temp()
+    {
+        $users = User::all();
+
+        $users->map(function($user){
+
+            $messages = app(FetchNewMessages::class)->execute($user);
+
+            if ($messages){
+                $user->notify(new UnreadMessagesInThread($messages, $user));
+            }
+            
+        });
     }
 }
