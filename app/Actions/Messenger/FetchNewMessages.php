@@ -18,7 +18,7 @@ class FetchNewMessages
 
     private function formatData($threads, $user)
     {
-        if($threads->count() > 0){
+        if ($threads->count() > 0){
             return $threads->map(function ($thread) use ($user) {
     
                 $time = Carbon::now()->addMinutes(30);

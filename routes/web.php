@@ -16,8 +16,6 @@
 
 Route::get('/', [\App\Http\Controllers\IndexController::class, 'index']);
 
-
-
 Route::get('login', [\App\Http\Controllers\Auth\LoginController::class, 'showLoginForm'])
     ->name('login');
 Route::post('login', [\App\Http\Controllers\Auth\LoginController::class, 'login'])
@@ -52,8 +50,6 @@ Route::get('confirm/{user}/{subordinate}', [\App\Http\Controllers\Manager\Manage
 |
 */
 Route::middleware('auth')->group(function () {
-    Route::get('/temp', '\App\Http\Controllers\MessagesController@temp');
-    
     Route::get('dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])
         ->name('dashboard');
 

@@ -5,9 +5,9 @@
 
 @foreach ($messages as $msg)
 @foreach ($msg as $item)
-<p><strong>{{$item->thread}}</strong></p>
-<p>{{$item->body}}</p>
-<small>Time Sent: <strong>{{\Carbon\Carbon::parse($item->created_at)->diffForHumans()}}</strong></small>
+<p><strong>{{ $item->thread }}</strong></p>
+<p>{{ $item->body }}</p>
+<small>Time Sent: <strong>{{ \Carbon\Carbon::parse($item->created_at)->diffForHumans() }}</strong></small>
 @endforeach
 @endforeach
 
