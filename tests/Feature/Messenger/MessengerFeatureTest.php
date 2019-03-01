@@ -3,13 +3,13 @@
 namespace Tests\Feature\Messenger;
 
 use App\Models\Role;
+use App\Notifications\UnreadMessagesInThread;
 use Carbon\Carbon;
 use Cmgmyr\Messenger\Models\Thread;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
-use App\Notifications\UnreadMessagesInThread;
 
 class MessengerFeatureTest extends TestCase
 {
@@ -130,20 +130,20 @@ class MessengerFeatureTest extends TestCase
 
     }
 
-    public function test_send_notification()
+    public function test_sending_email_notification()
     {
         $producer = $this->createProducer();
+
+        $message = [
+            'body' => 'This is a test message'
+        ];
 
         Notification::fake();
 
         Notification::assertNothingSent();
 
-        Notification::assertSentTo(
-            $producer, 
-            UnreadMessagesInThread::class,
-            function($notification, $channels) use($thread) {
-                return $notification->thread->id === $thread->id;
-            }
-        );
+        $producer->notify(new UnreadMessagesInThread($message, $producer));
+
+        Notification::assertSentTo([$producer], UnreadMessagesInThread::class);
     }
 }
