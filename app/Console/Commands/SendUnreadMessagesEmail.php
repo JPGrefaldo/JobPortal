@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Actions\Messenger\FetchNewMessages;
 use App\Models\User;
 use App\Notifications\UnreadMessagesInThread;
 use Illuminate\Console\Command;
@@ -39,12 +40,14 @@ class SendUnreadMessagesEmail extends Command
      */
     public function handle()
     {
-        //TODO: put last login field or pivot table which can be used to
-        //get only the users who are currently online at least an hour or more
         $users = User::all();
 
-        $users->flatMap(function($user){
-            $user->notify(new UnreadMessagesInThread($user));
+        $users->map(function($user){
+            $messages = app(FetchNewMessages::class)->execute($user);
+
+            if ($messages){
+                $user->notify(new UnreadMessagesInThread($messages, $user));
+            }
         });
     }
 }
