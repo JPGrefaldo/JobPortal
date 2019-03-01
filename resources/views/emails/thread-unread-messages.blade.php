@@ -3,12 +3,10 @@
 
 <p>You have new messages in your thread as follows:</p>
 
-@foreach ($messages as $msg)
-@foreach ($msg as $item)
-<p><strong>{{ $item->thread }}</strong></p>
-<p>{{ $item->body }}</p>
-<small>Time Sent: <strong>{{ \Carbon\Carbon::parse($item->created_at)->diffForHumans() }}</strong></small>
-@endforeach
+@foreach ($messages as $message)
+<p><strong>{{ $message->thread }}</strong></p>
+<p>{{ $message->body }}</p>
+<small>Time Sent: <strong>{{ \Carbon\Carbon::parse($message->created_at)->diffForHumans() }}</strong></small>
 @endforeach
 
 @component('mail::button', ['url' => ''])

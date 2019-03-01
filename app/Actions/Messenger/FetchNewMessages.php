@@ -19,21 +19,23 @@ class FetchNewMessages
     private function formatData($threads, $user)
     {
         if ($threads->count() > 0){
-            return $threads->map(function ($thread) use ($user) {
+            return $threads->flatMap(function ($thread) use ($user) {
     
-                $time = Carbon::now()->addMinutes(30);
+                $time = Carbon::now()->addMinutes(30)->toDateTimeString();
 
-                return $thread->messages()
-                              ->where('created_at', '<=', $time)
+                $messages = $thread->messages()
+                              ->where('created_at', '<', $time)
                               ->where('user_id', '!=', $user->id)
                               ->get()
                               ->each(function ($message){
                                   
-                                  $thread = Thread::where('id', $message->thread_id)->first();
-                                  $message['thread'] = (string)$thread->subject;
+                                  $thread = Thread::where('id', $message->thread_id)->pluck('subject');
+                                  $message['thread'] = $thread[0];
 
                                   return $message;
                               });
+
+                return $messages;
             });
         }
 
