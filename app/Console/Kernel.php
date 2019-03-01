@@ -27,7 +27,6 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')
         //          ->hourly();
 
-        //TODO: Temporarily set to 5 mins. for testing 
         $schedule->command('notification:unreadmessages')->everyThirtyMinutes();
     }
 
