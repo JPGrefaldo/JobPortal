@@ -3,14 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Messenger\CreateMessage;
-use App\Http\Resources\MessageResource;
-use App\Models\Role;
-use Cmgmyr\Messenger\Models\Thread;
-use Illuminate\Http\Request;
 use App\Actions\Messenger\FetchNewMessages;
-use App\Mail\UnreadMessageNotification;
+use App\Http\Resources\MessageResource;
 use App\Models\User;
 use App\Notifications\UnreadMessagesInThread;
+use Cmgmyr\Messenger\Models\Thread;
+use Illuminate\Http\Request;
 
 class MessagesController extends Controller
 {
@@ -51,7 +49,14 @@ class MessagesController extends Controller
 
     public function temp()
     {
-        $user = User::find(1)->first();
-        $user->notify(new UnreadMessagesInThread($user));
+        $users = User::all();
+
+        $users->map(function($user){
+            $messages = app(FetchNewMessages::class)->execute($user);
+
+            if ($messages){
+                $user->notify(new UnreadMessagesInThread($messages, $user));
+            }
+        });
     }
 }
