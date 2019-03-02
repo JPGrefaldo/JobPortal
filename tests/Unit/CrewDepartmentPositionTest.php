@@ -16,11 +16,11 @@ class CrewDepartmentPositionTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Crew\CrewPositioncontroller::applyFor
+     * @covers \App\Http\Controllers\Crew\CrewPositionController::applyFor
      */
     public function apply_for()
     {
-        // $this->withoutExceptionHandling();
+//        $this->withoutExceptionHandling();
 
         $user = $this->createCrew();
         $position = factory(Position::class)->create();

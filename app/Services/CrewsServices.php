@@ -396,7 +396,9 @@ class CrewsServices
             return [
                 'url' => '/' .
                     $fileData['dir'] .
+                    '/'.
                     StoragePath::BASE_REEL .
+                    '/'.
                     $fileData['file']->hashName(),
             ];
         } elseif ($type === 'resume') {
