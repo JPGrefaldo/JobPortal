@@ -244,23 +244,4 @@ class MessengerFeatureTest extends TestCase
 
         Notification::assertSentTo([$producer], UnreadMessagesInThread::class);
     }
-
-    /**
-     * @test
-     * @covers App\Console\Commands\SendUnreadMessagesEmail::handle
-     */
-    public function temp()
-    {
-        $users = User::all();
-
-        $users->map(function($user){
-
-            $messages = app(FetchNewMessages::class)->execute($user);
-
-            if ($messages){
-                $user->notify(new UnreadMessagesInThread($messages, $user));
-            }
-            
-        });
-    }
 }

@@ -33,13 +33,10 @@ class UnreadMessagesInThread extends Notification
      */
     public function via($notifiable)
     {
-        if (isset($this->messages)) {
-            if (count($this->messages->toArray()) == 0){
-                return [];
-            }
-        }
-
-        return ['mail', 'database'];
+        return isset($this->messages) 
+            && count($this->messages) > 0 
+            ? ['mail', 'database'] 
+            : [];
     }
 
     /**
