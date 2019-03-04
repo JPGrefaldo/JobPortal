@@ -9,8 +9,8 @@
 <small>Time Sent: <strong>{{ \Carbon\Carbon::parse($message->created_at)->diffForHumans() }}</strong></small>
 @endforeach
 
-@component('mail::button', ['url' => ''])
-Button Text
+@component('mail::button', ['url' => $url])
+View Messages
 @endcomponent
 
 Thanks,<br>

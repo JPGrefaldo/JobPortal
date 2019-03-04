@@ -21,7 +21,7 @@ class SendUnreadMessagesEmail extends Command
      *
      * @var string
      */
-    protected $description = 'Send user email of their unread messages';
+    protected $description = 'Notify users with unread messages';
 
     /**
      * Create a new command instance.

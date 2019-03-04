@@ -49,7 +49,8 @@ class UnreadMessagesInThread extends Notification
     {
         return (new MailMessage)->markdown('emails.thread-unread-messages',[
             'messages' => $this->messages,
-            'user' => $this->user
+            'user' => $this->user,
+            'url' => route('messages')
         ]);
     }
 
