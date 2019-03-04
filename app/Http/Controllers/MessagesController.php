@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Messenger\CreateMessage;
+use App\Actions\Messenger\FetchNewMessages;
 use App\Http\Resources\MessageResource;
-use App\Models\Role;
+use App\Models\User;
+use App\Notifications\UnreadMessagesInThread;
 use Cmgmyr\Messenger\Models\Thread;
 use Illuminate\Http\Request;
 
