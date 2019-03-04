@@ -27,7 +27,7 @@ class FetchNewMessagesTest extends TestCase
             $message = $thread->messages()->get();
 
             // And then assert if the thread's message was
-            // fetch  successfully
+            // fetch successfully
             $this->assertArrayHas([
                 'thread_id' => $thread->id,
                 'user_id' => 1,
@@ -50,13 +50,13 @@ class FetchNewMessagesTest extends TestCase
                     return $thread->messages()
                                     ->get()
                                     ->each(function($message){
-                                        // And then get the thread subject
+                                        // And then get the thread's subject
                                         $thread = Thread::where('id', $message->thread_id)->pluck('subject');
                                         
                                         // And then add the thread subject to the messages
                                         $message['thread'] = $thread[0];
 
-                                        // Then return them to display them in the email notifiaction
+                                        // Then return them to display them in the email notification
                                         return $message;
                                     });
                 })
@@ -65,7 +65,7 @@ class FetchNewMessagesTest extends TestCase
                     // Then we assert if we succesfully added the thread subject to the messages
                     $this->assertEquals('Thread Test Subject', $emailFormat->thread);
                     
-                    // And assert if the return email format is what we expected to be
+                    // And assert if the email format is what we expected to be
                     $this->assertArrayHas(
                         [
                             "thread_id" => 1,
@@ -122,7 +122,7 @@ class FetchNewMessagesTest extends TestCase
         //Given seedThreadMessagesAndReplies()
         $this->seedThreadMessagesAndReplies($crew, $producer);
 
-        // And given our time constraint for messages posted
+        // And given our time constraint for messages posted is 30 mins.
         $time = Carbon::now()->subMinutes(30);
 
         // Given the scheduled notification is fired
@@ -132,7 +132,8 @@ class FetchNewMessagesTest extends TestCase
         $producer->threadsWithNewMessages()
                  ->flatMap(function($thread) use ($time, $producer) {
                     // And then get all the messages that are posted less
-                    // than 30 mins. ago and return them
+                    // than 30 mins. ago and don't include the producer's own
+                    // message in the thread and return them
                     return $thread->messages()
                                   ->where('created_at', '>', $time)
                                   ->where('user_id', '!=', $producer->id)
@@ -141,7 +142,7 @@ class FetchNewMessagesTest extends TestCase
                  })
                  //Then we map through the user's thread messages
                  ->flatmap(function($message) use($time) {
-                    // Then we assert each of them that
+                    // Then we assert each one of them that
                     // it got only the new reply
                     $this->assertArrayHas(
                         [
