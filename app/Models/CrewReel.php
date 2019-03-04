@@ -12,7 +12,6 @@ class CrewReel extends Model
      * @var array
      */
     protected $guarded = ['id'];
-
     /**
      * @var array
      */
@@ -30,5 +29,20 @@ class CrewReel extends Model
     public function crew()
     {
         return $this->belongsTo(Crew::class);
+    }
+
+    public function setCrewIDAttribute($value)
+    {
+        $this->attributes['crew_id'] = (is_null($value) ? '' : $value);
+    }
+
+    public function setUrlAttribute($value)
+    {
+        $this->attributes['url'] = (is_null($value) ? '' : $value);
+    }
+
+    public function setGeneralAttribute($value)
+    {
+        $this->attributes['general'] = (is_null($value) ? '' : $value);
     }
 }

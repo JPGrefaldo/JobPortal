@@ -16,19 +16,19 @@ class StoreCrewPosition
         ]);
 
         $crewPosition = CrewPosition::byCrewAndPosition($crew, $position)->first();
-
-        $crewGear = new CrewGear([
+        $position_id = $position->id;
+        $crewGear = CrewGear::create([
+            'crew_id'          => $crew->id,
             'description'      => $data['gear'],
-            'crew_position_id' => $position->id
+            'crew_position_id' => $position_id,
         ]);
         $crew->gears()->save($crewGear);
 
-        $crewReel = new CrewReel([
+        $crewReel = CrewReel::create([
             'crew_id'          => $crew->id,
             'url'              => $data['reel_link'],
-            'crew_position_id' => $crewPosition->id,
+            'crew_position_id' => $position_id,
         ]);
-
         $crew->reels()->save($crewReel);
     }
 }

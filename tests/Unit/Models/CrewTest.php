@@ -47,18 +47,21 @@ class CrewTest extends TestCase
      */
     public function positions()
     {
-        // given
-        factory(Position::class, 3)->create()->each(function ($position) {
-            // when
-            $crewPosition = factory(CrewPosition::class)->make()->toArray();
-            $this->crew->positions()->attach(
-                $position,
-                array_only($crewPosition, ['details', 'union_description'])
-            );
-        });
+        factory(Position::class, 10)->create();
+        $first = rand(1, 10);
+        $second = rand(1, 10);
 
-        // then
-        $this->assertCount(3, $this->crew->positions);
+        factory(CrewPosition::class)->create([
+            'crew_id' => $this->crew->id,
+            'position_id' => $first,
+        ]);
+        factory(CrewPosition::class)->create([
+            'crew_id' => $this->crew->id,
+            'position_id' => $second,
+        ]);
+
+        $this->assertCount(2, $this->crew->positions);
+        $this->assertArrayHas([$first, $second], $this->crew->positions->pluck('id'));
     }
 
     /**

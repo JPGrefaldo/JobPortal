@@ -54,4 +54,13 @@ class CrewPosition extends Pivot
         return $query->where('crew_id', $crew->id)
                      ->where('position_id', $position->id);
     }
+
+    public function setDetailsAttribute($value)
+    {
+        $this->attributes['details'] = (is_null($value) ? '' : $value);
+    }
+    public function setUnionDescriptionAttribute($value)
+    {
+        $this->attributes['union_description'] = (is_null($value) ? '' : $value);
+    }
 }
