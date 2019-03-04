@@ -21,10 +21,10 @@ class FetchNewMessages
         if ($threads->count() > 0){
             return $threads->flatMap(function ($thread) use ($user) {
     
-                $time = Carbon::now()->addMinutes(30)->toDateTimeString();
+                $time = Carbon::now()->subMinutes(30);
 
                 $messages = $thread->messages()
-                              ->where('created_at', '<', $time)
+                              ->where('created_at', '>', $time)
                               ->where('user_id', '!=', $user->id)
                               ->get()
                               ->each(function ($message){
