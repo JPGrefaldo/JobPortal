@@ -192,28 +192,36 @@ class MessengerFeatureTest extends TestCase
             'thread_id' => $thread->id,
             'user_id' => $crew->id,
             'body' => 'Test Old Reply Message',
+            'created_at' => Carbon::today()->subMinutes(31)->toDateTimeString()
         ];
 
         $crew->messages()->create($replyFromCrew);
         $crew->messages()->create($oldReplyFromCrew);
 
-        $time = Carbon::now()->addMinutes(30)->toDateTimeString();
+        $time = Carbon::now()->subMinutes(30);
 
         $producerThreadMessage = $producer->threadsWithNewMessages()
                                            ->flatMap(function($thread) use ($time, $producer) {
                                                $messages = $thread->messages()
-                                                             ->where('created_at', '<=', $time)
+                                                             ->where('created_at', '>', $time)
                                                              ->where('user_id', '!=', $producer->id)
-                                                             ->get()
-                                                             ->toArray();
+                                                             ->get();
 
-                                                return $messages;
+                                                return $messages->toArray();
                                            });
 
-        dd($producerThreadMessage);
-        $this->assertArrayHas($replyFromCrew, $producerThreadMessage);
-        $this->assertLessThan($time, $producerThreadMessage['created_at']);
-
+        $this->assertEquals(1, count($producerThreadMessage));
+        
+        $this->assertArrayHas(
+            [
+                'thread_id' => 1,
+                'user_id' => 1,
+                'body' => 'Test Reply Message'
+            ], 
+            $producerThreadMessage[0]
+        );
+        
+        $this->assertLessThan($producerThreadMessage[0]['created_at'],$time);
     }
 
     /**

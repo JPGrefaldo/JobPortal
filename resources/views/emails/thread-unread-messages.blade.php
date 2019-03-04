@@ -1,5 +1,5 @@
 @component('mail::message')
-#Hello {{$user->first_name}},
+#Hello {{ $user->first_name }},
 
 <p>You have new messages in your thread as follows:</p>
 
