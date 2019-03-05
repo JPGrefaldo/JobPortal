@@ -48,6 +48,11 @@ Route::middleware('auth:api')->group(function () {
         'index'
     ])->name('producer.threads.index');
 
+    Route::post('/threads/{thread}/participants', [
+        \App\Http\Controllers\API\ParticipantsController::class,
+        'search'
+    ])->middleware('role:Producer|Crew')->name('threads.search.participants');
+
     Route::get('/crew/projects/{project}/threads', [
         \App\Http\Controllers\Crew\ThreadsController::class,
         'index'
