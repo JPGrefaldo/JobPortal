@@ -54,6 +54,44 @@ class MessengerFeatureTest extends TestCase
      * @test
      * @covers App\Http\Controllers\MessagesController::store
      */
+    public function crew_are_not_allowed_to_initiate_a_message_with_the_producer()
+    {
+        $crew = $this->createCrew();
+
+        $thread = factory(Thread::class)->create([
+            'subject' => 'Thread Test Subject'
+        ]);
+
+        $thread->addParticipant(
+            [
+                'user_id' => $crew->id
+            ]
+        );
+
+        $message = [
+            'thread' => $thread->id,
+            'sender' => $crew->id,
+            'message' => 'Test Message'
+        ];
+
+        $this->actingAs($crew, 'api')
+             ->get(route('messages.index', [
+                    'thread' => $thread->id
+                ]
+             ));
+
+        $response = $this->actingAs($crew)
+                         ->postJson(route('messages.store', $message));
+        
+        $response->assertJson([
+            'message' => 'You are not allowed to message the producer'
+        ]);
+    }
+
+    /**
+     * @test
+     * @covers App\Http\Controllers\MessagesController::store
+     */
     public function store_message()
     {
         $user = $this->createProducer();
@@ -89,4 +127,6 @@ class MessengerFeatureTest extends TestCase
             'body' => 'Test Message'
         ]);
     }
+
+
 }

@@ -6,6 +6,7 @@ use App\Actions\Messenger\CreateMessage;
 use App\Http\Resources\MessageResource;
 use Cmgmyr\Messenger\Models\Thread;
 use Illuminate\Http\Request;
+use App\Models\Role;
 
 class MessagesController extends Controller
 {
@@ -35,10 +36,17 @@ class MessagesController extends Controller
      */
     public function store(Request $request)
     {
-        $thread = Thread::findOrFail($request->thread);
         $sender = auth()->user();
-        $body = $request->message;
+        
+        if($sender->hasRole(Role::CREW)){
+            return response()->json([
+                'message' => 'You are not allowed to message the producer'
+            ]);
+        }
 
+        $thread = Thread::findOrFail($request->thread);
+        $body = $request->message;
+        
         $message = app(CreateMessage::class)->execute($thread->id, $sender->id, $body);
         
         return response()->json(compact('message'));
