@@ -85,9 +85,9 @@
         }
     },
     "scripts": {
-	"format": [
+        "format": [
             "vendor/bin/php-cs-fixer fix"
-	],
+        ],
         "pre-install-cmd": [
             "@rm ./vendor/laravel/nova"
         ],
