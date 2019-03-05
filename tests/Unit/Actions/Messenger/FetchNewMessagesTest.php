@@ -15,7 +15,7 @@ class FetchNewMessagesTest extends TestCase
 
     /**
      * @test
-     * @covers App\Actions\Messenger\FetchNewMessages::execute
+     * @covers \App\Actions\Messenger\FetchNewMessages::execute
      */
     public function get_the_threads_that_has_new_messages()
     {
@@ -24,21 +24,19 @@ class FetchNewMessagesTest extends TestCase
         
         // Then we map through the thread's message(s)
         $threads->map(function ($thread){
-            $message = $thread->messages()->get();
-
             // And then assert if the thread's message was
             // fetch successfully
             $this->assertArrayHas([
                 'thread_id' => $thread->id,
                 'user_id' => 1,
                 'body' => 'Test Reply Message'
-            ], $message->toArray());
+            ], $thread->toArray());
         });
     }
 
     /**
      * @test
-     * @covers App\Actions\Messenger\FetchNewMessages::dataFormat
+     * @covers \App\Actions\Messenger\FetchNewMessages::dataFormat
      */
     public function format_email_notification()
     {
@@ -47,8 +45,7 @@ class FetchNewMessagesTest extends TestCase
 
         // Then we loop through thread's messages
         $threads->flatMap(function($thread){
-                    return $thread->messages()
-                                    ->get()
+                    return $thread->get()
                                     ->each(function($message){
                                         // And then get the thread's subject
                                         $thread = Thread::where('id', $message->thread_id)->pluck('subject');
