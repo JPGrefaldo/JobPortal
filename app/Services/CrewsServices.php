@@ -4,9 +4,13 @@ namespace App\Services;
 
 use App\Data\StoragePath;
 use App\Models\Crew;
+use App\Models\CrewGear;
 use App\Models\CrewReel;
 use App\Models\CrewResume;
 use App\Models\CrewSocial;
+use App\Models\Department;
+use App\Models\CrewPosition;
+use App\Models\Position;
 use App\Models\Role;
 use App\Models\User;
 use App\Utils\StrUtils;
@@ -448,4 +452,5 @@ class CrewsServices
 
         return $reel;
     }
+
 }
