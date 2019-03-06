@@ -26,13 +26,12 @@ class Position extends Model
         'has_many'         => 'boolean',
     ];
 
-
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function crews()
     {
-        return $this->belongsToMany(Crew::class);
+        return $this->belongsToMany(Crew::class)->withPivot('details');
     }
 
     /**
@@ -49,6 +48,14 @@ class Position extends Model
     public function type()
     {
         return $this->belongsTo(PositionTypes::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function getNameAttribute($value)
+    {
+        return ucfirst($value);
     }
 
 }

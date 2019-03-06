@@ -31,11 +31,6 @@ class CrewReel extends Model
         return $this->belongsTo(Crew::class);
     }
 
-    public function setCrewIDAttribute($value)
-    {
-        $this->attributes['crew_id'] = (is_null($value) ? '' : $value);
-    }
-
     public function setUrlAttribute($value)
     {
         $this->attributes['url'] = (is_null($value) ? '' : $value);

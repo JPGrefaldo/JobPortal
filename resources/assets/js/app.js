@@ -1,4 +1,3 @@
-
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -43,6 +42,12 @@ Vue.component('create-endorsement-request-form', require('./components/CreateEnd
 Vue.component('endorsers-component', require('./components/EndorsementControlComponent').default);
 Vue.component('cca-messages-dashboard', require('./components/messenger/index').default);
 Vue.component('cca-logout-link', require('./components/LogoutLink').default);
+<<<<<<< HEAD
+Vue.component('cca-work-position-component', require('./components/WorkPositionComponent'));
+Vue.component('cca-position-component', require('./components/PositionComponent'));
+Vue.component('cca-department-component', require('./components/DepartmentsComponent'));
+=======
+>>>>>>> master
 Vue.component('cca-work-position-component', require('./components/WorkPositionComponent').default);
 Vue.component('cca-position-component', require('./components/PositionComponent').default);
 Vue.component('cca-department-component', require('./components/DepartmentsComponent').default);
@@ -56,5 +61,3 @@ const content = new Vue({
     el: '#content',
     store
 });
-
-

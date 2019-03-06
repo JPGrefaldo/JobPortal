@@ -32,6 +32,7 @@ class CrewProfileController extends Controller
             'user' => $user,
             'socialLinkTypes' => $this->getAllSocialLinkTypes($user),
             'departments' => $this->getDepartments(),
+            'crewPositions' => $this->getCrewPositions($user),
             'resume_url' => $resume_url,
         ]);
     }
@@ -68,6 +69,12 @@ class CrewProfileController extends Controller
     {
         $departments = app(DepartmentsServices::class)->getAllWithPositions();
         return $departments;
+    }
+
+    public function getCrewPositions($user)
+    {
+        $positions =  $user->crew->positions;
+        return $positions;
     }
 
     /**
