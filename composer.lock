@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
     "content-hash": "17bd1467d0c62574bc1b99a5bbadaae9",
@@ -110,16 +110,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.87.23",
+            "version": "3.88.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "4f042410335c06aa7ab81365194782a30c144bc2"
+                "reference": "875786bf50f3b014fdef62cf4fce79ad5068dd40"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/4f042410335c06aa7ab81365194782a30c144bc2",
-                "reference": "4f042410335c06aa7ab81365194782a30c144bc2",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/875786bf50f3b014fdef62cf4fce79ad5068dd40",
+                "reference": "875786bf50f3b014fdef62cf4fce79ad5068dd40",
                 "shasum": ""
             },
             "require": {
@@ -188,7 +188,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2019-03-04T19:19:05+00:00"
+            "time": "2019-03-06T19:50:55+00:00"
         },
         {
             "name": "barryvdh/laravel-cors",
@@ -1406,8 +1406,7 @@
             "dist": {
                 "type": "path",
                 "url": "./nova",
-                "reference": "6b34fd3882e3cff2dc99d288393e92025bc93094",
-                "shasum": null
+                "reference": "6b34fd3882e3cff2dc99d288393e92025bc93094"
             },
             "require": {
                 "cakephp/chronos": "~1.0",
