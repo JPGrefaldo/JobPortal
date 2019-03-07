@@ -2,6 +2,7 @@ import * as types from '../mutation-types'
 
 export const state = {
     list: [],
+    participants: [],
     thread: {}
 }
 
@@ -10,12 +11,19 @@ export const getters = {
         return state.list
     },
 
+    participants(state) {
+        return state.participants
+    },
+
     thread(state) {
         return state.thread
     }
 }
 
 export const mutations = {
+    [types.PARTICIPANTS](state, payload) {
+        state.participants = payload
+    },
     [types.THREAD](state, payload) {
         state.thread = payload
     },
@@ -27,6 +35,11 @@ export const mutations = {
 export const actions = {
     fetch(context, params) {
         axios.get('/api/' + params.role + '/projects/' + params.project + '/threads')
-            .then(response => context.commit( types.THREADS, response.data.data) );
+            .then(response => context.commit( types.THREADS, response.data.data) )
     },
+
+    searchParticipants(context, params) {
+        axios.post(`/api/threads/${params.thread}/participants`, { keyword: params.keyword })
+             .then(response => context.commit( types.PARTICIPANTS, response.data.data ) )
+    }
 }
