@@ -17,7 +17,7 @@ class ThreadFeatureTest extends TestCase
      * @test
      * @covers App\Http\Controllers\API\ParticipantsController::search
      */
-    public function search_user_that_participating_in_the_current_thread()
+    public function search_participating_user_in_current_thread()
     {
         $response = $this->search('J');
         
@@ -110,16 +110,12 @@ class ThreadFeatureTest extends TestCase
             'first_name' => 'Jean',
             'last_name' => 'Grey'
         ]); 
-
-        $participants = collect([
+        
+        $thread->addParticipant([
             $currentUser->id, 
             $participant1->id, 
             $participant2->id
         ]);
-        
-        $participants->each(function($participant) use($thread){
-            $thread->addParticipant($participant);
-        });
 
         $this->assertCount(3, 
             $thread->participants()
