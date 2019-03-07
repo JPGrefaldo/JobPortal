@@ -2,12 +2,13 @@
 
 namespace Tests\Unit\Actions\Messenger;
 
+use App\Actions\Messenger\FetchNewMessages;
+use App\Models\Message;
 use Carbon\Carbon;
 use Cmgmyr\Messenger\Models\Thread;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
-use App\Actions\Messenger\FetchNewMessages;
 
 class FetchNewMessagesTest extends TestCase
 {
@@ -195,6 +196,6 @@ class FetchNewMessagesTest extends TestCase
         ];
 
         $crew->messages()->create($replyFromCrew);
-        $crew->messages()->create($oldReplyFromCrew);
+        Message::create($oldReplyFromCrew);
     }
 }

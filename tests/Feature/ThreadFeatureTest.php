@@ -30,7 +30,11 @@ class ThreadFeatureTest extends TestCase
         ]);
     }
 
-    public function test_current_user_should_not_be_included_in_search_result()
+    /**
+     * @test
+     * @covers App\Http\Controllers\API\ParticipantsController::search
+     */
+    public function current_user_should_not_be_included_in_search_result()
     {
         $currentUser = $this->createProducer();
 
@@ -41,7 +45,11 @@ class ThreadFeatureTest extends TestCase
         ]);
     }
 
-    public function test_search_will_accept_any_input_format()
+    /**
+     * @test
+     * @covers App\Http\Controllers\API\ParticipantsController::search
+     */
+    public function search_will_accept_any_input_format()
     {
         $response = $this->search('JOHN');
         $response->assertJsonFragment([
@@ -54,7 +62,11 @@ class ThreadFeatureTest extends TestCase
         ]);
     }
 
-    public function test_search_keyword_should_not_be_empty()
+    /**
+     * @test
+     * @covers App\Http\Controllers\API\ParticipantsController::search
+     */
+    public function search_keyword_should_not_be_empty()
     {
         $response = $this->search('');
 
@@ -63,7 +75,11 @@ class ThreadFeatureTest extends TestCase
         ]);
     }
 
-    public function test_search_keywords_should_not_contain_numbers()
+    /**
+     * @test
+     * @covers App\Http\Controllers\API\ParticipantsController::search
+     */
+    public function search_keywords_should_not_contain_numbers()
     {
         $response = $this->search('J0hn');
 
