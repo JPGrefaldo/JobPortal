@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ParticipantResource;
 use Cmgmyr\Messenger\Models\Thread;
 use Illuminate\Http\Request;
 
@@ -26,11 +27,13 @@ class ParticipantsController extends Controller
 
         $thread = Thread::findOrFail($request->thread);
         $user = auth()->user();
-        
-        return $thread->users()
+
+        $users = $thread->users()
                       ->where('user_id', '!=', $user->id)
                       ->where('first_name', 'like', '%'.ucfirst(strtolower($keyword)).'%')
                       ->orWhere('last_name', 'like', '%'.ucfirst(strtolower($keyword)).'%')
                       ->get();
+
+        return ParticipantResource::collection($users);
     }
 }
