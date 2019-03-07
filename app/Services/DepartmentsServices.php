@@ -64,4 +64,5 @@ class DepartmentsServices
     {
         return Department::with('positions')->get();
     }
+
 }

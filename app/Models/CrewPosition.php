@@ -35,6 +35,10 @@ class CrewPosition extends Pivot
         return $this->belongsTo(Crew::class);
     }
 
+    public function position()
+    {
+        return $this->belongsTo(Position::class);
+    }
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -59,6 +63,7 @@ class CrewPosition extends Pivot
     {
         $this->attributes['details'] = (is_null($value) ? '' : $value);
     }
+
     public function setUnionDescriptionAttribute($value)
     {
         $this->attributes['union_description'] = (is_null($value) ? '' : $value);
