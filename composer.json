@@ -85,9 +85,9 @@
         }
     },
     "scripts": {
-	"format": [
+        "format": [
             "vendor/bin/php-cs-fixer fix"
-	],
+        ],
         "pre-install-cmd": [
             "@rm ./vendor/laravel/nova"
         ],
@@ -99,13 +99,21 @@
             "yarn install"
         ],
         "post-install-cmd": [
-            "yarn install",
             "php artisan nova:publish",
-            "npm run production"
+            "yarn install",
+            "npm run dev",
+            "php artisan config:clear",
+            "php artisan cache:clear",
+            "php artisan view:clear",
+            "php artisan route:clear"
         ],
         "post-update-cmd": [
             "php artisan nova:publish",
-            "npm run production"
+            "npm run dev",
+            "php artisan config:clear",
+            "php artisan cache:clear",
+            "php artisan view:clear",
+            "php artisan route:clear"
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate"

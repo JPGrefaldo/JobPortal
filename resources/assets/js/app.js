@@ -1,4 +1,3 @@
-
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -34,19 +33,18 @@ if (window.IS_AUTHORIZED) {
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
-Vue.component('signup-type', require('./components/SignupTypeComponent'));
-Vue.component('bubble-slidder', require('./components/BubbleSiliderComponent'));
-Vue.component('mobile-menu', require('./components/MobileMenuComponent'));
-Vue.component('create-crew-position-form', require('./components/CreateCrewPositionFormComponent'));
-Vue.component('edit-crew-position-form', require('./components/EditCrewPositionFormComponent'));
-Vue.component('create-endorsement-request-form', require('./components/CreateEndorsementRequestFormComponent'));
-Vue.component('endorsers-component', require('./components/EndorsementControlComponent'));
+Vue.component('signup-type', require('./components/SignupTypeComponent').default);
+Vue.component('bubble-slidder', require('./components/BubbleSiliderComponent').default);
+Vue.component('mobile-menu', require('./components/MobileMenuComponent').default);
+Vue.component('create-crew-position-form', require('./components/CreateCrewPositionFormComponent').default);
+Vue.component('edit-crew-position-form', require('./components/EditCrewPositionFormComponent').default);
+Vue.component('create-endorsement-request-form', require('./components/CreateEndorsementRequestFormComponent').default);
+Vue.component('endorsers-component', require('./components/EndorsementControlComponent').default);
 Vue.component('cca-messages-dashboard', require('./components/messenger/index').default);
 Vue.component('cca-logout-link', require('./components/LogoutLink').default);
-Vue.component('cca-work-position-component', require('./components/WorkPositionComponent'));
-Vue.component('cca-position-component', require('./components/PositionComponent'));
-Vue.component('cca-department-component', require('./components/DepartmentsComponent'));
+Vue.component('cca-work-position-component', require('./components/WorkPositionComponent').default);
+Vue.component('cca-position-component', require('./components/PositionComponent').default);
+Vue.component('cca-department-component', require('./components/DepartmentsComponent').default);
 
 new Vue({
     el: '#nav-container',
@@ -57,5 +55,3 @@ const content = new Vue({
     el: '#content',
     store
 });
-
-
