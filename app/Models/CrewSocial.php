@@ -6,8 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class CrewSocial extends Model
 {
-    protected $table = 'crew_social';
-
     /**
      * The protected attributes
      *

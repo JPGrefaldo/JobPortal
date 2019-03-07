@@ -13,7 +13,7 @@ class CreateCrewSocialTable extends Migration
      */
     public function up()
     {
-        Schema::create('crew_social', function (Blueprint $table) {
+        Schema::create('crew_socials', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('crew_id');
             $table->unsignedInteger('social_link_type_id');
