@@ -21,8 +21,8 @@ class ManagerObserver
 
     private function sendMailable(Manager $manager, $mailable)
     {
-        $subordinate = User::findOrFail($manager->subordinate_id)->first();
-        $manager = User::findOrFail($manager->manager_id)->first();
+        $subordinate = User::findOrFail($manager->subordinate_id);
+        $manager = User::findOrFail($manager->manager_id);
 
         \Mail::to($manager->email)->send(
             new $mailable($manager, $subordinate)

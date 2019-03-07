@@ -25,7 +25,9 @@ class ManagerObserverTest extends TestCase
         $manager = $this->createUser();
 
         // when
-        factory(Manager::class)->create();
+        factory(Manager::class)->create([
+            'manager_id' => $manager->id,
+        ]);
 
         // then
         Mail::assertSent(
@@ -45,7 +47,9 @@ class ManagerObserverTest extends TestCase
         // given
         Mail::fake();
         $manager = $this->createUser();
-        $record = factory(Manager::class)->create();
+        $record = factory(Manager::class)->create([
+            'manager_id' => $manager->id,
+        ]);
 
         // when
         $record->delete();
