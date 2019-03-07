@@ -1,6 +1,11 @@
 <template>
     <!-- conversation -->
     <div class="w-4/5 bg-white flex flex-col p-4">
+        <ul class="list-reset" v-if="participants">
+            <li v-for="user in participants" :key="user.id">
+                {{ user.name }}
+            </li>
+        </ul>
         <div v-if="messages.length === 0"
             class="text-grey-dark">
             <div class="fa fa-arrow-left mr-2"></div>
@@ -36,6 +41,7 @@
         computed: {
             ...mapGetters({
                 messages: 'message/list',
+                participants: 'thread/participants'
             })
         },
 
