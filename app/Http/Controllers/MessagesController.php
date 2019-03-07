@@ -38,7 +38,7 @@ class MessagesController extends Controller
     {
         $sender = auth()->user();
         
-        if($sender->hasRole(Role::CREW)){
+        if ($sender->hasRole(Role::CREW)){
             return response()->json([
                 'message' => 'You are not allowed to message the producer'
             ]);

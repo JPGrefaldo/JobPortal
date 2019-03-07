@@ -68,7 +68,7 @@ class MessengerFeatureTest extends TestCase
             ]
         );
 
-        $message = [
+        $data = [
             'thread' => $thread->id,
             'sender' => $crew->id,
             'message' => 'Test Message'
@@ -81,7 +81,7 @@ class MessengerFeatureTest extends TestCase
              ));
 
         $response = $this->actingAs($crew)
-                         ->postJson(route('messages.store', $message));
+                         ->postJson(route('messages.store', $data));
         
         $response->assertJson([
             'message' => 'You are not allowed to message the producer'
