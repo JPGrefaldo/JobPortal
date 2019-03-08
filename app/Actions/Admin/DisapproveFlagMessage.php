@@ -12,8 +12,8 @@ class DisapproveFlagMessage
      */
     public function execute(PendingFlagMessage $pendingFlagMessage): void
     {
-        $pendingFlagMessage->disapproved_at = Carbon::now();
-
-        $pendingFlagMessage->save();
+        $pendingFlagMessage->update([
+            'disapproved_at' => Carbon::now(),
+        ]);
     }
 }
