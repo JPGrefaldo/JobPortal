@@ -70,9 +70,5 @@ class MessengerDashboardSeeder extends Seeder
                 $thread->addParticipant($message->user_id);
             }
         }
-
-        // $users->map(function($user){
-            
-        // });
     }
 }
