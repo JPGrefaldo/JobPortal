@@ -1,9 +1,13 @@
 export const AUTH_FETCH_USER_SUCCESS = 'AUTH_FETCH_USER_SUCCESS'
 export const AUTH_LOGOUT = 'AUTH_LOGOUT'
+export const DEPARTMENTS = 'DEPARTMENTS'
 export const MESSAGES = 'MESSAGES'
 export const PARTICIPANTS = 'PARTICIPANTS'
+export const POSITIONS = 'POSITIONS'
 export const PROJECT = 'PROJECT'
 export const PROJECTS = 'PROJECTS'
+export const PROJECT_TYPES = 'PROJECT_TYPES'
+export const SITES = 'SITES'
 export const THREAD = 'THREAD'
 export const THREADS = 'THREADS'
 

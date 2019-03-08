@@ -1,17 +1,22 @@
 import * as types from '../mutation-types'
 
 export const state = {
-    project: {},
     list: [],
+    project: {},
+    projectTypes: []
 }
 
 export const getters = {
+    list(state) {
+        return state.list
+    },
+
     project(state) {
         return state.project
     },
-    
-    list(state) {
-        return state.list
+
+    projectType(state) {
+        return state.projectType
     },
 }
 
@@ -23,6 +28,10 @@ export const mutations = {
     [types.PROJECTS](state, payload) {
         state.list = payload
     },
+
+    [types.PROJECT_TYPES](state, payload) {
+        state.projectType = payload
+    },
 }
 
 export const actions = {
@@ -32,4 +41,5 @@ export const actions = {
                 response => context.commit(types.PROJECTS, response.data.data)
             )
     }
+    //TODO: ajax request to get project types
 }
