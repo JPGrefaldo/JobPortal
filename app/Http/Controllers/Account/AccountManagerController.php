@@ -105,14 +105,17 @@ class AccountManagerController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param $manager
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy($manager)
     {
-        $manager = User::findOrfail($manager)->first();
+        $manager = User::findOrfail($manager);
         $subordinate = Auth::user();
 
-        app(DeleteManager::class)->execute($manager, $subordinate);
+        app(DeleteManager::class)->execute($manager->id, $subordinate->id);
+
+        return response('');
     }
 }

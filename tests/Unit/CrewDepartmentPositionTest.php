@@ -20,9 +20,7 @@ class CrewDepartmentPositionTest extends TestCase
      */
     public function apply_for()
     {
-//        $this->withoutExceptionHandling();
-
-        $user = $this->createCrew();
+        $crew = $this->createCrew();
         $position = factory(Position::class)->create();
 
         $data = [
@@ -33,9 +31,25 @@ class CrewDepartmentPositionTest extends TestCase
             'reel_link' => 'This is the reel link',
         ];
 
-        $response = $this->actingAs($user)
+        $response = $this->actingAs($crew)
             ->postJson(route('crew-position.store', $position), $data);
 
         $response->assertSuccessful();
+
+        $this->assertDatabaseHas('crew_position', [
+            'crew_id' => $crew->id,
+            'details' => $data['bio'],
+            'union_description' => $data['union_description']
+        ]);
+
+        $this->assertDatabaseHas('crew_gears', [
+            'crew_id' => $crew->id,
+            'description' => $data['gear'],
+        ]);
+
+        $this->assertDatabaseHas('crew_reels', [
+            'crew_id' => $crew->id,
+            'url' => $data['reel_link'],
+        ]);
     }
 }

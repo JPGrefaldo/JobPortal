@@ -12,6 +12,11 @@ class CrewPositionController extends Controller
     public function applyFor(Position $position, Request $request)
     {
         $crew = auth()->user()->crew;
-        app(StoreCrewPosition::class)->execute($crew, $position, $request);
+        app(StoreCrewPosition::class)->execute($crew, $position, $request->only([
+            'bio',
+            'union_description',
+            'gear',
+            'reel_link',
+        ]));
     }
 }
