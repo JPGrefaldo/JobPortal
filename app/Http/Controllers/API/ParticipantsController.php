@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\ParticipantResource;
 use Cmgmyr\Messenger\Models\Thread;
 use Illuminate\Http\Request;
+use App\Actions\Messenger\SearchParticipants;
 
 class ParticipantsController extends Controller
 {
@@ -15,25 +15,26 @@ class ParticipantsController extends Controller
 
         if (! isset($keyword)){
             return response()->json([
-                'invalid' => 'Keyword should not be empty'
+                'message' => 'Keyword should not be empty'
             ]);
         }
 
         if (preg_match("/\d+/", $keyword)) {
             return response()->json([
-                'invalid' => 'Keyword should only be a string'
+                'message' => 'Keyword should only be a string'
             ]);
         }
 
         $thread = Thread::findOrFail($request->thread);
-        $user = auth()->user();
+    
+        $result = app(SearchParticipants::class)->execute($thread, $keyword);
 
-        $users = $thread->users()
-                      ->where('user_id', '!=', $user->id)
-                      ->where('first_name', 'like', '%'.ucfirst(strtolower($keyword)).'%')
-                      ->orWhere('last_name', 'like', '%'.ucfirst(strtolower($keyword)).'%')
-                      ->get();
+        if (count($result) == 0){
+            return response()->json([
+                'message' => 'No results can be found'
+            ]);
+        }
 
-        return ParticipantResource::collection($users);
+        return $result;
     }
 }
