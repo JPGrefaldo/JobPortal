@@ -4,10 +4,10 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class MessageResource extends JsonResource
+class ParticipantResource extends JsonResource
 {
     /**
-     * Transform the resource into an array.
+     * Transform the resource collection into an array.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return array
@@ -15,9 +15,8 @@ class MessageResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'body'    => $this->body,
-            'user_id' => $this->user->id,
-            'user_name' => $this->user->nickname_or_fullname,
-        ]; 
+            'id' => $this->id,
+            'name' => $this->nickname_or_fullname
+        ];
     }
 }

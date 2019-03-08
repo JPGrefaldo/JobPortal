@@ -5,14 +5,12 @@ namespace App\Http\Requests;
 class UpdateCrewRequest extends CreateCrewRequest
 {
     /**
-     * Get the validation rules that apply to the request.
+     * Determine if the user is authorized to make this request.
      *
-     * @return array
+     * @return bool
      */
-    public function rules()
+    public function authorize()
     {
-        return array_merge(parent::rules(), [
-            'photo' => 'nullable|image',
-        ]);
+        return auth()->user()->id === $this->route('crew')->user->id;
     }
 }

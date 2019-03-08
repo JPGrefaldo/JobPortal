@@ -22,11 +22,11 @@ class ThreadFeatureTest extends TestCase
         $response = $this->search('J');
         
         $response->assertJsonFragment([
-            'first_name' => 'John'
+            'name' => 'John Doe'
         ]);
      
         $response->assertJsonFragment([
-            'first_name' => 'Jean'
+            'name' => 'Jean Grey'
         ]);
     }
 
@@ -41,7 +41,7 @@ class ThreadFeatureTest extends TestCase
         $response = $this->search('J', $currentUser);
 
         $response->assertJsonMissing([
-            'first_name' => $currentUser->first_name
+            'name' => $currentUser->first_name
         ]);
     }
 
@@ -53,12 +53,12 @@ class ThreadFeatureTest extends TestCase
     {
         $response = $this->search('JOHN');
         $response->assertJsonFragment([
-            'first_name' => 'John'
+            'name' => 'John Doe'
         ]);
      
         $response = $this->search('JeAn');
         $response->assertJsonFragment([
-            'first_name' => 'Jean'
+            'name' => 'Jean Grey'
         ]);
     }
 
@@ -71,7 +71,7 @@ class ThreadFeatureTest extends TestCase
         $response = $this->search('');
 
         $response->assertJson([
-            'invalid' => 'Keyword should not be empty'
+            'message' => 'Keyword should not be empty'
         ]);
     }
 
@@ -84,7 +84,20 @@ class ThreadFeatureTest extends TestCase
         $response = $this->search('J0hn');
 
         $response->assertJson([
-            'invalid' => 'Keyword should only be a string'
+            'message' => 'Keyword should only be a string'
+        ]);
+    }
+
+    /**
+     * @test
+     * @covers App\Http\Controllers\API\ParticipantsController::search
+     */
+    public function show_search_info_when_no_results_found()
+    {
+        $response = $this->search('Superman');
+
+        $response->assertJson([
+            'message' => 'No results can be found'
         ]);
     }
     
@@ -118,13 +131,11 @@ class ThreadFeatureTest extends TestCase
         ]);
 
         $participant1 = factory(User::class)->create([
-            'first_name' => 'John',
-            'last_name' => 'Doe'
+            'nickname' => 'John Doe',
         ]); 
 
         $participant2 = factory(User::class)->create([
-            'first_name' => 'Jean',
-            'last_name' => 'Grey'
+            'nickname' => 'Jean Grey'
         ]); 
         
         $thread->addParticipant([
