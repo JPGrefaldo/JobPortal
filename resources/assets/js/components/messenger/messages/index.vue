@@ -1,6 +1,9 @@
 <template>
     <!-- conversation -->
     <div class="w-4/5 bg-white flex flex-col p-4">
+        <p v-if="typeof(participants) == 'string'">
+            {{ participants }}
+        </p>
         <ul class="list-reset" v-if="participants">
             <li v-for="user in participants" :key="user.id">
                 {{ user.name }}
