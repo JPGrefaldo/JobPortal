@@ -17,7 +17,6 @@ class MessengerDashboardSeeder extends Seeder
     public function run()
     {
         $user = User::first();
-        $site = Site::first();
 
         $projects = factory(Project::class, 2)->create([
             'user_id' => $user->id,
@@ -29,7 +28,7 @@ class MessengerDashboardSeeder extends Seeder
             $project->threads()->saveMany($threads);
 
             foreach ($threads as $thread) {
-                $thread->addParticipant([$user->id]);
+                $thread->addParticipant($user->id);
 
                 $message = factory(Message::class)->create([
                     'user_id' => $user->id,
@@ -40,6 +39,7 @@ class MessengerDashboardSeeder extends Seeder
                 $message = factory(Message::class)->create();
 
                 $thread->messages()->save($message);
+                $thread->addParticipant($message->user_id);
             };
         };
 
@@ -54,7 +54,7 @@ class MessengerDashboardSeeder extends Seeder
             $project->threads()->saveMany($threads);
 
             foreach ($threads as $thread) {
-                $thread->addParticipant([$user->id]);
+                $thread->addParticipant($user->id);
 
                 $message = factory(Message::class)->create([
                     'user_id' => $project->user_id,
@@ -67,6 +67,7 @@ class MessengerDashboardSeeder extends Seeder
                 ]);
 
                 $thread->messages()->save($message);
+                $thread->addParticipant($message->user_id);
             }
         }
     }

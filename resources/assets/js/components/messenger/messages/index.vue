@@ -15,6 +15,14 @@
                 <cca-recipient-message v-else :message="message"></cca-recipient-message>
             </div>
         </div>
+        <div v-if="typeof(participants) == 'string'">
+            <p>{{ participants }}</p>
+        </div>
+        <ul class="list-reset" v-if="participants">
+            <li v-for="user in participants" :key="user.id">
+                {{ user.name }}
+            </li>
+        </ul>
     </div>
 </template>
 
@@ -36,6 +44,7 @@
         computed: {
             ...mapGetters({
                 messages: 'message/list',
+                participants: 'thread/participants'
             })
         },
 

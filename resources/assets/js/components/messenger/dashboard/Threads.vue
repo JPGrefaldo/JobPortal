@@ -50,6 +50,7 @@
                     project: this.project.id
                 }
                 
+                this.$store.commit('thread/PARTICIPANTS', [])
                 this.$store.dispatch('thread/fetch', params)
                 this.$store.dispatch('message/fetch', thread.id)
             },

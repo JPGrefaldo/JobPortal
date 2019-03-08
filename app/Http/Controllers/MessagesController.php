@@ -23,7 +23,7 @@ class MessagesController extends Controller
             return abort(403);
         }
 
-        $messages = $thread->messages()->where('flagged_at', null)->get();
+        $messages = $thread->messages()->with('user')->where('flagged_at', null)->get();
 
         return MessageResource::collection($messages);
     }
