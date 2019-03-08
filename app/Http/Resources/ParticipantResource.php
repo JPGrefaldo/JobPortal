@@ -16,7 +16,7 @@ class ParticipantResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->fullName
+            'name' => $this->nickname_or_fullname
         ];
     }
 }

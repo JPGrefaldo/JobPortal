@@ -9,7 +9,7 @@ use App\Actions\Messenger\SearchParticipants;
 
 class ParticipantsController extends Controller
 {
-    public function search(Request $request)
+    public function search(Thread $thread, Request $request)
     {
         $keyword = $request->keyword;
 
@@ -24,8 +24,6 @@ class ParticipantsController extends Controller
                 'message' => 'Keyword should only be a string'
             ]);
         }
-
-        $thread = Thread::findOrFail($request->thread);
     
         $result = app(SearchParticipants::class)->execute($thread, $keyword);
 

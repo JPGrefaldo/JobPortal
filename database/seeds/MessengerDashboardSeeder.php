@@ -16,61 +16,63 @@ class MessengerDashboardSeeder extends Seeder
      */
     public function run()
     {
-        $users = User::all();
+        $user = User::first();
 
-        $users->map(function($user){
-            $projects = factory(Project::class, 2)->create([
-                'user_id' => $user->id,
-            ]);
-    
-            foreach ($projects as $project) {
-                $threads = factory(Thread::class, 2)->create();
-    
-                $project->threads()->saveMany($threads);
-    
-                foreach ($threads as $thread) {
-                    $thread->addParticipant($user->id);
-    
-                    $message = factory(Message::class)->create([
-                        'user_id' => $user->id,
-                    ]);
-    
-                    $thread->messages()->save($message);
-    
-                    $message = factory(Message::class)->create();
-    
-                    $thread->messages()->save($message);
-                    $thread->addParticipant($message->user_id);
-                };
+        $projects = factory(Project::class, 2)->create([
+            'user_id' => $user->id,
+        ]);
+
+        foreach ($projects as $project) {
+            $threads = factory(Thread::class, 2)->create();
+
+            $project->threads()->saveMany($threads);
+
+            foreach ($threads as $thread) {
+                $thread->addParticipant($user->id);
+
+                $message = factory(Message::class)->create([
+                    'user_id' => $user->id,
+                ]);
+
+                $thread->messages()->save($message);
+
+                $message = factory(Message::class)->create();
+
+                $thread->messages()->save($message);
+                $thread->addParticipant($message->user_id);
             };
+        };
 
-            $crew = $user->crew;
-            $projects = factory(Project::class, 2)->create();
+        $crew = $user->crew;
+        $projects = factory(Project::class, 2)->create();
 
-            $crew->projects()->attach($projects);
+        $crew->projects()->attach($projects);
 
-            foreach ($projects as $project) {
-                $threads = factory(Thread::class, 2)->create();
+        foreach ($projects as $project) {
+            $threads = factory(Thread::class, 2)->create();
 
-                $project->threads()->saveMany($threads);
+            $project->threads()->saveMany($threads);
 
-                foreach ($threads as $thread) {
-                    $thread->addParticipant($user->id);
+            foreach ($threads as $thread) {
+                $thread->addParticipant($user->id);
 
-                    $message = factory(Message::class)->create([
-                        'user_id' => $project->user_id,
-                    ]);
+                $message = factory(Message::class)->create([
+                    'user_id' => $project->user_id,
+                ]);
 
-                    $thread->messages()->save($message);
+                $thread->messages()->save($message);
 
-                    $message = factory(Message::class)->create([
-                        'user_id' => $crew->user->id,
-                    ]);
+                $message = factory(Message::class)->create([
+                    'user_id' => $crew->user->id,
+                ]);
 
-                    $thread->messages()->save($message);
-                    $thread->addParticipant($message->user_id);
-                }
+                $thread->messages()->save($message);
+                $thread->addParticipant($message->user_id);
             }
-        });
+        }
+
+        // $users->map(function($user){
+            
+        // });
     }
 }
