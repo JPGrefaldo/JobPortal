@@ -30,6 +30,7 @@
                     keyword: this.keyword
                 }
 
+                this.$store.commit('message/MESSAGES', [])
                 this.$store.dispatch('thread/searchParticipants', params)
             },
         }

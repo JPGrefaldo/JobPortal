@@ -1,14 +1,6 @@
 <template>
     <!-- conversation -->
     <div class="w-4/5 bg-white flex flex-col p-4">
-        <p v-if="typeof(participants) == 'string'">
-            {{ participants }}
-        </p>
-        <ul class="list-reset" v-if="participants">
-            <li v-for="user in participants" :key="user.id">
-                {{ user.name }}
-            </li>
-        </ul>
         <div v-if="messages.length === 0"
             class="text-grey-dark">
             <div class="fa fa-arrow-left mr-2"></div>
@@ -23,6 +15,14 @@
                 <cca-recipient-message v-else :message="message"></cca-recipient-message>
             </div>
         </div>
+        <div v-if="typeof(participants) == 'string'">
+            <p>{{ participants }}</p>
+        </div>
+        <ul class="list-reset" v-if="participants">
+            <li v-for="user in participants" :key="user.id">
+                {{ user.name }}
+            </li>
+        </ul>
     </div>
 </template>
 
