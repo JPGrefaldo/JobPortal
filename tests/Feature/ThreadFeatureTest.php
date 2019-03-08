@@ -131,13 +131,11 @@ class ThreadFeatureTest extends TestCase
         ]);
 
         $participant1 = factory(User::class)->create([
-            'first_name' => 'John',
-            'last_name' => 'Doe'
+            'nickname' => 'John Doe',
         ]); 
 
         $participant2 = factory(User::class)->create([
-            'first_name' => 'Jean',
-            'last_name' => 'Grey'
+            'nickname' => 'Jean Grey'
         ]); 
         
         $thread->addParticipant([
