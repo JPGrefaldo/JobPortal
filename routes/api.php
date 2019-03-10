@@ -28,10 +28,20 @@ Route::middleware('auth:api')->group(function () {
         'index'
     ])->name('crew.projects.index');
 
+    Route::get('/crew/positions', [
+        \App\Http\Controllers\API\Crew\PositionsController::class,
+        'index'
+    ])->name('crew.positions.index');
+
     Route::get('/producer/projects', [
         \App\Http\Controllers\API\Producer\ProjectsController::class,
         'index'
     ])->name('producer.projects.index');
+
+    Route::get('/producer/project/type', [
+        \App\Http\Controllers\API\Producer\ProjectsController::class,
+        'projectType'
+    ])->name('producer.project.type');
 
     Route::get('/threads/{thread}/messages', [
         \App\Http\Controllers\MessagesController::class,
