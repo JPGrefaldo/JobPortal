@@ -35,5 +35,10 @@ export const mutations = {
 }
 
 export const actions = {
-    // TODO: ajax get request for departments and positions
+    fetchPositions(context){
+        axios.get('/api/crew/positions')
+             .then(response => {
+                 context.commit(types.POSITIONS, response.data.positions)
+             })
+    }
 }

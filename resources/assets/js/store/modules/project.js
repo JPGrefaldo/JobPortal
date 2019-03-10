@@ -3,7 +3,7 @@ import * as types from '../mutation-types'
 export const state = {
     list: [],
     project: {},
-    projectTypes: []
+    types: []
 }
 
 export const getters = {
@@ -15,8 +15,8 @@ export const getters = {
         return state.project
     },
 
-    projectType(state) {
-        return state.projectType
+    types(state) {
+        return state.types
     },
 }
 
@@ -30,7 +30,7 @@ export const mutations = {
     },
 
     [types.PROJECT_TYPES](state, payload) {
-        state.projectType = payload
+        state.types = payload
     },
 }
 
@@ -40,6 +40,12 @@ export const actions = {
              .then(
                 response => context.commit(types.PROJECTS, response.data.data)
             )
+    },
+
+    fetchTypes(context, role){
+        axios.get('/api/producer/project/type')
+             .then(response => {
+                 context.commit(types.PROJECT_TYPES, response.data.projectType)
+             });
     }
-    //TODO: ajax request to get project types
 }
