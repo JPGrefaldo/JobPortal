@@ -9,14 +9,14 @@
             <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
                 Project Title
             </label>
-            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline" type="text">
+            <input v-model="project.title" class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline" type="text">
         </div>
 
         <div class="mb-4">
             <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
                 Production company name (or your name if individual)
             </label>
-            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline" type="text">
+            <input v-model="project.production_name" class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline" type="text">
         </div>
 
         <div class="mb-6">
@@ -24,7 +24,7 @@
                 Project type
             </label>
             <div class="relative">
-                <select class="block appearance-none w-full bg-grey-lighter border border-grey-lighter text-grey-darker py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-grey" id="grid-state">
+                <select v-model="project.type_id" class="block appearance-none w-full bg-grey-lighter border border-grey-lighter text-grey-darker py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-grey">
                     <option v-for="projectType in projectTypes" :key="projectType.id" v-bind:value="projectType.id">{{ projectType.name }}</option>
                 </select>
                 
@@ -40,26 +40,26 @@
             <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
                 Project information
             </label>
-            <textarea row=4 class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline"></textarea>
+            <textarea v-model="project.description" row=4 class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline"></textarea>
         </div>
         
         <div class="mb-4">
             <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
                 City/Area
             </label>
-            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline" type="text">
+            <input v-model="project.location" class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline" type="text">
         </div>
 
         <div class="flex flex-col mb-4">
             <h3 class="block uppercase tracking-wide">Positions needed</h3>
-            <cca-department></cca-department>
+            <cca-department :position="position" :project="project"></cca-department>
         </div>
 
         <div class="mb-4">
             <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">Show my production company name publicly?</label>
             <div>
-                <input name="public_production" type="radio" selected> Yes
-                <input name="public_production" type="radio"> No
+                <input v-model="project.production_name_public" type="radio" selected> Yes
+                <input v-model="project.production_name_public" type="radio"> No
                 <!-- TODO: need to defer to producer uri instead of admin -->
                 <a href="/">See site list</a>
             </div>
@@ -72,11 +72,13 @@
                 Sites to post on
             </label>
 
-            <input type="checkbox"> Check All
-            <input type="checkbox"> Yourcasting Test Site
+            <input v-model="project.sites_to_post" type="checkbox"> Check All
+            <input v-model="project.sites_to_post" type="checkbox"> Yourcasting Test Site
 
             <div v-if="sites">
-                <input v-for="site in sites" :key="site.id" type="checkbox"> {{ site.name }}
+                <div v-for="site in sites" :key="site.id" >
+                    <input type="checkbox" v-model="project.site[site.id]"> {{ site.name }}
+                </div>
             </div>
         </div>
 
@@ -85,28 +87,49 @@
                 Will travel/lodging expenses be paid for out-of-area talent?
             </label>
 
-            <input name="paid_travel" type="radio"> Yes
-            <input name="paid_travel" type="radio"> No
+            <input v-model="project.paid_travel" type="radio"> Yes
+            <input v-model="project.paid_travel" type="radio"> No
         </div>
 
         <div class="mb-4">
-            <button class="bg-blue hover:bg-blue-dark text-white font-bold w-24 py-2 px-4 rounded-full float-right w-64">Save</button>
+            <button class="bg-blue hover:bg-blue-dark text-white font-bold w-24 py-2 px-4 rounded-full float-right w-64" @click.stop="submit">Save</button>
         </div>
 
     </div>
 </template>
 
 <script>
+    import { mapGetters } from 'vuex'
     import Department from './forms/Department.vue'
 
     export default {
         components: {
             'cca-department': Department
         },
+
         data(){
             return {
-                projectTypes: null,
-                sites: null
+                project: {},
+                department: {},
+                position: [],
+                sites: []
+            }
+        },
+
+        mounted() {
+            this.$store.dispatch('project/fetchTypes');
+        },
+
+        computed: {
+            ...mapGetters({
+                projectTypes: 'project/types'
+            })
+        },
+
+        methods: {
+            submit()
+            {
+                console.log(this.form);
             }
         }
     }
