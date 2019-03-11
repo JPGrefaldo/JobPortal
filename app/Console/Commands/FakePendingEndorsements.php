@@ -67,10 +67,10 @@ class FakePendingEndorsements extends Command
             ->whereCrewId($user->crew->id)
             ->get();
 
-        for ($i = 0; $i <= $total; $i++) {
+        for ($i = 1; $i <= $total; $i++) {
             if ($positions->count() > 1) {
-                if (isset($positions[$i])) {
-                    $position = $positions[$i];
+                if (isset($positions[$i - 1])) {
+                    $position = $positions[$i - 1];
                 } else {
                     $position = $positions->random();
                 }
