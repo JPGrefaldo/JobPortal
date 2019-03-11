@@ -1,0 +1,182 @@
+.btn-small {
+    @apply .py-2 .px-4;
+}
+
+.btn-large {
+    @apply .py-4 .px-8;
+}
+
+.btn-rounded {
+    @apply .rounded-full .cursor-pointer .leading-none .tracking-wide;
+}
+
+.btn-blue {
+    @apply .btn-rounded .bg-blue .text-white .font-bold .btn-large;
+}
+
+.btn-blue:hover {
+    @apply .bg-green;
+}
+
+.btn-blue-small {
+    @apply .btn-rounded .bg-blue .text-white .font-bold .btn-small;
+}
+
+.btn-blue-small:hover {
+    @apply .bg-green;
+}
+
+.btn-green {
+    @apply .btn-rounded .inline-block .font-header .bg-green .uppercase .text-sm .font-bold .text-white .btn-large;
+}
+
+.btn-green:hover {
+    @apply .bg-blue;
+}
+
+.btn-green-small {
+    @apply .btn-rounded .inline-block .font-header .bg-green .uppercase .text-sm .font-bold .text-white .btn-small;
+}
+
+.btn-green-small:hover {
+    @apply .bg-blue;
+}
+
+.btn-red {
+    @apply .btn-rounded .inline-block .font-header .bg-red .uppercase .text-sm .font-bold .text-white .btn-large;
+}
+
+.btn-red:hover {
+    @apply .bg-black;
+}
+
+.btn-red-small {
+    @apply .btn-rounded .inline-block .font-header .bg-red .uppercase .text-sm .font-bold .text-white .btn-small;
+}
+
+.btn-red-small:hover {
+    @apply .bg-black;
+}
+
+.btn-white {
+    @apply .btn-rounded .inline-block .font-header .bg-white .uppercase .text-sm .font-bold .text-blue-dark .btn-large;
+}
+
+.btn-white:hover {
+    @apply .bg-green;
+}
+
+.btn-white-small {
+    @apply .btn-rounded .inline-block .font-header .bg-white .uppercase .text-sm .font-bold .text-blue-dark .btn-small;
+}
+
+.btn-white-small:hover {
+    @apply .bg-green;
+}
+
+.btn-yellow {
+    @apply .btn-rounded .inline-block .font-header .bg-yellow .uppercase .text-sm .font-bold .text-white .btn-large;
+}
+
+.btn-yellow:hover {
+    @apply .bg-black;
+}
+
+.btn-yellow-small {
+    @apply .btn-rounded .inline-block .font-header .bg-yellow .uppercase .text-sm .font-bold .text-white .btn-small;
+}
+
+.btn-yellow-small:hover {
+    @apply .bg-black;
+}
+
+.btn-outline {
+    @apply .uppercase .text-sm .font-semibold .border .rounded .border-green .py-2 .px-4 .tracking-wide;
+}
+
+.btn-outline:hover {
+    @apply .border-blue .text-blue;
+}
+
+.btn-blue-outline {
+    @apply .btn-outline .inline-block .font-header .border .border-blue .uppercase .leading-none .font-bold .text-sm .tracking-wide .text-blue;
+}
+
+.btn-blue-outline:hover {
+    @apply .text-green .border-green;
+}
+
+.btn-green-outline {
+    @apply .btn-outline .inline-block .font-header .border .border-green .uppercase .leading-none .font-bold .text-sm .tracking-wide .text-green;
+}
+
+.btn-green-outline:hover {
+    @apply .text-blue .border-blue;
+}
+
+.btn-white-outline {
+    @apply .btn-outline .inline-block .font-header .border .border-white .uppercase .leading-none .font-bold .text-sm .tracking-wide .text-white;
+}
+
+.btn-white-outline:hover {
+    @apply .border-green .text-green;
+}
+
+.btn-red-outline {
+    @apply .btn-outline .inline-block .font-header .border .border-red .uppercase .leading-none .font-bold .text-sm .tracking-wide .text-red;
+}
+
+.btn-red-outline:hover {
+    @apply .text-blue .border-blue;
+}
+
+.btn-yellow-outline {
+    @apply .btn-outline .inline-block .font-header .border .border-yellow .uppercase .leading-none .font-bold .text-sm .tracking-wide .text-yellow;
+}
+
+.btn-yellow-outline:hover {
+    @apply .text-blue .border-blue;
+}
+
+/* Forms */
+.form-control {
+    @apply .border .border-grey-light .p-3 .rounded;
+}
+
+/* Utilities */
+.pos-center {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    position: absolute;
+}
+
+.input__error-message {
+    @apply .text-sm .text-red-error;
+}
+
+.input__error {
+    @apply .border-red-error;
+    box-shadow: 0 0 3px;
+}
+
+.want-to__default {
+    @apply .text-blue-dark .bg-white;
+}
+
+.want-to__default:hover {
+    @apply .bg-green .text-white;
+}
+
+.want-to__selected {
+    @apply .bg-green .text-white;
+}
+
+.want-to__selected:hover {
+    @apply .text-blue-dark .bg-white;
+}
+
+.background-missing-avatar {
+    background-image: url("/images/missing-avatar.png");
+    background-size: cover;
+}

@@ -1,0 +1,5 @@
+@screen -lg {
+    .less-than-large-padding-rl-1 {
+        @apply .pl-1 .pr-1;
+    }
+}
