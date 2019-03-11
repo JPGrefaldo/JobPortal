@@ -1,25 +1,21 @@
 <template>
-    <div>
-        <div v-if="departments">
-            <input v-model="department.name" type="button" v-for="department in departments" :key="department.id">
-        </div>
-        <cca-position :position="position"></cca-position>
+    <div v-if="departments">
+        <input v-model="department.name" type="button" v-for="department in departments" :key="department.id">
     </div>
 </template>
 
 <script>
-    import Position from './Position.vue'
+    import { mapGetters } from 'vuex'
 
     export default {
-        props: ['department', 'position'],
-
-        components: {
-            'cca-position': Position
+        mounted(){
+            this.$store.dispatch('crew/fetchDepartments')
         },
-        data(){
-            return {
-                departments: null,
-            }
+
+        computed: {
+            ...mapGetters({
+                departments: 'crew/departments'
+            })
         }
     }
 </script>
