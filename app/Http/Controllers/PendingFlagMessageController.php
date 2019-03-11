@@ -42,7 +42,7 @@ class PendingFlagMessageController extends Controller
         app(CreatePendingFlagMessage::class)->execute($request);
 
         return response()->json([
-            'message' => 'Reviewing your request for flag'
+            'message' => 'Reviewing your request for flag',
         ]);
     }
 

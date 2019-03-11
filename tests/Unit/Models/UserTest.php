@@ -177,7 +177,7 @@ class UserTest extends TestCase
     public function getNicknameOrFullNameAttribute_with_nickname()
     {
         $this->user->update([
-            'nickname' => 'The Rock'
+            'nickname' => 'The Rock',
         ]);
 
         $this->assertEquals('The Rock', $this->user->NicknameOrFull_Name);

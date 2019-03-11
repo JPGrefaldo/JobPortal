@@ -22,7 +22,7 @@ class DepartmentsFeatureTest extends TestCase
         $departments = Department::all();
 
         $response = $this->actingAs($admin)
-                         ->getJson(route('admin.departments'));
+            ->getJson(route('admin.departments'));
 
         $response->assertJson($departments->toArray());
     }
@@ -40,7 +40,7 @@ class DepartmentsFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post(route('admin.departments', $data));
+            ->post(route('admin.departments', $data));
 
         $response->assertSuccessful();
 
@@ -63,7 +63,7 @@ class DepartmentsFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post(route('admin.departments', $data));
+            ->post(route('admin.departments', $data));
 
         $response->assertSuccessful();
 
@@ -86,13 +86,13 @@ class DepartmentsFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post(route('admin.departments', $data));
+            ->post(route('admin.departments', $data));
 
         $response->assertSuccessful();
 
         // assert that name is formatted
         $department = Department::whereName('Production sound')
-                                ->first();
+            ->first();
 
         $this->assertEquals('Production Sound', $department->name);
     }
@@ -110,7 +110,7 @@ class DepartmentsFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post(route('admin.departments', $data));
+            ->post(route('admin.departments', $data));
 
         $response->assertSessionHasErrors([
             'name' => 'The name field is required.',
@@ -132,7 +132,7 @@ class DepartmentsFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post(route('admin.departments', $data));
+            ->post(route('admin.departments', $data));
 
         $response->assertSessionHasErrors([
             'name' => 'The name has already been taken.',
@@ -153,7 +153,7 @@ class DepartmentsFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->put(route('admin.departments.update', ['department' => $department->id]), $data);
+            ->put(route('admin.departments.update', ['department' => $department->id]), $data);
 
         $response->assertSuccessful();
 
@@ -163,7 +163,7 @@ class DepartmentsFeatureTest extends TestCase
                 'description' => 'New Description',
             ],
             $department->refresh()
-                       ->toArray()
+                ->toArray()
         );
     }
 
@@ -181,7 +181,7 @@ class DepartmentsFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->put(route('admin.departments.update', ['department' => $department->id]), $data);
+            ->put(route('admin.departments.update', ['department' => $department->id]), $data);
 
         $response->assertSuccessful();
 
@@ -191,7 +191,7 @@ class DepartmentsFeatureTest extends TestCase
                 'description' => '',
             ],
             $department->refresh()
-                       ->toArray()
+                ->toArray()
         );
     }
 
@@ -209,7 +209,7 @@ class DepartmentsFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->put(route('admin.departments.update', ['department' => $department->id]), $data);
+            ->put(route('admin.departments.update', ['department' => $department->id]), $data);
 
         $response->assertSuccessful();
 
@@ -219,7 +219,7 @@ class DepartmentsFeatureTest extends TestCase
                 'description' => '',
             ],
             $department->refresh()
-                       ->toArray()
+                ->toArray()
         );
     }
 
@@ -237,7 +237,7 @@ class DepartmentsFeatureTest extends TestCase
         $department = factory(Department::class)->create($data);
 
         $response = $this->actingAs($user)
-                         ->put(route('admin.departments.update', ['department' => $department->id]), $data);
+            ->put(route('admin.departments.update', ['department' => $department->id]), $data);
 
         $response->assertSuccessful();
 
@@ -247,7 +247,7 @@ class DepartmentsFeatureTest extends TestCase
                 'description' => 'Same Description',
             ],
             $department->refresh()
-                       ->toArray()
+                ->toArray()
         );
     }
 
@@ -265,7 +265,7 @@ class DepartmentsFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->put(route('admin.departments.update', ['department' => $department->id]), $data);
+            ->put(route('admin.departments.update', ['department' => $department->id]), $data);
 
         $response->assertSessionHasErrors([
             'name' => 'The name field is required.',
@@ -288,7 +288,7 @@ class DepartmentsFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->put(route('admin.departments.update', ['department' => $department->id]), $data);
+            ->put(route('admin.departments.update', ['department' => $department->id]), $data);
 
         $response->assertSessionHasErrors([
             'name' => 'The name has already been taken.',

@@ -69,7 +69,7 @@ class ProjectController extends Controller
     public function update(Request $request, Project $project)
     {
         return response()->json([
-            'message' => 'Project denied successfully.'
+            'message' => 'Project denied successfully.',
         ]);
     }
 

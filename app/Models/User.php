@@ -159,7 +159,7 @@ class User extends Authenticatable implements JWTSubject
     public function hasSite($hostname)
     {
         return $this->sites()->get()
-                    ->contains('hostname', $hostname);
+            ->contains('hostname', $hostname);
     }
 
     /**

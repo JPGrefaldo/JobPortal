@@ -16,8 +16,8 @@ class ThreadParticipant extends Participant
     public function users()
     {
         return $this->belongsToMany(Thread::class, 'thread_id')
-                    ->using(User::class)
-                    ->as('users')
-                    ->withPivot('users');
+            ->using(User::class)
+            ->as('users')
+            ->withPivot('users');
     }
 }

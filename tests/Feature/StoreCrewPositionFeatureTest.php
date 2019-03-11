@@ -17,17 +17,17 @@ class StoreCrewPositionFeatureTest extends TestCase
      */
     public function store()
     {
-         $this->withoutExceptionHandling();
+        $this->withoutExceptionHandling();
 
         // given
         $user = $this->createCrew();
         $position = factory(Position::class)->create();
 
         $data = [
-            'position_id' => $position->id,
-            'bio' => 'This is the bio',
-            'gear' => 'This is the gear',
-            'reel_link' => 'This is the reel link',
+            'position_id'       => $position->id,
+            'bio'               => 'This is the bio',
+            'gear'              => 'This is the gear',
+            'reel_link'         => 'This is the reel link',
             'union_description' => '',
         ];
 

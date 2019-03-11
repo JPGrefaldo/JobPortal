@@ -81,7 +81,7 @@ class GetEndorsementsTest extends TestCase
         $crew = $user->crew;
         $position = Position::inRandomOrder()->get()->first();
         $crewPosition = factory(CrewPosition::class)->create([
-            'crew_id' => $crew->id,
+            'crew_id'     => $crew->id,
             'position_id' => $position,
         ]);
         $request = EndorsementRequest::create([

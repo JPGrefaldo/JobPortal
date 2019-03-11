@@ -19,17 +19,17 @@ class CreatePositionsTable extends Migration
             $table->unsignedInteger('department_id');
             $table->unsignedInteger('position_type_id');
             $table->boolean('has_gear')
-                  ->default(false);
+                ->default(false);
             $table->boolean('has_union')
-                  ->default(false);
+                ->default(false);
             $table->boolean('has_many')
-                  ->default(true);
+                ->default(true);
             $table->timestamps();
 
             $table->foreign('department_id')
-                  ->references('id')
-                  ->on('departments')
-                  ->onDelete('cascade');
+                ->references('id')
+                ->on('departments')
+                ->onDelete('cascade');
 
             $table->foreign('position_type_id')
                 ->references('id')

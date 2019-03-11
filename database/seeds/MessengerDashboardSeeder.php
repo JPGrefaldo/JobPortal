@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Project;
-use App\Models\Site;
 use App\Models\User;
 use Cmgmyr\Messenger\Models\Message;
 use Cmgmyr\Messenger\Models\Thread;

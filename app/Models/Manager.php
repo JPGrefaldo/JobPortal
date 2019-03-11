@@ -17,8 +17,8 @@ class Manager extends Model
      * @var array
      */
     protected $casts = [
-        'id'      => 'integer',
-        'manager_id' => 'integer',
+        'id'             => 'integer',
+        'manager_id'     => 'integer',
         'subordinate_id' => 'integer',
     ];
 }

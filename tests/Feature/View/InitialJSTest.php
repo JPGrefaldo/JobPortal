@@ -65,7 +65,7 @@ class InitialJSTest extends TestCase
         $this->assertEquals(3, $this->service->countJSON());
         $this->assertEquals([
             'test' => $json1,
-            'Foo' => $json2,
+            'Foo'  => $json2,
             'Site' => $json3,
         ], $ret);
     }
@@ -126,7 +126,7 @@ class InitialJSTest extends TestCase
         $this->assertEquals(3, $this->service->countVariables());
         $this->assertEquals([
             'test' => 1,
-            'Foo' => 'bar',
+            'Foo'  => 'bar',
             'Site' => Site::first()->toArray(),
         ], $ret);
     }

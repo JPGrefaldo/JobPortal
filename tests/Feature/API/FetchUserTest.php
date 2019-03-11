@@ -28,7 +28,7 @@ class FetchUserTest extends TestCase
                 'id',
                 'first_name',
                 'last_name',
-                'roles'
+                'roles',
             ]);
     }
 

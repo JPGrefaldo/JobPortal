@@ -13,7 +13,7 @@ class ApproveFlagMessage
     public function execute(PendingFlagMessage $pendingFlagMessage): void
     {
         $pendingFlagMessage->update([
-            'approved_at' => Carbon::now()
+            'approved_at' => Carbon::now(),
         ]);
 
         $pendingFlagMessage->message->flagged_at = Carbon::now();

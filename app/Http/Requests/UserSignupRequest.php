@@ -42,7 +42,7 @@ class UserSignupRequest extends FormRequest
     public function messages()
     {
         return [
-            'type.in' => 'Invalid type.',
+            'type.in'          => 'Invalid type.',
             'type.required'    => 'I want to is required',
         ];
     }

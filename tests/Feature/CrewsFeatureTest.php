@@ -36,7 +36,7 @@ class CrewsFeatureTest extends TestCase
         $data = $this->getCreateData();
 
         $response = $this->actingAs($user)
-                         ->post(route('crews.store'), $data);
+            ->post(route('crews.store'), $data);
 
         // assert crew data
         $crew = $user->crew;
@@ -53,7 +53,7 @@ class CrewsFeatureTest extends TestCase
 
         $this->assertArrayHas(
             [
-                'url' => $resume->url,
+                'url'     => $resume->url,
                 'crew_id' => $crew->id,
                 'general' => true,
             ],
@@ -62,7 +62,7 @@ class CrewsFeatureTest extends TestCase
 
         // assert general reel has been created
         $reel = factory(CrewReel::class)->make(['crew_id' => $crew->id,
-                                                  'url'=>'https://www.youtube.com/embed/G8S81CEBdNs']);
+            'url'                                         => 'https://www.youtube.com/embed/G8S81CEBdNs', ]);
 
         $this->assertArrayHas(
             [
@@ -72,7 +72,6 @@ class CrewsFeatureTest extends TestCase
             ],
             $reel->toArray()
         );
-
     }
 
     /**
@@ -149,7 +148,7 @@ class CrewsFeatureTest extends TestCase
      */
     public function create_not_required()
     {
-         $this->withoutExceptionHandling();
+        $this->withoutExceptionHandling();
 
         Storage::fake('s3');
 
@@ -171,7 +170,7 @@ class CrewsFeatureTest extends TestCase
         ]);
 
         $response = $this->actingAs($user)
-                         ->postJson(route('crews.store'), $data);
+            ->postJson(route('crews.store'), $data);
 
 //        $response->assertSuccessful();
 
@@ -206,9 +205,9 @@ class CrewsFeatureTest extends TestCase
         $user = $this->createCrew();
         $data = $this->getCreateData([
             'photo'                        => UploadedFile::fake()
-                                                          ->create('image.php'),
+                ->create('image.php'),
             'resume'                       => UploadedFile::fake()
-                                                          ->create('resume.php'),
+                ->create('resume.php'),
             'reel'                         => 'https://some-invalid-reel.com',
             'socials.facebook.url'         => 'https://invalid-facebook.com/invalid',
             'socials.facebook.id'          => '',
@@ -223,7 +222,7 @@ class CrewsFeatureTest extends TestCase
         ]);
 
         $response = $this->actingAs($user)
-                         ->post(route('crews.store'), $data);
+            ->post(route('crews.store'), $data);
 
         $response->assertSessionHasErrors(
             [
@@ -256,13 +255,13 @@ class CrewsFeatureTest extends TestCase
         // assert general reel has been cleaned
         $crew   = $user->crew;
         $reel   = factory(CrewReel::class)->create(['crew_id' => $crew->id]);
-        $social = factory(CrewSocial::class)->create(['crew_id' => $crew->id,
-                                                      'url'     => 'http://www.youtube.com/embed/G8S81CEBdNs',
-                                                      'social_link_type_id'=>SocialLinkTypeID::YOUTUBE]);
+        $social = factory(CrewSocial::class)->create(['crew_id'            => $crew->id,
+            'url'                                                          => 'http://www.youtube.com/embed/G8S81CEBdNs',
+            'social_link_type_id'                                          => SocialLinkTypeID::YOUTUBE, ]);
 
         $crewReel = $crew->reels
-                    ->where('general', 1)
-                    ->first();
+            ->where('general', 1)
+            ->first();
 
         $this->assertArrayHas(
             [
@@ -275,8 +274,8 @@ class CrewsFeatureTest extends TestCase
 
         // assert youtube social has been cleaned
         $crewSocial = $crew->socials
-                       ->where('social_link_type_id', SocialLinkTypeID::YOUTUBE)
-                       ->first();
+            ->where('social_link_type_id', SocialLinkTypeID::YOUTUBE)
+            ->first();
 
         $this->assertArrayHas(
             [
@@ -299,9 +298,9 @@ class CrewsFeatureTest extends TestCase
         $user = $this->createCrew();
         $crew   = $user->crew;
         $reel   = factory(CrewReel::class)->create(['crew_id' => $crew->id]);
-        $social = factory(CrewSocial::class)->create(['crew_id' => $crew->id,
-                                                      'url'     => 'https://vimeo.com/230046783',
-                                                      'social_link_type_id'=>SocialLinkTypeID::VIMEO]);
+        $social = factory(CrewSocial::class)->create(['crew_id'            => $crew->id,
+            'url'                                                          => 'https://vimeo.com/230046783',
+            'social_link_type_id'                                          => SocialLinkTypeID::VIMEO, ]);
 
         // assert general reel has been created
         $crewReel = $crew->reels
@@ -345,7 +344,7 @@ class CrewsFeatureTest extends TestCase
             ->states('PhotoUpload')
             ->create([
                 'user_id' => $user->id,
-                'bio' => 'updated bio',
+                'bio'     => 'updated bio',
             ]);
         $resume = factory(CrewResume::class)
             ->states('Upload')
@@ -361,7 +360,7 @@ class CrewsFeatureTest extends TestCase
         $data     = $this->getUpdateData();
 
         $response = $this->actingAs($user)
-                         ->put(route('crews.update', ['crew' => $crew->id]), $data);
+            ->put(route('crews.update', ['crew' => $crew->id]), $data);
 
         // assert crew data
         $crew->refresh();
@@ -369,7 +368,7 @@ class CrewsFeatureTest extends TestCase
         $this->assertArrayHas(
             [
                 'bio'   => 'updated bio',
-                'photo' =>  $crew->photo,
+                'photo' => $crew->photo,
             ],
             $crew->toArray()
         );
@@ -381,7 +380,7 @@ class CrewsFeatureTest extends TestCase
 
         $this->assertArrayHas(
             [
-                'url' => '/' . $user->hash_id . '/resumes/' . $data['resume']->hashName(),
+                'url'     => '/' . $user->hash_id . '/resumes/' . $data['resume']->hashName(),
                 'crew_id' => $crew->id,
                 'general' => true,
             ],
@@ -469,16 +468,16 @@ class CrewsFeatureTest extends TestCase
         $data = $this->getUpdateData();
 
         $response = $this->actingAs($user)
-                         ->put(route('crews.update', ['crew' => $crew->id]), $data);
+            ->put(route('crews.update', ['crew' => $crew->id]), $data);
 
         // assert general resume
         $resume = factory(CrewResume::class)
-                ->states('Upload')
-                ->create(['crew_id' => $crew->id]);
+            ->states('Upload')
+            ->create(['crew_id' => $crew->id]);
 
         $this->assertArrayHas(
             [
-                'url' => $resume->url,
+                'url'     => $resume->url,
                 'crew_id' => $crew->id,
                 'general' => true,
             ],
@@ -488,8 +487,8 @@ class CrewsFeatureTest extends TestCase
 
         // assert general reel
         $reel = factory(CrewReel::class)->create(['crew_id' => $crew->id,
-                                                  'url' => 'https://www.youtube.com/embed/WI5AF1DCQlc'
-                                                ]);
+            'url'                                           => 'https://www.youtube.com/embed/WI5AF1DCQlc',
+        ]);
 
         $this->assertArrayHas(
             [
@@ -568,7 +567,7 @@ class CrewsFeatureTest extends TestCase
         $data         = $data = $this->getUpdateData(['photo' => '']);
 
         $response = $this->actingAs($user)
-                         ->put(route('crews.update', ['crew' => $crew->id]), $data);
+            ->put(route('crews.update', ['crew' => $crew->id]), $data);
 
         $response->assertSuccessful();
 
@@ -597,7 +596,7 @@ class CrewsFeatureTest extends TestCase
         $data = $this->getUpdateData();
 
         $response = $this->actingAs($user)
-                         ->put(route('crews.update', ['crew' => $crew->id]), $data);
+            ->put(route('crews.update', ['crew' => $crew->id]), $data);
 
         $this->assertCount(7, $crew->socials);
         $this->assertArrayHas(
@@ -653,7 +652,7 @@ class CrewsFeatureTest extends TestCase
         ]);
 
         $response = $this->actingAs($user)
-                         ->put(route('crews.update', ['crew' => $crew->id]), $data);
+            ->put(route('crews.update', ['crew' => $crew->id]), $data);
 
         // assert general reel has been cleaned
         $reel->refresh();
@@ -669,8 +668,8 @@ class CrewsFeatureTest extends TestCase
 
         // assert youtube social has been cleaned
         $social = $crew->socials()
-                       ->where('social_link_type_id', SocialLinkTypeID::YOUTUBE)
-                       ->first();
+            ->where('social_link_type_id', SocialLinkTypeID::YOUTUBE)
+            ->first();
 
         $this->assertArrayHas(
             [
@@ -696,7 +695,7 @@ class CrewsFeatureTest extends TestCase
         $data = $this->getUpdateData(['reel' => 'https://vimeo.com/230046783']);
 
         $response = $this->actingAs($user)
-                         ->put(route('crews.update', ['crew' => $crew->id]), $data);
+            ->put(route('crews.update', ['crew' => $crew->id]), $data);
 
         // assert general reel has been created
         $reel->refresh();
@@ -723,9 +722,9 @@ class CrewsFeatureTest extends TestCase
         $crew = $user->crew;
         $data = $this->getUpdateData([
             'photo'                        => UploadedFile::fake()
-                                                          ->create('image.php'),
+                ->create('image.php'),
             'resume'                       => UploadedFile::fake()
-                                                          ->create('resume.php'),
+                ->create('resume.php'),
             'reel'                         => 'https://some-invalid-reel.com',
             'socials.facebook.url'         => 'https://invalid-facebook.com/invalid',
             'socials.facebook.id'          => '',
@@ -740,7 +739,7 @@ class CrewsFeatureTest extends TestCase
         ]);
 
         $response = $this->actingAs($user)
-                         ->put(route('crews.update', ['crew' => $crew->id]), $data);
+            ->put(route('crews.update', ['crew' => $crew->id]), $data);
 
         $response->assertSessionHasErrors(
             [
@@ -772,7 +771,7 @@ class CrewsFeatureTest extends TestCase
         $data = $this->getUpdateData();
 
         $response = $this->actingAs($user)
-                         ->put(route('crews.update', ['crew' => '5']), $data);
+            ->put(route('crews.update', ['crew' => '5']), $data);
 
         $response->assertStatus(404);
     }
@@ -787,7 +786,7 @@ class CrewsFeatureTest extends TestCase
         $data = $this->getUpdateData();
 
         $response = $this->actingAs($crew->user)
-                         ->put(route('crews.update', ['crew' => $crew->id]), $data);
+            ->put(route('crews.update', ['crew' => $crew->id]), $data);
 
         $response->assertForbidden();
     }
@@ -802,9 +801,9 @@ class CrewsFeatureTest extends TestCase
         $data = [
             'bio'     => 'some bio',
             'photo'   => UploadedFile::fake()
-                                     ->image('photo.png'),
+                ->image('photo.png'),
             'resume'  => UploadedFile::fake()
-                                     ->create('resume.pdf'),
+                ->create('resume.pdf'),
             'reel'    => 'http://www.youtube.com/embed/G8S81CEBdNs',
             'socials' => [
                 'facebook'         => [
@@ -859,9 +858,9 @@ class CrewsFeatureTest extends TestCase
         $data = [
             'bio'     => 'updated bio',
             'photo'   => UploadedFile::fake()
-                                     ->image('new-photo.png'),
+                ->image('new-photo.png'),
             'resume'  => UploadedFile::fake()
-                                     ->create('new-resume.pdf'),
+                ->create('new-resume.pdf'),
             'reel'    => 'https://www.youtube.com/embed/WI5AF1DCQlc',
             'socials' => [
                 'facebook'         => [

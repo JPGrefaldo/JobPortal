@@ -71,11 +71,11 @@ class EndorsementIndexModel extends ViewModel
                 if (! isset($ret[$position->position_id])) {
                     $ret[$position->position_id] = [
                         'crew_position' => $position,
-                        'position'    => $position->position,
-                        'endorsement' => $endorsement,
-                        'approved'    => ($endorsement->approved_at) ? 1 : 0,
-                        'unapproved'  => ($endorsement->approved_at) ? 0 : 1,
-                        'total'       => 1,
+                        'position'      => $position->position,
+                        'endorsement'   => $endorsement,
+                        'approved'      => ($endorsement->approved_at) ? 1 : 0,
+                        'unapproved'    => ($endorsement->approved_at) ? 0 : 1,
+                        'total'         => 1,
                     ];
                 } else {
                     if ($endorsement->approved_at) {

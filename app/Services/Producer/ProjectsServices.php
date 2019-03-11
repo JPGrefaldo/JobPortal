@@ -42,7 +42,7 @@ class ProjectsServices
         foreach ($remoteSites as $siteId) {
             RemoteProject::create([
                 'project_id' => $project->id,
-                'site_id'    => $siteId
+                'site_id'    => $siteId,
             ]);
         }
     }

@@ -20,12 +20,12 @@ class LogoutInactiveUserFeatureTest extends TestCase
 
         // user passes auth middleware
         $response = $this->actingAs($user)
-                         ->get(route('dashboard'));
+            ->get(route('dashboard'));
 
         $response->assertRedirect('login')
-                 ->assertSessionHasErrors([
-                     'email' => 'Your account has been closed. Please contact us for assistance in re-opening your account.',
-                 ]);
+            ->assertSessionHasErrors([
+                'email' => 'Your account has been closed. Please contact us for assistance in re-opening your account.',
+            ]);
 
         $this->assertGuest();
     }
@@ -40,7 +40,7 @@ class LogoutInactiveUserFeatureTest extends TestCase
 
         // user passes auth middleware
         $response = $this->actingAs($user)
-                         ->get(route('dashboard'));
+            ->get(route('dashboard'));
 
         $response->assertSuccessful();
 
@@ -59,12 +59,12 @@ class LogoutInactiveUserFeatureTest extends TestCase
         $user->refresh();
 
         $response = $this->actingAs($user)
-                         ->get(route('dashboard'));
+            ->get(route('dashboard'));
 
         $response->assertRedirect('login')
-                 ->assertSessionHasErrors([
-                     'email' => 'Your account has been banned (some reason). Please contact us for assistance in re-opening your account.',
-                 ]);
+            ->assertSessionHasErrors([
+                'email' => 'Your account has been banned (some reason). Please contact us for assistance in re-opening your account.',
+            ]);
 
         $this->assertGuest();
     }

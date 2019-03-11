@@ -14,9 +14,9 @@ class CreateMessage
     public function execute($thread, $user, $body)
     {
         return Message::create([
-                    'thread_id' => $thread,
-                    'user_id' => $user,
-                    'body' => $body
-               ]);
+            'thread_id' => $thread,
+            'user_id'   => $user,
+            'body'      => $body,
+        ]);
     }
 }

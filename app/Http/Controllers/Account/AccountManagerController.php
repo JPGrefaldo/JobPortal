@@ -22,8 +22,8 @@ class AccountManagerController extends Controller
     public function index()
     {
         return view('account.account', [
-            'user' => Auth::user(),
-            'manager' => Auth::user()->manager(),
+            'user'        => Auth::user(),
+            'manager'     => Auth::user()->manager(),
             'accountType' => 'manager',
         ]);
     }

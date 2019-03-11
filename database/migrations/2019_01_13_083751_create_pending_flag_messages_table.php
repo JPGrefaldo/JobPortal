@@ -22,10 +22,10 @@ class CreatePendingFlagMessagesTable extends Migration
             $table->timestamps();
 
             $table->foreign('message_id')
-                  ->references('id')
-                  ->on('messages')
-                  ->onDelete('cascade')
-                  ->onUpdate('cascade');
+                ->references('id')
+                ->on('messages')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
         });
     }
 

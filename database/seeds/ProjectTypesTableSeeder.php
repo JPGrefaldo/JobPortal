@@ -13,19 +13,19 @@ class ProjectTypesTableSeeder extends Seeder
     public function run()
     {
         ProjectType::create([
-            'name' => 'TV'
+            'name' => 'TV',
         ]);
         ProjectType::create([
-            'name' => 'Film'
+            'name' => 'Film',
         ]);
         ProjectType::create([
-            'name' => 'Commercial'
+            'name' => 'Commercial',
         ]);
         ProjectType::create([
-            'name' => 'Web'
+            'name' => 'Web',
         ]);
         ProjectType::create([
-            'name' => 'Live Event/Production'
+            'name' => 'Live Event/Production',
         ]);
         $this->command->info('Project Types seeded');
     }

@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Actions\Messenger\CreateMessage;
 use App\Http\Resources\MessageResource;
+use App\Models\Role;
 use Cmgmyr\Messenger\Models\Thread;
 use Illuminate\Http\Request;
-use App\Models\Role;
 
 class MessagesController extends Controller
 {
@@ -38,9 +38,9 @@ class MessagesController extends Controller
     {
         $sender = auth()->user();
         
-        if ($sender->hasRole(Role::CREW)){
+        if ($sender->hasRole(Role::CREW)) {
             return response()->json([
-                'message' => 'You are not allowed to message the producer'
+                'message' => 'You are not allowed to message the producer',
             ]);
         }
 

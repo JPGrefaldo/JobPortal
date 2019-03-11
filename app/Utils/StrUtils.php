@@ -90,7 +90,7 @@ class StrUtils
     {
         $value = title_case(strtolower($value));
 
-        if (!preg_match_all(
+        if (! preg_match_all(
             "/(?<='|\-|(Mc))[a-z]/",
             $value,
             $matches,

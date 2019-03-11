@@ -103,14 +103,14 @@ class FakePendingEndorsements extends Command
 
             $request = EndorsementRequest::create([
                 'endorsement_endorser_id' => $endorser->id,
-                'token' => StrUtils::createRandomString(),
-                'message' => $faker->text,
+                'token'                   => StrUtils::createRandomString(),
+                'message'                 => $faker->text,
             ]);
 
             $endorsement = Endorsement::create([
-                'crew_position_id' => $crewPosition->id,
+                'crew_position_id'       => $crewPosition->id,
                 'endorsement_request_id' => $request->id,
-                'approved_at' => null,
+                'approved_at'            => null,
             ]);
         }
 

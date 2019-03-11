@@ -19,38 +19,38 @@ class CreateProjectJobsTable extends Migration
             $table->unsignedInteger('position_id');
             $table->unsignedInteger('pay_type_id');
             $table->unsignedInteger('persons_needed')
-                  ->default(1);
+                ->default(1);
             $table->text('dates_needed');
             $table->decimal('pay_rate')
-                  ->default(0);
+                ->default(0);
             $table->text('notes')
-                  ->nullable();
+                ->nullable();
             $table->boolean('rush_call');
             $table->boolean('travel_expenses_paid');
             $table->string('gear_provided')
-                  ->nullable()
-                  ->default(null);
+                ->nullable()
+                ->default(null);
             $table->string('gear_needed')
-                  ->nullable()
-                  ->default(null);
+                ->nullable()
+                ->default(null);
             $table->smallInteger('status')
-                  ->default(0);
+                ->default(0);
             $table->timestamps();
 
             $table->foreign('project_id')
-                  ->references('id')
-                  ->on('projects')
-                  ->onDelete('cascade');
+                ->references('id')
+                ->on('projects')
+                ->onDelete('cascade');
 
             $table->foreign('position_id')
-                  ->references('id')
-                  ->on('positions')
-                  ->onDelete('cascade');
+                ->references('id')
+                ->on('positions')
+                ->onDelete('cascade');
 
             $table->foreign('pay_type_id')
-                  ->references('id')
-                  ->on('pay_types')
-                  ->onDelete('cascade');
+                ->references('id')
+                ->on('pay_types')
+                ->onDelete('cascade');
         });
     }
 

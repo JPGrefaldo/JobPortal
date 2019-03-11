@@ -111,7 +111,7 @@ class CrewsServicesTest extends TestCase
 
         $this->assertArrayHas(
             [
-                'url' => $resume->url,
+                'url'     => $resume->url,
                 'crew_id' => $crew->id,
                 'general' => true,
             ],
@@ -134,7 +134,6 @@ class CrewsServicesTest extends TestCase
 //        );
 
         // assert that the socials has been created
-
     }
     public function socials_are_created()
     {
@@ -241,7 +240,7 @@ class CrewsServicesTest extends TestCase
 
         $this->assertArrayHas(
             [
-                'url' => '/' . $crew->user->hash_id . '/resumes/' . $resumeFile->hashName(),
+                'url'     => '/' . $crew->user->hash_id . '/resumes/' . $resumeFile->hashName(),
                 'crew_id' => $crew->id,
                 'general' => true,
             ],
@@ -436,7 +435,7 @@ class CrewsServicesTest extends TestCase
 
         $this->assertArrayHas(
             [
-                'url' => '/' . $crew->user->hash_id . '/resumes/' . $data['resume']->hashName(),
+                'url'     => '/' . $crew->user->hash_id . '/resumes/' . $data['resume']->hashName(),
                 'crew_id' => $crew->id,
                 'general' => true,
             ],
@@ -566,7 +565,7 @@ class CrewsServicesTest extends TestCase
 
         $this->assertArrayHas(
             [
-                'url' => '/' . $crew->user->hash_id . '/resumes/' . $resumeFile->hashName(),
+                'url'     => '/' . $crew->user->hash_id . '/resumes/' . $resumeFile->hashName(),
                 'crew_id' => $crew->id,
                 'general' => true,
             ],
@@ -593,7 +592,7 @@ class CrewsServicesTest extends TestCase
 
         $this->assertArrayHas(
             [
-                'url' => '/' . $crew->user->hash_id . '/resumes/' . $resumeFile->hashName(),
+                'url'     => '/' . $crew->user->hash_id . '/resumes/' . $resumeFile->hashName(),
                 'crew_id' => $crew->id,
                 'general' => true,
             ],
