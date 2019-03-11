@@ -19,6 +19,7 @@ class CreateCrewSocialsTable extends Migration
             $table->unsignedInteger('social_link_type_id');
             $table->string('url')->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('crew_id')
                   ->references('id')
