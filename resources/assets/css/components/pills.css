@@ -13,3 +13,11 @@
 .pill-yellow {
     @apply .pill .border-yellow .bg-yellow .text-white;
 }
+
+.pill-red {
+    @apply .pill .border-red .bg-red .text-white;
+}
+
+.pill-white {
+    @apply .pill .border-white .bg-white .text-blue;
+}

@@ -9,3 +9,7 @@
 .tooltip-icon {
     @apply .ml-2 .rounded-full .bg-grey-lighter .text-grey .text-sm .py-0 .px-2 .cursor-pointer;
 }
+
+.form-control {
+    @apply .border .border-grey-light .p-3 .rounded;
+}
