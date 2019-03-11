@@ -23,6 +23,11 @@ Route::middleware('auth:api')->group(function () {
         'show'
     ]);
 
+    Route::get('/crew/departments', [
+        \App\Http\Controllers\API\Crew\DepartmentsController::class,
+        'index'
+    ])->name('crew.departments.index');
+
     Route::get('/crew/projects', [
         \App\Http\Controllers\API\Crew\ProjectsController::class,
         'index'
@@ -32,6 +37,11 @@ Route::middleware('auth:api')->group(function () {
         \App\Http\Controllers\API\Crew\PositionsController::class,
         'index'
     ])->name('crew.positions.index');
+
+    Route::get('/crew/sites', [
+        \App\Http\Controllers\API\Crew\SitesController::class,
+        'index'
+    ])->name('crew.sites.index');
 
     Route::get('/producer/projects', [
         \App\Http\Controllers\API\Producer\ProjectsController::class,
