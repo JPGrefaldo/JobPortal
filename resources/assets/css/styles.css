@@ -28,6 +28,7 @@
 @import "components/input.css";
 @import "components/pills.css";
 @import "components/screens.css";
+@import "components/utilities.css";
 
 /**
  * This injects all of Tailwind's utility classes, generated based on your
