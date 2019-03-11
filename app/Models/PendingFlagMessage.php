@@ -15,10 +15,10 @@ class PendingFlagMessage extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'id' => 'integer',
-        'message_id' => 'integer',
-        'reason' => 'string',
-        'approved_at' => 'datetime',
+        'id'             => 'integer',
+        'message_id'     => 'integer',
+        'reason'         => 'string',
+        'approved_at'    => 'datetime',
         'disapproved_at' => 'datetime',
     ];
 

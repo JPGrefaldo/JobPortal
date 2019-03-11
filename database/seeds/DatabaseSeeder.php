@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
             DepartmentsTableSeeder::class,
             PositionsTableSeeder::class,
             ProjectTypesTableSeeder::class,
-            PayTypesTableSeeder::class
+            PayTypesTableSeeder::class,
         ]);
     }
 }

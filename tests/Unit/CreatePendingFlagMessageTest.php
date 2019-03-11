@@ -26,7 +26,7 @@ class CreatePendingFlagMessageTest extends TestCase
 
         $data = [
             'message_id' => $message->id,
-            'reason' => 'Profanity',
+            'reason'     => 'Profanity',
         ];
 
         // when
@@ -35,9 +35,9 @@ class CreatePendingFlagMessageTest extends TestCase
         // then
         // pending flag is stored
         $this->assertDatabaseHas('pending_flag_messages', [
-            'message_id' => $message->id,
-            'reason' => 'Profanity',
-            'approved_at' => null,
+            'message_id'     => $message->id,
+            'reason'         => 'Profanity',
+            'approved_at'    => null,
             'disapproved_at' => null,
         ]);
 

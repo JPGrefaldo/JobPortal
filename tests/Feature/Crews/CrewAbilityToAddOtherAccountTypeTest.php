@@ -16,7 +16,7 @@ class CrewAbilityToAddOtherAccountTypeTest extends TestCase
         $user = $this->createProducer();
 
         $this->actingAs($user)
-             ->get(route('account.change-to.crew'));
+            ->get(route('account.change-to.crew'));
 
         $this->assertTrue($user->hasRole(Role::CREW));
     }
@@ -26,7 +26,7 @@ class CrewAbilityToAddOtherAccountTypeTest extends TestCase
         $user = $this->createCrew();
 
         $this->actingAs($user)
-             ->get(route('account.change-to.producer'));
+            ->get(route('account.change-to.producer'));
 
         $this->assertTrue($user->hasRole(Role::PRODUCER));
     }
@@ -36,8 +36,8 @@ class CrewAbilityToAddOtherAccountTypeTest extends TestCase
         $user = $this->createCrew();
 
         $this->actingAs($user)
-             ->get(route('account.change-to.crew'))
-             ->assertForbidden();
+            ->get(route('account.change-to.crew'))
+            ->assertForbidden();
     }
 
     public function test_only_crew_can_change_to_producer_account()
@@ -45,7 +45,7 @@ class CrewAbilityToAddOtherAccountTypeTest extends TestCase
         $user = $this->createProducer();
 
         $this->actingAs($user)
-             ->get(route('account.change-to.producer'))
-             ->assertForbidden();
+            ->get(route('account.change-to.producer'))
+            ->assertForbidden();
     }
 }

@@ -27,7 +27,7 @@ class LogoutInactiveUser
      */
     public function handle($request, Closure $next)
     {
-        if (!$this->auth->check()) {
+        if (! $this->auth->check()) {
             return $next($request);
         }
 

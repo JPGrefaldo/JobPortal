@@ -29,12 +29,12 @@ class MessagesFeatureTest extends TestCase
 
         factory(Participant::class)->create([
             'thread_id' => $thread->id,
-            'user_id' => $user->id,
+            'user_id'   => $user->id,
         ]);
 
         $messages = factory(Message::class, 3)->create([
             'thread_id' => $thread->id,
-            'user_id' => $user->id,
+            'user_id'   => $user->id,
         ]);
 
         $this->assertCount(1, User::all());
@@ -71,12 +71,12 @@ class MessagesFeatureTest extends TestCase
 
         factory(Participant::class)->create([
             'thread_id' => $thread->id,
-            'user_id' => $user->id,
+            'user_id'   => $user->id,
         ]);
 
         $messages = factory(Message::class, 3)->create([
             'thread_id' => $thread->id,
-            'user_id' => $user->id,
+            'user_id'   => $user->id,
         ]);
 
         $this->assertCount(1, User::all());
@@ -122,7 +122,7 @@ class MessagesFeatureTest extends TestCase
         // given
         factory(Participant::class)->create([
             'thread_id' => $thread->id,
-            'user_id' => $user->id,
+            'user_id'   => $user->id,
         ]);
 
         // when
@@ -155,7 +155,7 @@ class MessagesFeatureTest extends TestCase
         // given
         factory(Participant::class)->create([
             'thread_id' => $thread->id,
-            'user_id' => $user->id,
+            'user_id'   => $user->id,
         ]);
 
         // when

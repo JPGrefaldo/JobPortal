@@ -14,7 +14,7 @@ class FakeMessengerDashboardTest extends TestCase
     {
         // given
         $command = $this->artisan('startfromscratch', [
-            'email' => 'admin@admin.com'
+            'email' => 'admin@admin.com',
         ]);
 
 

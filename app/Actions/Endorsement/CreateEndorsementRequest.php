@@ -2,7 +2,6 @@
 
 namespace App\Actions\Endorsement;
 
-use App\Models\Crew;
 use App\Models\CrewPosition;
 use App\Models\Endorsement;
 use App\Models\EndorsementRequest;
@@ -22,8 +21,8 @@ class CreateEndorsementRequest
     public function execute(User $user, Position $position, $email, $message)
     {
         $crewPosition = CrewPosition::where('crew_id', $user->crew->id)
-                                    ->where('position_id', $position->id)
-                                    ->firstOrFail();
+            ->where('position_id', $position->id)
+            ->firstOrFail();
 
         $endorser = app(CreateOrGetEndorserByEmail::class)->execute($email);
 

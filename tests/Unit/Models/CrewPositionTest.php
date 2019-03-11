@@ -23,8 +23,8 @@ class CrewPositionTest extends TestCase
         $this->crew = factory(Crew::class)->create();
         $this->position = factory(Position::class)->create();
         $this->crewPosition = factory(CrewPosition::class)->create([
-            'crew_id' => $this->crew->id,
-            'position_id' => $this->position->id
+            'crew_id'     => $this->crew->id,
+            'position_id' => $this->position->id,
         ]);
     }
 

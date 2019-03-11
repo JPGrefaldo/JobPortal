@@ -10,8 +10,8 @@ class CrewProject extends Pivot
     use SoftDeletes;
 
     protected $casts = [
-        'id' => 'integer',
-        'crew_id' => 'integer',
+        'id'         => 'integer',
+        'crew_id'    => 'integer',
         'project_id' => 'project_id',
     ];
 }

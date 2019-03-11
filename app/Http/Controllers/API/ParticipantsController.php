@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Actions\Messenger\SearchParticipants;
 use App\Http\Controllers\Controller;
 use Cmgmyr\Messenger\Models\Thread;
 use Illuminate\Http\Request;
-use App\Actions\Messenger\SearchParticipants;
 
 class ParticipantsController extends Controller
 {
@@ -13,23 +13,23 @@ class ParticipantsController extends Controller
     {
         $keyword = $request->keyword;
 
-        if (! isset($keyword)){
+        if (! isset($keyword)) {
             return response()->json([
-                'message' => 'Keyword should not be empty'
+                'message' => 'Keyword should not be empty',
             ]);
         }
 
         if (preg_match("/\d+/", $keyword)) {
             return response()->json([
-                'message' => 'Keyword should only be a string'
+                'message' => 'Keyword should only be a string',
             ]);
         }
     
         $result = app(SearchParticipants::class)->execute($thread, $keyword);
 
-        if (count($result) == 0){
+        if (count($result) == 0) {
             return response()->json([
-                'message' => 'No results can be found'
+                'message' => 'No results can be found',
             ]);
         }
 

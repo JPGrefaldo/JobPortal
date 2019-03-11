@@ -17,13 +17,13 @@ class CreateUserBannedTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('user_id');
             $table->text('reason')
-                  ->nullable();
+                ->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')
-                  ->references('id')
-                  ->on('users')
-                  ->onDelete('cascade');
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
         });
     }
 

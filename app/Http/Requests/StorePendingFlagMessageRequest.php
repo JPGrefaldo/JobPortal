@@ -29,7 +29,7 @@ class StorePendingFlagMessageRequest extends FormRequest
     {
         return [
             'message_id' => 'required|exists:messages,id',
-            'reason' => 'required|string'
+            'reason'     => 'required|string',
         ];
     }
 

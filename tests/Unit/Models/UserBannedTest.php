@@ -27,7 +27,7 @@ class UserBannedTest extends TestCase
         $user = $this->createUser();
         UserBanned::create([
             'user_id' => $user->id,
-            'reason' => 'Naughty',
+            'reason'  => 'Naughty',
         ]);
 
         $this->assertEquals($user->last_name, UserBanned::get()->first()->user->last_name);

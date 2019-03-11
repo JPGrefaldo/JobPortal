@@ -2,31 +2,30 @@
 
 namespace Tests\Feature;
 
-use App\Models\Role;
+use App\Models\User;
 use Cmgmyr\Messenger\Models\Thread;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
-use App\Models\User;
 
 class ThreadFeatureTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
 
-     /**
-     * @test
-     * @covers App\Http\Controllers\API\ParticipantsController::search
-     */
+    /**
+    * @test
+    * @covers App\Http\Controllers\API\ParticipantsController::search
+    */
     public function search_participating_user_in_current_thread()
     {
         $response = $this->search('J');
         
         $response->assertJsonFragment([
-            'name' => 'John Doe'
+            'name' => 'John Doe',
         ]);
      
         $response->assertJsonFragment([
-            'name' => 'Jean Grey'
+            'name' => 'Jean Grey',
         ]);
     }
 
@@ -41,7 +40,7 @@ class ThreadFeatureTest extends TestCase
         $response = $this->search('J', $currentUser);
 
         $response->assertJsonMissing([
-            'name' => $currentUser->first_name
+            'name' => $currentUser->first_name,
         ]);
     }
 
@@ -53,12 +52,12 @@ class ThreadFeatureTest extends TestCase
     {
         $response = $this->search('JOHN');
         $response->assertJsonFragment([
-            'name' => 'John Doe'
+            'name' => 'John Doe',
         ]);
      
         $response = $this->search('JeAn');
         $response->assertJsonFragment([
-            'name' => 'Jean Grey'
+            'name' => 'Jean Grey',
         ]);
     }
 
@@ -71,7 +70,7 @@ class ThreadFeatureTest extends TestCase
         $response = $this->search('');
 
         $response->assertJson([
-            'message' => 'Keyword should not be empty'
+            'message' => 'Keyword should not be empty',
         ]);
     }
 
@@ -84,7 +83,7 @@ class ThreadFeatureTest extends TestCase
         $response = $this->search('J0hn');
 
         $response->assertJson([
-            'message' => 'Keyword should only be a string'
+            'message' => 'Keyword should only be a string',
         ]);
     }
 
@@ -97,7 +96,7 @@ class ThreadFeatureTest extends TestCase
         $response = $this->search('Superman');
 
         $response->assertJson([
-            'message' => 'No results can be found'
+            'message' => 'No results can be found',
         ]);
     }
     
@@ -105,49 +104,52 @@ class ThreadFeatureTest extends TestCase
     private function search($keyword, $currentUser=null)
     {
         // So that this will work test_current_user_should_not_be_included_in_search_result()
-        if($currentUser == null){
+        if ($currentUser == null) {
             $currentUser = $this->createProducer();
         }
 
         $thread = $this->threadParticipants($currentUser);
 
         $this->actingAs($currentUser, 'api')
-             ->get(route('messages.index', [
-                    'thread' => $thread->id
+            ->get(route(
+                'messages.index',
+                [
+                    'thread' => $thread->id,
                 ]
              ));
 
         return $this->actingAs($currentUser)
-                    ->postJson(route('threads.search.participants', [
-                        'thread' => $thread->id,
-                        'keyword' => $keyword
-                    ]));
+            ->postJson(route('threads.search.participants', [
+                'thread'  => $thread->id,
+                'keyword' => $keyword,
+            ]));
     }
 
     private function threadParticipants($currentUser)
     {
         $thread = factory(Thread::class)->create([
-            'subject' => 'Thread Test Subject'
+            'subject' => 'Thread Test Subject',
         ]);
 
         $participant1 = factory(User::class)->create([
             'nickname' => 'John Doe',
-        ]); 
-
-        $participant2 = factory(User::class)->create([
-            'nickname' => 'Jean Grey'
-        ]); 
-        
-        $thread->addParticipant([
-            $currentUser->id, 
-            $participant1->id, 
-            $participant2->id
         ]);
 
-        $this->assertCount(3, 
+        $participant2 = factory(User::class)->create([
+            'nickname' => 'Jean Grey',
+        ]);
+        
+        $thread->addParticipant([
+            $currentUser->id,
+            $participant1->id,
+            $participant2->id,
+        ]);
+
+        $this->assertCount(
+            3,
             $thread->participants()
-                   ->get()
-                   ->toArray()
+                ->get()
+                ->toArray()
         );
 
         return $thread;

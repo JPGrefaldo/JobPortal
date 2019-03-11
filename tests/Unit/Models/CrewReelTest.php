@@ -20,7 +20,7 @@ class CrewReelTest extends TestCase
 
         $this->crew = factory(Crew::class)->create();
         $this->crewReel = factory(CrewReel::class)->create([
-            'crew_id' => $this->crew->id
+            'crew_id' => $this->crew->id,
         ]);
     }
 

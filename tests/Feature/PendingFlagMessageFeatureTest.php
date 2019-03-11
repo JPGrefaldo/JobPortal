@@ -26,23 +26,23 @@ class PendingFlagMessageFeatureTest extends TestCase
 
         factory(Participant::class)->create([
             'thread_id' => $thread->id,
-            'user_id' => $producer->id,
+            'user_id'   => $producer->id,
         ]);
 
         factory(Participant::class)->create([
             'thread_id' => $thread->id,
-            'user_id' => $crew->id,
+            'user_id'   => $crew->id,
         ]);
 
         $foulMessage = factory(Message::class)->create([
             'thread_id' => $thread->id,
-            'user_id' => $producer->id,
-            'body' => 'Glip-Glop',
+            'user_id'   => $producer->id,
+            'body'      => 'Glip-Glop',
         ]);
 
         $data = [
             'message_id' => $foulMessage->id,
-            'reason' => 'Glip-Glop is a derogatory term for Traflorkians',
+            'reason'     => 'Glip-Glop is a derogatory term for Traflorkians',
         ];
 
         // when
@@ -66,23 +66,23 @@ class PendingFlagMessageFeatureTest extends TestCase
 
         factory(Participant::class)->create([
             'thread_id' => $thread->id,
-            'user_id' => $producer->id,
+            'user_id'   => $producer->id,
         ]);
 
         factory(Participant::class)->create([
             'thread_id' => $thread->id,
-            'user_id' => $crew->id,
+            'user_id'   => $crew->id,
         ]);
 
         $foulMessage = factory(Message::class)->create([
             'thread_id' => $thread->id,
-            'user_id' => $crew->id,
-            'body' => 'Glip-Glop',
+            'user_id'   => $crew->id,
+            'body'      => 'Glip-Glop',
         ]);
 
         $data = [
             'message_id' => $foulMessage->id,
-            'reason' => 'Glip-Glop is a derogatory term for Traflorkians',
+            'reason'     => 'Glip-Glop is a derogatory term for Traflorkians',
         ];
 
         // when

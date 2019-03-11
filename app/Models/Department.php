@@ -17,8 +17,8 @@ class Department extends Model
      * @var array
      */
     protected $casts = [
-        'id' => 'integer',
-        'name' => 'string',
+        'id'          => 'integer',
+        'name'        => 'string',
         'description' => 'string',
     ];
 

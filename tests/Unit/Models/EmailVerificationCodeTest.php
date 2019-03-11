@@ -20,7 +20,7 @@ class EmailVerificationCodeTest extends TestCase
         $user = $this->createUser();
 
         $emailVerificationCode = factory(EmailVerificationCode::class)->create([
-            'user_id' => $user->id
+            'user_id' => $user->id,
         ]);
 
         $this->assertEquals(

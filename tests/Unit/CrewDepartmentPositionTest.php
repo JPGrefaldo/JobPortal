@@ -24,11 +24,11 @@ class CrewDepartmentPositionTest extends TestCase
         $position = factory(Position::class)->create();
 
         $data = [
-            'position_id' => $position->id,
-            'bio' => 'This is the bio',
-            'gear' => 'This is the gear',
+            'position_id'       => $position->id,
+            'bio'               => 'This is the bio',
+            'gear'              => 'This is the gear',
             'union_description' => 'Some union description',
-            'reel_link' => 'This is the reel link',
+            'reel_link'         => 'This is the reel link',
         ];
 
         $response = $this->actingAs($crew)
@@ -37,19 +37,19 @@ class CrewDepartmentPositionTest extends TestCase
         $response->assertSuccessful();
 
         $this->assertDatabaseHas('crew_position', [
-            'crew_id' => $crew->id,
-            'details' => $data['bio'],
-            'union_description' => $data['union_description']
+            'crew_id'           => $crew->id,
+            'details'           => $data['bio'],
+            'union_description' => $data['union_description'],
         ]);
 
         $this->assertDatabaseHas('crew_gears', [
-            'crew_id' => $crew->id,
+            'crew_id'     => $crew->id,
             'description' => $data['gear'],
         ]);
 
         $this->assertDatabaseHas('crew_reels', [
             'crew_id' => $crew->id,
-            'url' => $data['reel_link'],
+            'url'     => $data['reel_link'],
         ]);
     }
 }

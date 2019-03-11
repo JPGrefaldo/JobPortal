@@ -34,7 +34,7 @@ class UpdateFeatureTest extends TestCase
         $thread->addParticipant($crew->user->id);
         $message = factory(Message::class)->create([
             'thread_id' => $thread->id,
-            'user_id' => $crew->user->id,
+            'user_id'   => $crew->user->id,
         ]);
 
         // when

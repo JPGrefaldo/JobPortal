@@ -2,10 +2,7 @@
 
 namespace Test\Feature\Manager;
 
-use App\Models\User;
-use App\Models\Manager;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 
@@ -27,16 +24,16 @@ class ManagerEmailConfirmationTest extends TestCase
 
         $this->actingAs($subordinate)
             ->post(route('account.manager'), [
-                'email' => $manager->email
+                'email' => $manager->email,
             ]);
 
         $this->get(route('manager.confirm', [
-            'user' => $manager->hash_id,
-            'subordinate' =>$subordinate->hash_id
+            'user'        => $manager->hash_id,
+            'subordinate' => $subordinate->hash_id,
         ]));
         $response = $this->get(route('manager.confirm', [
-            'user' => $manager->hash_id,
-            'subordinate' =>$subordinate->hash_id
+            'user'        => $manager->hash_id,
+            'subordinate' => $subordinate->hash_id,
         ]));
 
         $response->assertRedirect(route('login'));
@@ -46,26 +43,28 @@ class ManagerEmailConfirmationTest extends TestCase
      * @test
      * @covers \App\Http\Controllers\Manager\ManagerConfirmationController::index
      */
-     public function update_manager_status()
-     {
+    public function update_manager_status()
+    {
         $manager = $this->createUser();
         $subordinate = $this->createUser();
 
         $this->actingAs($subordinate)
-             ->post(route('account.manager'), [
-                'email' => $manager->email
-             ]);
+            ->post(route('account.manager'), [
+                'email' => $manager->email,
+            ]);
 
         $this->get(route('manager.confirm', [
-            'user' => $manager->hash_id,
-            'subordinate' =>$subordinate->hash_id
+            'user'        => $manager->hash_id,
+            'subordinate' => $subordinate->hash_id,
         ]));
 
-        $this->assertDatabaseHas('managers', [
-                'manager_id' => $manager->id,
+        $this->assertDatabaseHas(
+            'managers',
+            [
+                'manager_id'     => $manager->id,
                 'subordinate_id' => $subordinate->id,
-                'status' => 1
+                'status'         => 1,
             ]
         );
-     }
+    }
 }

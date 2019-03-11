@@ -22,14 +22,14 @@ class CreateCrewSocialsTable extends Migration
             $table->softDeletes();
 
             $table->foreign('crew_id')
-                  ->references('id')
-                  ->on('crews')
-                  ->onDelete('cascade');
+                ->references('id')
+                ->on('crews')
+                ->onDelete('cascade');
 
             $table->foreign('social_link_type_id')
-                  ->references('id')
-                  ->on('social_link_types')
-                  ->onDelete('cascade');
+                ->references('id')
+                ->on('social_link_types')
+                ->onDelete('cascade');
         });
     }
 

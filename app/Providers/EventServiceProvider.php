@@ -3,11 +3,11 @@
 namespace App\Providers;
 
 use App\Listeners\SendUserConfirmationEmail;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use App\Models\Manager;
 use App\Observers\ManagerObserver;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Event;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -18,7 +18,7 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         Registered::class => [
-            SendUserConfirmationEmail::class
+            SendUserConfirmationEmail::class,
         ],
     ];
 

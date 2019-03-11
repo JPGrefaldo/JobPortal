@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Mail\ManagerConfirmationEmail;
 use App\Models\Manager;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
@@ -18,8 +17,8 @@ class ManagerConfirmationController extends Controller
         $subordinate = User::where('hash_id', $subordinate)->first();
 
         $manager = Manager::where([
-            'manager_id'=> $user->id,
-            'subordinate_id'=> $subordinate->id
+            'manager_id'    => $user->id,
+            'subordinate_id'=> $subordinate->id,
         ])->first();
 
         if ($manager->status == 1) {
@@ -27,7 +26,7 @@ class ManagerConfirmationController extends Controller
         }
 
         $manager->update([
-            'status' => 1
+            'status' => 1,
         ]);
 
         return redirect(route('login'))->with('infoMessage', 'You are now '.$subordinate->fullname.'\'s manager');
@@ -40,7 +39,7 @@ class ManagerConfirmationController extends Controller
 
         if (Manager::where([
                 'manager_id'=> $manager->id,
-                'subordinate_id'=> $subordinate->id
+                'subordinate_id'=> $subordinate->id,
             ])
             ->where('status', 0)
             ->first()

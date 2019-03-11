@@ -16,11 +16,11 @@ class CreatePositionTypes extends Migration
         Schema::create('position_types', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')
-                  ->unique();
+                ->unique();
             $table->text('description')
-                  ->nullable();
+                ->nullable();
             $table->unsignedInteger('order')
-                  ->default(0);
+                ->default(0);
             $table->timestamps();
         });
     }

@@ -33,14 +33,14 @@ class ProducerStoreMessageRequest extends FormRequest
     public function rules()
     {
         return [
-            'message' => 'required|string',
+            'message'    => 'required|string',
             'recipients' => [
                 'required',
                 'array',
                 'distinct',
                 'exists:users,hash_id',
                 new ProducerMessage($this->project),
-            ]
+            ],
         ];
     }
 }

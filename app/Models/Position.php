@@ -57,5 +57,4 @@ class Position extends Model
     {
         return ucfirst($value);
     }
-
 }

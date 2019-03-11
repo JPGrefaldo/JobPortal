@@ -3,8 +3,6 @@
 namespace Tests\Unit\Notifications;
 
 use App\Notifications\UnreadMessagesInThread;
-use Carbon\Carbon;
-use Cmgmyr\Messenger\Models\Thread;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use Tests\Support\SeedDatabaseAfterRefresh;
@@ -23,7 +21,7 @@ class UnreadMessagesInThreadTest extends TestCase
         $producer = $this->createProducer();
 
         $message = [
-            'body' => 'This is a test message'
+            'body' => 'This is a test message',
         ];
 
         Notification::fake();

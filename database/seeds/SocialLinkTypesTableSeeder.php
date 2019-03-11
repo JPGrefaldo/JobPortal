@@ -20,14 +20,14 @@ class SocialLinkTypesTableSeeder extends Seeder
             'Tumblr',
             'Vimeo',
             'Instagram',
-            'Personal Website'
+            'Personal Website',
         ];
 
         foreach ($names as $idx => $name) {
             SocialLinkType::create([
-                'name' => $name,
-                'image' => 'images/social/' . str_slug($name) . '.png', // @temp
-                'sort_order' => $idx + 1
+                'name'       => $name,
+                'image'      => 'images/social/' . str_slug($name) . '.png', // @temp
+                'sort_order' => $idx + 1,
             ]);
         }
 

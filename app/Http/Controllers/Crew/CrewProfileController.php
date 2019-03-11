@@ -20,7 +20,7 @@ class CrewProfileController extends Controller
     public function index()
     {
         $user = Auth::user()->load([
-            'crew'
+            'crew',
         ]);
 
         $resume_url = '';
@@ -29,11 +29,11 @@ class CrewProfileController extends Controller
         }
 
         return view('crew.profile.profile-index', [
-            'user' => $user,
+            'user'            => $user,
             'socialLinkTypes' => $this->getAllSocialLinkTypes($user),
-            'departments' => $this->getDepartments(),
-            'crewPositions' => $this->getCrewPositions($user),
-            'resume_url' => $resume_url,
+            'departments'     => $this->getDepartments(),
+            'crewPositions'   => $this->getCrewPositions($user),
+            'resume_url'      => $resume_url,
         ]);
     }
 
@@ -45,12 +45,12 @@ class CrewProfileController extends Controller
     public function create()
     {
         $user = Auth::user()->load([
-            'crew'
+            'crew',
         ]);
         return view('crew.profile.profile-create', [
-            'user' => $user,
+            'user'            => $user,
             'socialLinkTypes' => $this->getAllSocialLinkTypes($user),
-            'departments' => $this->getDepartments()
+            'departments'     => $this->getDepartments(),
         ]);
     }
 
