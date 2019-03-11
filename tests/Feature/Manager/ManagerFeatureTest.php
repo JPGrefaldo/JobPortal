@@ -2,6 +2,10 @@
 
 namespace Tests\Feature\Manager;
 
+use App\Models\Manager;
+use App\Models\User;
+use App\Utils\StrUtils;
+use Faker\Factory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
@@ -151,28 +155,28 @@ class ManagerFeatureTest extends TestCase
      */
     public function user_can_remove_manager()
     {
+        $this->disableExceptionHandling();
         $subordinate = $this->createUser();
         $manager = $this->createUser([
             'email' => 'manager@email.com'
         ]);
 
-        $this->actingAs($subordinate)
-             ->get(route('account.manager'));
+        Manager::create([
+            'manager_id'     => $manager->id,
+            'subordinate_id' => $subordinate->id,
+        ]);
 
-        $this->actingAs($subordinate)
-             ->post(route('account.manager'), [
-                 'email' => $manager->email
-             ]);
+        $this->assertDatabaseHas('managers', [
+            'manager_id'     => $manager->id,
+        ]);
 
         $this->actingAs($subordinate)
              ->call('DELETE', route('manager.remove', [
                  'manager' => $manager->id
-             ]));
+             ]))->assertSuccessful();
 
-        $this->assertDatabaseMissing(
-            'managers',
-                    $manager->refresh()
-                            ->toArray()
-                );
+        $this->assertDatabaseMissing('managers', [
+            'manager_id'     => $manager->id,
+        ]);
     }
 }
