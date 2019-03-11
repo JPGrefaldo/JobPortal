@@ -2,7 +2,9 @@ import * as types from '../mutation-types'
 
 export const state = {
     list: [],
-    project: {},
+    project: {
+        project_job: []
+    },
     types: []
 }
 

@@ -52,14 +52,17 @@
 
         <div class="flex flex-col mb-4">
             <h3 class="block uppercase tracking-wide">Positions needed</h3>
-            <cca-department :position="position" :project="project"></cca-department>
+
+            <cca-department></cca-department>
+
+            <cca-position></cca-position>
         </div>
 
         <div class="mb-4">
             <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">Show my production company name publicly?</label>
             <div>
-                <input v-model="project.production_name_public" type="radio" selected> Yes
-                <input v-model="project.production_name_public" type="radio"> No
+                <input v-model="project.production_name_public" type="radio" value="1" checked> Yes
+                <input v-model="project.production_name_public" type="radio" value="0"> No
                 <!-- TODO: need to defer to producer uri instead of admin -->
                 <a href="/">See site list</a>
             </div>
@@ -71,13 +74,11 @@
             <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
                 Sites to post on
             </label>
-
-            <input v-model="project.sites_to_post" type="checkbox"> Check All
-            <input v-model="project.sites_to_post" type="checkbox"> Yourcasting Test Site
-
             <div v-if="sites">
+                <input v-model="project.sites_to_post" type="checkbox"> Check All
+                <input v-model="project.sites_to_post" type="checkbox"> Yourcasting Test Site
                 <div v-for="site in sites" :key="site.id" >
-                    <input type="checkbox" v-model="project.site[site.id]"> {{ site.name }}
+                    <input type="checkbox" v-model="project.sites"> {{ site.name }}
                 </div>
             </div>
         </div>
@@ -87,8 +88,8 @@
                 Will travel/lodging expenses be paid for out-of-area talent?
             </label>
 
-            <input v-model="project.paid_travel" type="radio"> Yes
-            <input v-model="project.paid_travel" type="radio"> No
+            <input v-model="project.paid_travel" type="radio" value="1"> Yes
+            <input v-model="project.paid_travel" type="radio" value="0"> No
         </div>
 
         <div class="mb-4">
@@ -101,27 +102,24 @@
 <script>
     import { mapGetters } from 'vuex'
     import Department from './forms/Department.vue'
+    import Position from './forms/Position.vue'
 
     export default {
         components: {
-            'cca-department': Department
-        },
-
-        data(){
-            return {
-                project: {},
-                department: {},
-                position: [],
-                sites: []
-            }
+            'cca-department': Department,
+            'cca-position': Position
         },
 
         mounted() {
             this.$store.dispatch('project/fetchTypes');
+            this.$store.dispatch('crew/fetchSites')
         },
 
         computed: {
             ...mapGetters({
+                position: 'crew/position',
+                sites: 'crew/sites',
+                project: 'project/project',
                 projectTypes: 'project/types'
             })
         },
