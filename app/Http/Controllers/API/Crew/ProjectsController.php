@@ -15,10 +15,4 @@ class ProjectsController extends Controller
 
         return ProjectResource::collection($projects);
     }
-
-    //TODO: Store project data
-    public function store(Request $request)
-    {
-
-    }
 }

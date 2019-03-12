@@ -17,11 +17,6 @@ use App\Models\Role;
 | * Multiple, Route::middleware(AuthorizeRoles::parameterize(Role::CREW, Role::PRODUCER))
 */
 
-// Route::post('/producer/project', [
-//     \App\Http\Controllers\API\Producer\ProjectsController::class,
-//     'store'
-// ])->name('producer.project.save');
-
 Route::middleware('auth:api')->group(function () {
     Route::get('/user', [
         \App\Http\Controllers\API\UserController::class,
@@ -53,10 +48,10 @@ Route::middleware('auth:api')->group(function () {
         'index'
     ])->name('producer.projects.index');
 
-    Route::post('/producer/project', [
+    Route::post('/producer/projects', [
         \App\Http\Controllers\API\Producer\ProjectsController::class,
         'store'
-    ])->name('producer.project.save');
+    ])->name('producer.project.store');
 
     Route::get('/producer/project/type', [
         \App\Http\Controllers\API\Producer\ProjectsController::class,
