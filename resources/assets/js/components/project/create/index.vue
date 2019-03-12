@@ -40,7 +40,7 @@
             <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
                 Project information
             </label>
-            <textarea v-model="project.description" row=4 class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline"></textarea>
+            <textarea v-model="project.description" rows=7 class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline"></textarea>
         </div>
         
         <div class="mb-4">
@@ -75,10 +75,19 @@
                 Sites to post on
             </label>
             <div v-if="sites">
-                <input v-model="project.sites_to_post" type="checkbox"> Check All
-                <input v-model="project.sites_to_post" type="checkbox"> Yourcasting Test Site
-                <div v-for="site in sites" :key="site.id" >
-                    <input type="checkbox" v-model="project.sites"> {{ site.name }}
+                <label>
+                    <input v-model="project.sites" value="all" type="checkbox" @click="allSitesSelected"> 
+                    Check All
+                </label>
+                <div v-show="isAllSitesNotChecked">
+                    <label>
+                        <input v-model="project.sites" value="yts" type="checkbox"> 
+                        Yourcasting Test Site
+                    </label>
+                    <label class="block" v-for="site in sites" :key="site.id" >
+                        <input v-model="project.sites" :value="site.id" type="checkbox"> 
+                        {{ site.name }}
+                    </label>
                 </div>
             </div>
         </div>
@@ -110,6 +119,12 @@
             'cca-position': Position
         },
 
+        data() {
+            return {
+                isAllSitesNotChecked: true,
+            }
+        },
+
         mounted() {
             this.$store.dispatch('project/fetchTypes');
             this.$store.dispatch('crew/fetchSites')
@@ -125,9 +140,18 @@
         },
 
         methods: {
-            submit()
-            {
-                console.log(this.form);
+            submit(){
+                this.$store.dispatch('project/saveProjectJob', this.project)
+            },
+
+            allSitesSelected(){
+                this.project.sites = []
+                
+                if(this.isAllSitesNotChecked){
+                    this.isAllSitesNotChecked = false
+                    return
+                }
+                this.isAllSitesNotChecked = true
             }
         }
     }
