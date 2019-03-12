@@ -35,8 +35,9 @@ class StartFromScratchTest extends TestCase
      */
     public function execute()
     {
+        $email = 'test@test.com';
         $command = $this->artisan(self::CMD, [
-            'email' => 'test@test.com',
+            'email' => $email,
         ]);
 
         $command->expectsOutput('Start Migrations')
@@ -46,6 +47,11 @@ class StartFromScratchTest extends TestCase
             ->expectsOutput('Creating User')
             ->expectsOutput('User Created')
             ->run();
+
         $command->assertExitCode(0);
+
+        $this->assertDatabaseHas('users', [
+            'email' => $email,
+        ]);
     }
 }
