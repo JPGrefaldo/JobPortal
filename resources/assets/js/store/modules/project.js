@@ -3,7 +3,8 @@ import * as types from '../mutation-types'
 export const state = {
     list: [],
     project: {
-        project_job: []
+        project_job: [],
+        sites: []
     },
     types: []
 }
@@ -48,6 +49,13 @@ export const actions = {
         axios.get('/api/producer/project/type')
              .then(response => {
                  context.commit(types.PROJECT_TYPES, response.data.projectType)
-             });
+             })
+    },
+
+    saveProjectJob(context, params){
+        axios.post('/api/producer/project', params)
+             .then(response => {
+
+             })
     }
 }
