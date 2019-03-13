@@ -13,17 +13,16 @@
                     </div>
                     <div class="flex flex-col justify-between leading-normal pl-6">
                         <p>Pay rate:</p>
-                        <div>
-                            <input v-model="project_job.pay_rate" type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline">
-                            <input v-model="project_job.pay_type_id" type="radio" v-bind:value="1"> Hourly
-                            <input v-model="project_job.pay_type_id" type="radio" v-bind:value="2" > Daily
-                            <input v-model="project_job.pay_type_id" type="radio" v-bind:value="3"> Half day
-                        </div>
-                        <p>- or -</p>
-                        <div>
-                            <input v-model="project_job.pay_type_id" type="radio" v-bind:value="4"> DOE
-                            <input v-model="project_job.pay_type_id" type="radio" v-bind:value="5"> TBD
-                            <input v-model="project_job.pay_type_id" type="radio" v-bind:value="6"> Unpaid/Volunteer
+                         <input v-model="project_job.pay_rate" type="text" @input="addPayRate" class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline">
+                           
+                        <div v-if="hasPayRate">
+                            <input v-model="project_job.pay_type_id" type="radio" value="1"> Hourly
+                            <input v-model="project_job.pay_type_id" type="radio" value="2" > Daily
+                            <input v-model="project_job.pay_type_id" type="radio" value="3"> Half day
+                            <p>- or -</p>
+                            <input v-model="project_job.pay_type_id" type="radio" value="4"> DOE
+                            <input v-model="project_job.pay_type_id" type="radio" value="5"> TBD
+                            <input v-model="project_job.pay_type_id" type="radio" value="6"> Unpaid/Volunteer
                         </div>
                         <p>Production dates/dates needeed:</p>
                         
@@ -33,6 +32,15 @@
                         </div>
                     </div>
                 </div>
+                <div v-if="errors.length > 0" class="bg-red-lightest border border-red-light text-red-dark px-4 py-3 rounded relative" role="alert">
+                    <strong class="block font-bold">Holy smokes!</strong>
+                    <ul>
+                        <li class="text-red-dark" v-for="error in errors" :key="error">{{ error }}</li>
+                    </ul>
+                    <span class="absolute pin-t pin-b pin-r px-4 py-3">
+                        <svg class="fill-current h-6 w-6 text-red" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/></svg>
+                    </span>
+                </div> 
                 <div class="flex justify-center mt-4">
                     <button class="flex-grow bg-blue hover:bg-blue-dark text-white font-bold w-24 py-2 px-4 rounded-full" @click.stop="addPosition(item.id)">Add Position</button>
                 </div>
@@ -47,10 +55,14 @@
     export default {
         data() {
             return {
-                project_job: {},
+                errors: [],
+                hasPayRate: false,
                 highlight: [],
-                needed: [],
                 last_open: 0,
+                needed: [],
+                project_job: {
+                    pay_type_id: ''
+                },
             }
         },
 
@@ -105,19 +117,60 @@
                 this.project_job.rush_call      = ''
             },
 
-            addPosition(id)
-            {
+            addPosition(id){
+                if (this.hasErrors()){
+                    return
+                }
+
                 this.needed[`selected${id}`] = false
 
+                // Check if the positiion data is already added and get the index  
                 let i = this.project.project_job.findIndex(o => o.position_id == id)
                
-                if(i == -1){
+                if (i == -1){
+                    // Add to the array if it was not added
                     this.project.project_job.push(this.project_job)
-                }else{
+                } else {
+                    // Update the value if it was already added
                     this.project.project_job[i] = this.project_job
                 }
 
                 this.project_job = {}
+            },
+
+            hasErrors(){
+                this.errors = []
+
+                if (! this.project_job.notes){
+                    this.errors.push('Position Notes should not be empty')
+                }
+
+                if (! this.project_job.pay_rate){
+                    this.errors.push('Pay Rate should not be empty')
+                }
+
+                if (! this.project_job.pay_type_id){
+                    this.errors.push('Pay Type should be selected')
+                }
+
+                if (! this.project_job.dates_needed){
+                    this.errors.push('Dates Needed should not be empty')
+                }
+
+                if (this.errors.length > 0){
+                    return true
+                }
+
+                return false
+            },
+
+            addPayRate(){
+                if ( this.project_job.pay_rate 
+                     && ! isNaN(this.project_job.pay_rate)
+                     && this.project_job.pay_rate  != 0
+                ){
+                    this.hasPayRate = true
+                }
             }
         }
     }
