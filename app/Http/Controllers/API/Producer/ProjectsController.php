@@ -39,7 +39,7 @@ class ProjectsController extends Controller
                           ->where('title', $request->title)
                           ->first();
         
-        if ($project->id) {
+        if (isset($project->id)) {
             return response()->json([
                 'messages' => 'The project title already exists'
             ]);
@@ -58,5 +58,9 @@ class ProjectsController extends Controller
                 app(CreateProjectJob::class)->execute($job, $project, $request);
             }
         }
+
+        return response()->json([
+            'message' => 'Project successfully added'
+        ]);
     }
 }
