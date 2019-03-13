@@ -5,10 +5,10 @@ namespace App\Http\Controllers\API\Producer;
 use App\Actions\Producer\Project\CreateProject;
 use App\Actions\Producer\Project\CreateProjectJob;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Producer\CreateProjectRequest;
 use App\Http\Resources\ProjectResource;
 use App\Models\ProjectType;
 use App\Models\Site;
-use Illuminate\Http\Request;
 
 class ProjectsController extends Controller
 {
@@ -29,8 +29,8 @@ class ProjectsController extends Controller
         ]);
     }
 
-    public function store(Request $request)
-    {
+    public function store(CreateProjectRequest $request)
+    {   
         $user = auth()->user()->id;
         $site_ids = $request->sites;
 
