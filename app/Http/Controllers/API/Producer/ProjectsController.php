@@ -7,6 +7,7 @@ use App\Actions\Producer\Project\CreateProjectJob;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Producer\CreateProjectRequest;
 use App\Http\Resources\ProjectResource;
+use App\Models\Project;
 use App\Models\ProjectType;
 use App\Models\Site;
 
@@ -33,6 +34,16 @@ class ProjectsController extends Controller
     {   
         $user = auth()->user()->id;
         $site_ids = $request->sites;
+
+        $project = Project::where('user_id', $user)
+                          ->where('title', $request->title)
+                          ->first();
+        
+        if ($project->id) {
+            return response()->json([
+                'messages' => 'The project title already exists'
+            ]);
+        }
 
         if (count($site_ids) === 1 && $site_ids[0] === 'all'){
             $site_ids = Site::all()->pluck('id');
