@@ -5,7 +5,7 @@
                 <input  class="hover:text-white hover:bg-blue text-blue border-r border-grey-light px-3 py-2"
                         v-model="department.name" type="button" 
                         v-for="department in departments" :key="department.id" 
-                        @click="showByCategory(department.id)">
+                        @click="showByDepartment(department.id)">
             </li>
             
         </ul>
@@ -34,7 +34,7 @@
         },
 
         methods: {
-            showByCategory(id){
+            showByDepartment(id){
                 if (this.allPositions.length === 0){
                     this.allPositions = this.positions
                 }

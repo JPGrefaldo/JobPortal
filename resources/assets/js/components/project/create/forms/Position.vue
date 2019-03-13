@@ -58,11 +58,11 @@
                 errors: [],
                 hasPayRate: false,
                 highlight: [],
-                last_open: 0,
-                needed: [],
+                needed: [], 
                 project_job: {
                     pay_type_id: ''
                 },
+                currentID: 0
             }
         },
 
@@ -80,16 +80,19 @@
 
         methods: {
             selected(e){
+                this.hideOpenedPositionCard()
+
                 let job = this.project.project_job.find(o => o.position_id == e.target.value)
 
                 // Retain the text bold style of those checkboxes that already had a data entered
-                if(typeof(job) === 'undefined'){
+                if(typeof(job) == 'undefined'){
                     this.highlight[`${e.target.value}`] = ''
                 }
 
                 if (e.target.checked){
                     this.highlight[`${e.target.value}`] = 'font-bold '
-                    this.project_job.position_id    = e.target.value
+                    this.currentID                      = e.target.value
+                    this.project_job.position_id        = e.target.value
 
                     if (typeof(job) != 'undefined'){
                         this.setJobValues(job)
@@ -171,6 +174,11 @@
                 ){
                     this.hasPayRate = true
                 }
+            },
+
+            hideOpenedPositionCard(e){
+                // Fixed overlapping open position card when multiple checkboxes is selected
+                this.needed[`selected${this.currentID}`] = false
             }
         }
     }
