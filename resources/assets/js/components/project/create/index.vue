@@ -1,5 +1,6 @@
 <template>
     <div class="container bg-white shadow-md rounded p-4">
+        <error-notification :errors="errors"></error-notification>
 
         <label class="block text-grey-darker font-bold mb-6">
             Tutorial Videos/How it Works
@@ -109,18 +110,26 @@
 </template>
 
 <script>
+    import { alert } from '../../../mixins'
     import { mapGetters } from 'vuex'
-    import Department from './forms/Department.vue'
-    import Position from './forms/Position.vue'
+    import Department from './form/Department.vue'
+    import ErrorNotification from './form//ErrorNotification.vue'
+    import Position from './form/Position.vue'
 
     export default {
+        mixins: [ 
+            alert 
+        ],
+
         components: {
             'cca-department': Department,
-            'cca-position': Position
+            'cca-position': Position,
+            'error-notification': ErrorNotification
         },
 
         data() {
             return {
+                errors: [],
                 isAllSitesNotChecked: true,
             }
         },
@@ -141,7 +150,11 @@
 
         methods: {
             submit(){
-                this.$store.dispatch('project/saveProjectJob', this.project)
+                if (! this.hasErrors()){
+                    this.$store
+                        .dispatch('project/saveProjectJob', this.project)
+                        .then(response => this.displaySuccess(response))
+                }
             },
 
             allSitesSelected(){
@@ -152,6 +165,52 @@
                     return
                 }
                 this.isAllSitesNotChecked = true
+            },
+
+            hasErrors(){
+                this.errors = []
+
+                if (! this.project.title){
+                    this.errors.push('Project Title is required')
+                }
+
+                if (! this.project.production_name){
+                    this.errors.push('Production Name is required')
+                }
+
+                if (! this.project.type_id){
+                    this.errors.push('Project Type is required')
+                }
+
+                if (! this.project.description){
+                    this.errors.push('Project Description is required')
+                }
+
+                if (! this.project.location){
+                    this.errors.push('Area/City is required')
+                }
+                
+                if (! this.project.production_name_public){
+                    this.errors.push('Production Name Public is required')
+                }
+
+                if(this.project.project_job.length === 0){
+                    this.errors.push('Position Needed is required')
+                }
+
+                if(this.project.sites.length === 0){
+                    this.errors.push('Sites To Post On is required')
+                }
+
+                if(! this.project.paid_travel){
+                    this.errors.push('Travel/Lodging Expenses option is required')
+                }
+
+                if (this.errors.length > 0){
+                    return true
+                }
+
+                return false
             }
         }
     }

@@ -53,9 +53,6 @@ export const actions = {
     },
 
     saveProjectJob(context, params){
-        axios.post('/api/producer/projects', params)
-             .then(response => {
-
-             })
+        return axios.post('/api/producer/projects', params)
     }
 }
