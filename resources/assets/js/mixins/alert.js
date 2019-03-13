@@ -6,6 +6,14 @@ export default {
                 text: response.data.message,
                 type: 'success',
             });
+        },
+
+        displayError: function (message) {
+            this.$swal({
+                title: '',
+                text: message,
+                type: 'error',
+            });
         }
     }
 }

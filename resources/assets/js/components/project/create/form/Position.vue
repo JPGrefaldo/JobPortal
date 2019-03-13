@@ -32,15 +32,9 @@
                         </div>
                     </div>
                 </div>
-                <div v-if="errors.length > 0" class="bg-red-lightest border border-red-light text-red-dark px-4 py-3 rounded relative" role="alert">
-                    <strong class="block font-bold">Holy smokes!</strong>
-                    <ul>
-                        <li class="text-red-dark" v-for="error in errors" :key="error">{{ error }}</li>
-                    </ul>
-                    <span class="absolute pin-t pin-b pin-r px-4 py-3">
-                        <svg class="fill-current h-6 w-6 text-red" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/></svg>
-                    </span>
-                </div> 
+
+                <error-notification :errors="errors"></error-notification>
+
                 <div class="flex justify-center mt-4">
                     <button class="flex-grow bg-blue hover:bg-blue-dark text-white font-bold w-24 py-2 px-4 rounded-full" @click.stop="addPosition(item.id)">Add Position</button>
                 </div>
@@ -50,9 +44,19 @@
 </template>
 
 <script>
+    import { alert } from '../../../../mixins'
     import { mapGetters } from 'vuex'
+    import ErrorNotification from './ErrorNotification.vue'
 
     export default {
+        mixins: [ 
+            alert 
+        ],
+        
+        components: {
+            'error-notification': ErrorNotification
+        },
+
         data() {
             return {
                 errors: [],
@@ -121,46 +125,45 @@
             },
 
             addPosition(id){
-                if (this.hasErrors()){
-                    return
+                if (! this.hasErrors()){
+                    this.needed[`selected${id}`] = false
+
+                    // Check if the positiion data is already added and get the index  
+                    let i = this.project.project_job.findIndex(o => o.position_id == id)
+                
+                    if (i == -1){
+                        // Add to the array if it was not added
+                        this.project.project_job.push(this.project_job)
+                    } else {
+                        // Update the value if it was already added
+                        this.project.project_job[i] = this.project_job
+                    }
+
+                    this.project_job = {}
                 }
-
-                this.needed[`selected${id}`] = false
-
-                // Check if the positiion data is already added and get the index  
-                let i = this.project.project_job.findIndex(o => o.position_id == id)
-               
-                if (i == -1){
-                    // Add to the array if it was not added
-                    this.project.project_job.push(this.project_job)
-                } else {
-                    // Update the value if it was already added
-                    this.project.project_job[i] = this.project_job
-                }
-
-                this.project_job = {}
             },
 
             hasErrors(){
                 this.errors = []
 
                 if (! this.project_job.notes){
-                    this.errors.push('Position Notes should not be empty')
+                    this.errors.push('Position Notes is required')
                 }
 
                 if (! this.project_job.pay_rate){
-                    this.errors.push('Pay Rate should not be empty')
+                    this.errors.push('Pay Rate is required')
                 }
 
                 if (! this.project_job.pay_type_id){
-                    this.errors.push('Pay Type should be selected')
+                    this.errors.push('Pay Type option is required')
                 }
 
                 if (! this.project_job.dates_needed){
-                    this.errors.push('Dates Needed should not be empty')
+                    this.errors.push('Dates Needed is required')
                 }
 
                 if (this.errors.length > 0){
+                    this.displayError(`There are ${errors.length} errors. Please try again.`)
                     return true
                 }
 
