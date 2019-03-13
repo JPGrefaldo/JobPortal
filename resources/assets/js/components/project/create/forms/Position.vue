@@ -109,12 +109,14 @@
             {
                 this.needed[`selected${id}`] = false
 
-                //TODO: Find a solution in case the user wants to to edit their entry
-                // let idx = this.project.project_job.findIndex(o => o.position_id === id)
-                // this.project.project_job.splice(idx, 1)
+                let i = this.project.project_job.findIndex(o => o.position_id == id)
+               
+                if(i == -1){
+                    this.project.project_job.push(this.project_job)
+                }else{
+                    this.project.project_job[i] = this.project_job
+                }
 
-                this.project.project_job.push(this.project_job)
-                
                 this.project_job = {}
             }
         }
