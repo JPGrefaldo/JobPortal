@@ -7,9 +7,10 @@ use App\Actions\Producer\Project\CreateProjectJob;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Producer\CreateProjectRequest;
 use App\Http\Resources\ProjectResource;
-use App\Models\Project;
 use App\Models\ProjectType;
+use App\Models\RemoteProject;
 use App\Models\Site;
+use App\Utils\UrlUtils;
 
 class ProjectsController extends Controller
 {
@@ -33,29 +34,18 @@ class ProjectsController extends Controller
     public function store(CreateProjectRequest $request)
     {   
         $user = auth()->user()->id;
-        $site_ids = $request->sites;
+        $site_id = $this->getHostSiteID();
+        $site_ids = $this->getSiteIDs($request);
 
-        $project = Project::where('user_id', $user)
-                          ->where('title', $request->title)
-                          ->first();
-        
-        if (isset($project->id)) {
-            return response()->json([
-                'messages' => 'The project title already exists'
-            ]);
-        }
-
-        if (count($site_ids) === 1 && $site_ids[0] === 'all'){
-            $site_ids = Site::all()->pluck('id');
-        }
+        $project = app(CreateProject::class)->execute($user, $site_id, $request);
 
         foreach ($site_ids as $site_id){
-            $project = app(CreateProject::class)->execute($user, $site_id, $request);
+            $this->storeRemoteProjects($project->id, $site_id);
         }
 
-        if (isset($project->id) && count($request->project_job) > 0){
-            foreach($request->project_job as $job){
-                app(CreateProjectJob::class)->execute($job, $project, $request);
+        if (isset($project->id) && count($request->jobs) > 0){
+            foreach($request->jobs as $job){
+                app(CreateProjectJob::class)->execute($job, $project);
             }
         }
 
@@ -63,4 +53,31 @@ class ProjectsController extends Controller
             'message' => 'Project successfully added'
         ]);
     }
+
+    private function getHostSiteID()
+    {
+        $hostname = UrlUtils::getHostNameFromBaseUrl(request()->getHttpHost());
+        $site = Site::where('hostname', $hostname)->first()->pluck('id');
+        return $site[0];
+    }
+
+    private function getSiteIDs($request)
+    {
+        $site_ids = $request->sites;
+
+        if (count($site_ids) === 1 && $site_ids[0] === 'all'){
+            $site_ids = Site::all()->pluck('id');
+        }
+
+        return $site_ids;
+    }
+
+    private function storeRemoteProjects($project_id, $site_id)
+    {
+        RemoteProject::create([
+            'project_id' => $project_id,
+            'site_id' => $site_id
+        ]);
+    }
+    
 }
