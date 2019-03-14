@@ -14,7 +14,7 @@ class StubCrew
     {
         return $user->crew()->create([
             'user_id'   => $user->id,
-            'photo'     => 'photos/avatar.png',
+            'photo_path'     => 'photos/avatar.png',
         ]);
     }
 }

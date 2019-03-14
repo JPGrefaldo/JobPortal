@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Crew\StoreCrew;
+use App\Actions\Crew\UpdateCrew;
 use App\Http\Requests\CreateCrewRequest;
 use App\Http\Requests\UpdateCrewRequest;
-use App\Models\Crew;
-use App\Services\CrewsServices;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Crew;
 
 class CrewsController extends Controller
 {
@@ -14,7 +15,7 @@ class CrewsController extends Controller
     {
         $data = $request->validated();
 
-        app(CrewsServices::class)->processCreate($data, Auth::user());
+        app(StoreCrew::class)->execute(auth()->user(), $data);
 
         return response('');
     }
@@ -23,7 +24,7 @@ class CrewsController extends Controller
     {
         $data = $request->validated();
 
-        app(CrewsServices::class)->processUpdate($data, $crew);
+        app(UpdateCrew::class)->execute($crew, $data);
 
         return response('');
     }

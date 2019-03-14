@@ -55,7 +55,7 @@ class StoreCrewPositionTest extends TestCase
 
         $this->assertDatabaseHas('crew_reels', [
             'crew_id'          => $crew->id,
-            'url'              => 'www.this-is-my-link.com',
+            'path'              => 'www.this-is-my-link.com',
             'general'          => false,
             'crew_position_id' => $crewPosition->id,
         ]);
