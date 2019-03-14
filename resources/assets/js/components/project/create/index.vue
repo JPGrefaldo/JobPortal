@@ -94,15 +94,6 @@
         </div>
 
         <div class="mb-4">
-            <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
-                Will travel/lodging expenses be paid for out-of-area talent?
-            </label>
-
-            <input v-model="project.paid_travel" type="radio" value="1"> Yes
-            <input v-model="project.paid_travel" type="radio" value="0"> No
-        </div>
-
-        <div class="mb-4">
             <button class="bg-blue hover:bg-blue-dark text-white font-bold w-24 py-2 px-4 rounded-full float-right w-64" @click.stop="submit">Save</button>
         </div>
 
@@ -194,16 +185,12 @@
                     this.errors.push('Production Name Public is required')
                 }
 
-                if(this.project.project_job.length === 0){
+                if(this.project.jobs.length === 0){
                     this.errors.push('Position Needed is required')
                 }
 
                 if(this.project.sites.length === 0){
                     this.errors.push('Sites To Post On is required')
-                }
-
-                if(! this.project.paid_travel){
-                    this.errors.push('Travel/Lodging Expenses option is required')
                 }
 
                 if (this.errors.length > 0){

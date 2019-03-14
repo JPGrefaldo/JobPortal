@@ -7,13 +7,9 @@
             </label>
             <div class="rounded shadow-lg mb-3 p-5" v-if="needed['selected' + item.id]">
                 <div class="w-ful lg:flex">
-                    <div class="lg:h-auto flex flex-col w-1/2">
-                        <p>Position notes:</p>
-                        <textarea v-model="project_job.notes" rows=13 class="shadow appearance-none border rounded w-full"></textarea>
-                    </div>
-                    <div class="flex flex-col justify-between leading-normal pl-6">
+                    <div class="flex flex-col justify-between leading-normal w-1/2">
                         <p>Pay rate:</p>
-                         <input v-model="project_job.pay_rate" type="text" @input="addPayRate" class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline">
+                        <input v-model="project_job.pay_rate" type="text" @input="addPayRate" class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline">
                            
                         <div v-if="hasPayRate">
                             <input v-model="project_job.pay_type_id" type="radio" value="1"> Hourly
@@ -27,9 +23,21 @@
                         <p>Production dates/dates needeed:</p>
                         
                         <input v-model="project_job.dates_needed" type="date" class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline mb-2">
-                        <div>
+                        <div class="mb-3">
                             <input v-model="project_job.rush_call" type="checkbox"> Rush Call? (interviews or works in the next 2-3 days?)
                         </div>
+                        <div>
+                            <p>Will travel/lodging expenses be paid for out-of-area talent?</p>
+
+                            <input v-model="project.travel_expenses_paid" type="radio" value="1"> Yes
+                            <input v-model="project.travel_expenses_paid" type="radio" value="0"> No
+                        </div>
+                    </div>
+                    <div class="lg:h-auto flex flex-col pl-6 w-1/2">
+                        <p>Position notes:</p>
+                        <textarea v-model="project_job.notes" rows=13 class="shadow appearance-none border rounded w-full"></textarea>
+                        <p>Persons needed:</p>
+                        <input v-model="project_job.persons_needed" type="number" class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline mb-2">
                     </div>
                 </div>
 
@@ -86,7 +94,7 @@
             selected(e){
                 this.hideOpenedPositionCard()
 
-                let job = this.project.project_job.find(o => o.position_id == e.target.value)
+                let job = this.project.jobs.find(o => o.position_id == e.target.value)
 
                 // Retain the text bold style of those checkboxes that already had a data entered
                 if(typeof(job) == 'undefined'){
@@ -129,14 +137,14 @@
                     this.needed[`selected${id}`] = false
 
                     // Check if the positiion data is already added and get the index  
-                    let i = this.project.project_job.findIndex(o => o.position_id == id)
+                    let i = this.project.jobs.findIndex(o => o.position_id == id)
                 
                     if (i == -1){
                         // Add to the array if it was not added
-                        this.project.project_job.push(this.project_job)
+                        this.project.jobs.push(this.project_job)
                     } else {
                         // Update the value if it was already added
-                        this.project.project_job[i] = this.project_job
+                        this.project.jobs[i] = this.project_job
                     }
 
                     this.project_job = {}
@@ -165,6 +173,10 @@
                 if (this.errors.length > 0){
                     this.displayError(`There are ${errors.length} errors. Please try again.`)
                     return true
+                }
+
+                if(! this.project.travel_expenses_paid){
+                    this.errors.push('Travel/Lodging Expenses option is required')
                 }
 
                 return false
