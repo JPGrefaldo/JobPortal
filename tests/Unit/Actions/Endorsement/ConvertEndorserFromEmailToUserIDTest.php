@@ -35,7 +35,7 @@ class ConvertEndorserFromEmailToUserIDTest extends TestCase
         ]);
 
         $user = $this->createUser([
-            'email' => 'test@test.com'
+            'email' => 'test@test.com',
         ]);
 
         $this->assertNull($endorser->user_id);
@@ -53,7 +53,7 @@ class ConvertEndorserFromEmailToUserIDTest extends TestCase
     public function not_an_endorser_yet()
     {
         $user = $this->createUser([
-            'email' => 'test@test.com'
+            'email' => 'test@test.com',
         ]);
 
         $this->service->execute($user);

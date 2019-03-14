@@ -24,13 +24,13 @@ class FetchNewMessagesTest extends TestCase
         $threads = $this->seedThreadAndMessages();
         
         // Then we map through the thread's message(s)
-        $threads->map(function ($thread){
+        $threads->map(function ($thread) {
             // And then assert if the thread's message was
             // fetch successfully
             $this->assertArrayHas([
                 'thread_id' => $thread->id,
-                'user_id' => 1,
-                'body' => 'Test Reply Message'
+                'user_id'   => 1,
+                'body'      => 'Test Reply Message',
             ], $thread->toArray());
         });
     }
@@ -45,34 +45,34 @@ class FetchNewMessagesTest extends TestCase
         $threads = $this->seedThreadAndMessages();
 
         // Then we loop through thread's messages
-        $threads->flatMap(function($thread){
-                    return $thread->get()
-                                    ->each(function($message){
-                                        // And then get the thread's subject
-                                        $thread = Thread::where('id', $message->thread_id)->pluck('subject');
+        $threads->flatMap(function ($thread) {
+            return $thread->get()
+                ->each(function ($message) {
+                    // And then get the thread's subject
+                    $thread = Thread::where('id', $message->thread_id)->pluck('subject');
                                         
-                                        // And then add the thread subject to the messages
-                                        $message['thread'] = $thread[0];
+                    // And then add the thread subject to the messages
+                    $message['thread'] = $thread[0];
 
-                                        // Then return them to display them in the email notification
-                                        return $message;
-                                    });
-                })
-                ->flatMap(function($emailFormat){
+                    // Then return them to display them in the email notification
+                    return $message;
+                });
+        })
+            ->flatMap(function ($emailFormat) {
 
                     // Then we assert if we succesfully added the thread subject to the messages
-                    $this->assertEquals('Thread Test Subject', $emailFormat->thread);
+                $this->assertEquals('Thread Test Subject', $emailFormat->thread);
                     
-                    // And assert if the email format is what we expected to be
-                    $this->assertArrayHas(
+                // And assert if the email format is what we expected to be
+                $this->assertArrayHas(
                         [
                             "thread_id" => 1,
-                            "user_id" => 1,
-                            "body" => "Test Reply Message"
-                        ], 
+                            "user_id"   => 1,
+                            "body"      => "Test Reply Message",
+                        ],
                         $emailFormat->toArray()
                     );
-                });
+            });
     }
 
     private function seedThreadAndMessages()
@@ -82,21 +82,21 @@ class FetchNewMessagesTest extends TestCase
 
         // Given we have a thread
         $thread = factory(Thread::class)->create([
-            'subject' => 'Thread Test Subject'
+            'subject' => 'Thread Test Subject',
         ]);
 
         // And the thread owner is producer
-        $thread->addParticipant( 
+        $thread->addParticipant(
             [
-                'user_id' => $producer->id
+                'user_id' => $producer->id,
             ]
         );
 
         // And when a new reply in the thread is added (message)
         $replyFromCrew = [
             'thread_id' => $thread->id,
-            'user_id' => $crew->id,
-            'body' => 'Test Reply Message'
+            'user_id'   => $crew->id,
+            'body'      => 'Test Reply Message',
         ];
 
         $crew->messages()->create($replyFromCrew);
@@ -128,45 +128,45 @@ class FetchNewMessagesTest extends TestCase
         
         // Then we map through the user's thread with new message
         $producer->threadsWithNewMessages()
-                 ->flatMap(function($thread) use ($time, $producer) {
-                    // And then get all the messages that are posted less
-                    // than 30 mins. ago and don't include the producer's own
-                    // message in the thread and return them
-                    return $thread->messages()
-                                  ->where('created_at', '>', $time)
-                                  ->where('user_id', '!=', $producer->id)
-                                  ->get()
-                                  ->toArray();
-                 })
+            ->flatMap(function ($thread) use ($time, $producer) {
+                // And then get all the messages that are posted less
+                // than 30 mins. ago and don't include the producer's own
+                // message in the thread and return them
+                return $thread->messages()
+                    ->where('created_at', '>', $time)
+                    ->where('user_id', '!=', $producer->id)
+                    ->get()
+                    ->toArray();
+            })
                  //Then we map through the user's thread messages
-                 ->flatmap(function($message) use($time) {
-                    // Then we assert each one of them that
-                    // it got only the new reply
-                    $this->assertArrayHas(
-                        [
-                            'thread_id' => 1,
-                            'user_id' => 1,
-                            'body' => 'Test Reply Message'
-                        ], 
-                        $message
+            ->flatmap(function ($message) use ($time) {
+                // Then we assert each one of them that
+                // it got only the new reply
+                $this->assertArrayHas(
+                         [
+                             'thread_id' => 1,
+                             'user_id'   => 1,
+                             'body'      => 'Test Reply Message',
+                         ],
+                         $message
                     );
-                    // And then compare the creation time to make sure that it got
-                    // only the messages that are posted not more than 30 mins. ago
-                    $this->assertLessThan($message['created_at'], $time);
-                });
+                // And then compare the creation time to make sure that it got
+                // only the messages that are posted not more than 30 mins. ago
+                $this->assertLessThan($message['created_at'], $time);
+            });
     }
 
     private function seedThreadMessagesAndReplies($crew, $producer)
     {
         // Given we have a thread
         $thread = factory(Thread::class)->create([
-            'subject' => 'Thread Test Subject'
+            'subject' => 'Thread Test Subject',
         ]);
 
         // And the thread owner is the producer
         $thread->addParticipant(
             [
-                'user_id' => $producer->id
+                'user_id' => $producer->id,
             ]
         );
 
@@ -174,8 +174,8 @@ class FetchNewMessagesTest extends TestCase
         // on his thread
         $message = [
             'thread_id' => $thread->id,
-            'user_id' => $producer->id,
-            'body' => 'Test Message'
+            'user_id'   => $producer->id,
+            'body'      => 'Test Message',
         ];
 
         $producer->messages()->create($message);
@@ -184,15 +184,15 @@ class FetchNewMessagesTest extends TestCase
         // a new one and old reply which is posted 31 mins. ago
         $replyFromCrew = [
             'thread_id' => $thread->id,
-            'user_id' => $crew->id,
-            'body' => 'Test Reply Message'
+            'user_id'   => $crew->id,
+            'body'      => 'Test Reply Message',
         ];
 
         $oldReplyFromCrew = [
-            'thread_id' => $thread->id,
-            'user_id' => $crew->id,
-            'body' => 'Test Old Reply Message',
-            'created_at' => Carbon::now()->subMinutes(31)
+            'thread_id'  => $thread->id,
+            'user_id'    => $crew->id,
+            'body'       => 'Test Old Reply Message',
+            'created_at' => Carbon::now()->subMinutes(31),
         ];
 
         $crew->messages()->create($replyFromCrew);

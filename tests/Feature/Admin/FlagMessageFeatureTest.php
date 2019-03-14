@@ -44,7 +44,7 @@ class FlagMessageFeatureTest extends TestCase
 
         $data = [
             'pending_flag_message_id' => $pendingFlagMessage->id,
-            'action' => 'disapprove',
+            'action'                  => 'disapprove',
         ];
 
         // when

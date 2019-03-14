@@ -31,7 +31,7 @@ class MessageCrew
 
             $thread->messages()->save(new Message([
                 'user_id' => $user->id,
-                'body' => $data['message'],
+                'body'    => $data['message'],
             ]));
 
             // TODO: queue send emails

@@ -49,10 +49,10 @@ class AdminUsersFeatureTest extends TestCase
         $admin = $this->createAdmin();
 
         $response = $this->actingAs($admin)
-                         ->put(route('admin.users.ban', [
-                             'user',
-                             44,
-                         ]));
+            ->put(route('admin.users.ban', [
+                'user',
+                44,
+            ]));
 
         $response->assertNotFound();
     }
@@ -87,7 +87,7 @@ class AdminUsersFeatureTest extends TestCase
         $user = $this->createUser();
 
         $response = $this->actingAs($crew)
-                         ->put(route('admin.users.ban', $user));
+            ->put(route('admin.users.ban', $user));
 
         $response->assertForbidden();
     }

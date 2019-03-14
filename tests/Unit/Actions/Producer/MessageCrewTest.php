@@ -58,15 +58,15 @@ class MessageCrewTest extends TestCase
             'messages',
             [
                 'thread_id' => $thread->id,
-                'user_id' => $producerUser->id,
-                'body' => 'Some message',
+                'user_id'   => $producerUser->id,
+                'body'      => 'Some message',
             ]
         );
         $this->assertDatabaseHas(
             'participants',
             [
                 'thread_id' => $thread->id,
-                'user_id' => $producerUser->id,
+                'user_id'   => $producerUser->id,
                 // 'last_read' => new Carbon(),
             ]
         );
@@ -75,7 +75,7 @@ class MessageCrewTest extends TestCase
             'participants',
             [
                 'thread_id' => $thread->id,
-                'user_id' => $crew->user->id,
+                'user_id'   => $crew->user->id,
                 // 'last_read' => new Carbon,
             ]
         );
@@ -122,15 +122,15 @@ class MessageCrewTest extends TestCase
             'messages',
             [
                 'thread_id' => $thread->id,
-                'user_id' => $producerUser->id,
-                'body' => 'Some message',
+                'user_id'   => $producerUser->id,
+                'body'      => 'Some message',
             ]
         );
         $this->assertDatabaseHas(
             'participants',
             [
                 'thread_id' => $thread->id,
-                'user_id' => $producerUser->id,
+                'user_id'   => $producerUser->id,
                 // 'last_read' => new Carbon(),
             ]
         );
@@ -139,7 +139,7 @@ class MessageCrewTest extends TestCase
             'participants',
             [
                 'thread_id' => $thread->id,
-                'user_id' => $crew->user->id,
+                'user_id'   => $crew->user->id,
                 // 'last_read' => new Carbon,
             ]
         );
@@ -157,14 +157,14 @@ class MessageCrewTest extends TestCase
         $crewUser = $this->createUser();
         $project = factory(Project::class)->create();
         $thread = factory(Thread::class)->create([
-            'subject' => 'asdf'
+            'subject' => 'asdf',
         ]);
 
         $thread->addParticipant([$producerUser->id, $crewUser->id]);
 
         $message = factory(Message::class)->create([
             'thread_id' => $thread,
-            'user_id' => $producerUser->id,
+            'user_id'   => $producerUser->id,
         ]);
 
         $thread->messages()->save($message);

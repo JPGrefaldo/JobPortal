@@ -106,7 +106,7 @@ class ProjectTest extends TestCase
         $this->assertCount(1, ProjectThread::all());
         $this->assertDatabaseHas('project_thread', [
             'project_id' => $project->id,
-            'thread_id' => $thread->id,
+            'thread_id'  => $thread->id,
         ]);
     }
 }

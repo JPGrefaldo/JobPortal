@@ -17,7 +17,7 @@ class AccountPasswordController extends Controller
     public function index()
     {
         return view('account.account', [
-            'user' => Auth::user(),
+            'user'        => Auth::user(),
             'accountType' => 'password',
         ]);
     }

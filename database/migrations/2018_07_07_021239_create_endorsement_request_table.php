@@ -22,10 +22,10 @@ class CreateEndorsementRequestTable extends Migration
             $table->timestamps();
 
             $table->foreign('endorsement_endorser_id')
-                  ->references('id')
-                  ->on('endorsement_endorsers')
-                  ->onDelete('cascade')
-                  ->onUpdate('cascade');
+                ->references('id')
+                ->on('endorsement_endorsers')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
 
             $table->index('token');
         });

@@ -251,7 +251,7 @@ class ProjectJobsServiceTest extends TestCase
             'notes'                => 'Updated Notes',
             'travel_expenses_paid' => true,
             'rush_call'            => false,
-            'position_id'          => PositionID::CAMERA_OPERATOR
+            'position_id'          => PositionID::CAMERA_OPERATOR,
         ], $job->refresh()->toArray());
     }
 

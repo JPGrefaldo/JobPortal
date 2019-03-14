@@ -50,12 +50,12 @@ class StoreProjectFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post(route('producer.projects'), $data);
+            ->post(route('producer.projects'), $data);
 
         $response->assertSuccessful();
 
         $project = Project::whereTitle('Some Title')
-                          ->first();
+            ->first();
 
         $this->assertArrayHas(
             [
@@ -121,12 +121,12 @@ class StoreProjectFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post(route('producer.projects'), $data);
+            ->post(route('producer.projects'), $data);
 
         $response->assertSuccessful();
 
         $project = Project::whereTitle('Some Title')
-                          ->first();
+            ->first();
 
         $this->assertArrayHas(
             [
@@ -170,12 +170,12 @@ class StoreProjectFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post(route('producer.projects'), $data);
+            ->post(route('producer.projects'), $data);
 
         $response->assertSuccessful();
 
         $project = Project::whereTitle('Some Title')
-                          ->first();
+            ->first();
 
         $this->assertArrayHas(
             [
@@ -237,12 +237,12 @@ class StoreProjectFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post(route('producer.projects'), $data);
+            ->post(route('producer.projects'), $data);
 
         $response->assertSuccessful();
 
         $project = Project::whereTitle('Some Title')
-                          ->first();
+            ->first();
 
         $this->assertArrayHas(
             [
@@ -310,12 +310,12 @@ class StoreProjectFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post(route('producer.projects'), $data);
+            ->post(route('producer.projects'), $data);
 
         $response->assertSuccessful();
 
         $project = Project::whereTitle('Some Title')
-                          ->first();
+            ->first();
 
         $this->assertArrayHas(
             [
@@ -393,12 +393,12 @@ class StoreProjectFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post(route('producer.projects'), $data);
+            ->post(route('producer.projects'), $data);
 
         $response->assertSuccessful();
 
         $project = Project::whereTitle('Some Title')
-                          ->first();
+            ->first();
 
         $this->assertArrayHas(
             [
@@ -482,7 +482,7 @@ class StoreProjectFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post(route('producer.projects'), $data);
+            ->post(route('producer.projects'), $data);
 
         $response->assertSessionHasErrors([
             'title', // min 3 chars
@@ -499,7 +499,7 @@ class StoreProjectFeatureTest extends TestCase
             'jobs.*.notes', // min 3 chars
             'jobs.*.travel_expenses_paid', // must be boolean
             'jobs.*.rush_call', // must be boolean
-            'jobs.*.position_id' // must exist in the positions table
+            'jobs.*.position_id', // must exist in the positions table
         ]);
     }
 
@@ -520,7 +520,7 @@ class StoreProjectFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post(route('producer.projects'), $data);
+            ->post(route('producer.projects'), $data);
 
         $response->assertSessionHasErrors([
             'title', // required
@@ -564,7 +564,7 @@ class StoreProjectFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post(route('producer.projects'), $data);
+            ->post(route('producer.projects'), $data);
 
         $response->assertSessionHasErrors([
             'jobs.*.pay_type_id',
@@ -581,7 +581,7 @@ class StoreProjectFeatureTest extends TestCase
         $user = $this->createCrew();
 
         $response = $this->actingAs($user)
-                         ->post(route('producer.projects'));
+            ->post(route('producer.projects'));
 
         $response->assertForbidden();
     }

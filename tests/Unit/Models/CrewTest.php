@@ -52,11 +52,11 @@ class CrewTest extends TestCase
         $second = rand(1, 10);
 
         factory(CrewPosition::class)->create([
-            'crew_id' => $this->crew->id,
+            'crew_id'     => $this->crew->id,
             'position_id' => $first,
         ]);
         factory(CrewPosition::class)->create([
-            'crew_id' => $this->crew->id,
+            'crew_id'     => $this->crew->id,
             'position_id' => $second,
         ]);
 
@@ -138,9 +138,9 @@ class CrewTest extends TestCase
             $this->crew->positions->first()->name
         );
         $this->assertDatabaseHas('crew_position', [
-            'crew_id' => $this->crew->id,
-            'position_id' => $position->id,
-            'details' => $crewPosition['details'],
+            'crew_id'           => $this->crew->id,
+            'position_id'       => $position->id,
+            'details'           => $crewPosition['details'],
             'union_description' => $crewPosition['union_description'],
         ]);
     }
@@ -158,8 +158,8 @@ class CrewTest extends TestCase
         // when
         $crewPosition = factory(CrewPosition::class)
             ->create([
-                'crew_id' => $this->crew->id,
-                'position_id' => $appliedPosition->id
+                'crew_id'     => $this->crew->id,
+                'position_id' => $appliedPosition->id,
             ]);
 
         // then

@@ -45,7 +45,7 @@ class SignupFeatureTest extends TestCase
         $this->assertSignupSuccess($response, $data);
 
         $this->assertDatabaseHas('users', [
-            'first_name' => $user['first_name']
+            'first_name' => $user['first_name'],
         ]);
 
         $user = User::whereFirstName($user['first_name'])->first();
@@ -87,7 +87,7 @@ class SignupFeatureTest extends TestCase
         $this->assertSignupSuccess($response, $data);
 
         $this->assertDatabaseHas('users', [
-            'first_name' => $user['first_name']
+            'first_name' => $user['first_name'],
         ]);
 
         $user = User::whereFirstName($user['first_name'])->first();
@@ -128,7 +128,7 @@ class SignupFeatureTest extends TestCase
         $this->assertSignupSuccess($response, $data);
 
         $this->assertDatabaseHas('users', [
-            'first_name' => $user['first_name']
+            'first_name' => $user['first_name'],
         ]);
 
         $user = User::whereFirstName($user['first_name'])->first();

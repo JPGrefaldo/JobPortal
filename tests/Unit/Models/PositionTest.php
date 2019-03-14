@@ -28,16 +28,16 @@ class PositionTest extends TestCase
         $crewPosition = factory(CrewPosition::class)->make();
 
         $position->crews()->attach($crew, [
-            'details' => $crewPosition->details,
+            'details'           => $crewPosition->details,
             'union_description' => $crewPosition->union_description,
         ]);
 
         $this->assertEquals($crew->id, $position->crews->first()->id);
         $this->assertDatabaseHas('crew_position', [
-            'crew_id' => $crew->id,
-            'position_id' => $position->id,
-            'details' => $crewPosition->details,
-            'union_description' => $crewPosition->union_description
+            'crew_id'           => $crew->id,
+            'position_id'       => $position->id,
+            'details'           => $crewPosition->details,
+            'union_description' => $crewPosition->union_description,
         ]);
     }
 

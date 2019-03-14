@@ -59,9 +59,9 @@ class FakeCrewPosition extends Command
         }
 
         CrewPosition::create([
-            'crew_id' => $user->crew->id,
-            'position_id' => $position->id,
-            'details' => 'Faked it',
+            'crew_id'           => $user->crew->id,
+            'position_id'       => $position->id,
+            'details'           => 'Faked it',
             'union_description' => 'None',
         ]);
     }

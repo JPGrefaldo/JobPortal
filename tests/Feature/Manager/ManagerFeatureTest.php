@@ -3,9 +3,6 @@
 namespace Tests\Feature\Manager;
 
 use App\Models\Manager;
-use App\Models\User;
-use App\Utils\StrUtils;
-use Faker\Factory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
@@ -22,16 +19,16 @@ class ManagerFeatureTest extends TestCase
     {
         $subordinate = $this->createUser();
         $manager = $this->createUser([
-            'email' => 'manager@email.com'
+            'email' => 'manager@email.com',
         ]);
 
         $this->actingAs($subordinate)
-             ->get(route('account.manager'));
+            ->get(route('account.manager'));
 
         $response = $this->actingAs($subordinate)
-                         ->post(route('account.manager'), [
-                             'email' => $manager->email
-                         ]);
+            ->post(route('account.manager'), [
+                'email' => $manager->email,
+            ]);
 
         $response->assertRedirect(route('account.manager'));
 
@@ -46,14 +43,14 @@ class ManagerFeatureTest extends TestCase
     {
         $subordinate = $this->createUser();
         $manager = [
-            'email' => 'manager@email.com'
+            'email' => 'manager@email.com',
         ];
 
         $this->actingAs($subordinate)
-             ->get(route('account.manager'));
+            ->get(route('account.manager'));
 
         $response = $this->actingAs($subordinate)
-                         ->post(route('account.manager'), $manager);
+            ->post(route('account.manager'), $manager);
 
         $response->assertRedirect(route('account.manager'));
 
@@ -69,12 +66,12 @@ class ManagerFeatureTest extends TestCase
         $user = $this->createUser();
 
         $this->actingAs($user)
-             ->get(route('account.manager'));
+            ->get(route('account.manager'));
 
         $response = $this->actingAs($user)
-                         ->post(route('account.manager'), [
-                             'email' => $user->email
-                         ]);
+            ->post(route('account.manager'), [
+                'email' => $user->email,
+            ]);
 
         $response->assertRedirect(route('account.manager'));
 
@@ -89,25 +86,25 @@ class ManagerFeatureTest extends TestCase
     {
         $subordinate = $this->createUser();
         $manager = $this->createUser([
-            'email' => 'manager@email.com'
+            'email' => 'manager@email.com',
         ]);
 
         $this->actingAs($subordinate)
-             ->get(route('account.manager'));
+            ->get(route('account.manager'));
 
         $response = $this->actingAs($subordinate)
-                         ->post(route('account.manager'), [
-                             'email' => $manager->email
-                         ]);
+            ->post(route('account.manager'), [
+                'email' => $manager->email,
+            ]);
 
         $response->assertRedirect(route('account.manager'));
 
         $this->assertContains(
             [
-                'manager_id' => 2
+                'manager_id' => 2,
             ],
             $manager->refresh()
-                    ->toArray()
+                ->toArray()
         );
     }
 
@@ -119,33 +116,33 @@ class ManagerFeatureTest extends TestCase
     {
         $subordinate = $this->createUser();
         $manager = $this->createUser([
-            'email' => 'manager@email.com'
+            'email' => 'manager@email.com',
         ]);
         $manager2 = $this->createUser([
-            'email' => 'manager2@email.com'
+            'email' => 'manager2@email.com',
         ]);
 
         $this->actingAs($subordinate)
-             ->get(route('account.manager'));
+            ->get(route('account.manager'));
 
         $response = $this->actingAs($subordinate)
-                         ->post(route('account.manager'), [
-                             'email' => $manager->email
-                         ]);
+            ->post(route('account.manager'), [
+                'email' => $manager->email,
+            ]);
 
         $response->assertRedirect(route('account.manager'));
 
         $response = $this->actingAs($subordinate)
-                         ->post(route('account.manager'), [
-                             'email' => $manager2->email
-                         ]);
+            ->post(route('account.manager'), [
+                'email' => $manager2->email,
+            ]);
 
         $this->assertContains(
             [
-                'manager_id' => 3
+                'manager_id' => 3,
             ],
             $manager->refresh()
-                    ->toArray()
+                ->toArray()
         );
     }
 
@@ -158,7 +155,7 @@ class ManagerFeatureTest extends TestCase
         $this->disableExceptionHandling();
         $subordinate = $this->createUser();
         $manager = $this->createUser([
-            'email' => 'manager@email.com'
+            'email' => 'manager@email.com',
         ]);
 
         Manager::create([
@@ -171,9 +168,9 @@ class ManagerFeatureTest extends TestCase
         ]);
 
         $this->actingAs($subordinate)
-             ->call('DELETE', route('manager.remove', [
-                 'manager' => $manager->id
-             ]))->assertSuccessful();
+            ->call('DELETE', route('manager.remove', [
+                'manager' => $manager->id,
+            ]))->assertSuccessful();
 
         $this->assertDatabaseMissing('managers', [
             'manager_id'     => $manager->id,

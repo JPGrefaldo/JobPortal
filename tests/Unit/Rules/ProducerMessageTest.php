@@ -35,7 +35,7 @@ class ProducerMessageTest extends TestCase
     {
         $result = $this->app['validator']->make(
             [
-                'recipients' => $this->recipients
+                'recipients' => $this->recipients,
             ],
             [
                 'recipients' => [
@@ -61,7 +61,7 @@ class ProducerMessageTest extends TestCase
 
         $result = $this->app['validator']->make(
             [
-                'recipients' => $this->recipients
+                'recipients' => $this->recipients,
             ],
             [
                 'recipients' => [

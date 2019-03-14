@@ -16,9 +16,9 @@ class CreateEndorsementEndorsersTable extends Migration
         Schema::create('endorsement_endorsers', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id')
-                  ->nullable();
+                ->nullable();
             $table->string('email')
-                  ->nullable();
+                ->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')

@@ -24,14 +24,14 @@ class CreateCrewPositionsTable extends Migration
             $table->softDeletes();
 
             $table->foreign('crew_id')
-                  ->references('id')
-                  ->on('crews')
-                  ->onDelete('cascade');
+                ->references('id')
+                ->on('crews')
+                ->onDelete('cascade');
 
             $table->foreign('position_id')
-                  ->references('id')
-                  ->on('positions')
-                  ->onDelete('cascade');
+                ->references('id')
+                ->on('positions')
+                ->onDelete('cascade');
         });
     }
 

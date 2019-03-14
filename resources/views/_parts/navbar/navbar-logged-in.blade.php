@@ -59,7 +59,7 @@
 
                     @if (isset(Auth::user()->crew) && !empty(Auth::user()->crew->photo))
                         <span class="w-10 h-10 bg-cover rounded-full inline-block"
-                              style="background-image: url('https://s3-us-west-2.amazonaws.com/test.crewcalls.info{{ $user->crew->photo_url }}')"></span>
+                              style="background-image: url('https://s3-us-west-2.amazonaws.com/test.crewcalls.info{{ Auth::user()->crew->photo_url }}')"></span>
                     @else
                         <span class="w-10 h-10 bg-cover rounded-full inline-block background-missing-avatar"></span>
                     @endif
@@ -110,7 +110,7 @@
     <div class="py-6 px-3 border-t border-grey-dark">
         <div class="relative flex items-center p-1 rounded-lg">
 
-            <span class="ml-3 w-10 h-10 bg-cover rounded-full inline-block @if(! isset($user->crew) || ! $user->crew->photo) background-missing-avatar " @else "
+            <span class="ml-3 w-10 h-10 bg-cover rounded-full inline-block @if(! isset(Auth::user()->crew) || ! Auth::user()->crew->photo) background-missing-avatar " @else "
                   style="background-image: url(images/thumb.jpg)"
                 @endif
             ></span>

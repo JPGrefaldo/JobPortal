@@ -72,7 +72,7 @@ class CreateTestUserTest extends TestCase
     public function error_on_created()
     {
         $this->createUser([
-            'email' => 'test@test.com'
+            'email' => 'test@test.com',
         ]);
 
         $command = $this->artisan(self::CMD, [

@@ -44,7 +44,7 @@ class PositionsFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post(route('admin.positions'), $data);
+            ->post(route('admin.positions'), $data);
 
         $response->assertSuccessful();
 
@@ -77,7 +77,7 @@ class PositionsFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post(route('admin.positions'), $data);
+            ->post(route('admin.positions'), $data);
 
         $response->assertSuccessful();
 
@@ -112,7 +112,7 @@ class PositionsFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post(route('admin.positions'), $data);
+            ->post(route('admin.positions'), $data);
 
         $response->assertSuccessful();
 
@@ -146,14 +146,14 @@ class PositionsFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post(route('admin.positions'), $data);
+            ->post(route('admin.positions'), $data);
 
         $response->assertSessionHasErrors(
             [
                 'name', // is required
                 'department_id', // must exist in the departments table
                 'has_gear', // must be a boolean
-                'has_union' // must be a boolean
+                'has_union', // must be a boolean
             ]
         );
     }
@@ -173,7 +173,7 @@ class PositionsFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post(route('admin.positions'), $data);
+            ->post(route('admin.positions'), $data);
 
         $response->assertForbidden();
     }
@@ -195,7 +195,7 @@ class PositionsFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                        ->put(route('admin.positions.update', ['position' => $position->id]), $data);
+            ->put(route('admin.positions.update', ['position' => $position->id]), $data);
 
         $response->assertSuccessful();
 
@@ -227,7 +227,7 @@ class PositionsFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->put(route('admin.positions.update', ['position' => $position->id]), $data);
+            ->put(route('admin.positions.update', ['position' => $position->id]), $data);
 
         $response->assertSuccessful();
 
@@ -261,7 +261,7 @@ class PositionsFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->put(route('admin.positions.update', ['position' => $position->id]), $data);
+            ->put(route('admin.positions.update', ['position' => $position->id]), $data);
 
         $response->assertSuccessful();
 
@@ -296,7 +296,7 @@ class PositionsFeatureTest extends TestCase
         $position = factory(Position::class)->create($data);
 
         $response = $this->actingAs($user)
-                         ->put(route('admin.positions.update', ['position' => $position->id]), $data);
+            ->put(route('admin.positions.update', ['position' => $position->id]), $data);
 
         $response->assertSuccessful();
 
@@ -329,7 +329,7 @@ class PositionsFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->put(route('admin.positions.update', ['position' => $position->id]), $data);
+            ->put(route('admin.positions.update', ['position' => $position->id]), $data);
 
         $response->assertSessionHasErrors(
             [
@@ -339,7 +339,7 @@ class PositionsFeatureTest extends TestCase
                 // must exist in the departments table
                 'has_gear',
                 // must be a boolean
-                'has_union'
+                'has_union',
                 // must be a boolean
             ]
         );
@@ -360,7 +360,7 @@ class PositionsFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->put(route('admin.positions.update', ['position' => '999']), $data);
+            ->put(route('admin.positions.update', ['position' => '999']), $data);
 
         $response->assertNotFound();
     }
@@ -381,7 +381,7 @@ class PositionsFeatureTest extends TestCase
         $position = factory(Position::class)->create($data);
 
         $response = $this->actingAs($user)
-                         ->put(route('admin.positions.update', ['position' => $position->id]), $data);
+            ->put(route('admin.positions.update', ['position' => $position->id]), $data);
 
         $response->assertForbidden();
     }

@@ -22,14 +22,14 @@ class CreateUserSitesTable extends Migration
             $table->unique(['user_id', 'site_id']);
 
             $table->foreign('user_id')
-                  ->references('id')
-                  ->on('users')
-                  ->onDelete('cascade');
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
 
             $table->foreign('site_id')
-                  ->references('id')
-                  ->on('sites')
-                  ->onDelete('cascade');
+                ->references('id')
+                ->on('sites')
+                ->onDelete('cascade');
         });
     }
 

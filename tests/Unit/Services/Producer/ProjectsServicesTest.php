@@ -72,7 +72,7 @@ class ProjectsServicesTest extends TestCase
             'project_type_id'        => ProjectTypeID::TV,
             'description'            => 'Some Description',
             'location'               => 'Some Location',
-            'status'                 => 1 // status will not be updated
+            'status'                 => 1, // status will not be updated
         ];
         $user  = $this->createUser();
         $site  = $this->getCurrentSite();

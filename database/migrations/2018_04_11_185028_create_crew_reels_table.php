@@ -18,21 +18,21 @@ class CreateCrewReelsTable extends Migration
             $table->unsignedInteger('crew_id');
             $table->string('url');
             $table->boolean('general')
-                  ->default(false);
+                ->default(false);
             $table->unsignedInteger('crew_position_id')
-                  ->nullable()
-                  ->default(null);
+                ->nullable()
+                ->default(null);
             $table->timestamps();
 
             $table->foreign('crew_id')
-                  ->references('id')
-                  ->on('crews')
-                  ->onDelete('cascade');
+                ->references('id')
+                ->on('crews')
+                ->onDelete('cascade');
 
             $table->foreign('crew_position_id')
-                  ->references('id')
-                  ->on('crew_position')
-                  ->onDelete('cascade');
+                ->references('id')
+                ->on('crew_position')
+                ->onDelete('cascade');
         });
     }
 

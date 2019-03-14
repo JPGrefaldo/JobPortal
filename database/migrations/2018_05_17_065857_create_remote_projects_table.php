@@ -20,14 +20,14 @@ class CreateRemoteProjectsTable extends Migration
             $table->timestamps();
 
             $table->foreign('project_id')
-                  ->references('id')
-                  ->on('projects')
-                  ->onDelete('cascade');
+                ->references('id')
+                ->on('projects')
+                ->onDelete('cascade');
 
             $table->foreign('site_id')
-                  ->references('id')
-                  ->on('sites')
-                  ->onDelete('cascade');
+                ->references('id')
+                ->on('sites')
+                ->onDelete('cascade');
         });
     }
 

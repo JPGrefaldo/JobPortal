@@ -17,11 +17,11 @@ class CreateSitesTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('hostname')
-                  ->unique();
+                ->unique();
             $table->integer('forward_to_site_id')
-                  ->default(0);
+                ->default(0);
             $table->smallInteger('status')
-                  ->default(1);
+                ->default(1);
             $table->timestamps();
         });
     }

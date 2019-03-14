@@ -23,7 +23,7 @@ class UserAccountFeatureTest extends TestCase
         $data = [
             'first_name' => 'Adam James',
             'last_name'  => 'Ford',
-            'nickname'   => 'The Rock'
+            'nickname'   => 'The Rock',
         ];
 
         $this->actingAs($user)
@@ -38,7 +38,7 @@ class UserAccountFeatureTest extends TestCase
             [
                 'first_name' => 'Adam James',
                 'last_name'  => 'Ford',
-                'nickname'   => 'The Rock'
+                'nickname'   => 'The Rock',
             ],
             $user->refresh()
                 ->toArray()
@@ -55,7 +55,7 @@ class UserAccountFeatureTest extends TestCase
         $data = [
             'first_name' => 'JoHn jAMES',
             'last_name'  => "O'neal",
-            'nickname' => ''
+            'nickname'   => '',
         ];
 
         $this->actingAs($user)
@@ -70,7 +70,7 @@ class UserAccountFeatureTest extends TestCase
             [
                 'first_name' => 'John James',
                 'last_name'  => "O'Neal",
-                'nickname' => ''
+                'nickname'   => '',
             ],
             $user->refresh()
                 ->toArray()
@@ -98,7 +98,7 @@ class UserAccountFeatureTest extends TestCase
         $response->assertSessionHasErrors([
             'first_name',
             // a-z'- and space chars are only allowed
-            'last_name'
+            'last_name',
             // a-z- and space chars are only allowed
         ]);
     }

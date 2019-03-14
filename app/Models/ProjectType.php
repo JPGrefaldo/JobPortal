@@ -17,7 +17,7 @@ class ProjectType extends Model
      * @var array
      */
     protected $casts = [
-        'id' => 'integer',
+        'id'   => 'integer',
         'name' => 'string',
     ];
 }

@@ -40,7 +40,7 @@ Route::get('verify/email/{code}', [\App\Http\Controllers\VerifyEmailController::
     ->name('verify.email');
 
 Route::get('confirm/{user}/{subordinate}', [\App\Http\Controllers\Manager\ManagerConfirmationController::class, 'index'])
-      ->name('manager.confirm');
+    ->name('manager.confirm');
 /*
 |--------------------------------------------------------------------------
 | Auth Routes
@@ -76,9 +76,9 @@ Route::middleware('auth')->group(function () {
             ->name('account.manager');
         Route::post('manager', [\App\Http\Controllers\Account\AccountManagerController::class, 'store']);
         Route::delete('manager/{manager}/remove', [\App\Http\Controllers\Account\AccountManagerController::class, 'destroy'])
-             ->name('manager.remove');
+            ->name('manager.remove');
         Route::get('manager/{manager}/resend-confirmation', [\App\Http\Controllers\Manager\ManagerConfirmationController::class, 'resend'])
-             ->name('manager.resend-confirmation');
+            ->name('manager.resend-confirmation');
 
         Route::get('notifications', [\App\Http\Controllers\Account\AccountNotificationsController::class, 'index'])
             ->name('account.notifications');
@@ -93,12 +93,12 @@ Route::middleware('auth')->group(function () {
         Route::put('settings/password', [\App\Http\Controllers\User\UserSettingsController::class, 'updatePassword']);
 
         Route::get('change/crew', [\App\Http\Controllers\Account\AccountChangeController::class, 'crew'])
-             ->name('account.change-to.crew')
-             ->middleware('role:Producer');
+            ->name('account.change-to.crew')
+            ->middleware('role:Producer');
 
         Route::get('change/producer', [\App\Http\Controllers\Account\AccountChangeController::class, 'producer'])
-             ->name('account.change-to.producer')
-             ->middleware('role:Crew');
+            ->name('account.change-to.producer')
+            ->middleware('role:Crew');
     });
 
     Route::post('/pending-flag-messages', [\App\Http\Controllers\PendingFlagMessageController::class, 'store'])

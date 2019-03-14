@@ -4,13 +4,9 @@ namespace App\Services;
 
 use App\Data\StoragePath;
 use App\Models\Crew;
-use App\Models\CrewGear;
 use App\Models\CrewReel;
 use App\Models\CrewResume;
 use App\Models\CrewSocial;
-use App\Models\Department;
-use App\Models\CrewPosition;
-use App\Models\Position;
 use App\Models\Role;
 use App\Models\User;
 use App\Utils\StrUtils;
@@ -40,7 +36,7 @@ class CrewsServices
         } else {
             $crew = Crew::create([
                 'user_id' => $user->id,
-                'bio' => $data['bio'],
+                'bio'     => $data['bio'],
             ]);
         }
 
@@ -134,7 +130,7 @@ class CrewsServices
                 'dir'  => $crew->user->hash_id,
             ], 'reel'),
             ['general' => 1],
-            ['type' => 'file']
+            ['type'    => 'file']
         );
 
 
@@ -163,9 +159,9 @@ class CrewsServices
             }
 
             CrewSocial::create([
-                'crew_id' => $crew->id,
+                'crew_id'             => $crew->id,
                 'social_link_type_id' => $value['id'],
-                'url' => $value['url'],
+                'url'                 => $value['url'],
             ]);
         }
     }
@@ -181,7 +177,7 @@ class CrewsServices
         $data = array_merge(
             $this->prepareGeneralReelData($data),
             ['general' => 1],
-            ['type' => 'link'],
+            ['type'    => 'link'],
             ['crew_id' => $crew->id]
         );
 
@@ -262,8 +258,8 @@ class CrewsServices
                 $this->updateGeneralReelFile($data['reel'], $crew);
             } else {
                 $this->updateGeneralReel(
-                    ['url' => $data['reel'],
-                        'type' => 'link'],
+                    ['url'     => $data['reel'],
+                        'type' => 'link', ],
                     $crew
                 );
             }
@@ -452,5 +448,4 @@ class CrewsServices
 
         return $reel;
     }
-
 }

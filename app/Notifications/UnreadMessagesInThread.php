@@ -3,8 +3,8 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class UnreadMessagesInThread extends Notification
 {
@@ -33,9 +33,9 @@ class UnreadMessagesInThread extends Notification
      */
     public function via($notifiable)
     {
-        return isset($this->messages) 
-            && count($this->messages) > 0 
-            ? ['mail', 'database'] 
+        return isset($this->messages)
+            && count($this->messages) > 0
+            ? ['mail', 'database']
             : [];
     }
 
@@ -47,10 +47,10 @@ class UnreadMessagesInThread extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)->markdown('emails.thread-unread-messages',[
+        return (new MailMessage)->markdown('emails.thread-unread-messages', [
             'messages' => $this->messages,
-            'user' => $this->user,
-            'url' => route('messages')
+            'user'     => $this->user,
+            'url'      => route('messages'),
         ]);
     }
 

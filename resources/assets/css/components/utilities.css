@@ -1,0 +1,36 @@
+.pos-center {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    position: absolute;
+}
+
+.input__error-message {
+    @apply .text-sm .text-red-error;
+}
+
+.input__error {
+    @apply .border-red-error;
+    box-shadow: 0 0 3px;
+}
+
+.want-to__default {
+    @apply .text-blue-dark .bg-white;
+}
+
+.want-to__default:hover {
+    @apply .bg-green .text-white;
+}
+
+.want-to__selected {
+    @apply .bg-green .text-white;
+}
+
+.want-to__selected:hover {
+    @apply .text-blue-dark .bg-white;
+}
+
+.background-missing-avatar {
+    background-image: url("/images/missing-avatar.png");
+    background-size: cover;
+}

@@ -30,7 +30,7 @@ class GetEndorserUserIDTest extends TestCase
     public function execute()
     {
         $user = $this->createUser([
-            'email' => 'test@test.com'
+            'email' => 'test@test.com',
         ]);
 
         $endorser = $this->service->execute('test@test.com');

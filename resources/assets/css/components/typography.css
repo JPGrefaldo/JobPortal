@@ -1,0 +1,27 @@
+body {
+    @apply .font-body;
+}
+
+a {
+    text-decoration: none;
+    transition: all 0.25s ease-in-out;
+    @apply .text-green;
+}
+
+p {
+    line-height: 150%;
+    @apply .text-grey-dark;
+}
+
+h1,
+h2,
+.h2,
+h3,
+.h3 {
+    @apply .font-header .font-semibold .text-blue-dark;
+}
+
+h4,
+.h4 {
+    @apply .uppercase .text-sm .font-bold .tracking-wide .font-header;
+}
