@@ -17,7 +17,7 @@ class EndorsementRequestController extends Controller
         }
 
         $endorsementRequest->endorsement->update([
-            'deleted_at' => Carbon::now()
+            'deleted_at' => Carbon::now(),
         ]);
 
         $endorsementRequest->update([

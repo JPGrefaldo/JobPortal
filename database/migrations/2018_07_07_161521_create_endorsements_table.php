@@ -18,21 +18,21 @@ class CreateEndorsementsTable extends Migration
             $table->unsignedInteger('crew_position_id');
             $table->unsignedInteger('endorsement_request_id');
             $table->datetime('approved_at')
-                  ->nullable();
+                ->nullable();
             $table->timestamps();
             $table->softDeletes();
 
             $table->foreign('endorsement_request_id')
-                  ->references('id')
-                  ->on('endorsement_requests')
-                  ->onDelete('cascade')
-                  ->onUpdate('cascade');
+                ->references('id')
+                ->on('endorsement_requests')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
 
             $table->foreign('crew_position_id')
-                  ->references('id')
-                  ->on('crew_position')
-                  ->onDelete('cascade')
-                  ->onUpdate('cascade');
+                ->references('id')
+                ->on('crew_position')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
 
             $table->index('approved_at');
         });

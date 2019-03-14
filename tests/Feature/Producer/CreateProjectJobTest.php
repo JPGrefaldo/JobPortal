@@ -38,7 +38,7 @@ class CreateProjectJobTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post(route('producer.jobs'), $data);
+            ->post(route('producer.jobs'), $data);
 
         $response->assertSuccessful();
 
@@ -57,8 +57,8 @@ class CreateProjectJobTest extends TestCase
                 'status'               => 0,
             ],
             $project->jobs()
-                    ->first()
-                    ->toArray()
+                ->first()
+                ->toArray()
         );
     }
 
@@ -86,7 +86,7 @@ class CreateProjectJobTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post(route('producer.jobs'), $data);
+            ->post(route('producer.jobs'), $data);
 
         $response->assertSuccessful();
 
@@ -105,8 +105,8 @@ class CreateProjectJobTest extends TestCase
                 'status'               => 0,
             ],
             $project->jobs()
-                    ->first()
-                    ->toArray()
+                ->first()
+                ->toArray()
         );
     }
 
@@ -134,7 +134,7 @@ class CreateProjectJobTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post(route('producer.jobs'), $data);
+            ->post(route('producer.jobs'), $data);
 
         $response->assertSuccessful();
 
@@ -153,8 +153,8 @@ class CreateProjectJobTest extends TestCase
                 'status'               => 0,
             ],
             $project->jobs()
-                    ->first()
-                    ->toArray()
+                ->first()
+                ->toArray()
         );
     }
 
@@ -178,7 +178,7 @@ class CreateProjectJobTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post(route('producer.jobs'), $data);
+            ->post(route('producer.jobs'), $data);
 
         $response->assertSuccessful();
 
@@ -197,8 +197,8 @@ class CreateProjectJobTest extends TestCase
                 'status'               => 0,
             ],
             $project->jobs()
-                    ->first()
-                    ->toArray()
+                ->first()
+                ->toArray()
         );
     }
 
@@ -228,7 +228,7 @@ class CreateProjectJobTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post(route('producer.jobs'), $data);
+            ->post(route('producer.jobs'), $data);
 
         $response->assertSuccessful();
 
@@ -248,7 +248,7 @@ class CreateProjectJobTest extends TestCase
                 'status'               => 0,
             ],
             $project->jobs->last()
-                          ->toArray()
+                ->toArray()
         );
     }
 
@@ -269,7 +269,7 @@ class CreateProjectJobTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post(route('producer.jobs'), $data);
+            ->post(route('producer.jobs'), $data);
 
         $response->assertSessionHasErrors([
             'dates_needed',
@@ -292,7 +292,7 @@ class CreateProjectJobTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post(route('producer.jobs'), $data);
+            ->post(route('producer.jobs'), $data);
 
         $response->assertSessionHasErrors([
             'persons_needed',
@@ -322,7 +322,7 @@ class CreateProjectJobTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post(route('producer.jobs'), $data);
+            ->post(route('producer.jobs'), $data);
 
         $response->assertSessionHasErrors([
             'persons_needed', // must be numeric
@@ -358,7 +358,7 @@ class CreateProjectJobTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post(route('producer.jobs'), $data);
+            ->post(route('producer.jobs'), $data);
 
         $response->assertSessionHasErrors([
             'pay_type_id',
@@ -375,7 +375,7 @@ class CreateProjectJobTest extends TestCase
         $data = [];
 
         $response = $this->actingAs($user)
-                         ->post(route('producer.jobs'), $data);
+            ->post(route('producer.jobs'), $data);
 
         $response->assertForbidden();
     }
@@ -391,7 +391,7 @@ class CreateProjectJobTest extends TestCase
         $data    = [];
 
         $response = $this->actingAs($user)
-                         ->post(route('producer.jobs'), $data);
+            ->post(route('producer.jobs'), $data);
 
         $response->assertForbidden();
     }
@@ -409,7 +409,7 @@ class CreateProjectJobTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post(route('producer.jobs'), $data);
+            ->post(route('producer.jobs'), $data);
 
         $response->assertForbidden();
     }
@@ -427,7 +427,7 @@ class CreateProjectJobTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->post(route('producer.jobs'), $data);
+            ->post(route('producer.jobs'), $data);
 
         $response->assertForbidden();
     }

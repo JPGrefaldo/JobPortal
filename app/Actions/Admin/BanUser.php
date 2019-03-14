@@ -16,7 +16,7 @@ class BanUser
     {
         UserBanned::create([
             'user_id' => $user->id,
-            'reason'  => $reason
+            'reason'  => $reason,
         ]);
         $user->deactivate();
 

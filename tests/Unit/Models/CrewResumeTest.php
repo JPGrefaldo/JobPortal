@@ -20,7 +20,7 @@ class CrewResumeTest extends TestCase
 
         $this->crew = factory(Crew::class)->create();
         $this->crewResume = factory(CrewResume::class)->create([
-            'crew_id' => $this->crew->id
+            'crew_id' => $this->crew->id,
         ]);
     }
 

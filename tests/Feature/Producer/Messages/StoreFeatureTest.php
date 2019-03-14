@@ -61,8 +61,8 @@ class StoreFeatureTest extends TestCase
             'user_id' => $producer->id,
         ]);
         $data = [
-            'subject' => '',
-            'message' => '',
+            'subject'    => '',
+            'message'    => '',
             'recipients' => '',
         ];
 
@@ -72,10 +72,10 @@ class StoreFeatureTest extends TestCase
 
         $response->assertJson([
             'message' => 'The given data was invalid.',
-            'errors' => [
-                'message' => ['The message field is required.'],
+            'errors'  => [
+                'message'    => ['The message field is required.'],
                 'recipients' => ['The recipients field is required.'],
-            ]
+            ],
         ]);
     }
 
@@ -102,9 +102,9 @@ class StoreFeatureTest extends TestCase
 
         $response->assertJson([
             'message' => 'The given data was invalid.',
-            'errors' => [
+            'errors'  => [
                 'recipients' => ['The selected recipients is invalid.'],
-            ]
+            ],
         ]);
     }
 

@@ -38,7 +38,7 @@ class UpdateProjectTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->put(route('producer.project.update', ['job' => $project->id]), $data);
+            ->put(route('producer.project.update', ['job' => $project->id]), $data);
 
         $response->assertSuccessful();
 
@@ -52,7 +52,7 @@ class UpdateProjectTest extends TestCase
                 'location'               => 'Updated Location',
             ],
             $project->refresh()
-                    ->toArray()
+                ->toArray()
         );
 
         $this->assertCount(2, $project->remotes);
@@ -84,7 +84,7 @@ class UpdateProjectTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->put(route('producer.project.update', ['job' => $project->id]), $data);
+            ->put(route('producer.project.update', ['job' => $project->id]), $data);
 
         $response->assertSuccessful();
 
@@ -98,7 +98,7 @@ class UpdateProjectTest extends TestCase
                 'location'               => null,
             ],
             $project->refresh()
-                    ->toArray()
+                ->toArray()
         );
     }
 
@@ -126,7 +126,7 @@ class UpdateProjectTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->put(route('producer.project.update', ['job' => $project->id]), $data);
+            ->put(route('producer.project.update', ['job' => $project->id]), $data);
 
         $response->assertSuccessful();
 
@@ -140,7 +140,7 @@ class UpdateProjectTest extends TestCase
                 'location'               => 'Updated Location',
             ],
             $project->refresh()
-                    ->toArray()
+                ->toArray()
         );
 
         $this->assertCount(2, $project->remotes);
@@ -178,7 +178,7 @@ class UpdateProjectTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->put(route('producer.project.update', ['job' => $project->id]), $data);
+            ->put(route('producer.project.update', ['job' => $project->id]), $data);
 
         $response->assertSuccessful();
 
@@ -192,7 +192,7 @@ class UpdateProjectTest extends TestCase
                 'location'               => 'Updated Location',
             ],
             $project->refresh()
-                    ->toArray()
+                ->toArray()
         );
 
         $this->assertCount(3, $project->remotes);
@@ -226,7 +226,7 @@ class UpdateProjectTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->put(route('producer.project.update', ['job' => $project->id]), $data);
+            ->put(route('producer.project.update', ['job' => $project->id]), $data);
 
         $response->assertSuccessful();
 
@@ -240,7 +240,7 @@ class UpdateProjectTest extends TestCase
                 'location'               => 'Updated Location',
             ],
             $project->refresh()
-                    ->toArray()
+                ->toArray()
         );
 
         $this->assertCount(0, $project->remotes);
@@ -264,7 +264,7 @@ class UpdateProjectTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->put(route('producer.project.update', ['job' => $project->id]), $data);
+            ->put(route('producer.project.update', ['job' => $project->id]), $data);
 
         $response->assertSessionHasErrors([
             'title',
@@ -298,7 +298,7 @@ class UpdateProjectTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-                         ->put(route('producer.project.update', ['job' => $project->id]), $data);
+            ->put(route('producer.project.update', ['job' => $project->id]), $data);
 
         $response->assertSessionHasErrors([
             'title', // min 3 chars
@@ -306,7 +306,7 @@ class UpdateProjectTest extends TestCase
             'production_name_public', // must be a boolean
             'project_type_id', // must exist on the project_types table
             'description', // min 3 chars
-            'sites.*' // must exist on the sites table
+            'sites.*', // must exist on the sites table
         ]);
     }
 
@@ -321,7 +321,7 @@ class UpdateProjectTest extends TestCase
         $data    = [];
 
         $response = $this->actingAs($user)
-                         ->put(route('producer.project.update', ['job' => $project->id]), $data);
+            ->put(route('producer.project.update', ['job' => $project->id]), $data);
 
         $response->assertForbidden();
     }
@@ -337,7 +337,7 @@ class UpdateProjectTest extends TestCase
         $data    = [];
 
         $response = $this->actingAs($user)
-                         ->put(route('producer.project.update', ['job' => $project->id]), $data);
+            ->put(route('producer.project.update', ['job' => $project->id]), $data);
 
         $response->assertForbidden();
     }
@@ -352,7 +352,7 @@ class UpdateProjectTest extends TestCase
         $data = [];
 
         $response = $this->actingAs($user)
-                         ->put(route('producer.project.update', ['job' => '999']), $data);
+            ->put(route('producer.project.update', ['job' => '999']), $data);
 
         $response->assertNotFound();
     }

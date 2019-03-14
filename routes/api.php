@@ -20,7 +20,7 @@ use App\Models\Role;
 Route::middleware('auth:api')->group(function () {
     Route::get('/user', [
         \App\Http\Controllers\API\UserController::class,
-        'show'
+        'show',
     ]);
 
     Route::get('/crew/departments', [
@@ -30,7 +30,7 @@ Route::middleware('auth:api')->group(function () {
 
     Route::get('/crew/projects', [
         \App\Http\Controllers\API\Crew\ProjectsController::class,
-        'index'
+        'index',
     ])->name('crew.projects.index');
 
     Route::get('/crew/positions', [
@@ -45,7 +45,7 @@ Route::middleware('auth:api')->group(function () {
 
     Route::get('/producer/projects', [
         \App\Http\Controllers\API\Producer\ProjectsController::class,
-        'index'
+        'index',
     ])->name('producer.projects.index');
 
     Route::post('/producer/projects', [
@@ -60,26 +60,26 @@ Route::middleware('auth:api')->group(function () {
 
     Route::get('/threads/{thread}/messages', [
         \App\Http\Controllers\MessagesController::class,
-        'index'
+        'index',
     ])->middleware('role:Producer|Crew')->name('messages.index');
 
     Route::post('/threads/{thread}/messages', [
         \App\Http\Controllers\MessagesController::class,
-        'store'
+        'store',
     ])->middleware('role:Producer|Crew')->name('messages.store');
 
     Route::get('/producer/projects/{project}/threads', [
         \App\Http\Controllers\Producer\ThreadsController::class,
-        'index'
+        'index',
     ])->name('producer.threads.index');
 
     Route::post('/threads/{thread}/participants', [
         \App\Http\Controllers\API\ParticipantsController::class,
-        'search'
+        'search',
     ])->middleware('role:Producer|Crew')->name('threads.search.participants');
 
     Route::get('/crew/projects/{project}/threads', [
         \App\Http\Controllers\Crew\ThreadsController::class,
-        'index'
+        'index',
     ])->name('crew.threads.index');
 });

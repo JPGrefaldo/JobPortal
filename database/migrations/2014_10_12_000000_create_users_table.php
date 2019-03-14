@@ -21,16 +21,16 @@ class CreateUsersTable extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->string('nickname')
-                  ->nullable();
+                ->nullable();
             $table->string('email')
-                  ->unique();
+                ->unique();
             $table->string('phone', 15);
             $table->string('password');
             $table->rememberToken();
             $table->smallInteger('status')
-                  ->default(1);
+                ->default(1);
             $table->boolean('confirmed')
-                  ->default(false);
+                ->default(false);
 
             $table->timestamps();
 

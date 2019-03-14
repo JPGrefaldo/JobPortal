@@ -18,7 +18,7 @@ class CreateSocialLinkTypesTable extends Migration
             $table->string('name');
             $table->string('image');
             $table->smallInteger('sort_order')
-                  ->default(0);
+                ->default(0);
             $table->timestamps();
         });
     }

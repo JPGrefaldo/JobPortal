@@ -57,7 +57,7 @@ class StoreProjectFeatureTest extends TestCase
         ]);
 
         $project = Project::whereTitle('Some Title')
-                          ->first();
+            ->first();
 
         $this->assertArrayHas(
             [
@@ -127,7 +127,7 @@ class StoreProjectFeatureTest extends TestCase
              ->post(route('producer.project.store'), $data);
 
         $project = Project::whereTitle('Some Title')
-                          ->first();
+            ->first();
 
         $this->assertArrayHas(
             [
@@ -187,7 +187,7 @@ class StoreProjectFeatureTest extends TestCase
              ->post(route('producer.project.store'), $data);
 
         $project = Project::whereTitle('Some Title')
-                          ->first();
+            ->first();
 
         $this->assertArrayHas(
             [
@@ -261,7 +261,7 @@ class StoreProjectFeatureTest extends TestCase
              ->post(route('producer.project.store'), $data);
 
         $project = Project::whereTitle('Some Title')
-                          ->first();
+            ->first();
 
         $this->assertArrayHas(
             [
@@ -344,7 +344,7 @@ class StoreProjectFeatureTest extends TestCase
              ->post(route('producer.project.store'), $data);
 
         $project = Project::whereTitle('Some Title')
-                          ->first();
+            ->first();
 
         $this->assertArrayHas(
             [
@@ -402,7 +402,7 @@ class StoreProjectFeatureTest extends TestCase
         $user = $this->createCrew();
 
         $response = $this->actingAs($user)
-                         ->post(route('producer.projects'));
+            ->post(route('producer.projects'));
 
         $response->assertForbidden();
     }

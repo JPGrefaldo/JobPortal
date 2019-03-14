@@ -67,10 +67,10 @@ class FakePendingEndorsements extends Command
             ->whereCrewId($user->crew->id)
             ->get();
 
-        for ($i = 0; $i <= $total; $i++) {
+        for ($i = 1; $i <= $total; $i++) {
             if ($positions->count() > 1) {
-                if (isset($positions[$i])) {
-                    $position = $positions[$i];
+                if (isset($positions[$i - 1])) {
+                    $position = $positions[$i - 1];
                 } else {
                     $position = $positions->random();
                 }
@@ -103,14 +103,14 @@ class FakePendingEndorsements extends Command
 
             $request = EndorsementRequest::create([
                 'endorsement_endorser_id' => $endorser->id,
-                'token' => StrUtils::createRandomString(),
-                'message' => $faker->text,
+                'token'                   => StrUtils::createRandomString(),
+                'message'                 => $faker->text,
             ]);
 
             $endorsement = Endorsement::create([
-                'crew_position_id' => $crewPosition->id,
+                'crew_position_id'       => $crewPosition->id,
                 'endorsement_request_id' => $request->id,
-                'approved_at' => null,
+                'approved_at'            => null,
             ]);
         }
 

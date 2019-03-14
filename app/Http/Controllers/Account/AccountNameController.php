@@ -18,7 +18,7 @@ class AccountNameController extends Controller
     public function index()
     {
         return view('account.account', [
-            'user' => Auth::user(),
+            'user'        => Auth::user(),
             'accountType' => 'name',
         ]);
     }
@@ -44,13 +44,13 @@ class AccountNameController extends Controller
         $data = $this->validate($request, [
             'first_name' => UserRules::firstName(),
             'last_name'  => UserRules::lastName(),
-            'nickname'  => UserRules::nickname(),
+            'nickname'   => UserRules::nickname(),
         ]);
 
         Auth::user()->update([
             'first_name' => FormatUtils::name($data['first_name']),
             'last_name'  => FormatUtils::name($data['last_name']),
-            'nickname'  => $data['nickname'],
+            'nickname'   => $data['nickname'],
         ]);
 
         return back();

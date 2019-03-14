@@ -1,0 +1,20 @@
+.list-check li {
+    position: relative;
+    @apply .pl-8 .uppercase .py-3 .text-sm .tracking-wide .font-bold .text-grey;
+}
+
+.list-check li::before {
+    content: "";
+    @apply .border .rounded-full .w-6 .h-6 .border-grey-light .absolute .pin-l .pin-t .mt-2;
+}
+
+.list-check li.is-checked {
+    @apply .text-green;
+}
+
+.list-check li.is-checked::before {
+    background-image: url(/images/check.svg);
+    background-repeat: no-repeat;
+    background-position: center center;
+    @apply .bg-green .border-green;
+}

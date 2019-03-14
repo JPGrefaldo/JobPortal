@@ -97,8 +97,8 @@ class Crew extends Model
     public function applyFor(Position $position, $attributes)
     {
         $this->positions()->attach($position, [
-            'details' => $attributes['details'],
-            'union_description' => $attributes['union_description']
+            'details'           => $attributes['details'],
+            'union_description' => $attributes['union_description'],
         ]);
     }
 
@@ -112,11 +112,11 @@ class Crew extends Model
         return Endorsement::updateOrCreate(
             [
                 'endorsement_request_id' => $endorsementRequest->id,
-                'endorser_email' => $this->user->email,
+                'endorser_email'         => $this->user->email,
             ],
             [
                 'endorser_id' => $this->id,
-                'comment' => $attributes['comment'] ?? null,
+                'comment'     => $attributes['comment'] ?? null,
                 'approved_at' => Carbon::now(),
             ]
         );

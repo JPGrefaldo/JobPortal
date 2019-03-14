@@ -21,32 +21,34 @@ class MessengerFeatureTest extends TestCase
         $admin = $this->createAdmin();
 
         $thread = factory(Thread::class)->create([
-            'subject' => 'Thread Test Subject'
+            'subject' => 'Thread Test Subject',
         ]);
 
         $thread->addParticipant(
             [
-                'user_id' => $admin->id
+                'user_id' => $admin->id,
             ]
         );
 
         $this->assertTrue($admin->hasRole(Role::ADMIN));
 
         $this->actingAs($admin, 'api')
-              ->get(route('messages.index', [
-                      'thread' => $thread->id
-                  ]
+            ->get(route(
+                'messages.index',
+                [
+                    'thread' => $thread->id,
+                ]
               ));
 
         $response = $this->actingAs($admin)
-                         ->postJson(route('messages.store', [
-                            'thread' => $thread->id,
-                            'sender' => $admin->id,
-                            'message' => 'Test Message'
-                         ]));
+            ->postJson(route('messages.store', [
+                'thread'  => $thread->id,
+                'sender'  => $admin->id,
+                'message' => 'Test Message',
+            ]));
 
         $response->assertJson([
-            'message' => 'User does not have the right roles.'
+            'message' => 'User does not have the right roles.',
         ]);
     }
 
@@ -59,32 +61,34 @@ class MessengerFeatureTest extends TestCase
         $crew = $this->createCrew();
 
         $thread = factory(Thread::class)->create([
-            'subject' => 'Thread Test Subject'
+            'subject' => 'Thread Test Subject',
         ]);
 
         $thread->addParticipant(
             [
-                'user_id' => $crew->id
+                'user_id' => $crew->id,
             ]
         );
 
         $data = [
-            'thread' => $thread->id,
-            'sender' => $crew->id,
-            'message' => 'Test Message'
+            'thread'  => $thread->id,
+            'sender'  => $crew->id,
+            'message' => 'Test Message',
         ];
 
         $this->actingAs($crew, 'api')
-             ->get(route('messages.index', [
-                    'thread' => $thread->id
+            ->get(route(
+                'messages.index',
+                [
+                    'thread' => $thread->id,
                 ]
              ));
 
         $response = $this->actingAs($crew)
-                         ->postJson(route('messages.store', $data));
+            ->postJson(route('messages.store', $data));
         
         $response->assertJson([
-            'message' => 'You are not allowed to message the producer'
+            'message' => 'You are not allowed to message the producer',
         ]);
     }
 
@@ -97,36 +101,36 @@ class MessengerFeatureTest extends TestCase
         $user = $this->createProducer();
 
         $thread = factory(Thread::class)->create([
-                      'subject' => 'Thread Test Subject'
-                  ]);
+            'subject' => 'Thread Test Subject',
+        ]);
 
         $thread->addParticipant(
             [
-                'user_id' => $user->id
+                'user_id' => $user->id,
             ]
         );
 
         $message = [
-            'thread' => $thread->id,
-            'sender' => $user->id,
-            'message' => 'Test Message'
+            'thread'  => $thread->id,
+            'sender'  => $user->id,
+            'message' => 'Test Message',
         ];
 
         $this->actingAs($user, 'api')
-             ->get(route('messages.index', [
-                    'thread' => $thread->id
+            ->get(route(
+                'messages.index',
+                [
+                    'thread' => $thread->id,
                 ]
              ));
 
         $response = $this->actingAs($user)
-                         ->postJson(route('messages.store', $message));
+            ->postJson(route('messages.store', $message));
 
         $response->assertJsonFragment([
             'thread_id' => $thread->id,
-            'user_id' => $user->id,
-            'body' => 'Test Message'
+            'user_id'   => $user->id,
+            'body'      => 'Test Message',
         ]);
     }
-
-
 }

@@ -42,7 +42,7 @@ class SendUnreadMessagesEmail extends Command
     {
         $users = User::all();
 
-        $users->map(function($user){
+        $users->map(function ($user) {
             $messages = app(FetchNewMessages::class)->execute($user);
 
             $user->notify(new UnreadMessagesInThread($messages, $user));

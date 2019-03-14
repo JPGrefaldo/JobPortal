@@ -17,15 +17,15 @@ class CreateCrewsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('user_id')->unique();
             $table->text('bio')
-                  ->nullable();
+                ->nullable();
             $table->string('photo')
-                  ->default("");
+                ->default("");
             $table->timestamps();
 
             $table->foreign('user_id')
-                  ->references('id')
-                  ->on('users')
-                  ->onDelete('cascade');
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
         });
     }
 

@@ -31,7 +31,7 @@ class UpdateProjectRequest extends FormRequest
             'description'            => 'required|string|min:3',
             'location'               => 'nullable|string',
             'sites'                  => 'present|array',
-            'sites.*'                => 'numeric|exists:sites,id'
+            'sites.*'                => 'numeric|exists:sites,id',
         ];
     }
 }

@@ -12,7 +12,7 @@ class SearchTest extends TestCase
 
     /**
      * @test
-     * @covers 
+     * @covers
      */
     public function case_insensitive_search_on_strings()
     {

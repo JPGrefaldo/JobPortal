@@ -35,8 +35,8 @@ class StubUserNotificationsTest extends TestCase
         $this->service->execute($user, $data);
 
         $this->assertDatabaseHas('user_notification_settings', [
-            'user_id' => 1,
-            'receive_sms' => 1
+            'user_id'     => 1,
+            'receive_sms' => 1,
         ]);
     }
 
@@ -52,8 +52,8 @@ class StubUserNotificationsTest extends TestCase
         $this->service->execute($user, $data);
 
         $this->assertDatabaseHas('user_notification_settings', [
-            'user_id' => 1,
-            'receive_sms' => 0
+            'user_id'     => 1,
+            'receive_sms' => 0,
         ]);
     }
 
@@ -69,8 +69,8 @@ class StubUserNotificationsTest extends TestCase
         $this->service->execute($user, $data);
 
         $this->assertDatabaseHas('user_notification_settings', [
-            'user_id' => 1,
-            'receive_sms' => 0
+            'user_id'     => 1,
+            'receive_sms' => 0,
         ]);
     }
 }

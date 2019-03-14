@@ -17,8 +17,8 @@ class ConvertEndorserFromEmailToUser
         }
 
         $endorser->update([
-            'email' => '',
-            'user_id' => $user->id
+            'email'   => '',
+            'user_id' => $user->id,
         ]);
     }
 }

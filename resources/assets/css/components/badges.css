@@ -1,0 +1,10 @@
+.badge {
+    @apply .py-1 .px-2 .rounded .inline-block .tracking-wide;
+    @apply .text-xs .text-grey .uppercase .font-body .font-normal;
+    @apply .bg-grey-lighter;
+}
+
+.badge-white {
+    background-color: rgba(248, 249, 249, 0.2);
+    @apply .text-white;
+}

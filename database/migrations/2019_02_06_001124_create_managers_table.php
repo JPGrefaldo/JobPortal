@@ -17,22 +17,22 @@ class CreateManagersTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('manager_id');
             $table->unsignedInteger('subordinate_id')
-                  ->unique();
+                ->unique();
             $table->smallInteger('status')
-                  ->default(0);
+                ->default(0);
             $table->timestamps();
 
             $table->unique(['manager_id', 'subordinate_id']);
 
             $table->foreign('manager_id')
-                  ->references('id')
-                  ->on('users')
-                  ->onDelete('cascade');
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
 
             $table->foreign('subordinate_id')
-                  ->references('id')
-                  ->on('users')
-                  ->onDelete('cascade');
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
         });
     }
 

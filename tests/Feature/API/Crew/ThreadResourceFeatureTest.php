@@ -27,7 +27,7 @@ class ThreadResourceFeatureTest extends TestCase
         $crew = factory(Crew::class)->create();
         $project = factory(Project::class)->create();
         $crewProject = factory(CrewProject::class)->create([
-            'crew_id' => $crew->id,
+            'crew_id'    => $crew->id,
             'project_id' => $project->id,
         ]);
         $threads = factory(Thread::class, 3)->create();
@@ -35,7 +35,7 @@ class ThreadResourceFeatureTest extends TestCase
         foreach ($threads as $thread) {
             $projectThreads = factory(ProjectThread::class)->create([
                 'project_id' => $project->id,
-                'thread_id' => $thread->id,
+                'thread_id'  => $thread->id,
             ]);
         }
 

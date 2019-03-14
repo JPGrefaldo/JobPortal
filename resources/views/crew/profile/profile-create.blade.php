@@ -7,8 +7,6 @@
 
             @include('_parts.pages.page-title', ['pageTitle' => 'Edit profile'])
 
-            @include('_parts.messagebox')
-
             @include('crew.profile.parts.profile-complete-indicator')
 
             <div class="md:w-3/4 float-left">
