@@ -35,17 +35,19 @@ class ProjectsController extends Controller
     {   
         $user = auth()->user()->id;
         $site_id = $this->getHostSiteID();
-        $site_ids = $this->getSiteIDs($request);
 
         $project = app(CreateProject::class)->execute($user, $site_id, $request);
 
-        foreach ($site_ids as $site_id){
-            $this->storeRemoteProjects($project->id, $site_id);
-        }
-
         if (isset($project->id) && count($request->jobs) > 0){
+            
             foreach($request->jobs as $job){
                 app(CreateProjectJob::class)->execute($job, $project);
+
+                $site_ids = $this->getSiteIDs($job);
+
+                foreach ($site_ids as $site_id){
+                    $this->storeRemoteProjects($project->id, $site_id);
+                }
             }
         }
 
@@ -61,9 +63,9 @@ class ProjectsController extends Controller
         return $site[0];
     }
 
-    private function getSiteIDs($request)
+    private function getSiteIDs($job)
     {
-        $site_ids = $request->sites;
+        $site_ids = $job['sites'];
 
         if (count($site_ids) === 1 && $site_ids[0] === 'all'){
             $site_ids = Site::all()->pluck('id');

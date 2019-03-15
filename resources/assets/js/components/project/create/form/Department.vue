@@ -7,7 +7,6 @@
                         v-for="department in departments" :key="department.id" 
                         @click="showByDepartment(department.id)">
             </li>
-            
         </ul>
     </div>
 </template>

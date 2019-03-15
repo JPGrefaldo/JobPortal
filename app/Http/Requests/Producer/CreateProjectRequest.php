@@ -39,7 +39,7 @@ class CreateProjectRequest extends FormRequest
             'jobs.*.dates_needed'         => 'required|string',
             'jobs.*.notes'                => 'required|string|min:3',
             'jobs.*.travel_expenses_paid' => 'required',
-            'sites'                       => 'present|array',
+            'jobs.*.sites'                => 'present|array',
         ];
     }
 }

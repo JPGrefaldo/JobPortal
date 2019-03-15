@@ -1,107 +1,73 @@
 <template>
-    <div class="md:w-3/4 float-left">
-        <div class="card mb-8">
-            <error-notification :errors="errors"></error-notification>
+    <main class="md:w-3/4 float-left">
 
-            <div class="w-full mb-6">
-                <h3 class="text-blue-dark font-semibold text-lg mb-1 font-header">Project details</h3>
-            </div>
+                <div class="card mb-8">
+                            <div class="w-full mb-6">
+                                <h3 class="text-blue-dark font-semibold text-lg mb-1 font-header">Project details</h3>
+                            </div>
+                            <div class="md:flex py-3">
+                                <div class="md:w-1/3 pr-6">
+                                    <span class="block md:text-right mt-4 font-header text-blue-dark font-semibold mb-3">Project title</span>  
+                                </div>
+                                <div class="md:w-2/3">
+                                    <input v-model="project.title" type="text" class="form-control w-full" placeholder="Project title">
+                                </div>
+                            </div>
+                            <div class="md:flex py-3">
+                                <div class="md:w-1/3 pr-6">
+                                    <span class="block md:text-right mt-1 font-header text-blue-dark font-semibold mb-3">Production company name <br> <small class="font-normal text-grey">(or your name if individual)</small></span>  
+                                </div>
+                                <div class="md:w-2/3">
+                                    <input v-model="project.production_name" type="text" class="form-control w-full mb-4" placeholder="Company or individual name">
+                                    <label class="checkbox-control"><span class="text-grey text-sm">Show production company name publicly</span>
+                                        <input v-model="project.production_name_public" type="checkbox"/>
+                                        <div class="control-indicator"></div>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="md:flex py-3">
+                                <div class="md:w-1/3 pr-6">
+                                    <span class="block md:text-right mt-4 font-header text-blue-dark font-semibold mb-3">Project type</span>  
+                                </div>
+                                <div class="md:w-2/3">
+                                    <select v-model="project.type_id" class="form-control w-full text-grey-dark">
+                                        <option v-for="projectType in projectTypes" :key="projectType.id" v-bind:value="projectType.id">{{ projectType.name }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="md:flex py-3">
+                                <div class="md:w-1/3 pr-6">
+                                    <span class="block md:text-right mt-4 font-header text-blue-dark font-semibold mb-3">Project information</span>  
+                                </div>
+                                <div class="md:w-2/3">
+                                    <textarea v-model="project.description" class="form-control w-full h-48" placeholder="Project details"></textarea>
+                                </div>
+                            </div>
 
-            <div class="md:flex py-3">
-                <div class="md:w-1/3 pr-6">
-                    <span class="block md:text-right mt-4 font-header text-blue-dark font-semibold mb-3">Project title</span>
-                </div>
-                <div class="md:w-2/3">
-                    <input v-model="project.title" type="text" class="form-control w-full" placeholder="Project title">
-                </div>
-            </div>
+                            <div class="md:flex py-3">
+                                <div class="md:w-1/3 pr-6">
+                                    <span class="block md:text-right mt-4 font-header text-blue-dark font-semibold mb-3">Project city/area</span>  
+                                </div>
+                                <div class="md:w-2/3">
+                                    <input v-model="project.location" class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline" type="text">
+                                </div>
+                            </div>
 
-            <div class="mb-4">
-                <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
-                    Production company name (or your name if individual)
-                </label>
-                <input v-model="project.production_name" class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline" type="text">
-            </div>
+                            <div class="w-full pt-8 mt-8 mb-8 block border-t-2 border-grey-lighter">
+                                <h3 class="text-blue-dark font-semibold text-lg mb-1 font-header">Work positions needed</h3>
+                            </div>
 
-            <div class="mb-6">
-                <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-state">
-                    Project type
-                </label>
-                <div class="relative">
-                    <select v-model="project.type_id" class="block appearance-none w-full bg-grey-lighter border border-grey-lighter text-grey-darker py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-grey">
-                        <option v-for="projectType in projectTypes" :key="projectType.id" v-bind:value="projectType.id">{{ projectType.name }}</option>
-                    </select>
+                            <cca-department></cca-department>
 
-                    <div class="pointer-events-none absolute pin-y pin-r flex items-center px-2 text-grey-darker">
-                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                            <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
-                        </svg>
-                    </div>
-                </div>
-            </div>
+                            <cca-position></cca-position>
 
-            <div class="mb-4">
-                <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
-                    Project information
-                </label>
-                <textarea v-model="project.description" rows=7 class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline"></textarea>
-            </div>
+                            <div class="pt-8 pb-4 text-right border-t-2 border-grey-lighter">
+                                <a href="#" class="text-grey bold mr-4 hover:text-green">Cancel</a>
+                                <button type="button" class="btn-green" @click="submit">SAVE CHANGES</button>
+                            </div>
 
-            <div class="mb-4">
-                <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
-                    City/Area
-                </label>
-                <input v-model="project.location" class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline" type="text">
-            </div>
-
-            <div class="flex flex-col mb-4">
-                <h3 class="block uppercase tracking-wide">Positions needed</h3>
-
-                <cca-department></cca-department>
-
-                <cca-position></cca-position>
-            </div>
-
-            <div class="mb-4">
-                <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">Show my production company name publicly?</label>
-                <div>
-                    <input v-model="project.production_name_public" type="radio" value="1" checked> Yes
-                    <input v-model="project.production_name_public" type="radio" value="0"> No
-                    <!-- TODO: need to defer to producer uri instead of admin -->
-                    <a href="/">See site list</a>
-                </div>
-            </div>
-
-            <p class="mb-4">Only roles that accept video auditions and are paid, or audio auditions can be posted on ther sites.</p>
-
-            <div class="mb-4">
-                <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
-                    Sites to post on
-                </label>
-                <div v-if="sites">
-                    <label>
-                        <input v-model="project.sites" value="all" type="checkbox" @click="allSitesSelected">
-                        Check All
-                    </label>
-                    <div v-show="isAllSitesNotChecked">
-                        <label>
-                            <input v-model="project.sites" value="yts" type="checkbox">
-                            Yourcasting Test Site
-                        </label>
-                        <label class="block" v-for="site in sites" :key="site.id" >
-                            <input v-model="project.sites" :value="site.id" type="checkbox">
-                            {{ site.name }}
-                        </label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mb-4">
-                <button class="bg-blue hover:bg-blue-dark text-white font-bold w-24 py-2 px-4 rounded-full float-right w-64" @click.stop="submit">Save</button>
-            </div>
-        </div>
-
-    </div>
+                        </div>
+            </main>
 </template>
 
 <script>
@@ -124,20 +90,17 @@
 
         data() {
             return {
-                errors: [],
-                isAllSitesNotChecked: true,
+                errors: []
             }
         },
 
         mounted() {
-            this.$store.dispatch('project/fetchTypes');
-            this.$store.dispatch('crew/fetchSites')
+            this.$store.dispatch('project/fetchTypes')
         },
 
         computed: {
             ...mapGetters({
                 position: 'crew/position',
-                sites: 'crew/sites',
                 project: 'project/project',
                 projectTypes: 'project/types'
             })
@@ -150,16 +113,6 @@
                         .dispatch('project/saveProjectJob', this.project)
                         .then(response => this.displaySuccess(response))
                 }
-            },
-
-            allSitesSelected(){
-                this.project.sites = []
-                
-                if(this.isAllSitesNotChecked){
-                    this.isAllSitesNotChecked = false
-                    return
-                }
-                this.isAllSitesNotChecked = true
             },
 
             hasErrors(){
@@ -191,10 +144,6 @@
 
                 if(this.project.jobs.length === 0){
                     this.errors.push('Position Needed is required')
-                }
-
-                if(this.project.sites.length === 0){
-                    this.errors.push('Sites To Post On is required')
                 }
 
                 if (this.errors.length > 0){
