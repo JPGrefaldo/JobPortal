@@ -279,9 +279,11 @@
                         persons_needed: 1,
                         sites: []
                     }
-
-                    this.needed[`selected${id}`] = false
+ 
+                    // State resets
+                    this.errors = []
                     this.isAllSitesNotChecked = true
+                    this.needed[`selected${id}`] = false
                 }
             },
 
@@ -302,8 +304,12 @@
             hasErrors(){
                 this.errors = []
 
-                if (! this.job.notes){
-                    this.errors.push('Position Notes is required')
+                if(! this.job.gear_provided) {
+                    this.errors.push('Equipment Provided is required')
+                }
+
+                if(! this.job.gear_needed) {
+                    this.errors.push('Equipment Needed is required')
                 }
 
                 if (! this.job.pay_rate){
@@ -318,8 +324,15 @@
                     this.errors.push('Dates Needed is required')
                 }
 
-                if (this.errors.length > 0){
-                    this.displayError(`There are ${errors.length} errors. Please try again.`)
+                if (! this.job.notes){
+                    this.errors.push('Position Notes is required')
+                }
+
+                if(this.job.sites.length == 0) {
+                    this.errors.push('Post add on these websites is required')
+                }
+
+                if(this.errors.length > 0) {
                     return true
                 }
 
