@@ -24,7 +24,7 @@
 
 <script type="text/javascript">
     import { mapGetters } from 'vuex'
-    import { color } from '../../../mixins'
+    import { color } from '../../mixins'
 
     export default {
         

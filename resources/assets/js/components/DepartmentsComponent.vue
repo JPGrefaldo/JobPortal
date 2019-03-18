@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-for="department in departments">
+        <div v-for="department in departments" :key="department.id">
             <cca-work-position-component :department="department" />
         </div>
     </div>

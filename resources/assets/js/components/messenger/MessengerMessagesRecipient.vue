@@ -13,7 +13,7 @@
 </template>
 
 <script>
-    import { messageFlag } from '../../../mixins'
+    import { messageFlag } from '../../mixins'
 
     export default {
 
