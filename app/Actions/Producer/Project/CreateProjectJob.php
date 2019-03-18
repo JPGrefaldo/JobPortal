@@ -9,6 +9,9 @@ class CreateProjectJob
     //TODO: Refactor this
     public function execute($job, $project)
     {
+        if (! isset($job['persons_needed'])) {
+            $job['persons_needed'] = 1;
+        }
         return ProjectJob::create([
             'project_id'           => $project->id,
             'position_id'          => $job['position_id'],
