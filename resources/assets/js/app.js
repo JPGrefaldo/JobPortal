@@ -45,6 +45,7 @@ Vue.component('cca-logout-link', require('./components/LogoutLink').default);
 Vue.component('cca-work-position-component', require('./components/WorkPositionComponent').default);
 Vue.component('cca-position-component', require('./components/PositionComponent').default);
 Vue.component('cca-department-component', require('./components/DepartmentsComponent').default);
+Vue.component('cca-producer-projects-create', require('./components/project/create/index').default);
 
 new Vue({
     el: '#nav-container',

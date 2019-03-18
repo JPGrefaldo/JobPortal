@@ -1,17 +1,24 @@
 import * as types from '../mutation-types'
 
 export const state = {
-    project: {},
     list: [],
+    project: {
+        jobs: []
+    },
+    types: []
 }
 
 export const getters = {
+    list(state) {
+        return state.list
+    },
+
     project(state) {
         return state.project
     },
-    
-    list(state) {
-        return state.list
+
+    types(state) {
+        return state.types
     },
 }
 
@@ -23,6 +30,10 @@ export const mutations = {
     [types.PROJECTS](state, payload) {
         state.list = payload
     },
+
+    [types.PROJECT_TYPES](state, payload) {
+        state.types = payload
+    },
 }
 
 export const actions = {
@@ -31,5 +42,16 @@ export const actions = {
              .then(
                 response => context.commit(types.PROJECTS, response.data.data)
             )
+    },
+
+    fetchTypes(context, role){
+        axios.get('/api/producer/project/type')
+             .then(response => {
+                 context.commit(types.PROJECT_TYPES, response.data.projectType)
+             })
+    },
+
+    saveProjectJob(context, params){
+        return axios.post('/api/producer/projects', params)
     }
 }

@@ -23,15 +23,40 @@ Route::middleware('auth:api')->group(function () {
         'show',
     ]);
 
+    Route::get('/crew/departments', [
+        \App\Http\Controllers\API\Crew\DepartmentsController::class,
+        'index'
+    ])->name('crew.departments.index');
+
     Route::get('/crew/projects', [
         \App\Http\Controllers\API\Crew\ProjectsController::class,
         'index',
     ])->name('crew.projects.index');
 
+    Route::get('/crew/positions', [
+        \App\Http\Controllers\API\Crew\PositionsController::class,
+        'index'
+    ])->name('crew.positions.index');
+
+    Route::get('/crew/sites', [
+        \App\Http\Controllers\API\Crew\SitesController::class,
+        'index'
+    ])->name('crew.sites.index');
+
     Route::get('/producer/projects', [
         \App\Http\Controllers\API\Producer\ProjectsController::class,
         'index',
     ])->name('producer.projects.index');
+
+    Route::post('/producer/projects', [
+        \App\Http\Controllers\API\Producer\ProjectsController::class,
+        'store'
+    ])->name('producer.project.store');
+
+    Route::get('/producer/project/type', [
+        \App\Http\Controllers\API\Producer\ProjectsController::class,
+        'projectType'
+    ])->name('producer.project.type');
 
     Route::get('/threads/{thread}/messages', [
         \App\Http\Controllers\MessagesController::class,
