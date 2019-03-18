@@ -16,7 +16,7 @@ class CreateCrewResumesTable extends Migration
         Schema::create('crew_resumes', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('crew_id');
-            $table->string('url');
+            $table->string('path');
             $table->boolean('general');
             $table->unsignedInteger('crew_position_id')
                 ->nullable()

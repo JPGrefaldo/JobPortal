@@ -11,7 +11,7 @@ use Illuminate\Http\UploadedFile;
 $factory->define(CrewResume::class, function (Faker $faker) {
     return [
         'crew_id' => factory(Crew::class),
-        'url'     => 'resumes/' . $faker->uuid . '/' . $faker->sha1 . '.pdf',
+        'path'     => 'resumes/' . $faker->uuid . '/' . $faker->sha1 . '.pdf',
         'general' => 1,
     ];
 });
@@ -19,7 +19,7 @@ $factory->define(CrewResume::class, function (Faker $faker) {
 // TODO: restructure url, must include user hash id
 $factory->state(CrewResume::class, 'Upload', function (Faker $faker) {
     return [
-        'url' => function () use ($faker) {
+        'path' => function () use ($faker) {
             $tmpFile = UploadedFile::fake()->create($faker->sha1 . '.pdf');
             $path    = 'resumes/' . $faker->uuid . '/' . $tmpFile->hashName();
 

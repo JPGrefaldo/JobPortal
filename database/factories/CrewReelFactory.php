@@ -9,7 +9,7 @@ use Faker\Generator as Faker;
 $factory->define(CrewReel::class, function (Faker $faker) {
     return [
         'crew_id' => factory(Crew::class),
-        'url'     => $faker->unique()->url,
+        'path'    => $faker->unique()->url,
         'general' => 1,
     ];
 });

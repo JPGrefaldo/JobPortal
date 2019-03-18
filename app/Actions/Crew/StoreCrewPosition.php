@@ -3,11 +3,11 @@
 namespace App\Actions\Crew;
 
 use App\Models\Crew;
+use App\Models\CrewPosition;
 use App\Models\Position;
 
 class StoreCrewPosition
 {
-
     /**
      * @param \App\Models\Crew $crew
      * @param \App\Models\Position $position
@@ -20,16 +20,17 @@ class StoreCrewPosition
             'union_description' => $data['union_description'],
         ]);
 
+        $crewPosition = CrewPosition::byCrewAndPosition($crew, $position)->first();
+
         $crew->gears()->create([
-            'crew_id'          => $crew->id,
             'description'      => $data['gear'],
-            'crew_position_id' => $position->id,
+            'crew_position_id' => $crewPosition->id
         ]);
 
         $crew->reels()->create([
             'crew_id'          => $crew->id,
-            'url'              => $data['reel_link'],
-            'crew_position_id' => $position->id,
+            'path'             => $data['reel_link'],
+            'crew_position_id' => $crewPosition->id,
         ]);
     }
 }
