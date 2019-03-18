@@ -54,8 +54,8 @@ Route::middleware('auth:api')->group(function () {
     ])->name('producer.project.store');
 
     Route::get('/producer/project/type', [
-        \App\Http\Controllers\API\Producer\ProjectsController::class,
-        'projectType'
+        \App\Http\Controllers\API\Producer\ProjectTypes::class,
+        'index'
     ])->name('producer.project.type');
 
     Route::get('/threads/{thread}/messages', [

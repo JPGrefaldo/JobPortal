@@ -79,4 +79,13 @@ class Project extends Model
     {
         return $this->belongsToMany(Thread::class);
     }
+
+    public static function siteIDs(array $site_ids)
+    {
+        if (count($site_ids) === 1 && $site_ids[0] === 'all'){
+            $site_ids = Site::all()->pluck('id');
+        }
+
+        return $site_ids;
+    }
 }
