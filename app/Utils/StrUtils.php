@@ -32,20 +32,26 @@ class StrUtils
     public static function cleanYouTube($string)
     {
         $string = str_replace(['http://', 'https://', 'watch?v='], '', $string);
-        $string = str_replace('player.vimeo.com/video/www.youtube.com', 'www.youtube.com', $string);
         $string = str_replace('youtu.be', 'www.youtube.com', $string);
+
+        if (substr($string, 0, 15) != 'www.youtube.com') {
+            return '';
+        }
 
         if (($pos = strpos($string, '&')) !== false) {
             $string = substr($string, 0, $pos);
         }
+
         if (($pos = strpos($string, '?')) !== false) {
             if (strpos($string, 'playlist?list') === false) {
                 $string = substr($string, 0, $pos);
             }
         }
+
         if (($pos = strpos($string, '#')) !== false) {
             $string = substr($string, 0, $pos);
         }
+
         if (strpos($string, 'channel') != false) {
             $string = str_replace('embed/', '', $string);
         } else {
