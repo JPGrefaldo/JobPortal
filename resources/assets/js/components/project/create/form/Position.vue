@@ -7,14 +7,14 @@
                         <div class="w-full pb-4">
                             <label class="checkbox-control">
                                 <h3 class="text-md">{{ item.name }}</h3>
-                                <input type="checkbox" v-model="needed['selected' + item.id]" :value="item.id" @click="selected($event)"/>
+                                <input type="checkbox" v-model="needed['selected' + item.id]" :value="item.id" @change="selected(item.id)"/>
                                 <div class="control-indicator"></div>
                             </label>
                         </div>
                     </div>
                 </div>
                 
-                <div v-if="needed['selected' + item.id]">
+                <div v-show="needed['selected' + item.id]">
                     <div class="md:flex py-2">
                         <div class="md:w-1/3 pr-8">
                             <span class="font-bold font-header text-blue-dark mt-2 block md:text-right mb-3">Persons needed</span>
@@ -192,14 +192,13 @@
             return {
                 isAllSitesNotChecked: true,
                 errors: [],
-                highlight: [],
                 needed: [], 
                 job: {
                     pay_type_id: '',
                     persons_needed: 1,
                     sites: []
                 },
-                currentID: 0
+                lastPositionId: 0
             }
         },
 
@@ -218,23 +217,22 @@
         },
 
         methods: {
-            selected(e){
-                this.hideOpenedPositionCard()
+            selected(id){
+                this.hideOpenedPositionCard(id)
 
-                let job = this.project.jobs.find(o => o.position_id == e.target.value)
+                let job = this.project.jobs.find(o => o.position_id == id)
 
-                if (e.target.checked){
-                    this.currentID          = e.target.value
-                    this.job.position_id    = e.target.value
+                // Store the id globally to be used in hiding the the job fields 
+                this.lastPositionId     = id
+                this.job.position_id    = id
 
-                    if (typeof(job) != 'undefined'){
-                        this.setJobValues(job)
-                        return
-                    }
-
-                    // Clear objects value so it won't be displayed on another checked item
-                    this.clearJobValues(job)
+                if (typeof(job) != 'undefined'){
+                    this.setJobValues(job)
+                    return
                 }
+
+                // Clear objects value so it won't be displayed on another checked item
+                this.clearJobValues()
             },
 
             setJobValues(job){
@@ -250,7 +248,7 @@
                 this.job.sites                 = job.sites
             },
 
-            clearJobValues(job){
+            clearJobValues(){
                 this.job.dates_needed          = ''
                 this.job.gear_needed           = ''
                 this.job.gear_provided         = ''
@@ -265,8 +263,6 @@
 
             addPosition(id){
                 if (! this.hasErrors()){
-                    this.needed[`selected${id}`] = false
-
                     // Check if the positiion data is already added and get the index  
                     let i = this.project.jobs.findIndex(o => o.position_id == id)
                 
@@ -283,6 +279,9 @@
                         persons_needed: 1,
                         sites: []
                     }
+
+                    this.needed[`selected${id}`] = false
+                    this.isAllSitesNotChecked = true
                 }
             },
 
@@ -327,9 +326,11 @@
                 return false
             },
 
-            hideOpenedPositionCard(){
+            hideOpenedPositionCard(id){
                 // Fixed overlapping open position card when multiple checkboxes is selected
-                this.needed[`selected${this.currentID}`] = false
+                if (this.lastPositionId != 0){
+                    this.needed[`selected${this.lastPositionId}`] = false
+                }
             }
         }
     }
