@@ -4,6 +4,8 @@ namespace Tests\Unit\Actions\Crew;
 
 use App\Actions\Crew\SaveCrewReel;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 
@@ -60,6 +62,35 @@ class SaveCrewReelTest extends TestCase
         $this->assertDatabaseHas('crew_reels', [
             'crew_id' => $this->crew->id,
             'path' => 'https://player.vimeo.com/video/230046783',
+            'general' => true,
+            'crew_position_id' => null,
+        ]);
+    }
+
+    /**
+     * @test
+     * @covers \App\Actions\Crew\SaveCrewReel::execute
+     */
+    public function reel_files_can_be_persisted()
+    {
+        // given
+        Storage::fake('s3');
+
+        $data = [
+            'reel' => UploadedFile::fake()->create('reel.mp4'),
+        ];
+
+        // when
+        app(SaveCrewReel::class)->execute($this->crew, $data);
+
+        // then
+        $expectedPath = $this->crew->user->hash_id . '/reels/'. $data['reel']->hashName();
+
+        Storage::assertExists($expectedPath);
+
+        $this->assertDatabaseHas('crew_reels', [
+            'crew_id' => $this->crew->id,
+            'path' => $expectedPath,
             'general' => true,
             'crew_position_id' => null,
         ]);
