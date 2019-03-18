@@ -4,11 +4,11 @@ namespace App\Http\Controllers\API\Producer;
 
 use App\Actions\Producer\Project\CreateProject;
 use App\Actions\Producer\Project\CreateProjectJob;
+use App\Actions\Producer\Project\CreateProjectRemote;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Producer\CreateProjectRequest;
 use App\Http\Resources\ProjectResource;
 use App\Models\ProjectType;
-use App\Models\RemoteProject;
 use App\Models\Site;
 use App\Utils\UrlUtils;
 
@@ -46,7 +46,7 @@ class ProjectsController extends Controller
                 $site_ids = $this->getSiteIDs($job);
 
                 foreach ($site_ids as $site_id){
-                    $this->storeRemoteProjects($project->id, $site_id);
+                    app(CreateProjectRemote::class)->execute($project->id, $site_id);
                 }
             }
         }
@@ -73,13 +73,4 @@ class ProjectsController extends Controller
 
         return $site_ids;
     }
-
-    private function storeRemoteProjects($project_id, $site_id)
-    {
-        RemoteProject::create([
-            'project_id' => $project_id,
-            'site_id' => $site_id
-        ]);
-    }
-    
 }
