@@ -10,7 +10,7 @@ class CreateProjectJob
     public function execute($job, $project)
     {
         if (! isset($job['persons_needed'])) {
-            $job['persons_needed'] = 0;
+            $job['persons_needed'] = 1;
         }
         return ProjectJob::create([
             'project_id'           => $project->id,
