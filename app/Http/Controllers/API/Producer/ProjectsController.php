@@ -8,7 +8,6 @@ use App\Actions\Producer\Project\CreateProjectRemote;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Producer\CreateProjectRequest;
 use App\Http\Resources\ProjectResource;
-use App\Models\ProjectType;
 use App\Models\Site;
 use App\Utils\UrlUtils;
 
@@ -20,15 +19,6 @@ class ProjectsController extends Controller
         $projects = $user->projects->paginate();
 
         return ProjectResource::collection($projects);
-    }
-
-    public function projectType()
-    {
-        $types = ProjectType::all();
-
-        return response()->json([
-            'projectType' => $types
-        ]);
     }
 
     public function store(CreateProjectRequest $request)
@@ -43,7 +33,7 @@ class ProjectsController extends Controller
             foreach($request->jobs as $job){
                 app(CreateProjectJob::class)->execute($job, $project);
 
-                $site_ids = $this->getSiteIDs($job);
+                $site_ids = $project->siteIDs($job['sites']);
 
                 foreach ($site_ids as $site_id){
                     app(CreateProjectRemote::class)->execute($project->id, $site_id);
@@ -61,16 +51,5 @@ class ProjectsController extends Controller
         $hostname = UrlUtils::getHostNameFromBaseUrl(request()->getHttpHost());
         $site = Site::where('hostname', $hostname)->first()->pluck('id');
         return $site[0];
-    }
-
-    private function getSiteIDs($job)
-    {
-        $site_ids = $job['sites'];
-
-        if (count($site_ids) === 1 && $site_ids[0] === 'all'){
-            $site_ids = Site::all()->pluck('id');
-        }
-
-        return $site_ids;
     }
 }

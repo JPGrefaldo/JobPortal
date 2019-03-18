@@ -28,8 +28,8 @@
 
 <script type="text/javascript">
     import { mapGetters } from 'vuex'
-    import RecipientMessage from './RecipientMessage.vue'
-    import SenderMessage from './SenderMessage.vue'
+    import MessengerMessagesRecipient from './MessengerMessagesRecipient.vue'
+    import MessengerMessagesSender from './MessengerMessagesSender.vue'
 
     export default {
         props: [
@@ -37,8 +37,8 @@
         ],
         
         components: {
-            'cca-recipient-message': RecipientMessage,
-            'cca-sender-message': SenderMessage
+            'cca-recipient-message': MessengerMessagesRecipient,
+            'cca-sender-message': MessengerMessagesSender
         },
 
         computed: {

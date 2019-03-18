@@ -9,7 +9,7 @@
 </template>
 
 <script>
-    import { color } from '../../../mixins'
+    import { color } from '../../mixins'
 
     export default {
         props: [

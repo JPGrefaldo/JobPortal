@@ -26,21 +26,21 @@
 <script type="text/javascript">
     import { mapGetters } from 'vuex'
     import { Form, HasError, AlertError } from 'vform'
-    import BottomBar from './dashboard/BottomBar.vue'
-    import Messages from './messages/index.vue'
-    import Projects from './dashboard/Projects.vue'
-    import Search from './dashboard/Search.vue'
-    import Threads from './dashboard/Threads.vue'
+    import MessengerDashboardBarAction from './MessengerDashboardBarAction.vue'
+    import MessengerDashboardBarSearch from './MessengerDashboardBarSearch.vue'
+    import MessengerDashboardProjectList from './MessengerDashboardProjectList.vue'
+    import MessengerDashboardThreadList from './MessengerDashboardThreadList.vue'
+    import MessengerMessages from './MessengerMessages.vue'
 
     export default {
         name: "messaging",
 
         components: {
-            'bottom-bar': BottomBar,
-            'cca-messages': Messages,
-            'cca-projects': Projects,
-            'cca-threads': Threads,
-            'search': Search
+            'bottom-bar': MessengerDashboardBarAction,
+            'cca-messages': MessengerMessages,
+            'cca-projects': MessengerDashboardProjectList,
+            'cca-threads': MessengerDashboardThreadList,
+            'search': MessengerDashboardBarSearch
         },
 
         props: {
