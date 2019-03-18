@@ -1,112 +1,155 @@
 <template>
-    <div class="container bg-white shadow-md rounded p-4">
-
-        <label class="block text-grey-darker font-bold mb-6">
-            Tutorial Videos/How it Works
-        </label>
-
-        <div class="mb-4">
-            <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
-                Project Title
-            </label>
-            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline" type="text">
-        </div>
-
-        <div class="mb-4">
-            <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
-                Production company name (or your name if individual)
-            </label>
-            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline" type="text">
-        </div>
-
-        <div class="mb-6">
-            <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-state">
-                Project type
-            </label>
-            <div class="relative">
-                <select class="block appearance-none w-full bg-grey-lighter border border-grey-lighter text-grey-darker py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-grey" id="grid-state">
-                    <option v-for="projectType in projectTypes" :key="projectType.id" v-bind:value="projectType.id">{{ projectType.name }}</option>
-                </select>
-                
-                <div class="pointer-events-none absolute pin-y pin-r flex items-center px-2 text-grey-darker">
-                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                        <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
-                    </svg>
+    <main class="md:w-3/4 float-left">
+        <div class="card mb-8">
+            <div class="w-full mb-6">
+                <h3 class="text-blue-dark font-semibold text-lg mb-1 font-header">Project details</h3>
+            </div>
+            <div class="md:flex py-3">
+                <div class="md:w-1/3 pr-6">
+                    <span class="block md:text-right mt-4 font-header text-blue-dark font-semibold mb-3">Project title</span>  
+                </div>
+                <div class="md:w-2/3">
+                    <input v-model="project.title" type="text" class="form-control w-full" placeholder="Project title">
                 </div>
             </div>
-        </div>
+            <div class="md:flex py-3">
+                <div class="md:w-1/3 pr-6">
+                    <span class="block md:text-right mt-1 font-header text-blue-dark font-semibold mb-3">Production company name <br> <small class="font-normal text-grey">(or your name if individual)</small></span>  
+                </div>
+                <div class="md:w-2/3">
+                    <input v-model="project.production_name" type="text" class="form-control w-full mb-4" placeholder="Company or individual name">
+                    <label class="checkbox-control"><span class="text-grey text-sm">Show production company name publicly</span>
+                        <input v-model="project.production_name_public" type="checkbox"/>
+                        <div class="control-indicator"></div>
+                    </label>
+                </div>
+            </div>
+            <div class="md:flex py-3">
+                <div class="md:w-1/3 pr-6">
+                    <span class="block md:text-right mt-4 font-header text-blue-dark font-semibold mb-3">Project type</span>  
+                </div>
+                <div class="md:w-2/3">
+                    <select v-model="project.type_id" class="form-control w-full text-grey-dark">
+                        <option v-for="projectType in projectTypes" :key="projectType.id" v-bind:value="projectType.id">{{ projectType.name }}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="md:flex py-3">
+                <div class="md:w-1/3 pr-6">
+                    <span class="block md:text-right mt-4 font-header text-blue-dark font-semibold mb-3">Project information</span>  
+                </div>
+                <div class="md:w-2/3">
+                    <textarea v-model="project.description" class="form-control w-full h-48" placeholder="Project details"></textarea>
+                </div>
+            </div>
 
-        <div class="mb-4">
-            <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
-                Project information
-            </label>
-            <textarea row=4 class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline"></textarea>
-        </div>
-        
-        <div class="mb-4">
-            <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
-                City/Area
-            </label>
-            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline" type="text">
-        </div>
+            <div class="md:flex py-3">
+                <div class="md:w-1/3 pr-6">
+                    <span class="block md:text-right mt-4 font-header text-blue-dark font-semibold mb-3">Project city/area</span>  
+                </div>
+                <div class="md:w-2/3">
+                    <input v-model="project.location" class="form-control w-full" type="text">
+                </div>
+            </div>
 
-        <div class="flex flex-col mb-4">
-            <h3 class="block uppercase tracking-wide">Positions needed</h3>
+            <div class="w-full pt-8 mt-8 mb-8 block border-t-2 border-grey-lighter">
+                <h3 class="text-blue-dark font-semibold text-lg mb-1 font-header">Work positions needed</h3>
+            </div>
+
             <cca-department></cca-department>
-        </div>
 
-        <div class="mb-4">
-            <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">Show my production company name publicly?</label>
-            <div>
-                <input name="public_production" type="radio" selected> Yes
-                <input name="public_production" type="radio"> No
-                <!-- TODO: need to defer to producer uri instead of admin -->
-                <a href="/">See site list</a>
+            <cca-position></cca-position>
+
+            <div class="pt-8 pb-4 text-right border-t-2 border-grey-lighter">
+                <a href="#" class="text-grey bold mr-4 hover:text-green">Cancel</a>
+                <button type="button" class="btn-green" @click="submit">SAVE CHANGES</button>
             </div>
+
         </div>
-
-        <p class="mb-4">Only roles that accept video auditions and are paid, or audio auditions can be posted on ther sites.</p>
-
-        <div class="mb-4">
-            <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
-                Sites to post on
-            </label>
-
-            <input type="checkbox"> Check All
-            <input type="checkbox"> Yourcasting Test Site
-
-            <div v-if="sites">
-                <input v-for="site in sites" :key="site.id" type="checkbox"> {{ site.name }}
-            </div>
-        </div>
-
-        <div class="mb-4">
-            <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
-                Will travel/lodging expenses be paid for out-of-area talent?
-            </label>
-
-            <input name="paid_travel" type="radio"> Yes
-            <input name="paid_travel" type="radio"> No
-        </div>
-
-        <div class="mb-4">
-            <button class="bg-blue hover:bg-blue-dark text-white font-bold w-24 py-2 px-4 rounded-full float-right w-64">Save</button>
-        </div>
-
-    </div>
+    </main>
 </template>
 
 <script>
-    import Department from './forms/Department.vue'
+    import { alert } from '../../../mixins'
+    import { mapGetters } from 'vuex'
+    import Department from './form/Department.vue'
+    import ErrorNotification from './form//ErrorNotification.vue'
+    import Position from './form/Position.vue'
 
     export default {
+        mixins: [ 
+            alert 
+        ],
+
         components: {
-            'cca-department': Department
+            'cca-department': Department,
+            'cca-position': Position,
+            'error-notification': ErrorNotification
         },
-        data(){
+
+        data() {
             return {
-                projectTypes: null,
-                sites: null
+                errors: []
+            }
+        },
+
+        mounted() {
+            this.$store.dispatch('project/fetchTypes')
+        },
+
+        computed: {
+            ...mapGetters({
+                position: 'crew/position',
+                project: 'project/project',
+                projectTypes: 'project/types'
+            })
+        },
+
+        methods: {
+            submit(){
+                if (! this.hasErrors()){
+                    this.$store
+                        .dispatch('project/saveProjectJob', this.project)
+                        .then(response => this.displaySuccess(response))
+                }
+            },
+
+            hasErrors(){
+                this.errors = []
+
+                if (! this.project.title){
+                    this.errors.push('Project Title is required')
+                }
+
+                if (! this.project.production_name){
+                    this.errors.push('Production Name is required')
+                }
+
+                if (! this.project.type_id){
+                    this.errors.push('Project Type is required')
+                }
+
+                if (! this.project.description){
+                    this.errors.push('Project Description is required')
+                }
+
+                if (! this.project.location){
+                    this.errors.push('Area/City is required')
+                }
+                
+                if (! this.project.production_name_public){
+                    this.errors.push('Production Name Public is required')
+                }
+
+                if(this.project.jobs.length === 0){
+                    this.errors.push('Position Needed is required')
+                }
+
+                if (this.errors.length > 0){
+                    return true
+                }
+
+                return false
             }
         }
     }
