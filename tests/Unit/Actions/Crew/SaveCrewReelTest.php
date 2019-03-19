@@ -86,7 +86,7 @@ class SaveCrewReelTest extends TestCase
         // then
         $expectedPath = $this->crew->user->hash_id . '/reels/'. $data['reel']->hashName();
 
-        Storage::assertExists($expectedPath);
+        Storage::disk('s3')->assertExists($expectedPath);
 
         $this->assertDatabaseHas('crew_reels', [
             'crew_id' => $this->crew->id,
