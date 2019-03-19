@@ -122,28 +122,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="py-6">
-                        <div class="md:flex">
-                            <div class="md:w-1/3 pr-8">
-                                <span class="font-bold font-header text-blue-dark block md:text-right mb-3">Post add on these websites:</span>
-                            </div>
-                            <div class="md:w-2/3 text-blue-dark">
-                                <label class="checkbox-control mb-6">Check all
-                                    <input type="checkbox" v-model="job.sites" value="all" @click="allSitesSelected"/>
-                                    <div class="control-indicator"></div>
-                                </label>
-
-                                <div v-show="isAllSitesNotChecked">
-                                    <label v-for="site in sites" :key="site.id" class="checkbox-control mb-2">
-                                        {{ site.name }}
-                                        <input v-model="job.sites" :value="site.id" type="checkbox">
-                                        <div class="control-indicator"></div>
-                                    </label>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
+                    
                     <div class="border-t-2 border-grey-lighter py-6">
                         <div class="md:flex">
                             <div class="md:w-1/3 pr-8">
@@ -190,13 +169,11 @@
 
         data() {
             return {
-                isAllSitesNotChecked: true,
                 errors: [],
                 needed: [], 
                 job: {
                     pay_type_id: '',
-                    persons_needed: 1,
-                    sites: []
+                    persons_needed: 1
                 },
                 lastPositionId: 0
             }
@@ -204,7 +181,6 @@
 
         mounted(){
             this.$store.dispatch('crew/fetchPositions')
-            this.$store.dispatch('crew/fetchSites')
         },
 
         computed:{
@@ -212,7 +188,6 @@
                 position: 'crew/position',
                 positions: 'crew/positions',
                 project: 'project/project',
-                sites: 'crew/sites',
             })
         },
 
@@ -245,7 +220,6 @@
                 this.job.persons_needed        = job.persons_needed
                 this.job.rush_call             = job.rush_call
                 this.job.travel_expenses_paid  = job.travel_expenses_paid
-                this.job.sites                 = job.sites
             },
 
             clearJobValues(){
@@ -258,7 +232,6 @@
                 this.job.persons_needed        = 1
                 this.job.rush_call             = 0
                 this.job.travel_expenses_paid  = false
-                this.job.sites                 = []
             },
 
             addPosition(id){
@@ -276,25 +249,13 @@
 
                     this.job = {
                         pay_type_id: '',
-                        persons_needed: 1,
-                        sites: []
+                        persons_needed: 1
                     }
  
                     // State resets
                     this.errors = []
-                    this.isAllSitesNotChecked = true
                     this.needed[`selected${id}`] = false
                 }
-            },
-
-            allSitesSelected(){
-                this.job.sites = []
-                
-                if(this.isAllSitesNotChecked){
-                    this.isAllSitesNotChecked = false
-                    return
-                }
-                this.isAllSitesNotChecked = true
             },
 
             preventNegativeValue(val){
@@ -326,10 +287,6 @@
 
                 if (! this.job.notes){
                     this.errors.push('Position Notes is required')
-                }
-
-                if(this.job.sites.length == 0) {
-                    this.errors.push('Post add on these websites is required')
                 }
 
                 if(this.errors.length > 0) {

@@ -52,10 +52,31 @@
                 </div>
             </div>
 
+            <div class="py-6">
+                <div class="md:flex">
+                    <div class="md:w-1/3 pr-8">
+                        <span class="font-bold font-header text-blue-dark block md:text-right mb-3">Post add on these websites:</span>
+                    </div>
+                    <div class="md:w-2/3 text-blue-dark">
+                        <label class="checkbox-control mb-6">Check all
+                            <input type="checkbox" v-model="project.sites" value="all" @click="allSitesSelected"/>
+                            <div class="control-indicator"></div>
+                        </label>
+
+                        <div v-show="isAllSitesNotChecked">
+                            <label v-for="site in sites" :key="site.id" class="checkbox-control mb-2">
+                                {{ site.name }}
+                                <input v-model="project.sites" :value="site.id" type="checkbox">
+                                <div class="control-indicator"></div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="w-full pt-8 mt-8 mb-8 block border-t-2 border-grey-lighter">
                 <h3 class="text-blue-dark font-semibold text-lg mb-1 font-header">Work positions needed</h3>
             </div>
-
             <div v-if="departments">
                 <ul class="flex list-reset rounded w-auto">
                     <li>
@@ -96,14 +117,16 @@
 
         data() {
             return {
+                isAllSitesNotChecked: true,
                 allPositions: [],
                 errors: []
             }
         },
 
         mounted() {
-            this.$store.dispatch('project/fetchTypes')
             this.$store.dispatch('crew/fetchDepartments')
+            this.$store.dispatch('crew/fetchSites')
+            this.$store.dispatch('project/fetchTypes')
         },
 
         computed: {
@@ -111,7 +134,8 @@
                 departments: 'crew/departments',
                 positions: 'crew/positions',
                 project: 'project/project',
-                projectTypes: 'project/types'
+                projectTypes: 'project/types',
+                sites: 'crew/sites',
             })
         },
 
@@ -131,6 +155,16 @@
 
                 let positions = this.allPositions.filter(o => o.department_id == id)
                 this.$store.commit('crew/POSITIONS', positions)
+            },
+
+            allSitesSelected(){
+                this.project.sites = []
+                
+                if(this.isAllSitesNotChecked){
+                    this.isAllSitesNotChecked = false
+                    return
+                }
+                this.isAllSitesNotChecked = true
             },
 
             hasErrors(){
@@ -162,6 +196,10 @@
 
                 if(this.project.jobs.length === 0){
                     this.errors.push('Position Needed is required')
+                }
+
+                if(this.project.sites.length == 0) {
+                    this.errors.push('Post add on these websites is required')
                 }
 
                 if (this.errors.length > 0){

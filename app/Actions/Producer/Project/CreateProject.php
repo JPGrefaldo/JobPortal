@@ -6,17 +6,27 @@ use App\Models\Project;
 
 class CreateProject
 {
-    public function execute($user, $site_id, $request)
+    public function execute(int $user, int $site, array $project): Project
     {
-        return Project::create([
-                    'user_id' => $user,
-                    'site_id' => $site_id,
-                    'title' => $request->title,
-                    'production_name' => $request->production_name,
-                    'production_name_public' => $request->production_name_public,
-                    'project_type_id' => $request->type_id,
-                    'description' => $request->description,
-                    'location' => $request->location
-                ]);
+        $data = $this->filter($project);
+        
+        $data['user_id'] = $user;
+        $data['site_id'] = $site;
+
+        return Project::create($data);
+    }
+
+    private function filter(array $data): array
+    {
+        return array_only($data,
+            [
+                'title',
+                'production_name',
+                'production_name_public',
+                'project_type_id',
+                'description',
+                'location'
+            ]
+        );
     }
 }
