@@ -17,6 +17,37 @@ class EditCrewReelTest extends TestCase
 
     /**
      * @test
+     * @covers \App\Actions\Crew\EditCrewReel
+     */
+    public function blank_reel_can_be_updated_to_link()
+    {
+        // given
+        Storage::fake('s3');
+
+        $user = $this->createUser();
+        $createData = $this->getCreateData([
+            'reel' => null,
+        ]);
+
+        app(StoreCrew::class)->execute($user, $createData);
+
+        $crew = $user->crew;
+        $data = $this->getUpdateData();
+
+        // when
+        app(EditCrewReel::class)->execute($crew, $data);
+
+        // then
+        $this->assertDatabaseHas('crew_reels', [
+            'crew_id'          => $user->crew->id,
+            'path'             => 'https://www.youtube.com/embed/WI5AF1DCQlc',
+            'general'          => true,
+            'crew_position_id' => null,
+        ]);
+    }
+
+    /**
+     * @test
      * @covers \App\Actions\Crew\EditCrewReel::execute
      */
     public function execute()

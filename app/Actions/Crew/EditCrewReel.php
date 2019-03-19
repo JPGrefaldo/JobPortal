@@ -15,6 +15,11 @@ class EditCrewReel
     {
         $reel = $crew->reels()->where('general', true)->first();
 
+        if (! $reel) {
+            app(SaveCrewReel::class)->execute($crew, $data);
+            return;
+        }
+
         if (str_contains($reel->path, $crew->user->hash_id)) {
             Storage::disk('s3')->delete($reel->path);
         }
