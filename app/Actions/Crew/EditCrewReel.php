@@ -3,6 +3,7 @@
 namespace App\Actions\Crew;
 
 use App\Models\Crew;
+use Illuminate\Support\Facades\Storage;
 
 class EditCrewReel
 {
@@ -12,12 +13,24 @@ class EditCrewReel
      */
     public function execute(Crew $crew, array $data): void
     {
-        $reelPath = app(CleanVideoLink::class)->execute($data['reel']);
+        $reel = $crew->reels()->where('general', true)->first();
 
-        $crew->reels()
-            ->where('general', true)
-            ->update([
-                'path' => $reelPath,
-            ]);
+        Storage::disk('s3')->delete($reel->path);
+
+        if (gettype($data['reel']) === 'string') {
+            $reelPath = app(CleanVideoLink::class)->execute($data['reel']);
+        } else {
+            $reelPath = $crew->user->hash_id . '/reels/'. $data['reel']->hashName();
+
+            Storage::disk('s3')->put(
+                $reelPath,
+                file_get_contents($data['reel']),
+                'public'
+            );
+        }
+
+        $reel->update([
+            'path' => $reelPath,
+        ]);
     }
 }

@@ -45,6 +45,46 @@ class EditCrewReelTest extends TestCase
     }
 
     /**
+     * @test
+     * @covers \App\Actions\Crew\EditCrewReel::execute
+     */
+    public function reel_file_can_be_replaced_by_reel_file()
+    {
+        // given
+        Storage::fake('s3');
+
+        $user = $this->createUser();
+        $createData = $this->getCreateData([
+            'reel' => UploadedFile::fake()->create('old-reel.mp4'),
+        ]);
+
+        app(StoreCrew::class)->execute($user, $createData);
+
+        $crew = $user->crew;
+        $data = $this->getUpdateData([
+            'reel' => UploadedFile::fake()->create('new-reel.mp4'),
+        ]);
+        $nonExpectedPath = $crew->user->hash_id . '/reels/'. $createData['reel']->hashName();
+
+        // when
+        app(EditCrewReel::class)->execute($crew, $data);
+
+        // then
+        Storage::disk('s3')->assertMissing($nonExpectedPath);
+
+        $expectedPath = $crew->user->hash_id . '/reels/'. $data['reel']->hashName();
+
+        Storage::disk('s3')->assertExists($expectedPath);
+
+        $this->assertDatabaseHas('crew_reels', [
+            'crew_id'          => $user->crew->id,
+            'path'             => $expectedPath,
+            'general'          => true,
+            'crew_position_id' => null,
+        ]);
+    }
+
+    /**
      * @param array $customData
      *
      * @return array
