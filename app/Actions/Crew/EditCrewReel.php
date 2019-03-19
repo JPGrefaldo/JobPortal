@@ -15,7 +15,9 @@ class EditCrewReel
     {
         $reel = $crew->reels()->where('general', true)->first();
 
-        Storage::disk('s3')->delete($reel->path);
+        if (str_contains($reel->path, $crew->user->hash_id)) {
+            Storage::disk('s3')->delete($reel->path);
+        }
 
         if (gettype($data['reel']) === 'string') {
             $reelPath = app(CleanVideoLink::class)->execute($data['reel']);
