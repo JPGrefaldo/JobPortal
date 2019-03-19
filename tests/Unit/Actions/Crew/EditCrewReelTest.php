@@ -15,6 +15,14 @@ class EditCrewReelTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
 
+    public function setUp()
+    {
+        parent::setup();
+
+        Storage::fake('s3');
+
+        $this->user = $this->createUser();
+    }
     /**
      * @test
      * @covers \App\Actions\Crew\EditCrewReel
@@ -22,9 +30,7 @@ class EditCrewReelTest extends TestCase
     public function blank_reel_can_be_updated_to_reel_link()
     {
         // given
-        Storage::fake('s3');
-
-        $user = $this->createUser();
+        $user = $this->user;
         $createData = $this->getCreateData([
             'reel' => null,
         ]);
@@ -53,9 +59,7 @@ class EditCrewReelTest extends TestCase
     public function blank_reel_can_be_updated_to_reel_file()
     {
         // given
-        Storage::fake('s3');
-
-        $user = $this->createUser();
+        $user = $this->user;
         $createData = $this->getCreateData([
             'reel' => null,
         ]);
@@ -90,9 +94,7 @@ class EditCrewReelTest extends TestCase
     public function reel_link_can_be_updated_to_reel_link()
     {
         // given
-        Storage::fake('s3');
-
-        $user = $this->createUser();
+        $user = $this->user;
         $createData = $this->getCreateData();
 
         app(StoreCrew::class)->execute($user, $createData);
@@ -119,9 +121,7 @@ class EditCrewReelTest extends TestCase
     public function reel_link_can_be_updated_to_reel_file()
     {
         // given
-        Storage::fake('s3');
-
-        $user = $this->createUser();
+        $user = $this->user;
         $createData = $this->getCreateData();
 
         app(StoreCrew::class)->execute($user, $createData);
@@ -154,9 +154,7 @@ class EditCrewReelTest extends TestCase
     public function reel_file_can_be_updated_to_reel_link()
     {
         // given
-        Storage::fake('s3');
-
-        $user = $this->createUser();
+        $user = $this->user;
         $createData = $this->getCreateData([
             'reel' => UploadedFile::fake()->create('old-reel.mp4'),
         ]);
@@ -188,9 +186,7 @@ class EditCrewReelTest extends TestCase
     public function reel_file_can_be_updated_to_reel_file()
     {
         // given
-        Storage::fake('s3');
-
-        $user = $this->createUser();
+        $user = $this->user;
         $createData = $this->getCreateData([
             'reel' => UploadedFile::fake()->create('old-reel.mp4'),
         ]);
