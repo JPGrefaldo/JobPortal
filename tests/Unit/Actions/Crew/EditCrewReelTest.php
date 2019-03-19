@@ -87,7 +87,7 @@ class EditCrewReelTest extends TestCase
      * @test
      * @covers \App\Actions\Crew\EditCrewReel::execute
      */
-    public function execute()
+    public function link_reel_can_be_updated_to_link_reel()
     {
         // given
         Storage::fake('s3');
