@@ -11,6 +11,7 @@ use App\Models\ProjectType;
 use App\Models\Site;
 use App\Services\Producer\ProjectsServices;
 use App\Utils\UrlUtils;
+use App\Models\RemoteProject;
 
 class ProjectsController extends Controller
 {
@@ -42,6 +43,13 @@ class ProjectsController extends Controller
             session('site')
         );
     }
+    
+    public function edit(Project $project)
+    {
+        return response()->json(
+            $project->load(['jobs', 'remotes'])->toArray()
+        );
+    } 
 
     /**
      * @param \App\Http\Requests\Producer\UpdateProjectRequest $request
