@@ -19,7 +19,7 @@ class EditCrewReelTest extends TestCase
      * @test
      * @covers \App\Actions\Crew\EditCrewReel
      */
-    public function blank_reel_can_be_updated_to_link()
+    public function blank_reel_can_be_updated_to_reel_link()
     {
         // given
         Storage::fake('s3');
@@ -50,7 +50,7 @@ class EditCrewReelTest extends TestCase
      * @test
      * @covers \App\Actions\Crew\EditCrewReel::execute
      */
-    public function blank_reel_can_be_updated_to_file()
+    public function blank_reel_can_be_updated_to_reel_file()
     {
         // given
         Storage::fake('s3');
@@ -87,7 +87,7 @@ class EditCrewReelTest extends TestCase
      * @test
      * @covers \App\Actions\Crew\EditCrewReel::execute
      */
-    public function link_reel_can_be_updated_to_link_reel()
+    public function reel_link_can_be_updated_to_reel_link()
     {
         // given
         Storage::fake('s3');
