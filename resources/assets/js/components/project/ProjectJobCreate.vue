@@ -256,8 +256,8 @@
                 this.job.pay_rate              = ''
                 this.job.pay_type_id           = ''
                 this.job.persons_needed        = 1
-                this.job.rush_call             = ''
-                this.job.travel_expenses_paid  = ''
+                this.job.rush_call             = 0
+                this.job.travel_expenses_paid  = false
                 this.job.sites                 = []
             },
 

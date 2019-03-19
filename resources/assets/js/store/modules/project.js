@@ -44,7 +44,7 @@ export const actions = {
             )
     },
 
-    fetchTypes(context, role){
+    fetchTypes(context){
         axios.get('/api/producer/project/type')
              .then(response => {
                  context.commit(types.PROJECT_TYPES, response.data.projectType)

@@ -29,7 +29,7 @@
                     <span class="block md:text-right mt-4 font-header text-blue-dark font-semibold mb-3">Project type</span>  
                 </div>
                 <div class="md:w-2/3">
-                    <select v-model="project.type_id" class="form-control w-full text-grey-dark">
+                    <select v-model="project.project_type_id" class="form-control w-full text-grey-dark">
                         <option v-for="projectType in projectTypes" :key="projectType.id" v-bind:value="projectType.id">{{ projectType.name }}</option>
                     </select>
                 </div>
@@ -144,7 +144,7 @@
                     this.errors.push('Production Name is required')
                 }
 
-                if (! this.project.type_id){
+                if (! this.project.project_type_id){
                     this.errors.push('Project Type is required')
                 }
 
