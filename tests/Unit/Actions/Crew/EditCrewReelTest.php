@@ -116,7 +116,7 @@ class EditCrewReelTest extends TestCase
      * @test
      * @covers \App\Actions\Crew\EditCrewReel::execute
      */
-    public function reel_file_can_be_replaced_by_reel_file()
+    public function reel_file_can_be_updated_to_reel_file()
     {
         // given
         Storage::fake('s3');
@@ -156,7 +156,7 @@ class EditCrewReelTest extends TestCase
      * @test
      * @covers \App\Actions\Crew\EditCrew::execute
      */
-    public function reel_link_can_be_replaced_by_reel_file()
+    public function reel_link_can_be_updated_to_reel_file()
     {
         // given
         Storage::fake('s3');
