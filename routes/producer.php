@@ -1,8 +1,11 @@
 <?php
 
 Route::prefix('/producer/projects')->group(function () {
-    Route::post('/', [\App\Http\Controllers\Producer\ProjectsController::class, 'store'])
+    Route::get('/', [\App\Http\Controllers\Producer\ProjectsController::class, 'index'])
         ->name('producer.projects');
+
+    Route::post('/', [\App\Http\Controllers\Producer\ProjectsController::class, 'store'])
+        ->name('producer.projects.store');
 
     Route::get('/create', [\App\Http\Controllers\Producer\ProjectsController::class, 'create'])
         ->name('producer.projects.create');

@@ -15,6 +15,11 @@ use App\Models\RemoteProject;
 
 class ProjectsController extends Controller
 {
+    public function index()
+    {
+        return view('producer.projects.my-projects');
+    }
+
     public function create()
     {
         $user = auth()->user();
@@ -46,9 +51,9 @@ class ProjectsController extends Controller
     
     public function edit(Project $project)
     {
-        return response()->json(
-            $project->load(['jobs', 'remotes'])->toArray()
-        );
+        return response()->json([
+            'project' => $project->load(['jobs', 'remotes'])->toArray()
+        ]);
     } 
 
     /**

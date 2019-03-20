@@ -66,7 +66,7 @@
                         <div v-show="isAllSitesNotChecked">
                             <label v-for="site in sites" :key="site.id" class="checkbox-control mb-2">
                                 {{ site.name }}
-                                <input v-model="project.sites" :value="site.id" type="checkbox">
+                                <input type="checkbox" v-model="project.sites" :value="site.id">
                                 <div class="control-indicator"></div>
                             </label>
                         </div>
@@ -158,9 +158,8 @@
             },
 
             allSitesSelected(){
-                this.project.sites = []
-                
                 if(this.isAllSitesNotChecked){
+                    this.project.sites = []
                     this.isAllSitesNotChecked = false
                     return
                 }
