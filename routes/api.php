@@ -51,7 +51,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/producer/projects', [
         \App\Http\Controllers\API\Producer\ProjectsController::class,
         'store'
-    ])->name('producer.project.store');
+    ])->middleware('role:Producer|Producer')->name('producer.project.store');
 
     Route::get('/producer/project/type', [
         \App\Http\Controllers\API\Producer\ProjectTypes::class,
