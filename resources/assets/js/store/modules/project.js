@@ -1,14 +1,22 @@
 import * as types from '../mutation-types'
 
 export const state = {
+    job: {
+        persons_needed: 1 
+    },
     list: [],
     project: {
-        jobs: []
+        jobs: [],
+        sites: []
     },
     types: []
 }
 
 export const getters = {
+    job(state) {
+        return state.job
+    },
+
     list(state) {
         return state.list
     },
@@ -23,6 +31,10 @@ export const getters = {
 }
 
 export const mutations = {
+    [types.JOB](state, payload) {
+        state.job = payload
+    },
+
     [types.PROJECT](state, payload) {
         state.project = payload
     },

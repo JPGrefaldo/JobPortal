@@ -5,6 +5,7 @@ export const state = {
     departments: [],
     position: {},
     positions: [],
+    selectedPosition: [],
     site: {},
     sites: []
 }
@@ -24,6 +25,10 @@ export const getters = {
 
     positions(state){
         return state.positions
+    },
+
+    selectedPosition(state){
+        return state.selectedPosition
     },
 
     site(state){
@@ -52,6 +57,10 @@ export const mutations = {
         state.positions = payload
     },
 
+    [types.SELECTED_POSITION](state, payload){
+        state.selectedPosition = payload
+    },
+
     [types.SITE](state, payload){
         state.site = payload
     },
@@ -73,6 +82,13 @@ export const actions = {
         axios.get('/api/crew/positions')
              .then(response => {
                  context.commit(types.POSITIONS, response.data.positions)
+
+                 let positionSelection = []
+                 state.positions.forEach( function (val, index){
+                    positionSelection['selected'+val.id] = false
+                 })
+
+                 context.commit(types.SELECTED_POSITION, positionSelection)
              })
     },
 
