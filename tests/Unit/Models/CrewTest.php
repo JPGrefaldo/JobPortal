@@ -79,6 +79,25 @@ class CrewTest extends TestCase
 
     /**
      * @test
+     * @covers \App\Models\Crew::hasGeneralReel
+     */
+    public function hasGeneralReel()
+    {
+        // given
+        $this->assertFalse($this->crew->hasGeneralReel());
+
+        // when
+        factory(CrewReel::class)->create([
+            'crew_id' => $this->crew->id,
+            'general' => true,
+        ]);
+
+        // then
+        $this->assertTrue($this->crew->hasGeneralReel());
+    }
+
+    /**
+     * @test
      * @covers \App\Models\Crew::resumes
      */
     public function resumes()
