@@ -3,7 +3,6 @@
 namespace Tests\Feature\Producer;
 
 use App\Models\Project;
-use App\Models\Site;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\Data\PayTypeID;
 use Tests\Support\Data\PositionID;
@@ -354,10 +353,36 @@ class StoreProjectFeatureTest extends TestCase
      */
     public function store_unauthorized()
     {
+        // $this->withoutExceptionHandling();
+
         $user = $this->createCrew();
 
-        $response = $this->actingAs($user)
-            ->post(route('producer.projects'));
+        $data = [
+            'title'                  => 'Some Title',
+            'production_name'        => 'Some Production Name',
+            'production_name_public' => 1,
+            'type_id'                => ProjectTypeID::TV,
+            'description'            => 'Some Description',
+            'location'               => 'Some Location',
+            'jobs'                   => [
+                PositionID::CAMERA_OPERATOR => [
+                    'persons_needed'        => '2',
+                    'gear_provided'         => 'Some Gear Provided',
+                    'gear_needed'           => 'Some Gear Needed',
+                    'pay_rate'              => '16',
+                    'pay_type_id'           => PayTypeID::PER_HOUR,
+                    'dates_needed'          => '6/15/2018 - 6/25/2018',
+                    'notes'                 => 'Some Note',
+                    'rush_call'             => '1',
+                    'position_id'           => PositionID::CAMERA_OPERATOR,
+                    'travel_expenses_paid'  => '1',
+                    'sites'                 => [1, 2,],
+                ]
+            ],
+        ];
+
+        $response = $this->actingAs($user, 'api')
+            ->post(route('producer.project.store'), $data);
 
         $response->assertForbidden();
     }

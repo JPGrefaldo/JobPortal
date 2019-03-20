@@ -3,7 +3,6 @@
 namespace App\Actions\Crew;
 
 use App\Models\Crew;
-use App\Models\CrewReel;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
@@ -27,9 +26,9 @@ class SaveCrewReel
             $reelPath = app(CleanVideoLink::class)->execute($data['reel']);
         }
 
-        $crew->reels()->save(new CrewReel([
+        $crew->reels()->create([
             'path'    => $reelPath,
             'general' => true,
-        ]));
+        ]);
     }
 }
