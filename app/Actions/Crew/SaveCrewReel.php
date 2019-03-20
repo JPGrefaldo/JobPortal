@@ -3,7 +3,6 @@
 namespace App\Actions\Crew;
 
 use App\Models\Crew;
-use App\Models\CrewReel;
 
 class SaveCrewReel
 {
@@ -16,9 +15,9 @@ class SaveCrewReel
     {
         $reelPath = app(CleanVideoLink::class)->execute($data['reel']);
 
-        $crew->reels()->save(new CrewReel([
+        $crew->reels()->create([
             'path'    => $reelPath,
             'general' => true,
-        ]));
+        ]);
     }
 }

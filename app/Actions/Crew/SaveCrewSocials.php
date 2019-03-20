@@ -3,7 +3,6 @@
 namespace App\Actions\Crew;
 
 use App\Models\Crew;
-use App\Models\CrewSocial;
 use Tests\Support\Data\SocialLinkTypeID;
 
 class SaveCrewSocials
@@ -21,10 +20,10 @@ class SaveCrewSocials
                 $socialUrl = $value['url'];
             }
 
-            $crew->socials()->save(new CrewSocial([
+            $crew->socials()->create([
                 'social_link_type_id' => $value['id'],
                 'url'                 => $socialUrl,
-            ]));
+            ]);
         }
     }
 }
