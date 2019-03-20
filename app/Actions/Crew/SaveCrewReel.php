@@ -15,7 +15,7 @@ class SaveCrewReel
      */
     public function execute(Crew $crew, array $data): void
     {
-        if ($data['reel'] instanceof UploadedFile) {
+        if ($this->isUploadedFile($data)) {
             $reelPath = $crew->user->hash_id . '/reels/'. $data['reel']->hashName();
             Storage::disk('s3')->put(
                 $reelPath,
@@ -30,5 +30,10 @@ class SaveCrewReel
             'path'    => $reelPath,
             'general' => true,
         ]);
+    }
+
+    public function isUploadedFile(array $data): bool
+    {
+        return $data['reel'] instanceof UploadedFile;
     }
 }
