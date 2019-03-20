@@ -13,12 +13,12 @@ class EditCrewReel
      */
     public function execute(Crew $crew, array $data): void
     {
-        $reel = $crew->reels()->where('general', true)->first();
-
-        if (! $reel) {
+        if (! $crew->hasGeneralReel()) {
             app(SaveCrewReel::class)->execute($crew, $data);
             return;
         }
+
+        $reel = $crew->reels()->where('general', true)->first();
 
         if (str_contains($reel->path, $crew->user->hash_id)) {
             Storage::disk('s3')->delete($reel->path);
