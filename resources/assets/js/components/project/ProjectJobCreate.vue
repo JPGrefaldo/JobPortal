@@ -7,14 +7,14 @@
                         <div class="w-full pb-4">
                             <label class="checkbox-control">
                                 <h3 class="text-md">{{ position.name }}</h3>
-                                <input type="checkbox" v-model="selectedPosition['selected' + position.id]" :value="position.id" @change="selected(position.id)"/>
+                                <input type="checkbox"  v-model="needed['selected' + position.id]" :value="position.id" @change="selected(position.id)"/>
                                 <div class="control-indicator"></div>
                             </label>
                         </div>
                     </div>
                 </div>
                 
-                <project-job-form  v-show="selectedPosition['selected' + position.id]" :position="position" :project="project"></project-job-form>
+                <project-job-form :position="position" :project="project" v-show="needed['selected' + position.id]" ></project-job-form>
 
             </div>
         </div>
@@ -27,6 +27,20 @@
     import ProjectJobForm from './ProjectJobForm.vue'
 
     export default {
+        props: {
+            positions: {
+                type: Array,
+                required: true
+            },
+        },
+
+        data() {
+            return {
+                lastPositionId: 0,
+                needed: []
+            }
+        },
+
         mixins: [ 
             alert 
         ],
@@ -35,19 +49,8 @@
             'project-job-form' : ProjectJobForm
         },
 
-        data() {
-            return {
-                lastPositionId: 0
-            }
-        },
-
-        mounted(){
-            this.$store.dispatch('crew/fetchPositions')
-        },
-
         computed:{
             ...mapGetters({
-                positions: 'crew/positions',
                 project: 'project/project',
                 selectedPosition: 'crew/selectedPosition'
             })
@@ -55,29 +58,23 @@
 
         methods: {
             selected(id){
-                this.hideOpenedPositionCard()
+                this.needed[this.selectedPosition] = !! this.needed[this.selectedPosition]
 
-                if(typeof(this.project.jobs) != 'undefined'){
-                    let job = this.project.jobs.find(o => o.position_id == id)
-
-                     if (typeof(job) != 'undefined'){
-                        job.position_id = id
-                        this.$store.commit('project/JOB', job)
-                        return
-                    }
+                if(this.needed[this.selectedPosition]){
+                    this.$store.commit('crew/SELECTED_POSITION', `selected${id}`)
                 }
 
-                // Store the id globally to be used in hiding the the job fields 
-                this.lastPositionId = id
-                this.$store.commit('project/JOB', {})
+                let job = this.project.jobs.find(o => o.position_id == id)
+
+                if (typeof(job) != 'undefined'){
+                    job.position_id = id
+                    this.$store.commit('project/JOB', job)
+                }
             },
+        },
 
-            hideOpenedPositionCard(){
-                // Fixed overlapping open position card when multiple checkboxes is selected
-                if (this.lastPositionId != 0){
-                    this.selectedPosition[`selected${this.lastPositionId}`] = false
-                }
-            }
-        }
+        mounted(){
+            this.$store.dispatch('crew/fetchPositions')
+        },
     }
 </script>

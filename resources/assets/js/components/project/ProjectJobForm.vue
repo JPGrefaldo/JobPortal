@@ -1,17 +1,11 @@
 <template>
-    <div>
+    <div v-if="!isAdded">
         <div class="md:flex py-2">
             <div class="md:w-1/3 pr-8">
                 <span class="font-bold font-header text-blue-dark mt-2 block md:text-right mb-3">Persons needed</span>
             </div>
             <div class="md:w-2/3">
-                <div class="w-24">
-                    <div class="flex justify-center border border-grey-light rounded">
-                        <button class="w-8 h-10" @click="preventNegativeValue(job.persons_needed--)">–</button>
-                        <input v-model="job.persons_needed" type="text" class="bg-light text-center w-8 h-10" value="1">
-                        <button class="w-8 h-10" @click="job.persons_needed++">+</button>
-                    </div>
-                </div>
+                <person-needed-input v-model="job.persons_needed"></person-needed-input>
             </div>
         </div>
         <div class="md:flex py-2">
@@ -129,7 +123,7 @@
         <error-notification :errors="errors"></error-notification>
 
         <div class="flex justify-center mt-4">
-            <button class="flex-grow btn-green" @click.stop="addPosition(position.id)">Add Position</button>
+            <button class="flex-grow btn-green" @click="addPosition(position.id)">Add Position</button>
         </div>
 
     </div>
@@ -138,6 +132,8 @@
 <script>
 import { mapGetters } from 'vuex'
 import ErrorNotification from './ErrorNotification.vue'
+import InputNumberType from '../_partials/InputNumberType'
+
 export default {
     props: {
         position: {
@@ -153,11 +149,13 @@ export default {
 
     components: {
         'error-notification': ErrorNotification,
+        'person-needed-input': InputNumberType
     },
 
     data() {
         return {
-            errors:[]
+            errors:[],
+            isAdded: false
         }
     },
 
@@ -183,16 +181,14 @@ export default {
 
                 // Add to the array if it was not added
                 this.project.jobs.push(this.job)
-                this.$store.commit('project/JOB', {})
+                this.$store.commit('project/JOB', {
+                    persons_needed: 1
+                })
 
                 // State resets
                 this.errors = []
-                this.selectedPosition[`selected${id}`] = false
+                this.isAdded = true
             }
-        },
-
-        preventNegativeValue(val){
-            return (val == 1) ? this.job.persons_needed = 1 : this.job.persons_needed
         },
 
         hasErrors(){
@@ -231,3 +227,10 @@ export default {
     }
 }
 </script>
+
+<style>
+.collapsed {
+    display: none;
+}
+</style>
+

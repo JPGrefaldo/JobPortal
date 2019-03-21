@@ -77,18 +77,8 @@
             <div class="w-full pt-8 mt-8 mb-8 block border-t-2 border-grey-lighter">
                 <h3 class="text-blue-dark font-semibold text-lg mb-1 font-header">Work positions needed</h3>
             </div>
-            <div v-if="departments">
-                <ul class="flex list-reset rounded w-auto">
-                    <li>
-                        <input  class="hover:text-white hover:bg-blue text-blue border-r border-grey-light px-3 py-2"
-                                v-model="department.name" type="button" 
-                                v-for="department in departments" :key="department.id" 
-                                @click="showByDepartment(department.id)">
-                    </li>
-                </ul>
-            </div>
 
-            <cca-position></cca-position>
+            <cca-tab></cca-tab>
 
             <div class="pt-8 pb-4 text-right border-t-2 border-grey-lighter">
                 <a href="#" class="text-grey bold mr-4 hover:text-green">Cancel</a>
@@ -103,7 +93,7 @@
     import { alert } from '../../mixins'
     import { mapGetters } from 'vuex'
     import ErrorNotification from './ErrorNotification.vue'
-    import ProjectJobCreate from './ProjectJobCreate.vue'
+    import Departments from './Departments.vue'
 
     export default {
         mixins: [ 
@@ -111,27 +101,24 @@
         ],
 
         components: {
-            'cca-position': ProjectJobCreate,
-            'error-notification': ErrorNotification
+            'error-notification': ErrorNotification,
+            'cca-tab': Departments
         },
 
         data() {
             return {
                 isAllSitesNotChecked: true,
-                allPositions: [],
                 errors: []
             }
         },
 
         mounted() {
-            this.$store.dispatch('crew/fetchDepartments')
             this.$store.dispatch('crew/fetchSites')
             this.$store.dispatch('project/fetchTypes')
         },
 
         computed: {
             ...mapGetters({
-                departments: 'crew/departments',
                 positions: 'crew/positions',
                 project: 'project/project',
                 projectTypes: 'project/types',
@@ -140,23 +127,6 @@
         },
 
         methods: {
-            submit(){
-                if (! this.hasErrors()){
-                    this.$store
-                        .dispatch('project/saveProjectJob', this.project)
-                        .then(response => this.displaySuccess(response))
-                }
-            },
-
-            showByDepartment(id){
-                if (this.allPositions.length === 0){
-                    this.allPositions = this.positions
-                }
-
-                let positions = this.allPositions.filter(o => o.department_id == id)
-                this.$store.commit('crew/POSITIONS', positions)
-            },
-
             allSitesSelected(){
                 if(this.isAllSitesNotChecked){
                     this.project.sites = []
@@ -164,6 +134,14 @@
                     return
                 }
                 this.isAllSitesNotChecked = true
+            },
+
+            submit(){
+                if (! this.hasErrors()){
+                    this.$store
+                        .dispatch('project/saveProjectJob', this.project)
+                        .then(response => this.displaySuccess(response))
+                }
             },
 
             hasErrors(){
