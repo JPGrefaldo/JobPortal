@@ -4,9 +4,9 @@ export const state = {
     job: {
         persons_needed: 1 
     },
+    jobs:[],
     list: [],
     project: {
-        jobs: [],
         sites: []
     },
     types: []
@@ -15,6 +15,10 @@ export const state = {
 export const getters = {
     job(state) {
         return state.job
+    },
+
+    jobs(state) {
+        return state.jobs
     },
 
     list(state) {
@@ -33,6 +37,10 @@ export const getters = {
 export const mutations = {
     [types.JOB](state, payload) {
         state.job = payload
+    },
+
+    [types.JOBS](state, payload) {
+        state.jobs.push(payload)
     },
 
     [types.PROJECT](state, payload) {
@@ -56,14 +64,18 @@ export const actions = {
             )
     },
 
-    fetchTypes(context){
+    fetchByTypes(context){
         axios.get('/api/producer/project/type')
              .then(response => {
                  context.commit(types.PROJECT_TYPES, response.data.projectType)
              })
     },
 
-    saveProjectJob(context, params){
+    saveProject(context, params){
         return axios.post('/api/producer/projects', params)
-    }
+    },
+
+    saveProjectJob(context, params){
+        return axios.post('/api/producer/project/job', params)
+    },
 }

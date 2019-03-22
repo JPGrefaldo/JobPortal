@@ -50,7 +50,7 @@ export default {
     },
 
      mounted(){
-        this.$store.dispatch('crew/fetchDepartments')
+        this.$store.dispatch('crew/fetchByDepartments')
     },
 }
 </script>

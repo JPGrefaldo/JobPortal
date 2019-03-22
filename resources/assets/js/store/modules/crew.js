@@ -71,14 +71,14 @@ export const mutations = {
 }
 
 export const actions = {
-    fetchDepartments(context){
+    fetchByDepartments(context){
         axios.get('/api/crew/departments')
              .then(response => {
                  context.commit(types.DEPARTMENTS, response.data.departments)
              })
     },
 
-    fetchPositions(context){
+    fetchByPositions(context){
         axios.get('/api/crew/positions')
              .then(response => {
                  context.commit(types.POSITIONS, response.data.positions)
@@ -92,7 +92,7 @@ export const actions = {
              })
     },
 
-    fetchSites(context){
+    fetchBySites(context){
         axios.get('/api/crew/sites')
              .then(response => {
                  context.commit(types.SITES, response.data.sites)
