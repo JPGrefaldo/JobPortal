@@ -72,9 +72,5 @@
                 }
             },
         },
-
-        mounted(){
-            this.$store.dispatch('crew/fetchPositions')
-        },
     }
 </script>
