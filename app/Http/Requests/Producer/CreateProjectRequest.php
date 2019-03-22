@@ -32,14 +32,7 @@ class CreateProjectRequest extends FormRequest
             'persons_needed'              => 'sometimes|required|numeric|min:1',
             'gear_provided'               => 'sometimes|nullable|string',
             'gear_needed'                 => 'sometimes|nullable|string',
-            'sites'                       => 'present|array',
-            'jobs'                        => 'present|array',
-            'jobs.*.pay_rate'             => 'numeric',
-            'jobs.*.pay_type_id'          => 'required_if:jobs.*.pay_rate,0|numeric',
-            'jobs.*.position_id'          => 'required|numeric',
-            'jobs.*.dates_needed'         => 'required|string',
-            'jobs.*.notes'                => 'required|string|min:3',
-            'jobs.*.travel_expenses_paid' => 'required'
+            'sites'                       => 'present|array'
         ];
     }
 }

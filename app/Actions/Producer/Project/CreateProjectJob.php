@@ -7,20 +7,18 @@ use App\Models\Project;
 
 class CreateProjectJob
 {
-    public function execute(Project $project, array $jobs): void
+    public function execute($request): ProjectJob
     {
-        foreach ($jobs as $job){
-            $data = $this->filter($job);
-            $data['project_id'] = $project->id;
+        $data = $this->filter($request);
 
-            ProjectJob::create($data);
-        }
+        return ProjectJob::create($data);
     }
 
     private function filter(array $data): array
     {
         return array_only($data, 
             [
+                'project_id',
                 'position_id',
                 'pay_type_id',
                 'notes',   

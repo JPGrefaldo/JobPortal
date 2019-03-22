@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\API\Producer;
 
 use App\Actions\Producer\Project\CreateProject;
-use App\Actions\Producer\Project\CreateProjectJob;
 use App\Actions\Producer\Project\CreateRemoteProject;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Producer\CreateProjectRequest;
@@ -29,7 +28,7 @@ class ProjectsController extends Controller
 
         $project = app(CreateProject::class)->execute($user, $site_id, $request->toArray());
 
-        if (! isset($project->id) && count($request->jobs) == 0){
+        if (! isset($project->id)){
             return response()->json([
                     'message', 'Unable to save the project. Please try again'
                 ], 
@@ -38,10 +37,10 @@ class ProjectsController extends Controller
         }
 
         app(CreateRemoteProject::class)->execute($project, $request->sites);
-        app(CreateProjectJob::class)->execute($project, $request->jobs);
 
         return response()->json([
-                'message' => 'Project successfully added'
+                'message' => 'Project successfully added',
+                'project' => $project
             ], Response::HTTP_CREATED
         );
     }
