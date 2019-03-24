@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Admin\Web;
 
 use App\Models\PendingFlagMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
