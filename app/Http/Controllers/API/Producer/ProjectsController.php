@@ -36,12 +36,21 @@ class ProjectsController extends Controller
             );
         }
 
-        app(CreateRemoteProject::class)->execute($project, $request->sites);
+        app(CreateRemoteProject::class)->execute($project, $request->remotes);
 
         return response()->json([
                 'message' => 'Project successfully added',
-                'project' => $project
+                'project' => $project->load('remotes')
             ], Response::HTTP_CREATED
+        );
+    }
+
+    public function show(Project $project)
+    {
+        return response()->json([
+                'project' => $project->load(['jobs', 'remotes'])
+            ], 
+            Response::HTTP_OK
         );
     }
 

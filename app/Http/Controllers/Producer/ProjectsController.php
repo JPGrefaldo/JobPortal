@@ -22,18 +22,7 @@ class ProjectsController extends Controller
 
     public function create()
     {
-        $user = auth()->user();
-        $projectTypes = ProjectType::all();
-        $departments = Department::with('positions')->has('positions')->get();
-        $hostname = UrlUtils::getHostNameFromBaseUrl(request()->getHttpHost());
-        $sites = Site::where('hostname', '!=', $hostname)->get();
-
-        return view('producer.projects.create', compact(
-            'user',
-            'projectTypes',
-            'departments',
-            'sites'
-        ));
+        return view('producer.projects.create', $this->loadViewData());
     }
     /**
      * @param \App\Http\Requests\Producer\CreateProjectRequest $request
@@ -51,9 +40,7 @@ class ProjectsController extends Controller
     
     public function edit(Project $project)
     {
-        return response()->json([
-            'project' => $project->load(['jobs', 'remotes'])->toArray()
-        ]);
+        return view('producer.projects.edit', $this->loadViewData($project->load('jobs', 'remotes')));
     } 
 
     /**
@@ -70,6 +57,32 @@ class ProjectsController extends Controller
             $input,
             $project,
             session('site')
+        );
+    }
+
+    private function loadViewData($project = null)
+    {
+        $user = auth()->user();
+        $projectTypes = ProjectType::all();
+        $departments = Department::with('positions')->has('positions')->get();
+        $hostname = UrlUtils::getHostNameFromBaseUrl(request()->getHttpHost());
+        $sites = Site::where('hostname', '!=', $hostname)->get();
+
+        if($project === null){
+            return compact(
+                'user',
+                'projectTypes',
+                'departments',
+                'sites'
+            );
+        }
+
+        return compact(
+            'user',
+            'projectTypes',
+            'departments',
+            'project',
+            'sites'
         );
     }
 }
