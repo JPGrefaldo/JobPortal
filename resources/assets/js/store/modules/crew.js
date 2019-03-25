@@ -82,13 +82,6 @@ export const actions = {
         axios.get('/api/crew/positions')
              .then(response => {
                  context.commit(types.POSITIONS, response.data.positions)
-
-                //  let positionSelection = []
-                //  state.positions.forEach( function (val, index){
-                //     positionSelection['selected'+val.id] = false
-                //  })
-
-                //  context.commit(types.SELECTED_POSITION, positionSelection)
              })
     },
 

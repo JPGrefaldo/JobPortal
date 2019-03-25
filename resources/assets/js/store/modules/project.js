@@ -7,7 +7,8 @@ export const state = {
     jobs:[],
     list: [],
     project: {
-        sites: []
+        production_name_public: true,
+        remotes: []
     },
     types: []
 }
@@ -40,7 +41,7 @@ export const mutations = {
     },
 
     [types.JOBS](state, payload) {
-        state.jobs.push(payload)
+        state.jobs.push(payload) 
     },
 
     [types.PROJECT](state, payload) {
@@ -59,6 +60,13 @@ export const mutations = {
 export const actions = {
     fetch(context, role){
         axios.get('/api/' + role + '/projects')
+             .then(
+                response => context.commit(types.PROJECTS, response.data.data)
+            )
+    },
+
+    fetchByProject(context, role){
+        axios.get('/api/' + role + '/projects'/1)
              .then(
                 response => context.commit(types.PROJECTS, response.data.data)
             )
