@@ -1,5 +1,5 @@
 <template>
-    <div v-if="show">
+    <div>
         <div class="md:flex py-2">
             <div class="md:w-1/3 pr-8">
                 <span class="font-bold font-header text-blue-dark mt-2 block md:text-right mb-3">Persons needed</span>
@@ -159,60 +159,23 @@
                 </div>
             </div>
         </div>
-
-        <div class="flex justify-center mt-4">
-            <button class="flex-grow btn-green" @click.stop="submitProjectJob">Add Position</button>
-        </div>
-
     </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import InputNumberType from '../_partials/InputNumberType'
+    import { mapGetters } from 'vuex'
+    import InputNumberType from '../_partials/InputNumberType'
 
-export default {
-    props: ['position'],
-
-    components: {
-        'person-needed-input': InputNumberType
-    },
-
-    data() {
-        return {
-            show: !! this.position,
-            job: {}
-        }
-    },
-
-    computed: {
-        ...mapGetters({
-            project: 'project/project'
-        })
-    },
-
-    methods: {
-        submitProjectJob(){
-            this.$validator.validateAll()
-
-            if(this.project.id) {
-                this.job.project_id  = this.project.id
-                this.job.position_id = this.position
-
-                if (this.errors.all().length == 0){
-                    this.$store
-                        .dispatch('project/saveProjectJob', this.job)
-                        .then(response => {
-                            this.$store.commit('project/JOBS', response.data.job)
-                        })
-                }
-            }
-            
-            this.show = false
-            job = {}
-            this.position = ''
+    export default {
+        components: {
+            'person-needed-input': InputNumberType
         },
+
+        computed: {
+            ...mapGetters({
+                job: 'project/job'
+            })
+        }
     }
-}
 </script>
 

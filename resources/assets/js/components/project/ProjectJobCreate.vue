@@ -1,21 +1,37 @@
 <template>
-    <div v-if="positions">
-        <div v-for="position in positions" :key="position.id">
-            <div class="p-2 border-t-2 border-grey-lighter bg-grey-lighter">
-                <div class="py-2">
-                    <div class="md:flex">
-                        <div class="w-full pb-4">
-                            <label class="checkbox-control">
-                                <h3 class="text-md">{{ position.name }}</h3>
-                                <input type="checkbox"  v-model="needed['selected' + position.id]" :value="position.id" @change="selected(position.id)"/>
-                                <div class="control-indicator"></div>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                
-                <project-job-form :position="position" :project="project" v-show="needed['selected' + position.id]" ></project-job-form>
+    <div>
+        <div class="md:flex py-3">
+            <div class="md:w-1/3 pr-6">
+                <span class="block md:text-right mt-4 font-header text-blue-dark font-semibold mb-3">Select a department</span>  
+            </div>
+            <div class="md:w-2/3">
+                <select class="form-control w-full text-grey-dark" v-model="department">
+                    <option disabled :selected="true">Please select one</option>
+                    <option v-for="item in departments" :key="item.id" v-bind:value="item.id">{{ item.name }}</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="md:flex py-3">
+            <div class="md:w-1/3 pr-6">
+                <span class="block md:text-right mt-4 font-header text-blue-dark font-semibold mb-3">Select a position</span>  
+            </div>
+            <div class="md:w-2/3">
+                <select 
+                        class="form-control w-full text-grey-dark"
+                        name="position"
+                        v-model="position" 
+                >
+                    <option v-for="item in positionsByDepartments" :key="item.id" :value="item.id">{{ item.name }}</option>
+                </select>
+            </div>
+        </div>
 
+        <div v-if="department && position">
+            <project-job-form></project-job-form>
+
+            <div class="flex justify-center mt-4">
+                <button class="flex-grow btn-green" @click.stop="submitProjectJob">Add Position</button>
             </div>
         </div>
     </div>
@@ -27,17 +43,11 @@
     import ProjectJobForm from './ProjectJobForm.vue'
 
     export default {
-        props: {
-            positions: {
-                type: Array,
-                required: true
-            },
-        },
-
         data() {
             return {
-                lastPositionId: 0,
-                needed: []
+                allPositions: [],
+                department: null,
+                position: null
             }
         },
 
@@ -51,26 +61,51 @@
 
         computed:{
             ...mapGetters({
+                departments: 'crew/departments',
+                positions: 'crew/positions',
+                job: 'project/job',
                 project: 'project/project',
-                selectedPosition: 'crew/selectedPosition'
-            })
+
+            }),
+
+            positionsByDepartments: function() {
+                if (this.allPositions.length === 0){
+                    this.allPositions = this.positions
+                }
+
+                if (typeof(this.department) != 'undefined'){
+                    return this.allPositions.filter(o => o.department_id == this.department)
+                }
+                
+                return this.allPositions
+            }
         },
 
         methods: {
-            selected(id){
-                this.needed[this.selectedPosition] = !! this.needed[this.selectedPosition]
+            submitProjectJob(){
+                if (!this.project.id) return
 
-                if(this.needed[this.selectedPosition]){
-                    this.$store.commit('crew/SELECTED_POSITION', `selected${id}`)
-                }
+                this.$validator.validateAll()
+                if (this.errors.all().length !== 0) return
 
-                let job = this.project.jobs.find(o => o.position_id == id)
+                this.job.project_id  = this.project.id
+                this.job.position_id = this.position
 
-                if (typeof(job) != 'undefined'){
-                    job.position_id = id
-                    this.$store.commit('project/JOB', job)
-                }
+                this.$store
+                    .dispatch('project/saveProjectJob', this.job)
+                    .then(response => {
+                        this.$store.commit('project/JOBS', response.data.job)
+                    })
+
+                this.department = null
+                this.position   = null
+                this.$store.commit('project/JOB', { persons_needed: 1 })
             },
         },
+
+        mounted() {
+            this.$store.dispatch('crew/fetchByDepartments')
+            this.$store.dispatch('crew/fetchByPositions')
+        }
     }
 </script>
