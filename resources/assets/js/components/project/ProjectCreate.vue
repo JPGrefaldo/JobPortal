@@ -1,6 +1,6 @@
 <template>
     <main class="md:w-3/4 float-left">
-        <project-form></project-form>
+        <project-form :mode="'create'"></project-form>
     </main>
 </template>
 

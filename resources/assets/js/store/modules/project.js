@@ -86,4 +86,8 @@ export const actions = {
     saveProjectJob(context, params){
         return axios.post('/api/producer/project/job', params)
     },
+
+    updateProject(context, params){
+        return axios.put('/api/producer/projects', params)
+    },
 }
