@@ -2,7 +2,6 @@
 
 namespace App\Actions\Crew;
 
-use App\Models\Crew;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 
@@ -12,10 +11,10 @@ class SaveCrew
     {
         $photoPath = $user->hash_id . '/photos/'. $data['photo']->hashName();
 
-        $user->crew()->save(new Crew([
+        $user->crew()->create([
             'bio' => $data['bio'],
             'photo_path' => $photoPath,
-        ]));
+        ]);
 
         Storage::disk('s3')->put(
             $photoPath,

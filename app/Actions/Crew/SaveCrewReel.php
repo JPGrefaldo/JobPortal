@@ -3,7 +3,8 @@
 namespace App\Actions\Crew;
 
 use App\Models\Crew;
-use App\Models\CrewReel;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 class SaveCrewReel
 {
@@ -14,11 +15,25 @@ class SaveCrewReel
      */
     public function execute(Crew $crew, array $data): void
     {
-        $reelPath = app(CleanVideoLink::class)->execute($data['reel']);
+        if ($this->isUploadedFile($data)) {
+            $reelPath = $crew->user->hash_id . '/reels/'. $data['reel']->hashName();
+            Storage::disk('s3')->put(
+                $reelPath,
+                file_get_contents($data['reel']),
+                'public'
+            );
+        } else {
+            $reelPath = app(CleanVideoLink::class)->execute($data['reel']);
+        }
 
-        $crew->reels()->save(new CrewReel([
+        $crew->reels()->create([
             'path'    => $reelPath,
             'general' => true,
-        ]));
+        ]);
+    }
+
+    public function isUploadedFile(array $data): bool
+    {
+        return $data['reel'] instanceof UploadedFile;
     }
 }

@@ -66,6 +66,11 @@ class Crew extends Model
         return $this->hasMany(CrewReel::class);
     }
 
+    public function hasGeneralReel(): bool
+    {
+        return $this->reels()->where('general', true)->count() > 0;
+    }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

@@ -4,7 +4,6 @@ namespace App\Actions\Admin;
 
 use App\Models\Project;
 use App\Models\User;
-use Cmgmyr\Messenger\Models\Message;
 use Cmgmyr\Messenger\Models\Thread;
 
 class MessageCrew
@@ -29,10 +28,10 @@ class MessageCrew
                 $thread->addParticipant([$user->id, $recipient->id]);
             }
 
-            $thread->messages()->save(new Message([
+            $thread->messages()->create([
                 'user_id' => $user->id,
                 'body'    => $data['message'],
-            ]));
+            ]);
 
             // TODO: queue send emails
         }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Admin;
+namespace Tests\Feature\Admin\Web;
 
 use App\Models\Site;
 use Illuminate\Foundation\Testing\RefreshDatabase;
