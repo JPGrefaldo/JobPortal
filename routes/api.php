@@ -53,10 +53,20 @@ Route::middleware('auth:api')->group(function () {
         'store'
     ])->name('producer.project.store');
 
+    Route::put('/producer/projects', [
+        \App\Http\Controllers\API\Producer\ProjectsController::class,
+        'update'
+    ])->name('producer.project.update');
+
     Route::post('/producer/project/job', [
         \App\Http\Controllers\API\Producer\ProjectJobsController::class,
         'store'
     ])->name('producer.project.job.store');
+
+    Route::put('/producer/project/job', [
+        \App\Http\Controllers\API\Producer\ProjectJobsController::class,
+        'update'
+    ])->name('producer.project.job.update');
 
     Route::get('/producer/project/type', [
         \App\Http\Controllers\API\Producer\ProjectTypes::class,

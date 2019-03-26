@@ -4,6 +4,8 @@ namespace App\Http\Controllers\API\Producer;
 
 use App\Actions\Producer\Project\CreateProject;
 use App\Actions\Producer\Project\CreateRemoteProject;
+use App\Actions\Producer\Project\UpdateProject;
+use App\Actions\Producer\Project\UpdateRemoteProject;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Producer\CreateProjectRequest;
 use App\Http\Resources\ProjectResource;
@@ -42,6 +44,26 @@ class ProjectsController extends Controller
                 'message' => 'Project successfully added',
                 'project' => $project->load('remotes')
             ], Response::HTTP_CREATED
+        );
+    }
+
+    public function update(CreateProjectRequest $request){
+        $project = app(UpdateProject::class)->execute($request->toArray());
+
+        if ($project->id){
+            app(UpdateRemoteProject::class)->execute($project, $request->remotes);
+
+            return response()->json([
+                    'message' => 'Project successfully updated',
+                    'project' => $project->load('remotes')
+                ], Response::HTTP_OK
+            );
+        }
+
+        return response()->json([
+                'message', 'Unable to update the project. Please try again'
+            ], 
+            Response::HTTP_INTERNAL_SERVER_ERROR
         );
     }
 
