@@ -112,9 +112,8 @@
                             <input 
                                     name="Post add on these websites"
                                     type="checkbox"
-                                    :value="site.id"
                                     :checked="site.checked"
-                                    @click="selected(site, $event)"
+                                    @change="selected(site)"
                             >
                             <div class="control-indicator"></div>
                         </label>
@@ -124,6 +123,7 @@
         </div>
 
         <div class="pt-8 pb-4 text-right border-t-2 border-grey-lighter">
+            <input type="hidden" v-model="project.id" />
             <a href="#" class="text-grey bold mr-4 hover:text-green">Cancel</a>
             <button type="button" class="btn-green" @click="submitProject">SAVE CHANGES</button>
         </div>
@@ -145,6 +145,13 @@
     import ProjectJobList from './ProjectJobList.vue'
 
     export default {
+        props: {
+            mode: {
+                type: String,
+                required: true
+            }
+        },
+
         mixins: [ 
             alert 
         ],
@@ -198,28 +205,39 @@
                 this.isAllSitesNotChecked = false
             },
 
-            selected(site, e){
-                e.target.checked
-                ? this.project.remotes.push(site)
-                : this.project.remotes = this.project.remotes.filter(o => o.id != site.id)
+            selected(site){
+                site.checked = !site.checked
+                this.project.remotes = []
             },
 
             submitProject(){
                 this.$validator.validateAll()
 
                 if (this.errors.all().length == 0){
+                    let endpoint = this.mode == 'edit' ? 'project/updateProject' : 'project/saveProject'
+
+                    if(this.project.remotes.length != 1 && this.project.remotes[0] != 'all'){
+                        this.project.remotes = this.getRemoteIds(this.sites.filter(site => site.checked))
+                    }
+
                     this.$store
-                        .dispatch('project/saveProject', this.project)
+                        .dispatch(endpoint, this.project)
                         .then(response => {
                             this.displaySuccess(response)
                             this.$store.commit('project/PROJECT', response.data.project)
                         })
                 }
-
-                this.project.remotes.forEach(element => {
-                    this.selectedSites[element] = true
-                });
             },
+
+            getRemoteIds(remotes){
+                let remoteIds = []
+
+                remotes.forEach(remote => {
+                    remoteIds.push(remote.id)
+                })
+
+                return remoteIds
+            }
         }
     }
 </script>
