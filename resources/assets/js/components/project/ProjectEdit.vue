@@ -21,6 +21,10 @@
 
         mounted() {
             this.$store.commit('project/PROJECT', this.project)
+
+            if (this.project.jobs.length > 0){
+                this.$store.commit('project/JOBS', this.project.jobs)
+            }
         },
     }
 </script>

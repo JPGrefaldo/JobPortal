@@ -91,12 +91,8 @@
                 this.job.project_id  = this.project.id
                 this.job.position_id = this.position
 
-                this.$store
-                    .dispatch('project/saveProjectJob', this.job)
-                    .then(response => {
-                        this.$store.commit('project/JOBS', response.data.job)
-                    })
-
+                this.$store.dispatch('project/saveProjectJob', this.job)
+                
                 this.department = null
                 this.position   = null
                 this.$store.commit('project/JOB', { persons_needed: 1 })

@@ -125,7 +125,7 @@
         <div class="pt-8 pb-4 text-right border-t-2 border-grey-lighter">
             <input type="hidden" v-model="project.id" />
             <a href="#" class="text-grey bold mr-4 hover:text-green">Cancel</a>
-            <button type="button" class="btn-green" @click="submitProject">SAVE CHANGES</button>
+            <button type="button" class="btn-green" @click="submitProject">{{ submitText }}</button>
         </div>
 
         <div class="w-full pt-8 mt-8 mb-8 block border-t-2 border-grey-lighter">
@@ -164,6 +164,7 @@
         data() {
             return {
                 isAllSitesNotChecked: true,
+                submitText: this.mode == 'edit' ? 'SAVE CHANGES' : 'SAVE'
             }
         },
 
