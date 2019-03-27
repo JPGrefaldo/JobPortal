@@ -63,10 +63,15 @@ Route::middleware('auth:api')->group(function () {
         'store'
     ])->name('producer.project.job.store');
 
-    Route::put('/producer/project/job', [
+    Route::put('/producer/project/job/{projectJob}', [
         \App\Http\Controllers\API\Producer\ProjectJobsController::class,
         'update'
     ])->name('producer.project.job.update');
+
+    Route::delete('/producer/project/job/{projectJob}', [
+        \App\Http\Controllers\API\Producer\ProjectJobsController::class,
+        'destroy'
+    ])->name('producer.project.job.destroy');
 
     Route::get('/producer/project/type', [
         \App\Http\Controllers\API\Producer\ProjectTypes::class,
