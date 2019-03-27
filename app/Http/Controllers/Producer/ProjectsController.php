@@ -40,7 +40,17 @@ class ProjectsController extends Controller
     
     public function edit(Project $project)
     {
-        return view('producer.projects.edit', $this->loadViewData($project->load('jobs', 'remotes')));
+        return view(
+            'producer.projects.edit', 
+            $this->loadViewData(
+                $project->load([
+                    'remotes',
+                    'jobs' => function($query){
+                        $query->with('position');
+                    }
+                ])
+            )
+        );
     } 
 
     /**
