@@ -48,15 +48,18 @@
                         class="w-16 text-right form-control" 
                         name="Pay Rate"
                         placeholder="00"
+                        ref="pay_rate"
                         type="text" 
                         v-model="job.pay_rate" 
-                        v-validate="'required'"
+                        v-validate="'required_if:pay_type_id,0'"
+                        @input="resetPayType"
                 >
                 <select 
-                        class="form-control w-32 text-grey-dark"
-                        name="Pay Rate Type" 
-                        v-model="job.pay_type_id" 
-                        v-validate="'required'"
+                    class="form-control w-32 text-grey-dark" 
+                    name="Pay Rate Type"  
+                    v-validate.immediate="'required_if:pay_rate'"
+                    v-model="job.pay_rate_type_id"
+                    @change="resetPayType" 
                 >
                     <option value="1">Per hour</option>
                     <option value="2">Day</option>
@@ -64,15 +67,15 @@
                 </select>
                 <span class="my-2 block">or</span>
                 <label class="checkbox-control control-radio mb-2">DOE
-                    <input type="radio" v-model="job.pay_type_id" value="4"/>
+                    <input name="Pay Type" ref="pay_type_id" type="radio" v-model="job.pay_type_id" value="4" @input="resetPayRateType"/>
                     <div class="control-indicator"></div>
                 </label>
                 <label class="checkbox-control control-radio mb-2">TBD
-                    <input type="radio" v-model="job.pay_type_id" value="5"/>
+                    <input name="Pay Type" ref="pay_type_id" type="radio" v-model="job.pay_type_id" value="5" @input="resetPayRateType"/>
                     <div class="control-indicator"></div>
                 </label>
                 <label class="checkbox-control control-radio mb-2">Unpaid / Volunteer
-                    <input type="radio" v-model="job.pay_type_id" value="6"/>
+                    <input name="Pay Type" ref="pay_type_id" type="radio" v-model="job.pay_type_id" value="6" @input="resetPayRateType"/>
                     <div class="control-indicator"></div>
                 </label>
             </div>
@@ -167,6 +170,8 @@
     import InputNumberType from '../_partials/InputNumberType'
 
     export default {
+        inject: ['$validator'],
+
         components: {
             'person-needed-input': InputNumberType
         },
@@ -175,7 +180,29 @@
             ...mapGetters({
                 job: 'project/job'
             })
+        },
+
+        mounted(){
+            var self = this
+            if (self.job.pay_type_id < 4){
+                self.job.pay_rate_type_id = self.job.pay_type_id
+            }
+        },
+
+        methods: {
+            resetPayRateType(){
+                if (this.job.pay_rate) {
+                    this.job.pay_rate = 0
+                    this.job.pay_rate_type_id = ''
+                }
+            },
+
+            resetPayType(){
+                if (this.job.pay_rate || this.job.pay_rate_type_id) {
+                    this.job.pay_type_id = ''
+                }
+            }
         }
     }
-</script>
+</script>}
 

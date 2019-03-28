@@ -85,18 +85,30 @@
             submitProjectJob(){
                 if (!this.project.id) return
 
-                this.$validator.validateAll()
-                if (this.errors.all().length !== 0) return
+                this.$validator
+                    .validateAll()
+                    .then(() => {
+                        if (this.$validator.errors.items.length === 0){
+                            this.job.project_id  = this.project.id
+                            this.job.position_id = this.position
 
-                this.job.project_id  = this.project.id
-                this.job.position_id = this.position
+                            this.$store.dispatch('project/saveProjectJob', this.job)
+                            
+                            this.resetState()
+                            this.$swal(
+                                        'Job Added!',
+                                        'The job has been added.',
+                                        'success'
+                                    )
+                        }
+                    })
+            },
 
-                this.$store.dispatch('project/saveProjectJob', this.job)
-                
+            resetState(){
                 this.department = null
                 this.position   = null
                 this.$store.commit('project/JOB', { persons_needed: 1 })
-            },
+            }
         },
 
         mounted() {
