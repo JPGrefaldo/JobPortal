@@ -78,13 +78,6 @@ export const actions = {
             )
     },
 
-    fetchByProject(context, role){
-        axios.get('/api/' + role + '/projects'/1)
-             .then(
-                response => context.commit(types.PROJECTS, response.data.data)
-            )
-    },
-
     fetchByTypes(context){
         axios.get('/api/producer/project/type')
              .then(response => {
@@ -92,29 +85,36 @@ export const actions = {
              })
     },
 
-    saveProject(context, params){
-        return axios.post('/api/producer/projects', params)
+    fetchProjectJobs(context){
+        return axios.get('/api/producer/project/jobs')
+                    .then(response => {
+                        context.commit(types.JOBS, response.data.jobs)
+                    })
     },
 
-    saveProjectJob(context, params){
-        return axios.post('/api/producer/project/job', params)
+    saveProject(context, project){
+        return axios.post('/api/producer/projects', project)
+    },
+
+    saveProjectJob(context, job){
+        return axios.post('/api/producer/project/jobs', job)
                     .then(response => {
                         context.commit(types.JOBS, response.data.job)
                     })
     },
 
-    updateProject(context, params){
-        return axios.put('/api/producer/projects', params)
+    updateProject(context, project){
+        return axios.put(`/api/producer/projects/${project.id}`, project)
     },
 
     updateProjectJob(context, job){
-        return axios.put('/api/producer/project/job/'+job.id, job)
+        return axios.put(`/api/producer/project/jobs/${job.id}`, job)
                     .then(response => {
                         context.commit(types.JOBS, response.data.job)
                     })
     },
 
     deleteProjectJob(context, job){
-        return axios.delete('/api/producer/project/job/'+job)
+        return axios.delete(`/api/producer/project/jobs/${job}`)
     },
 }

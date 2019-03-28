@@ -1,9 +1,111 @@
 <template>
-    
+    <div v-if="projectJob">
+        <div class="flex mb-4 items-center">
+            <span class="w-full mt-4 font-header text-blue-dark font-semibold mb-3">{{projectJob.position.name}}</span>
+            <button 
+                class="flex-no-shrink p-2 ml-4 mr-2 border-2 rounded bg-blue hover:bg-blue-dark text-white"
+                @click="edit(projectJob)"
+            >
+                Edit
+            </button>
+            <button 
+                class="flex-no-shrink p-2 ml-2 border-2 rounded text-red border-red hover:text-white hover:bg-red"
+                @click="deleteProjectJob(projectJob.id)"
+            >
+                Remove
+            </button>
+        </div>
+
+        <div v-if="jobId === projectJob.id">
+            <project-job-form></project-job-form>
+            <div class="flex justify-center mt-4">
+                <button class="flex-grow btn-green" @click.stop="submitProjectJob">SAVE CHANGES</button>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
-    export default {
+    import { alert } from '../../mixins'
+    import { mapGetters } from 'vuex'
+    import ProjectJobForm from './ProjectJobForm.vue'
 
+    export default {
+        props: {
+            projectJob: {
+                type: Object,
+                required: true
+            }
+        },
+
+        mixins: [
+            alert
+        ],
+
+        components: {
+            'project-job-form' : ProjectJobForm
+        },
+
+        data(){
+            return {
+                jobId: 0
+            }
+        },
+
+        computed:{
+            ...mapGetters({
+                job: 'project/job',
+            }),
+        },
+
+        methods: {
+            edit(job){
+                this.jobId = job.id
+                this.$store.commit('project/JOB', job)
+            },
+
+            submitProjectJob() {
+                this.$validator
+                    .validateAll()
+                    .then(() => {
+                        if (this.$validator.errors.items.length === 0){
+                            this.$store
+                                .dispatch('project/updateProjectJob', this.job)
+                                .then(() => {
+                                    this.jobId = 0
+
+                                    this.$swal(
+                                        'Job Updated!',
+                                        'The job has been updated.',
+                                        'success'
+                                    )
+                                })
+                        }
+                    })     
+            },
+
+            deleteProjectJob(job) {
+                this.displayDeleteNotification()
+                    .then((result) => {
+                         if(result.value) {
+                             this.$store
+                             .dispatch('project/deleteProjectJob', job)
+                             .then(response => {
+                                 if (response.data === 204) {
+                                     this.loadProjectJobs()
+                                }
+                             })
+                         }
+                    })
+            },
+
+            loadProjectJobs()
+            {
+                this.$store
+                     .dispatch('project/fetchProjectJobs')
+
+                if(this.jobs.length === 0) location.reload()
+            }
+        }
     }
 </script>
