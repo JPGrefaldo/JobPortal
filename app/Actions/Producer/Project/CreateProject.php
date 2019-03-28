@@ -6,27 +6,8 @@ use App\Models\Project;
 
 class CreateProject
 {
-    public function execute(int $user, int $site, array $project): Project
+    public function execute(int $user, int $site, $request): Project
     {
-        $data = $this->filter($project);
-        
-        $data['user_id'] = $user;
-        $data['site_id'] = $site;
-
-        return Project::create($data);
-    }
-
-    private function filter(array $data): array
-    {
-        return array_only($data,
-            [
-                'title',
-                'production_name',
-                'production_name_public',
-                'project_type_id',
-                'description',
-                'location'
-            ]
-        );
+        return app(StubProject::class)->create($user, $site, $request);
     }
 }
