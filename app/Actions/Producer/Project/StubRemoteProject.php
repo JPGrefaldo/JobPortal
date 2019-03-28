@@ -29,7 +29,7 @@ class StubRemoteProject {
         foreach ($sites as $site){
             array_push($data, [
                 'project_id' => $project_id,
-                'site_id' => $site,
+                'site_id'    => $site,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ]);

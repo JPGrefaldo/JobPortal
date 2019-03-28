@@ -45,8 +45,6 @@ class CreateProjectJobRequest extends FormRequest
             'pay_type_id'          => 'required_if:pay_rate,0|numeric|exists:pay_types,id',
             'dates_needed'         => 'required|string',
             'notes'                => 'required|string|min:3',
-            'travel_expenses_paid' => 'required|bool',
-            'rush_call'            => 'required|bool',
             'position_id'          => 'required|numeric|exists:positions,id',
             'project_id'           => 'required',
         ];
