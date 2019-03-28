@@ -8,14 +8,16 @@ class StubProjectJob
 {
     public function create($request): ProjectJob
     {
-        $data = $this->filter($request);
+        $data = $this->adjustPayType($request);
+        $data = $this->filter($data);
 
         return ProjectJob::create($data);
     }
 
     public function update(ProjectJob $projectJob, array $request): ProjectJob
     {
-        $data = $this->filter($request);
+        $data = $this->adjustPayType($request);
+        $data = $this->filter($data);
         
         $projectJob->update($data);
         return $projectJob;
@@ -38,5 +40,14 @@ class StubProjectJob
                 'gear_needed'
             ]
         );
+    }
+
+    private function adjustPayType($data)
+    {
+        if($data['pay_rate_type_id']){
+            $data['pay_type_id'] = $data['pay_rate_type_id'];
+        }
+
+        return $data;
     }
 }

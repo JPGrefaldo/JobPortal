@@ -9,9 +9,10 @@ use App\Actions\Producer\Project\UpdateRemoteProject;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Producer\CreateProjectRequest;
 use App\Http\Resources\ProjectResource;
-use Illuminate\Http\Response;
+use App\Models\Project;
 use App\Models\Site;
 use App\Utils\UrlUtils;
+use Illuminate\Http\Response;
 
 class ProjectsController extends Controller
 {
@@ -28,7 +29,7 @@ class ProjectsController extends Controller
         $user = auth()->user()->id;
         $site_id = $this->getHostSiteID();
 
-        $project = app(CreateProject::class)->execute($user, $site_id, $request->toArray());
+        $project = app(CreateProject::class)->execute($user, $site_id, $request);
 
         if (! isset($project->id)){
             return response()->json([
@@ -47,8 +48,8 @@ class ProjectsController extends Controller
         );
     }
 
-    public function update(CreateProjectRequest $request){
-        $project = app(UpdateProject::class)->execute($request->toArray());
+    public function update(Project $project, CreateProjectRequest $request){
+        $project = app(UpdateProject::class)->execute($project, $request);
 
         if ($project->id){
             app(UpdateRemoteProject::class)->execute($project, $request->remotes);
