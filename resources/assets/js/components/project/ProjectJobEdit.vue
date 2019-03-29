@@ -89,19 +89,11 @@
                              .dispatch('project/deleteProjectJob', job)
                              .then(response => {
                                  if (response.data === 204) {
-                                     this.loadProjectJobs()
+                                     location.reload()
                                 }
                              })
                          }
                     })
-            },
-
-            loadProjectJobs()
-            {
-                this.$store
-                     .dispatch('project/fetchProjectJobs')
-
-                if(this.jobs.length === 0) location.reload()
             }
         }
     }
