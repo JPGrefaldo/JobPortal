@@ -17,10 +17,7 @@
         </div>
 
         <div v-if="jobId === projectJob.id">
-            <project-job-form></project-job-form>
-            <div class="flex justify-center mt-4">
-                <button class="flex-grow btn-green" @click.stop="submitProjectJob">SAVE CHANGES</button>
-            </div>
+            <project-job-form :submitProjectJob="submitProjectJob"></project-job-form>
         </div>
     </div>
 </template>

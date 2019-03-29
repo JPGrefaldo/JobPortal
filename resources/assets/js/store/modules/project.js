@@ -2,7 +2,7 @@ import * as types from '../mutation-types'
 
 export const state = {
     job: {
-        persons_needed: 1 
+        persons_needed: 1
     },
     jobs:[],
     list: [],

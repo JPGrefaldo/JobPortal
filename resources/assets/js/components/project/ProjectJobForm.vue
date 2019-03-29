@@ -86,13 +86,18 @@
                 <small class="block md:text-right text-red" v-show="errors.has('Production Dates')">{{ errors.first('Production Dates') }}</small>
             </div>
             <div class="md:w-2/3">
-                <input 
+                <!-- <input 
                       class="form-control bg-light w-full"
                       name="Production Dates"
                       placeholder="Production dates"
                       type="text" 
                       v-model="job.dates_needed" 
                       v-validate="'required'"
+                /> -->
+                <Calendar v-model="datepicker.value"
+                          :lang="datepicker.lang"
+                          :position="datepicker.position"
+                          :range="datepicker.range"
                 />
             </div>
         </div>
@@ -134,33 +139,8 @@
             </div>
         </div>
 
-        <div class="py-6">
-            <div class="md:flex">
-                <div class="md:w-1/3 pr-8">
-                    <span class="font-bold font-header text-blue-dark mt-1 block md:text-right mb-3">General resume</span>
-                </div>
-                <div class="md:w-2/3">
-                    <a href="#" class="btn-outline inline-block">Upload file</a>
-                </div>
-            </div>
-        </div>
-        
-        <div class="border-t-2 border-grey-lighter py-6">
-            <div class="md:flex">
-                <div class="md:w-1/3 pr-8">
-                    <span class="font-bold font-header text-blue-dark mt-2 block md:text-right">Gear</span>
-                </div>
-                <div class="md:w-2/3">
-                    <div class="pb-4">
-                        <label class="switch">
-                            <input type="checkbox">
-                            <span class="form-slider"></span>
-                        </label>
-                    </div>
-                    <label for="" class="block mb-3">What gear do you have for this position?</label>
-                    <textarea class="form-control w-full h-32" placeholder="Your gear"></textarea>
-                </div>
-            </div>
+        <div class="flex justify-center mt-4">
+            <button class="flex-grow btn-green" @click.stop="submit">Add Position</button>
         </div>
     </div>
 </template>
@@ -168,12 +148,27 @@
 <script>
     import { mapGetters } from 'vuex'
     import InputNumberType from '../_partials/InputNumberType'
+    import Calendar from 'vue-datepicker-ui'
 
     export default {
         inject: ['$validator'],
 
+        props: ['submitProjectJob'],
+
         components: {
-            'person-needed-input': InputNumberType
+            'person-needed-input': InputNumberType,
+            Calendar
+        },
+
+        data() {
+            return {
+                datepicker: {
+                    lang: 'en',
+                    range: true,
+                    position: 'bottom',
+                    value: []
+                }
+            }
         },
 
         computed: {
@@ -182,14 +177,25 @@
             })
         },
 
-        mounted(){
+        created(){
             var self = this
             if (self.job.pay_type_id < 4){
                 self.job.pay_rate_type_id = self.job.pay_type_id
             }
+            
+            this.formatDatePicker(self.datepicker, self.job.dates_needed)
         },
 
+
         methods: {
+            formatDatePicker(datepicker, dbvalue){
+                if (typeof(dbvalue) != 'undefined'){
+                    datepicker.value = JSON.parse(dbvalue)
+                } else {
+                    datepicker.value = [new Date().toDateString(), new Date().toDateString()]
+                }
+            },
+
             resetPayRateType(){
                 if (this.job.pay_rate) {
                     this.job.pay_rate = 0
@@ -201,8 +207,19 @@
                 if (this.job.pay_rate || this.job.pay_rate_type_id) {
                     this.job.pay_type_id = ''
                 }
+            },
+
+            submit() {
+                this.job.pay_type_id = this.job.pay_rate_type_id || this.job.pay_type_id
+                this.job.dates_needed = JSON.stringify(this.datepicker.value)
+                this.submitProjectJob()
             }
         }
     }
 </script>}
 
+<style scoped>
+.v-calendar .calendar .days .day {
+    padding: 2px !important;
+}
+</style>

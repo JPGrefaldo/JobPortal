@@ -28,11 +28,7 @@
         </div>
 
         <div v-if="department && position">
-            <project-job-form></project-job-form>
-
-            <div class="flex justify-center mt-4">
-                <button class="flex-grow btn-green" @click.stop="submitProjectJob">Add Position</button>
-            </div>
+            <project-job-form :submitProjectJob="submitProjectJob"></project-job-form>
         </div>
     </div>
 </template>
@@ -107,7 +103,7 @@
             resetState(){
                 this.department = null
                 this.position   = null
-                this.$store.commit('project/JOB', { persons_needed: 1 })
+                this.$store.commit('project/JOB', { persons_needed: 1})
             }
         },
 
