@@ -86,14 +86,6 @@
                 <small class="block md:text-right text-red" v-show="errors.has('Production Dates')">{{ errors.first('Production Dates') }}</small>
             </div>
             <div class="md:w-2/3">
-                <!-- <input 
-                      class="form-control bg-light w-full"
-                      name="Production Dates"
-                      placeholder="Production dates"
-                      type="text" 
-                      v-model="job.dates_needed" 
-                      v-validate="'required'"
-                /> -->
                 <Calendar v-model="datepicker.value"
                           :lang="datepicker.lang"
                           :position="datepicker.position"
