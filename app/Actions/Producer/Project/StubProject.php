@@ -3,10 +3,11 @@
 namespace App\Actions\Producer\Project;
 
 use App\Models\Project;
+use App\Http\Requests\Producer\CreateProjectRequest;
 
 class StubProject
 {
-    public function create(int $user, int $site, $request): Project
+    public function create(int $user, int $site, CreateProjectRequest $request): Project
     {
         $data = $this->filter($request->toArray());
         
@@ -16,11 +17,12 @@ class StubProject
         return Project::create($data);
     }
 
-    public function update(Project $project, $request): Project
+    public function update(Project $project, CreateProjectRequest $request): Project
     {
         $data = $this->filter($request->toArray());
         
         $project->update($data);
+        
         return $project;
     }
 

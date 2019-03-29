@@ -32,7 +32,7 @@ class CreateProjectRequest extends FormRequest
             'persons_needed'              => 'sometimes|required|numeric|min:1',
             'gear_provided'               => 'sometimes|nullable|string',
             'gear_needed'                 => 'sometimes|nullable|string',
-            'remotes'                       => 'present|array'
+            'remotes'                     => 'present|array'
         ];
     }
 }

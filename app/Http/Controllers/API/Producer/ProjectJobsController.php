@@ -35,9 +35,9 @@ class ProjectJobsController extends Controller
         );
     }
 
-    public function update(ProjectJob $projectJob, Request $request)
+    public function update(ProjectJob $projectJob, CreateProjectJobRequest $request)
     {
-        $job = app(UpdateProjectJob::class)->execute($projectJob, $request->toArray());
+        $job = app(UpdateProjectJob::class)->execute($projectJob, $request);
         
         return response()->json([
                 'message' => 'Sucessfully added the project\'s job',

@@ -3,23 +3,25 @@
 namespace App\Actions\Producer\Project;
 
 use App\Models\ProjectJob;
+use App\Http\Requests\Producer\CreateProjectJobRequest;
 
 class StubProjectJob
 {
-    public function create($request): ProjectJob
+    public function create(CreateProjectJobRequest $request): ProjectJob
     {
-        $data = $this->adjustPayType($request);
+        $data = $this->adjustPayType($request->all());
         $data = $this->filter($data);
 
         return ProjectJob::create($data);
     }
 
-    public function update(ProjectJob $projectJob, array $request): ProjectJob
+    public function update(ProjectJob $projectJob, CreateProjectJobRequest $request): ProjectJob
     {
-        $data = $this->adjustPayType($request);
+        $data = $this->adjustPayType($request->all());
         $data = $this->filter($data);
         
         $projectJob->update($data);
+
         return $projectJob;
     }
 
@@ -42,9 +44,9 @@ class StubProjectJob
         );
     }
 
-    private function adjustPayType($data)
+    private function adjustPayType(array $data): array
     {
-        if($data['pay_rate_type_id']){
+        if ($data['pay_rate_type_id']){
             $data['pay_type_id'] = $data['pay_rate_type_id'];
         }
 
