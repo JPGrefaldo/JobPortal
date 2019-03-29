@@ -25,7 +25,7 @@ class ProjectJobsController extends Controller
 
     public function store(CreateProjectJobRequest $request)
     {
-        $job = app(CreateProjectJob::class)->execute($request->all());
+        $job = app(CreateProjectJob::class)->execute($request);
 
         return response()->json([
                 'message' => 'Sucessfully added the project\'s job',
