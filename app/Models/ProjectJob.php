@@ -39,9 +39,4 @@ class ProjectJob extends Model
     {
         return $this->belongsTo(Project::class, 'project_id', 'id');
     }
-
-    public function position()
-    {
-        return $this->belongsTo(Position::class, 'position_id');
-    }
 }

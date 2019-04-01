@@ -18,7 +18,7 @@ class CreateTestUser extends Command
      *
      * @var string
      */
-    protected $signature = 'test_user {email} {admin?}';
+    protected $signature = 'test_user {email}';
 
     /**
      * The console command description.
@@ -63,9 +63,7 @@ class CreateTestUser extends Command
         ]);
 
         foreach ([Role::CREW, Role::PRODUCER] as $role) {
-            $this->argument('admin') ? $user->assignRole(Role::ADMIN) : $user->assignRole($role);
-
-            $this->info($user->getRoleNames());
+            $user->assignRole($role);
 
             app(AddUserToSite::class)->execute(
                 $user,

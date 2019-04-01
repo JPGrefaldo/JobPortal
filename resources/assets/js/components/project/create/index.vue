@@ -56,16 +56,7 @@
                 <h3 class="text-blue-dark font-semibold text-lg mb-1 font-header">Work positions needed</h3>
             </div>
 
-            <div v-if="departments">
-                <ul class="flex list-reset rounded w-auto">
-                    <li>
-                        <input  class="hover:text-white hover:bg-blue text-blue border-r border-grey-light px-3 py-2"
-                                v-model="department.name" type="button" 
-                                v-for="department in departments" :key="department.id" 
-                                @click="showByDepartment(department.id)">
-                    </li>
-                </ul>
-            </div>
+            <cca-department></cca-department>
 
             <cca-position></cca-position>
 
@@ -79,10 +70,11 @@
 </template>
 
 <script>
-    import { alert } from '../../mixins'
+    import { alert } from '../../../mixins'
     import { mapGetters } from 'vuex'
-    import ErrorNotification from './ErrorNotification.vue'
-    import ProjectJobCreate from './ProjectJobCreate.vue'
+    import Department from './form/Department.vue'
+    import ErrorNotification from './form//ErrorNotification.vue'
+    import Position from './form/Position.vue'
 
     export default {
         mixins: [ 
@@ -90,26 +82,24 @@
         ],
 
         components: {
-            'cca-position': ProjectJobCreate,
+            'cca-department': Department,
+            'cca-position': Position,
             'error-notification': ErrorNotification
         },
 
         data() {
             return {
-                allPositions: [],
                 errors: []
             }
         },
 
         mounted() {
             this.$store.dispatch('project/fetchTypes')
-            this.$store.dispatch('crew/fetchDepartments')
         },
 
         computed: {
             ...mapGetters({
-                departments: 'crew/departments',
-                positions: 'crew/positions',
+                position: 'crew/position',
                 project: 'project/project',
                 projectTypes: 'project/types'
             })
@@ -122,15 +112,6 @@
                         .dispatch('project/saveProjectJob', this.project)
                         .then(response => this.displaySuccess(response))
                 }
-            },
-
-            showByDepartment(id){
-                if (this.allPositions.length === 0){
-                    this.allPositions = this.positions
-                }
-
-                let positions = this.allPositions.filter(o => o.department_id == id)
-                this.$store.commit('crew/POSITIONS', positions)
             },
 
             hasErrors(){

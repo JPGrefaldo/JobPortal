@@ -3,16 +3,13 @@
 namespace App\Http\Controllers\API\Producer;
 
 use App\Actions\Producer\Project\CreateProject;
-use App\Actions\Producer\Project\CreateRemoteProject;
-use App\Actions\Producer\Project\UpdateProject;
-use App\Actions\Producer\Project\UpdateRemoteProject;
+use App\Actions\Producer\Project\CreateProjectJob;
+use App\Actions\Producer\Project\CreateProjectRemote;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Producer\CreateProjectRequest;
 use App\Http\Resources\ProjectResource;
-use App\Models\Project;
 use App\Models\Site;
 use App\Utils\UrlUtils;
-use Illuminate\Http\Response;
 
 class ProjectsController extends Controller
 {
@@ -31,50 +28,22 @@ class ProjectsController extends Controller
 
         $project = app(CreateProject::class)->execute($user, $site_id, $request);
 
-        if (! isset($project->id)){
-            return response()->json([
-                    'message', 'Unable to save the project. Please try again'
-                ], 
-                Response::HTTP_INTERNAL_SERVER_ERROR
-            );
-        }
+        if (isset($project->id) && count($request->jobs) > 0){
+            
+            foreach($request->jobs as $job){
+                app(CreateProjectJob::class)->execute($job, $project);
 
-        app(CreateRemoteProject::class)->execute($project, $request->remotes);
+                $site_ids = $project->siteIDs($job['sites']);
 
-        return response()->json([
-                'message' => 'Project successfully added',
-                'project' => $project->load('remotes')
-            ], Response::HTTP_CREATED
-        );
-    }
-
-    public function update(Project $project, CreateProjectRequest $request){
-        $project = app(UpdateProject::class)->execute($project, $request);
-
-        if ($project->id){
-            app(UpdateRemoteProject::class)->execute($project, $request->remotes);
-
-            return response()->json([
-                    'message' => 'Project successfully updated',
-                    'project' => $project->load('remotes')
-                ], Response::HTTP_OK
-            );
+                foreach ($site_ids as $site_id){
+                    app(CreateProjectRemote::class)->execute($project->id, $site_id);
+                }
+            }
         }
 
         return response()->json([
-                'message', 'Unable to update the project. Please try again'
-            ], 
-            Response::HTTP_INTERNAL_SERVER_ERROR
-        );
-    }
-
-    public function show(Project $project)
-    {
-        return response()->json([
-                'project' => $project->load(['jobs', 'remotes'])
-            ], 
-            Response::HTTP_OK
-        );
+            'message' => 'Project successfully added'
+        ]);
     }
 
     private function getHostSiteID()

@@ -175,7 +175,7 @@
 </template>
 
 <script>
-    import { alert } from '../../mixins'
+    import { alert } from '../../../../mixins'
     import { mapGetters } from 'vuex'
     import ErrorNotification from './ErrorNotification.vue'
 
