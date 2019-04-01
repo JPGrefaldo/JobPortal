@@ -46,7 +46,7 @@ class StubProjectJob
 
     private function adjustPayType(array $data): array
     {
-        if ($data['pay_rate_type_id']){
+        if (isset($data['pay_rate_type_id'])){
             $data['pay_type_id'] = $data['pay_rate_type_id'];
         }
 
