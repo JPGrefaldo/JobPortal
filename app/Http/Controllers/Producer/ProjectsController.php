@@ -11,23 +11,18 @@ use App\Models\ProjectType;
 use App\Models\Site;
 use App\Services\Producer\ProjectsServices;
 use App\Utils\UrlUtils;
+use App\Models\RemoteProject;
 
 class ProjectsController extends Controller
 {
+    public function index()
+    {
+        return view('producer.projects.my-projects');
+    }
+
     public function create()
     {
-        $user = auth()->user();
-        $projectTypes = ProjectType::all();
-        $departments = Department::with('positions')->has('positions')->get();
-        $hostname = UrlUtils::getHostNameFromBaseUrl(request()->getHttpHost());
-        $sites = Site::where('hostname', '!=', $hostname)->get();
-
-        return view('producer.projects.create', compact(
-            'user',
-            'projectTypes',
-            'departments',
-            'sites'
-        ));
+        return view('producer.projects.create', $this->loadViewData());
     }
     /**
      * @param \App\Http\Requests\Producer\CreateProjectRequest $request
@@ -42,6 +37,21 @@ class ProjectsController extends Controller
             session('site')
         );
     }
+    
+    public function edit(Project $project)
+    {
+        return view(
+            'producer.projects.edit', 
+            $this->loadViewData(
+                $project->load([
+                    'remotes',
+                    'jobs' => function($query){
+                        $query->with('position');
+                    }
+                ])
+            )
+        );
+    } 
 
     /**
      * @param \App\Http\Requests\Producer\UpdateProjectRequest $request
@@ -57,6 +67,32 @@ class ProjectsController extends Controller
             $input,
             $project,
             session('site')
+        );
+    }
+
+    private function loadViewData($project = null)
+    {
+        $user = auth()->user();
+        $projectTypes = ProjectType::all();
+        $departments = Department::with('positions')->has('positions')->get();
+        $hostname = UrlUtils::getHostNameFromBaseUrl(request()->getHttpHost());
+        $sites = Site::where('hostname', '!=', $hostname)->get();
+
+        if($project === null){
+            return compact(
+                'user',
+                'projectTypes',
+                'departments',
+                'sites'
+            );
+        }
+
+        return compact(
+            'user',
+            'projectTypes',
+            'departments',
+            'project',
+            'sites'
         );
     }
 }

@@ -27,6 +27,9 @@ if (window.IS_AUTHORIZED) {
     })(store)
 }
 
+//https://baianat.github.io/vee-validate/
+import VeeValidate from 'vee-validate';
+Vue.use(VeeValidate);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -46,6 +49,7 @@ Vue.component('cca-work-position-component', require('./components/WorkPositionC
 Vue.component('cca-position-component', require('./components/PositionComponent').default);
 Vue.component('cca-department-component', require('./components/DepartmentsComponent').default);
 Vue.component('cca-producer-projects-create', require('./components/project/ProjectCreate').default);
+Vue.component('cca-producer-projects-edit', require('./components/project/ProjectEdit').default);
 
 new Vue({
     el: '#nav-container',
