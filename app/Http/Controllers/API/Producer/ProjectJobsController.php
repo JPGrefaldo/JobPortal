@@ -40,7 +40,7 @@ class ProjectJobsController extends Controller
         $job = app(UpdateProjectJob::class)->execute($projectJob, $request);
         
         return response()->json([
-                'message' => 'Sucessfully added the project\'s job',
+                'message' => 'Sucessfully updated the project\'s job',
                 'job' => $job->load('position')
             ],
             Response::HTTP_OK
@@ -50,6 +50,6 @@ class ProjectJobsController extends Controller
     public function destroy(ProjectJob $projectJob)
     {
         $projectJob->delete();
-        return response()->json(Response::HTTP_NO_CONTENT);
+        return response()->json([], Response::HTTP_NO_CONTENT);
     }
 }

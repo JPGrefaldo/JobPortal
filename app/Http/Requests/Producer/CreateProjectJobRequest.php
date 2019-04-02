@@ -40,7 +40,7 @@ class CreateProjectJobRequest extends FormRequest
             'persons_needed'       => 'sometimes|required|numeric|min:1',
             'gear_provided'        => 'sometimes|nullable|string',
             'gear_needed'          => 'sometimes|nullable|string',
-            'pay_rate'             => 'numeric',
+            'pay_rate'             => 'nullable|numeric',
             'pay_rate_type_id'     => 'required_if:pay_rate,1,1000',
             'pay_type_id'          => 'numeric',
             'dates_needed'         => 'required|string',
