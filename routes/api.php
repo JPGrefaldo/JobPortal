@@ -76,7 +76,7 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('/producer/project/jobs/{projectJob}', [
         \App\Http\Controllers\API\Producer\ProjectJobsController::class,
         'destroy'
-    ])->name('producer.project.jobs.destroy');
+    ])->middleware('role:Producer|Producer')->name('producer.project.jobs.destroy');
 
     Route::get('/producer/project/type', [
         \App\Http\Controllers\API\Producer\ProjectTypes::class,

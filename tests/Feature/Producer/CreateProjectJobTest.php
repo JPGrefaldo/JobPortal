@@ -6,6 +6,7 @@ use App\Models\Project;
 use App\Models\ProjectJob;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Response;
 use Tests\Support\Data\PayTypeID;
 use Tests\Support\Data\PositionID;
 use Tests\Support\SeedDatabaseAfterRefresh;
@@ -17,9 +18,47 @@ class CreateProjectJobTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Producer\ProjectJobsController::store
+     * @covers \App\Http\Controllers\API\Producer\ProjectJobsController::index
      */
-    public function create()
+    public function can_fetch_all_jobs()
+    {
+        $user = $this->createProducer();
+
+        factory(ProjectJob::class)->create([
+            'pay_rate'        => '100',
+            'pay_type_id'     => PayTypeID::PER_HOUR,
+            'position_id'     => PositionID::CAMERA_OPERATOR
+        ]);
+
+        factory(ProjectJob::class)->create([
+            'pay_type_id'     => PayTypeID::DOE,
+            'position_id'     => PositionID::FIRST_ASSISTANT_DIRECTOR
+        ]);
+
+        $response = $this->actingAs($user, 'api')
+                         ->get(route('producer.project.jobs'))
+                         ->assertSee('Sucessfully fetch the project\'s jobs')
+                         ->assertStatus(Response::HTTP_OK);
+
+        $response->assertJsonCount(2);
+
+        $response->assertJsonFragment([
+            'pay_rate'        => 100,
+            'pay_type_id'     => PayTypeID::PER_HOUR,
+            'position_id'     => PositionID::CAMERA_OPERATOR
+        ]);
+
+        $response->assertJsonFragment([
+            'pay_type_id'     => PayTypeID::DOE,
+            'position_id'     => PositionID::FIRST_ASSISTANT_DIRECTOR
+        ]);
+    }
+
+    /**
+     * @test
+     * @covers \App\Http\Controllers\API\Producer\ProjectJobsController::store
+     */
+    public function can_create_a_job()
     {
         $user    = $this->createProducer();
         $project = $this->createProject($user);
@@ -28,7 +67,7 @@ class CreateProjectJobTest extends TestCase
             'gear_provided'        => 'Some Gear Provided',
             'gear_needed'          => 'Some Gear Needed',
             'pay_rate'             => '16',
-            'pay_rate_type_id'     => PayTypeID::PER_HOUR,
+            'pay_type_id'          => PayTypeID::PER_HOUR,
             'dates_needed'         => '6/15/2018 - 6/25/2018',
             'notes'                => 'Some Note',
             'travel_expenses_paid' => '1',
@@ -37,132 +76,79 @@ class CreateProjectJobTest extends TestCase
             'project_id'           => $project->id,
         ];
 
-        $response = $this->actingAs($user)
-            ->post(route('producer.jobs'), $data);
+        $response = $this->actingAs($user, 'api')
+                         ->post(route('producer.project.jobs.store'),
+                            $data,
+                            [
+                                'Accept' => 'application/json',
+                            ]
+                         )
+                         ->assertSee('Sucessfully added the project\'s job')
+                         ->assertStatus(Response::HTTP_CREATED);
 
-        $response->assertSuccessful();
-
-        $this->assertArrayHas(
-            [
-                'persons_needed'       => 2,
-                'gear_provided'        => 'Some Gear Provided',
-                'gear_needed'          => 'Some Gear Needed',
-                'pay_rate'             => 16.00,
-                'pay_type_id'          => PayTypeID::PER_HOUR,
-                'dates_needed'         => '6/15/2018 - 6/25/2018',
-                'notes'                => 'Some Note',
-                'travel_expenses_paid' => true,
-                'rush_call'            => true,
-                'position_id'          => PositionID::CAMERA_OPERATOR,
-                'status'               => 0,
-            ],
-            $project->jobs()
-                ->first()
-                ->toArray()
-        );
-    }
-
-    /**
-     * @test
-     * @covers \App\Http\Controllers\Producer\ProjectJobsController::store
-     */
-    public function create_with_invalid_data()
-    {
-        $user    = $this->createProducer();
-        $project = $this->createProject($user);
-        $data    = [
-            'persons_needed'       => '2',
+        $response->assertJsonFragment([
+            'persons_needed'       => 2,
             'gear_provided'        => 'Some Gear Provided',
             'gear_needed'          => 'Some Gear Needed',
-            'pay_rate'             => '16',
-            'pay_rate_type_id'     => PayTypeID::PER_HOUR,
+            'pay_rate'             => 16,
+            'pay_type_id'          => 1,
             'dates_needed'         => '6/15/2018 - 6/25/2018',
             'notes'                => 'Some Note',
-            'travel_expenses_paid' => '1',
-            'rush_call'            => '1',
-            'position_id'          => PositionID::CAMERA_OPERATOR,
-            'project_id'           => $project->id,
-            'status'               => '1',
-        ];
-
-        $response = $this->actingAs($user)
-            ->post(route('producer.jobs'), $data);
-
-        $response->assertSuccessful();
-
-        $this->assertArrayHas(
-            [
-                'persons_needed'       => 2,
-                'gear_provided'        => 'Some Gear Provided',
-                'gear_needed'          => 'Some Gear Needed',
-                'pay_rate'             => 16.00,
-                'pay_type_id'          => PayTypeID::PER_HOUR,
-                'dates_needed'         => '6/15/2018 - 6/25/2018',
-                'notes'                => 'Some Note',
-                'travel_expenses_paid' => true,
-                'rush_call'            => true,
-                'position_id'          => PositionID::CAMERA_OPERATOR,
-                'status'               => 0,
-            ],
-            $project->jobs()
-                ->first()
-                ->toArray()
-        );
+            'travel_expenses_paid' => true,
+            'rush_call'            => true,
+            'position_id'          => 2,
+            'project_id'           => 1,
+        ]);
     }
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Producer\ProjectJobsController::store
+     * @covers \App\Http\Controllers\API\Producer\ProjectJobsController::store
      */
-    public function create_with_non_pay_rate()
+    public function can_create_a_job_with_non_pay_rate()
     {
         $user    = $this->createProducer();
         $project = $this->createProject($user);
         $data    = [
-            'persons_needed'       => '2',
+            'persons_needed'       => 2,
             'gear_provided'        => 'Some Gear Provided',
             'gear_needed'          => 'Some Gear Needed',
-            'pay_rate'             => '0',
-            'pay_rate_type_id'     => PayTypeID::PER_HOUR,
+            'pay_rate'             => '',
             'pay_type_id'          => PayTypeID::DOE,
             'dates_needed'         => '6/15/2018 - 6/25/2018',
             'notes'                => 'Some Note',
-            'travel_expenses_paid' => '1',
-            'rush_call'            => '1',
             'position_id'          => PositionID::CAMERA_OPERATOR,
             'project_id'           => $project->id,
         ];
 
-        $response = $this->actingAs($user)
-            ->post(route('producer.jobs'), $data);
-
-        $response->assertSuccessful();
-
-        $this->assertArrayHas(
-            [
-                'persons_needed'       => 2,
-                'gear_provided'        => 'Some Gear Provided',
-                'gear_needed'          => 'Some Gear Needed',
-                'pay_rate'             => 0.00,
-                'pay_type_id'          => PayTypeID::DOE,
-                'dates_needed'         => '6/15/2018 - 6/25/2018',
-                'notes'                => 'Some Note',
-                'travel_expenses_paid' => true,
-                'rush_call'            => true,
-                'position_id'          => PositionID::CAMERA_OPERATOR,
-                'status'               => 0,
-            ],
-            $project->jobs()
-                ->first()
-                ->toArray()
-        );
+        $response = $this->actingAs($user, 'api')
+                         ->post(route('producer.project.jobs.store'),
+                            $data,
+                            [
+                                'Accept' => 'application/json',
+                            ]
+                         )
+                         ->assertSee('Sucessfully added the project\'s job')
+                         ->assertStatus(Response::HTTP_CREATED);
+             
+        $response->assertJsonFragment([
+            'persons_needed'       => 2,
+            'gear_provided'        => 'Some Gear Provided',
+            'gear_needed'          => 'Some Gear Needed',
+            'pay_rate'             => 0,
+            'pay_type_id'          => 4,
+            'dates_needed'         => '6/15/2018 - 6/25/2018',
+            'notes'                => 'Some Note',
+            'position_id'          => 2,
+            'project_id'           => 1,
+        ]);
     }
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Producer\ProjectJobsController::store
+     * @covers \App\Http\Controllers\API\Producer\ProjectJobsController::store
      */
-    public function create_has_no_gear_and_no_persons_needed()
+    public function can_create_a_job_with_no_gear_and_no_persons_needed()
     {
         $user    = $this->createProducer();
         $project = $this->createProject($user);
@@ -177,36 +163,22 @@ class CreateProjectJobTest extends TestCase
             'project_id'           => $project->id,
         ];
 
-        $response = $this->actingAs($user)
-            ->post(route('producer.jobs'), $data);
-
-        $response->assertSuccessful();
-
-        $this->assertArrayHas(
-            [
-                'persons_needed'       => 1,
-                'gear_provided'        => null,
-                'gear_needed'          => null,
-                'pay_rate'             => 20.00,
-                'pay_type_id'          => PayTypeID::PER_HOUR,
-                'dates_needed'         => '6/15/2018 - 6/25/2018',
-                'notes'                => 'Some Note',
-                'travel_expenses_paid' => true,
-                'rush_call'            => true,
-                'position_id'          => PositionID::FIRST_ASSISTANT_DIRECTOR,
-                'status'               => 0,
-            ],
-            $project->jobs()
-                ->first()
-                ->toArray()
-        );
+        $this->actingAs($user, 'api')
+             ->post(route('producer.project.jobs.store'),
+                $data,
+                [
+                    'Accept' => 'application/json',
+                ]
+             )
+             ->assertSee('Sucessfully added the project\'s job')
+             ->assertStatus(Response::HTTP_CREATED);
     }
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Producer\ProjectJobsController::store
+     * @covers \App\Http\Controllers\API\Producer\ProjectJobsController::update
      */
-    public function create_with_existing_job()
+    public function can_edit_a_job()
     {
         $user    = $this->createProducer();
         $project = $this->createProject($user);
@@ -218,221 +190,235 @@ class CreateProjectJobTest extends TestCase
             'gear_provided'        => 'Some Gear Provided',
             'gear_needed'          => 'Some Gear Needed',
             'pay_rate'             => '16',
-            'pay_rate_type_id'     => PayTypeID::PER_HOUR,
+            'pay_type_id'          => PayTypeID::PER_HOUR,
             'dates_needed'         => '6/15/2018 - 6/25/2018',
             'notes'                => 'Some Note',
             'travel_expenses_paid' => '1',
-            'rush_call'            => '1',
+            'rush_call'            => '0',
             'position_id'          => PositionID::CAMERA_OPERATOR,
             'project_id'           => $project->id,
         ];
 
-        $response = $this->actingAs($user)
-            ->post(route('producer.jobs'), $data);
+        $response = $this->actingAs($user, 'api')
+                         ->put(route('producer.project.jobs.update', 
+                                [
+                                    'projectJob' => 1
+                                ]
+                            ),
+                            $data,
+                            [
+                                'Accept' => 'application/json',
+                            ]
+                         )
+                         ->assertSee('Sucessfully updated the project\'s job')
+                         ->assertStatus(Response::HTTP_OK);
 
-        $response->assertSuccessful();
-
-        $this->assertCount(2, $project->jobs);
-        $this->assertArrayHas(
+        $response->assertJsonFragment(
             [
                 'persons_needed'       => 2,
                 'gear_provided'        => 'Some Gear Provided',
                 'gear_needed'          => 'Some Gear Needed',
-                'pay_rate'             => 16.00,
-                'pay_type_id'          => PayTypeID::PER_HOUR,
+                'pay_rate'             => 16,
+                'pay_type_id'          => 1,
                 'dates_needed'         => '6/15/2018 - 6/25/2018',
                 'notes'                => 'Some Note',
                 'travel_expenses_paid' => true,
-                'rush_call'            => true,
-                'position_id'          => PositionID::CAMERA_OPERATOR,
-                'status'               => 0,
-            ],
-            $project->jobs->last()
-                ->toArray()
+                'rush_call'            => false,
+                'position_id'          => 2,
+                'project_id'           => 1,
+            ]
         );
     }
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Producer\ProjectJobsController::store
+     * @covers \App\Http\Controllers\API\Producer\ProjectJobsController::destroy
      */
-    public function create_invalid_required()
+    public function can_delete_a_job()
+    {
+        $user    = $this->createProducer();
+        $project = $this->createProject($user);
+
+        factory(ProjectJob::class)->create(['project_id' => $project->id]);
+
+        $response = $this->actingAs($user, 'api')
+                         ->delete(route('producer.project.jobs.destroy', ['projectJob' => 1]))
+                         ->assertStatus(Response::HTTP_NO_CONTENT);
+    }
+
+    /**
+     * @test
+     * @covers \App\Http\Controllers\API\Producer\ProjectJobsController::store
+     */
+    public function cannot_create_a_job_when_required_fields_are_empty()
     {
         $user = $this->createProducer();
         $data = [
+            'persons_needed'       => '',
             'dates_needed'         => '',
             'notes'                => '',
-            'travel_expenses_paid' => '',
-            'rush_call'            => '',
             'position_id'          => '',
             'project_id'           => $this->createProject($user)->id,
         ];
 
-        $response = $this->actingAs($user)
-            ->post(route('producer.jobs'), $data);
+        $this->actingAs($user)
+             ->post(route('producer.projects.create'));
 
-        $response->assertSessionHasErrors([
-            'dates_needed',
-            'notes',
-            'travel_expenses_paid',
-            'rush_call',
-        ]);
+        $this->actingAs($user, 'api')
+             ->post(route('producer.project.jobs.store'), 
+                $data,
+                [
+                    'Accept' => 'application/json',
+                ]
+             )
+            ->assertSee('The given data was invalid.')
+            ->assertSee('The persons needed field is required.')
+            ->assertSee('The dates needed field is required.')
+            ->assertSee('The notes field is required.')
+            ->assertSee('The notes field is required.')
+            ->assertSee('The position id field is required.')
+            ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Producer\ProjectJobsController::store
+     * @covers \App\Http\Controllers\API\Producer\ProjectJobsController::store
      */
-    public function create_invalid_required_sometimes()
-    {
-        $user = $this->createProducer();
-        $data = [
-            'persons_needed' => '',
-            'project_id'     => $this->createProject($user)->id,
-        ];
-
-        $response = $this->actingAs($user)
-            ->post(route('producer.jobs'), $data);
-
-        $response->assertSessionHasErrors([
-            'persons_needed',
-        ]);
-    }
-
-    /**
-     * @test
-     * @covers \App\Http\Controllers\Producer\ProjectJobsController::store
-     */
-    public function create_invalid_data()
+    public function cannot_create_a_job_when_data_is_invalid()
     {
         $user = $this->createProducer();
         $data = [
             'persons_needed'       => 'asdasd',
             'gear_provided'        => false,
             'gear_needed'          => false,
-            'pay_rate'             => 'asdasd',
-            'pay_rate_type_id'     => 999,
-            'pay_type_id'          => 999,
             'dates_needed'         => false,
             'notes'                => false,
-            'travel_expenses_paid' => 'asdasd',
-            'rush_call'            => 'asdasd',
             'position_id'          => 999,
             'project_id'           => $this->createProject($user)->id,
         ];
 
-        $response = $this->actingAs($user)
-            ->post(route('producer.jobs'), $data);
+        $this->actingAs($user)
+             ->post(route('producer.projects.create'));
 
-        $response->assertSessionHasErrors([
-            'persons_needed', // must be numeric
-            'gear_provided', // must be a string
-            'gear_needed', // must be a string
-            'pay_rate', // must be numeric
-            'pay_rate_type_id', // must exist on the pay_rates table
-            'pay_type_id', // must exist on the pay_rates table
-            'dates_needed', // must be a string
-            'notes', // must be a string
-            'travel_expenses_paid', // must be a boolean
-            'rush_call', // must be a boolean
-            'position_id', // must exist on the positions table
-        ]);
+        $this->actingAs($user, 'api')
+             ->post(route('producer.project.jobs.store'), 
+                $data,
+                [
+                    'Accept' => 'application/json',
+                ]
+             )
+            ->assertSee('The given data was invalid.')
+            ->assertSee('The persons needed must be a number.')
+            ->assertSee('The gear provided must be a string.')
+            ->assertSee('The gear needed must be a string.')
+            ->assertSee('The dates needed must be a string.')
+            ->assertSee('The notes must be a string.')
+            ->assertSee('The notes must be at least 3 characters.')
+            ->assertSee('The selected position id is invalid.')
+            ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Producer\ProjectJobsController::store
+     * @covers \App\Http\Controllers\API\Producer\ProjectJobsController::store
      */
-    public function create_invalid_requires_pay_type_id_when_zero_rate()
-    {
-        $user = $this->createProducer();
-        $data = [
-            'pay_rate'             => '0',
-            'pay_rate_type_id'     => PayTypeID::PER_HOUR,
-            'dates_needed'         => '6/15/2018 - 6/25/2018',
-            'notes'                => 'Updated Notes',
-            'travel_expenses_paid' => '1',
-            'rush_call'            => '0',
-            'position_id'          => PositionID::FIRST_ASSISTANT_DIRECTOR,
-            'project_id'           => $this->createProject($user)->id,
-        ];
-
-        $response = $this->actingAs($user)
-            ->post(route('producer.jobs'), $data);
-
-        $response->assertSessionHasErrors([
-            'pay_type_id',
-        ]);
-    }
-
-    /**
-     * @test
-     * @covers \App\Http\Controllers\Producer\ProjectJobsController::store
-     */
-    public function create_unauthorized_role()
+    public function cannot_create_a_job_the_unauthorized_role()
     {
         $user = $this->createCrew();
         $data = [];
 
-        $response = $this->actingAs($user)
-            ->post(route('producer.jobs'), $data);
-
-        $response->assertForbidden();
+        $this->actingAs($user, 'api')
+             ->post(route('producer.project.jobs.store'), 
+                    $data,
+                    [
+                        'Accept' => 'application/json',
+                    ]
+             )
+             ->assertSee('This action is unauthorized.')
+             ->assertStatus(Response::HTTP_FORBIDDEN);
     }
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Producer\ProjectJobsController::store
+     * @covers \App\Http\Controllers\API\Producer\ProjectJobsController::update
      */
-    public function create_unauthorized_no_project_id()
+    public function cannot_edit_a_job_the_unauthorized_role()
     {
-        $user    = $this->createProducer();
-        $project = factory(Project::class)->create();
-        $data    = [];
+        $user = $this->createCrew();
+        $data = [];
 
-        $response = $this->actingAs($user)
-            ->post(route('producer.jobs'), $data);
+        factory(ProjectJob::class)->create(['project_id' => 1]);
 
-        $response->assertForbidden();
+        $this->actingAs($user, 'api')
+             ->put(route('producer.project.jobs.update', ['projectJob' => 1]), 
+                    $data,
+                    [
+                        'Accept' => 'application/json',
+                    ]
+             )
+             ->assertSee('This action is unauthorized.')
+             ->assertStatus(Response::HTTP_FORBIDDEN);
     }
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Producer\ProjectJobsController::store
+     * @covers \App\Http\Controllers\API\Producer\ProjectJobsController::destroy
      */
-    public function create_unauthorized_project_does_not_exist()
+    public function cannot_delete_a_job_the_unauthorized_role()
     {
-        $user    = $this->createProducer();
-        $project = factory(Project::class)->create();
+        $user = $this->createCrew();
+
+        factory(ProjectJob::class)->create(['project_id' => 1]);
+
+        $this->actingAs($user, 'api')
+             ->delete(route(
+                    'producer.project.jobs.destroy', 
+                    ['projectJob' => 1]
+                ),
+                [
+                    'Accept' => 'application/json',
+                ]
+             )
+             ->assertStatus(Response::HTTP_FORBIDDEN);
+    }
+
+    /**
+     * @test
+     * @covers \App\Http\Controllers\API\Producer\ProjectJobsController::store
+     */
+    public function should_accept_pay_rate_type_id_when_no_pay_type_id()
+    {
+        $user = $this->createProducer();
+        $project = $this->createProject($user);
+        
         $data    = [
-            'project_id' => 999,
+            'persons_needed'       => '2',
+            'pay_rate_type_id'     => PayTypeID::PER_HOUR,
+            'dates_needed'         => '6/15/2018 - 6/25/2018',
+            'notes'                => 'Some Note',
+            'position_id'          => PositionID::CAMERA_OPERATOR,
+            'project_id'           => $project->id,
         ];
 
-        $response = $this->actingAs($user)
-            ->post(route('producer.jobs'), $data);
+        $this->actingAs($user)
+             ->post(route('producer.projects.create'));
 
-        $response->assertForbidden();
+        $response = $this->actingAs($user, 'api')
+                         ->post(route('producer.project.jobs.store'),
+                            $data,
+                            [
+                                'Accept' => 'application/json',
+                            ]
+                         )
+                         ->assertSee('Sucessfully added the project\'s job')
+                         ->assertStatus(Response::HTTP_CREATED);
+
+        $response->assertJsonFragment([
+            'pay_type_id'     => 1
+        ]);
     }
 
-    /**
-     * @test
-     * @covers \App\Http\Controllers\Producer\ProjectJobsController::store
-     */
-    public function create_unauthorized_user_does_not_own_project()
-    {
-        $user    = $this->createProducer();
-        $project = factory(Project::class)->create();
-        $data    = [
-            'project_id' => $project->id,
-        ];
-
-        $response = $this->actingAs($user)
-            ->post(route('producer.jobs'), $data);
-
-        $response->assertForbidden();
-    }
-
-    /**
+     /**
      * @param \App\Models\User $user
      *
      * @return \App\Models\Project
