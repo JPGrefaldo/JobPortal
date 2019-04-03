@@ -8,7 +8,6 @@ use App\Actions\Producer\Project\UpdateProject;
 use App\Actions\Producer\Project\UpdateRemoteProject;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Producer\CreateProjectRequest;
-use App\Http\Resources\ProjectResource;
 use App\Models\Project;
 use App\Models\Site;
 use App\Utils\UrlUtils;
@@ -18,10 +17,12 @@ class ProjectsController extends Controller
 {
     public function index()
     {
-        $user = auth()->user();
-        $projects = $user->projects->paginate();
-
-        return ProjectResource::collection($projects);
+        return response()->json([
+                'message'  => 'Succesfully fetch all projects.',
+                'projects' => Project::all()
+            ],
+            Response::HTTP_OK
+        );
     }
 
     public function store(CreateProjectRequest $request)
@@ -33,7 +34,7 @@ class ProjectsController extends Controller
 
         if (! isset($project->id)){
             return response()->json([
-                    'message', 'Unable to save the project. Please try again'
+                    'message', 'Unable to save the project. Please try again.'
                 ], 
                 Response::HTTP_INTERNAL_SERVER_ERROR
             );

@@ -74,7 +74,7 @@ export const actions = {
     fetch(context, role){
         axios.get('/api/' + role + '/projects')
              .then(
-                response => context.commit(types.PROJECTS, response.data.data)
+                response => context.commit(types.PROJECTS, response.data.projects)
             )
     },
 

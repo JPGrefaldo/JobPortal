@@ -56,7 +56,7 @@ Route::middleware('auth:api')->group(function () {
     Route::put('/producer/projects/{project}', [
         \App\Http\Controllers\API\Producer\ProjectsController::class,
         'update'
-    ])->name('producer.project.update');
+    ])->name('producer.projects.update');
 
     Route::get('/producer/project/jobs', [
         \App\Http\Controllers\API\Producer\ProjectJobsController::class,

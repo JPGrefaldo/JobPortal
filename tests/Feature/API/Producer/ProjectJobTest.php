@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Producer;
+namespace Tests\Feature\API\Producer;
 
 use App\Models\Project;
 use App\Models\ProjectJob;
@@ -12,7 +12,7 @@ use Tests\Support\Data\PositionID;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 
-class CreateProjectJobTest extends TestCase
+class ProjectJobTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
 
