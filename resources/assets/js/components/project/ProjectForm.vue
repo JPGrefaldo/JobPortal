@@ -15,7 +15,7 @@
                         placeholder="Project title"
                         type="text" 
                         v-model="project.title" 
-                        v-validate="'required'"
+                        v-validate="'required|min:3'"
                 >
             </div>
         </div>
@@ -31,7 +31,7 @@
                         placeholder="Company or individual name"
                         type="text" 
                         v-model="project.production_name" 
-                        v-validate="'required'" 
+                        v-validate="'required|min:3'" 
                 >
 
                 <label class="checkbox-control"><span class="text-grey text-sm">Show production company name publicly</span>
@@ -67,7 +67,7 @@
                             name="Project Information"
                             placeholder="Project details"
                             v-model="project.description"
-                            v-validate="'required'"
+                            v-validate="'required|min:3'"
                 ></textarea>
             </div>
         </div>
@@ -84,7 +84,6 @@
                         placeholder="Project location"
                         type="text"
                         v-model="project.location"
-                        v-validate="'required'"
                 >
             </div>
         </div>

@@ -17,9 +17,11 @@ class ProjectsController extends Controller
 {
     public function index()
     {
+        $project = Project::all();
+
         return response()->json([
                 'message'  => 'Succesfully fetch all projects.',
-                'projects' => Project::all()
+                'projects' => $project->load(['remotes', 'jobs'])
             ],
             Response::HTTP_OK
         );

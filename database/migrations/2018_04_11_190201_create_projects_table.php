@@ -20,30 +20,32 @@ class CreateProjectsTable extends Migration
             $table->string('title');
             $table->text('production_name');
             $table->boolean('production_name_public')
-                ->default(true);
+                  ->default(true);
             $table->unsignedInteger('project_type_id');
             $table->text('description');
             $table->string('location')
-                ->nullable();
+                  ->nullable();
             $table->smallInteger('status')
-                ->default(0);
+                  ->default(0);
+            $table->timestamp('approved_at')
+                  ->nullable();
             $table->timestamps();
             $table->softDeletes();
 
             $table->foreign('user_id')
-                ->references('id')
-                ->on('users')
-                ->onDelete('cascade');
+                  ->references('id')
+                  ->on('users')
+                  ->onDelete('cascade');
 
             $table->foreign('site_id')
-                ->references('id')
-                ->on('sites')
-                ->onDelete('cascade');
+                  ->references('id')
+                  ->on('sites')
+                  ->onDelete('cascade');
 
             $table->foreign('project_type_id')
-                ->references('id')
-                ->on('project_types')
-                ->onDelete('cascade');
+                  ->references('id')
+                  ->on('project_types')
+                  ->onDelete('cascade');
         });
     }
 
