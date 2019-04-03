@@ -25,13 +25,14 @@
                     </div>
                 </div>
             @endif
+
             @if(Auth::user()->hasRole('Producer'))
                 <div class="uppercase tracking-wide text-c2 mb-4 mt-8">
                     Producer
                 </div>
                 <div class="flex border px-4 py-2 text-lg text-grey-darkest">
                     <div class="pl-2">
-                        Open Positions
+                        <a href={{ route('producer.projects.create') }}>Create Position</a>
                     </div>
                 </div>
             @endif
