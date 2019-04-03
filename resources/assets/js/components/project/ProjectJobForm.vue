@@ -19,7 +19,7 @@
                          name="Equipment Provided"
                          placeholder="Equipment provided by production"
                          v-model="form.gear_provided" 
-                         v-validate="'required'" 
+                         v-validate="'required|min:3'" 
                 ></textarea>
             </div>
         </div>
@@ -33,7 +33,7 @@
                          class="w-full form-control h-24" 
                          name="Equipment Needed"
                          placeholder="Equipment needed from operator/crew"
-                         v-model="form.gear_needed" v-validate="'required'" 
+                         v-model="form.gear_needed" v-validate="'required|min:3'" 
                 ></textarea>
             </div>
         </div>
@@ -104,7 +104,7 @@
                          name="Production Notes"
                          placeholder="Production notes"
                          v-model="form.notes" 
-                         v-validate="'required'" 
+                         v-validate="'required|min:3'" 
                 ></textarea>
             </div>
         </div>
