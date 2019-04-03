@@ -27,6 +27,7 @@ class CreateProjectRequest extends FormRequest
             'title'                       => 'required|string|min:3',
             'production_name'             => 'required|string|min:3',
             'production_name_public'      => 'required|bool',
+            'project_type_id'             => 'required|numeric',
             'description'                 => 'required|string|min:3',
             'location'                    => 'nullable|string',
             'persons_needed'              => 'sometimes|required|numeric|min:1',
