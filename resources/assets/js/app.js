@@ -11,13 +11,13 @@ window.Vue = require('vue');
 import store from './store'
 import './plugins'
 
-//https://akryum.github.io/v-tooltip/#/
-// @todo transfer in ./plugins/index.js
+// https://akryum.github.io/v-tooltip/#/
+// TODO transfer in ./plugins/index.js
 Vue.component('tooltip', require('v-tooltip'));
 
-//https://github.com/avil13/vue-sweetalert2
-//https://sweetalert2.github.io
-// @todo transfer in ./plugins/index.js
+// https://github.com/avil13/vue-sweetalert2
+// https://sweetalert2.github.io
+// TODO transfer in ./plugins/index.js
 import VueSweetalert2 from 'vue-sweetalert2';
 Vue.use(VueSweetalert2);
 
@@ -27,6 +27,9 @@ if (window.IS_AUTHORIZED) {
     })(store)
 }
 
+// https://baianat.github.io/vee-validate/
+import VeeValidate from 'vee-validate';
+Vue.use(VeeValidate);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -46,6 +49,7 @@ Vue.component('cca-work-position-component', require('./components/WorkPositionC
 Vue.component('cca-position-component', require('./components/PositionComponent').default);
 Vue.component('cca-department-component', require('./components/DepartmentsComponent').default);
 Vue.component('cca-producer-projects-create', require('./components/project/ProjectCreate').default);
+Vue.component('cca-producer-projects-edit', require('./components/project/ProjectEdit').default);
 
 new Vue({
     el: '#nav-container',

@@ -2,21 +2,13 @@
 
 namespace App\Actions\Producer\Project;
 
+use App\Http\Requests\Producer\CreateProjectRequest;
 use App\Models\Project;
 
 class CreateProject
 {
-    public function execute($user, $site_id, $request)
+    public function execute(int $user, int $site, CreateProjectRequest $request): Project
     {
-        return Project::create([
-                    'user_id' => $user,
-                    'site_id' => $site_id,
-                    'title' => $request->title,
-                    'production_name' => $request->production_name,
-                    'production_name_public' => $request->production_name_public,
-                    'project_type_id' => $request->type_id,
-                    'description' => $request->description,
-                    'location' => $request->location
-                ]);
+        return app(StubProject::class)->create($user, $site, $request);
     }
 }

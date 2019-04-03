@@ -5,6 +5,7 @@ export const state = {
     departments: [],
     position: {},
     positions: [],
+    selectedPosition: '',
     site: {},
     sites: []
 }
@@ -24,6 +25,10 @@ export const getters = {
 
     positions(state){
         return state.positions
+    },
+
+    selectedPosition(state){
+        return state.selectedPosition
     },
 
     site(state){
@@ -52,6 +57,10 @@ export const mutations = {
         state.positions = payload
     },
 
+    [types.SELECTED_POSITION](state, payload){
+        state.selectedPosition = payload
+    },
+
     [types.SITE](state, payload){
         state.site = payload
     },
@@ -62,21 +71,21 @@ export const mutations = {
 }
 
 export const actions = {
-    fetchDepartments(context){
+    fetchByDepartments(context){
         axios.get('/api/crew/departments')
              .then(response => {
                  context.commit(types.DEPARTMENTS, response.data.departments)
              })
     },
 
-    fetchPositions(context){
+    fetchByPositions(context){
         axios.get('/api/crew/positions')
              .then(response => {
                  context.commit(types.POSITIONS, response.data.positions)
              })
     },
 
-    fetchSites(context){
+    fetchBySites(context){
         axios.get('/api/crew/sites')
              .then(response => {
                  context.commit(types.SITES, response.data.sites)

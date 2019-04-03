@@ -53,7 +53,7 @@ class Project extends Model
      */
     public function jobs()
     {
-        return $this->hasMany(ProjectJob::class);
+        return $this->hasMany(ProjectJob::class, 'project_id', 'id');
     }
 
     /**
@@ -80,12 +80,12 @@ class Project extends Model
         return $this->belongsToMany(Thread::class);
     }
 
-    public static function siteIDs(array $site_ids)
+    public static function getSitesByIds(array $siteIds)
     {
-        if (count($site_ids) === 1 && $site_ids[0] === 'all'){
-            $site_ids = Site::all()->pluck('id');
+        if (count($siteIds) === 1 && $siteIds[0] === 'all') {
+            $siteIds = Site::all()->pluck('id');
         }
 
-        return $site_ids;
+        return $siteIds;
     }
 }
