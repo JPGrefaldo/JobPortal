@@ -37,7 +37,7 @@ class ProjectJobTest extends TestCase
 
         $response = $this->actingAs($user, 'api')
                          ->get(route('producer.project.jobs'))
-                         ->assertSee('Sucessfully fetch the project\'s jobs')
+                         ->assertSee('Sucessfully fetch the project\'s jobs.')
                          ->assertStatus(Response::HTTP_OK);
 
         $response->assertJsonCount(2);
@@ -77,13 +77,14 @@ class ProjectJobTest extends TestCase
         ];
 
         $response = $this->actingAs($user, 'api')
-                         ->post(route('producer.project.jobs.store'),
-                            $data,
-                            [
-                                'Accept' => 'application/json',
-                            ]
+                         ->post(
+                             route('producer.project.jobs.store'),
+                             $data,
+                             [
+                                 'Accept' => 'application/json',
+                             ]
                          )
-                         ->assertSee('Sucessfully added the project\'s job')
+                         ->assertSee('Sucessfully added the project\'s job.')
                          ->assertStatus(Response::HTTP_CREATED);
 
         $response->assertJsonFragment([
@@ -91,13 +92,13 @@ class ProjectJobTest extends TestCase
             'gear_provided'        => 'Some Gear Provided',
             'gear_needed'          => 'Some Gear Needed',
             'pay_rate'             => 16,
-            'pay_type_id'          => 1,
+            'pay_type_id'          => PayTypeID::PER_HOUR,
             'dates_needed'         => '6/15/2018 - 6/25/2018',
             'notes'                => 'Some Note',
             'travel_expenses_paid' => true,
             'rush_call'            => true,
-            'position_id'          => 2,
-            'project_id'           => 1,
+            'position_id'          => PositionID::CAMERA_OPERATOR,
+            'project_id'           => $project->id,
         ]);
     }
 
@@ -122,25 +123,26 @@ class ProjectJobTest extends TestCase
         ];
 
         $response = $this->actingAs($user, 'api')
-                         ->post(route('producer.project.jobs.store'),
-                            $data,
-                            [
-                                'Accept' => 'application/json',
-                            ]
+                         ->post(
+                             route('producer.project.jobs.store'),
+                             $data,
+                             [
+                                 'Accept' => 'application/json',
+                             ]
                          )
-                         ->assertSee('Sucessfully added the project\'s job')
+                         ->assertSee('Sucessfully added the project\'s job.')
                          ->assertStatus(Response::HTTP_CREATED);
-             
+
         $response->assertJsonFragment([
             'persons_needed'       => 2,
             'gear_provided'        => 'Some Gear Provided',
             'gear_needed'          => 'Some Gear Needed',
             'pay_rate'             => 0,
-            'pay_type_id'          => 4,
+            'pay_type_id'          => PayTypeID::DOE,
             'dates_needed'         => '6/15/2018 - 6/25/2018',
             'notes'                => 'Some Note',
-            'position_id'          => 2,
-            'project_id'           => 1,
+            'position_id'          => PositionID::CAMERA_OPERATOR,
+            'project_id'           => $project->id,
         ]);
     }
 
@@ -183,7 +185,7 @@ class ProjectJobTest extends TestCase
         $user    = $this->createProducer();
         $project = $this->createProject($user);
 
-        factory(ProjectJob::class)->create(['project_id' => $project->id]);
+        $projectJob = factory(ProjectJob::class)->create(['project_id' => $project->id]);
 
         $data = [
             'persons_needed'       => '2',
@@ -200,18 +202,15 @@ class ProjectJobTest extends TestCase
         ];
 
         $response = $this->actingAs($user, 'api')
-                         ->put(route('producer.project.jobs.update', 
-                                [
-                                    'projectJob' => 1
-                                ]
-                            ),
+                        ->put(
+                            route('producer.project.jobs.update', $projectJob),
                             $data,
                             [
                                 'Accept' => 'application/json',
                             ]
-                         )
-                         ->assertSee('Sucessfully updated the project\'s job')
-                         ->assertStatus(Response::HTTP_OK);
+                        )
+                        ->assertSee('Sucessfully updated the project\'s job.')
+                        ->assertStatus(Response::HTTP_OK);
 
         $response->assertJsonFragment(
             [
@@ -219,13 +218,13 @@ class ProjectJobTest extends TestCase
                 'gear_provided'        => 'Some Gear Provided',
                 'gear_needed'          => 'Some Gear Needed',
                 'pay_rate'             => 16,
-                'pay_type_id'          => 1,
+                'pay_type_id'          => PayTypeID::PER_HOUR,
                 'dates_needed'         => '6/15/2018 - 6/25/2018',
                 'notes'                => 'Some Note',
                 'travel_expenses_paid' => true,
                 'rush_call'            => false,
-                'position_id'          => 2,
-                'project_id'           => 1,
+                'position_id'          => PositionID::CAMERA_OPERATOR,
+                'project_id'           => $project->id,
             ]
         );
     }
@@ -239,11 +238,12 @@ class ProjectJobTest extends TestCase
         $user    = $this->createProducer();
         $project = $this->createProject($user);
 
-        factory(ProjectJob::class)->create(['project_id' => $project->id]);
+        $projectJob = factory(ProjectJob::class)->create(['project_id' => $project->id]);
 
         $response = $this->actingAs($user, 'api')
-                         ->delete(route('producer.project.jobs.destroy', ['projectJob' => 1]))
-                         ->assertStatus(Response::HTTP_NO_CONTENT);
+            ->delete(route('producer.project.jobs.destroy', $projectJob));
+
+        $response->assertStatus(Response::HTTP_NO_CONTENT);
     }
 
     /**
@@ -262,15 +262,16 @@ class ProjectJobTest extends TestCase
         ];
 
         $this->actingAs($user)
-             ->post(route('producer.projects.create'));
+             ->get(route('producer.projects.create'));
 
         $this->actingAs($user, 'api')
-             ->post(route('producer.project.jobs.store'), 
+            ->post(
+                route('producer.project.jobs.store'),
                 $data,
                 [
                     'Accept' => 'application/json',
                 ]
-             )
+            )
             ->assertSee('The given data was invalid.')
             ->assertSee('The persons needed field is required.')
             ->assertSee('The dates needed field is required.')
@@ -301,12 +302,13 @@ class ProjectJobTest extends TestCase
              ->post(route('producer.projects.create'));
 
         $this->actingAs($user, 'api')
-             ->post(route('producer.project.jobs.store'), 
+            ->post(
+                route('producer.project.jobs.store'),
                 $data,
                 [
                     'Accept' => 'application/json',
                 ]
-             )
+            )
             ->assertSee('The given data was invalid.')
             ->assertSee('The persons needed must be a number.')
             ->assertSee('The gear provided must be a string.')
@@ -347,14 +349,15 @@ class ProjectJobTest extends TestCase
         $user = $this->createCrew();
         $data = [];
 
-        factory(ProjectJob::class)->create(['project_id' => 1]);
+        $projectJob = factory(ProjectJob::class)->create(['project_id' => 1]);
 
         $this->actingAs($user, 'api')
-             ->put(route('producer.project.jobs.update', ['projectJob' => 1]), 
-                    $data,
-                    [
-                        'Accept' => 'application/json',
-                    ]
+             ->put(
+                 route('producer.project.jobs.update', $projectJob),
+                 $data,
+                 [
+                     'Accept' => 'application/json',
+                 ]
              )
              ->assertSee('This action is unauthorized.')
              ->assertStatus(Response::HTTP_FORBIDDEN);
@@ -368,18 +371,16 @@ class ProjectJobTest extends TestCase
     {
         $user = $this->createCrew();
 
-        factory(ProjectJob::class)->create(['project_id' => 1]);
+        $projectJob = factory(ProjectJob::class)->create(['project_id' => 1]);
 
         $this->actingAs($user, 'api')
-             ->delete(route(
-                    'producer.project.jobs.destroy', 
-                    ['projectJob' => 1]
-                ),
+            ->delete(
+                route('producer.project.jobs.destroy', $projectJob),
                 [
                     'Accept' => 'application/json',
                 ]
-             )
-             ->assertStatus(Response::HTTP_FORBIDDEN);
+            )
+            ->assertStatus(Response::HTTP_FORBIDDEN);
     }
 
     /**
@@ -404,25 +405,26 @@ class ProjectJobTest extends TestCase
              ->post(route('producer.projects.create'));
 
         $response = $this->actingAs($user, 'api')
-                         ->post(route('producer.project.jobs.store'),
-                            $data,
-                            [
-                                'Accept' => 'application/json',
-                            ]
+                         ->post(
+                             route('producer.project.jobs.store'),
+                             $data,
+                             [
+                                 'Accept' => 'application/json',
+                             ]
                          )
                          ->assertSee('Sucessfully added the project\'s job')
                          ->assertStatus(Response::HTTP_CREATED);
 
         $response->assertJsonFragment([
-            'pay_type_id'     => 1
+            'pay_type_id' => PayTypeID::PER_HOUR
         ]);
     }
 
-     /**
-     * @param \App\Models\User $user
-     *
-     * @return \App\Models\Project
-     */
+    /**
+    * @param \App\Models\User $user
+    *
+    * @return \App\Models\Project
+    */
     private function createProject(User $user)
     {
         $attributes['user_id'] = $user->id;
