@@ -6,14 +6,12 @@ use App\Models\Project;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
+use Tests\Support\Data\PayTypeID;
+use Tests\Support\Data\PositionID;
 use Tests\Support\Data\ProjectTypeID;
 use Tests\Support\Data\SiteID;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
-use App\Models\ProjectJob;
-use App\Models\RemoteProject;
-use Tests\Support\Data\PayTypeID;
-use Tests\Support\Data\PositionID;
 
 class ProjectFeatureTest extends TestCase
 {
@@ -39,19 +37,19 @@ class ProjectFeatureTest extends TestCase
 
         $response = $this->actingAs($user, 'api')
                          ->get(route('producer.projects.index'))
-                         ->assertSee('Succesfully fetch all projects.')
+                         ->assertSee('Succesfully fetched all projects.')
                          ->assertStatus(Response::HTTP_OK);
-                         
+
         $response->assertJsonCount(2);
 
         $response->assertJsonFragment([
             'production_name_public' => true,
-            'project_type_id'        => 1
+            'project_type_id'        => ProjectTypeID::TV
         ]);
 
         $response->assertJsonFragment([
             'production_name_public' => false,
-            'project_type_id'        => 2
+            'project_type_id'        => ProjectTypeID::MOVIE
         ]);
     }
 
@@ -76,38 +74,39 @@ class ProjectFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user, 'api')
-                         ->post(route('producer.project.store'),
-                            $data,
-                            [
-                                'Accept' => 'application/json'
-                            ]
+                         ->post(
+                             route('producer.project.store'),
+                             $data,
+                             [
+                                 'Accept' => 'application/json'
+                             ]
                          )
-                         ->assertSee('Project successfully added')
+                         ->assertSee('Project successfully added.')
                          ->assertStatus(Response::HTTP_CREATED);
 
-        $this->assertDatabaseHas('remote_projects', ['id' => SiteID::CREWCALLSAMERICA]);
-        $this->assertDatabaseHas('remote_projects', ['id' => SiteID::CREWCALLSALASKA]);
+        $this->assertDatabaseHas('remote_projects', ['site_id' => SiteID::CREWCALLSAMERICA]);
+        $this->assertDatabaseHas('remote_projects', ['site_id' => SiteID::CREWCALLSALASKA]);
 
         $response->assertJsonFragment(
             [
                 'title'                  => 'Some Title',
                 'production_name'        => 'Some Production Name',
                 'production_name_public' => true,
-                'project_type_id'        => 1,
+                'project_type_id'        => ProjectTypeID::TV,
                 'description'            => 'Some Description',
                 'location'               => 'Some Location',
-                'user_id'                => 1
+                'user_id'                => $user->id,
             ]
         );
     }
 
-     /**
-     * @test
-     * @covers \App\Http\Controllers\Producer\ProjectsController::update
-     */
+    /**
+    * @test
+    * @covers \App\Http\Controllers\Producer\ProjectsController::update
+    */
     public function can_edit_a_project()
     {
-        $this->withExceptionHandling();
+        // $this->withExceptionHandling();
 
         $user    = $this->createProducer();
         $project = $this->createProject($user);
@@ -126,29 +125,31 @@ class ProjectFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user, 'api')
-                         ->put(route('producer.projects.update',
-                                ['project' => $project->id]
+                         ->put(
+                             route(
+                                 'producer.projects.update',
+                                 ['project' => $project->id]
                             ),
-                            $data,
-                            [
-                                'Accept' => 'application/json'
-                            ]
+                             $data,
+                             [
+                                 'Accept' => 'application/json'
+                             ]
                          )
-                         ->assertSee('Project successfully updated')
+                         ->assertSee('Project successfully updated.')
                          ->assertStatus(Response::HTTP_OK);
 
-        $this->assertDatabaseHas('remote_projects', ['id' => SiteID::CREWCALLSAMERICA]);
-        $this->assertDatabaseHas('remote_projects', ['id' => SiteID::CREWCALLSALASKA]);
+        $this->assertDatabaseHas('remote_projects', ['site_id' => SiteID::CREWCALLSAMERICA]);
+        $this->assertDatabaseHas('remote_projects', ['site_id' => SiteID::CREWCALLSALASKA]);
 
         $response->assertJsonFragment(
             [
                 'title'                  => 'Some Title',
                 'production_name'        => 'Some Production Name',
                 'production_name_public' => true,
-                'project_type_id'        => 1,
+                'project_type_id'        => ProjectTypeID::TV,
                 'description'            => 'Some Description',
                 'location'               => 'Some Location',
-                'user_id'                => 1
+                'user_id'                => $user->id,
             ]
         );
     }
@@ -301,7 +302,7 @@ class ProjectFeatureTest extends TestCase
 
         $response = $this->actingAs($user, 'api')
                          ->get(route('producer.projects.index'))
-                         ->assertSee('Succesfully fetch all projects.')
+                         ->assertSee('Succesfully fetched all projects.')
                          ->assertStatus(Response::HTTP_OK);
 
         $response->assertJsonFragment($project->toArray());
@@ -330,27 +331,28 @@ class ProjectFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user, 'api')
-                         ->post(route('producer.project.store'),
-                            $data,
-                            [
-                                'Accept' => 'application/json'
-                            ]
+                         ->post(
+                             route('producer.project.store'),
+                             $data,
+                             [
+                                 'Accept' => 'application/json'
+                             ]
                          )
-                         ->assertSee('Project successfully added')
+                         ->assertSee('Project successfully added.')
                          ->assertStatus(Response::HTTP_CREATED);
 
-        $this->assertDatabaseHas('remote_projects', ['id' => SiteID::CREWCALLSAMERICA]);
-        $this->assertDatabaseHas('remote_projects', ['id' => SiteID::CREWCALLSALASKA]);
+        $this->assertDatabaseHas('remote_projects', ['site_id' => SiteID::CREWCALLSAMERICA]);
+        $this->assertDatabaseHas('remote_projects', ['site_id' => SiteID::CREWCALLSALASKA]);
 
         $response->assertJsonFragment(
             [
                 'title'                  => 'Some Title',
                 'production_name'        => 'Some Production Name',
                 'production_name_public' => true,
-                'project_type_id'        => 1,
+                'project_type_id'        => ProjectTypeID::TV,
                 'description'            => 'Some Description',
                 'location'               => null,
-                'user_id'                => 1
+                'user_id'                => $user->id,
             ]
         );
     }

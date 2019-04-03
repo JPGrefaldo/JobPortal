@@ -19,8 +19,9 @@ class ProjectsController extends Controller
     {
         $project = Project::all();
 
-        return response()->json([
-                'message'  => 'Succesfully fetch all projects.',
+        return response()->json(
+            [
+                'message'  => 'Succesfully fetched all projects.',
                 'projects' => $project->load(['remotes', 'jobs'])
             ],
             Response::HTTP_OK
@@ -28,54 +29,62 @@ class ProjectsController extends Controller
     }
 
     public function store(CreateProjectRequest $request)
-    {   
+    {
         $user = auth()->user()->id;
         $site_id = $this->getHostSiteID();
 
         $project = app(CreateProject::class)->execute($user, $site_id, $request);
 
-        if (! isset($project->id)){
-            return response()->json([
+        if (! isset($project->id)) {
+            return response()->json(
+                [
                     'message', 'Unable to save the project. Please try again.'
-                ], 
+                ],
                 Response::HTTP_INTERNAL_SERVER_ERROR
             );
         }
 
         app(CreateRemoteProject::class)->execute($project, $request->remotes);
 
-        return response()->json([
-                'message' => 'Project successfully added',
+        return response()->json(
+            [
+                'message' => 'Project successfully added.',
                 'project' => $project->load('remotes')
-            ], Response::HTTP_CREATED
+            ],
+            Response::HTTP_CREATED
         );
     }
 
-    public function update(Project $project, CreateProjectRequest $request){
+    public function update(Project $project, CreateProjectRequest $request)
+    {
         $project = app(UpdateProject::class)->execute($project, $request);
 
-        if ($project->id){
+        if ($project->id) {
             app(UpdateRemoteProject::class)->execute($project, $request->remotes);
 
-            return response()->json([
-                    'message' => 'Project successfully updated',
+            return response()->json(
+                [
+                    'message' => 'Project successfully updated.',
                     'project' => $project->load('remotes')
-                ], Response::HTTP_OK
+                ],
+                Response::HTTP_OK
             );
         }
 
-        return response()->json([
-                'message', 'Unable to update the project. Please try again'
-            ], 
+        return response()->json(
+            [
+                'message', 'Unable to update the project. Please try again.'
+            ],
             Response::HTTP_INTERNAL_SERVER_ERROR
         );
     }
 
     public function show(Project $project)
     {
-        return response()->json([
+        return response()->json(
+            [
                 'project' => $project->load(['jobs', 'remotes'])
-            ], 
+            ],
             Response::HTTP_OK
         );
     }
