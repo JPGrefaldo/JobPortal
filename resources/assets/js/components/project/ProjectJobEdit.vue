@@ -2,13 +2,13 @@
     <div v-if="projectJob">
         <div class="flex mb-4 items-center">
             <span class="w-full mt-4 font-header text-blue-dark font-semibold mb-3">{{projectJob.position.name}}</span>
-            <button 
+            <button
                 class="flex-no-shrink p-2 ml-4 mr-2 border-2 rounded bg-blue hover:bg-blue-dark text-white"
                 @click="edit(projectJob)"
             >
                 {{ editTitle }}
             </button>
-            <button 
+            <button
                 class="flex-no-shrink p-2 ml-2 border-2 rounded text-red border-red hover:text-white hover:bg-red"
                 @click="deleteProjectJob(projectJob.id)"
             >
@@ -66,7 +66,7 @@
                 this.$validator
                     .validateAll()
                     .then(() => {
-                        if (this.$validator.errors.items.length === 0){
+                        if (this.$validator.errors.items.length === 0) {
                             this.$store
                                 .dispatch('project/updateProjectJob', this.job)
                                 .then(() => {
@@ -79,21 +79,21 @@
                                     )
                                 })
                         }
-                    })     
+                    })
             },
 
             deleteProjectJob(job) {
                 this.displayDeleteNotification()
                     .then((result) => {
-                         if(result.value) {
-                             this.$store
-                             .dispatch('project/deleteProjectJob', job)
-                             .then(response => {
-                                 if (response.data === 204) {
-                                     location.reload()
-                                }
-                             })
-                         }
+                        if(result.value) {
+                            this.$store
+                            .dispatch('project/deleteProjectJob', job)
+                            .then(response => {
+                                if (response.data === 204) {
+                                    location.reload()
+                            }
+                            })
+                        }
                     })
             },
 

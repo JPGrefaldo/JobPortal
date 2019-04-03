@@ -1,37 +1,37 @@
 <template>
-     <div class="card mb-8">
+    <div class="card mb-8">
         <div class="w-full mb-6">
             <h3 class="text-blue-dark font-semibold text-lg mb-1 font-header">Project details</h3>
         </div>
         <div class="md:flex py-3">
             <div class="md:w-1/3 pr-6">
-                <span class="block md:text-right mt-4 font-header text-blue-dark font-semibold mb-3">Project title</span>  
+                <span class="block md:text-right mt-4 font-header text-blue-dark font-semibold mb-3">Project title</span>
                 <small class="block md:text-right text-red">{{ errors.first('title') }}</small>
             </div>
             <div class="md:w-2/3">
-                <input 
-                        class="form-control w-full" 
-                        name="title" 
+                <input
+                        class="form-control w-full"
+                        name="title"
                         placeholder="Project title"
-                        type="text" 
-                        v-model="project.title" 
+                        type="text"
+                        v-model="project.title"
                         v-validate="'required|min:3'"
                 >
             </div>
         </div>
         <div class="md:flex py-3">
             <div class="md:w-1/3 pr-6">
-                <span class="block md:text-right mt-1 font-header text-blue-dark font-semibold mb-3">Production company name <br> <small class="font-normal text-grey">(or your name if individual)</small></span>  
+                <span class="block md:text-right mt-1 font-header text-blue-dark font-semibold mb-3">Production company name <br> <small class="font-normal text-grey">(or your name if individual)</small></span>
                 <small class="block md:text-right text-red">{{ errors.first('Production Company') }}</small>
             </div>
             <div class="md:w-2/3">
-                <input 
-                        class="form-control w-full mb-4" 
-                        name="Production Company" 
+                <input
+                        class="form-control w-full mb-4"
+                        name="Production Company"
                         placeholder="Company or individual name"
-                        type="text" 
-                        v-model="project.production_name" 
-                        v-validate="'required|min:3'" 
+                        type="text"
+                        v-model="project.production_name"
+                        v-validate="'required|min:3'"
                 >
 
                 <label class="checkbox-control"><span class="text-grey text-sm">Show production company name publicly</span>
@@ -42,15 +42,15 @@
         </div>
         <div class="md:flex py-3">
             <div class="md:w-1/3 pr-6">
-                <span class="block md:text-right mt-4 font-header text-blue-dark font-semibold mb-3">Project type</span>  
+                <span class="block md:text-right mt-4 font-header text-blue-dark font-semibold mb-3">Project type</span>
                 <small class="block md:text-right text-red" v-show="errors.has('Project Type')">{{ errors.first('Project Type') }}</small>
             </div>
             <div class="md:w-2/3">
-                <select 
+                <select
                         class="form-control w-full text-grey-dark"
                         name="Project Type"
-                        v-model="project.project_type_id" 
-                        v-validate="'required'" 
+                        v-model="project.project_type_id"
+                        v-validate="'required'"
                 >
                     <option v-for="projectType in projectTypes" :key="projectType.id" v-bind:value="projectType.id">{{ projectType.name }}</option>
                 </select>
@@ -58,11 +58,11 @@
         </div>
         <div class="md:flex py-3">
             <div class="md:w-1/3 pr-6">
-                <span class="block md:text-right mt-4 font-header text-blue-dark font-semibold mb-3">Project information</span>  
+                <span class="block md:text-right mt-4 font-header text-blue-dark font-semibold mb-3">Project information</span>
                 <small class="block md:text-right text-red" v-show="errors.has('Project Information')">{{ errors.first('Project Information') }}</small>
             </div>
             <div class="md:w-2/3">
-                <textarea 
+                <textarea
                             class="form-control w-full h-48"
                             name="Project Information"
                             placeholder="Project details"
@@ -74,11 +74,11 @@
 
         <div class="md:flex py-3">
             <div class="md:w-1/3 pr-6">
-                <span class="block md:text-right mt-4 font-header text-blue-dark font-semibold mb-3">Project city/area</span>  
+                <span class="block md:text-right mt-4 font-header text-blue-dark font-semibold mb-3">Project city/area</span>
                 <small class="block md:text-right text-red" v-show="errors.has('Project Location')">{{ errors.first('Project Location') }}</small>
             </div>
             <div class="md:w-2/3">
-                <input 
+                <input
                         class="form-control w-full"
                         name="Project Location"
                         placeholder="Project location"
@@ -108,7 +108,7 @@
                     <div v-show="isAllSitesNotChecked">
                         <label v-for="site in remotes" :key="site.id" class="checkbox-control mb-2">
                             {{ site.name }}
-                            <input 
+                            <input
                                     name="Post add on these websites"
                                     type="checkbox"
                                     :checked="site.checked"
@@ -151,8 +151,8 @@
             }
         },
 
-        mixins: [ 
-            alert 
+        mixins: [
+            alert
         ],
 
         components: {
@@ -185,7 +185,7 @@
                 this.sites.forEach(site => {
                     this.project.remotes.forEach(remote => {
                         if (site.id === remote.site_id){
-                             site.checked = true
+                            site.checked = true
                         }
                     })
                     result.push(site)
@@ -200,7 +200,7 @@
                     this.isAllSitesNotChecked = true
                     return
                 }
-                
+
                 this.project.remotes = []
                 this.isAllSitesNotChecked = false
             },

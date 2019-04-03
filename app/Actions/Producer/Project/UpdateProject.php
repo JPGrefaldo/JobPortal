@@ -2,8 +2,8 @@
 
 namespace App\Actions\Producer\Project;
 
-use App\Models\Project;
 use App\Http\Requests\Producer\CreateProjectRequest;
+use App\Models\Project;
 
 class UpdateProject
 {

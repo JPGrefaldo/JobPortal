@@ -165,11 +165,12 @@ class ProjectFeatureTest extends TestCase
         $data = [];
 
         $this->actingAs($user, 'api')
-             ->post(route('producer.projects.store'), 
-                    $data,
-                    [
-                        'Accept' => 'application/json',
-                    ]
+             ->post(
+                 route('producer.projects.store'),
+                 $data,
+                 [
+                     'Accept' => 'application/json',
+                 ]
              )
              ->assertSee('User does not have the right roles.')
              ->assertStatus(Response::HTTP_FORBIDDEN);
@@ -191,12 +192,13 @@ class ProjectFeatureTest extends TestCase
             'description'            => '',
         ];
 
-         $this->actingAs($user, 'api')
-             ->post(route('producer.project.store'),
-                $data,
-                [
-                    'Accept' => 'application/json'
-                ]
+        $this->actingAs($user, 'api')
+             ->post(
+                 route('producer.project.store'),
+                 $data,
+                 [
+                     'Accept' => 'application/json'
+                 ]
              )
              ->assertSee('The given data was invalid.')
              ->assertSee('The title field is required.')
@@ -225,12 +227,13 @@ class ProjectFeatureTest extends TestCase
             'remotes'                => new \stdClass()
         ];
 
-         $this->actingAs($user, 'api')
-             ->post(route('producer.project.store'),
-                $data,
-                [
-                    'Accept' => 'application/json'
-                ]
+        $this->actingAs($user, 'api')
+             ->post(
+                 route('producer.project.store'),
+                 $data,
+                 [
+                     'Accept' => 'application/json'
+                 ]
              )
              ->assertSee('The given data was invalid.')
              ->assertSee('The title must be a string.')
@@ -258,11 +261,12 @@ class ProjectFeatureTest extends TestCase
         factory(Project::class)->create();
 
         $this->actingAs($user, 'api')
-             ->put(route('producer.project.update', ['project' => 1]), 
-                    $data,
-                    [
-                        'Accept' => 'application/json',
-                    ]
+             ->put(
+                 route('producer.project.update', ['project' => 1]),
+                 $data,
+                 [
+                     'Accept' => 'application/json',
+                 ]
              )
              ->assertSee('User does not have the right roles.')
              ->assertStatus(Response::HTTP_FORBIDDEN);
@@ -277,23 +281,23 @@ class ProjectFeatureTest extends TestCase
         $user    = $this->createProducer();
         $project = $this->createProject($user);
         $job     = [
-                        'persons_needed'       => '2',
-                        'gear_provided'        => 'Some Gear Provided',
-                        'gear_needed'          => 'Some Gear Needed',
-                        'pay_rate'             => '16',
-                        'pay_type_id'          => PayTypeID::PER_HOUR,
-                        'dates_needed'         => '6/15/2018 - 6/25/2018',
-                        'notes'                => 'Some Note',
-                        'travel_expenses_paid' => '1',
-                        'rush_call'            => '1',
-                        'position_id'          => PositionID::CAMERA_OPERATOR,
-                        'project_id'           => $project->id,
-                    ];
-        $sites   = collect(1,2,3);
+            'persons_needed'       => '2',
+            'gear_provided'        => 'Some Gear Provided',
+            'gear_needed'          => 'Some Gear Needed',
+            'pay_rate'             => '16',
+            'pay_type_id'          => PayTypeID::PER_HOUR,
+            'dates_needed'         => '6/15/2018 - 6/25/2018',
+            'notes'                => 'Some Note',
+            'travel_expenses_paid' => '1',
+            'rush_call'            => '1',
+            'position_id'          => PositionID::CAMERA_OPERATOR,
+            'project_id'           => $project->id,
+        ];
+        $sites   = collect(1, 2, 3);
 
         $project->jobs()->create($job);
 
-        $sites->each(function($site) use($project){
+        $sites->each(function ($site) use ($project) {
             $project->remotes()
                     ->create([
                         'site_id' => $site

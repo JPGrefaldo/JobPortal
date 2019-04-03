@@ -52,13 +52,13 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="bg-grey-lighter pb-8 px-8 border-t border-grey-light rounded-b">
                         <div class="flex justify-between items-center pt-4">
                             <div>
                                 <a href="#" class="h4">2 ROLES <span class="btn-toggle inline-block ml-1"></span></a>
                                 <span class="badge bg-white ml-2">0 active</span>
-                                <span class="badge bg-white">2 paused</span> 
+                                <span class="badge bg-white">2 paused</span>
                             </div>
                             <a href="#" class="btn-outline">add role</a>
                         </div>
@@ -130,7 +130,7 @@
                         </div>
                     </div>
 
-                    
+
 
                 </div>
                 <div class="bg-white shadow-md rounded mb-8 border border-grey-light">
@@ -148,21 +148,21 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="bg-grey-lighter pb-4 px-8 border-t border-grey-light rounded-b">
                         <div class="flex justify-between items-center pt-4">
                             <div>
                                 <a href="#" class="h4">2 ROLES <span class="btn-toggle inline-block ml-1"></span></a>
                                 <span class="badge bg-white ml-2">0 active</span>
-                                <span class="badge bg-white">2 paused</span> 
+                                <span class="badge bg-white">2 paused</span>
                             </div>
                             <a href="#" class="btn-outline">add role</a>
                         </div>
-                        
-                        
+
+
                     </div>
 
-                    
+
 
                 </div>
 

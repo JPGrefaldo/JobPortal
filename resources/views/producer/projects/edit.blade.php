@@ -18,7 +18,7 @@
                     <h4 class="text-grey leading-loose">Need help?<br> <a href="#" class="text-green">Contact support</a></h4>
                 </div>
             </div>
-   
+
             <cca-producer-projects-edit :project="{{ $project }}"/>
         </div>
     </main>

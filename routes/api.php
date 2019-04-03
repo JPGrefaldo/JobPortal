@@ -1,8 +1,5 @@
 <?php
 
-use App\Http\Middleware\AuthorizeRoles;
-use App\Models\Role;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes

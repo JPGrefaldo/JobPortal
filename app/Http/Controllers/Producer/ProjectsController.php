@@ -11,7 +11,6 @@ use App\Models\ProjectType;
 use App\Models\Site;
 use App\Services\Producer\ProjectsServices;
 use App\Utils\UrlUtils;
-use App\Models\RemoteProject;
 
 class ProjectsController extends Controller
 {
@@ -37,21 +36,21 @@ class ProjectsController extends Controller
             session('site')
         );
     }
-    
+
     public function edit(Project $project)
     {
         return view(
-            'producer.projects.edit', 
+            'producer.projects.edit',
             $this->loadViewData(
                 $project->load([
                     'remotes',
-                    'jobs' => function($query){
+                    'jobs' => function ($query) {
                         $query->with('position');
                     }
                 ])
             )
         );
-    } 
+    }
 
     /**
      * @param \App\Http\Requests\Producer\UpdateProjectRequest $request
@@ -78,7 +77,7 @@ class ProjectsController extends Controller
         $hostname = UrlUtils::getHostNameFromBaseUrl(request()->getHttpHost());
         $sites = Site::where('hostname', '!=', $hostname)->get();
 
-        if($project === null){
+        if ($project === null) {
             return compact(
                 'user',
                 'projectTypes',

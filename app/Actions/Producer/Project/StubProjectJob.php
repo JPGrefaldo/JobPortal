@@ -2,8 +2,8 @@
 
 namespace App\Actions\Producer\Project;
 
-use App\Models\ProjectJob;
 use App\Http\Requests\Producer\CreateProjectJobRequest;
+use App\Models\ProjectJob;
 
 class StubProjectJob
 {
@@ -19,7 +19,7 @@ class StubProjectJob
     {
         $data = $this->adjustPayType($request->all());
         $data = $this->filter($data);
-        
+
         $projectJob->update($data);
 
         return $projectJob;
@@ -27,12 +27,13 @@ class StubProjectJob
 
     private function filter(array $data): array
     {
-        return array_only($data, 
+        return array_only(
+            $data,
             [
                 'project_id',
                 'position_id',
                 'pay_type_id',
-                'notes',   
+                'notes',
                 'persons_needed',
                 'dates_needed',
                 'pay_rate',
@@ -46,11 +47,11 @@ class StubProjectJob
 
     private function adjustPayType(array $data): array
     {
-        if (! isset($data['pay_rate'])){
+        if (! isset($data['pay_rate'])) {
             $data['pay_rate'] = 0;
         }
 
-        if (isset($data['pay_rate_type_id'])){
+        if (isset($data['pay_rate_type_id'])) {
             $data['pay_type_id'] = $data['pay_rate_type_id'];
         }
 

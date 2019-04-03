@@ -14,12 +14,12 @@
                 <small class="block md:text-right text-red" v-show="errors.has('Equipment Provided')">{{ errors.first('Equipment Provided') }}</small>
             </div>
             <div class="md:w-2/3">
-                <textarea 
-                         class="w-full form-control h-24"
-                         name="Equipment Provided"
-                         placeholder="Equipment provided by production"
-                         v-model="form.gear_provided" 
-                         v-validate="'required|min:3'" 
+                <textarea
+                    class="w-full form-control h-24"
+                    name="Equipment Provided"
+                    placeholder="Equipment provided by production"
+                    v-model="form.gear_provided"
+                    v-validate="'required|min:3'"
                 ></textarea>
             </div>
         </div>
@@ -29,37 +29,37 @@
                 <small class="block md:text-right text-red" v-show="errors.has('Equipment Needed')">{{ errors.first('Equipment Needed') }}</small>
             </div>
             <div class="md:w-2/3">
-                <textarea 
-                         class="w-full form-control h-24" 
-                         name="Equipment Needed"
-                         placeholder="Equipment needed from operator/crew"
-                         v-model="form.gear_needed" v-validate="'required|min:3'" 
+                <textarea
+                    class="w-full form-control h-24"
+                    name="Equipment Needed"
+                    placeholder="Equipment needed from operator/crew"
+                    v-model="form.gear_needed" v-validate="'required|min:3'"
                 ></textarea>
             </div>
         </div>
         <div class="md:flex py-2">
             <div class="md:w-1/3 pr-8">
                 <span class="font-bold font-header text-blue-dark mt-4 block md:text-right mb-3">Pay rate</span>
-                 <small class="block md:text-right text-red" v-show="errors.has('Pay Rate')">{{ errors.first('Pay Rate') }}</small>
-                 <small class="block md:text-right text-red" v-show="errors.has('Pay Rate Type')">{{ errors.first('Pay Rate Type') }}</small>
+                <small class="block md:text-right text-red" v-show="errors.has('Pay Rate')">{{ errors.first('Pay Rate') }}</small>
+                <small class="block md:text-right text-red" v-show="errors.has('Pay Rate Type')">{{ errors.first('Pay Rate Type') }}</small>
             </div>
             <div class="md:w-2/3">
-                $ <input 
-                        class="w-16 text-right form-control" 
+                $ <input
+                        class="w-16 text-right form-control"
                         name="Pay Rate"
                         placeholder="00"
                         ref="pay_rate"
-                        type="text" 
-                        v-model="form.pay_rate" 
+                        type="text"
+                        v-model="form.pay_rate"
                         v-validate="'required_if:pay_type_id,0'"
                         @input="resetPayType"
                 >
-                <select 
-                    class="form-control w-32 text-grey-dark" 
-                    name="Pay Rate Type"  
+                <select
+                    class="form-control w-32 text-grey-dark"
+                    name="Pay Rate Type"
                     v-validate.immediate="'required_if:pay_rate'"
                     v-model="form.pay_rate_type_id"
-                    @change="resetPayType" 
+                    @change="resetPayType"
                 >
                     <option value="1">Per hour</option>
                     <option value="2">Day</option>
@@ -87,9 +87,9 @@
             </div>
             <div class="md:w-2/3">
                 <Calendar v-model="datepicker.value"
-                          :lang="datepicker.lang"
-                          :position="datepicker.position"
-                          :range="datepicker.range"
+                    :lang="datepicker.lang"
+                    :position="datepicker.position"
+                    :range="datepicker.range"
                 />
             </div>
         </div>
@@ -99,12 +99,12 @@
                 <small class="block md:text-right text-red" v-show="errors.has('Production Notes')">{{ errors.first('Production Notes') }}</small>
             </div>
             <div class="md:w-2/3">
-                <textarea 
-                         class="w-full form-control h-24"
-                         name="Production Notes"
-                         placeholder="Production notes"
-                         v-model="form.notes" 
-                         v-validate="'required|min:3'" 
+                <textarea
+                    class="w-full form-control h-24"
+                    name="Production Notes"
+                    placeholder="Production notes"
+                    v-model="form.notes"
+                    v-validate="'required|min:3'"
                 ></textarea>
             </div>
         </div>
@@ -182,7 +182,7 @@
 
         created(){
             var self = this
- 
+
             if (self.mode === 'edit'){
                 self.form = self.job
             }
@@ -190,7 +190,7 @@
             if (self.job.pay_type_id < 4){
                 self.form.pay_rate_type_id = self.job.pay_type_id
             }
-            
+
             this.formatDatePicker(self.datepicker, self.job.dates_needed)
         },
 
@@ -226,7 +226,7 @@
             }
         }
     }
-</script>}
+</script>
 
 <style scoped>
 .v-calendar .calendar .days .day {

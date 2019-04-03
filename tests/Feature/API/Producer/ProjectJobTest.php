@@ -166,11 +166,12 @@ class ProjectJobTest extends TestCase
         ];
 
         $this->actingAs($user, 'api')
-             ->post(route('producer.project.jobs.store'),
-                $data,
-                [
-                    'Accept' => 'application/json',
-                ]
+             ->post(
+                 route('producer.project.jobs.store'),
+                 $data,
+                 [
+                     'Accept' => 'application/json',
+                 ]
              )
              ->assertSee('Sucessfully added the project\'s job')
              ->assertStatus(Response::HTTP_CREATED);
@@ -330,11 +331,12 @@ class ProjectJobTest extends TestCase
         $data = [];
 
         $this->actingAs($user, 'api')
-             ->post(route('producer.project.jobs.store'), 
-                    $data,
-                    [
-                        'Accept' => 'application/json',
-                    ]
+             ->post(
+                 route('producer.project.jobs.store'),
+                 $data,
+                 [
+                     'Accept' => 'application/json',
+                 ]
              )
              ->assertSee('This action is unauthorized.')
              ->assertStatus(Response::HTTP_FORBIDDEN);
@@ -391,7 +393,7 @@ class ProjectJobTest extends TestCase
     {
         $user = $this->createProducer();
         $project = $this->createProject($user);
-        
+
         $data    = [
             'persons_needed'       => '2',
             'pay_rate_type_id'     => PayTypeID::PER_HOUR,

@@ -16,4 +16,3 @@ export const SITE                       = 'SITE'
 export const SITES                      = 'SITES'
 export const THREAD                     = 'THREAD'
 export const THREADS                    = 'THREADS'
-
