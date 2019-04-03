@@ -6,12 +6,14 @@ use App\Models\Project;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
-use Tests\Support\Data\PayTypeID;
-use Tests\Support\Data\PositionID;
 use Tests\Support\Data\ProjectTypeID;
 use Tests\Support\Data\SiteID;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
+use App\Models\ProjectJob;
+use App\Models\RemoteProject;
+use Tests\Support\Data\PayTypeID;
+use Tests\Support\Data\PositionID;
 
 class ProjectFeatureTest extends TestCase
 {
@@ -263,6 +265,48 @@ class ProjectFeatureTest extends TestCase
              )
              ->assertSee('User does not have the right roles.')
              ->assertStatus(Response::HTTP_FORBIDDEN);
+    }
+
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Producer\ProjectsController::index
+     */
+    public function should_include_jobs_and_remotes()
+    {
+        $user    = $this->createProducer();
+        $project = $this->createProject($user);
+        $job     = [
+                        'persons_needed'       => '2',
+                        'gear_provided'        => 'Some Gear Provided',
+                        'gear_needed'          => 'Some Gear Needed',
+                        'pay_rate'             => '16',
+                        'pay_type_id'          => PayTypeID::PER_HOUR,
+                        'dates_needed'         => '6/15/2018 - 6/25/2018',
+                        'notes'                => 'Some Note',
+                        'travel_expenses_paid' => '1',
+                        'rush_call'            => '1',
+                        'position_id'          => PositionID::CAMERA_OPERATOR,
+                        'project_id'           => $project->id,
+                    ];
+        $sites   = collect(1,2,3);
+
+        $project->jobs()->create($job);
+
+        $sites->each(function($site) use($project){
+            $project->remotes()
+                    ->create([
+                        'site_id' => $site
+                    ]);
+        });
+
+        $response = $this->actingAs($user, 'api')
+                         ->get(route('producer.projects.index'))
+                         ->assertSee('Succesfully fetch all projects.')
+                         ->assertStatus(Response::HTTP_OK);
+
+        $response->assertJsonFragment($project->toArray());
+        $response->assertJsonFragment($project->jobs->toArray());
+        $response->assertJsonFragment($project->remotes()->get()->toArray());
     }
 
     /**
