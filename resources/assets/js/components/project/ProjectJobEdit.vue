@@ -6,7 +6,7 @@
                 class="flex-no-shrink p-2 ml-4 mr-2 border-2 rounded bg-blue hover:bg-blue-dark text-white"
                 @click="edit(projectJob)"
             >
-                Edit
+                {{ editTitle }}
             </button>
             <button 
                 class="flex-no-shrink p-2 ml-2 border-2 rounded text-red border-red hover:text-white hover:bg-red"
@@ -16,8 +16,8 @@
             </button>
         </div>
 
-        <div v-if="jobId === projectJob.id">
-            <project-job-form :submitProjectJob="submitProjectJob"></project-job-form>
+        <div v-if="isEditing">
+            <project-job-form :mode="'edit'" :submitProjectJob="submitProjectJob"></project-job-form>
         </div>
     </div>
 </template>
@@ -45,7 +45,8 @@
 
         data(){
             return {
-                jobId: 0
+                editTitle: 'Edit',
+                isEditing: false
             }
         },
 
@@ -57,7 +58,7 @@
 
         methods: {
             edit(job){
-                this.jobId = job.id
+                this.editButtonToggle()
                 this.$store.commit('project/JOB', job)
             },
 
@@ -69,7 +70,7 @@
                             this.$store
                                 .dispatch('project/updateProjectJob', this.job)
                                 .then(() => {
-                                    this.jobId = 0
+                                    this.editButtonToggle()
 
                                     this.$swal(
                                         'Job Updated!',
@@ -94,6 +95,12 @@
                              })
                          }
                     })
+            },
+
+            editButtonToggle()
+            {
+                this.isEditing = !this.isEditing
+                this.editTitle = this.isEditing ? 'Hide' : 'Edit'
             }
         }
     }

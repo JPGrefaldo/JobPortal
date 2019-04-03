@@ -5,7 +5,7 @@
                 <span class="font-bold font-header text-blue-dark mt-2 block md:text-right mb-3">Persons needed</span>
             </div>
             <div class="md:w-2/3">
-                <person-needed-input v-model="job.persons_needed"></person-needed-input>
+                <person-needed-input v-model="form.persons_needed"></person-needed-input>
             </div>
         </div>
         <div class="md:flex py-2">
@@ -18,7 +18,7 @@
                          class="w-full form-control h-24"
                          name="Equipment Provided"
                          placeholder="Equipment provided by production"
-                         v-model="job.gear_provided" 
+                         v-model="form.gear_provided" 
                          v-validate="'required'" 
                 ></textarea>
             </div>
@@ -33,7 +33,7 @@
                          class="w-full form-control h-24" 
                          name="Equipment Needed"
                          placeholder="Equipment needed from operator/crew"
-                         v-model="job.gear_needed" v-validate="'required'" 
+                         v-model="form.gear_needed" v-validate="'required'" 
                 ></textarea>
             </div>
         </div>
@@ -50,7 +50,7 @@
                         placeholder="00"
                         ref="pay_rate"
                         type="text" 
-                        v-model="job.pay_rate" 
+                        v-model="form.pay_rate" 
                         v-validate="'required_if:pay_type_id,0'"
                         @input="resetPayType"
                 >
@@ -58,7 +58,7 @@
                     class="form-control w-32 text-grey-dark" 
                     name="Pay Rate Type"  
                     v-validate.immediate="'required_if:pay_rate'"
-                    v-model="job.pay_rate_type_id"
+                    v-model="form.pay_rate_type_id"
                     @change="resetPayType" 
                 >
                     <option value="1">Per hour</option>
@@ -67,15 +67,15 @@
                 </select>
                 <span class="my-2 block">or</span>
                 <label class="checkbox-control control-radio mb-2">DOE
-                    <input name="Pay Type" ref="pay_type_id" type="radio" v-model="job.pay_type_id" value="4" @input="resetPayRateType"/>
+                    <input name="Pay Type" ref="pay_type_id" type="radio" v-model="form.pay_type_id" value="4" @input="resetPayRateType"/>
                     <div class="control-indicator"></div>
                 </label>
                 <label class="checkbox-control control-radio mb-2">TBD
-                    <input name="Pay Type" ref="pay_type_id" type="radio" v-model="job.pay_type_id" value="5" @input="resetPayRateType"/>
+                    <input name="Pay Type" ref="pay_type_id" type="radio" v-model="form.pay_type_id" value="5" @input="resetPayRateType"/>
                     <div class="control-indicator"></div>
                 </label>
                 <label class="checkbox-control control-radio mb-2">Unpaid / Volunteer
-                    <input name="Pay Type" ref="pay_type_id" type="radio" v-model="job.pay_type_id" value="6" @input="resetPayRateType"/>
+                    <input name="Pay Type" ref="pay_type_id" type="radio" v-model="form.pay_type_id" value="6" @input="resetPayRateType"/>
                     <div class="control-indicator"></div>
                 </label>
             </div>
@@ -103,7 +103,7 @@
                          class="w-full form-control h-24"
                          name="Production Notes"
                          placeholder="Production notes"
-                         v-model="job.notes" 
+                         v-model="form.notes" 
                          v-validate="'required'" 
                 ></textarea>
             </div>
@@ -114,7 +114,7 @@
             </div>
             <div class="md:w-2/3 flex items-center">
                 <label class="switch">
-                    <input v-model="job.travel_expenses_paid" type="checkbox">
+                    <input v-model="form.travel_expenses_paid" type="checkbox">
                     <span class="form-slider"></span>
                 </label> <span class="ml-2 text-grey">Travel expensenses for out-of-area crew</span>
             </div>
@@ -125,7 +125,7 @@
             </div>
             <div class="md:w-2/3 flex items-center">
                 <label class="switch">
-                    <input v-model="job.rush_call" type="checkbox">
+                    <input v-model="form.rush_call" type="checkbox">
                     <span class="form-slider"></span>
                 </label><span class="ml-2 text-grey">Interviews or work needed in the next 2-3 days</span>
             </div>
@@ -145,7 +145,7 @@
     export default {
         inject: ['$validator'],
 
-        props: ['submitProjectJob'],
+        props: ['submitProjectJob', 'mode'],
 
         components: {
             'person-needed-input': InputNumberType,
@@ -154,6 +154,17 @@
 
         data() {
             return {
+                form: {
+                    persons_needed: 1,
+                    gear_provided: '',
+                    gear_needed: '',
+                    pay_rate: null,
+                    pay_rate_type_id: null,
+                    pay_type_id: null,
+                    notes: '',
+                    travel_expenses_paid: 0,
+                    rush_call: 0
+                },
                 datepicker: {
                     lang: 'en',
                     range: true,
@@ -171,8 +182,13 @@
 
         created(){
             var self = this
+ 
+            if (self.mode === 'edit'){
+                self.form = self.job
+            }
+
             if (self.job.pay_type_id < 4){
-                self.job.pay_rate_type_id = self.job.pay_type_id
+                self.form.pay_rate_type_id = self.job.pay_type_id
             }
             
             this.formatDatePicker(self.datepicker, self.job.dates_needed)
@@ -189,21 +205,23 @@
             },
 
             resetPayRateType(){
-                if (this.job.pay_rate) {
-                    this.job.pay_rate = 0
-                    this.job.pay_rate_type_id = ''
+                if (this.form.pay_rate) {
+                    this.form.pay_rate = 0
+                    this.form.pay_rate_type_id = ''
                 }
             },
 
             resetPayType(){
-                if (this.job.pay_rate || this.job.pay_rate_type_id) {
-                    this.job.pay_type_id = ''
+                if (this.form.pay_rate || this.form.pay_rate_type_id) {
+                    this.form.pay_type_id = ''
                 }
             },
 
             submit() {
-                this.job.pay_type_id = this.job.pay_rate_type_id || this.job.pay_type_id
-                this.job.dates_needed = JSON.stringify(this.datepicker.value)
+                this.form.pay_type_id = this.form.pay_rate_type_id || this.form.pay_type_id
+                this.form.dates_needed = JSON.stringify(this.datepicker.value)
+
+                this.$store.commit('project/JOB', this.form)
                 this.submitProjectJob()
             }
         }

@@ -28,7 +28,7 @@
         </div>
 
         <div v-if="department && position">
-            <project-job-form :submitProjectJob="submitProjectJob"></project-job-form>
+            <project-job-form :mode="'create'" :submitProjectJob="submitProjectJob"></project-job-form>
         </div>
     </div>
 </template>
