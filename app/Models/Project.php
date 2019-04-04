@@ -80,9 +80,14 @@ class Project extends Model
         return $this->belongsToMany(Thread::class);
     }
 
-    public static function getSitesByIds(array $siteIds)
+    public function approve()
     {
-        if (count($siteIds) === 1 && $siteIds[0] === 'all') {
+        return $this->update(['status' => 1]);
+    }
+
+    public function getSitesByIds(array $siteIds)
+    {
+        if (count($siteIds) === 1 && $siteIds[0] === 'all'){
             $siteIds = Site::all()->pluck('id');
         }
 

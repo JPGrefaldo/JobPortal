@@ -5,16 +5,16 @@ namespace App\Actions\Producer\Project;
 use App\Models\RemoteProject;
 use Carbon\Carbon;
 
-class StubRemoteProject
-{
-    public function create(int $project, array $sites): void
+class StubRemoteProject {
+
+    public function create(int $project, $sites): void
     {
         $data = $this->format($project, $sites);
 
         RemoteProject::insert($data);
     }
 
-    public function update(int $project, array $sites) : void
+    public function update(int $project, $sites) : void
     {
         $data = $this->format($project, $sites);
 
@@ -27,11 +27,11 @@ class StubRemoteProject
         RemoteProject::where('project_id', $project)->delete();
     }
 
-    private function format(int $project, array $sites): array
+    private function format(int $project, $sites): array
     {
         $data = [];
 
-        foreach ($sites as $site) {
+        foreach ($sites as $site){
             array_push($data, [
                 'project_id' => $project,
                 'site_id'    => $site,

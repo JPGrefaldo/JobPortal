@@ -66,7 +66,7 @@ class ProjectController extends Controller
      * @param \App\Models\Project $project
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, Project $project)
+    public function update(Project $project)
     {
         return response()->json([
             'message' => 'Project denied successfully.',
@@ -82,5 +82,13 @@ class ProjectController extends Controller
     public function destroy(Project $project)
     {
         //
+    }
+
+    public function approve(Project $project)
+    {
+        $project->approve();
+
+        //TODO: return to view of project list
+        return $project->status;
     }
 }
