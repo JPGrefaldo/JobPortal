@@ -14,7 +14,7 @@ class StubRemoteProject
         RemoteProject::insert($data);
     }
 
-    public function update(int $project, $sites) : void
+    public function update(int $project, $sites): void
     {
         $data = $this->format($project, $sites);
 

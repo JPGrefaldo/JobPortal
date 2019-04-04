@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Cmgmyr\Messenger\Models\Thread;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -82,12 +83,17 @@ class Project extends Model
 
     public function approve()
     {
-        return $this->update(['status' => 1]);
+        return $this->update(
+            [
+                'approved_at' => Carbon::now(),
+                'status'      => 1
+            ]
+        );
     }
 
     public function getSitesByIds(array $siteIds)
     {
-        if (count($siteIds) === 1 && $siteIds[0] === 'all'){
+        if (count($siteIds) === 1 && $siteIds[0] === 'all') {
             $siteIds = Site::all()->pluck('id');
         }
 

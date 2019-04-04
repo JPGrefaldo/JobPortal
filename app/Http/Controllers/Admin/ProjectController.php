@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class ProjectController extends Controller
 {
@@ -88,7 +89,12 @@ class ProjectController extends Controller
     {
         $project->approve();
 
-        //TODO: return to view of project list
-        return $project->status;
+        return response()->json(
+            [
+                'message' => 'Project approved successfully.',
+                'project' => $project
+            ],
+            Response::HTTP_OK
+        );
     }
 }
