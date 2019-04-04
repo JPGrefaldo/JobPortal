@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Models\CrewProject;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;

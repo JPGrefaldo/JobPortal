@@ -40,7 +40,7 @@ class StubProjectJob
                 'rush_call',
                 'travel_expenses_paid',
                 'gear_provided',
-                'gear_needed'
+                'gear_needed',
             ]
         );
     }

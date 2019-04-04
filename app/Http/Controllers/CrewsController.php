@@ -6,8 +6,8 @@ use App\Actions\Crew\StoreCrew;
 use App\Actions\Crew\UpdateCrew;
 use App\Http\Requests\CreateCrewRequest;
 use App\Http\Requests\UpdateCrewRequest;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Crew;
+use Illuminate\Support\Facades\Auth;
 
 class CrewsController extends Controller
 {

@@ -21,14 +21,14 @@ class ApproveProjectFeatureTest extends TestCase
         $producer = $this->createProducer();
 
         $project = factory(Project::class)->create([
-            'user_id' => $producer->id
+            'user_id' => $producer->id,
         ]);
 
         $this->assertEquals(0, $project->status);
 
         $this->actingAs($admin)
-             ->get(route('admin.projects.approve', $project->id))
-             ->assertOk();
+            ->get(route('admin.projects.approve', $project->id))
+            ->assertOk();
 
         $this->assertEquals(1, $project->refresh()->status);
     }

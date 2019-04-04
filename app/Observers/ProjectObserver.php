@@ -19,7 +19,7 @@ class ProjectObserver
     {
         $admin = User::role(Role::ADMIN)->first();
 
-        if ($admin instanceof User){
+        if ($admin instanceof User) {
             \Mail::to($admin->email)->send(
                 new ProjectApproveRequestEmail($admin, $project)
             );

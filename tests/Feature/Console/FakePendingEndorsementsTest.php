@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Models\CrewProject;
 use App\Models\Endorsement;
 use App\Models\EndorsementEndorser;
 use App\Models\Position;
@@ -45,7 +44,7 @@ class FakePendingEndorsementsTest extends TestCase
         $user = $this->createCrew();
 
         $command = $this->artisan('fake:endorsement_requests', [
-            'user' => $user->id,
+            'user'   => $user->id,
             'number' => 2,
         ]);
 
@@ -72,7 +71,7 @@ class FakePendingEndorsementsTest extends TestCase
         ]);
 
         $command = $this->artisan('fake:endorsement_requests', [
-            'user' => $user->id,
+            'user'     => $user->id,
             'position' => $number,
         ]);
 
@@ -99,9 +98,9 @@ class FakePendingEndorsementsTest extends TestCase
         $number = rand(1, Position::count());
 
         $command = $this->artisan('fake:endorsement_requests', [
-            'user' => $user->id,
+            'user'            => $user->id,
             'create_position' => 0,
-            'position' => $number,
+            'position'        => $number,
         ]);
 
         $command->run();

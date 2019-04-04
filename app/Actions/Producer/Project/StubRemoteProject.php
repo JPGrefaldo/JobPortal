@@ -5,8 +5,8 @@ namespace App\Actions\Producer\Project;
 use App\Models\RemoteProject;
 use Carbon\Carbon;
 
-class StubRemoteProject {
-
+class StubRemoteProject
+{
     public function create(int $project, $sites): void
     {
         $data = $this->format($project, $sites);
@@ -31,12 +31,12 @@ class StubRemoteProject {
     {
         $data = [];
 
-        foreach ($sites as $site){
+        foreach ($sites as $site) {
             array_push($data, [
                 'project_id' => $project,
                 'site_id'    => $site,
                 'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now()
+                'updated_at' => Carbon::now(),
             ]);
         }
 
