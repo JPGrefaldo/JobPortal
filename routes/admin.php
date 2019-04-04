@@ -25,6 +25,8 @@ Route::prefix('/admin/positions')->group(function () {
 });
 
 Route::prefix('/admin/projects')->group(function () {
+    Route::get('/approve/{project}', [\App\Http\Controllers\Admin\ProjectController::class, 'approve'])
+        ->name('admin.projects.approve');
     Route::put('/{project}', [\App\Http\Controllers\Admin\ProjectController::class, 'update'])
         ->name('admin.projects.update');
 });
