@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Manager;
+namespace Tests\Unit\Observers;
 
 use App\Mail\ManagerConfirmationEmail;
 use App\Mail\ManagerDeletedEmail;
