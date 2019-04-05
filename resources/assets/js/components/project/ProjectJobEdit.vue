@@ -1,23 +1,30 @@
 <template>
-  <div v-if="projectJob">
-    <div class="flex mb-4 items-center">
-      <span
-        class="w-full mt-4 font-header text-blue-dark font-semibold mb-3"
-      >{{projectJob.position.name}}</span>
-      <button
-        class="flex-no-shrink p-2 ml-4 mr-2 border-2 rounded bg-blue hover:bg-blue-dark text-white"
-        @click="edit(projectJob)"
-      >{{ editTitle }}</button>
-      <button
-        class="flex-no-shrink p-2 ml-2 border-2 rounded text-red border-red hover:text-white hover:bg-red"
-        @click="deleteProjectJob(projectJob.id)"
-      >Remove</button>
-    </div>
+    <div v-if="projectJob">
+        <div class="flex mb-4 items-center">
+            <span class="w-full mt-4 font-header text-blue-dark font-semibold mb-3">{{
+                projectJob.position.name
+            }}</span>
+            <button
+                class="flex-no-shrink p-2 ml-4 mr-2 border-2 rounded bg-blue hover:bg-blue-dark text-white"
+                @click="edit(projectJob)"
+            >
+                {{ editTitle }}
+            </button>
+            <button
+                class="flex-no-shrink p-2 ml-2 border-2 rounded text-red border-red hover:text-white hover:bg-red"
+                @click="deleteProjectJob(projectJob.id)"
+            >
+                Remove
+            </button>
+        </div>
 
-    <div v-if="isEditing">
-      <project-job-form :mode="'edit'" :submitProjectJob="submitProjectJob"></project-job-form>
+        <div v-if="isEditing">
+            <project-job-form
+                :mode="'edit'"
+                :submitProjectJob="submitProjectJob"
+            ></project-job-form>
+        </div>
     </div>
-  </div>
 </template>
 
 <script>
