@@ -65,12 +65,12 @@ class FetchNewMessagesTest extends TestCase
                     
                 // And assert if the email format is what we expected to be
                 $this->assertArrayHas(
-                        [
-                            "thread_id" => 1,
-                            "user_id"   => 1,
-                            "body"      => "Test Reply Message",
-                        ],
-                        $emailFormat->toArray()
+                    [
+                        "thread_id" => 1,
+                        "user_id"   => 1,
+                        "body"      => "Test Reply Message",
+                    ],
+                    $emailFormat->toArray()
                     );
             });
     }
@@ -143,12 +143,12 @@ class FetchNewMessagesTest extends TestCase
                 // Then we assert each one of them that
                 // it got only the new reply
                 $this->assertArrayHas(
-                         [
-                             'thread_id' => 1,
-                             'user_id'   => 1,
-                             'body'      => 'Test Reply Message',
-                         ],
-                         $message
+                    [
+                        'thread_id' => 1,
+                        'user_id'   => 1,
+                        'body'      => 'Test Reply Message',
+                    ],
+                    $message
                     );
                 // And then compare the creation time to make sure that it got
                 // only the messages that are posted not more than 30 mins. ago

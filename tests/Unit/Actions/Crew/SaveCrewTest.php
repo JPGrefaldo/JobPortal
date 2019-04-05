@@ -25,7 +25,7 @@ class SaveCrewTest extends TestCase
         $photo = UploadedFile::fake()->image('photo.png');
         $data = [
             'photo' => $photo,
-            'bio' => 'some bio',
+            'bio'   => 'some bio',
         ];
 
         // when
@@ -34,9 +34,9 @@ class SaveCrewTest extends TestCase
 
         // then
         $this->assertDatabaseHas('crews', [
-            'user_id' => $user->id,
-            'bio' => 'some bio',
-            'photo_path' => $user->hash_id . '/photos/' . $data['photo']->hashName()
+            'user_id'    => $user->id,
+            'bio'        => 'some bio',
+            'photo_path' => $user->hash_id . '/photos/' . $data['photo']->hashName(),
         ]);
 
         Storage::disk('s3')->assertExists($user->crew->photo);
