@@ -27,7 +27,7 @@ class ApproveProjectFeatureTest extends TestCase
         $this->assertEquals(0, $project->status);
 
         $this->actingAs($admin)
-            ->get(route('admin.projects.approve', $project->id))
+            ->put(route('admin.projects.approve', $project->id))
             ->assertOk();
 
         $this->assertEquals(1, $project->refresh()->status);

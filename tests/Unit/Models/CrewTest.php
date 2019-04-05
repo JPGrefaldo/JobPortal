@@ -12,11 +12,12 @@ use App\Models\Position;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 
 class CrewTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, SeedDatabaseAfterRefresh;
 
     protected $user;
     protected $crew;
