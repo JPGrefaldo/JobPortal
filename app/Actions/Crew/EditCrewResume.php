@@ -26,7 +26,7 @@ class EditCrewResume
         }
 
         $crewResume->update([
-            'path' => $resumePath,
+            'path'    => $resumePath,
             'general' => true,
         ]);
     }

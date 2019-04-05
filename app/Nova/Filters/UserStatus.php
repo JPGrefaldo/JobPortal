@@ -29,7 +29,7 @@ class UserStatus extends Filter
     public function options(Request $request)
     {
         return [
-            'Enabled' => 1,
+            'Enabled'  => 1,
             'Disabled' => 0,
         ];
     }

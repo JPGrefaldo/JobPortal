@@ -12,7 +12,7 @@ class PositionsController extends Controller
         $positions = Position::all();
 
         return response()->json([
-            'positions' => $positions
+            'positions' => $positions,
         ]);
     }
 }

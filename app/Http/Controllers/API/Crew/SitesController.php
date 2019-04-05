@@ -12,7 +12,7 @@ class SitesController extends Controller
         $sites = Site::all();
 
         return response()->json([
-            'sites' => $sites
+            'sites' => $sites,
         ]);
     }
 }

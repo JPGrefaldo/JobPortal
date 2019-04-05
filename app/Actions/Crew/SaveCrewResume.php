@@ -12,7 +12,7 @@ class SaveCrewResume
         $resumePath = $crew->user->hash_id . '/resumes/' . $data['resume']->hashName();
 
         $crew->resumes()->create([
-            'path' => $resumePath,
+            'path'    => $resumePath,
             'general' => true,
         ]);
 

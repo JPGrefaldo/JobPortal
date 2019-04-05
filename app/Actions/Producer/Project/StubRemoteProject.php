@@ -36,7 +36,7 @@ class StubRemoteProject
                 'project_id' => $project,
                 'site_id'    => $site,
                 'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now()
+                'updated_at' => Carbon::now(),
             ]);
         }
 
