@@ -1,6 +1,6 @@
 @component('mail::message')
 
-# {{ $project->title }} is added.
+# {{ $project->title }} {{ $message }}
 
 @component('mail::button', ['url' => route('admin.projects')])
 Approve
