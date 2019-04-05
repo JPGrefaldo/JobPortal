@@ -1,46 +1,48 @@
-import axios from 'axios'
-import * as types from '../mutation-types'
+import axios from 'axios';
+import * as types from '../mutation-types';
 
 // state
 export const state = {
-    user: null
-}
+    user: null,
+};
 
 // getters
 export const getters = {
-    user: state => state.user
-}
+    user: state => state.user,
+};
 
 // mutations
 export const mutations = {
-    [types.AUTH_FETCH_USER_SUCCESS] (state, payload) {
-        state.user = payload.user
-        localStorage.setItem('user', JSON.stringify(state.user))
+    [types.AUTH_FETCH_USER_SUCCESS](state, payload) {
+        state.user = payload.user;
+        localStorage.setItem('user', JSON.stringify(state.user));
     },
 
-    [types.AUTH_LOGOUT] (state) {
-        state.user = null
-        localStorage.removeItem('user')
-    }
-}
+    [types.AUTH_LOGOUT](state) {
+        state.user = null;
+        localStorage.removeItem('user');
+    },
+};
 
 // actions
 export const actions = {
-    async fetchUser ({ commit }) {
+    async fetchUser({ commit }) {
         return new Promise((resolve, reject) => {
-            axios.get('/api/user')
+            axios
+                .get('/api/user')
                 .then(({ data }) => {
                     commit(types.AUTH_FETCH_USER_SUCCESS, {
-                        user: data
-                    })
-                    resolve(true)
-                }).catch(e => {
-                    resolve(e)
+                        user: data,
+                    });
+                    resolve(true);
                 })
-        })
+                .catch(e => {
+                    resolve(e);
+                });
+        });
     },
 
-    logout ({ commit }) {
-        commit(types.AUTH_LOGOUT)
-    }
-}
+    logout({ commit }) {
+        commit(types.AUTH_LOGOUT);
+    },
+};
