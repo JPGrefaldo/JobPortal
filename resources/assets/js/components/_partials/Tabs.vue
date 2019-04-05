@@ -12,9 +12,8 @@
                         'text-teal-dark': tab.isActive,
                         'text-grey-dark': tab.isActive == false,
                     }"
+                    >{{ tab.name }}</a
                 >
-                    {{ tab.name }}
-                </a>
             </div>
         </nav>
 

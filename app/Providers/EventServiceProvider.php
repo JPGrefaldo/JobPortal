@@ -4,10 +4,11 @@ namespace App\Providers;
 
 use App\Listeners\SendUserConfirmationEmail;
 use App\Models\Manager;
+use App\Models\Project;
 use App\Observers\ManagerObserver;
+use App\Observers\ProjectObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Event;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -32,5 +33,6 @@ class EventServiceProvider extends ServiceProvider
         parent::boot();
 
         Manager::observe(ManagerObserver::class);
+        Project::observe(ProjectObserver::class);
     }
 }

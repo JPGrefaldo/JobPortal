@@ -21,9 +21,7 @@
             <p>{{ participants }}</p>
         </div>
         <ul class="list-reset" v-if="participants">
-            <li v-for="user in participants" :key="user.id">
-                {{ user.name }}
-            </li>
+            <li v-for="user in participants" :key="user.id">{{ user.name }}</li>
         </ul>
     </div>
 </template>

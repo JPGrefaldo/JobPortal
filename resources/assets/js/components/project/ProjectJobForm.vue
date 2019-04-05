@@ -88,8 +88,8 @@
                     <option value="3">Half Day</option>
                 </select>
                 <span class="my-2 block">or</span>
-                <label class="checkbox-control control-radio mb-2"
-                    >DOE
+                <label class="checkbox-control control-radio mb-2">
+                    DOE
                     <input
                         name="Pay Type"
                         ref="pay_type_id"
@@ -100,8 +100,8 @@
                     />
                     <div class="control-indicator"></div>
                 </label>
-                <label class="checkbox-control control-radio mb-2"
-                    >TBD
+                <label class="checkbox-control control-radio mb-2">
+                    TBD
                     <input
                         name="Pay Type"
                         ref="pay_type_id"
@@ -112,8 +112,8 @@
                     />
                     <div class="control-indicator"></div>
                 </label>
-                <label class="checkbox-control control-radio mb-2"
-                    >Unpaid / Volunteer
+                <label class="checkbox-control control-radio mb-2">
+                    Unpaid / Volunteer
                     <input
                         name="Pay Type"
                         ref="pay_type_id"
@@ -190,8 +190,9 @@
             <div class="md:w-2/3 flex items-center">
                 <label class="switch">
                     <input v-model="form.rush_call" type="checkbox" />
-                    <span class="form-slider"></span> </label
-                ><span class="ml-2 text-grey">Interviews or work needed in the next 2-3 days</span>
+                    <span class="form-slider"></span>
+                </label>
+                <span class="ml-2 text-grey">Interviews or work needed in the next 2-3 days</span>
             </div>
         </div>
 

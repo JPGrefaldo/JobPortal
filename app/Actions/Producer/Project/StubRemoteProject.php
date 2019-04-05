@@ -7,14 +7,14 @@ use Carbon\Carbon;
 
 class StubRemoteProject
 {
-    public function create(int $project, array $sites): void
+    public function create(int $project, $sites): void
     {
         $data = $this->format($project, $sites);
 
         RemoteProject::insert($data);
     }
 
-    public function update(int $project, array $sites) : void
+    public function update(int $project, $sites): void
     {
         $data = $this->format($project, $sites);
 
@@ -27,7 +27,7 @@ class StubRemoteProject
         RemoteProject::where('project_id', $project)->delete();
     }
 
-    private function format(int $project, array $sites): array
+    private function format(int $project, $sites): array
     {
         $data = [];
 

@@ -23,10 +23,13 @@
         </div>
         <div class="md:flex py-3">
             <div class="md:w-1/3 pr-6">
-                <span class="block md:text-right mt-1 font-header text-blue-dark font-semibold mb-3"
-                    >Production company name <br />
-                    <small class="font-normal text-grey">(or your name if individual)</small></span
+                <span
+                    class="block md:text-right mt-1 font-header text-blue-dark font-semibold mb-3"
                 >
+                    Production company name
+                    <br />
+                    <small class="font-normal text-grey">(or your name if individual)</small>
+                </span>
                 <small class="block md:text-right text-red">{{
                     errors.first('Production Company')
                 }}</small>
@@ -41,8 +44,8 @@
                     v-validate="'required|min:3'"
                 />
 
-                <label class="checkbox-control"
-                    ><span class="text-grey text-sm">Show production company name publicly</span>
+                <label class="checkbox-control">
+                    <span class="text-grey text-sm">Show production company name publicly</span>
                     <input type="checkbox" v-model="project.production_name_public" />
                     <div class="control-indicator"></div>
                 </label>
@@ -130,8 +133,8 @@
                     >
                 </div>
                 <div class="md:w-2/3 text-blue-dark">
-                    <label class="checkbox-control mb-6"
-                        >Check all
+                    <label class="checkbox-control mb-6">
+                        Check all
                         <input
                             name="Post add on these websites"
                             type="checkbox"

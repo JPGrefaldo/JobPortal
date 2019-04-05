@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class ProjectController extends Controller
 {
@@ -15,7 +16,15 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        //
+        $project = Project::where('status', 0)->get();
+
+        return response()->json(
+            [
+                'message'  => 'Succesfully fetched all projects.',
+                'projects' =>  $project,
+            ],
+            Response::HTTP_OK
+        );
     }
 
     /**
@@ -66,7 +75,7 @@ class ProjectController extends Controller
      * @param \App\Models\Project $project
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, Project $project)
+    public function update(Project $project)
     {
         return response()->json([
             'message' => 'Project denied successfully.',
@@ -82,5 +91,18 @@ class ProjectController extends Controller
     public function destroy(Project $project)
     {
         //
+    }
+
+    public function approve(Project $project)
+    {
+        $project->approve();
+
+        return response()->json(
+            [
+                'message' => 'Project approved successfully.',
+                'project' => $project
+            ],
+            Response::HTTP_OK
+        );
     }
 }
