@@ -41,7 +41,7 @@ abstract class TestCase extends BaseTestCase
      */
     protected function getCurrentSite()
     {
-        if (!self::$site) {
+        if (! self::$site) {
             self::$site = Site::where(
                 'hostname',
                 UrlUtils::getHostNameFromBaseUrl(config('app.url'))

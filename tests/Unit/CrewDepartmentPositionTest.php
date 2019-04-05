@@ -51,7 +51,7 @@ class CrewDepartmentPositionTest extends TestCase
         ]);
 
         $this->assertDatabaseHas('crew_reels', [
-            'crew_id' => $crew->id,
+            'crew_id'  => $crew->id,
             'path'     => $data['reel_link'],
         ]);
     }

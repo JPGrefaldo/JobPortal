@@ -10,11 +10,12 @@ use App\Models\ProjectType;
 use App\Models\RemoteProject;
 use Cmgmyr\Messenger\Models\Thread;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 
 class ProjectTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, SeedDatabaseAfterRefresh;
 
     /**
      * @test

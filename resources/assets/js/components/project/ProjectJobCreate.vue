@@ -1,40 +1,50 @@
 <template>
-  <div>
-    <div class="md:flex py-3">
-      <div class="md:w-1/3 pr-6">
-        <span
-          class="block md:text-right mt-4 font-header text-blue-dark font-semibold mb-3"
-        >Select a department</span>
-      </div>
-      <div class="md:w-2/3">
-        <select class="form-control w-full text-grey-dark" v-model="department">
-          <option disabled :selected="true">Please select one</option>
-          <option v-for="item in departments" :key="item.id" v-bind:value="item.id">{{ item.name }}</option>
-        </select>
-      </div>
-    </div>
+    <div>
+        <div class="md:flex py-3">
+            <div class="md:w-1/3 pr-6">
+                <span class="block md:text-right mt-4 font-header text-blue-dark font-semibold mb-3"
+                    >Select a department</span
+                >
+            </div>
+            <div class="md:w-2/3">
+                <select class="form-control w-full text-grey-dark" v-model="department">
+                    <option disabled :selected="true">Please select one</option>
+                    <option v-for="item in departments" :key="item.id" v-bind:value="item.id">{{
+                        item.name
+                    }}</option>
+                </select>
+            </div>
+        </div>
 
-    <div class="md:flex py-3">
-      <div class="md:w-1/3 pr-6">
-        <span
-          class="block md:text-right mt-4 font-header text-blue-dark font-semibold mb-3"
-        >Select a position</span>
-      </div>
-      <div class="md:w-2/3">
-        <select class="form-control w-full text-grey-dark" name="position" v-model="position">
-          <option
-            v-for="item in positionsByDepartments"
-            :key="item.id"
-            :value="item.id"
-          >{{ item.name }}</option>
-        </select>
-      </div>
-    </div>
+        <div class="md:flex py-3">
+            <div class="md:w-1/3 pr-6">
+                <span class="block md:text-right mt-4 font-header text-blue-dark font-semibold mb-3"
+                    >Select a position</span
+                >
+            </div>
+            <div class="md:w-2/3">
+                <select
+                    class="form-control w-full text-grey-dark"
+                    name="position"
+                    v-model="position"
+                >
+                    <option
+                        v-for="item in positionsByDepartments"
+                        :key="item.id"
+                        :value="item.id"
+                        >{{ item.name }}</option
+                    >
+                </select>
+            </div>
+        </div>
 
-    <div v-if="department && position">
-      <project-job-form :mode="'create'" :submitProjectJob="submitProjectJob"></project-job-form>
+        <div v-if="department && position">
+            <project-job-form
+                :mode="'create'"
+                :submitProjectJob="submitProjectJob"
+            ></project-job-form>
+        </div>
     </div>
-  </div>
 </template>
 
 <script>

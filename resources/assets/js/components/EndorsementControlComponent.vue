@@ -10,46 +10,50 @@
 </template>
 
 <script>
-    export default {
-        props: {
-            position: {
-                type: String,
-                required: true
-            },
-            type: {
-                type: String,
-                required: true
-            },
+export default {
+    props: {
+        position: {
+            type: String,
+            required: true,
         },
-        data() {
-            return {
-                endorsements: (window[this.type] ? JSON.parse(window[this.type]) : [])
-            }
+        type: {
+            type: String,
+            required: true,
         },
-        methods: {
-            deleteEndorsement(endorsement, index) {
-                this.$swal({
-                    title: 'Are you sure?',
-                    html: "Delete <u>" + endorsement.request.endorser.email + "</u> endorsement?<br />You won't be able to revert this!",
-                    type: 'warning',
-                    showCancelButton: true,
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonColor: '#d33',
-                    confirmButtonText: 'Yes, remove endorsement'
-                }).then((result) => {
-                    if (result.value) {
-                        axios.delete('/crew/endorsement/positions/request/' + endorsement.id).then(response => {
+    },
+    data() {
+        return {
+            endorsements: window[this.type] ? JSON.parse(window[this.type]) : [],
+        };
+    },
+    methods: {
+        deleteEndorsement(endorsement, index) {
+            this.$swal({
+                title: 'Are you sure?',
+                html:
+                    'Delete <u>' +
+                    endorsement.request.endorser.email +
+                    "</u> endorsement?<br />You won't be able to revert this!",
+                type: 'warning',
+                showCancelButton: true,
+                cancelButtonColor: '#3085d6',
+                confirmButtonColor: '#d33',
+                confirmButtonText: 'Yes, remove endorsement',
+            }).then(result => {
+                if (result.value) {
+                    axios
+                        .delete('/crew/endorsement/positions/request/' + endorsement.id)
+                        .then(response => {
                             this.endorsements.splice(index, 1);
                             this.$swal({
                                 title: '',
-                                text: "Endorsement has been deleted!",
+                                text: 'Endorsement has been deleted!',
                                 type: 'success',
                             });
                         });
-                    }
-                });
-
-            },
-        }
-    }
+                }
+            });
+        },
+    },
+};
 </script>

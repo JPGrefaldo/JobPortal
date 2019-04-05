@@ -15,7 +15,7 @@
                         v-model="form.email"
                         :disabled="isSending"
                         required
-                    >
+                    />
                     <p class="w-1/3 text-red text-xs italic">
                         {{ form.errors.get('email') }}
                     </p>
@@ -37,7 +37,9 @@
                     </p>
                 </div>
                 <div class="w-full mt-2 lg:text-right -lg:text-center">
-                    <button class="btn-blue" @click.prevent="storeEndorsementRequest()">Send email</button>
+                    <button class="btn-blue" @click.prevent="storeEndorsementRequest()">
+                        Send email
+                    </button>
                 </div>
             </div>
         </form>
@@ -45,66 +47,68 @@
 </template>
 
 <script type="text/javascript">
-    import Form from '../form.js';
+import Form from '../form.js';
 
-    export default {
-        name: "CreateEndorsementRequestFormComponent",
-        props: {
-            url: {
-                type: String,
-                required: true
-            },
-            position: {
-                type: String,
-                required: true
-            },
-            full_name: {
-                type: String,
-                required: true
-            },
+export default {
+    name: 'CreateEndorsementRequestFormComponent',
+    props: {
+        url: {
+            type: String,
+            required: true,
         },
-        data() {
-            return {
-                form: new Form({
-                    email: '',
-                    message: 'Hello,\n' +
-                        '\n' +
-                        'Can you please endorse me for ' + this.position + ' by clicking on the link below?\n' +
-                        '\n' +
-                        'Thanks,\n' +
-                        this.full_name,
-                }),
-                isSending : false,
-            }
+        position: {
+            type: String,
+            required: true,
         },
+        full_name: {
+            type: String,
+            required: true,
+        },
+    },
+    data() {
+        return {
+            form: new Form({
+                email: '',
+                message:
+                    'Hello,\n' +
+                    '\n' +
+                    'Can you please endorse me for ' +
+                    this.position +
+                    ' by clicking on the link below?\n' +
+                    '\n' +
+                    'Thanks,\n' +
+                    this.full_name,
+            }),
+            isSending: false,
+        };
+    },
 
-        methods: {
-            storeEndorsementRequest() {
-                this.isSending = true;
-                this.form
-                    .post(this.url, this.form)
-                    .then(response => {
-                        Vue.swal({
-                            text: 'Request email sent',
-                            type: 'success',
-                            onClose: () => {
-                                window.location.reload();
-                            }
-                        });
-                    })
-                    .catch(response => {
-                        this.isSending = false;
-
-                        this.form.errors.record(response.errors);
-
-                        if (this.form.errors.has('email')) {
-                            this.$nextTick(() => this.$refs.email.focus());
-                        } else if (this.form.errors.has('message')) {
-                            this.$nextTick(() => this.$refs.message.focus());
-                        }
+    methods: {
+        storeEndorsementRequest() {
+            this.isSending = true;
+            this.form
+                .post(this.url, this.form)
+                .then(response => {
+                    Vue.swal({
+                        text: 'Request email sent',
+                        type: 'success',
+                        onClose: () => {
+                            window.location.reload();
+                        },
                     });
-            },
-        }
-    }
-</script>
+                })
+                .catch(response => {
+                    this.isSending = false;
 
+                    this.form.errors.record(response.errors);
+
+                    if (this.form.errors.has('email')) {
+                        this.$nextTick(() => this.$refs.email.focus());
+                    } else if (this.form.errors.has('message')) {
+                        this.$nextTick(() => this.$refs.message.focus());
+                    }
+                });
+        },
+    },
+};
+</script>

@@ -6,11 +6,12 @@ use App\Models\Crew;
 use App\Models\Project;
 use App\Rules\ProducerMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 
 class ProducerMessageTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, SeedDatabaseAfterRefresh;
 
     protected $recipients;
 
