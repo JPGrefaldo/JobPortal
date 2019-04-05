@@ -17,13 +17,7 @@ class ProjectObserver
      */
     public function created(Project $project)
     {
-        $admin = User::role(Role::ADMIN)->first();
-
-        if ($admin instanceof User) {
-            \Mail::to($admin->email)->send(
-                new ProjectApproveRequestEmail($admin, $project)
-            );
-        }
+        $this->sendEmail($project);
     }
 
     /**
@@ -34,7 +28,8 @@ class ProjectObserver
      */
     public function updated(Project $project)
     {
-        //
+        $isUpdating = true;
+        $this->sendEmail($project, $isUpdating);
     }
 
     /**
@@ -68,5 +63,17 @@ class ProjectObserver
     public function forceDeleted(Project $project)
     {
         //
+    }
+
+    private function sendEmail(Project $project, $isUpdating=false)
+    {
+        $admin   = User::role(Role::ADMIN)->first();
+        $message = $isUpdating ? 'is recently updated.' : 'is added.';
+
+        if ($admin instanceof User) {
+            \Mail::to($admin->email)->send(
+                new ProjectApproveRequestEmail($admin, $message, $project)
+            );
+        }
     }
 }
