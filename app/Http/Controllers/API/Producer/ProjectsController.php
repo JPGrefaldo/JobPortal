@@ -22,7 +22,7 @@ class ProjectsController extends Controller
         return response()->json(
             [
                 'message'  => 'Succesfully fetched all projects.',
-                'projects' => $project->load(['remotes', 'jobs'])
+                'projects' => $project->load(['remotes', 'jobs']),
             ],
             Response::HTTP_OK
         );
@@ -38,7 +38,7 @@ class ProjectsController extends Controller
         if (! isset($project->id)) {
             return response()->json(
                 [
-                    'message', 'Unable to save the project. Please try again.'
+                    'message', 'Unable to save the project. Please try again.',
                 ],
                 Response::HTTP_INTERNAL_SERVER_ERROR
             );
@@ -49,7 +49,7 @@ class ProjectsController extends Controller
         return response()->json(
             [
                 'message' => 'Project successfully added.',
-                'project' => $project->load('remotes')
+                'project' => $project->load('remotes'),
             ],
             Response::HTTP_CREATED
         );
@@ -65,7 +65,7 @@ class ProjectsController extends Controller
             return response()->json(
                 [
                     'message' => 'Project successfully updated.',
-                    'project' => $project->load('remotes')
+                    'project' => $project->load('remotes'),
                 ],
                 Response::HTTP_OK
             );
@@ -73,7 +73,7 @@ class ProjectsController extends Controller
 
         return response()->json(
             [
-                'message', 'Unable to update the project. Please try again.'
+                'message', 'Unable to update the project. Please try again.',
             ],
             Response::HTTP_INTERNAL_SERVER_ERROR
         );
@@ -83,7 +83,7 @@ class ProjectsController extends Controller
     {
         return response()->json(
             [
-                'project' => $project->load(['jobs', 'remotes'])
+                'project' => $project->load(['jobs', 'remotes']),
             ],
             Response::HTTP_OK
         );

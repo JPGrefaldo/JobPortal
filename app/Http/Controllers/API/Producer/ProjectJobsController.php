@@ -16,7 +16,7 @@ class ProjectJobsController extends Controller
         return response()->json(
             [
                 'message' => 'Sucessfully fetch the project\'s jobs.',
-                'jobs' => ProjectJob::all()
+                'jobs'    => ProjectJob::all(),
             ],
             Response::HTTP_OK
         );
@@ -29,7 +29,7 @@ class ProjectJobsController extends Controller
         return response()->json(
             [
                 'message' => 'Sucessfully added the project\'s job.',
-                'job' => $job->load('position')
+                'job'     => $job->load('position'),
             ],
             Response::HTTP_CREATED
         );
@@ -42,7 +42,7 @@ class ProjectJobsController extends Controller
         return response()->json(
             [
                 'message' => 'Sucessfully updated the project\'s job.',
-                'job' => $job->load('position')
+                'job'     => $job->load('position'),
             ],
             Response::HTTP_OK
         );

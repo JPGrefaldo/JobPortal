@@ -12,7 +12,7 @@ class ProjectTypes extends Controller
         $types = ProjectType::all();
 
         return response()->json([
-            'projectType' => $types
+            'projectType' => $types,
         ]);
     }
 }

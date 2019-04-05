@@ -46,7 +46,7 @@ class ProjectsController extends Controller
                     'remotes',
                     'jobs' => function ($query) {
                         $query->with('position');
-                    }
+                    },
                 ])
             )
         );

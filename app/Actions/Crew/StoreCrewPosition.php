@@ -24,7 +24,7 @@ class StoreCrewPosition
 
         $crew->gears()->create([
             'description'      => $data['gear'],
-            'crew_position_id' => $crewPosition->id
+            'crew_position_id' => $crewPosition->id,
         ]);
 
         $crew->reels()->create([

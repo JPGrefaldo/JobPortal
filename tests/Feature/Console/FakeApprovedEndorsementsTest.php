@@ -44,7 +44,7 @@ class FakeApprovedEndorsementsTest extends TestCase
         $user = $this->createCrew();
 
         $command = $this->artisan('fake:endorsements', [
-            'user' => $user->id,
+            'user'   => $user->id,
             'number' => 2,
         ]);
 
@@ -71,7 +71,7 @@ class FakeApprovedEndorsementsTest extends TestCase
         ]);
 
         $command = $this->artisan('fake:endorsements', [
-            'user' => $user->id,
+            'user'     => $user->id,
             'position' => $number,
         ]);
 
@@ -98,9 +98,9 @@ class FakeApprovedEndorsementsTest extends TestCase
         $number = rand(1, Position::count());
 
         $command = $this->artisan('fake:endorsements', [
-            'user' => $user->id,
+            'user'            => $user->id,
             'create_position' => 0,
-            'position' => $number,
+            'position'        => $number,
         ]);
 
         $command->run();

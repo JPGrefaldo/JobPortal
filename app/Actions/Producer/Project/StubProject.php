@@ -36,7 +36,7 @@ class StubProject
                 'production_name_public',
                 'project_type_id',
                 'description',
-                'location'
+                'location',
             ]
         );
     }

@@ -13,7 +13,7 @@ class StubCrew
     public function execute(User $user)
     {
         return $user->crew()->create([
-            'user_id'   => $user->id,
+            'user_id'        => $user->id,
             'photo_path'     => 'photos/avatar.png',
         ]);
     }

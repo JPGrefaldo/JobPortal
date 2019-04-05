@@ -39,9 +39,9 @@ class EditCrewResumeTest extends TestCase
         // then
 
         $this->assertDatabaseHas('crew_resumes', [
-            'crew_id' => $user->crew->id,
-            'path' => $user->hash_id . '/resumes/' . $data['resume']->hashName(),
-            'general' => true,
+            'crew_id'          => $user->crew->id,
+            'path'             => $user->hash_id . '/resumes/' . $data['resume']->hashName(),
+            'general'          => true,
             'crew_position_id' => null,
         ]);
 

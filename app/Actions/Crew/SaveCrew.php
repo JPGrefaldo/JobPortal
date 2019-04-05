@@ -12,7 +12,7 @@ class SaveCrew
         $photoPath = $user->hash_id . '/photos/'. $data['photo']->hashName();
 
         $user->crew()->create([
-            'bio' => $data['bio'],
+            'bio'        => $data['bio'],
             'photo_path' => $photoPath,
         ]);
 

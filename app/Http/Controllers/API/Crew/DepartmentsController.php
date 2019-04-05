@@ -12,7 +12,7 @@ class DepartmentsController extends Controller
         $departments = Department::all();
         
         return response()->json([
-            'departments' => $departments
+            'departments' => $departments,
         ]);
     }
 }
