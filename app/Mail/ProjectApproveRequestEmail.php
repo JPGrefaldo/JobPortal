@@ -12,6 +12,8 @@ class ProjectApproveRequestEmail extends Mailable
 
     public $admin;
 
+    public $message;
+
     public $project;
 
     /**
@@ -19,9 +21,10 @@ class ProjectApproveRequestEmail extends Mailable
      *
      * @return void
      */
-    public function __construct($admin, $project)
+    public function __construct($admin, $message, $project)
     {
         $this->admin   = $admin;
+        $this->message = $message;
         $this->project = $project;
     }
 
