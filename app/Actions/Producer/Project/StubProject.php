@@ -19,9 +19,11 @@ class StubProject
 
     public function update(Project $project, CreateProjectRequest $request): Project
     {
-        $data = $this->filter($request->toArray());
+        $data           = $this->filter($request->toArray());
+        $data['status'] = 0;
 
-        $project->update($data);
+        $project->fill($data);
+        $project->save();
 
         return $project;
     }
