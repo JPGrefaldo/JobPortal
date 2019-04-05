@@ -7,12 +7,11 @@
 </template>
 
 <script>
-    import WorkPositionComponent from "./WorkPositionComponent";
-    export default {
-        components: {WorkPositionComponent},
-        props :{
-                departments: Array,
-        },
-    }
+import WorkPositionComponent from './WorkPositionComponent';
+export default {
+    components: { WorkPositionComponent },
+    props: {
+        departments: Array,
+    },
+};
 </script>
-
