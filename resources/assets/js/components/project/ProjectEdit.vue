@@ -5,26 +5,26 @@
 </template>
 
 <script>
-    import ProjectForm from './ProjectForm.vue'
+import ProjectForm from './ProjectForm.vue';
 
-    export default {
-        props: {
-            project: {
-                type: Object,
-                required: true
-            }
+export default {
+    props: {
+        project: {
+            type: Object,
+            required: true,
         },
+    },
 
-        components: {
-            'project-form': ProjectForm
-        },
+    components: {
+        'project-form': ProjectForm,
+    },
 
-        mounted() {
-            this.$store.commit('project/PROJECT', this.project)
+    mounted() {
+        this.$store.commit('project/PROJECT', this.project);
 
-            if (this.project.jobs.length > 0){
-                this.$store.commit('project/JOBS', this.project.jobs)
-            }
-        },
-    }
+        if (this.project.jobs.length > 0) {
+            this.$store.commit('project/JOBS', this.project.jobs);
+        }
+    },
+};
 </script>
