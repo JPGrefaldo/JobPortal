@@ -1,6 +1,6 @@
 export default {
     methods: {
-        displaySuccess: function (response) {
+        displaySuccess: function(response) {
             this.$swal({
                 title: '',
                 text: response.data.message,
@@ -8,7 +8,7 @@ export default {
             });
         },
 
-        displayError: function (message) {
+        displayError: function(message) {
             this.$swal({
                 title: '',
                 text: message,
@@ -16,7 +16,7 @@ export default {
             });
         },
 
-        displayDeleteNotification: function (){
+        displayDeleteNotification: function() {
             return this.$swal({
                 title: 'Are you sure?',
                 text: "You won't be able to revert this!",
@@ -24,8 +24,8 @@ export default {
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-            })
-        }
-    }
-}
+                confirmButtonText: 'Yes, delete it!',
+            });
+        },
+    },
+};

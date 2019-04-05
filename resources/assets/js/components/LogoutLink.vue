@@ -1,16 +1,9 @@
 <template>
-    <a href="#"
-       :class="classes"
-       @click.prevent="onClick">
+    <a href="#" :class="classes" @click.prevent="onClick">
         <slot />
 
-        <form ref="logoutLinkForm"
-              action="/logout"
-              method="POST"
-              class="logout-link-form">
-            <input type="hidden"
-                   name="_token"
-                   :value="csrf">
+        <form ref="logoutLinkForm" action="/logout" method="POST" class="logout-link-form">
+            <input type="hidden" name="_token" :value="csrf" />
         </form>
     </a>
 </template>
@@ -20,21 +13,21 @@ export default {
     props: {
         csrf: {
             type: String,
-            default: ''
+            default: '',
         },
         classes: {
             type: String,
-            default: ''
-        }
+            default: '',
+        },
     },
 
     methods: {
-        onClick (e) {
-            this.$store.dispatch('auth/logout')
-            this.$refs.logoutLinkForm.submit()
-        }
-    }
-}
+        onClick(e) {
+            this.$store.dispatch('auth/logout');
+            this.$refs.logoutLinkForm.submit();
+        },
+    },
+};
 </script>
 
 <style lang="scss" scoped>

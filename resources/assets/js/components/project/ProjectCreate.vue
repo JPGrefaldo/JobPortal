@@ -5,10 +5,10 @@
 </template>
 
 <script>
-    import ProjectForm from './ProjectForm.vue'
-    export default {
-        components: {
-            'project-form': ProjectForm
-        }
-    }
+import ProjectForm from './ProjectForm.vue';
+export default {
+    components: {
+        'project-form': ProjectForm,
+    },
+};
 </script>
