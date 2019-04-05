@@ -16,7 +16,13 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(
+            [
+                'message'  => 'Succesfully fetched all projects.',
+                'projects' => Project::all(),
+            ],
+            Response::HTTP_OK
+        );
     }
 
     /**

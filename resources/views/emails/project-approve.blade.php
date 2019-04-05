@@ -2,7 +2,7 @@
 
 # {{ $project->title }} is added.
 
-@component('mail::button', ['url' => route('admin.projects.approve', $project->id)])
+@component('mail::button', ['url' => route('admin.projects')])
 Approve
 @endcomponent
 
