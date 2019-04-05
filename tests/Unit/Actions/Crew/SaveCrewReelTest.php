@@ -37,9 +37,9 @@ class SaveCrewReelTest extends TestCase
 
         // then
         $this->assertDatabaseHas('crew_reels', [
-            'crew_id' => $this->crew->id,
-            'path' => 'https://www.youtube.com/embed/2-_rLbU6zJo',
-            'general' => true,
+            'crew_id'          => $this->crew->id,
+            'path'             => 'https://www.youtube.com/embed/2-_rLbU6zJo',
+            'general'          => true,
             'crew_position_id' => null,
         ]);
     }
@@ -60,9 +60,9 @@ class SaveCrewReelTest extends TestCase
 
         // then
         $this->assertDatabaseHas('crew_reels', [
-            'crew_id' => $this->crew->id,
-            'path' => 'https://player.vimeo.com/video/230046783',
-            'general' => true,
+            'crew_id'          => $this->crew->id,
+            'path'             => 'https://player.vimeo.com/video/230046783',
+            'general'          => true,
             'crew_position_id' => null,
         ]);
     }
@@ -89,9 +89,9 @@ class SaveCrewReelTest extends TestCase
         Storage::disk('s3')->assertExists($expectedPath);
 
         $this->assertDatabaseHas('crew_reels', [
-            'crew_id' => $this->crew->id,
-            'path' => $expectedPath,
-            'general' => true,
+            'crew_id'          => $this->crew->id,
+            'path'             => $expectedPath,
+            'general'          => true,
             'crew_position_id' => null,
         ]);
     }

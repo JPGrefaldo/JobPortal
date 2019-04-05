@@ -72,51 +72,51 @@ class SaveCrewSocialTest extends TestCase
         $this->assertCount(8, $crew->socials);
 
         $this->assertDatabaseHas('crew_socials', [
-            'crew_id' => $crew->id,
+            'crew_id'             => $crew->id,
             'social_link_type_id' => SocialLinkTypeID::FACEBOOK,
-            'url' => 'https://www.facebook.com/castingcallsamerica/',
+            'url'                 => 'https://www.facebook.com/castingcallsamerica/',
         ]);
 
         $this->assertDatabaseHas('crew_socials', [
-            'crew_id' => $crew->id,
+            'crew_id'             => $crew->id,
             'social_link_type_id' => SocialLinkTypeID::TWITTER,
-            'url' => 'https://twitter.com/casting_america',
+            'url'                 => 'https://twitter.com/casting_america',
         ]);
 
         $this->assertDatabaseHas('crew_socials', [
-            'crew_id' => $crew->id,
+            'crew_id'             => $crew->id,
             'social_link_type_id' => SocialLinkTypeID::YOUTUBE,
-            'url' => 'https://www.youtube.com/channel/UCHBOnWRvXSZ2xzBXyoDnCJw',
+            'url'                 => 'https://www.youtube.com/channel/UCHBOnWRvXSZ2xzBXyoDnCJw',
         ]);
 
         $this->assertDatabaseHas('crew_socials', [
-            'crew_id' => $crew->id,
+            'crew_id'             => $crew->id,
             'social_link_type_id' => SocialLinkTypeID::IMDB,
-            'url' => 'http://www.imdb.com/name/nm0000134/',
+            'url'                 => 'http://www.imdb.com/name/nm0000134/',
         ]);
 
         $this->assertDatabaseHas('crew_socials', [
-            'crew_id' => $crew->id,
+            'crew_id'             => $crew->id,
             'social_link_type_id' => SocialLinkTypeID::TUMBLR,
-            'url' => 'http://test.tumblr.com',
+            'url'                 => 'http://test.tumblr.com',
         ]);
 
         $this->assertDatabaseHas('crew_socials', [
-            'crew_id' => $crew->id,
+            'crew_id'             => $crew->id,
             'social_link_type_id' => SocialLinkTypeID::VIMEO,
-            'url' => 'https://vimeo.com/mackevision',
+            'url'                 => 'https://vimeo.com/mackevision',
         ]);
 
         $this->assertDatabaseHas('crew_socials', [
-            'crew_id' => $crew->id,
+            'crew_id'             => $crew->id,
             'social_link_type_id' => SocialLinkTypeID::INSTAGRAM,
-            'url' => 'https://www.instagram.com/castingamerica/',
+            'url'                 => 'https://www.instagram.com/castingamerica/',
         ]);
 
         $this->assertDatabaseHas('crew_socials', [
-            'crew_id' => $crew->id,
+            'crew_id'             => $crew->id,
             'social_link_type_id' => SocialLinkTypeID::PERSONAL_WEBSITE,
-            'url' => 'https://castingcallsamerica.com',
+            'url'                 => 'https://castingcallsamerica.com',
         ]);
     }
 
@@ -131,7 +131,7 @@ class SaveCrewSocialTest extends TestCase
             'socials' => [
                 'youtube' => [
                     'url' => 'https://www.youtube.com/watch?v=G8S81CEBdNs',
-                    'id' => SocialLinkTypeID::YOUTUBE,
+                    'id'  => SocialLinkTypeID::YOUTUBE,
                 ],
             ],
         ];
@@ -141,9 +141,9 @@ class SaveCrewSocialTest extends TestCase
 
         // then
         $this->assertDatabaseHas('crew_socials', [
-            'crew_id' => $this->crew->id,
+            'crew_id'             => $this->crew->id,
             'social_link_type_id' => SocialLinkTypeID::YOUTUBE,
-            'url' => 'https://www.youtube.com/embed/G8S81CEBdNs',
+            'url'                 => 'https://www.youtube.com/embed/G8S81CEBdNs',
         ]);
     }
 
@@ -158,7 +158,7 @@ class SaveCrewSocialTest extends TestCase
             'socials' => [
                 'vimeo' => [
                     'url' => 'https://vimeo.com/230046783',
-                    'id' => SocialLinkTypeID::VIMEO,
+                    'id'  => SocialLinkTypeID::VIMEO,
                 ],
             ],
         ];
@@ -168,9 +168,9 @@ class SaveCrewSocialTest extends TestCase
 
         // then
         $this->assertDatabaseHas('crew_socials', [
-            'crew_id' => $this->crew->id,
+            'crew_id'             => $this->crew->id,
             'social_link_type_id' => SocialLinkTypeID::VIMEO,
-            'url' => 'https://player.vimeo.com/video/230046783',
+            'url'                 => 'https://player.vimeo.com/video/230046783',
         ]);
     }
 }

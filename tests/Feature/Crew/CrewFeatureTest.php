@@ -38,7 +38,7 @@ class CrewFeatureTest extends TestCase
 
         // when
         $response = $this->actingAs($this->user)
-                        ->post(route('crews.store'), $data);
+            ->post(route('crews.store'), $data);
 
         // then
         $response->assertSuccessful();
@@ -69,7 +69,7 @@ class CrewFeatureTest extends TestCase
 
         // when
         $response = $this->actingAs($this->user)
-                         ->post(route('crews.store'), $data);
+            ->post(route('crews.store'), $data);
 
         //  then
         $response->assertSuccessful();
@@ -97,7 +97,7 @@ class CrewFeatureTest extends TestCase
         ]);
 
         $response = $this->actingAs($this->user)
-                         ->post(route('crews.store'), $data);
+            ->post(route('crews.store'), $data);
 
         $response->assertSessionHasErrors([
             'photo'                        => 'The photo must be an image.',
@@ -129,7 +129,7 @@ class CrewFeatureTest extends TestCase
 
         // when
         $response = $this->actingAs($this->user)
-                         ->post(route('crews.store'), $data);
+            ->post(route('crews.store'), $data);
 
         // then
         $response->assertSuccessful();
@@ -143,12 +143,12 @@ class CrewFeatureTest extends TestCase
     {
         // given
         $data = $this->getCreateData([
-            'reel' => 'https://vimeo.com/230046783'
+            'reel' => 'https://vimeo.com/230046783',
         ]);
 
         // when
         $response = $this->actingAs($this->user)
-                         ->post(route('crews.store'), $data);
+            ->post(route('crews.store'), $data);
 
         // then
         $response->assertSuccessful();

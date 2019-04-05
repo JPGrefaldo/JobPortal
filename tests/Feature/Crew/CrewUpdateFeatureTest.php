@@ -141,7 +141,7 @@ class CrewUpdateFeatureTest extends TestCase
         ]);
 
         $response = $this->actingAs($this->user)
-                         ->put(route('crews.update', $this->user->crew), $data);
+            ->put(route('crews.update', $this->user->crew), $data);
 
         $response->assertSessionHasErrors([
             'photo'                        => 'The photo must be an image.',
@@ -168,7 +168,7 @@ class CrewUpdateFeatureTest extends TestCase
         $data = $this->getUpdateData();
 
         $response = $this->actingAs($this->user)
-                         ->put(route('crews.update', ['crew' => '5']), $data);
+            ->put(route('crews.update', ['crew' => '5']), $data);
 
         $response->assertNotFound();
     }
@@ -183,7 +183,7 @@ class CrewUpdateFeatureTest extends TestCase
         $data = $this->getUpdateData();
 
         $response = $this->actingAs($randomUser)
-                         ->put(route('crews.update', $this->user->crew), $data);
+            ->put(route('crews.update', $this->user->crew), $data);
 
         $response->assertForbidden();
     }

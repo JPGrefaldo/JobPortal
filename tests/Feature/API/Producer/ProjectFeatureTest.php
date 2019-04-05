@@ -27,29 +27,29 @@ class ProjectFeatureTest extends TestCase
 
         factory(Project::class)->create([
             'production_name_public' => 1,
-            'project_type_id'        => ProjectTypeID::TV
+            'project_type_id'        => ProjectTypeID::TV,
         ]);
 
         factory(Project::class)->create([
             'production_name_public' => 0,
-            'project_type_id'        => ProjectTypeID::MOVIE
+            'project_type_id'        => ProjectTypeID::MOVIE,
         ]);
 
         $response = $this->actingAs($user, 'api')
-                         ->get(route('producer.projects.index'))
-                         ->assertSee('Succesfully fetched all projects.')
-                         ->assertStatus(Response::HTTP_OK);
+            ->get(route('producer.projects.index'))
+            ->assertSee('Succesfully fetched all projects.')
+            ->assertStatus(Response::HTTP_OK);
 
         $response->assertJsonCount(2);
 
         $response->assertJsonFragment([
             'production_name_public' => true,
-            'project_type_id'        => ProjectTypeID::TV
+            'project_type_id'        => ProjectTypeID::TV,
         ]);
 
         $response->assertJsonFragment([
             'production_name_public' => false,
-            'project_type_id'        => ProjectTypeID::MOVIE
+            'project_type_id'        => ProjectTypeID::MOVIE,
         ]);
     }
 
@@ -69,20 +69,20 @@ class ProjectFeatureTest extends TestCase
             'location'               => 'Some Location',
             'remotes'                => [
                 SiteID::CREWCALLSAMERICA,
-                SiteID::CREWCALLSALASKA
-            ]
+                SiteID::CREWCALLSALASKA,
+            ],
         ];
 
         $response = $this->actingAs($user, 'api')
-                         ->post(
+            ->post(
                              route('producer.project.store'),
                              $data,
                              [
-                                 'Accept' => 'application/json'
+                                 'Accept' => 'application/json',
                              ]
                          )
-                         ->assertSee('Project successfully added.')
-                         ->assertStatus(Response::HTTP_CREATED);
+            ->assertSee('Project successfully added.')
+            ->assertStatus(Response::HTTP_CREATED);
 
         $this->assertDatabaseHas('remote_projects', ['site_id' => SiteID::CREWCALLSAMERICA]);
         $this->assertDatabaseHas('remote_projects', ['site_id' => SiteID::CREWCALLSALASKA]);
@@ -120,23 +120,23 @@ class ProjectFeatureTest extends TestCase
             'location'               => 'Some Location',
             'remotes'                => [
                 SiteID::CREWCALLSAMERICA,
-                SiteID::CREWCALLSALASKA
-            ]
+                SiteID::CREWCALLSALASKA,
+            ],
         ];
 
         $response = $this->actingAs($user, 'api')
-                         ->put(
+            ->put(
                              route(
                                  'producer.projects.update',
                                  ['project' => $project->id]
                             ),
                              $data,
                              [
-                                 'Accept' => 'application/json'
+                                 'Accept' => 'application/json',
                              ]
                          )
-                         ->assertSee('Project successfully updated.')
-                         ->assertStatus(Response::HTTP_OK);
+            ->assertSee('Project successfully updated.')
+            ->assertStatus(Response::HTTP_OK);
 
         $this->assertDatabaseHas('remote_projects', ['site_id' => SiteID::CREWCALLSAMERICA]);
         $this->assertDatabaseHas('remote_projects', ['site_id' => SiteID::CREWCALLSALASKA]);
@@ -165,15 +165,15 @@ class ProjectFeatureTest extends TestCase
         $data = [];
 
         $this->actingAs($user, 'api')
-             ->post(
+            ->post(
                  route('producer.projects.store'),
                  $data,
                  [
                      'Accept' => 'application/json',
                  ]
              )
-             ->assertSee('User does not have the right roles.')
-             ->assertStatus(Response::HTTP_FORBIDDEN);
+            ->assertSee('User does not have the right roles.')
+            ->assertStatus(Response::HTTP_FORBIDDEN);
     }
 
     /**
@@ -193,20 +193,20 @@ class ProjectFeatureTest extends TestCase
         ];
 
         $this->actingAs($user, 'api')
-             ->post(
+            ->post(
                  route('producer.project.store'),
                  $data,
                  [
-                     'Accept' => 'application/json'
+                     'Accept' => 'application/json',
                  ]
              )
-             ->assertSee('The given data was invalid.')
-             ->assertSee('The title field is required.')
-             ->assertSee('The production name field is required.')
-             ->assertSee('The production name public field is required.')
-             ->assertSee('The project type id field is required.')
-             ->assertSee('The description field is required.')
-             ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+            ->assertSee('The given data was invalid.')
+            ->assertSee('The title field is required.')
+            ->assertSee('The production name field is required.')
+            ->assertSee('The production name public field is required.')
+            ->assertSee('The project type id field is required.')
+            ->assertSee('The description field is required.')
+            ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     /**
@@ -224,29 +224,29 @@ class ProjectFeatureTest extends TestCase
             'project_type_id'        => 'abc',
             'description'            => false,
             'location'               => false,
-            'remotes'                => new \stdClass()
+            'remotes'                => new \stdClass(),
         ];
 
         $this->actingAs($user, 'api')
-             ->post(
+            ->post(
                  route('producer.project.store'),
                  $data,
                  [
-                     'Accept' => 'application/json'
+                     'Accept' => 'application/json',
                  ]
              )
-             ->assertSee('The given data was invalid.')
-             ->assertSee('The title must be a string.')
-             ->assertSee('The title must be at least 3 characters.')
-             ->assertSee('The production name must be a string.')
-             ->assertSee('The production name must be at least 3 characters.')
-             ->assertSee('The production name public field must be true or false.')
-             ->assertSee('The project type id must be a number.')
-             ->assertSee('The description must be a string.')
-             ->assertSee('The description must be at least 3 characters.')
-             ->assertSee('The location must be a string.')
-             ->assertSee('The remotes must be an array.')
-             ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+            ->assertSee('The given data was invalid.')
+            ->assertSee('The title must be a string.')
+            ->assertSee('The title must be at least 3 characters.')
+            ->assertSee('The production name must be a string.')
+            ->assertSee('The production name must be at least 3 characters.')
+            ->assertSee('The production name public field must be true or false.')
+            ->assertSee('The project type id must be a number.')
+            ->assertSee('The description must be a string.')
+            ->assertSee('The description must be at least 3 characters.')
+            ->assertSee('The location must be a string.')
+            ->assertSee('The remotes must be an array.')
+            ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     /**
@@ -261,15 +261,15 @@ class ProjectFeatureTest extends TestCase
         factory(Project::class)->create();
 
         $this->actingAs($user, 'api')
-             ->put(
+            ->put(
                  route('producer.project.update', ['project' => 1]),
                  $data,
                  [
                      'Accept' => 'application/json',
                  ]
              )
-             ->assertSee('User does not have the right roles.')
-             ->assertStatus(Response::HTTP_FORBIDDEN);
+            ->assertSee('User does not have the right roles.')
+            ->assertStatus(Response::HTTP_FORBIDDEN);
     }
 
     /**
@@ -299,15 +299,15 @@ class ProjectFeatureTest extends TestCase
 
         $sites->each(function ($site) use ($project) {
             $project->remotes()
-                    ->create([
-                        'site_id' => $site
-                    ]);
+                ->create([
+                    'site_id' => $site,
+                ]);
         });
 
         $response = $this->actingAs($user, 'api')
-                         ->get(route('producer.projects.index'))
-                         ->assertSee('Succesfully fetched all projects.')
-                         ->assertStatus(Response::HTTP_OK);
+            ->get(route('producer.projects.index'))
+            ->assertSee('Succesfully fetched all projects.')
+            ->assertStatus(Response::HTTP_OK);
 
         $response->assertJsonFragment($project->toArray());
         $response->assertJsonFragment($project->jobs->toArray());
@@ -330,20 +330,20 @@ class ProjectFeatureTest extends TestCase
             'location'               => '',
             'remotes'                => [
                 SiteID::CREWCALLSAMERICA,
-                SiteID::CREWCALLSALASKA
-            ]
+                SiteID::CREWCALLSALASKA,
+            ],
         ];
 
         $response = $this->actingAs($user, 'api')
-                         ->post(
+            ->post(
                              route('producer.project.store'),
                              $data,
                              [
-                                 'Accept' => 'application/json'
+                                 'Accept' => 'application/json',
                              ]
                          )
-                         ->assertSee('Project successfully added.')
-                         ->assertStatus(Response::HTTP_CREATED);
+            ->assertSee('Project successfully added.')
+            ->assertStatus(Response::HTTP_CREATED);
 
         $this->assertDatabaseHas('remote_projects', ['site_id' => SiteID::CREWCALLSAMERICA]);
         $this->assertDatabaseHas('remote_projects', ['site_id' => SiteID::CREWCALLSALASKA]);
