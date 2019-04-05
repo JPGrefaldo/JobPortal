@@ -3,12 +3,11 @@
 namespace App\Nova;
 
 use App\Models\Role;
-use App\Nova\Filters\UserCrew;
+use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\ID;
-use Illuminate\Http\Request;
-use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Password;
+use Laravel\Nova\Fields\Text;
 
 class User extends Resource
 {
