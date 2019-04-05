@@ -16,10 +16,12 @@ class ProjectController extends Controller
      */
     public function index()
     {
+        $project = Project::where('status', 0)->get();
+
         return response()->json(
             [
                 'message'  => 'Succesfully fetched all projects.',
-                'projects' => Project::all(),
+                'projects' =>  $project,
             ],
             Response::HTTP_OK
         );
