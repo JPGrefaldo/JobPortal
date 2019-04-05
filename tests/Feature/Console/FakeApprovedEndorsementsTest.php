@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Models\CrewProject;
 use App\Models\Endorsement;
 use App\Models\EndorsementEndorser;
 use App\Models\Position;

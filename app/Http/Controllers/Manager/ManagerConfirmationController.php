@@ -38,9 +38,9 @@ class ManagerConfirmationController extends Controller
         $subordinate = Auth::user();
 
         if (Manager::where([
-                'manager_id'=> $manager->id,
-                'subordinate_id'=> $subordinate->id,
-            ])
+            'manager_id'=> $manager->id,
+            'subordinate_id'=> $subordinate->id,
+        ])
             ->where('status', 0)
             ->first()
         ) {
