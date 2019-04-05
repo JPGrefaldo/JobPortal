@@ -30,7 +30,7 @@ class UserPosition extends Filter
     public function options(Request $request)
     {
         return [
-            'Crew' => Role::CREW,
+            'Crew'      => Role::CREW,
             'Producers' => Role::PRODUCER,
         ];
     }

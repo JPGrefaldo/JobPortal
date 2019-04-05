@@ -66,8 +66,8 @@ class UpdateCrewTest extends TestCase
 
         // then
         $this->assertDatabaseHas('crews', [
-            'user_id' => $this->user->id,
-            'bio' => 'updated bio',
+            'user_id'    => $this->user->id,
+            'bio'        => 'updated bio',
             'photo_path' => null,
         ]);
 
@@ -92,40 +92,40 @@ class UpdateCrewTest extends TestCase
         // then
         $this->assertCount(6, $this->user->crew->socials);
         $this->assertDatabaseHas('crew_socials', [
-            'crew_id' => $this->user->crew->id,
+            'crew_id'             => $this->user->crew->id,
             'social_link_type_id' => SocialLinkTypeID::FACEBOOK,
-            'url' => 'https://www.facebook.com/new-castingcallsamerica/',
+            'url'                 => 'https://www.facebook.com/new-castingcallsamerica/',
         ]);
 
         $this->assertDatabaseHas('crew_socials', [
-            'crew_id' => $this->user->crew->id,
+            'crew_id'             => $this->user->crew->id,
             'social_link_type_id' => SocialLinkTypeID::TWITTER,
-            'url' => 'https://twitter.com/new-casting_america',
+            'url'                 => 'https://twitter.com/new-casting_america',
         ]);
 
 
         $this->assertDatabaseHas('crew_socials', [
-            'crew_id' => $this->user->crew->id,
+            'crew_id'             => $this->user->crew->id,
             'social_link_type_id' => SocialLinkTypeID::IMDB,
-            'url' => 'http://www.imdb.com/name/nm0000134/-updated',
+            'url'                 => 'http://www.imdb.com/name/nm0000134/-updated',
         ]);
 
         $this->assertDatabaseHas('crew_socials', [
-            'crew_id' => $this->user->crew->id,
+            'crew_id'             => $this->user->crew->id,
             'social_link_type_id' => SocialLinkTypeID::TUMBLR,
-            'url' => 'http://new-updated.tumblr.com',
+            'url'                 => 'http://new-updated.tumblr.com',
         ]);
 
         $this->assertDatabaseHas('crew_socials', [
-            'crew_id' => $this->user->crew->id,
+            'crew_id'             => $this->user->crew->id,
             'social_link_type_id' => SocialLinkTypeID::VIMEO,
-            'url' => 'https://vimeo.com/new-mackevision',
+            'url'                 => 'https://vimeo.com/new-mackevision',
         ]);
 
         $this->assertDatabaseHas('crew_socials', [
-            'crew_id' => $this->user->crew->id,
+            'crew_id'             => $this->user->crew->id,
             'social_link_type_id' => SocialLinkTypeID::INSTAGRAM,
-            'url' => 'https://www.instagram.com/new-castingamerica/',
+            'url'                 => 'https://www.instagram.com/new-castingamerica/',
         ]);
     }
 
@@ -146,16 +146,16 @@ class UpdateCrewTest extends TestCase
 
         // then
         $this->assertDatabaseHas('crew_reels', [
-            'crew_id' => $this->user->crew->id,
-            'path' => 'https://www.youtube.com/embed/2-_rLbU6zJo',
-            'general' => true,
+            'crew_id'          => $this->user->crew->id,
+            'path'             => 'https://www.youtube.com/embed/2-_rLbU6zJo',
+            'general'          => true,
             'crew_position_id' => null,
         ]);
 
         $this->assertDatabaseHas('crew_socials', [
-            'crew_id' => $this->user->crew->id,
+            'crew_id'             => $this->user->crew->id,
             'social_link_type_id' => SocialLinkTypeID::YOUTUBE,
-            'url' => 'https://www.youtube.com/embed/G8S81CEBdNs',
+            'url'                 => 'https://www.youtube.com/embed/G8S81CEBdNs',
         ]);
     }
 
@@ -175,9 +175,9 @@ class UpdateCrewTest extends TestCase
 
         // then
         $this->assertDatabaseHas('crew_socials', [
-            'crew_id' => $this->user->crew->id,
+            'crew_id'             => $this->user->crew->id,
             'social_link_type_id' => SocialLinkTypeID::VIMEO,
-            'url' => 'https://player.vimeo.com/video/230046783',
+            'url'                 => 'https://player.vimeo.com/video/230046783',
         ]);
     }
 
