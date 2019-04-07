@@ -27,6 +27,10 @@ class CreateOrGetEndorserByEmail
      */
     private function getEndorserUserByEmail($email)
     {
-        return User::whereEmail($email)->first();
+        try {
+            return app(GetEndorserUserID::class)->execute($email);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $exception) {
+            return null;
+        }
     }
 }

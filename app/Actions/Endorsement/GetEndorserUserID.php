@@ -8,9 +8,9 @@ class GetEndorserUserID
 {
     /**
      * @param $email
-     * @return \App\Models\User|null
+     * @return \App\Models\User
      */
-    public function execute($email)
+    public function execute($email): User
     {
         return User::whereEmail($email)->firstOrFail();
     }
