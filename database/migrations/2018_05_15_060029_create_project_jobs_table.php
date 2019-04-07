@@ -26,9 +26,9 @@ class CreateProjectJobsTable extends Migration
             $table->text('notes')
                 ->nullable();
             $table->boolean('rush_call')
-                  ->default(false);
+                ->default(false);
             $table->boolean('travel_expenses_paid')
-                  ->default(false);
+                ->default(false);
             $table->string('gear_provided')
                 ->nullable()
                 ->default(null);

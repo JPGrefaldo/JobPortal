@@ -86,7 +86,7 @@ class Project extends Model
         return $this->update(
             [
                 'approved_at' => Carbon::now(),
-                'status'      => 1
+                'status'      => 1,
             ]
         );
     }

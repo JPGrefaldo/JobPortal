@@ -10,9 +10,9 @@ use Illuminate\Http\UploadedFile;
 // TODO: restructure url, must include user hash id
 $factory->define(CrewResume::class, function (Faker $faker) {
     return [
-        'crew_id' => factory(Crew::class),
+        'crew_id'  => factory(Crew::class),
         'path'     => 'resumes/' . $faker->uuid . '/' . $faker->sha1 . '.pdf',
-        'general' => 1,
+        'general'  => 1,
     ];
 });
 

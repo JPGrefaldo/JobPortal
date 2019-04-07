@@ -22,7 +22,7 @@ Route::middleware('auth:api')->group(function () {
 
     Route::get('/crew/departments', [
         \App\Http\Controllers\API\Crew\DepartmentsController::class,
-        'index'
+        'index',
     ])->name('crew.departments.index');
 
     Route::get('/crew/projects', [
@@ -32,12 +32,12 @@ Route::middleware('auth:api')->group(function () {
 
     Route::get('/crew/positions', [
         \App\Http\Controllers\API\Crew\PositionsController::class,
-        'index'
+        'index',
     ])->name('crew.positions.index');
 
     Route::get('/crew/sites', [
         \App\Http\Controllers\API\Crew\SitesController::class,
-        'index'
+        'index',
     ])->name('crew.sites.index');
 
     Route::get('/producer/projects', [
@@ -47,37 +47,37 @@ Route::middleware('auth:api')->group(function () {
 
     Route::post('/producer/projects', [
         \App\Http\Controllers\API\Producer\ProjectsController::class,
-        'store'
+        'store',
     ])->middleware('role:Producer|Producer')->name('producer.project.store');
 
     Route::put('/producer/projects/{project}', [
         \App\Http\Controllers\API\Producer\ProjectsController::class,
-        'update'
+        'update',
     ])->name('producer.projects.update');
 
     Route::get('/producer/project/jobs', [
         \App\Http\Controllers\API\Producer\ProjectJobsController::class,
-        'index'
+        'index',
     ])->name('producer.project.jobs');
 
     Route::post('/producer/project/jobs', [
         \App\Http\Controllers\API\Producer\ProjectJobsController::class,
-        'store'
+        'store',
     ])->name('producer.project.jobs.store');
 
     Route::put('/producer/project/jobs/{projectJob}', [
         \App\Http\Controllers\API\Producer\ProjectJobsController::class,
-        'update'
+        'update',
     ])->name('producer.project.jobs.update');
 
     Route::delete('/producer/project/jobs/{projectJob}', [
         \App\Http\Controllers\API\Producer\ProjectJobsController::class,
-        'destroy'
+        'destroy',
     ])->middleware('role:Producer|Producer')->name('producer.project.jobs.destroy');
 
     Route::get('/producer/project/type', [
         \App\Http\Controllers\API\Producer\ProjectTypes::class,
-        'index'
+        'index',
     ])->name('producer.project.type');
 
     Route::get('/threads/{thread}/messages', [
