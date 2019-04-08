@@ -138,12 +138,54 @@
                 >
             </div>
             <div class="md:w-2/3">
-                <Calendar
-                    v-model="datepicker.value"
-                    :lang="datepicker.lang"
-                    :position="datepicker.position"
-                    :range="datepicker.range"
-                />
+                <label class="checkbox-control control-radio mb-2">
+                    Single/Range Date
+                    <input
+                            type="radio"
+                            v-model="calendarType"
+                            value="1"
+                            @click="defaultDateValue(1)"
+                    />
+                    <div class="control-indicator"></div>
+                </label>
+                <label class="checkbox-control control-radio mb-2">
+                    Multiple Dates
+                    <input
+                            type="radio"
+                            v-model="calendarType"
+                            value="2"
+                            @click="defaultDateValue(2)"
+                    />
+                    <div class="control-indicator"></div>
+                </label>
+                <div v-if="calendarType == '1'">
+                    <Calendar
+                            v-model="datepicker.value"
+                            :lang="datepicker.lang"
+                            :position="datepicker.position"
+                            :range="true"
+                    />
+                </div>
+                <div v-if="calendarType == '2'" class="flex mb-4 items-center">
+                    <span class="mt-4 mb-3">
+                        <Calendar
+                                v-model="datepicker.value"
+                                :lang="datepicker.lang"
+                                :position="datepicker.position"
+                        />
+                    </span>
+                    <button
+                            class="flex-no-shrink p-2 ml-4 mr-2 border-2 rounded bg-blue hover:bg-blue-dark text-white"
+                            @click="addDate"
+                    >
+                        Add
+                    </button>
+
+                    <span class="my-2 block"></span>
+                    <ol v-if="multipleShootingDates.length > 0">
+                        <li v-for="date in multipleShootingDates">{{ date }}</li>
+                    </ol>
+                </div>
             </div>
         </div>
         <div class="md:flex py-2">
@@ -219,6 +261,8 @@ export default {
 
     data() {
         return {
+            calendarType: '1',
+
             form: {
                 persons_needed: 1,
                 gear_provided: '',
@@ -230,12 +274,13 @@ export default {
                 travel_expenses_paid: 0,
                 rush_call: 0,
             },
+
             datepicker: {
                 lang: 'en',
-                range: true,
-                position: 'bottom',
-                value: [],
+                position: 'bottom'
             },
+
+            multipleShootingDates: [],
         };
     },
 
@@ -256,16 +301,55 @@ export default {
             self.form.pay_rate_type_id = self.job.pay_type_id;
         }
 
-        this.formatDatePicker(self.datepicker, self.job.dates_needed);
+        let dates = this.dbDateValue(self.job.dates_needed);
+
+        if (dates.length > 2) {
+            self.calendarType = '2';
+            self.multipleShootingDates = dates;
+        }else {
+            self.datepicker.value = dates;
+        }
     },
 
     methods: {
-        formatDatePicker(datepicker, dbvalue) {
-            if (typeof dbvalue != 'undefined') {
-                datepicker.value = JSON.parse(dbvalue);
-            } else {
-                datepicker.value = [new Date().toDateString(), new Date().toDateString()];
+        addDate() {
+            this.multipleShootingDates.push(this.singleDate(this.datepicker.value));
+        },
+
+        dbDateValue(dbDates) {
+            if (typeof dbDates != 'undefined') {
+                return JSON.parse(dbDates)
             }
+
+            return this.rangeDates();
+        },
+
+        defaultDateValue(type) {
+            this.resetDates();
+
+            if (type === 1) {
+                this.datepicker.value = this.dbDateValue(this.job.dates_needed);
+            }
+
+            if (type === 2) {
+                this.datepicker.value = new Date();
+            }
+        },
+
+        singleDate(date) {
+            return this.sqlDateFormat(date);
+        },
+
+        rangeDates() {
+            return [
+                this.sqlDateFormat(new Date()),
+                this.sqlDateFormat(new Date())
+            ];
+        },
+
+        resetDates() {
+            this.datepicker.value = [];
+            this.multipleShootingDates = [];
         },
 
         resetPayRateType() {
@@ -281,13 +365,24 @@ export default {
             }
         },
 
+        setDateNeededValue() {
+            if (this.multipleShootingDates.length > 0) {
+                return JSON.stringify(this.multipleShootingDates);
+            }
+            return JSON.stringify(this.datepicker.value);
+        },
+
         submit() {
             this.form.pay_type_id = this.form.pay_rate_type_id || this.form.pay_type_id;
-            this.form.dates_needed = JSON.stringify(this.datepicker.value);
+            this.form.dates_needed = this.setDateNeededValue();
 
             this.$store.commit('project/JOB', this.form);
             this.submitProjectJob();
         },
+
+        sqlDateFormat(date) {
+            return date.toISOString().slice(0, 10);
+        }
     },
 };
 </script>

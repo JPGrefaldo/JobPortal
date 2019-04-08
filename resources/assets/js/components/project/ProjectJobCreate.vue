@@ -7,7 +7,7 @@
                 >
             </div>
             <div class="md:w-2/3">
-                <select class="form-control w-full text-grey-dark" v-model="department">
+                <select class="form-control w-full" v-model="department">
                     <option disabled :selected="true">Please select one</option>
                     <option v-for="item in departments" :key="item.id" v-bind:value="item.id">{{
                         item.name
@@ -24,7 +24,7 @@
             </div>
             <div class="md:w-2/3">
                 <select
-                    class="form-control w-full text-grey-dark"
+                    class="form-control w-full"
                     name="position"
                     v-model="position"
                 >
