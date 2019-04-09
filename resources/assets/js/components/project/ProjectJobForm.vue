@@ -166,25 +166,28 @@
                             :range="true"
                     />
                 </div>
-                <div v-if="calendarType == '2'" class="flex mb-4 items-center">
-                    <span class="mt-4 mb-3">
-                        <Calendar
-                                v-model="datepicker.value"
-                                :lang="datepicker.lang"
-                                :position="datepicker.position"
-                        />
-                    </span>
-                    <button
-                            class="flex-no-shrink p-2 ml-4 mr-2 border-2 rounded bg-blue hover:bg-blue-dark text-white"
-                            @click="addDate"
-                    >
-                        Add
-                    </button>
+                <div v-if="calendarType == '2'">
+                    <div class="flex mb-4 items-center">
+                        <span class="mt-4 mb-3">
+                            <Calendar
+                                    v-model="datepicker.value"
+                                    :lang="datepicker.lang"
+                                    :position="datepicker.position"
+                            />
+                        </span>
+                        <button
+                                class="flex-no-shrink p-2 ml-4 mr-2 border-2 rounded bg-blue hover:bg-blue-dark text-white"
+                                @click="addDate"
+                        >
+                            Add
+                        </button>
+                    </div>
 
                     <span class="my-2 block"></span>
-                    <ol v-if="multipleShootingDates.length > 0">
-                        <li v-for="date in multipleShootingDates">{{ date }}</li>
-                    </ol>
+<!--                    <ol v-if="multipleShootingDates.length > 0">-->
+<!--                        <li v-for="date in multipleShootingDates">{{ date }}</li>-->
+<!--                    </ol>-->
+                    <tag-list v-model="multipleShootingDates"></tag-list>
                 </div>
             </div>
         </div>
@@ -246,8 +249,9 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import InputNumberType from '../_partials/InputNumberType';
 import Calendar from 'vue-datepicker-ui';
+import InputNumberType from '../_partials/InputNumberType';
+import Tags from '../_partials/Tags';
 
 export default {
     inject: ['$validator'],
@@ -256,6 +260,7 @@ export default {
 
     components: {
         'person-needed-input': InputNumberType,
+        'tag-list': Tags,
         Calendar,
     },
 
@@ -306,6 +311,7 @@ export default {
         if (dates.length > 2) {
             self.calendarType = '2';
             self.multipleShootingDates = dates;
+            self.datepicker.value = new Date();
         }else {
             self.datepicker.value = dates;
         }
