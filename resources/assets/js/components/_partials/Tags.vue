@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-for="tag, index in value" class="px-4 py-3 rounded relative" role="alert">
+        <div v-for="(tag, index) in value" v-bind:key="index" class="px-4 py-3 rounded relative" role="alert">
             <span class="block sm:inline">{{index+1}}. {{tag}}</span>
 
             <span class="absolute pin-t pin-b pin-r px-4 py-3">

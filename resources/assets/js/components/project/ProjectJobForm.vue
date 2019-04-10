@@ -393,8 +393,9 @@ export default {
 };
 </script>
 
-<style scoped>
-.v-calendar .calendar .days .day {
-    padding: 2px !important;
+<style>
+.v-calendar .calendar .days .day{
+    padding: 0 !important;
+    margin-top: 0 !important;
 }
 </style>
