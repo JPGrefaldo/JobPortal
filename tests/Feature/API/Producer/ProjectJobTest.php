@@ -11,6 +11,7 @@ use Tests\Support\Data\PayTypeID;
 use Tests\Support\Data\PositionID;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
+use function GuzzleHttp\json_encode;
 
 class ProjectJobTest extends TestCase
 {
@@ -175,6 +176,55 @@ class ProjectJobTest extends TestCase
              )
             ->assertSee('Sucessfully added the project\'s job')
             ->assertStatus(Response::HTTP_CREATED);
+    }
+
+    /**
+     * @test
+     * @covers \App\Http\Controllers\API\Producer\ProjectJobsController::store
+     */
+    public function can_create_a_job_with_multiple_dates()
+    {
+        $this->withExceptionHandling();
+
+        $user    = $this->createProducer();
+        $project = $this->createProject($user);
+
+        $dates = [
+            '2019-01-01',
+            '2019-01-02',
+            '2019-01-03',
+            '2019-01-04',
+            '2019-01-05'
+        ];
+        
+        $data    = [
+            'persons_needed'       => '2',
+            'gear_provided'        => 'Some Gear Provided',
+            'gear_needed'          => 'Some Gear Needed',
+            'pay_rate'             => '16',
+            'pay_type_id'          => PayTypeID::PER_HOUR,
+            'dates_needed'         => $this->frontendJSONString($dates),
+            'notes'                => 'Some Note',
+            'travel_expenses_paid' => '1',
+            'rush_call'            => '1',
+            'position_id'          => PositionID::CAMERA_OPERATOR,
+            'project_id'           => $project->id,
+        ];
+
+        $response = $this->actingAs($user, 'api')
+            ->post(
+                             route('producer.project.jobs.store'),
+                             $data,
+                             [
+                                 'Accept' => 'application/json',
+                             ]
+                         )
+            ->assertSee('Sucessfully added the project\'s job.')
+            ->assertStatus(Response::HTTP_CREATED);
+
+        $response->assertJsonFragment([
+            'dates_needed' => $this->frontendJSONString($dates)
+        ]);
     }
 
     /**
@@ -433,5 +483,9 @@ class ProjectJobTest extends TestCase
         $attributes['site_id'] = $this->getCurrentSite()->id;
 
         return factory(Project::class)->create($attributes);
+    }
+
+    private function frontendJSONString($data){
+        return json_encode($data);
     }
 }
