@@ -217,19 +217,30 @@ export default {
             project: 'project/project',
             projectTypes: 'project/types',
             sites: 'crew/sites',
+            user: 'auth/user',
         }),
 
         remotes: function() {
             let result = [];
 
             this.sites.forEach(site => {
+                if (this.project.remotes.length === 0) {
+                    this.user.sites.forEach(userSite => {
+                        if (site.id === userSite.id) {
+                            site.checked = true;
+                        }
+                    });
+                }
+
                 this.project.remotes.forEach(remote => {
                     if (site.id === remote.site_id) {
                         site.checked = true;
                     }
                 });
+
                 result.push(site);
             });
+
             return result;
         },
     },
