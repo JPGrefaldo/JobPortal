@@ -15,10 +15,12 @@ class UserController extends Controller
      */
     public function show(Request $request)
     {
-        $user = $request->user();
+        $user = auth()->user();
 
-        return response()->json($user->load([
-            'roles',
-        ]));
+        return response()->json([
+            'user' => $user->load([
+                'roles', 'sites',
+            ])
+        ]);
     }
 }

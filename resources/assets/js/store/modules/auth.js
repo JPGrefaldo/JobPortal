@@ -14,7 +14,7 @@ export const getters = {
 // mutations
 export const mutations = {
     [types.AUTH_FETCH_USER_SUCCESS](state, payload) {
-        state.user = payload.user;
+        state.user = payload;
         localStorage.setItem('user', JSON.stringify(state.user));
     },
 
@@ -30,10 +30,8 @@ export const actions = {
         return new Promise((resolve, reject) => {
             axios
                 .get('/api/user')
-                .then(({ data }) => {
-                    commit(types.AUTH_FETCH_USER_SUCCESS, {
-                        user: data,
-                    });
+                .then(response => {
+                    commit(types.AUTH_FETCH_USER_SUCCESS, response.data.user);
                     resolve(true);
                 })
                 .catch(e => {
