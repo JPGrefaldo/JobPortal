@@ -13,7 +13,7 @@ use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 use function GuzzleHttp\json_encode;
 
-class ProjectJobTest extends TestCase
+class ProjectJobFeatureTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
 
@@ -184,8 +184,6 @@ class ProjectJobTest extends TestCase
      */
     public function can_create_a_job_with_multiple_dates()
     {
-        $this->withExceptionHandling();
-
         $user    = $this->createProducer();
         $project = $this->createProject($user);
 
@@ -203,7 +201,7 @@ class ProjectJobTest extends TestCase
             'gear_needed'          => 'Some Gear Needed',
             'pay_rate'             => '16',
             'pay_type_id'          => PayTypeID::PER_HOUR,
-            'dates_needed'         => $this->frontendJSONString($dates),
+            'dates_needed'         => $this->frontendJsonString($dates),
             'notes'                => 'Some Note',
             'travel_expenses_paid' => '1',
             'rush_call'            => '1',
@@ -223,7 +221,7 @@ class ProjectJobTest extends TestCase
             ->assertStatus(Response::HTTP_CREATED);
 
         $response->assertJsonFragment([
-            'dates_needed' => $this->frontendJSONString($dates)
+            'dates_needed' => $this->frontendJsonString($dates)
         ]);
     }
 
@@ -485,7 +483,7 @@ class ProjectJobTest extends TestCase
         return factory(Project::class)->create($attributes);
     }
 
-    private function frontendJSONString($data){
+    private function frontendJsonString($data){
         return json_encode($data);
     }
 }
