@@ -5,8 +5,10 @@ namespace App\Providers;
 use App\Listeners\SendUserConfirmationEmail;
 use App\Models\Manager;
 use App\Models\Project;
+use App\Models\ProjectJob;
 use App\Observers\ManagerObserver;
 use App\Observers\ProjectObserver;
+use App\Observers\ProjectJobObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -34,5 +36,6 @@ class EventServiceProvider extends ServiceProvider
 
         Manager::observe(ManagerObserver::class);
         Project::observe(ProjectObserver::class);
+        ProjectJob::observe(ProjectJobObserver::class);
     }
 }
