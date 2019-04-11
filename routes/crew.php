@@ -22,6 +22,11 @@ Route::prefix('crew')->group(function () {
                 ->name('crew.endorsement.request.destroy');
         });
     });
+
+    Route::prefix('projects')->group(function() {
+        Route::get('/vacancy/{projectJob}', [\App\Http\Controllers\Crew\CrewPositionController::class, 'vacancy'])
+            ->name('crew.project.vacancy');
+    });
 });
 
 // TODO: defer to common route for both crew and admin
