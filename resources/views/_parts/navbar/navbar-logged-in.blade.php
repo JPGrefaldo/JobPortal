@@ -8,7 +8,7 @@
     <ul class="list-reset hidden md:flex items-center">
         <li class="border-b-2 border-red border-solid">
             <a class="block py-6 px-4 tracking-wide block font-bold leading-none uppercase text-sm text-blue-dark hover:text-green"
-               href="/my-projects/{{ Auth::user()->id }}">my projects</a>
+               href="/producer/projects">my projects</a>
         </li>
         <li>
             <a class="block py-6 px-4 tracking-wide font-bold leading-none uppercase text-sm text-blue-dark hover:text-green"
