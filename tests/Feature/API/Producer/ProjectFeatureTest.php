@@ -106,8 +106,6 @@ class ProjectFeatureTest extends TestCase
     */
     public function can_edit_a_project()
     {
-        // $this->withExceptionHandling();
-
         $user    = $this->createProducer();
         $project = $this->createProject($user);
 
@@ -126,15 +124,15 @@ class ProjectFeatureTest extends TestCase
 
         $response = $this->actingAs($user, 'api')
             ->put(
-                             route(
-                                 'producer.projects.update',
-                                 ['project' => $project->id]
-                            ),
-                             $data,
-                             [
-                                 'Accept' => 'application/json',
-                             ]
-                         )
+                route(
+                    'producer.projects.update',
+                    ['project' => $project->id]
+                ),
+                $data,
+                [
+                    'Accept' => 'application/json',
+                ]
+            )
             ->assertSee('Project successfully updated.')
             ->assertStatus(Response::HTTP_OK);
 
@@ -336,12 +334,12 @@ class ProjectFeatureTest extends TestCase
 
         $response = $this->actingAs($user, 'api')
             ->post(
-                             route('producer.project.store'),
-                             $data,
-                             [
-                                 'Accept' => 'application/json',
-                             ]
-                         )
+                route('producer.project.store'),
+                $data,
+                [
+                    'Accept' => 'application/json',
+                ]
+            )
             ->assertSee('Project successfully added.')
             ->assertStatus(Response::HTTP_CREATED);
 
@@ -360,7 +358,6 @@ class ProjectFeatureTest extends TestCase
             ]
         );
     }
-
 
     /**
      * @param \App\Models\User $user

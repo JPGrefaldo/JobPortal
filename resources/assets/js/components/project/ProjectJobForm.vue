@@ -184,9 +184,6 @@
                     </div>
 
                     <span class="my-2 block"></span>
-<!--                    <ol v-if="multipleShootingDates.length > 0">-->
-<!--                        <li v-for="date in multipleShootingDates">{{ date }}</li>-->
-<!--                    </ol>-->
                     <tag-list v-model="multipleShootingDates"></tag-list>
                 </div>
             </div>
@@ -242,7 +239,7 @@
         </div>
 
         <div class="flex justify-center mt-4">
-            <button class="flex-grow btn-green" @click.stop="submit">Add Position</button>
+            <button class="flex-grow btn-green" @click.stop="submit">{{ submitButtonTitle }}</button>
         </div>
     </div>
 </template>
@@ -286,6 +283,8 @@ export default {
             },
 
             multipleShootingDates: [],
+
+            submitButtonTitle: 'Add Position'
         };
     },
 
@@ -300,6 +299,7 @@ export default {
 
         if (self.mode === 'edit') {
             self.form = self.job;
+            self.submitButtonTitle = 'Save Changes'
         }
 
         if (self.job.pay_type_id < 4) {

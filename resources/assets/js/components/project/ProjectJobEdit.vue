@@ -80,8 +80,10 @@ export default {
         deleteProjectJob(job) {
             this.displayDeleteNotification().then(result => {
                 if (result.value) {
-                    this.$store.dispatch('project/deleteProjectJob', job).then(response => {
-                        if (response.data === 204) {
+                    this.$store
+                        .dispatch('project/deleteProjectJob', job)
+                        .then(response => {
+                        if (response.status === 204) {
                             location.reload();
                         }
                     });

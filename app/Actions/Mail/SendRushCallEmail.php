@@ -15,9 +15,8 @@ class SendRushCallEmail
         if ($projectJob->rush_call) {
             $crews = Crew::whereExists(
                             function($query) use($projectJob) {
-                                $query->select(\DB::raw(1))
-                                    ->from('crew_position')
-                                    ->where('position_id', '=', $projectJob->position_id);
+                                $query->from('crew_position')
+                                    ->where('position_id', $projectJob->position_id);
                             }
                         )->get();
 
