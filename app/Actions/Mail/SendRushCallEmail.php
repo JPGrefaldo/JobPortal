@@ -13,13 +13,19 @@ class SendRushCallEmail
     public function execute(ProjectJob $projectJob)
     {
         if ($projectJob->rush_call) {
-            $crews = Crew::all();
+            $crews = Crew::whereExists(
+                            function($query) use($projectJob) {
+                                $query->select(\DB::raw(1))
+                                    ->from('crew_position')
+                                    ->where('position_id', '=', $projectJob->position_id);
+                            }
+                        )->get();
 
             $crews->map(function($crew) use($projectJob) {
                 \Mail::to($crew->user->email)->send(
                     new RushCallEmail($crew->user, (object) $this->format($projectJob))
                 );
-            });
+            });   
         }
     }
 
@@ -38,13 +44,17 @@ class SendRushCallEmail
 
     private function datesNeededFormat($date)
     {
+        if (is_string($date)) {
+            return $this->formatDate($date);
+        }
+
         $date = json_decode($date);
 
         if (count($date) === 2 && $date[0] === $date[1]) {
             return  $this->formatDate($date[0]);
         }
 
-        if(count($date) === 2 && $date[0] !== $date[1]) {
+        if (count($date) === 2 && $date[0] !== $date[1]) {
             return $this->formatDate($date[0]).' to '.$this->formatDate($date[1]); 
         }
 
@@ -64,7 +74,6 @@ class SendRushCallEmail
 
     private function formatDate($date)
     {
-        return Carbon::parse($date)
-                    ->toFormattedDateString();
+        return Carbon::parse($date)->toFormattedDateString();
     }
 }
