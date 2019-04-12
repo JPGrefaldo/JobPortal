@@ -36,9 +36,8 @@
                         </div>
                         <div class="md:w-2/3">
                             <label for="resume" class="btn-outline text-green inline-block"
-                                >Upload file</label
-                            >
-                            <input type="file" name="resume" class="invisible" />
+                                >Upload file</label>
+                            <input type="file" name="resume" class="hidden" />
                         </div>
                     </div>
                 </div>
@@ -58,7 +57,7 @@
                             <label for="resume" class="btn-outline text-green inline-block"
                                 >Upload file</label
                             >
-                            <input type="file" name="resume" class="invisible" />
+                            <input type="file" name="resume" class="hidden" />
                         </div>
                     </div>
                 </div>
@@ -72,12 +71,18 @@
                                 <label class="label toggle">
                                     <input
                                         type="checkbox"
-                                        class="toggle_input"
+                                        class="hidden"
                                         v-model="has_gear"
                                     />
-                                    <div class="toggle-control"></div>
+                                    <span
+                                            class="border rounded-full border-grey flex items-center cursor-pointer my-4 w-12"
+                                            v-bind:class="[has_gear ? 'switch-on' : 'switch-off']"
+                                    >
+                                    <span class="rounded-full border w-6 h-6 border-grey shadow-inner bg-white shadow"></span>
+                                    </span>
                                 </label>
                             </div>
+
                         </div>
                     </div>
                     <div class="md:flex" v-if="has_gear">
