@@ -4,7 +4,7 @@
 Add new experience to your resume. Apply now!
 <hr>
 @component('mail::panel')
-## [{{ $projectJob->position_name }}]({{ route('crew.project.vacancy', $projectJob->id) }})
+## [{{ $projectJob->position_name }}]({{ route('crew.project.job', $projectJob->id) }})
 @if (isset($projectJob->pay_rate) && $projectJob->pay_rate != 0)
 Salary: $ {{ $projectJob->pay_rate }}.00 / {{ $projectJob->pay_type }}
 @else
@@ -22,7 +22,7 @@ Dates Needed:
 {{ $projectJob->dates_needed }}
 @endif 
 @endcomponent
-@component('mail::button', ['url' => route('admin.projects')])
+@component('mail::button', ['url' => route('crew.project.job', $projectJob->id)])
 Apply
 @endcomponent
 
