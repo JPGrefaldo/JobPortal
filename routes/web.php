@@ -14,7 +14,8 @@
 | * Multiple, Route::middleware(AuthorizeRoles::parameterize(Role::CREW, Role::PRODUCER))
 */
 
-Route::get('/', [\App\Http\Controllers\IndexController::class, 'index']);
+Route::get('/', [\App\Http\Controllers\IndexController::class, 'index'])
+    ->name('home');
 
 Route::get('login', [\App\Http\Controllers\Auth\LoginController::class, 'showLoginForm'])
     ->name('login');

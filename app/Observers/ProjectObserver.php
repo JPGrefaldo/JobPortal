@@ -2,7 +2,7 @@
 
 namespace App\Observers;
 
-use App\Mail\ProjectApproveRequestEmail;
+use App\Mail\ProjectApprovalRequestEmail;
 use App\Models\Project;
 use App\Models\Role;
 use App\Models\User;
@@ -72,7 +72,7 @@ class ProjectObserver
 
         if ($admin instanceof User) {
             \Mail::to($admin->email)->send(
-                new ProjectApproveRequestEmail($admin, $message, $project)
+                new ProjectApprovalRequestEmail($admin, $message, $project)
             );
         }
     }

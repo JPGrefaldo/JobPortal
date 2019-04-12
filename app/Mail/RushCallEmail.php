@@ -5,27 +5,25 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class ProjectApproveRequestEmail extends Mailable
+class RushCallEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $admin;
+    public $crew;
 
-    public $message;
-
-    public $project;
+    public $projectJob;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($admin, $message, $project)
+    public function __construct($crew, $projectJob)
     {
-        $this->admin   = $admin;
-        $this->message = $message;
-        $this->project = $project;
+        $this->crew         = $crew;
+        $this->projectJob   = $projectJob;
     }
 
     /**
@@ -35,6 +33,6 @@ class ProjectApproveRequestEmail extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.project-approve');
+        return $this->markdown('emails.rush-call');
     }
 }

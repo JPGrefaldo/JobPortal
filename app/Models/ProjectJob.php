@@ -40,8 +40,19 @@ class ProjectJob extends Model
         return $this->belongsTo(Project::class, 'project_id', 'id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function position()
     {
         return $this->belongsTo(Position::class, 'position_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function pay_type()
+    {
+        return $this->belongsTo(PayType::class);
     }
 }
