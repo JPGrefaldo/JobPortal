@@ -16,7 +16,7 @@ class ProjectJobObserverTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Observers\ProjectObserver::created
+     * @covers \App\Observers\ProjectJobObserver::created
      */
     public function should_send_email_to_the_crew_with_the_same_position_needed_for_the_job()
     {
@@ -44,7 +44,7 @@ class ProjectJobObserverTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Observers\ProjectObserver::created
+     * @covers \App\Observers\ProjectJobObserver::created
      */
     public function should_not_send_email_to_the_crew_not_the_same_position_needed_for_the_job()
     {
@@ -72,7 +72,7 @@ class ProjectJobObserverTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Observers\ProjectObserver::created
+     * @covers \App\Observers\ProjectJobObserver::created
      */
     public function should_send_email_when_job_is_rush_call()
     {
@@ -100,7 +100,7 @@ class ProjectJobObserverTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Observers\ProjectObserver::created
+     * @covers \App\Observers\ProjectJobObserver::created
      */
     public function should_not_send_email_when_job_is_not_rush_call()
     {
@@ -129,19 +129,19 @@ class ProjectJobObserverTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Observers\ProjectObserver::created
+     * @covers \App\Observers\ProjectJobObserver::created
      */
-    public function only_crew_can_recieve_an_email()
+    public function should_not_send_email_to_non_crew()
     {
         Mail::fake();
 
-        $admin     = $this->createAdmin();
+        $admin    = $this->createAdmin();
         $producer = $this->createProducer();
         $user     = $this->createUser();
 
         factory(ProjectJob::class)->create([
             'project_id' => 1,
-            'rush_call' => 1
+            'rush_call'  => 1
         ]);
 
         Mail::assertNothingSent(
@@ -152,14 +152,14 @@ class ProjectJobObserverTest extends TestCase
         );
 
         Mail::assertNothingSent(
-            ProjectApproveRequestEmail::class,
+            RushCallEmail::class,
             function ($mail) use ($producer) {
                 return $mail->hasTo($producer->email);
             }
         );
 
         Mail::assertNothingSent(
-            ProjectApproveRequestEmail::class,
+            RushCallEmail::class,
             function ($mail) use ($user) {
                 return $mail->hasTo($user->email);
             }

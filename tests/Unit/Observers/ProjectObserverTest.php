@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Observers;
 
-use App\Mail\ProjectApproveRequestEmail;
+use App\Mail\ProjectApprovalRequestEmail;
 use App\Models\Project;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Mail;
@@ -17,21 +17,18 @@ class ProjectObserverTest extends TestCase
      * @test
      * @covers \App\Observers\ProjectObserver::created
      */
-    public function created()
+    public function should_send_email_to_the_admin()
     {
-        // given
         Mail::fake();
         $admin    = $this->createAdmin();
         $producer = $this->createProducer();
 
-        // when
         factory(Project::class)->create([
             'user_id' => $producer->id,
         ]);
 
-        // then
         Mail::assertSent(
-            ProjectApproveRequestEmail::class,
+            ProjectApprovalRequestEmail::class,
             function ($mail) use ($admin) {
                 return $mail->hasTo($admin->email);
             }
@@ -42,7 +39,7 @@ class ProjectObserverTest extends TestCase
      * @test
      * @covers \App\Observers\ProjectObserver::created
      */
-    public function only_admin_user_can_recieve_an_email()
+    public function should_not_send_email_to_non_admin()
     {
         Mail::fake();
 
@@ -55,21 +52,21 @@ class ProjectObserverTest extends TestCase
         ]);
 
         Mail::assertNothingSent(
-            ProjectApproveRequestEmail::class,
+            ProjectApprovalRequestEmail::class,
             function ($mail) use ($crew) {
                 return $mail->hasTo($crew->email);
             }
         );
 
         Mail::assertNothingSent(
-            ProjectApproveRequestEmail::class,
+            ProjectApprovalRequestEmail::class,
             function ($mail) use ($producer) {
                 return $mail->hasTo($producer->email);
             }
         );
 
         Mail::assertNothingSent(
-            ProjectApproveRequestEmail::class,
+            ProjectApprovalRequestEmail::class,
             function ($mail) use ($user) {
                 return $mail->hasTo($user->email);
             }
