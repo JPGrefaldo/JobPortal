@@ -75,12 +75,12 @@ class ProjectFeatureTest extends TestCase
 
         $response = $this->actingAs($user, 'api')
             ->post(
-                             route('producer.project.store'),
-                             $data,
-                             [
+                route('producer.project.store'),
+                $data,
+                [
                                  'Accept' => 'application/json',
                              ]
-                         )
+            )
             ->assertSee('Project successfully added.')
             ->assertStatus(Response::HTTP_CREATED);
 
@@ -164,12 +164,12 @@ class ProjectFeatureTest extends TestCase
 
         $this->actingAs($user, 'api')
             ->post(
-                 route('producer.projects.store'),
-                 $data,
-                 [
+                route('producer.projects.store'),
+                $data,
+                [
                      'Accept' => 'application/json',
                  ]
-             )
+            )
             ->assertSee('User does not have the right roles.')
             ->assertStatus(Response::HTTP_FORBIDDEN);
     }
@@ -192,12 +192,12 @@ class ProjectFeatureTest extends TestCase
 
         $this->actingAs($user, 'api')
             ->post(
-                 route('producer.project.store'),
-                 $data,
-                 [
+                route('producer.project.store'),
+                $data,
+                [
                      'Accept' => 'application/json',
                  ]
-             )
+            )
             ->assertSee('The given data was invalid.')
             ->assertSee('The title field is required.')
             ->assertSee('The production name field is required.')
@@ -227,12 +227,12 @@ class ProjectFeatureTest extends TestCase
 
         $this->actingAs($user, 'api')
             ->post(
-                 route('producer.project.store'),
-                 $data,
-                 [
+                route('producer.project.store'),
+                $data,
+                [
                      'Accept' => 'application/json',
                  ]
-             )
+            )
             ->assertSee('The given data was invalid.')
             ->assertSee('The title must be a string.')
             ->assertSee('The title must be at least 3 characters.')
@@ -260,12 +260,12 @@ class ProjectFeatureTest extends TestCase
 
         $this->actingAs($user, 'api')
             ->put(
-                 route('producer.project.update', ['project' => 1]),
-                 $data,
-                 [
+                route('producer.project.update', ['project' => 1]),
+                $data,
+                [
                      'Accept' => 'application/json',
                  ]
-             )
+            )
             ->assertSee('User does not have the right roles.')
             ->assertStatus(Response::HTTP_FORBIDDEN);
     }

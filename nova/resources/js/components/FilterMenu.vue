@@ -5,9 +5,7 @@
         class-whitelist="flatpickr-calendar"
     >
         <dropdown-trigger
-            slot-scope="{
-                toggle,
-            }"
+            slot-scope="{ toggle }"
             :handle-click="toggle"
             class="bg-30 px-3 border-2 border-30 rounded"
             :class="{ 'bg-primary border-primary': filtersAreApplied }"
@@ -38,6 +36,7 @@
                     :key="filter.name"
                     :filter-key="filter.class"
                     :is="filter.component"
+                    :lens="lens"
                     @input="$emit('filter-changed')"
                     @change="$emit('filter-changed')"
                 />
@@ -92,6 +91,10 @@
 export default {
     props: {
         resourceName: String,
+        lens: {
+            type: String,
+            default: '',
+        },
         softDeletes: Boolean,
         viaResource: String,
         viaHasOne: Boolean,

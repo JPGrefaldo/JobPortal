@@ -16,7 +16,7 @@ class DepartmentsServicesTest extends TestCase
      */
     protected $service;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

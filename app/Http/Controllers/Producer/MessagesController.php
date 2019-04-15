@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Producer;
 
+use Illuminate\Support\Str;
 use App\Actions\Admin\MessageCrew;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Producer\Message\UpdateRequest;
@@ -16,7 +17,7 @@ class MessagesController extends Controller
     {
         app(MessageCrew::class)->execute($request, $project, auth()->user());
 
-        return str_plural('Message', count($request['recipients'])) . ' sent.';
+        return Str::plural('Message', count($request['recipients'])) . ' sent.';
     }
 
     public function update(UpdateRequest $request, Project $project, Message $message)

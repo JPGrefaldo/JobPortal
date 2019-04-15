@@ -46,6 +46,13 @@ class File extends Field implements DeletableContract
     public $downloadResponseCallback;
 
     /**
+     * Determin if the file is able to be downloaded.
+     *
+     * @var bool
+     */
+    public $downloadsAreEnabled = true;
+
+    /**
      * The name of the disk the file uses by default.
      *
      * @var string
@@ -384,7 +391,13 @@ class File extends Field implements DeletableContract
 
         if ($this->isPrunable()) {
             return function () use ($model, $request) {
-                call_user_func($this->deleteCallback, $request, $model);
+                call_user_func(
+                    $this->deleteCallback,
+                    $request,
+                    $model,
+                    $this->getStorageDisk(),
+                    $this->getStoragePath()
+                );
             };
         }
     }
@@ -404,17 +417,49 @@ class File extends Field implements DeletableContract
     }
 
     /**
-     * Get additional meta information to merge with the element payload.
+     * Disable downloading the file.
+     *
+     * @param bool $disabled
+     */
+    public function disableDownload()
+    {
+        $this->downloadsAreEnabled = false;
+
+        return $this;
+    }
+
+    /**
+     * Get the disk that the field is stored on.
+     *
+     * @return string|null
+     */
+    public function getStorageDisk()
+    {
+        return $this->disk;
+    }
+
+    /**
+     * Get the path that the field is stored at on disk.
+     *
+     * @return string|null
+     */
+    public function getStoragePath()
+    {
+        return $this->value;
+    }
+
+    /**
+     * Prepare the field for JSON serialization.
      *
      * @return array
      */
-    public function meta()
+    public function jsonSerialize()
     {
-        return array_merge([
+        return array_merge(parent::jsonSerialize(), [
             'thumbnailUrl' => $this->resolveThumbnailUrl(),
             'previewUrl' => $this->resolvePreviewUrl(),
-            'downloadable' => isset($this->downloadResponseCallback) && ! empty($this->value),
+            'downloadable' => $this->downloadsAreEnabled && isset($this->downloadResponseCallback) && ! empty($this->value),
             'deletable' => isset($this->deleteCallback) && $this->deletable,
-        ], $this->meta);
+        ]);
     }
 }

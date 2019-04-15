@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Str;
 use App\Faker\PhoneProvider;
 use App\Models\User;
 use App\Utils\StrUtils;
@@ -17,7 +18,7 @@ $factory->define(User::class, function (Faker $faker) {
         'nickname'       => $faker->unique()->firstName. ' ' .$faker->unique()->lastName,
         'phone'          => StrUtils::stripNonNumeric($faker->unformattedPhoneNumber()),
         'password'       => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm',
-        'remember_token' => str_random(10),
+        'remember_token' => Str::random(10),
         'status'         => 1,
         'confirmed'      => 1,
     ];

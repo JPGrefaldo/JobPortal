@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Actions\Crew;
 
+use Illuminate\Support\Arr;
 use App\Actions\Crew\EditCrew;
 use App\Actions\Crew\StoreCrew;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -138,7 +139,7 @@ class EditCrewTest extends TestCase
     protected function customizeData($data, $customData)
     {
         foreach ($customData as $key => $value) {
-            array_set($data, $key, $value);
+            Arr::set($data, $key, $value);
         }
 
         return $data;

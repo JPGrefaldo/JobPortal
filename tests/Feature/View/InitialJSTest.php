@@ -17,7 +17,7 @@ class InitialJSTest extends TestCase
      */
     public $service;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

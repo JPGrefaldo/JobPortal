@@ -8,7 +8,7 @@ use Laravel\Nova\Tests\IntegrationTest;
 
 class AssetServeTest extends IntegrationTest
 {
-    public function setUp()
+    public function setUp() : void
     {
         parent::setUp();
 
@@ -24,7 +24,7 @@ class AssetServeTest extends IntegrationTest
 
         $response->assertStatus(200);
         $response->assertHeader('Content-Type', 'application/javascript');
-        $response->assertSee('var x = 1;');
+        $response->assertSee('var x = 1');
     }
 
     public function test_can_serve_styles()

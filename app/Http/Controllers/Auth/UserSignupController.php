@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Support\Arr;
 use App\Actions\Auth\AddUserToSite;
 use App\Actions\Auth\CreateUserEmailVerificationCode;
 use App\Actions\Auth\StubUserNotifications;
@@ -36,7 +37,7 @@ class UserSignupController extends Controller
     {
         $data = $request->validated();
 
-        $user = app(CreateUser::class)->execute(array_only($data, [
+        $user = app(CreateUser::class)->execute(Arr::only($data, [
             'first_name',
             'last_name',
             'nickname',

@@ -290,14 +290,11 @@ export default {
             this.actions = []
 
             return Nova.request()
-                .get(
-                    '/nova-api/' + this.resourceName + '/actions',
-                    {
-                        params: {
-                            resourceId: this.resourceId
-                        }
-                    }
-                )
+                .get('/nova-api/' + this.resourceName + '/actions', {
+                    params: {
+                        resourceId: this.resourceId,
+                    },
+                })
                 .then(response => {
                     this.actions = _.filter(response.data.actions, action => {
                         return !action.onlyOnIndex
@@ -502,6 +499,15 @@ export default {
          */
         cardsEndpoint() {
             return `/nova-api/${this.resourceName}/cards`
+        },
+
+        /**
+         * Get the extra card params to pass to the endpoint.
+         */
+        extraCardParams() {
+            return {
+                resourceId: this.resourceId,
+            }
         },
     },
 }

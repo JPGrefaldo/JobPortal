@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Actions\Crew;
 
+use Illuminate\Support\Arr;
 use App\Actions\Crew\StoreCrew;
 use App\Actions\Crew\UpdateCrew;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -15,7 +16,7 @@ class UpdateCrewTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setup();
 
@@ -241,7 +242,7 @@ class UpdateCrewTest extends TestCase
     protected function customizeData($data, $customData)
     {
         foreach ($customData as $key => $value) {
-            array_set($data, $key, $value);
+            Arr::set($data, $key, $value);
         }
 
         return $data;

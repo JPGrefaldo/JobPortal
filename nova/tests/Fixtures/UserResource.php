@@ -13,7 +13,6 @@ use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\ResourceToolElement;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Laravel\Nova\Tests\Fixtures\CreateDateFilter;
 
 class UserResource extends Resource
 {
@@ -126,7 +125,12 @@ class UserResource extends Resource
                 return Text::make('Test', 'test');
             }),
 
+            $this->when($_SESSION['nova.user.cover'] ?? false, function () {
+                return GitHubAvatar::make('Avatar', 'email');
+            }),
+
             new ResourceToolElement('component-name'),
+            new MyResourceTool(),
         ];
     }
 
@@ -140,6 +144,7 @@ class UserResource extends Resource
     {
         return [
             new UserLens,
+            new GroupingUserLens,
             new PaginatingUserLens,
         ];
     }
@@ -153,6 +158,8 @@ class UserResource extends Resource
     public function actions(Request $request)
     {
         return [
+            new OpensInNewTabAction,
+            new RedirectAction,
             new DestructiveAction,
             new EmptyAction,
             new ExceptionAction,
@@ -171,6 +178,8 @@ class UserResource extends Resource
                 return false;
             }),
             new UpdateStatusAction,
+            new NoopActionWithoutActionable,
+            new HandleResultAction,
         ];
     }
 

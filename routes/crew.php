@@ -23,7 +23,7 @@ Route::prefix('crew')->group(function () {
         });
     });
 
-    Route::prefix('projects')->group(function() {
+    Route::prefix('projects')->group(function () {
         Route::get('/job/{projectJob}', [\App\Http\Controllers\Crew\ProjectJobsController::class, 'show'])
             ->name('crew.project.job');
     });

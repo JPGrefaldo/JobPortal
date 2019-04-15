@@ -2,6 +2,7 @@
 
 namespace App\Actions\User;
 
+use Illuminate\Support\Arr;
 use App\Models\User;
 
 class UpdateUserNotificationSettings
@@ -18,6 +19,6 @@ class UpdateUserNotificationSettings
      */
     public function execute(User $user, array $data): void
     {
-        $user->notificationSettings->update(array_only($data, $this::FIELDS));
+        $user->notificationSettings->update(Arr::only($data, $this::FIELDS));
     }
 }

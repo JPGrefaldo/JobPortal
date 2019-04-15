@@ -14,7 +14,7 @@ class CrewResumeTest extends TestCase
     protected $crew;
     protected $crewResume;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

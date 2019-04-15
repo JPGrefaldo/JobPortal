@@ -65,7 +65,7 @@ class ProjectObserver
         //
     }
 
-    private function sendEmail(Project $project, $isUpdating=false)
+    private function sendEmail(Project $project, $isUpdating = false)
     {
         $admin   = User::role(Role::ADMIN)->first();
         $message = $isUpdating ? 'is recently updated.' : 'is added.';

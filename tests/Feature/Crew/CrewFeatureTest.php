@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Crew;
 
+use Illuminate\Support\Arr;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -16,7 +17,7 @@ class CrewFeatureTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -214,7 +215,7 @@ class CrewFeatureTest extends TestCase
     protected function customizeData($data, $customData)
     {
         foreach ($customData as $key => $value) {
-            array_set($data, $key, $value);
+            Arr::set($data, $key, $value);
         }
 
         return $data;

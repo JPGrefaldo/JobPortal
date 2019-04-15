@@ -2,6 +2,7 @@
 
 namespace App\Actions\Auth;
 
+use Illuminate\Support\Arr;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\UserNotificationSetting;
@@ -22,7 +23,7 @@ class StubUserNotifications
 
         return UserNotificationSetting::create([
             'user_id'     => $user->id,
-            'receive_sms' => array_get($data, 'receive_sms', 0),
+            'receive_sms' => Arr::get($data, 'receive_sms', 0),
         ]);
     }
 }

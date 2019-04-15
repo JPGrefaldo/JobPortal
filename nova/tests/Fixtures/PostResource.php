@@ -9,6 +9,7 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\MorphMany;
 use Laravel\Nova\Fields\MorphToMany;
+use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class PostResource extends Resource
@@ -38,8 +39,15 @@ class PostResource extends Resource
     public function fields(Request $request)
     {
         return [
-            BelongsTo::make('User', 'user', UserResource::class)->nullable(),
+            BelongsTo::make('User', 'user', UserResource::class)->nullable()
+                ->viewable($_SERVER['nova.user.viewable-field'] ?? true),
+            BelongsToMany::make('Authors', 'authors', UserResource::class),
             Text::make('Title', 'title')->rules('required', 'string', 'max:255'),
+            Text::make('Description', 'description')->rules('string', 'max:255')
+                ->nullable()
+                ->canSee(function () {
+                    return ! empty($_SERVER['nova.post.nullableDescription']);
+                }),
             MorphMany::make('Comments', 'comments', CommentResource::class),
             MorphToMany::make('Tags', 'tags', TagResource::class)->display(function ($tag) {
                 return strtoupper($tag->name);
@@ -49,6 +57,15 @@ class PostResource extends Resource
                 ];
             }),
         ];
+    }
+
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        if (isset($_SERVER['nova.post.useEagerUser'])) {
+            return $query->with('user');
+        }
+
+        return $query;
     }
 
     /**

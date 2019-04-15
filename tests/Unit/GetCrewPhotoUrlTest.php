@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use Illuminate\Support\Arr;
 use App\Models\Crew;
 use Illuminate\Foundation\Testing\DatabaseMigrations  ;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -59,7 +60,7 @@ class GetCrewPhotoUrlTest extends TestCase
     protected function customizeData($data, $customData)
     {
         foreach ($customData as $key => $value) {
-            array_set($data, $key, $value);
+            Arr::set($data, $key, $value);
         }
 
         return $data;

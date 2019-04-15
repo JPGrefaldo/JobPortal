@@ -17,6 +17,11 @@ class CrewPosition extends Pivot
     protected $guarded = ['id'];
 
     /**
+     * @var bool
+     */
+    public $incrementing = true;
+
+    /**
      * @var array
      */
     protected $casts = [

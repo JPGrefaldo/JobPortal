@@ -13,7 +13,7 @@ class CrewGearTest extends TestCase
 
     protected $crew;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

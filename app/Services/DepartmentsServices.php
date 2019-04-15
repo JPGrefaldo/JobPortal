@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use App\Models\Department;
 use App\Utils\StrUtils;
 
@@ -41,7 +43,7 @@ class DepartmentsServices
      */
     public function filterData(array $data)
     {
-        return array_only($data, [
+        return Arr::only($data, [
             'name',
             'description',
         ]);
@@ -54,7 +56,7 @@ class DepartmentsServices
      */
     public function formatData(array $data)
     {
-        $data['name'] = title_case($data['name']);
+        $data['name'] = Str::title($data['name']);
         $data['description'] = StrUtils::convertNull($data['description']);
 
         return $data;

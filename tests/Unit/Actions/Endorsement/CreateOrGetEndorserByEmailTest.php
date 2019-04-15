@@ -21,7 +21,7 @@ class CreateOrGetEndorserByEmailTest extends TestCase
      */
     public $email;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

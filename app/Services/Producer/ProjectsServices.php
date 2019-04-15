@@ -2,6 +2,7 @@
 
 namespace App\Services\Producer;
 
+use Illuminate\Support\Arr;
 use App\Models\Project;
 use App\Models\RemoteProject;
 use App\Models\Site;
@@ -129,7 +130,7 @@ class ProjectsServices
      */
     public function prepareData(array $input)
     {
-        return array_only($input, [
+        return Arr::only($input, [
             'title',
             'production_name',
             'production_name_public',

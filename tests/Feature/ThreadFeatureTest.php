@@ -101,7 +101,7 @@ class ThreadFeatureTest extends TestCase
     }
     
 
-    private function search($keyword, $currentUser=null)
+    private function search($keyword, $currentUser = null)
     {
         // So that this will work test_current_user_should_not_be_included_in_search_result()
         if ($currentUser == null) {
@@ -116,7 +116,7 @@ class ThreadFeatureTest extends TestCase
                 [
                     'thread' => $thread->id,
                 ]
-             ));
+            ));
 
         return $this->actingAs($currentUser)
             ->postJson(route('threads.search.participants', [

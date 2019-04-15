@@ -14,17 +14,17 @@ class SendRushCallEmail
     {
         if ($projectJob->rush_call) {
             $crews = Crew::whereExists(
-                            function($query) use($projectJob) {
+                function ($query) use ($projectJob) {
                                 $query->from('crew_position')
                                     ->where('position_id', $projectJob->position_id);
-                            }
-                        )->get();
+                }
+            )->get();
 
-            $crews->map(function($crew) use($projectJob) {
+            $crews->map(function ($crew) use ($projectJob) {
                 \Mail::to($crew->user->email)->send(
                     new RushCallEmail($crew->user, (object) $this->format($projectJob))
                 );
-            });   
+            });
         }
     }
 
@@ -54,7 +54,7 @@ class SendRushCallEmail
         }
 
         if (count($date) === 2 && $date[0] !== $date[1]) {
-            return $this->formatDate($date[0]).' to '.$this->formatDate($date[1]); 
+            return $this->formatDate($date[0]).' to '.$this->formatDate($date[1]);
         }
 
         return $this->multipleDateFormat($date);

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 
 class SocialLinkType extends Model
@@ -36,6 +37,6 @@ class SocialLinkType extends Model
      */
     public function getSlugAttribute()
     {
-        return snake_case(strtolower($this->name));
+        return Str::snake(strtolower($this->name));
     }
 }

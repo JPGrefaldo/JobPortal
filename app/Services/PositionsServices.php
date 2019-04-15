@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use App\Models\Position;
 
 class PositionsServices
@@ -40,7 +42,7 @@ class PositionsServices
      */
     public function filterData(array $data)
     {
-        return array_only($data, [
+        return Arr::only($data, [
             'name',
             'department_id',
             'position_type_id',
@@ -58,9 +60,9 @@ class PositionsServices
      */
     public function prepareData(array $data)
     {
-        $data['name'] = title_case($data['name']);
-        $data['has_gear'] = array_get($data, 'has_gear', 0);
-        $data['has_union'] = array_get($data, 'has_union', 0);
+        $data['name'] = Str::title($data['name']);
+        $data['has_gear'] = Arr::get($data, 'has_gear', 0);
+        $data['has_union'] = Arr::get($data, 'has_union', 0);
 
         return $data;
     }

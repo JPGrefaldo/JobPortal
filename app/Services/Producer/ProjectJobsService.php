@@ -2,6 +2,7 @@
 
 namespace App\Services\Producer;
 
+use Illuminate\Support\Arr;
 use App\Models\ProjectJob;
 
 class ProjectJobsService
@@ -44,7 +45,7 @@ class ProjectJobsService
      */
     public function filterCreateData(array $input)
     {
-        return array_only($input, [
+        return Arr::only($input, [
             'persons_needed',
             'gear_provided',
             'gear_needed',
@@ -65,7 +66,7 @@ class ProjectJobsService
      */
     public function filterUpdateData(array $input)
     {
-        return array_only($input, [
+        return Arr::only($input, [
             'persons_needed',
             'gear_provided',
             'gear_needed',

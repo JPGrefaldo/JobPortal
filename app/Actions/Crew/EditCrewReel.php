@@ -2,6 +2,7 @@
 
 namespace App\Actions\Crew;
 
+use Illuminate\Support\Str;
 use App\Models\Crew;
 use Illuminate\Support\Facades\Storage;
 
@@ -20,7 +21,7 @@ class EditCrewReel
 
         $reel = $crew->reels()->where('general', true)->first();
 
-        if (str_contains($reel->path, $crew->user->hash_id)) {
+        if (Str::contains($reel->path, $crew->user->hash_id)) {
             Storage::disk('s3')->delete($reel->path);
         }
 

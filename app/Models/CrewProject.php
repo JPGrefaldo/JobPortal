@@ -9,6 +9,14 @@ class CrewProject extends Pivot
 {
     use SoftDeletes;
 
+    /**
+     * @var bool
+     */
+    public $incrementing = true;
+
+    /**
+     * @var array
+     */
     protected $casts = [
         'id'         => 'integer',
         'crew_id'    => 'integer',
