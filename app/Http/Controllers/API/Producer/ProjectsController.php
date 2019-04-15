@@ -22,7 +22,12 @@ class ProjectsController extends Controller
         return response()->json(
             [
                 'message'  => 'Succesfully fetched all projects.',
-                'projects' => $project->load(['remotes', 'jobs']),
+                'projects' => $project->load([
+                    'remotes', 
+                    'jobs' => function($query) {
+                        $query->with('position', 'pay_type');
+                    }
+                ]),
             ],
             Response::HTTP_OK
         );
