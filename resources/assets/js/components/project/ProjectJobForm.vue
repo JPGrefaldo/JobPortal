@@ -246,6 +246,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { format } from '../../mixins'
 import Calendar from 'vue-datepicker-ui';
 import InputNumberType from '../_partials/InputNumberType';
 import Tags from '../_partials/Tags';
@@ -254,6 +255,8 @@ export default {
     inject: ['$validator'],
 
     props: ['submitProjectJob', 'mode'],
+
+    mixins: [format],
 
     components: {
         'person-needed-input': InputNumberType,
@@ -343,13 +346,13 @@ export default {
         },
 
         singleDate(date) {
-            return this.sqlDateFormat(date);
+            return this.sqlDate(date);
         },
 
         rangeDates() {
             return [
-                this.sqlDateFormat(new Date()),
-                this.sqlDateFormat(new Date())
+                this.sqlDate(new Date()),
+                this.sqlDate(new Date())
             ];
         },
 
@@ -384,10 +387,6 @@ export default {
 
             this.$store.commit('project/JOB', this.form);
             this.submitProjectJob();
-        },
-
-        sqlDateFormat(date) {
-            return date.toISOString().slice(0, 10);
         }
     },
 };
