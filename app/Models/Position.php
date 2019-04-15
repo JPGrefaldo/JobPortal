@@ -50,8 +50,10 @@ class Position extends Model
         return $this->belongsTo(PositionTypes::class);
     }
 
+
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @param string $value
+     * @return string mixed
      */
     public function getNameAttribute($value)
     {
