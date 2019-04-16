@@ -91,13 +91,6 @@
                     v-for="project in projects"
                     :key="project.id"
                 >
-                    
-                    <project-modal 
-                        class="container bg-white shadow-md rounded" 
-                        :project="project" 
-                        :show="showModal(project.id)" 
-                        @close="toggleModal(project.id)" />
-
                     <div class="p-8">
                         <div class="w-full mb-6 flex justify-between">
                             <h3 class="text-blue-dark font-semibold text-lg mb-1 font-header">{{ project.title }}<span
@@ -110,7 +103,7 @@
                             </div>
                             <div class="md:w-3/4">
                                 <p> {{ project.description | truncate(truncLength) }}
-                                    <a class="text-sm" href="#" @click.stop="toggleModal(project.id)">READ MORE</a>
+                                    <a class="text-sm" href="#" @click.stop="showProjectModal(project)">READ MORE</a>
                                 </p>
                             </div>
                         </div>
@@ -123,7 +116,7 @@
                                 <span class="badge bg-white ml-2">0 active</span>
                                 <span class="badge bg-white">2 paused</span>
                             </div>
-                            <a class="btn-outline" href="#">add role</a>
+                            <a class="btn-outline" href="#" @click.stop="showRoleModal = true">add role</a>
                         </div>
                         <div class="bg-white mt-4 rounded p-4 md:p-8 shadow" v-for="job in project.jobs" :key="job.id">
                             <div class="flex justify-between items-center">
@@ -138,7 +131,7 @@
                             <div class="bg-grey-lighter rounded p-3 md:p-6 md:flex mt-4">
                                 <div class="md:w-1/2 px-2">
                                     <div class="block text-sm text-blue-dark py-1">
-                                        <strong>PAY:</strong> {{ pay(job.position.pay_rate, job.pay_type.name) }}
+                                        <strong>PAY:</strong> {{ pay(job.pay_rate, job.pay_type.name) }}
                                     </div>
                                     <div class="block text-sm text-blue-dark py-1">
                                         <strong>UNION</strong> (but accepting non-union submissions)
@@ -165,7 +158,7 @@
                                 </div>
                                 <div class="w-full md:w-3/4">
                                     <p> {{ project.description | truncate(truncLength) }}
-                                        <a class="text-sm" href="#">MORE</a>
+                                        <a class="text-sm" href="#" @click.stop="showProjectJobModal(job)">MORE</a>
                                     </p>
                                 </div>
                             </div>
@@ -189,20 +182,16 @@
 
 <script>
     import { mapGetters } from 'vuex'
-    import { format } from '../../mixins'
-    import ProjectModal from '../project/ProjectModal.vue'
+    import { format, modals } from '../../mixins'
 
     export default {
-        components: {
-            'project-modal': ProjectModal
-        },
-
-        mixins: [format],
+        mixins: [format, modals],
 
         data() {
             return {
                 truncLength: 100,
                 activeModal: 0,
+                showRoleModal: false
             }
         },
 
@@ -227,6 +216,18 @@
                     return false
                 }
                 this.activeModal = id
+            },
+
+            status: function(status) {
+                return status == 0 ? 'NOT YET APPROVED' : 'APPROVED'
+            },
+
+            showProjectModal: function (project) {
+                this.projectViewModal(project)
+            },
+
+            showProjectJobModal: function (job) {
+                this.projectJobViewModal(job)
             }
         }
     }
