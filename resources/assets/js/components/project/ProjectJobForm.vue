@@ -346,13 +346,13 @@ export default {
         },
 
         singleDate(date) {
-            return this.sqlDate(date);
+            return this.dateForDatabase(date);
         },
 
         rangeDates() {
             return [
-                this.sqlDate(new Date()),
-                this.sqlDate(new Date())
+                this.dateForDatabase(new Date()),
+                this.dateForDatabase(new Date())
             ];
         },
 
