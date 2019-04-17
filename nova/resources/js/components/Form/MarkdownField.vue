@@ -1,20 +1,47 @@
 <template>
     <default-field :field="field" :errors="errors" :full-width-content="true">
         <template slot="field">
-            <div class="bg-white rounded-lg" :class="{
-                'markdown-fullscreen fixed pin z-50': isFullScreen,
-                'form-input form-input-bordered px-0': ! isFullScreen,
-                'form-control-focus': isFocused,
-                'border-danger': errors.has('body'),
-            }">
-                <header class="flex items-center content-center justify-between border-b border-60">
+            <div
+                class="bg-white rounded-lg overflow-hidden"
+                :class="{
+                    'markdown-fullscreen fixed pin z-50': isFullScreen,
+                    'form-input form-input-bordered px-0': !isFullScreen,
+                    'form-control-focus': isFocused,
+                    'border-danger': errors.has('body'),
+                }"
+            >
+                <header
+                    class="flex items-center content-center justify-between border-b border-60"
+                    :class="{ 'bg-30': isReadonly }"
+                >
                     <ul class="w-full flex items-center content-center list-reset">
-                        <button :class="{'text-primary font-bold' : this.mode == 'write'}" @click.prevent="write" class="ml-1 text-90 px-3 py-2">{{__('Write')}}</button>
-                        <button :class="{'text-primary font-bold' : this.mode == 'preview'}" @click.prevent="preview" class="text-90 px-3 py-2">{{__('Preview')}}</button>
+                        <button
+                            :class="{ 'text-primary font-bold': this.mode == 'write' }"
+                            @click.prevent="write"
+                            class="ml-1 text-90 px-3 py-2"
+                        >
+                            {{ __('Write') }}
+                        </button>
+                        <button
+                            :class="{ 'text-primary font-bold': this.mode == 'preview' }"
+                            @click.prevent="preview"
+                            class="text-90 px-3 py-2"
+                        >
+                            {{ __('Preview') }}
+                        </button>
                     </ul>
-                    <ul class="flex items-center list-reset">
-                        <button :key="tool.action" @click.prevent="callAction(tool.action)" v-for="tool in tools" class="rounded-none ico-button inline-flex justify-center px-2 text-sm text-80 border-l border-60">
-                            <component :is="tool.icon" class="fill-80 w-editor-icon h-editor-icon" />
+
+                    <ul v-if="!isReadonly" class="flex items-center list-reset">
+                        <button
+                            :key="tool.action"
+                            @click.prevent="callAction(tool.action)"
+                            v-for="tool in tools"
+                            class="rounded-none ico-button inline-flex items-center justify-center px-2 text-sm text-80 border-l border-60"
+                        >
+                            <component
+                                :is="tool.icon"
+                                class="fill-80 w-editor-icon h-editor-icon"
+                            />
                         </button>
                     </ul>
                 </header>
@@ -22,8 +49,9 @@
                 <div
                     v-show="mode == 'write'"
                     class="flex markdown-content relative p-4"
+                    :class="{ 'readonly bg-30': isReadonly }"
                 >
-                    <textarea ref="theTextarea"/>
+                    <textarea ref="theTextarea" :class="{ 'bg-30': isReadonly }" />
                 </div>
 
                 <div
@@ -123,6 +151,7 @@ export default {
                     return tool.action
                 }),
             },
+            ...{ readOnly: this.isReadonly },
         })
 
         _.each(keyMaps, (action, map) => {
@@ -209,8 +238,10 @@ export default {
         },
 
         callAction(action) {
-            this.focus()
-            actions[action].call(this)
+            if (!this.isReadonly) {
+                this.focus()
+                actions[action].call(this)
+            }
         },
     },
 
@@ -288,6 +319,10 @@ export default {
     font: 14px/1.5 Menlo, Consolas, Monaco, 'Andale Mono', monospace;
     box-sizing: border-box;
     width: 100%;
+}
+
+.readonly > .CodeMirror {
+    background-color: var(--30) !important;
 }
 
 .markdown-fullscreen .markdown-content {

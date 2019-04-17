@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Crew;
 
+use Illuminate\Support\Arr;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -16,13 +17,13 @@ class CrewFeatureTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
         Storage::fake('s3');
 
-        $this->user = $this->createUser();
+        $this->user = $this->createCrew();
     }
 
     /**
@@ -31,17 +32,15 @@ class CrewFeatureTest extends TestCase
      */
     public function create()
     {
-        // given
-        // $this->withoutExceptionHandling();
-
         $data = $this->getCreateData();
 
-        // when
         $response = $this->actingAs($this->user)
-            ->post(route('crews.store'), $data);
+            ->get(route('crew.profile.create'));
 
-        // then
-        $response->assertSuccessful();
+        $response = $this->actingAs($this->user)
+            ->post(route('crew.profile.create'), $data);
+
+        $response->assertRedirect(route('crew.profile.create'));
     }
 
     /**
@@ -69,10 +68,13 @@ class CrewFeatureTest extends TestCase
 
         // when
         $response = $this->actingAs($this->user)
-            ->post(route('crews.store'), $data);
+            ->get(route('crew.profile.create'));
 
-        //  then
-        $response->assertSuccessful();
+        $response = $this->actingAs($this->user)
+            ->post(route('crew.profile.create'), $data);
+
+        // then
+        $response->assertRedirect(route('crew.profile.create'));
     }
 
     /**
@@ -97,7 +99,13 @@ class CrewFeatureTest extends TestCase
         ]);
 
         $response = $this->actingAs($this->user)
-            ->post(route('crews.store'), $data);
+            ->get(route('crew.profile.create'));
+
+        $response = $this->actingAs($this->user)
+            ->post(route('crew.profile.create'), $data);
+
+        // then
+        $response->assertRedirect(route('crew.profile.create'));
 
         $response->assertSessionHasErrors([
             'photo'                        => 'The photo must be an image.',
@@ -129,10 +137,13 @@ class CrewFeatureTest extends TestCase
 
         // when
         $response = $this->actingAs($this->user)
-            ->post(route('crews.store'), $data);
+            ->get(route('crew.profile.create'));
+
+        $response = $this->actingAs($this->user)
+            ->post(route('crew.profile.create'), $data);
 
         // then
-        $response->assertSuccessful();
+        $response->assertRedirect(route('crew.profile.create'));
     }
 
     /**
@@ -148,10 +159,13 @@ class CrewFeatureTest extends TestCase
 
         // when
         $response = $this->actingAs($this->user)
-            ->post(route('crews.store'), $data);
+            ->get(route('crew.profile.create'));
+
+        $response = $this->actingAs($this->user)
+            ->post(route('crew.profile.create'), $data);
 
         // then
-        $response->assertSuccessful();
+        $response->assertRedirect(route('crew.profile.create'));
     }
 
     /**
@@ -214,7 +228,7 @@ class CrewFeatureTest extends TestCase
     protected function customizeData($data, $customData)
     {
         foreach ($customData as $key => $value) {
-            array_set($data, $key, $value);
+            Arr::set($data, $key, $value);
         }
 
         return $data;

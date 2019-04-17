@@ -24,11 +24,12 @@ class FetchUserTest extends TestCase
         $response = $this->actingAs($user, 'api')->getJson(self::URI);
 
         $response->assertSuccessful()
-            ->assertJsonStructure([
+            ->assertJsonStructure(['user' => [
                 'id',
                 'first_name',
                 'last_name',
                 'roles',
+            ],
             ]);
     }
 

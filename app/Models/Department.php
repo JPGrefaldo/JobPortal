@@ -29,4 +29,13 @@ class Department extends Model
     {
         return $this->hasMany(Position::class);
     }
+
+    /**
+     * @param string $value
+     * @return string
+     */
+    public function getNameAttribute($value)
+    {
+        return str_replace('_', ' ', $value);
+    }
 }

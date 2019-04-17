@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Str;
 use App\Models\SocialLinkType;
 use Illuminate\Database\Seeder;
 
@@ -26,7 +27,7 @@ class SocialLinkTypesTableSeeder extends Seeder
         foreach ($names as $idx => $name) {
             SocialLinkType::create([
                 'name'       => $name,
-                'image'      => 'images/social/' . str_slug($name) . '.png', // @temp
+                'image'      => 'images/social/' . Str::slug($name) . '.png', // @temp
                 'sort_order' => $idx + 1,
             ]);
         }

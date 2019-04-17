@@ -79,12 +79,12 @@ class ProjectJobFeatureTest extends TestCase
 
         $response = $this->actingAs($user, 'api')
             ->post(
-                             route('producer.project.jobs.store'),
-                             $data,
-                             [
+                route('producer.project.jobs.store'),
+                $data,
+                [
                                  'Accept' => 'application/json',
                              ]
-                         )
+            )
             ->assertSee('Sucessfully added the project\'s job.')
             ->assertStatus(Response::HTTP_CREATED);
 
@@ -125,12 +125,12 @@ class ProjectJobFeatureTest extends TestCase
 
         $response = $this->actingAs($user, 'api')
             ->post(
-                             route('producer.project.jobs.store'),
-                             $data,
-                             [
+                route('producer.project.jobs.store'),
+                $data,
+                [
                                  'Accept' => 'application/json',
                              ]
-                         )
+            )
             ->assertSee('Sucessfully added the project\'s job.')
             ->assertStatus(Response::HTTP_CREATED);
 
@@ -168,12 +168,12 @@ class ProjectJobFeatureTest extends TestCase
 
         $this->actingAs($user, 'api')
             ->post(
-                 route('producer.project.jobs.store'),
-                 $data,
-                 [
+                route('producer.project.jobs.store'),
+                $data,
+                [
                      'Accept' => 'application/json',
                  ]
-             )
+            )
             ->assertSee('Sucessfully added the project\'s job')
             ->assertStatus(Response::HTTP_CREATED);
     }
@@ -211,12 +211,12 @@ class ProjectJobFeatureTest extends TestCase
 
         $response = $this->actingAs($user, 'api')
             ->post(
-                             route('producer.project.jobs.store'),
-                             $data,
-                             [
+                route('producer.project.jobs.store'),
+                $data,
+                [
                                  'Accept' => 'application/json',
                              ]
-                         )
+            )
             ->assertSee('Sucessfully added the project\'s job.')
             ->assertStatus(Response::HTTP_CREATED);
 
@@ -252,12 +252,12 @@ class ProjectJobFeatureTest extends TestCase
 
         $response = $this->actingAs($user, 'api')
             ->put(
-                            route('producer.project.jobs.update', $projectJob),
-                            $data,
-                            [
+                route('producer.project.jobs.update', $projectJob),
+                $data,
+                [
                                 'Accept' => 'application/json',
                             ]
-                        )
+            )
             ->assertSee('Sucessfully updated the project\'s job.')
             ->assertStatus(Response::HTTP_OK);
 
@@ -380,12 +380,12 @@ class ProjectJobFeatureTest extends TestCase
 
         $this->actingAs($user, 'api')
             ->post(
-                 route('producer.project.jobs.store'),
-                 $data,
-                 [
+                route('producer.project.jobs.store'),
+                $data,
+                [
                      'Accept' => 'application/json',
                  ]
-             )
+            )
             ->assertSee('This action is unauthorized.')
             ->assertStatus(Response::HTTP_FORBIDDEN);
     }
@@ -403,12 +403,12 @@ class ProjectJobFeatureTest extends TestCase
 
         $this->actingAs($user, 'api')
             ->put(
-                 route('producer.project.jobs.update', $projectJob),
-                 $data,
-                 [
+                route('producer.project.jobs.update', $projectJob),
+                $data,
+                [
                      'Accept' => 'application/json',
                  ]
-             )
+            )
             ->assertSee('This action is unauthorized.')
             ->assertStatus(Response::HTTP_FORBIDDEN);
     }
@@ -456,12 +456,12 @@ class ProjectJobFeatureTest extends TestCase
 
         $response = $this->actingAs($user, 'api')
             ->post(
-                             route('producer.project.jobs.store'),
-                             $data,
-                             [
+                route('producer.project.jobs.store'),
+                $data,
+                [
                                  'Accept' => 'application/json',
                              ]
-                         )
+            )
             ->assertSee('Sucessfully added the project\'s job')
             ->assertStatus(Response::HTTP_CREATED);
 
@@ -483,7 +483,8 @@ class ProjectJobFeatureTest extends TestCase
         return factory(Project::class)->create($attributes);
     }
 
-    private function frontendJsonString($data){
+    private function frontendJsonString($data)
+    {
         return json_encode($data);
     }
 }

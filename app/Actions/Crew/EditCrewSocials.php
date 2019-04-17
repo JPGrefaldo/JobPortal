@@ -27,9 +27,17 @@ class EditCrewSocials
                     break;
             }
 
-            $crewSocial->update([
-                'url' => $socialUrl,
-            ]);
+            if ($crewSocial->count()) {
+                $crewSocial->update([
+                    'url' => $socialUrl,
+                ]);
+            } else {
+                $crewSocial->insert([
+                    'crew_id'             => $crew->id,
+                    'social_link_type_id' => $value['id'],
+                    'url'                 => $socialUrl,
+                ]);
+            }
         }
     }
 }

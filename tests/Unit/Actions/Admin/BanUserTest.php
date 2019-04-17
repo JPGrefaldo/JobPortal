@@ -16,7 +16,7 @@ class BanUserTest extends TestCase
 
     use RefreshDatabase, SeedDatabaseAfterRefresh;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

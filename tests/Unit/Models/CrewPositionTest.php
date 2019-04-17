@@ -16,7 +16,7 @@ class CrewPositionTest extends TestCase
     protected $position;
     protected $crewPosition;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

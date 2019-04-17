@@ -14,7 +14,7 @@ class CrewReelTest extends TestCase
     protected $crew;
     protected $crewReel;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

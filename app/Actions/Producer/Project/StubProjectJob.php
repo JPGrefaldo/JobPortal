@@ -2,6 +2,7 @@
 
 namespace App\Actions\Producer\Project;
 
+use Illuminate\Support\Arr;
 use App\Http\Requests\Producer\CreateProjectJobRequest;
 use App\Models\ProjectJob;
 
@@ -27,7 +28,7 @@ class StubProjectJob
 
     private function filter(array $data): array
     {
-        return array_only(
+        return Arr::only(
             $data,
             [
                 'project_id',

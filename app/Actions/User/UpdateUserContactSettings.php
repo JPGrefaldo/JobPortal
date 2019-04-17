@@ -2,6 +2,7 @@
 
 namespace App\Actions\User;
 
+use Illuminate\Support\Arr;
 use App\Models\User;
 use App\Utils\StrUtils;
 
@@ -27,7 +28,7 @@ class UpdateUserContactSettings
      */
     public function cleanData(array $data)
     {
-        $data = array_only($data, $this::FIELDS);
+        $data = Arr::only($data, $this::FIELDS);
 
         if (isset($data['phone'])) {
             $data['phone'] = StrUtils::stripNonNumeric($data['phone']);

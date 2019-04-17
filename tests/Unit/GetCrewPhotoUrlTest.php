@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use Illuminate\Support\Arr;
 use App\Models\Crew;
 use Illuminate\Foundation\Testing\DatabaseMigrations  ;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -23,19 +24,18 @@ class GetCrewPhotoUrlTest extends TestCase
         $crew = factory(Crew::class)->create();
         $data = $this->getUploadData();
 
-        $crew->photo =
-            config('filesystems.disks.s3.url') . '/' .
-            config('filesystems.disks.s3.bucket') .
+        $crew->photo_path =
             $crew->hash_id . '/' .
-            'photo' . '/' .
+            'photos' . '/' .
             $data['photo']->hashName();
 
         $this->assertEquals(
             config('filesystems.disks.s3.url') . '/' .
-            config('filesystems.disks.s3.bucket') .
+            config('filesystems.disks.s3.bucket') . '/' .
             $crew->hash_id . '/' .
-            'photo' . '/' .
+            'photos' . '/' .
             $data['photo']->hashName(),
+
             $crew->photo_url
         );
     }
@@ -59,7 +59,7 @@ class GetCrewPhotoUrlTest extends TestCase
     protected function customizeData($data, $customData)
     {
         foreach ($customData as $key => $value) {
-            array_set($data, $key, $value);
+            Arr::set($data, $key, $value);
         }
 
         return $data;

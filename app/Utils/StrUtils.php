@@ -2,6 +2,8 @@
 
 namespace App\Utils;
 
+use Illuminate\Support\Str;
+
 class StrUtils
 {
     /**
@@ -94,7 +96,7 @@ class StrUtils
      */
     public static function formatName($value)
     {
-        $value = title_case(strtolower($value));
+        $value = Str::title(strtolower($value));
 
         if (! preg_match_all(
             "/(?<='|\-|(Mc))[a-z]/",

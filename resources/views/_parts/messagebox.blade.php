@@ -22,7 +22,7 @@
                     @else
                         <div class="text-red-error -ml-2">
                             <p class="font-bold text-black mt-1">
-                                {{ str_plural('Error', count($errors)) }}:
+                                {{ Str::plural('Error', count($errors)) }}:
                             </p>
                             <p>
                                 <ul class="text-sm text-red-dark">

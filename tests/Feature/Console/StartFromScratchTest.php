@@ -15,7 +15,7 @@ class StartFromScratchTest extends TestCase
     const CMD = 'startfromscratch';
     const HOST_NAME = 'test-crewcalls.dev';
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

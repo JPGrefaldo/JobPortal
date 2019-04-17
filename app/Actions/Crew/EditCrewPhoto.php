@@ -13,24 +13,26 @@ class EditCrewPhoto
      */
     public function execute(Crew $crew, array $data): void
     {
-        $oldPath = $crew->photo_path;
-        $s3 = Storage::disk('s3');
-        $s3->delete($oldPath);
-
-        if ($data['photo']) {
-            $photoPath = $crew->user->hash_id . '/photos/' . $data['photo']->hashName();
-
-            Storage::disk('s3')->put(
-                $photoPath,
-                file_get_contents($data['photo']),
-                'public'
-            );
-        } else {
-            $photoPath = null;
+        if (! isset($data['photo']) || empty($data['photo'])) {
+            return;
         }
 
+        $this->deleteOldPhoto($crew);
+
         $crew->update([
-            'photo_path' => $photoPath,
+            'photo_path' => $data['photo']->store(
+                $crew->user->hash_id . '/photos',
+                's3',
+                'public'
+            ),
         ]);
+    }
+
+    /**
+     * @param \App\Models\Crew $crew
+     */
+    private function deleteOldPhoto(Crew $crew): void
+    {
+        Storage::disk('s3')->delete($crew->photo_path);
     }
 }

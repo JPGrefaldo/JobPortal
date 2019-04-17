@@ -15,7 +15,7 @@ class ProducerMessageTest extends TestCase
 
     protected $recipients;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setup();
 

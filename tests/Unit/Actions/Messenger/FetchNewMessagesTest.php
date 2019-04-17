@@ -71,7 +71,7 @@ class FetchNewMessagesTest extends TestCase
                         "body"      => "Test Reply Message",
                     ],
                     $emailFormat->toArray()
-                    );
+                );
             });
     }
 
@@ -149,7 +149,7 @@ class FetchNewMessagesTest extends TestCase
                         'body'      => 'Test Reply Message',
                     ],
                     $message
-                    );
+                );
                 // And then compare the creation time to make sure that it got
                 // only the messages that are posted not more than 30 mins. ago
                 $this->assertLessThan($message['created_at'], $time);

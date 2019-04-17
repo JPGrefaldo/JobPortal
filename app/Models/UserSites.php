@@ -14,6 +14,11 @@ class UserSites extends Pivot
     protected $guarded = ['id'];
 
     /**
+     * @var bool
+     */
+    public $incrementing = true;
+
+    /**
      * @var string
      */
     protected $table = 'user_sites';

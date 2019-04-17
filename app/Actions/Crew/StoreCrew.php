@@ -10,11 +10,11 @@ class StoreCrew
 {
     public function execute(User $user, array $data)
     {
-        app(SaveCrew::class)->execute($user, $data);
-
-        $user->assignRole(Role::CREW);
+        app(EditCrew::class)->execute($user->crew, $data);
 
         $crew = $user->crew;
+
+        app(EditCrewPhoto::class)->execute($crew, $data);
 
         if ($data['resume']) {
             app(SaveCrewResume::class)->execute($crew, $data);

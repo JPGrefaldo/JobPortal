@@ -18,6 +18,8 @@ use Laravel\Nova\Tests\Fixtures\PanelResource;
 use Laravel\Nova\Tests\Fixtures\AddressResource;
 use Laravel\Nova\Tests\Fixtures\BooleanResource;
 use Laravel\Nova\Tests\Fixtures\CommentResource;
+use Laravel\Nova\Tests\Fixtures\CustomKeyResource;
+use Laravel\Nova\Tests\Fixtures\GroupedUserResource;
 use Laravel\Nova\Tests\Fixtures\ForbiddenUserResource;
 use Laravel\Nova\Tests\Fixtures\SoftDeletingFileResource;
 
@@ -35,7 +37,7 @@ abstract class IntegrationTest extends TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp() : void
     {
         parent::setUp();
 
@@ -62,6 +64,8 @@ abstract class IntegrationTest extends TestCase
             TagResource::class,
             UserResource::class,
             ForbiddenUserResource::class,
+            GroupedUserResource::class,
+            CustomKeyResource::class,
         ]);
 
         Nova::auth(function () {
@@ -166,5 +170,19 @@ abstract class IntegrationTest extends TestCase
             'database' => ':memory:',
             'prefix'   => '',
         ]);
+    }
+
+    /**
+     * Assert a top-level subset for an array.
+     *
+     * @param array $subset
+     * @param array $array
+     * @return void
+     */
+    public function assertSubset($subset, $array)
+    {
+        $values = collect($array)->only(array_keys($subset))->all();
+
+        $this->assertEquals($subset, $values, 'The expected subset does not match the given array.');
     }
 }

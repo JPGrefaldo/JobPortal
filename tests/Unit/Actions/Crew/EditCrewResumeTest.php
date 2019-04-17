@@ -2,18 +2,22 @@
 
 namespace Tests\Unit\Actions\Crew;
 
+use Illuminate\Support\Arr;
 use App\Actions\Crew\EditCrewResume;
 use App\Actions\Crew\StoreCrew;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Tests\Support\CreatesCrewModel;
 use Tests\Support\Data\SocialLinkTypeID;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 
 class EditCrewResumeTest extends TestCase
 {
-    use RefreshDatabase, SeedDatabaseAfterRefresh;
+    use RefreshDatabase,
+        SeedDatabaseAfterRefresh,
+        CreatesCrewModel;
 
     /**
      * @test
@@ -24,28 +28,22 @@ class EditCrewResumeTest extends TestCase
         // given
         Storage::fake('s3');
 
-        $user = $this->createUser();
-        $createData = $this->getCreateData();
+        $models = $this->createCompleteCrew();
 
-        app(StoreCrew::class)->execute($user, $createData);
-        $oldResumePath = $user->crew->resumes()->where('general', true)->first()->path;
+        $oldResumePath = $models['crew']->resumes()->where('general', true)->first()->path;
 
-        $crew = $user->crew;
         $data = $this->getUpdateData();
 
-        // when
-        app(EditCrewResume::class)->execute($crew, $data);
-
-        // then
+        app(EditCrewResume::class)->execute($models['crew'], $data);
 
         $this->assertDatabaseHas('crew_resumes', [
-            'crew_id'          => $user->crew->id,
-            'path'             => $user->hash_id . '/resumes/' . $data['resume']->hashName(),
+            'crew_id'          => $models['crew']->id,
+            'path'             => $models['user']->hash_id . '/resumes/' . $data['resume']->hashName(),
             'general'          => true,
             'crew_position_id' => null,
         ]);
 
-        $resume = $user->crew->resumes->where('general', true)->first();
+        $resume = $models['crew']->resumes->where('general', true)->first();
         Storage::disk('s3')->assertMissing($oldResumePath);
         Storage::disk('s3')->assertExists($resume->path);
     }
@@ -110,7 +108,7 @@ class EditCrewResumeTest extends TestCase
     protected function customizeData($data, $customData)
     {
         foreach ($customData as $key => $value) {
-            array_set($data, $key, $value);
+            Arr::set($data, $key, $value);
         }
 
         return $data;

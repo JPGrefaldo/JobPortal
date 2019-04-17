@@ -17,7 +17,7 @@ class CreateTestUserTest extends TestCase
     const CMD = 'test_user';
     const HOST_NAME = 'test-crewcalls.dev';
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

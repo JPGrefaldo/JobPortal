@@ -10,13 +10,13 @@
             @include('crew.profile.parts.profile-complete-indicator')
 
             <div class="w-full md:w-3/4 float-left">
-                <a href="{{ route('profile.create') }}"
+                <a href="{{ route('crew.profile.create') }}"
                    class="text-grey w-full mb-2 text-sm md:text-right float-right"><i class="fas fa-pencil-alt mr-2"></i>Edit profile</a>
                 <div class="card md:flex mb-8">
                     <div class="md:w-1/4 md:pr-8 text-center">
-                        @if (isset($user->crew->photo))
+                        @if (isset($user->crew->photo_path) && !empty($user->crew->photo_path))
                             <div class="flex h-none bg-grey-light items-center justify-center text-center border border-grey-light w-full pb-full rounded relative"
-                                 style="background: url('https://s3-us-west-2.amazonaws.com/test.crewcalls.info{{ $user->crew->photo_url }}'); background-size: cover;">
+                                 style="background: url('{{ $user->crew->photo_url }}'); background-size: cover;">
                             </div>
                         @else
                             <img src="{{ url('photos/avatar.png') }}"
@@ -56,7 +56,7 @@
                                 <a href="/storage/{{$user->crew->reel->url }}" target="_blank"
                                    class="border md:w-1/2 flex overflow-hidden rounded md:mr-2 mb-2 md:mb-0">
                                     <div class="w-24 relative"
-                                         style="background: url(../images/th2.jpg); background-size: cover;">
+                                         style="background: url("/images/th2.jpg"); background-size: cover;">
                                         <span class="btn-play w-10 h-10"></span>
                                     </div>
                                     <span class='uppercase text-green font-semibold p-4 text-sm tracking-wide'>VIEW POSITION WORK REEL</span>
@@ -74,7 +74,7 @@
                         @else
                             <a href="#" class="border md:w-1/2 flex overflow-hidden rounded md:mr-2 mb-2 md:mb-0">
                                 <div class="w-24 relative"
-                                     style="background: url(../images/th2.jpg); background-size: cover;">
+                                     style="background: url("/images/th2.jpg"); background-size: cover;">
                                     <span class="btn-play w-10 h-10"></span>
                                 </div>
                                 <span class='uppercase text-green font-semibold p-4 text-sm tracking-wide'>VIEW POSITION WORK REEL</span>

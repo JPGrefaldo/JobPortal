@@ -38,7 +38,7 @@ class MessengerFeatureTest extends TestCase
                 [
                     'thread' => $thread->id,
                 ]
-              ));
+            ));
 
         $response = $this->actingAs($admin)
             ->postJson(route('messages.store', [
@@ -82,7 +82,7 @@ class MessengerFeatureTest extends TestCase
                 [
                     'thread' => $thread->id,
                 ]
-             ));
+            ));
 
         $response = $this->actingAs($crew)
             ->postJson(route('messages.store', $data));
@@ -122,7 +122,7 @@ class MessengerFeatureTest extends TestCase
                 [
                     'thread' => $thread->id,
                 ]
-             ));
+            ));
 
         $response = $this->actingAs($user)
             ->postJson(route('messages.store', $message));

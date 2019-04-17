@@ -34,7 +34,7 @@ class VerifyEmailFeatureTest extends TestCase
                     'flash_message' => 'Your account has been confirmed! You may now login.',
                     'flash_type'    => 'success',
                 ]
-                 );
+            );
 
         $this->assertDatabaseHas('users', [
             'id'        => $user->id,
@@ -57,7 +57,7 @@ class VerifyEmailFeatureTest extends TestCase
                     'flash_title'   => 'Error!',
                     'flash_type'    => 'error',
                 ]
-                 );
+            );
     }
 
     /**
@@ -82,6 +82,6 @@ class VerifyEmailFeatureTest extends TestCase
                     'flash_message' => 'Your account was already confirmed, you do not need to confirm again.',
                     'flash_type'    => 'error',
                 ]
-                 );
+            );
     }
 }

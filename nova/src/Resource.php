@@ -256,7 +256,18 @@ abstract class Resource implements ArrayAccess, JsonSerializable, UrlRoutable
      */
     public static function uriKey()
     {
-        return Str::plural(Str::snake(class_basename(get_called_class()), '-'));
+        return Str::plural(Str::kebab(class_basename(get_called_class())));
+    }
+
+    /**
+     * Get meta information about this resource for client side comsumption.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array
+     */
+    public static function additionalInformation(Request $request)
+    {
+        return [];
     }
 
     /**

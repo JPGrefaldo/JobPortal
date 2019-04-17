@@ -2,6 +2,7 @@
 
 namespace App\Actions\Producer\Project;
 
+use Illuminate\Support\Arr;
 use App\Http\Requests\Producer\CreateProjectRequest;
 use App\Models\Project;
 
@@ -30,7 +31,7 @@ class StubProject
 
     private function filter(array $data): array
     {
-        return array_only(
+        return Arr::only(
             $data,
             [
                 'title',

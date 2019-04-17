@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Models;
 
+use Illuminate\Support\Arr;
 use App\Models\Crew;
 use App\Models\CrewGear;
 use App\Models\CrewPosition;
@@ -22,7 +23,7 @@ class CrewTest extends TestCase
     protected $user;
     protected $crew;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -149,7 +150,7 @@ class CrewTest extends TestCase
         // when
         $this->crew->applyFor(
             $position,
-            array_only($crewPosition, ['details', 'union_description'])
+            Arr::only($crewPosition, ['details', 'union_description'])
         );
 
         // then

@@ -30,7 +30,3 @@
     @apply .text-blue-dark .bg-white;
 }
 
-.background-missing-avatar {
-    background-image: url("/images/missing-avatar.png");
-    background-size: cover;
-}

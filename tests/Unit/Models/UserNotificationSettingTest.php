@@ -14,7 +14,7 @@ class UserNotificationSettingTest extends TestCase
     protected $user;
     protected $userNotificationSetting;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

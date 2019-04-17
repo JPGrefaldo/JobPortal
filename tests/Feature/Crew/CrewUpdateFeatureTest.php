@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Crew;
 
+use Illuminate\Support\Arr;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -13,19 +14,19 @@ class CrewUpdateFeatureTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
         Storage::fake('s3');
 
-        $user = $this->createUser();
+        $user = $this->createCrew();
         $data = $this->getCreateData();
 
         $this->user = $user;
 
         $this->actingAs($this->user)
-            ->post(route('crews.store'), $data);
+            ->get(route('crew.profile.create'), $data);
     }
 
     /**
@@ -41,10 +42,10 @@ class CrewUpdateFeatureTest extends TestCase
 
         // when
         $response = $this->actingAs($this->user)
-            ->put(route('crews.update', $this->user->crew), $data);
+            ->put(route('crew.profile.create', $this->user->crew), $data);
 
         // then
-        $response->assertSuccessful();
+        $response->assertRedirect(route('crew.profile.create'));
     }
 
     /**
@@ -58,10 +59,10 @@ class CrewUpdateFeatureTest extends TestCase
 
         // when
         $response = $this->actingAs($this->user)
-            ->put(route('crews.update', $this->user->crew), $data);
+            ->put(route('crew.profile.create', $this->user->crew), $data);
 
         // then
-        $response->assertSuccessful();
+        $response->assertRedirect(route('crew.profile.create'));
     }
 
     /**
@@ -76,9 +77,9 @@ class CrewUpdateFeatureTest extends TestCase
         ]);
 
         $response = $this->actingAs($this->user)
-            ->put(route('crews.update', $this->user->crew), $data);
+            ->put(route('crew.profile.create', $this->user->crew), $data);
 
-        $response->assertSuccessful();
+        $response->assertRedirect(route('crew.profile.create'));
     }
 
     /**
@@ -95,10 +96,10 @@ class CrewUpdateFeatureTest extends TestCase
 
         // when
         $response = $this->actingAs($this->user)
-            ->put(route('crews.update', $this->user->crew), $data);
+            ->put(route('crew.profile.create', $this->user->crew), $data);
 
         // then
-        $response->assertSuccessful();
+        $response->assertRedirect(route('crew.profile.create'));
     }
 
 
@@ -113,10 +114,10 @@ class CrewUpdateFeatureTest extends TestCase
 
         // when
         $response = $this->actingAs($this->user)
-            ->put(route('crews.update', $this->user->crew), $data);
+            ->put(route('crew.profile.create', $this->user->crew), $data);
 
         // then
-        $response->assertSuccessful();
+        $response->assertRedirect(route('crew.profile.create'));
     }
 
     /**
@@ -141,7 +142,7 @@ class CrewUpdateFeatureTest extends TestCase
         ]);
 
         $response = $this->actingAs($this->user)
-            ->put(route('crews.update', $this->user->crew), $data);
+            ->put(route('crew.profile.create', $this->user->crew), $data);
 
         $response->assertSessionHasErrors([
             'photo'                        => 'The photo must be an image.',
@@ -159,19 +160,6 @@ class CrewUpdateFeatureTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     * @covers \App\Http\Controllers\Crew\CrewProfileController::update
-     */
-    public function update_not_exists()
-    {
-        $data = $this->getUpdateData();
-
-        $response = $this->actingAs($this->user)
-            ->put(route('crews.update', ['crew' => '5']), $data);
-
-        $response->assertNotFound();
-    }
 
     /**
      * @test
@@ -179,11 +167,11 @@ class CrewUpdateFeatureTest extends TestCase
      */
     public function update_unauthorized()
     {
-        $randomUser = $this->createCrew();
+        $randomUser = $this->createUser();
         $data = $this->getUpdateData();
 
         $response = $this->actingAs($randomUser)
-            ->put(route('crews.update', $this->user->crew), $data);
+            ->put(route('crew.profile.create', $this->user->crew), $data);
 
         $response->assertForbidden();
     }
@@ -252,7 +240,7 @@ class CrewUpdateFeatureTest extends TestCase
     protected function customizeData($data, $customData)
     {
         foreach ($customData as $key => $value) {
-            array_set($data, $key, $value);
+            Arr::set($data, $key, $value);
         }
 
         return $data;

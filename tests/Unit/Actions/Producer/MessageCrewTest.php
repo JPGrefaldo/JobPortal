@@ -17,7 +17,7 @@ class MessageCrewTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setup();
     }

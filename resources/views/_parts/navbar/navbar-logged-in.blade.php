@@ -57,9 +57,9 @@
                 <div class="relative flex justify-center items-center p-1 rounded-lg hover:bg-grey-lighter">
                     <span class="mr-2 inline-block font-semibold text-blue-dark text-sm">{{ Auth::user()->first_name }}</span>
 
-                    @if (isset(Auth::user()->crew) && !empty(Auth::user()->crew->photo))
+                    @if (isset(Auth::user()->crew) && !empty(Auth::user()->crew->photo_url))
                         <span class="w-10 h-10 bg-cover rounded-full inline-block"
-                              style="background-image: url('https://s3-us-west-2.amazonaws.com/test.crewcalls.info{{ Auth::user()->crew->photo_url }}')"></span>
+                              style="background-image: url('{{ Auth::user()->crew->photo_url }}')"></span>
                     @else
                         <span class="w-10 h-10 bg-cover rounded-full inline-block background-missing-avatar"></span>
                     @endif
@@ -67,15 +67,15 @@
                 </div>
                 <div class="dropdown shadow-md bg-white absolute py-3 font-body">
                     <ul class="list-reset text-left">
-                        @if(! Route::is('profile'))
+                        @if(! Route::is('crew.profile'))
                             <li class="py-2 px-4">
-                                <a href="{{ route('profile') }}" class="block text-blue-dark hover:text-green">View
+                                <a href="{{ route('crew.profile') }}" class="block text-blue-dark hover:text-green">View
                                     profile</a>
                             </li>
                         @endif
-                        @if(! Route::is('profile.create'))
+                        @if(! Route::is('crew.profile.create'))
                             <li class="py-2 px-4">
-                                <a href="{{ route('profile.create') }}" class="block text-blue-dark hover:text-green">Edit
+                                <a href="{{ route('crew.profile.create') }}" class="block text-blue-dark hover:text-green">Edit
                                     profile</a>
                             </li>
                         @endif
@@ -117,14 +117,14 @@
             <span class="ml-2 inline-block font-semibold text-white text-sm">{{ auth()->user()->full_name }}</span>
         </div>
         <ul class="list-reset text-left text-sm">
-            @if(! Route::is('profile'))
+            @if(! Route::is('crew.profile'))
                 <li class="py-1 px-4">
-                    <a href="{{ route('profile') }}" class="block text-white">View profile</a>
+                    <a href="{{ route('crew.profile') }}" class="block text-white">View profile</a>
                 </li>
             @endif
-            @if(! Route::is('profile.create'))
+            @if(! Route::is('crew.profile.create'))
                 <li class="py-1 px-4">
-                    <a href="{{ route('profile.create') }}" class="block text-white">Edit profile</a>
+                    <a href="{{ route('crew.profile.create') }}" class="block text-white">Edit profile</a>
                 </li>
             @endif
             <li class="py-1 px-4">

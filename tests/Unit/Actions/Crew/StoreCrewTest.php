@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Actions\Crew;
 
+use Illuminate\Support\Arr;
 use App\Actions\Crew\SaveCrew;
 use App\Actions\Crew\SaveCrewReel;
 use App\Actions\Crew\SaveCrewSocials;
@@ -18,13 +19,13 @@ class StoreCrewTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
         Storage::fake('s3');
 
-        $this->user = $this->createUser();
+        $this->user = $this->createCrew();
     }
 
     /**
@@ -152,7 +153,7 @@ class StoreCrewTest extends TestCase
     protected function customizeData($data, $customData)
     {
         foreach ($customData as $key => $value) {
-            array_set($data, $key, $value);
+            Arr::set($data, $key, $value);
         }
 
         return $data;

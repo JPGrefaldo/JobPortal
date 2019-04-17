@@ -18,7 +18,7 @@ class GetCrewPositionByPositionTest extends TestCase
      */
     public $service;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setup();
         $this->service = app(GetCrewPositionByPosition::class);

@@ -13,3 +13,8 @@
 .form-control {
     @apply .border .border-grey-light .p-3 .rounded;
 }
+
+.background-missing-avatar {
+    background-image: url("/images/missing-avatar.png");
+    background-size: cover;
+}
