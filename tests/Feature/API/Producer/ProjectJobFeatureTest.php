@@ -82,8 +82,8 @@ class ProjectJobFeatureTest extends TestCase
                 route('producer.project.jobs.store'),
                 $data,
                 [
-                                 'Accept' => 'application/json',
-                             ]
+                    'Accept' => 'application/json',
+                ]
             )
             ->assertSee('Sucessfully added the project\'s job.')
             ->assertStatus(Response::HTTP_CREATED);
@@ -128,8 +128,8 @@ class ProjectJobFeatureTest extends TestCase
                 route('producer.project.jobs.store'),
                 $data,
                 [
-                                 'Accept' => 'application/json',
-                             ]
+                    'Accept' => 'application/json',
+                ]
             )
             ->assertSee('Sucessfully added the project\'s job.')
             ->assertStatus(Response::HTTP_CREATED);
@@ -171,8 +171,8 @@ class ProjectJobFeatureTest extends TestCase
                 route('producer.project.jobs.store'),
                 $data,
                 [
-                     'Accept' => 'application/json',
-                 ]
+                    'Accept' => 'application/json',
+                ]
             )
             ->assertSee('Sucessfully added the project\'s job')
             ->assertStatus(Response::HTTP_CREATED);
@@ -214,8 +214,8 @@ class ProjectJobFeatureTest extends TestCase
                 route('producer.project.jobs.store'),
                 $data,
                 [
-                                 'Accept' => 'application/json',
-                             ]
+                    'Accept' => 'application/json',
+                ]
             )
             ->assertSee('Sucessfully added the project\'s job.')
             ->assertStatus(Response::HTTP_CREATED);
@@ -255,8 +255,8 @@ class ProjectJobFeatureTest extends TestCase
                 route('producer.project.jobs.update', $projectJob),
                 $data,
                 [
-                                'Accept' => 'application/json',
-                            ]
+                    'Accept' => 'application/json',
+                ]
             )
             ->assertSee('Sucessfully updated the project\'s job.')
             ->assertStatus(Response::HTTP_OK);
@@ -383,8 +383,8 @@ class ProjectJobFeatureTest extends TestCase
                 route('producer.project.jobs.store'),
                 $data,
                 [
-                     'Accept' => 'application/json',
-                 ]
+                    'Accept' => 'application/json',
+                ]
             )
             ->assertSee('This action is unauthorized.')
             ->assertStatus(Response::HTTP_FORBIDDEN);
@@ -459,8 +459,8 @@ class ProjectJobFeatureTest extends TestCase
                 route('producer.project.jobs.store'),
                 $data,
                 [
-                                 'Accept' => 'application/json',
-                             ]
+                    'Accept' => 'application/json',
+                ]
             )
             ->assertSee('Sucessfully added the project\'s job')
             ->assertStatus(Response::HTTP_CREATED);

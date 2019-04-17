@@ -86,6 +86,8 @@
             </aside>
 
             <div class="w-full md:w-3/4 float-left" v-if="projects">
+                <project-job-view-modal v-if="showModal" @close="showModal = false"></project-job-view-modal>
+                
                 <div 
                     class="bg-white shadow-md rounded mb-8 border border-grey-light"
                     v-for="project in projects"
@@ -116,12 +118,12 @@
                                 <span class="badge bg-white ml-2">0 active</span>
                                 <span class="badge bg-white">2 paused</span>
                             </div>
-                            <a class="btn-outline" href="#" @click.stop="showRoleModal = true">add role</a>
+                            <a class="btn-outline" href="#" @click.stop="showRoleModal(project)">add role</a>
                         </div>
                         <div class="bg-white mt-4 rounded p-4 md:p-8 shadow" v-for="job in project.jobs" :key="job.id">
                             <div class="flex justify-between items-center">
                                 <h3 class="text-blue-dark font-semibold text-md mb-1 font-header"> {{ job.position.name }} <span
-                                        class="badge"> {{ job.position.persons_needed }} needed</span></h3>
+                                        class="badge"><strong>{{ job.persons_needed }}</strong> needed</span></h3>
                                 <div>
                                     <span class="h4 mr-2 text-yellow inline-block text-xs"><i
                                             class="fas fa-pause mr-1"></i>paused</span>
@@ -183,15 +185,22 @@
 <script>
     import { mapGetters } from 'vuex'
     import { format, modals } from '../../mixins'
+    import ProjectForm from '../project/ProjectJobForm.vue'
+    import ProjectJobViewModal from '../project/ProjectJobCreateModal.vue'
 
     export default {
         mixins: [format, modals],
+
+        components: {
+            'project-form': ProjectForm,
+            'project-job-view-modal': ProjectJobViewModal
+        },
 
         data() {
             return {
                 truncLength: 100,
                 activeModal: 0,
-                showRoleModal: false
+                showModal: false
             }
         },
 
@@ -206,18 +215,6 @@
         },
 
         methods: {
-            showModal: function(id) {
-                return this.activeModal === id 
-            },
-
-            toggleModal: function (id) {
-                if(this.activeModal !== 0) {
-                    this.activeModal = 0
-                    return false
-                }
-                this.activeModal = id
-            },
-
             status: function(status) {
                 return status == 0 ? 'NOT YET APPROVED' : 'APPROVED'
             },
@@ -228,6 +225,11 @@
 
             showProjectJobModal: function (job) {
                 this.projectJobViewModal(job)
+            },
+
+            showRoleModal: function (project) {
+                this.$store.commit('project/PROJECT', project)
+                this.showModal = true
             }
         }
     }

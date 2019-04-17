@@ -99,16 +99,10 @@ export default {
 
                     this.$store.dispatch('project/saveProjectJob', this.job);
 
-                    this.resetState();
                     this.$swal('Job Added!', 'The job has been added.', 'success');
+                    location.reload()
                 }
             });
-        },
-
-        resetState() {
-            this.department = null;
-            this.position = null;
-            this.$store.commit('project/JOB', { persons_needed: 1 });
         },
     },
 
