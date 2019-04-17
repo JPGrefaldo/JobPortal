@@ -78,8 +78,8 @@ class ProjectFeatureTest extends TestCase
                 route('producer.project.store'),
                 $data,
                 [
-                                 'Accept' => 'application/json',
-                             ]
+                    'Accept' => 'application/json',
+                ]
             )
             ->assertSee('Project successfully added.')
             ->assertStatus(Response::HTTP_CREATED);
@@ -167,8 +167,8 @@ class ProjectFeatureTest extends TestCase
                 route('producer.projects.store'),
                 $data,
                 [
-                     'Accept' => 'application/json',
-                 ]
+                    'Accept' => 'application/json',
+                ]
             )
             ->assertSee('User does not have the right roles.')
             ->assertStatus(Response::HTTP_FORBIDDEN);
@@ -195,8 +195,8 @@ class ProjectFeatureTest extends TestCase
                 route('producer.project.store'),
                 $data,
                 [
-                     'Accept' => 'application/json',
-                 ]
+                    'Accept' => 'application/json',
+                ]
             )
             ->assertSee('The given data was invalid.')
             ->assertSee('The title field is required.')
@@ -230,8 +230,8 @@ class ProjectFeatureTest extends TestCase
                 route('producer.project.store'),
                 $data,
                 [
-                     'Accept' => 'application/json',
-                 ]
+                    'Accept' => 'application/json',
+                ]
             )
             ->assertSee('The given data was invalid.')
             ->assertSee('The title must be a string.')
@@ -263,8 +263,8 @@ class ProjectFeatureTest extends TestCase
                 route('producer.project.update', ['project' => 1]),
                 $data,
                 [
-                     'Accept' => 'application/json',
-                 ]
+                    'Accept' => 'application/json',
+                ]
             )
             ->assertSee('User does not have the right roles.')
             ->assertStatus(Response::HTTP_FORBIDDEN);
@@ -284,7 +284,7 @@ class ProjectFeatureTest extends TestCase
             'gear_needed'          => 'Some Gear Needed',
             'pay_rate'             => '16',
             'pay_type_id'          => PayTypeID::PER_HOUR,
-            'dates_needed'         => '6/15/2018 - 6/25/2018',
+            'dates_needed'         => '6/15/2018',
             'notes'                => 'Some Note',
             'travel_expenses_paid' => '1',
             'rush_call'            => '1',
@@ -307,8 +307,10 @@ class ProjectFeatureTest extends TestCase
             ->assertSee('Succesfully fetched all projects.')
             ->assertStatus(Response::HTTP_OK);
 
+        $jobs = $project->jobs()->with('position')->get()->toArray();
+
         $response->assertJsonFragment($project->toArray());
-        $response->assertJsonFragment($project->jobs->toArray());
+        $response->assertJsonFragment($jobs[0]);
         $response->assertJsonFragment($project->remotes()->get()->toArray());
     }
 

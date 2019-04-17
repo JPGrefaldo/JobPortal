@@ -123,7 +123,7 @@
                         <div class="bg-white mt-4 rounded p-4 md:p-8 shadow" v-for="job in project.jobs" :key="job.id">
                             <div class="flex justify-between items-center">
                                 <h3 class="text-blue-dark font-semibold text-md mb-1 font-header"> {{ job.position.name }} <span
-                                        class="badge"> {{ job.position.persons_needed }} needed</span></h3>
+                                        class="badge"><strong>{{ job.persons_needed }}</strong> needed</span></h3>
                                 <div>
                                     <span class="h4 mr-2 text-yellow inline-block text-xs"><i
                                             class="fas fa-pause mr-1"></i>paused</span>
