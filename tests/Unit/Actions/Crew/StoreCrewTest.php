@@ -25,7 +25,7 @@ class StoreCrewTest extends TestCase
 
         Storage::fake('s3');
 
-        $this->user = $this->createUser();
+        $this->user = $this->createCrew();
     }
 
     /**

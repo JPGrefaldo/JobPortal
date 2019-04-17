@@ -2,19 +2,22 @@
 
 namespace Tests\Unit\Actions\Crew;
 
-use Illuminate\Support\Arr;
 use App\Actions\Crew\EditCrew;
 use App\Actions\Crew\StoreCrew;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
+use Tests\Support\CreatesCrewModel;
 use Tests\Support\Data\SocialLinkTypeID;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 
 class EditCrewTest extends TestCase
 {
-    use RefreshDatabase, SeedDatabaseAfterRefresh;
+    use RefreshDatabase,
+        SeedDatabaseAfterRefresh,
+        CreatesCrewModel;
 
     /**
      * @test
@@ -22,62 +25,19 @@ class EditCrewTest extends TestCase
      */
     public function execute()
     {
-        // given
         Storage::fake('s3');
 
-        $user = $this->createUser();
-        $createData = $this->getCreateData();
-
-        app(StoreCrew::class)->execute($user, $createData);
-
-        $crew = $user->crew;
+        $models = $this->createCompleteCrew();
         $data = $this->getUpdateData();
 
-        // when
-        app(EditCrew::class)->execute($crew, $data);
+        app(EditCrew::class)->execute($models['crew'], $data);
 
-        // then
         $this->assertDatabaseHas('crews', [
-            'user_id'    => $user->id,
+            'user_id'    => $models['user']->id,
             'bio'        => 'updated bio',
-            'photo_path' => $user->hash_id . '/photos/' . $data['photo']->hashName(),
         ]);
-
-        Storage::disk('s3')->assertMissing($data['photo']);
-        Storage::disk('s3')->assertExists($crew->photo);
     }
 
-    /**
-     * @test
-     * @covers \App\Actions\Crew\EditCrew::execute
-     */
-    public function crew_photo_can_be_deleted()
-    {
-        // given
-        Storage::fake('s3');
-
-        $user = $this->createUser();
-        $createData = $this->getCreateData();
-
-        app(StoreCrew::class)->execute($user, $createData);
-
-        $crew = $user->crew;
-        $data = $this->getUpdateData([
-            'photo' => '',
-        ]);
-
-        // when
-        app(EditCrew::class)->execute($crew, $data);
-
-        // then
-        $this->assertDatabaseHas('crews', [
-            'user_id'    => $user->id,
-            'bio'        => 'updated bio',
-            'photo_path' => null,
-        ]);
-
-        Storage::disk('s3')->assertMissing($crew->photo);
-    }
 
     /**
      * @param array $customData
@@ -143,58 +103,5 @@ class EditCrewTest extends TestCase
         }
 
         return $data;
-    }
-
-    /**
-     * @param array $customData
-     *
-     * @return array
-     */
-    public function getCreateData($customData = [])
-    {
-        $data = [
-            'bio'     => 'some bio',
-            'photo'   => UploadedFile::fake()
-                ->image('photo.png'),
-            'resume'  => UploadedFile::fake()
-                ->create('resume.pdf'),
-            'reel'    => 'http://www.youtube.com/embed/G8S81CEBdNs',
-            'socials' => [
-                'facebook'         => [
-                    'url' => 'https://www.facebook.com/castingcallsamerica/',
-                    'id'  => SocialLinkTypeID::FACEBOOK,
-                ],
-                'twitter'          => [
-                    'url' => 'https://twitter.com/casting_america',
-                    'id'  => SocialLinkTypeID::TWITTER,
-                ],
-                'youtube'          => [
-                    'url' => 'https://www.youtube.com/channel/UCHBOnWRvXSZ2xzBXyoDnCJw',
-                    'id'  => SocialLinkTypeID::YOUTUBE,
-                ],
-                'imdb'             => [
-                    'url' => 'http://www.imdb.com/name/nm0000134/',
-                    'id'  => SocialLinkTypeID::IMDB,
-                ],
-                'tumblr'           => [
-                    'url' => 'http://test.tumblr.com',
-                    'id'  => SocialLinkTypeID::TUMBLR,
-                ],
-                'vimeo'            => [
-                    'url' => 'https://vimeo.com/mackevision',
-                    'id'  => SocialLinkTypeID::VIMEO,
-                ],
-                'instagram'        => [
-                    'url' => 'https://www.instagram.com/castingamerica/',
-                    'id'  => SocialLinkTypeID::INSTAGRAM,
-                ],
-                'personal_website' => [
-                    'url' => 'https://castingcallsamerica.com',
-                    'id'  => SocialLinkTypeID::PERSONAL_WEBSITE,
-                ],
-            ],
-        ];
-
-        return $this->customizeData($data, $customData);
     }
 }

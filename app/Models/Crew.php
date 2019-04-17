@@ -47,7 +47,11 @@ class Crew extends Model
      */
     public function getPhotoUrlAttribute()
     {
-        return $this->photo;
+        if (empty($this->photo_path)) {
+            return '';
+        }
+
+        return config('filesystems.disks.s3.url') . '/' . config('filesystems.disks.s3.bucket') . '/' . $this->photo_path;
     }
 
     /**

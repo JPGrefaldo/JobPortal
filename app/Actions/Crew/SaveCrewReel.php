@@ -15,6 +15,10 @@ class SaveCrewReel
      */
     public function execute(Crew $crew, array $data): void
     {
+        if (! isset($data['reel']) || empty($data['reel'])) {
+            return;
+        }
+
         if ($this->isUploadedFile($data)) {
             $reelPath = $crew->user->hash_id . '/reels/'. $data['reel']->hashName();
             Storage::disk('s3')->put(

@@ -1,8 +1,5 @@
 <?php
 
-Route::put('/crews/{crew}', [\App\Http\Controllers\CrewsController::class, 'update'])
-    ->name('crews.update');
-
 Route::prefix('crew')->group(function () {
     Route::prefix('endorsement')->group(function () {
         Route::get('/', [App\Http\Controllers\Crew\Endorsements\EndorsementPositionController::class, 'index'])
@@ -35,10 +32,12 @@ Route::post('/crew/messages', [\App\Http\Controllers\Crew\MessageController::cla
 
 Route::prefix('crew/profile')->group(function () {
     Route::get('/', [\App\Http\Controllers\Crew\CrewProfileController::class, 'index'])
-        ->name('profile');
+        ->name('crew.profile');
+
     Route::get('edit', [\App\Http\Controllers\Crew\CrewProfileController::class, 'create'])
-        ->name('profile.create');
-    Route::post('/', [\App\Http\Controllers\Crew\CrewProfileController::class, 'store']);
+        ->name('crew.profile.create');
+    Route::post('edit', [\App\Http\Controllers\Crew\CrewProfileController::class, 'store']);
+    Route::put('edit', [\App\Http\Controllers\Crew\CrewProfileController::class, 'update']);
 });
 
 Route::post('/crew/positions/{position}', [\App\Http\Controllers\Crew\CrewPositionController::class, 'applyFor'])->name('crew-position.store');

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Crew;
 
+use App\Actions\Crew\StoreCrew;
+use App\Actions\Crew\UpdateCrew;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateCrewRequest;
-use App\Services\CrewsServices;
 use App\Services\DepartmentsServices;
 use App\Services\SocialLinksServices;
 use Auth;
@@ -47,6 +48,7 @@ class CrewProfileController extends Controller
         $user = Auth::user()->load([
             'crew',
         ]);
+
         return view('crew.profile.profile-create', [
             'user'            => $user,
             'socialLinkTypes' => $this->getAllSocialLinkTypes($user),
@@ -65,12 +67,19 @@ class CrewProfileController extends Controller
         return $socialLinkTypes;
     }
 
+    /**
+     * @return \App\Services\DepartmentsServices[]|\Illuminate\Database\Eloquent\Collection
+     */
     public function getDepartments()
     {
         $departments = app(DepartmentsServices::class)->getAllWithPositions();
         return $departments;
     }
 
+    /**
+     * @param $user
+     * @return mixed
+     */
     public function getCrewPositions($user)
     {
         $positions =  $user->crew->positions;
@@ -80,22 +89,17 @@ class CrewProfileController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  CreateCrewRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(CreateCrewRequest $request)
     {
         $data = $request->validated();
         $user = Auth::user();
-        $new = (! $user->crew);
 
-        if ($new) {
-            app(CrewsServices::class)->processCreate($data, $user);
-        } else {
-            app(CrewsServices::class)->processUpdate($data, $user->crew);
-        }
+        app(StoreCrew::class)->execute($user, $data);
 
-        return back()->with('infoMessage', ($new) ? 'Created' : 'Updated');
+        return back()->with('infoMessage', 'Created');
     }
 
     /**
@@ -123,12 +127,17 @@ class CrewProfileController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  CreateCrewRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CreateCrewRequest $request)
     {
+        $data = $request->validated();
+        $user = Auth::user();
+
+        app(UpdateCrew::class)->execute($user->crew, $data);
+
+        return back()->with('infoMessage', 'Updated');
     }
 
     /**

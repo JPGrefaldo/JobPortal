@@ -2,19 +2,27 @@
 
 namespace Tests\Unit\Actions\Crew;
 
-use Illuminate\Support\Arr;
 use App\Actions\Crew\EditCrewReel;
-use App\Actions\Crew\StoreCrew;
+use App\Models\CrewReel;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
+use Tests\Support\CreatesCrewModel;
 use Tests\Support\Data\SocialLinkTypeID;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 
 class EditCrewReelTest extends TestCase
 {
-    use RefreshDatabase, SeedDatabaseAfterRefresh;
+    use RefreshDatabase,
+        SeedDatabaseAfterRefresh,
+        CreatesCrewModel;
+
+    /**
+     * @var array
+     */
+    public $models;
 
     public function setUp(): void
     {
@@ -22,7 +30,7 @@ class EditCrewReelTest extends TestCase
 
         Storage::fake('s3');
 
-        $this->user = $this->createUser();
+        $this->models = $this->createCompleteCrew($this->getCreateData());
     }
     /**
      * @test
@@ -30,23 +38,12 @@ class EditCrewReelTest extends TestCase
      */
     public function blank_reel_can_be_updated_to_reel_link()
     {
-        // given
-        $user = $this->user;
-        $createData = $this->getCreateData([
-            'reel' => null,
-        ]);
-
-        app(StoreCrew::class)->execute($user, $createData);
-
-        $crew = $user->crew;
         $data = $this->getUpdateData();
 
-        // when
-        app(EditCrewReel::class)->execute($crew, $data);
+        app(EditCrewReel::class)->execute($this->models['crew'], $data);
 
-        // then
         $this->assertDatabaseHas('crew_reels', [
-            'crew_id'          => $user->crew->id,
+            'crew_id'          => $this->models['crew']->id,
             'path'             => 'https://www.youtube.com/embed/WI5AF1DCQlc',
             'general'          => true,
             'crew_position_id' => null,
@@ -59,29 +56,18 @@ class EditCrewReelTest extends TestCase
      */
     public function blank_reel_can_be_updated_to_reel_file()
     {
-        // given
-        $user = $this->user;
-        $createData = $this->getCreateData([
-            'reel' => null,
-        ]);
-
-        app(StoreCrew::class)->execute($user, $createData);
-
-        $crew = $user->crew;
         $data = $this->getUpdateData([
             'reel' => UploadedFile::fake()->create('new-reel.mp4'),
         ]);
 
-        // when
-        app(EditCrewReel::class)->execute($crew, $data);
+        app(EditCrewReel::class)->execute($this->models['crew'], $data);
 
-        // then
-        $expectedPath = $crew->user->hash_id . '/reels/'. $data['reel']->hashName();
+        $expectedPath = $this->models['crew']->user->hash_id . '/reels/'. $data['reel']->hashName();
 
         Storage::disk('s3')->assertExists($expectedPath);
 
         $this->assertDatabaseHas('crew_reels', [
-            'crew_id'          => $user->crew->id,
+            'crew_id'          => $this->models['crew']->id,
             'path'             => $expectedPath,
             'general'          => true,
             'crew_position_id' => null,
@@ -94,21 +80,12 @@ class EditCrewReelTest extends TestCase
      */
     public function reel_link_can_be_updated_to_reel_link()
     {
-        // given
-        $user = $this->user;
-        $createData = $this->getCreateData();
-
-        app(StoreCrew::class)->execute($user, $createData);
-
-        $crew = $user->crew;
         $data = $this->getUpdateData();
 
-        // when
-        app(EditCrewReel::class)->execute($crew, $data);
+        app(EditCrewReel::class)->execute($this->models['crew'], $data);
 
-        // then
         $this->assertDatabaseHas('crew_reels', [
-            'crew_id'          => $user->crew->id,
+            'crew_id'          => $this->models['crew']->id,
             'path'             => 'https://www.youtube.com/embed/WI5AF1DCQlc',
             'general'          => true,
             'crew_position_id' => null,
@@ -117,31 +94,22 @@ class EditCrewReelTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Actions\Crew\EditCrew::execute
+     * @covers \App\Actions\Crew\EditCrewReel::execute
      */
     public function reel_link_can_be_updated_to_reel_file()
     {
-        // given
-        $user = $this->user;
-        $createData = $this->getCreateData();
-
-        app(StoreCrew::class)->execute($user, $createData);
-
-        $crew = $user->crew;
         $data = $this->getUpdateData([
             'reel' => UploadedFile::fake()->create('new-reel.mp4'),
         ]);
 
-        // when
-        app(EditCrewReel::class)->execute($crew, $data);
+        app(EditCrewReel::class)->execute($this->models['crew'], $data);
 
-        // then
-        $expectedPath = $crew->user->hash_id . '/reels/'. $data['reel']->hashName();
+        $expectedPath = $this->models['crew']->user->hash_id . '/reels/'. $data['reel']->hashName();
 
         Storage::disk('s3')->assertExists($expectedPath);
 
         $this->assertDatabaseHas('crew_reels', [
-            'crew_id'          => $user->crew->id,
+            'crew_id'          => $this->models['crew']->id,
             'path'             => $expectedPath,
             'general'          => true,
             'crew_position_id' => null,
@@ -154,26 +122,23 @@ class EditCrewReelTest extends TestCase
      */
     public function reel_file_can_be_updated_to_reel_link()
     {
-        // given
-        $user = $this->user;
-        $createData = $this->getCreateData([
-            'reel' => UploadedFile::fake()->create('old-reel.mp4'),
+        $data = $this->getUpdateData();
+
+        $reelPath = $this->models['user']->hash_id . '/reels/reel.mp4';
+
+        Storage::disk('s3')->put($reelPath, 'some non-jpg content');
+        Storage::disk('s3')->assertExists($reelPath);
+
+        CrewReel::whereCrewId($this->models['crew']->id)->update([
+            'path' => $reelPath,
         ]);
 
-        app(StoreCrew::class)->execute($user, $createData);
+        app(EditCrewReel::class)->execute($this->models['crew'], $data);
 
-        $crew = $user->crew;
-        $data = $this->getUpdateData();
-        $nonExpectedPath = $crew->user->hash_id . '/reels/'. $createData['reel']->hashName();
-
-        // when
-        app(EditCrewReel::class)->execute($crew, $data);
-
-        // then
-        Storage::disk('s3')->assertMissing($nonExpectedPath);
+        Storage::disk('s3')->assertMissing($reelPath);
 
         $this->assertDatabaseHas('crew_reels', [
-            'crew_id'          => $user->crew->id,
+            'crew_id'          => $this->models['crew']->id,
             'path'             => 'https://www.youtube.com/embed/WI5AF1DCQlc',
             'general'          => true,
             'crew_position_id' => null,
@@ -186,32 +151,29 @@ class EditCrewReelTest extends TestCase
      */
     public function reel_file_can_be_updated_to_reel_file()
     {
-        // given
-        $user = $this->user;
-        $createData = $this->getCreateData([
-            'reel' => UploadedFile::fake()->create('old-reel.mp4'),
+
+        $reelPath = $this->models['user']->hash_id . '/reels/reel.mp4';
+        Storage::disk('s3')->put($reelPath, 'some non-jpg content');
+        Storage::disk('s3')->assertExists($reelPath);
+
+        CrewReel::whereCrewId($this->models['crew']->id)->update([
+            'path' => $reelPath,
         ]);
 
-        app(StoreCrew::class)->execute($user, $createData);
-
-        $crew = $user->crew;
         $data = $this->getUpdateData([
             'reel' => UploadedFile::fake()->create('new-reel.mp4'),
         ]);
-        $nonExpectedPath = $crew->user->hash_id . '/reels/'. $createData['reel']->hashName();
 
-        // when
-        app(EditCrewReel::class)->execute($crew, $data);
+        app(EditCrewReel::class)->execute($this->models['crew'], $data);
 
-        // then
-        Storage::disk('s3')->assertMissing($nonExpectedPath);
+        Storage::disk('s3')->assertMissing($reelPath);
 
-        $expectedPath = $crew->user->hash_id . '/reels/'. $data['reel']->hashName();
+        $expectedPath = $this->models['crew']->user->hash_id . '/reels/'. $data['reel']->hashName();
 
         Storage::disk('s3')->assertExists($expectedPath);
 
         $this->assertDatabaseHas('crew_reels', [
-            'crew_id'          => $user->crew->id,
+            'crew_id'          => $this->models['crew']->id,
             'path'             => $expectedPath,
             'general'          => true,
             'crew_position_id' => null,
@@ -292,43 +254,38 @@ class EditCrewReelTest extends TestCase
     public function getCreateData($customData = [])
     {
         $data = [
-            'bio'     => 'some bio',
-            'photo'   => UploadedFile::fake()->image('photo.png'),
-            'resume'  => UploadedFile::fake()->create('resume.pdf'),
-            'reel'    => 'http://www.youtube.com/embed/G8S81CEBdNs',
-            'socials' => [
-                'facebook'         => [
-                    'url' => 'https://www.facebook.com/castingcallsamerica/',
-                    'id'  => SocialLinkTypeID::FACEBOOK,
-                ],
-                'twitter'          => [
-                    'url' => 'https://twitter.com/casting_america',
-                    'id'  => SocialLinkTypeID::TWITTER,
-                ],
-                'youtube'          => [
-                    'url' => 'https://www.youtube.com/channel/UCHBOnWRvXSZ2xzBXyoDnCJw',
-                    'id'  => SocialLinkTypeID::YOUTUBE,
-                ],
-                'imdb'             => [
-                    'url' => 'http://www.imdb.com/name/nm0000134/',
-                    'id'  => SocialLinkTypeID::IMDB,
-                ],
-                'tumblr'           => [
-                    'url' => 'http://test.tumblr.com',
-                    'id'  => SocialLinkTypeID::TUMBLR,
-                ],
-                'vimeo'            => [
-                    'url' => 'https://vimeo.com/mackevision',
-                    'id'  => SocialLinkTypeID::VIMEO,
-                ],
-                'instagram'        => [
-                    'url' => 'https://www.instagram.com/castingamerica/',
-                    'id'  => SocialLinkTypeID::INSTAGRAM,
-                ],
-                'personal_website' => [
-                    'url' => 'https://castingcallsamerica.com',
-                    'id'  => SocialLinkTypeID::PERSONAL_WEBSITE,
-                ],
+            'socials' =>
+            [
+                'url' => 'https://www.facebook.com/castingcallsamerica/',
+                'id'  => SocialLinkTypeID::FACEBOOK,
+            ],
+            [
+                'url' => 'https://twitter.com/casting_america',
+                'id'  => SocialLinkTypeID::TWITTER,
+            ],
+            [
+                'url' => 'https://www.youtube.com/channel/UCHBOnWRvXSZ2xzBXyoDnCJw',
+                'id'  => SocialLinkTypeID::YOUTUBE,
+            ],
+            [
+                'url' => 'http://www.imdb.com/name/nm0000134/',
+                'id'  => SocialLinkTypeID::IMDB,
+            ],
+            [
+                'url' => 'http://test.tumblr.com',
+                'id'  => SocialLinkTypeID::TUMBLR,
+            ],
+            [
+                'url' => 'https://vimeo.com/mackevision',
+                'id'  => SocialLinkTypeID::VIMEO,
+            ],
+            [
+                'url' => 'https://www.instagram.com/castingamerica/',
+                'id'  => SocialLinkTypeID::INSTAGRAM,
+            ],
+            [
+                'url' => 'https://castingcallsamerica.com',
+                'id'  => SocialLinkTypeID::PERSONAL_WEBSITE,
             ],
         ];
 

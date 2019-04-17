@@ -10,7 +10,7 @@
             @include('crew.profile.parts.profile-complete-indicator')
 
             <div class="md:w-3/4 float-left">
-                <form action="{{ route('profile') }}" method="post" enctype="multipart/form-data">
+                <form action="{{ route('crew.profile.create') }}" method="post" enctype="multipart/form-data">
                     <div class="card mb-8">
                         <div class="w-full mb-6">
                             <h3 class="text-blue-dark font-semibold text-md md:text-lg mb-1 font-header">{{ $user->nickname_or_full_name }}</h3>
@@ -18,15 +18,14 @@
 
                         <div class="md:flex">
                           <div class="md:w-1/3 md:pr-6 mb-6">
-                                @if (isset($user->crew->photo))
+                                @if (! empty($user->crew->photo_url))
                                     <div class="flex h-none bg-grey-light items-center justify-center text-center border border-grey-light w-full pb-full rounded relative"
-                                         style="background: url('https://s3-us-west-2.amazonaws.com/test.crewcalls.info{{ $user->crew->photo_url }}'); background-size: cover;">
+                                         style="background: url('{{ $user->crew->photo_url }}'); background-size: cover;">
                                     </div>
                                 @else
-                                    <div class="flex h-none bg-grey-light items-center justify-center cursor-pointer text-center border border-grey-light w-full pb-full rounded relative background-missing-avatar" >
+                                    <div class="flex h-none bg-grey-light items-center justify-center text-center border border-grey-light w-full pb-full rounded relative background-missing-avatar" >
                                         <span class="text-center uppercase text-sm font-semibold text-white px-2 pos-center w-full">
-                                            <label for="photo-file" class="inline-block text-black cursor-pointer">UPLOAD PROFILE PHOTO</label>
-                                            <input type="file" name="photo" id="photo-file" class="hidden">
+                                            <label class="inline-block text-black">UPLOAD PROFILE PHOTO</label>
                                         </span>
                                     </div>
                                 @endif
@@ -78,7 +77,7 @@
                                 <div class="md:w-2/3">
                                     <input type="text"
                                            name="reel_link"
-                                           class="form-control bg-light w-64 mr-2 mb-2 md:mb-0"
+                                           class="form-control bg-light w-full mr-2 mb-2 md:mb-0"
                                            placeholder="Add link">
                                 </div>
                             </div>
@@ -96,7 +95,8 @@
                                                 <div class="flex -mr-px">
                                                     <span class="flex w-10 items-center leading-normal rounded rounded-r-none px-2 whitespace-no-wrap text-grey-dark" style="background: url('/{{ $socialLinkType->image}}'); background-size: cover;"></span>
                                                 </div>
-                                                <input type="text" id="{{$socialLinkType->id}}"
+                                                <input type="text"
+                                                       id="{{$socialLinkType->id}}"
                                                        class="flex-shrink flex-grow flex-auto leading-normal w-px flex-1 border h-10 border-grey-light rounded rounded-l-none px-3 relative"
                                                        placeholder="Add {{$socialLinkType->name}} link"
                                                        name="socials[{{ $socialLinkType->slug }}][url]"
@@ -109,10 +109,11 @@
                             </div>
                         </div>
                         <div class="pt-8 pb-4 text-right border-t-2 border-grey-lighter">
-                            <a href="#" class="text-grey bold mr-4 hover:text-green">Cancel</a>
                             <input type="submit" class="btn-green" value="SAVE CHANGES">
                         </div>
                     </div>
+
+                    @if(Auth::user()->crew) @method('PUT') @endif
 
                     @csrf
                 </form>

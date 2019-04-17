@@ -11,6 +11,7 @@ class EditCrewReel
     /**
      * @param \App\Models\Crew $crew
      * @param array $data
+     * @throws \Exception
      */
     public function execute(Crew $crew, array $data): void
     {
@@ -28,12 +29,9 @@ class EditCrewReel
         if (gettype($data['reel']) === 'string') {
             $reelPath = app(CleanVideoLink::class)->execute($data['reel']);
         } else {
-            $reelPath = $crew->user->hash_id . '/reels/'. $data['reel']->hashName();
-
-            Storage::disk('s3')->put(
-                $reelPath,
-                file_get_contents($data['reel']),
-                'public'
+            $reelPath = $data['reel']->store(
+                $crew->user->hash_id . '/reels',
+                's3'
             );
         }
 

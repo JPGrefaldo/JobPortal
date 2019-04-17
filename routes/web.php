@@ -116,9 +116,6 @@ Route::middleware('auth')->group(function () {
         ->namespace('App\Http\Controllers\Crew')
         ->group(base_path('routes/crew.php'));
 
-    Route::post('/crews', [\App\Http\Controllers\CrewsController::class, 'store'])
-        ->name('crews.store');
-
     Route::middleware('role:Producer')
         ->namespace('App\Http\Controllers\Producer')
         ->group(base_path('routes/producer.php'));

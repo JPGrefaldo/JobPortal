@@ -11,12 +11,12 @@
                 </div>
                 <div class="flex border px-4 py-2 text-lg text-grey-darkest border-b-0">
                     <div class="pl-2">
-                        <a href="{{ route('profile') }}">View Profile</a>
+                        <a href="{{ route('crew.profile') }}">View Profile</a>
                     </div>
                 </div>
                 <div class="flex border px-4 py-2 text-lg text-grey-darkest border-b-0">
                     <div class="pl-2">
-                        <a href={{ route('profile.create') }}>Edit Profile</a>
+                        <a href={{ route('crew.profile.create') }}>Edit Profile</a>
                     </div>
                 </div>
                 <div class="flex border px-4 py-2 text-lg text-grey-darkest">

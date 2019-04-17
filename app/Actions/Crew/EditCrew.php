@@ -12,7 +12,9 @@ class EditCrew
      */
     public function execute(Crew $crew, array $data): void
     {
-        app(EditCrewPhoto::class)->execute($crew, $data);
+        if (! isset($data['bio']) || empty($data['bio'])) {
+            return;
+        }
 
         $crew->refresh()->update([
             'bio'        => $data['bio'],

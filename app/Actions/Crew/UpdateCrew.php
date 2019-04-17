@@ -10,6 +10,8 @@ class UpdateCrew
     {
         app(EditCrew::class)->execute($crew, $data);
 
+        app(EditCrewPhoto::class)->execute($crew, $data);
+
         app(EditCrewResume::class)->execute($crew, $data);
 
         app(EditCrewReel::class)->execute($crew, $data);
