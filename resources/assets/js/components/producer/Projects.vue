@@ -49,24 +49,27 @@
             <aside class="hidden md:block w-1/4 float-left pr-4">
                 <ul class="list-reset font-header text-left py-6">
                     <li class="block py-4">
-                        <a class="border-b-2 border-red text-blue-dark font-semibold py-2 hover:text-green" href="#">All
-                            projects
-                            <div class="badge bg-white ml-2">12</div>
+                        <a :class="{'border-b-2 border-red ': activeTab == 'all'}" class="text-blue-dark font-semibold py-2 hover:text-green" href="#" @click.stop="loadProjects('all')">
+                            All projects
+                            <div class="badge bg-white ml-2">{{ projects.length }}</div>
                         </a>
                     </li>
                     <li class="block py-4">
-                        <a class="text-blue-dark font-semibold py-2 hover:text-green" href="#">Active projects
-                            <div class="badge bg-white ml-2">12</div>
+                        <a :class="{'border-b-2 border-red ': activeTab == 'active'}" class="text-blue-dark font-semibold py-2 hover:text-green" href="#" @click.stop="loadProjects('active')">
+                            Active projects
+                            <div class="badge bg-white ml-2">{{ projectApprovedCount }}</div>
                         </a>
                     </li>
                     <li class="block py-4">
-                        <a class="text-blue-dark font-semibold py-2 hover:text-green" href="#">Inactive projects
-                            <div class="badge bg-white ml-2">12</div>
+                        <a class="text-blue-dark font-semibold py-2 hover:text-green" href="#" @click.stop="loadProjects('inactive')">
+                            Inactive projects
+                            <div class="badge bg-white ml-2">1000</div>
                         </a>
                     </li>
-                    <li class="block py-4">
-                        <a class="text-blue-dark font-semibold py-2 hover:text-green" href="#">Pending projects
-                            <div class="badge bg-white ml-2">12</div>
+                    <li :class="{'border-b-2 border-red ': activeTab == 'pending'}" class="block py-4">
+                        <a class="text-blue-dark font-semibold py-2 hover:text-green" href="#" @click.stop="loadProjects('pending')">
+                            Pending projects
+                            <div class="badge bg-white ml-2">{{ projectPendingCount }}</div>
                         </a>
                     </li>
                 </ul>
@@ -198,23 +201,43 @@
 
         data() {
             return {
-                truncLength: 100,
-                activeModal: 0,
-                showModal: false
+                activeTab: 'all',
+                showModal: false,
+                truncLength: 100
             }
         },
 
         created() {
-            this.$store.dispatch('project/fetch', 'producer')
+            this.$store.dispatch('project/fetch')
+            this.$store.dispatch('project/fetchAllApprovedCount')
+            this.$store.dispatch('project/fetchAllPendingCount')
         },
 
         computed: {
             ...mapGetters({
-                projects: 'project/list'
+                projects: 'project/list',
+                projectApprovedCount: 'project/approvedCount',
+                projectPendingCount: 'project/pendingCount',
             })
         },
 
         methods: {
+            loadProjects: function (type) {
+                this.activeTab = type
+
+                if(type === 'all') {
+                    this.$store.dispatch('project/fetch')
+                }
+
+                if(type === 'active') {
+                    this.$store.dispatch('project/fetchAllApproved')
+                }
+
+                if(type === 'pending') {
+                    this.$store.dispatch('project/fetchAllPending')
+                }
+            },
+
             status: function(status) {
                 return status == 0 ? 'NOT YET APPROVED' : 'APPROVED'
             },
