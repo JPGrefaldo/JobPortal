@@ -12,21 +12,22 @@ use App\Models\Project;
 use App\Models\Site;
 use App\Utils\UrlUtils;
 use Illuminate\Http\Response;
+use Illuminate\Http\Request;
 
 class ProjectsController extends Controller
 {
     public function index()
     {
-        $project = Project::all();
+        $projects = Project::all();
 
         return response()->json(
             [
-                'message'  => 'Succesfully fetched all projects.',
-                'projects' => $project->load([
+                'message'   => 'Succesfully fetched all projects.',
+                'projects'  => $projects->load([
                     'remotes', 
-                    'jobs' => function($query) {
+                    'jobs'  => function($query) {
                         $query->with('position', 'pay_type');
-                    }
+                    },
                 ]),
             ],
             Response::HTTP_OK
@@ -89,6 +90,48 @@ class ProjectsController extends Controller
         return response()->json(
             [
                 'project' => $project->load(['jobs', 'remotes']),
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    public function pending(Request $request)
+    {
+        if ($request->query('count')) {
+            return response()->json(
+                [
+                    'message'   => 'Succesfully fetched all pending projects count.',
+                    'count' => Project::getPending()->count(),
+                ],
+                Response::HTTP_OK
+            );
+        }
+
+        return response()->json(
+            [
+                'message'   => 'Succesfully fetched all pending projects.',
+                'projects' => Project::getPending()->load(['jobs', 'remotes']),
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    public function approved(Request $request)
+    {
+        if ($request->query('count')) {
+            return response()->json(
+                [
+                    'message'   => 'Succesfully fetched all approved projects count.',
+                    'count' => Project::getApproved()->count(),
+                ],
+                Response::HTTP_OK
+            );
+        }
+
+        return response()->json(
+            [
+                'message'   => 'Succesfully fetched all approved projects.',
+                'projects' => Project::getApproved()->load(['jobs', 'remotes']),
             ],
             Response::HTTP_OK
         );
