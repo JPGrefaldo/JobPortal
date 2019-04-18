@@ -20,12 +20,11 @@ $factory->define(CrewResume::class, function (Faker $faker) {
 $factory->state(CrewResume::class, 'Upload', function (Faker $faker) {
     return [
         'path' => function () use ($faker) {
-            $tmpFile = UploadedFile::fake()->create($faker->sha1 . '.pdf');
-            $path    = $faker->uuid . '/resumes/' . $tmpFile->hashName();
-
-            Storage::put($path, file_get_contents($tmpFile));
-
-            return $path;
+            return UploadedFile::fake()->create($faker->sha1 . '.pdf')->store(
+                $faker->uuid . '/resumes',
+                's3',
+                'public'
+            );
         },
     ];
 });

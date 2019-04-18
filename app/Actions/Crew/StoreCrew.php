@@ -12,18 +12,12 @@ class StoreCrew
     {
         app(EditCrew::class)->execute($user->crew, $data);
 
-        $crew = $user->crew;
+        app(StoreCrewPhoto::class)->execute($user->crew, $data);
 
-        app(EditCrewPhoto::class)->execute($crew, $data);
+        app(StoreCrewResume::class)->execute($user->crew, $data);
 
-        if ($data['resume']) {
-            app(SaveCrewResume::class)->execute($crew, $data);
-        }
+        app(StoreCrewReel::class)->execute($user->crew, $data);
 
-        if ($data['reel']) {
-            app(SaveCrewReel::class)->execute($crew, $data);
-        }
-
-        app(SaveCrewSocials::class)->execute($crew, $data);
+        app(StoreCrewSocials::class)->execute($user->crew, $data);
     }
 }

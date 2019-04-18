@@ -10,12 +10,12 @@ class UpdateCrew
     {
         app(EditCrew::class)->execute($crew, $data);
 
-        app(EditCrewPhoto::class)->execute($crew, $data);
+        app(StoreCrewPhoto::class)->execute($crew, $data);
 
-        app(EditCrewResume::class)->execute($crew, $data);
+        app(StoreCrewResume::class)->execute($crew, $data);
 
-        app(EditCrewReel::class)->execute($crew, $data);
+        app(StoreCrewReel::class)->execute($crew, $data);
 
-        app(EditCrewSocials::class)->execute($crew, $data);
+        app(StoreCrewSocials::class)->execute($crew, $data);
     }
 }

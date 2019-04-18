@@ -58,7 +58,6 @@ class CrewFeatureTest extends TestCase
             'socials.facebook.url'         => '',
             'socials.twitter.url'          => '',
             'socials.youtube.url'          => '',
-            'socials.google_plus.url'      => '',
             'socials.imdb.url'             => '',
             'socials.tumblr.url'           => '',
             'socials.vimeo.url'            => '',

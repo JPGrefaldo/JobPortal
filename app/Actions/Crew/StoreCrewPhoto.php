@@ -5,7 +5,7 @@ namespace App\Actions\Crew;
 use App\Models\Crew;
 use Illuminate\Support\Facades\Storage;
 
-class EditCrewPhoto
+class StoreCrewPhoto
 {
     /**
      * @param \App\Models\Crew $crew
@@ -33,6 +33,8 @@ class EditCrewPhoto
      */
     private function deleteOldPhoto(Crew $crew): void
     {
-        Storage::disk('s3')->delete($crew->photo_path);
+        if ($crew->photo_path) {
+            Storage::disk('s3')->delete($crew->photo_path);
+        }
     }
 }
