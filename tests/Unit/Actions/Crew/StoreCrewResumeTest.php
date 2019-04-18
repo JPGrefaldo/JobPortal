@@ -3,8 +3,7 @@
 namespace Tests\Unit\Actions\Crew;
 
 use Illuminate\Support\Arr;
-use App\Actions\Crew\EditCrewResume;
-use App\Actions\Crew\StoreCrew;
+use App\Actions\Crew\StoreCrewResume;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -13,7 +12,7 @@ use Tests\Support\Data\SocialLinkTypeID;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 
-class EditCrewResumeTest extends TestCase
+class StoreCrewResumeTest extends TestCase
 {
     use RefreshDatabase,
         SeedDatabaseAfterRefresh,
@@ -21,7 +20,7 @@ class EditCrewResumeTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Actions\Crew\EditCrewResume::execute
+     * @covers \App\Actions\Crew\StoreCrewResume::execute
      */
     public function execute()
     {
@@ -32,9 +31,11 @@ class EditCrewResumeTest extends TestCase
 
         $oldResumePath = $models['crew']->resumes()->where('general', true)->first()->path;
 
+        Storage::disk('s3')->assertExists($oldResumePath);
+
         $data = $this->getUpdateData();
 
-        app(EditCrewResume::class)->execute($models['crew'], $data);
+        app(StoreCrewResume::class)->execute($models['crew'], $data);
 
         $this->assertDatabaseHas('crew_resumes', [
             'crew_id'          => $models['crew']->id,
@@ -43,8 +44,41 @@ class EditCrewResumeTest extends TestCase
             'crew_position_id' => null,
         ]);
 
-        $resume = $models['crew']->resumes->where('general', true)->first();
+        $resume = $models['crew']->refresh()->resumes->where('general', true)->first();
         Storage::disk('s3')->assertMissing($oldResumePath);
+        Storage::disk('s3')->assertExists($resume->path);
+    }
+
+    /**
+     * @test
+     * @covers \App\Actions\Crew\StoreCrewResume::execute
+     */
+    public function execute_new_user()
+    {
+        Storage::fake('s3');
+
+        $models = $this->createCompleteCrew([
+            'reel' => [
+                'path' => '',
+            ],
+        ]);
+
+        $resume = $models['crew']->refresh()->resumes->where('general', true)->first();
+
+        $data = [
+            'resume'  => UploadedFile::fake()->create('resume.pdf'),
+        ];
+
+        app(StoreCrewResume::class)->execute($models['crew'], $data);
+
+        $this->assertDatabaseHas('crew_resumes', [
+            'crew_id'          => $models['crew']->id,
+            'path'             => $models['user']->hash_id . '/resumes/' . $data['resume']->hashName(),
+            'general'          => true,
+            'crew_position_id' => null,
+        ]);
+
+        $resume = $models['crew']->refresh()->resumes->where('general', true)->first();
         Storage::disk('s3')->assertExists($resume->path);
     }
 

@@ -5,7 +5,7 @@ namespace App\Actions\Crew;
 use App\Models\Crew;
 use Illuminate\Support\Facades\Storage;
 
-class EditCrewResume
+class StoreCrewResume
 {
     public function execute(Crew $crew, array $data)
     {
@@ -19,10 +19,13 @@ class EditCrewResume
 
         $resumePath = $data['resume']->store(
             $crew->user->hash_id . '/resumes',
-            's3'
+            's3',
+            'public'
         );
 
-        $crew->resumes()->update([
+        $crew->resumes()->updateOrCreate([
+            'general' => true,
+        ],[
             'path'    => $resumePath,
             'general' => true,
         ]);

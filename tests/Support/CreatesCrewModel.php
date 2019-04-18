@@ -23,17 +23,17 @@ trait CreatesCrewModel
 
         $user = $this->createCrew($attributes);
 
-        $resume = $this->createCrewResume(array_merge_recursive($attributes['resume'], [
+        $resume = $this->createCrewResume(array_merge([
             'crew_id' => $user->crew->id,
-        ]));
+        ], $attributes['resume']));
 
-        $reel = $this->createCrewReel(array_merge_recursive($attributes['reel'], [
+        $reel = $this->createCrewReel(array_merge([
             'crew_id' => $user->crew->id,
-        ]));
+        ], $attributes['reel']));
 
-        $socials = $this->createCrewSocials(array_merge_recursive($attributes['socials'], [
+        $socials = $this->createCrewSocials(array_merge([
             'crew_id' => $user->crew->id,
-        ]));
+        ], $attributes['socials']));
 
         return [
             'user'    => $user,
@@ -57,15 +57,14 @@ trait CreatesCrewModel
 
         $user->assignRole(Role::CREW);
 
-        /*dd(array_merge_recursive($attributes['crew'], [
+        factory(Crew::class)->create(array_merge([
             'user_id'    => $user->id,
-            'photo_path' => UploadedFile::fake()->create('fakephoto.jpg'),
-        ]));*/
-
-        factory(Crew::class)->create(array_merge_recursive($attributes['crew'], [
-            'user_id'    => $user->id,
-            //'photo_path' => UploadedFile::fake()->create('fakephoto.jpg'),
-        ]));
+            'photo_path' => UploadedFile::fake()->create('fakephoto.jpg')->store(
+                $user->hash_id . '/photos',
+                's3',
+                'public'
+            ),
+        ], $attributes['crew']));
 
         return $user;
     }
@@ -85,7 +84,7 @@ trait CreatesCrewModel
      */
     public function createCrewResume($attributes = [])
     {
-        return factory(CrewResume::class)->create($attributes);
+        return factory(CrewResume::class)->state('Upload')->create($attributes);
     }
 
     /**
