@@ -10,6 +10,15 @@ export default {
         }
     },
     methods: {
+        // from alert.js
+        displaySuccess: function(response) {
+            this.$swal({
+                title: '',
+                text: response.data.message,
+                type: 'success',
+            });
+        },
+
         onClickRequestFlag: function(message) {
             this.requestFlag(message);
         },
@@ -40,7 +49,7 @@ export default {
         },
 
         submitRequestFlagForm: function(message, result) {
-            this.form.message_id = message.message_id;
+            this.form.message_id = message.id;
             this.form.reason = result.value;
 
             const response = this.form.post('/pending-flag-messages');
