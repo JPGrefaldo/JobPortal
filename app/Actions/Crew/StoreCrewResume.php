@@ -7,7 +7,11 @@ use Illuminate\Support\Facades\Storage;
 
 class StoreCrewResume
 {
-    public function execute(Crew $crew, array $data)
+    /**
+     * @param \App\Models\Crew $crew
+     * @param array $data
+     */
+    public function execute(Crew $crew, array $data): void
     {
         if (! isset($data['resume']) || empty($data['resume'])) {
             return;
@@ -25,7 +29,7 @@ class StoreCrewResume
 
         $crew->resumes()->updateOrCreate([
             'general' => true,
-        ],[
+        ], [
             'path'    => $resumePath,
             'general' => true,
         ]);

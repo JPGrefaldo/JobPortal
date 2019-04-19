@@ -7,6 +7,10 @@ use Cmgmyr\Messenger\Models\Thread;
 
 class FetchNewMessages
 {
+    /**
+     * @param $user
+     * @return bool
+     */
     public function execute($user)
     {
         $threads = Thread::forUserWithNewMessages($user->id)
@@ -16,6 +20,11 @@ class FetchNewMessages
         return $this->formatData($threads, $user);
     }
 
+    /**
+     * @param $threads
+     * @param $user
+     * @return bool
+     */
     private function formatData($threads, $user)
     {
         if ($threads->count() > 0) {

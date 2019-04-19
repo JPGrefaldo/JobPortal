@@ -10,7 +10,7 @@ class CloseProducerAccount
     /**
      * @param User $user
      */
-    public function execute(User $user)
+    public function execute(User $user): void
     {
         if (! $user->hasRole(Role::PRODUCER)) {
             return;

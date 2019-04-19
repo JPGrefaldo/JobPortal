@@ -9,14 +9,13 @@ use Carbon\Carbon;
 
 class SendRushCallEmail
 {
-
     public function execute(ProjectJob $projectJob)
     {
         if ($projectJob->rush_call) {
             $crews = Crew::whereExists(
                 function ($query) use ($projectJob) {
-                                $query->from('crew_position')
-                                    ->where('position_id', $projectJob->position_id);
+                    $query->from('crew_position')
+                        ->where('position_id', $projectJob->position_id);
                 }
             )->get();
 
@@ -28,7 +27,7 @@ class SendRushCallEmail
         }
     }
 
-    private function format(ProjectJob $projectJob)
+    private function format(ProjectJob $projectJob): array
     {
         return [
             'id'                    => $projectJob->id,
@@ -40,7 +39,10 @@ class SendRushCallEmail
         ];
     }
 
-
+    /**
+     * @param $date
+     * @return array|string
+     */
     private function datesNeededFormat($date)
     {
         if (is_string($date)) {
@@ -60,6 +62,10 @@ class SendRushCallEmail
         return $this->multipleDateFormat($date);
     }
 
+    /**
+     * @param $dates
+     * @return array
+     */
     private function multipleDateFormat($dates)
     {
         $formattedDates = [];
@@ -71,6 +77,10 @@ class SendRushCallEmail
         return $formattedDates;
     }
 
+    /**
+     * @param $date
+     * @return string
+     */
     private function formatDate($date)
     {
         return Carbon::parse($date)->toFormattedDateString();

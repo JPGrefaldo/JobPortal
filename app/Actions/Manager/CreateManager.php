@@ -11,7 +11,7 @@ class CreateManager
      * @param string $subordinateId
      * @return \App\Models\Manager
      */
-    public function execute($managerId, $subordinateId)
+    public function execute($managerId, $subordinateId): Manager
     {
         return Manager::create([
             'manager_id'     => $managerId,

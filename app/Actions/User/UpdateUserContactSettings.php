@@ -8,6 +8,9 @@ use App\Utils\StrUtils;
 
 class UpdateUserContactSettings
 {
+    /**
+     * @var array
+     */
     const FIELDS = [
         'phone',
         'email',

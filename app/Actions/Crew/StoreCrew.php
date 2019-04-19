@@ -2,13 +2,16 @@
 
 namespace App\Actions\Crew;
 
-use App\Models\Crew;
-use App\Models\Role;
 use App\Models\User;
 
 class StoreCrew
 {
-    public function execute(User $user, array $data)
+    /**
+     * @param \App\Models\User $user
+     * @param array $data
+     * @throws \Exception
+     */
+    public function execute(User $user, array $data): void
     {
         app(EditCrew::class)->execute($user->crew, $data);
 

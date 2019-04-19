@@ -12,8 +12,12 @@ class StoreCrewSocials
      * @param array $data
      * @throws \Exception
      */
-    public function execute(Crew $crew, array $data)
+    public function execute(Crew $crew, array $data): void
     {
+        if (! isset($data['socials']) || empty($data['socials'])) {
+            return;
+        }
+
         foreach ($data['socials'] as $key => $value) {
             $crew->socials()->where('social_link_type_id', $value['id'])->delete();
 

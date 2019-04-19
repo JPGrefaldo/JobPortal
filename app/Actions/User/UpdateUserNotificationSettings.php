@@ -7,6 +7,9 @@ use App\Models\User;
 
 class UpdateUserNotificationSettings
 {
+    /**
+     * @var array
+     */
     const FIELDS = [
         'receive_email_notification',
         'receive_other_emails',
