@@ -107,8 +107,16 @@ class ProjectController extends Controller
         );
     }
 
-    public function threads(Thread $thread)
+    public function threads(Project $project)
     {
-        dd($thread->count());
+        $project = Project::where('status', 0)->get();
+
+        return response()->json(
+            [
+                'message'  => 'Succesfully fetched all projects.',
+                'threads' => $project,
+            ],
+            Response::HTTP_OK
+        );
     }
 }
