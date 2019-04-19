@@ -40,6 +40,9 @@ class CrewPosition extends Pivot
         return $this->belongsTo(Crew::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function position()
     {
         return $this->belongsTo(Position::class);
@@ -64,11 +67,17 @@ class CrewPosition extends Pivot
             ->where('position_id', $position->id);
     }
 
+    /**
+     * @param $value
+     */
     public function setDetailsAttribute($value)
     {
         $this->attributes['details'] = (is_null($value) ? '' : $value);
     }
 
+    /**
+     * @param $value
+     */
     public function setUnionDescriptionAttribute($value)
     {
         $this->attributes['union_description'] = (is_null($value) ? '' : $value);

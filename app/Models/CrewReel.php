@@ -31,11 +31,17 @@ class CrewReel extends Model
         return $this->belongsTo(Crew::class);
     }
 
+    /**
+     * @param $value
+     */
     public function setUrlAttribute($value)
     {
         $this->attributes['url'] = (is_null($value) ? '' : $value);
     }
 
+    /**
+     * @param $value
+     */
     public function setGeneralAttribute($value)
     {
         $this->attributes['general'] = (is_null($value) ? '' : $value);

@@ -13,6 +13,9 @@ class UserBanned extends Model
      */
     protected $guarded = ['id'];
 
+    /**
+     * @var string
+     */
     protected $table = 'user_banned';
 
     /**
