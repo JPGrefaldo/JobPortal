@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Cmgmyr\Messenger\Models\Thread;
+use App\Http\Resources\ThreadResource;
 
 class ProjectController extends Controller
 {
@@ -109,14 +109,6 @@ class ProjectController extends Controller
 
     public function threads(Project $project)
     {
-        $project = Project::where('status', 0)->get();
-
-        return response()->json(
-            [
-                'message'  => 'Succesfully fetched all projects.',
-                'threads' => $project,
-            ],
-            Response::HTTP_OK
-        );
+        return ThreadResource::collection($project->threads);
     }
 }
