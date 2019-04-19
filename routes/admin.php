@@ -24,9 +24,11 @@ Route::prefix('/admin/positions')->group(function () {
         ->name('admin.positions.update');
 });
 
-Route::prefix('/admin/projects')->group(function () {
+Route::prefix('api/admin/projects')->group(function () {
     Route::get('/', [\App\Http\Controllers\Admin\ProjectController::class, 'index'])
         ->name('admin.projects');
+    Route::get('/{project}/threads', [\App\Http\Controllers\Admin\ProjectController::class, 'threads'])
+        ->name('admin.projects.threads');
     Route::put('/{project}/approve', [\App\Http\Controllers\Admin\ProjectController::class, 'approve'])
         ->name('admin.projects.approve');
     Route::put('/{project}', [\App\Http\Controllers\Admin\ProjectController::class, 'update'])

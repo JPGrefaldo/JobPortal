@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Cmgmyr\Messenger\Models\Thread;
 
 class ProjectController extends Controller
 {
@@ -104,5 +105,10 @@ class ProjectController extends Controller
             ],
             Response::HTTP_OK
         );
+    }
+
+    public function threads(Thread $thread)
+    {
+        dd($thread->count());
     }
 }

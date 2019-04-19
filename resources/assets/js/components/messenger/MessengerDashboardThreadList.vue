@@ -1,7 +1,7 @@
 <template>
     <div class="flex-1 overflow-auto bg-white" @onClickSetThread="onClickSetThread">
         <!-- thread -->
-        <div v-if="threads.length === 0">
+        <div v-if="threads === undefined">
             <div class="flex p-4 justify-center text-grey-dark">
                 <div class="fa fa-arrow-left mr-2"></div>
                 Select a project
