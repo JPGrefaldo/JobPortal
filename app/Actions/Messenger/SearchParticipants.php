@@ -6,6 +6,11 @@ use App\Http\Resources\ParticipantResource;
 
 class SearchParticipants
 {
+    /**
+     * @param $thread
+     * @param $keyword
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
     public function execute($thread, $keyword)
     {
         $user = auth()->user()->id;

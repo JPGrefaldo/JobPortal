@@ -8,6 +8,10 @@ use App\Models\ProjectJob;
 
 class StubProjectJob
 {
+    /**
+     * @param \App\Http\Requests\Producer\CreateProjectJobRequest $request
+     * @return \App\Models\ProjectJob
+     */
     public function create(CreateProjectJobRequest $request): ProjectJob
     {
         $data = $this->adjustPayType($request->all());
@@ -16,6 +20,11 @@ class StubProjectJob
         return ProjectJob::create($data);
     }
 
+    /**
+     * @param \App\Models\ProjectJob $projectJob
+     * @param \App\Http\Requests\Producer\CreateProjectJobRequest $request
+     * @return \App\Models\ProjectJob
+     */
     public function update(ProjectJob $projectJob, CreateProjectJobRequest $request): ProjectJob
     {
         $data = $this->adjustPayType($request->all());
@@ -26,6 +35,10 @@ class StubProjectJob
         return $projectJob;
     }
 
+    /**
+     * @param array $data
+     * @return array
+     */
     private function filter(array $data): array
     {
         return Arr::only(
@@ -46,6 +59,10 @@ class StubProjectJob
         );
     }
 
+    /**
+     * @param array $data
+     * @return array
+     */
     private function adjustPayType(array $data): array
     {
         if (! isset($data['pay_rate'])) {

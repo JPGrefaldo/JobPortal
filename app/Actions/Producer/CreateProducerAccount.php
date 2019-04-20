@@ -11,7 +11,7 @@ class CreateProducerAccount
      * @param User $user
      * @return User
      */
-    public function execute(User $user)
+    public function execute(User $user): User
     {
         $user->assignRole(Role::PRODUCER);
 

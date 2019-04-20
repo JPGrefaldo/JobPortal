@@ -31,6 +31,9 @@ class CrewGear extends Model
         return $this->belongsTo(Crew::class);
     }
 
+    /**
+     * @param $value
+     */
     public function setDescriptionAttribute($value)
     {
         $this->attributes['description'] = (is_null($value) ? '' : $value);

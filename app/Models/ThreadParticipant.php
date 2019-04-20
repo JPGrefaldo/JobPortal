@@ -13,6 +13,9 @@ class ThreadParticipant extends Participant
         parent::__construct();
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function users()
     {
         return $this->belongsToMany(Thread::class, 'thread_id')

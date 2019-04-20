@@ -7,15 +7,16 @@ use Cmgmyr\Messenger\Models\Message;
 class CreateMessage
 {
     /**
-     * @param string $managerId
-     * @param string $subordinateId
+     * @param $thread_id
+     * @param $user_id
+     * @param string $body
      * @return \Cmgmyr\Messenger\Models\Message
      */
-    public function execute($thread, $user, $body)
+    public function execute($thread_id, $user_id, $body): Message
     {
         return Message::create([
-            'thread_id' => $thread,
-            'user_id'   => $user,
+            'thread_id' => $thread_id,
+            'user_id'   => $user_id,
             'body'      => $body,
         ]);
     }

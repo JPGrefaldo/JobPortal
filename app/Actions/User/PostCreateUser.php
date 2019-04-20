@@ -7,6 +7,9 @@ use App\Models\User;
 
 class PostCreateUser
 {
+    /**
+     * @var array
+     */
     public $actions = [
         ConvertEndorserFromEmailToUser::class,
     ];
