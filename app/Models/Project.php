@@ -107,4 +107,15 @@ class Project extends Model
 
         return $siteIds;
     }
+
+    public function scopeGetPending()
+    {
+        return $this->where('status', 0)->get();
+    }
+
+    public function scopeGetApproved()
+    {
+        return $this->where('status', 1)->get();
+    }
+
 }

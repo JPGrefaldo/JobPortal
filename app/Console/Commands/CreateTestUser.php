@@ -18,7 +18,7 @@ class CreateTestUser extends Command
      *
      * @var string
      */
-    protected $signature = 'test_user {email} {admin?}';
+    protected $signature = 'test_user {email} {role?}';
 
     /**
      * The console command description.
@@ -46,10 +46,15 @@ class CreateTestUser extends Command
     public function handle()
     {
         $email = $this->argument('email');
+        $role  = $this->argument('role');
 
         if (User::where('email', $email)->count()) {
             $this->error('Test user is already created');
+            return;
+        }
 
+        if ($role == '' || $role != 'admin' && $role != 'crew' && $role != 'producer') {
+            $this->error('Enter role type: admin | crew | producer');
             return;
         }
 
@@ -62,20 +67,25 @@ class CreateTestUser extends Command
             'phone'      => '555-555-5555',
         ]);
 
-        foreach ([Role::CREW, Role::PRODUCER] as $role) {
-            $this->argument('admin') ? $user->assignRole(Role::ADMIN) : $user->assignRole($role);
-
-            app(AddUserToSite::class)->execute(
-                $user,
-                Site::whereHostname(
-                    UrlUtils::getHostNameFromBaseUrl(config('app.url'))
-                )->first()
-            );
-
-            if ($role == Role::CREW) {
-                app(StubCrew::class)->execute($user);
-            }
+        if ($role == 'admin') {
+            $user->assignRole(Role::ADMIN);
         }
+
+        if ($role == 'crew') {
+            $user->assignRole(Role::CREW);
+            app(StubCrew::class)->execute($user);
+        }
+
+        if ($role == 'producer') {
+            $user->assignRole(Role::PRODUCER);
+        }
+
+        app(AddUserToSite::class)->execute(
+            $user,
+            Site::whereHostname(
+                UrlUtils::getHostNameFromBaseUrl(config('app.url'))
+            )->first()
+        );
 
         $user->confirm();
 
@@ -85,6 +95,6 @@ class CreateTestUser extends Command
             'receive_sms'                => true,
         ]);
 
-        $this->info('Created');
+        $this->info($role.' user account created');
     }
 }
