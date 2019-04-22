@@ -39,7 +39,7 @@ class ProjectFeatureTest extends TestCase
         $response = $this->actingAs($user, 'api')
             ->get(route('producer.projects.index'))
             ->assertSee('Succesfully fetched all projects.')
-            ->assertStatus(Response::HTTP_OK);
+            ->assertSuccessful();
 
         $response->assertJsonCount(2);
 
@@ -76,7 +76,7 @@ class ProjectFeatureTest extends TestCase
         $response = $this->actingAs($user, 'api')
             ->get(route('producer.projects.pending'))
             ->assertSee('Succesfully fetched all pending projects.')
-            ->assertStatus(Response::HTTP_OK);
+            ->assertSuccessful();
 
         $response->assertJsonCount(2);
 
@@ -114,7 +114,7 @@ class ProjectFeatureTest extends TestCase
         $response = $this->actingAs($user, 'api')
             ->get('/api/producer/projects/pending?count=true')
             ->assertSee('Succesfully fetched all pending projects count.')
-            ->assertStatus(Response::HTTP_OK);
+            ->assertSuccessful();
 
         $response->assertJsonCount(2);
 
@@ -147,7 +147,7 @@ class ProjectFeatureTest extends TestCase
         $response = $this->actingAs($user, 'api')
             ->get(route('producer.projects.approved'))
             ->assertSee('Succesfully fetched all approved projects.')
-            ->assertStatus(Response::HTTP_OK);
+            ->assertSuccessful();
 
         $response->assertJsonCount(2);
 
@@ -184,7 +184,7 @@ class ProjectFeatureTest extends TestCase
         $response = $this->actingAs($user, 'api')
             ->get('/api/producer/projects/approved?count=true')
             ->assertSee('Succesfully fetched all approved projects count.')
-            ->assertStatus(Response::HTTP_OK);
+            ->assertSuccessful();
 
         $response->assertJsonCount(2);
 
@@ -274,7 +274,7 @@ class ProjectFeatureTest extends TestCase
                 ]
             )
             ->assertSee('Project successfully updated.')
-            ->assertStatus(Response::HTTP_OK);
+            ->assertSuccessful();
 
         $this->assertDatabaseHas('remote_projects', ['site_id' => SiteID::CREWCALLSAMERICA]);
         $this->assertDatabaseHas('remote_projects', ['site_id' => SiteID::CREWCALLSALASKA]);
@@ -445,7 +445,7 @@ class ProjectFeatureTest extends TestCase
         $response = $this->actingAs($user, 'api')
             ->get(route('producer.projects.index'))
             ->assertSee('Succesfully fetched all projects.')
-            ->assertStatus(Response::HTTP_OK);
+            ->assertSuccessful();
 
         $jobs = $project->jobs()->with('position')->get()->toArray();
 

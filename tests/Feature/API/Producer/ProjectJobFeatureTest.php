@@ -39,7 +39,7 @@ class ProjectJobFeatureTest extends TestCase
         $response = $this->actingAs($user, 'api')
             ->get(route('producer.project.jobs'))
             ->assertSee('Sucessfully fetch the project\'s jobs.')
-            ->assertStatus(Response::HTTP_OK);
+            ->assertSuccessful();
 
         $response->assertJsonCount(2);
 
@@ -259,7 +259,7 @@ class ProjectJobFeatureTest extends TestCase
                 ]
             )
             ->assertSee('Sucessfully updated the project\'s job.')
-            ->assertStatus(Response::HTTP_OK);
+            ->assertSuccessful();
 
         $response->assertJsonFragment(
             [
