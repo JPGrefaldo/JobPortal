@@ -11,7 +11,7 @@ class CreateOrGetEndorserByEmail
      * @param $email
      * @return EndorsementEndorser
      */
-    public function execute($email)
+    public function execute($email): EndorsementEndorser
     {
         $endorserUser = $this->getEndorserUserByEmail($email);
 

@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Project extends Model
 {
     use SoftDeletes;
+
     /**
      * The protected attributes
      *
@@ -81,6 +82,9 @@ class Project extends Model
         return $this->belongsToMany(Thread::class);
     }
 
+    /**
+     * @return bool
+     */
     public function approve()
     {
         return $this->update(
@@ -91,6 +95,10 @@ class Project extends Model
         );
     }
 
+    /**
+     * @param array $siteIds
+     * @return array|\Illuminate\Support\Collection
+     */
     public function getSitesByIds(array $siteIds)
     {
         if (count($siteIds) === 1 && $siteIds[0] === 'all') {
@@ -99,4 +107,15 @@ class Project extends Model
 
         return $siteIds;
     }
+
+    public function scopeGetPending()
+    {
+        return $this->where('status', 0)->get();
+    }
+
+    public function scopeGetApproved()
+    {
+        return $this->where('status', 1)->get();
+    }
+
 }

@@ -6,7 +6,12 @@ use App\Models\Crew;
 
 class UpdateCrew
 {
-    public function execute(Crew $crew, array $data)
+    /**
+     * @param \App\Models\Crew $crew
+     * @param array $data
+     * @throws \Exception
+     */
+    public function execute(Crew $crew, array $data): void
     {
         app(EditCrew::class)->execute($crew, $data);
 

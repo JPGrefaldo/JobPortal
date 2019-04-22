@@ -50,7 +50,6 @@ class Position extends Model
         return $this->belongsTo(PositionTypes::class);
     }
 
-
     /**
      * @param string $value
      * @return string mixed

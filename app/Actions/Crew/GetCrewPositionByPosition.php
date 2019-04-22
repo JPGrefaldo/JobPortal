@@ -13,7 +13,7 @@ class GetCrewPositionByPosition
      * @param Position $position
      * @return \App\Models\CrewPosition
      */
-    public function execute(User $user, Position $position)
+    public function execute(User $user, Position $position): CrewPosition
     {
         return CrewPosition::wherePositionId($position->id)
             ->whereCrewId($user->crew->id)

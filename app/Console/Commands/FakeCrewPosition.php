@@ -47,7 +47,8 @@ class FakeCrewPosition extends Command
         $user = User::findOrFail((int) $this->argument('user'));
 
         if (! $user->hasRole('Crew')) {
-            throw new \Exception('User is not Crew');
+            $this->error('User is '.$user->getRoleNames().' not a Crew');
+            return;
         }
 
         $position = $this->argument('position');

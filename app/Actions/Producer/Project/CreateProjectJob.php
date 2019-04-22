@@ -7,6 +7,10 @@ use App\Models\ProjectJob;
 
 class CreateProjectJob
 {
+    /**
+     * @param \App\Http\Requests\Producer\CreateProjectJobRequest $request
+     * @return \App\Models\ProjectJob
+     */
     public function execute(CreateProjectJobRequest $request): ProjectJob
     {
         return app(StubProjectJob::class)->create($request);

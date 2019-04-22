@@ -40,45 +40,6 @@ Route::middleware('auth:api')->group(function () {
         'index',
     ])->name('crew.sites.index');
 
-    Route::get('/producer/projects', [
-        \App\Http\Controllers\API\Producer\ProjectsController::class,
-        'index',
-    ])->name('producer.projects.index');
-
-    Route::post('/producer/projects', [
-        \App\Http\Controllers\API\Producer\ProjectsController::class,
-        'store',
-    ])->middleware('role:Producer|Producer')->name('producer.project.store');
-
-    Route::put('/producer/projects/{project}', [
-        \App\Http\Controllers\API\Producer\ProjectsController::class,
-        'update',
-    ])->name('producer.projects.update');
-
-    Route::get('/producer/project/jobs', [
-        \App\Http\Controllers\API\Producer\ProjectJobsController::class,
-        'index',
-    ])->name('producer.project.jobs');
-
-    Route::post('/producer/project/jobs', [
-        \App\Http\Controllers\API\Producer\ProjectJobsController::class,
-        'store',
-    ])->name('producer.project.jobs.store');
-
-    Route::put('/producer/project/jobs/{projectJob}', [
-        \App\Http\Controllers\API\Producer\ProjectJobsController::class,
-        'update',
-    ])->name('producer.project.jobs.update');
-
-    Route::delete('/producer/project/jobs/{projectJob}', [
-        \App\Http\Controllers\API\Producer\ProjectJobsController::class,
-        'destroy',
-    ])->middleware('role:Producer|Producer')->name('producer.project.jobs.destroy');
-
-    Route::get('/producer/project/type', [
-        \App\Http\Controllers\API\Producer\ProjectTypes::class,
-        'index',
-    ])->name('producer.project.type');
 
     Route::get('/threads/{thread}/messages', [
         \App\Http\Controllers\MessagesController::class,
@@ -104,6 +65,63 @@ Route::middleware('auth:api')->group(function () {
         \App\Http\Controllers\Crew\ThreadsController::class,
         'index',
     ])->name('crew.threads.index');
+
+    Route::prefix('producer')->middleware('role:Producer')->group(function() {
+
+        Route::prefix('projects')->group(function() {
+            Route::get('/', [
+                \App\Http\Controllers\API\Producer\ProjectsController::class,
+                'index',
+            ])->name('producer.projects.index');
+
+            Route::post('/', [
+                \App\Http\Controllers\API\Producer\ProjectsController::class,
+                'store',
+            ])->name('producer.project.store');
+
+            Route::put('/{project}', [
+                \App\Http\Controllers\API\Producer\ProjectsController::class,
+                'update',
+            ])->name('producer.projects.update');
+
+            Route::get('/approved', [
+                \App\Http\Controllers\API\Producer\ProjectsController::class,
+                'approved',
+            ])->name('producer.projects.approved');
+
+            Route::prefix('jobs')->group(function() {
+                Route::get('/', [
+                    \App\Http\Controllers\API\Producer\ProjectJobsController::class,
+                    'index',
+                ])->name('producer.project.jobs');
+    
+                Route::post('/', [
+                    \App\Http\Controllers\API\Producer\ProjectJobsController::class,
+                    'store',
+                ])->name('producer.project.jobs.store');
+    
+                Route::put('/{projectJob}', [
+                    \App\Http\Controllers\API\Producer\ProjectJobsController::class,
+                    'update',
+                ])->name('producer.project.jobs.update');
+    
+                Route::delete('/{projectJob}', [
+                    \App\Http\Controllers\API\Producer\ProjectJobsController::class,
+                    'destroy',
+                ])->name('producer.project.jobs.destroy');
+            });
+
+            Route::get('/pending', [
+                \App\Http\Controllers\API\Producer\ProjectsController::class,
+                'pending',
+            ])->name('producer.projects.pending');
+
+            Route::get('/type', [
+                \App\Http\Controllers\API\Producer\ProjectTypes::class,
+                'index',
+            ])->name('producer.project.type');
+        });
+    });
 });
 
 Route::get('/admin/flag-messages', [

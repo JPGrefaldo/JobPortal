@@ -6,6 +6,10 @@ use App\Models\Project;
 
 class UpdateRemoteProject
 {
+    /**
+     * @param \App\Models\Project $project
+     * @param array $sites
+     */
     public function execute(Project $project, array $sites): void
     {
         $sites = $project->getSitesByIds($sites);
