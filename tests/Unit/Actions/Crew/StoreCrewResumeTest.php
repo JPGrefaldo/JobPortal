@@ -24,7 +24,6 @@ class StoreCrewResumeTest extends TestCase
      */
     public function execute()
     {
-        // given
         Storage::fake('s3');
 
         $models = $this->createCompleteCrew();
