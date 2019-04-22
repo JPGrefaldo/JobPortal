@@ -194,7 +194,7 @@ class ProjectJobFeatureTest extends TestCase
             '2019-01-04',
             '2019-01-05'
         ];
-        
+
         $data    = [
             'persons_needed'       => '2',
             'gear_provided'        => 'Some Gear Provided',
@@ -386,8 +386,7 @@ class ProjectJobFeatureTest extends TestCase
                     'Accept' => 'application/json',
                 ]
             )
-            ->assertSee('This action is unauthorized.')
-            ->assertStatus(Response::HTTP_FORBIDDEN);
+            ->assertForbidden();
     }
 
     /**
@@ -409,8 +408,7 @@ class ProjectJobFeatureTest extends TestCase
                      'Accept' => 'application/json',
                  ]
             )
-            ->assertSee('This action is unauthorized.')
-            ->assertStatus(Response::HTTP_FORBIDDEN);
+            ->assertForbidden();
     }
 
     /**
@@ -430,7 +428,7 @@ class ProjectJobFeatureTest extends TestCase
                     'Accept' => 'application/json',
                 ]
             )
-            ->assertStatus(Response::HTTP_FORBIDDEN);
+            ->assertForbidden();
     }
 
     /**

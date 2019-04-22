@@ -311,7 +311,7 @@ class ProjectFeatureTest extends TestCase
                 ]
             )
             ->assertSee('User does not have the right roles.')
-            ->assertStatus(Response::HTTP_FORBIDDEN);
+            ->assertForbidden();
     }
 
     /**
@@ -407,7 +407,7 @@ class ProjectFeatureTest extends TestCase
                 ]
             )
             ->assertSee('User does not have the right roles.')
-            ->assertStatus(Response::HTTP_FORBIDDEN);
+            ->assertForbidden();
     }
 
     /**
