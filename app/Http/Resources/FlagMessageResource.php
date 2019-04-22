@@ -14,6 +14,8 @@ class FlagMessageResource extends JsonResource
             'reason'         => $this->reason,
             'approved_at'    => $this->approved_at,
             'disapproved_at' => $this->disapproved_at,
+            'message_owner'  => $this->message->user->nickname,
+            'message'        => $this->message->body
         ];
     }
 }

@@ -1,27 +1,44 @@
 <template>
     <div class="flex-1 overflow-auto bg-white">
-        <button class="flex items-center justify-center p-2 hover:bg-grey-light w-full" v-for="flag in allFlags" :key="flag.id">
-            <div class="h-10 w-10 rounded-full bg-white background-missing-avatar border">
-            </div>
-            <div class="p-2 flex-1">
-                <div class="truncate w-32" style="text-align: left;">{{ flag.id }}</div>
-                <p class="text-xs truncate w-32" style="text-align: left;">Date</p>
-            </div>
-        </button>
+        <div v-for="flag in allFlags" :key="flag.key">
+            <button class="flex items-center justify-center p-2 hover:bg-grey-light w-full">
+                <div class="h-10 w-10 rounded-full bg-white background-missing-avatar border">
+                </div>
+                <div class="p-2 flex-1">
+                    <div class="truncate w-32" style="text-align: left;">{{ flag.message }}</div>
+                    <p class="text-xs truncate w-32" style="text-align: left;">{{ flag.message_owner }}</p>
+                </div>
+            </button>
+        </div>
+        
     </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import axios from 'axios'
 
 export default {
     name: "Flags",
-    methods: {
-        ...mapActions(['fetchFlags'])
+    data() {
+        return {
+            allFlags: [],
+            tests: [
+                'test1',
+                'test2',
+                'test3'
+            ]
+        }
     },
-    computed: mapGetters(['allFlags']),
+    methods: {
+        fetchFlags: function() {
+            axios.get('/api/admin/flag-messages')
+                .then(response => {
+                    this.allFlags = response.data.data
+                })
+        }
+    },
     created() {
-        this.fetchFlags
+        this.fetchFlags()
     }
 }
 </script>

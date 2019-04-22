@@ -10,6 +10,9 @@ class FlagMessagesController extends Controller
 {
     public function index(PendingFlagMessage $pendingFlagMessages)
     {
-        return FlagMessageResource::collection($pendingFlagMessages->all());
+        return FlagMessageResource::collection($pendingFlagMessages->where([
+            'approved_at'    => null,
+            'disapproved_at' => null
+        ])->get());
     }
 }

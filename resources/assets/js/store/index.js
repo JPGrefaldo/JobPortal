@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import flags from './modules/flag-message'
+import flags from './modules/flagMessage'
 
 Vue.use(Vuex);
 
