@@ -82,7 +82,7 @@
                 </label>
             </div>
             <div class="py-4">
-                <p class="text-sm text-center">By joining, you agree with our <a href="#" class="text-red underline hover:text-green">Terms and Conditions</a></p>
+                <p class="text-sm text-center">By joining, you agree with our <a href="{{ route('termsandconditions') }}" class="text-red underline hover:text-green">Terms and Conditions</a></p>
             </div>
         @endslot
         @slot('cardRoute')
