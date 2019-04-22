@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import flags from './modules/flag-message'
 
 Vue.use(Vuex);
 
@@ -19,4 +20,5 @@ const modules = requireContext
 
 export default new Vuex.Store({
     modules,
+    flags
 });

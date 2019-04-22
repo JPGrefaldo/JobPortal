@@ -105,3 +105,8 @@ Route::middleware('auth:api')->group(function () {
         'index',
     ])->name('crew.threads.index');
 });
+
+Route::get('/admin/flag-messages', [
+    \App\Http\Controllers\Api\Admin\FlagMessagesController::class,
+    'index'
+])->middleware('role:Admin');
