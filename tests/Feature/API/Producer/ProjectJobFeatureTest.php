@@ -386,8 +386,7 @@ class ProjectJobFeatureTest extends TestCase
                     'Accept' => 'application/json',
                 ]
             )
-            ->assertSee('This action is unauthorized.')
-            ->assertStatus(Response::HTTP_FORBIDDEN);
+            ->assertForbidden();
     }
 
     /**
@@ -409,8 +408,7 @@ class ProjectJobFeatureTest extends TestCase
                      'Accept' => 'application/json',
                  ]
             )
-            ->assertSee('This action is unauthorized.')
-            ->assertStatus(Response::HTTP_FORBIDDEN);
+            ->assertForbidden();
     }
 
     /**
