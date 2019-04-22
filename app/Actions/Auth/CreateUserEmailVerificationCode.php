@@ -2,6 +2,7 @@
 
 namespace App\Actions\Auth;
 
+use App\Models\EmailVerificationCode;
 use App\Models\User;
 use App\Utils\StrUtils;
 
@@ -9,11 +10,13 @@ class CreateUserEmailVerificationCode
 {
     /**
      * @param User $user
-     * @param $roleName
+     * @return \App\Models\EmailVerificationCode
      */
-    public function execute(User $user): void
+    public function execute(User $user): EmailVerificationCode
     {
-        $user->emailVerificationCode()->create([
+        return EmailVerificationCode::firstOrCreate([
+            'user_id' => $user->id,
+        ], [
             'code' => StrUtils::createRandomString(),
         ]);
     }

@@ -30,8 +30,9 @@ class StoreCrewReelTest extends TestCase
 
         Storage::fake('s3');
 
-        $this->models = $this->createCompleteCrew($this->getCreateData());
+        $this->models = $this->createCompleteCrew();
     }
+
     /**
      * @test
      * @covers \App\Actions\Crew\StoreCrewReel

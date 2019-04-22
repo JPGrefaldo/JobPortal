@@ -2,10 +2,8 @@
 
 namespace Tests\Unit\Actions\Crew;
 
-use Illuminate\Support\Arr;
 use App\Actions\Crew\UpdateCrew;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Tests\Support\CreatesCrewModel;
 use Tests\Support\Data\SocialLinkTypeID;
@@ -38,7 +36,7 @@ class UpdateCrewTest extends TestCase
     public function execute()
     {
         // given
-        $data = $this->getUpdateData();
+        $data = $this->getUpdateCrewData();
 
         // when
         app(UpdateCrew::class)->execute($this->models['crew'], $data);
@@ -64,9 +62,15 @@ class UpdateCrewTest extends TestCase
     public function socials_can_be_deleted()
     {
         // given
-        $data = $this->getUpdateData([
-            'socials.youtube.url'          => '',
-            'socials.personal_website.url' => '',
+        $data = $this->getUpdateCrewData([
+            'socials' => [
+                'youtube' => [
+                    'url' => '',
+                ],
+                'personal_website' => [
+                    'url' => '',
+                ],
+            ],
         ]);
 
         // when
@@ -119,9 +123,13 @@ class UpdateCrewTest extends TestCase
     public function youtube_is_formatted_before_updated()
     {
         // given
-        $data = $this->getUpdateData([
+        $data = $this->getUpdateCrewData([
             'reel'                => 'https://www.youtube.com/watch?v=2-_rLbU6zJo',
-            'socials.youtube.url' => 'https://www.youtube.com/watch?v=G8S81CEBdNs',
+            'socials'             => [
+                'youtube' => [
+                    'url' => 'https://www.youtube.com/watch?v=G8S81CEBdNs',
+                ],
+            ],
         ]);
 
         // when
@@ -149,8 +157,12 @@ class UpdateCrewTest extends TestCase
     public function vimeo_is_formatted_before_updated()
     {
         // given
-        $data = $this->getUpdateData([
-            'socials.vimeo.url' => 'https://vimeo.com/230046783',
+        $data = $this->getUpdateCrewData([
+            'socials' => [
+                'vimeo' => [
+                    'url' => 'https://vimeo.com/230046783',
+                ],
+            ],
         ]);
 
         // when
@@ -162,71 +174,5 @@ class UpdateCrewTest extends TestCase
             'social_link_type_id' => SocialLinkTypeID::VIMEO,
             'url'                 => 'https://player.vimeo.com/video/230046783',
         ]);
-    }
-
-    /**
-     * @param $data
-     * @param $customData
-     *
-     * @return mixed
-     */
-    protected function customizeData($data, $customData)
-    {
-        foreach ($customData as $key => $value) {
-            Arr::set($data, $key, $value);
-        }
-
-        return $data;
-    }
-
-    /**
-     * @param array $customData
-     *
-     * @return array
-     */
-    public function getUpdateData($customData = [])
-    {
-        $data = [
-            'bio'     => 'updated bio',
-            'photo'   => UploadedFile::fake()->image('new-photo.png'),
-            'resume'  => UploadedFile::fake()->create('new-resume.pdf'),
-            'reel'    => 'https://www.youtube.com/embed/WI5AF1DCQlc',
-            'socials' => [
-                'facebook'         => [
-                    'url' => 'https://www.facebook.com/new-castingcallsamerica/',
-                    'id'  => SocialLinkTypeID::FACEBOOK,
-                ],
-                'twitter'          => [
-                    'url' => 'https://twitter.com/new-casting_america',
-                    'id'  => SocialLinkTypeID::TWITTER,
-                ],
-                'youtube'          => [
-                    'url' => 'https://www.youtube.com/channel/UCHBOnWRvXSZ2xzBXyoDnCJwNEW',
-                    'id'  => SocialLinkTypeID::YOUTUBE,
-                ],
-                'imdb'             => [
-                    'url' => 'http://www.imdb.com/name/nm0000134/-updated',
-                    'id'  => SocialLinkTypeID::IMDB,
-                ],
-                'tumblr'           => [
-                    'url' => 'http://new-updated.tumblr.com',
-                    'id'  => SocialLinkTypeID::TUMBLR,
-                ],
-                'vimeo'            => [
-                    'url' => 'https://vimeo.com/new-mackevision',
-                    'id'  => SocialLinkTypeID::VIMEO,
-                ],
-                'instagram'        => [
-                    'url' => 'https://www.instagram.com/new-castingamerica/',
-                    'id'  => SocialLinkTypeID::INSTAGRAM,
-                ],
-                'personal_website' => [
-                    'url' => 'https://new-castingcallsamerica.com',
-                    'id'  => SocialLinkTypeID::PERSONAL_WEBSITE,
-                ],
-            ],
-        ];
-
-        return $this->customizeData($data, $customData);
     }
 }
