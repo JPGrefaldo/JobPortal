@@ -1,5 +1,5 @@
 @extends('layouts.default_layout')
 
 @section('content')
-Test
+    <cca-flag-messages-dashboard />
 @endsection
