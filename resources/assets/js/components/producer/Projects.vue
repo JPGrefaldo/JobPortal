@@ -63,14 +63,14 @@
 
 <script>
     import { mapGetters } from 'vuex'
-    import { modals } from '../../mixins'
+    import { format, modals } from '../../mixins'
     import ProjectForm from '../project/ProjectJobForm.vue'
     import ProjectJobViewModal from '../project/ProjectJobCreateModal.vue'
     import TheProjectJobInfoCard from '../project/TheProjectJobInfoCard.vue'
     import TheProjectSideNav from '../TheProjectSideNav.vue'
 
     export default {
-        mixins: [modals],
+        mixins: [format, modals],
 
         components: {
             'project-form': ProjectForm,
