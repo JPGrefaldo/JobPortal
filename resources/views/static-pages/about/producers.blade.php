@@ -1,12 +1,9 @@
 @extends('layouts.default_layout')
 
 @section('content')
-    @component('staticpages._parts.card')
+    @component('static-pages._parts.card')
         @slot('cardTitle')
-            <h1 class="text-blue-dark text-center">ABOUT</h1>
-            <h3 class="text-grey mt-4 text-center">
-                <a href="{{ route('about.producers') }}">PRODUCERS</a> | <a href="{{ route('about.crew') }}">CREW</a>
-            </h3>
+            <h1 class="text-blue-dark text-center">ABOUT PRODUCERS</h1>
         @endslot
 
         @slot('cardContent')

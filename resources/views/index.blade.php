@@ -25,7 +25,7 @@
                         </li>
                         <li>
                             <a class="block py-6 px-4 font-header tracking-wide font-bold leading-none uppercase text-sm text-white hover:text-green"
-                                href="#">about</a>
+                                href="{{ route('about') }}">about</a>
                         </li>
                     </ul>
                     <div id="nav-container" class="w-64 hidden lg:block relative z-10">

@@ -6,45 +6,23 @@ use Illuminate\Http\Request;
 
 class StaticPageController extends Controller
 {
-    /**
-     * Show the Terms and Conditions page.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function showTermsAndConditions()
     {
-        return view('staticpages.terms');
+        return view('static-pages.terms');
     }
 
-    /**
-     * Show the Terms and Conditions page.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function showAbout()
     {
-        return view('staticpages.about.index');
+        return view('static-pages.about.index');
     }
 
-    /**
-     * Show the Terms and Conditions page.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function showAboutProducers()
     {
-        return view('staticpages.about.producers');
+        return view('static-pages.about.producers');
     }
 
-    /**
-     * Show the Terms and Conditions page.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function showAboutCrew()
     {
-        return view('staticpages.about.crew');
+        return view('static-pages.about.crew');
     }
-
-    
 }

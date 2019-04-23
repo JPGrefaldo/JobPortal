@@ -1,9 +1,9 @@
 @extends('layouts.default_layout')
 
 @section('content')
-    @component('staticpages._parts.card')
+    @component('static-pages._parts.card')
         @slot('cardTitle')
-            <h1 class="text-blue-dark text-center">ABOUT PRODUCERS</h1>
+            <h1 class="text-blue-dark text-center">ABOUT CREW</h1>
         @endslot
 
         @slot('cardContent')
