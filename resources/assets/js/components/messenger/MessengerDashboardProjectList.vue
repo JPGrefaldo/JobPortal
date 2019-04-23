@@ -1,7 +1,7 @@
 <template>
     <div class="bg-grey-dark overflow-auto p-1 w-12" @onClickSetProject="onClickSetProject">
         <!-- project -->
-        <div v-if="projects === undefined">
+        <div v-if="typeof projects === 'undefined'">
             <button
                 class="flex justify-center items-center h-10 w-full mb-1 rounded uppercase text-white font-bold"
                 :class="getColorByRole(role)"
