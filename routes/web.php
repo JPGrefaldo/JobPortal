@@ -42,6 +42,9 @@ Route::get('verify/email/{code}', [\App\Http\Controllers\VerifyEmailController::
 
 Route::get('confirm/{user}/{subordinate}', [\App\Http\Controllers\Manager\ManagerConfirmationController::class, 'index'])
     ->name('manager.confirm');
+
+Route::get('terms-and-conditions', [\App\Http\Controllers\TermsAndConditionsController::class, 'show'])
+    ->name('termsandconditions');
 /*
 |--------------------------------------------------------------------------
 | Auth Routes
