@@ -8,14 +8,15 @@
                     <div class="h-10 w-10 rounded-full bg-white background-missing-avatar border">
                     </div>
                     <div class="p-2 flex-1">
+                        <p class="text-xs" style="text-align: left;">Flag ID: {{ flag.id }} | Thread: {{ flag.thread }}</p>
                         <div style="text-align: left;">{{ flag.message }}</div>
-                        <p class="text-xs" style="text-align: left;">{{ flag.message_owner }}</p>
+                        <p class="text-xs" style="text-align: left;">By: {{ flag.message_owner }}</p>
                     </div>
                 </button>
             </div>
         </div>
     </div>
-    <cca-flag-reason :reason="reason" :messageId="messageId" />
+    <cca-flag-reason :reason="reason" :flagId="messageId" />
 </div>
 </template>
 

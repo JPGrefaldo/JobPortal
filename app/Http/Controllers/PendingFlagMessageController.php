@@ -81,13 +81,17 @@ class PendingFlagMessageController extends Controller
             case 'disapprove':
                 app(DisapproveFlagMessage::class)->execute($pendingFlagMessage);
 
-                return 'Pending flag message disapproved';
+                return response()->json([
+                    'message' => 'Pending flag message disapproved'
+                ]);
                 break;
 
             case 'approve':
                 app(ApproveFlagMessage::class)->execute($pendingFlagMessage);
 
-                return 'Pending flag message approved';
+                return response()->json([
+                    'message' => 'Pending flag message approved'
+                ]);
                 break;
         }
     }
