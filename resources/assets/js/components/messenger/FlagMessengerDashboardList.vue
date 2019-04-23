@@ -3,7 +3,7 @@
     <!-- left pane -->
     <div class="flex w-2/5 border-r border-black">
         <div class="flex-1 overflow-auto bg-white">
-            <div v-for="flag in allFlags" :key="flag.key" @click="setReason($event, flag.reason)">
+            <div v-for="flag in allFlags" :key="flag.key" @click="setReason($event, flag.reason, flag.id)">
                 <button class="flex items-center justify-center p-2 hover:bg-grey-light w-full">
                     <div class="h-10 w-10 rounded-full bg-white background-missing-avatar border">
                     </div>
@@ -15,7 +15,7 @@
             </div>
         </div>
     </div>
-    <cca-flag-reason :reason="reason" />
+    <cca-flag-reason :reason="reason" :messageId="messageId" />
 </div>
 </template>
 
@@ -28,7 +28,8 @@ export default {
     data() {
         return {
             allFlags: [],
-            reason: ''
+            reason: '',
+            messageId: null,
         }
     },
     components: {
@@ -41,8 +42,9 @@ export default {
                     this.allFlags = response.data.data
                 })
         },
-        setReason: function(event, reason) {
-            this.reason = reason
+        setReason: function(event, reason, messageId) {
+            this.reason = reason,
+            this.messageId = messageId
         }
     },
     created() {
