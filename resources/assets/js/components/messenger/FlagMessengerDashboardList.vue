@@ -5,8 +5,8 @@
                 <div class="h-10 w-10 rounded-full bg-white background-missing-avatar border">
                 </div>
                 <div class="p-2 flex-1">
-                    <div class="truncate w-32" style="text-align: left;">{{ flag.message }}</div>
-                    <p class="text-xs truncate w-32" style="text-align: left;">{{ flag.message_owner }}</p>
+                    <div style="text-align: left;">{{ flag.message }}</div>
+                    <p class="text-xs" style="text-align: left;">{{ flag.message_owner }}</p>
                 </div>
             </button>
         </div>

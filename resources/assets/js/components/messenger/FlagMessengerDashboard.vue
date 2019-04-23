@@ -7,7 +7,7 @@
                     Flag Messages
                 </div>
                 <div class="w-3/5 text-md border-black border-b font-bold flex justify-center items-center">
-                    Details
+                    Reason
                 </div>
             </div>
             <!-- main -->
