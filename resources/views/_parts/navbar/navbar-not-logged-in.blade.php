@@ -7,15 +7,15 @@
         </a>
     </div>
     <ul class="list-reset hidden lg:flex items-center">
-        <li class="border-b-2 border-red border-solid">
+        <li class="{{ Route::is('myProject') ? 'border-b-2 border-red border-solid' : '' }}">
             <a class="block py-6 px-4 font-header tracking-wide block font-bold leading-none uppercase text-sm text-blue-dark hover:text-green"
                 href="#">post a project</a>
         </li>
-        <li>
+        <li class="{{ Route::is('findProject') ? 'border-b-2 border-red border-solid' : '' }}">
             <a class="block py-6 px-4 font-header tracking-wide font-bold leading-none uppercase text-sm text-blue-dark hover:text-green"
                 href="#">find a project</a>
         </li>
-        <li>
+        <li class="{{ Route::is('about') ? 'border-b-2 border-red border-solid' : '' }}">
             <a class="block py-6 px-4 font-header tracking-wide font-bold leading-none uppercase text-sm text-blue-dark hover:text-green"
                 href="#">about</a>
         </li>
