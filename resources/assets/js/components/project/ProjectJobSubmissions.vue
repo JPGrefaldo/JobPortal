@@ -1,7 +1,7 @@
 <template>
     <main class="float-left w-full py-md md:py-lg px-3">
         <div class="container">
-            <project-sidebar :projects="projects"></project-sidebar>
+            <project-side-nav :projects="projects"></project-side-nav>
             
             <!-- Content Section
             ******************************************-->
