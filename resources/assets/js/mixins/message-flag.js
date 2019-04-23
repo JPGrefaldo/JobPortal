@@ -8,9 +8,10 @@ export default {
                 message_id: '',
                 reason: ''
             }),
-            mixins: [alert],
+            
         }
     },
+    mixins: [alert],
     methods: {
         onClickRequestFlag: function(message) {
             this.requestFlag(message);
