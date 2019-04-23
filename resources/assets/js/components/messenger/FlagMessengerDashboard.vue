@@ -1,5 +1,4 @@
 <template>
-    <div>
         <div class="flex flex-col h-full">
             <!-- top bar -->
             <div class="flex h-12 bg-grey-light">
@@ -11,27 +10,19 @@
                 </div>
             </div>
             <!-- main -->
-            <div class="flex h-full">
-                <!-- left pane -->
-                <div class="flex w-2/5 border-r border-black">
-                    <cca-flag-messages />
-                </div>
-                <cca-flag-reason />
-            </div>
+            <cca-flag-messages />
         </div>
     </div>
 </template>
 
 <script>
 import FlagMessengerDashboardList from './FlagMessengerDashboardList.vue'
-import FlagMessengerReason from './FlagMessengerReason.vue'
 
 export default {
     name: "flag-messages",
 
     components: {
         'cca-flag-messages': FlagMessengerDashboardList,
-        'cca-flag-reason': FlagMessengerReason
     }
 }
 </script>
