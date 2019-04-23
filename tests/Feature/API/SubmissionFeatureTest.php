@@ -20,6 +20,8 @@ class SubmissionFeatureTest extends TestCase
      */
     public function can_fetch_job_and_all_submissions()
     {
+        $this->withoutExceptionHandling();
+        
         $producer = $this->createProducer();
 
         $project  = factory(Project::class)->create([
@@ -34,14 +36,16 @@ class SubmissionFeatureTest extends TestCase
         
         factory(Submission::class)->create([
             'crew_id'        => $crew->id,
-            'projectJob_id'  => $projectJob->id
+            'project_job_id'  => $projectJob->id
         ]);
 
         $response = $this->actingAs($producer, 'api')
-            ->get(route(
-                'project.job.submissions.index',
-                ['job' => $projectJob->id]
-            ))
+            ->get(
+                route(
+                    'project.job.submissions.index',
+                    ['job' => $projectJob->id]
+                )
+            )
             ->assertSee('Sucessfully fetched job\'s submissions')
             ->assertSuccessful();
 
@@ -52,12 +56,10 @@ class SubmissionFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\API\SubmissionsController::create
+     * @covers \App\Http\Controllers\API\SubmissionsController::store
      */
     public function can_create_submissions()
     {
-        $this->withoutExceptionHandling();
-
         $crew       = $this->createCrew();
         $projectJob = $this->createProjectAndJob();
 
@@ -83,6 +85,49 @@ class SubmissionFeatureTest extends TestCase
             ->assertStatus(Response::HTTP_CREATED);
 
         $response->assertJsonFragment($projectJob->submissions->toArray());
+    }
+
+    /**
+     * @test
+     * @covers \App\Http\Controllers\API\SubmissionsController::index
+     */
+    public function cannot_fetch_submmissions_the_crew_role()
+    {
+        $crew       = $this->createCrew();
+        $projectJob = $this->createProjectAndJob();
+
+        $this->actingAs($crew, 'api')
+            ->get(route(
+                'project.job.submissions.index',
+                ['job' => $projectJob->id]
+            ))
+            ->assertSee('User does not have the right roles.')
+            ->assertForbidden();
+    }
+
+    /**
+     * @test
+     * @covers \App\Http\Controllers\API\SubmissionsController::store
+     */
+    public function cannot_create_submissions_the_non_crew_role()
+    {
+        $user       = $this->createUser();
+        $projectJob = $this->createProjectAndJob();
+        $data       = [];
+
+        $this->actingAs($user, 'api')
+            ->post(
+                route(
+                    'project.job.submissions.create',
+                    ['job' => $projectJob->id]
+                ),
+                $data,
+                [
+                    'Accept' => 'application/json'
+                ]
+            )
+            ->assertSee('User does not have the right roles.')
+            ->assertForbidden();
     }
 
     public function createProjectAndJob()
