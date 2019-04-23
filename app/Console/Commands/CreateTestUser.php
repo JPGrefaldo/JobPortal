@@ -95,6 +95,6 @@ class CreateTestUser extends Command
             'receive_sms'                => true,
         ]);
 
-        $this->info($role.' user account created');
+        $this->info('User with ' . $role . ' role created.');
     }
 }
