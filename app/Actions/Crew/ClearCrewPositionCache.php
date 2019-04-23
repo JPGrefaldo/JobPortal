@@ -10,7 +10,7 @@ class ClearCrewPositionCache
     /**
      * @param CrewPosition $crew
      */
-    public function execute(CrewPosition $crew): void
+    public function execute(CrewPosition $crewPosition): void
     {
 
     }
