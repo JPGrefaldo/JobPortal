@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ProjectJob;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Actions\Submissions\CreateSubmission;
 
 class SubmissionsController extends Controller
 {
@@ -24,11 +25,8 @@ class SubmissionsController extends Controller
     public function store(ProjectJob $job)
     {
         $crew = auth()->user()->crew;
-        $job->submissions()->create(
-            [
-                'crew_id' => $crew->id
-            ]
-        );
+        
+        $job = app(CreateSubmission::class)->execute($crew, $job);
 
         return response()->json(
             [
