@@ -108,7 +108,7 @@
             })
         },
         
-        method: {
+        methods: {
             loadProjects: function (type) {
                 this.activeTab = type
 
