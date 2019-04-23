@@ -122,6 +122,11 @@ Route::middleware('auth')->group(function () {
     Route::middleware('role:Producer')
         ->namespace('App\Http\Controllers\Producer')
         ->group(base_path('routes/producer.php'));
+
+    Route::get('projects/{project}/jobs/{job}/submissions', [
+        \App\Http\Controllers\SubmissionsController::class,
+        'show',
+    ])->middleware('role:Admin|Producer')->name('project.job.submissions.show');
 });
 
 Route::prefix('theme')->group(function () {
