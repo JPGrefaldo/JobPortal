@@ -25,6 +25,7 @@ class CreateTestUserTest extends TestCase
             'app.name' => 'Crewcalls Test',
             'app.url'  => 'http://' . self::HOST_NAME,
         ]);
+
         factory(Site::class)->create([
             'name'     => 'Crewcalls Test',
             'hostname' => self::HOST_NAME,
@@ -35,13 +36,14 @@ class CreateTestUserTest extends TestCase
      * @test
      * @covers \App\Console\Commands\CreateTestUser::handle
      */
-    public function execute()
+    public function create_user_with_crew_role()
     {
         $command = $this->artisan(self::CMD, [
             'email' => 'test@test.com',
+            'role' => 'crew',
         ]);
 
-        $command->expectsOutput('Created')
+        $command->expectsOutput('User with crew role created.')
             ->run();
 
         $user = User::where('email', 'test@test.com')
@@ -60,7 +62,7 @@ class CreateTestUserTest extends TestCase
             ],
         ], $user->toArray());
 
-        $this->assertTrue($user->hasAllRoles([Role::PRODUCER, Role::CREW]));
+        $this->assertTrue($user->hasRole(Role::CREW));
 
         $command->assertExitCode(0);
     }
@@ -69,7 +71,54 @@ class CreateTestUserTest extends TestCase
      * @test
      * @covers \App\Console\Commands\CreateTestUser::handle
      */
-    public function error_on_created()
+    public function create_user_with_producer_role()
+    {
+        $command = $this->artisan(self::CMD, [
+            'email' => 'test@test.com',
+            'role' => 'producer',
+        ]);
+
+        $command->expectsOutput('User with producer role created.')
+            ->run();
+
+        $user = User::where('email', 'test@test.com')
+            ->whereHas('sites', function ($query) {
+                $query->where('hostname', self::HOST_NAME);
+            })->first();
+
+        $this->assertTrue($user->hasRole(Role::PRODUCER));
+
+        $command->assertExitCode(0);
+    }
+
+    /**
+     * @test
+     * @covers \App\Console\Commands\CreateTestUser::handle
+     */
+    public function create_user_with_admin_role()
+    {
+        $command = $this->artisan(self::CMD, [
+            'email' => 'test@test.com',
+            'role' => 'admin',
+        ]);
+
+        $command->expectsOutput('User with admin role created.')
+            ->run();
+
+        $user = User::where('email', 'test@test.com')
+            ->whereHas('sites', function ($query) {
+                $query->where('hostname', self::HOST_NAME);
+            })->first();
+
+        $this->assertTrue($user->hasRole(Role::ADMIN));
+
+        $command->assertExitCode(0);
+    }
+    /**
+     * @test
+     * @covers \App\Console\Commands\CreateTestUser::handle
+     */
+    public function cannot_recreate_user()
     {
         $this->createUser([
             'email' => 'test@test.com',
