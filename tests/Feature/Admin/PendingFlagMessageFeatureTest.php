@@ -18,7 +18,6 @@ class PendingFlagMessageFeatureTest extends TestCase
             'disapproved_at' => null
         ]);
 
-
         factory(\App\Models\PendingFlagMessage::class)->create([
             'approved_at'    => \Carbon\Carbon::now(),
             'disapproved_at' => null

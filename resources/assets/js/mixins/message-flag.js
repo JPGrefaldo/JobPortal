@@ -1,4 +1,5 @@
 import { Form } from 'vform';
+import { alert } from '../mixins'
 
 export default {
     data() {
@@ -6,19 +7,11 @@ export default {
             form: new Form({
                 message_id: '',
                 reason: ''
-            })
+            }),
+            mixins: [alert],
         }
     },
     methods: {
-        // from alert.js
-        displaySuccess: function(response) {
-            this.$swal({
-                title: '',
-                text: response.data.message,
-                type: 'success',
-            });
-        },
-
         onClickRequestFlag: function(message) {
             this.requestFlag(message);
         },
