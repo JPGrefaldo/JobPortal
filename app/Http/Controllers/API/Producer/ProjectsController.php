@@ -110,7 +110,12 @@ class ProjectsController extends Controller
         return response()->json(
             [
                 'message'   => 'Succesfully fetched all pending projects.',
-                'projects' => Project::getPending()->load(['jobs', 'remotes']),
+                'projects' => Project::getPending()->load([
+                    'remotes', 
+                    'jobs'  => function($query) {
+                        $query->with('position', 'pay_type');
+                    },
+                ]),
             ],
             Response::HTTP_OK
         );
@@ -131,7 +136,12 @@ class ProjectsController extends Controller
         return response()->json(
             [
                 'message'   => 'Succesfully fetched all approved projects.',
-                'projects' => Project::getApproved()->load(['jobs', 'remotes']),
+                'projects' => Project::getApproved()->load([
+                    'remotes', 
+                    'jobs'  => function($query) {
+                        $query->with('position', 'pay_type');
+                    },
+                ]),
             ],
             Response::HTTP_OK
         );

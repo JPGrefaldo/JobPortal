@@ -39,7 +39,7 @@ class ApprovingProjectFeatureTest extends TestCase
         $response = $this->actingAs($user)
             ->get(route('admin.projects'))
             ->assertSee('Succesfully fetched all projects.')
-            ->assertStatus(Response::HTTP_OK);
+            ->assertSuccessful();
 
         $response->assertJsonFragment(
             [
@@ -77,7 +77,7 @@ class ApprovingProjectFeatureTest extends TestCase
         $this->actingAs($user)
             ->put(route('admin.projects.approve', $project->id))
             ->assertSee('Project approved successfully.')
-            ->assertStatus(Response::HTTP_OK);
+            ->assertSuccessful();
 
         $this->assertEquals(1, $project->refresh()->status);
     }
