@@ -53,6 +53,8 @@ import { mapGetters } from 'vuex';
 import ProjectJobForm from './ProjectJobForm.vue';
 
 export default {
+    props: ['mode'],
+
     data() {
         return {
             allPositions: [],
@@ -89,7 +91,7 @@ export default {
     },
 
     methods: {
-        submitProjectJob() {
+        submitProjectJob: function() {
             if (!this.project.id) return;
 
             this.$validator.validateAll().then(() => {
@@ -100,13 +102,19 @@ export default {
                     this.$store.dispatch('project/saveProjectJob', this.job);
 
                     this.$swal('Job Added!', 'The job has been added.', 'success');
-                    location.reload()
+                    this.mode == 'modal' ? location.reload() : this.resetState();
                 }
             });
         },
+
+        resetState: function() {
+            this.department = '',
+            this.position   = '',
+            this.$store.commit('project/JOB', { persons_needed: 1 });
+        }
     },
 
-    mounted() {
+    mounted: function() {
         this.$store.dispatch('crew/fetchByDepartments');
         this.$store.dispatch('crew/fetchByPositions');
     },
