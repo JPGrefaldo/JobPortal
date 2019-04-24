@@ -2,5 +2,4 @@
 
 @section('content')
     <cca-pending-projects />
-    test
 @endsection
