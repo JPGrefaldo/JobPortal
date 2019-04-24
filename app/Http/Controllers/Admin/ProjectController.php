@@ -16,15 +16,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $project = Project::where('status', 0)->get();
-
-        return response()->json(
-            [
-                'message'  => 'Succesfully fetched all projects.',
-                'projects' => $project,
-            ],
-            Response::HTTP_OK
-        );
+        return view('pending-projects');
     }
 
     /**
@@ -101,6 +93,19 @@ class ProjectController extends Controller
             [
                 'message' => 'Project approved successfully.',
                 'project' => $project,
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    public function unApprovedProjects()
+    {
+        $project = Project::where('status', 0)->get();
+
+        return response()->json(
+            [
+                'message'  => 'Succesfully fetched all projects.',
+                'projects' => $project,
             ],
             Response::HTTP_OK
         );

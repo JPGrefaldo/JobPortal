@@ -37,7 +37,7 @@ class ApprovingProjectFeatureTest extends TestCase
         $user = $this->createAdmin();
 
         $response = $this->actingAs($user)
-            ->get(route('admin.projects'))
+            ->get(route('admin.pending-projects'))
             ->assertSee('Succesfully fetched all projects.')
             ->assertSuccessful();
 
@@ -56,6 +56,17 @@ class ApprovingProjectFeatureTest extends TestCase
                 'approved_at'            => '2019-04-04 22:2=14:45',
             ]
         );
+    }
+
+    public function test_only_admin_can_see_unapproved_project()
+    {
+        // Create Approved / UnApproved projects
+
+        $this->actingAs($this->createAdmin())
+            ->get(route('admin.projects'))
+            ->assertStatus(Response::HTTP_OK);
+
+        // Assert only unApproved projects will be shown on the page
     }
 
     /**
