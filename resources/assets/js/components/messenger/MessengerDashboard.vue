@@ -6,7 +6,7 @@
             <div
                 class="w-4/5 text-md border-black border-b font-bold flex justify-center items-center"
             >
-                <div v-if="project.title">{{ project.title }}: <a :href="'/crews/1'">{{ thread.subject }}</a></div>
+                <div v-if="project.title">{{ project.title }}: <a :href="'/crews/' + crew.user.hash_id">{{ thread.subject }}</a></div>
                 <div v-else>No Project Selected</div>
             </div>
         </div>
@@ -50,6 +50,10 @@ export default {
         },
         roles: {
             type: Array,
+            required: true,
+        },
+        crew: {
+            type: Object,
             required: true,
         },
     },
