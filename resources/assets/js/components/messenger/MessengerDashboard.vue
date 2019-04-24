@@ -52,10 +52,6 @@ export default {
             type: Array,
             required: true,
         },
-        crew: {
-            type: Object,
-            required: true,
-        },
     },
 
     data() {
