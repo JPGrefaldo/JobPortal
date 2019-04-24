@@ -18,6 +18,8 @@ class CreateCrewProjectTable extends Migration
             $table->unsignedInteger('crew_id');
             $table->unsignedInteger('project_id');
             $table->timestamps();
+
+            $table->index('crew_id');
         });
     }
 

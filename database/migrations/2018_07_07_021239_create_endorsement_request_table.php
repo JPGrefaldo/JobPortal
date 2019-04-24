@@ -28,6 +28,7 @@ class CreateEndorsementRequestTable extends Migration
                 ->onUpdate('cascade');
 
             $table->index('token');
+            $table->index('endorsement_endorser_id');
         });
     }
 

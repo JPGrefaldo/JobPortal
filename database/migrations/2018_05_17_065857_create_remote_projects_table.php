@@ -28,6 +28,8 @@ class CreateRemoteProjectsTable extends Migration
                 ->references('id')
                 ->on('sites')
                 ->onDelete('cascade');
+
+            $table->index('project_id');
         });
     }
 

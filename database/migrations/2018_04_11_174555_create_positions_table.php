@@ -35,6 +35,8 @@ class CreatePositionsTable extends Migration
                 ->references('id')
                 ->on('position_types')
                 ->onDelete('cascade');
+
+            $table->index('department_id');
         });
     }
 
