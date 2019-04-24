@@ -20,6 +20,7 @@ class ProjectObserverTest extends TestCase
     public function should_send_email_to_the_admin()
     {
         Mail::fake();
+
         $admin    = $this->createAdmin();
         $producer = $this->createProducer();
 

@@ -1,7 +1,7 @@
 <template>
    <modal @close="close">
         <div slot="body">
-            <project-job-create></project-job-create>
+            <project-job-create :mode="'modal'"></project-job-create>
         </div>
     </modal>
 </template>
