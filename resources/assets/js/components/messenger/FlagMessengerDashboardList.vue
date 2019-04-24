@@ -16,7 +16,7 @@
             </div>
         </div>
     </div>
-    <cca-flag-reason :reason="reason" :flagId="messageId" />
+    <cca-flag-reason :reason="reason" :flagId="messageId" v-on:refreshPage="fetchFlags()" />
 </div>
 </template>
 
@@ -32,6 +32,11 @@ export default {
             reason: '',
             messageId: null,
         }
+    },
+    mounted() {
+        this.$on('refreshList', function() {
+            this.fetchFlags()
+        })
     },
     components: {
         'cca-flag-reason': FlagMessengerReason

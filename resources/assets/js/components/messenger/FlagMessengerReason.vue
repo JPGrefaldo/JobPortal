@@ -13,24 +13,23 @@
 </template>
 
 <script>
+import { alert } from '../../mixins';
+
 export default {
     props: [
         'reason',
         'flagId'
     ],
+
+    mixins: [alert],
+
     methods: {
-        displaySuccess: function(response) {
-            this.$swal({
-                title: '',
-                text: response.data.message,
-                type: 'success',
-            });
-        },
         onClickApproveFlag: function() {
             axios.put(`/pending-flag-messages/${this.flagId}`, {
                 'action': 'approve'
             }).then(response => {
                 this.displaySuccess(response)
+                this.$parent.$emit('refreshList')
             })
         },
         onClickDisapproveFlag: function() {
