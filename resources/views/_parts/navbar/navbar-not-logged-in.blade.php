@@ -17,7 +17,7 @@
         </li>
         <li>
             <a class="block py-6 px-4 font-header tracking-wide font-bold leading-none uppercase text-sm text-blue-dark hover:text-green"
-                href="#">about</a>
+                href="{{ route('about') }}">about</a>
         </li>
     </ul>
     <div class="hidden lg:block w-64">
