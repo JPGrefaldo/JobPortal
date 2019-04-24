@@ -1,6 +1,5 @@
 <template>
     <div>
-        <p>This is working</p>
         <div v-for="project in projects" :key="project.id">
             <p>Title: {{ project.title }}</p>
             <p>Production Name: {{ project.production_name }}</p>
