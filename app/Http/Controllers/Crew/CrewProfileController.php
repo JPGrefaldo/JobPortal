@@ -108,9 +108,12 @@ class CrewProfileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
-        //
+        $user = Auth::user()->load([
+            'crew',
+        ]);
+        return view('crew.profile.profile-show', compact('user'));
     }
 
     /**
