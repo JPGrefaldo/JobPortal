@@ -13,26 +13,31 @@ class ApprovingProjectFeatureTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
 
-    /**
-     * @test
-     * @covers \App\Http\Controllers\Admin\ProjectsController::index
-     */
-    public function should_only_return_the_unapproved_project()
+    public function __construct()
     {
-        $approvedProject = [
+        parent::__construct();
+
+        $this->approvedProject = [
             'production_name_public' => 1,
             'project_type_id'        => ProjectTypeID::TV,
             'status'                 => 1,
             'approved_at'            => '2019-04-04 22:2=14:45',
         ];
 
-        $unapprovedProject = [
+        $this->unapprovedProject = [
             'production_name_public' => 0,
             'project_type_id'        => ProjectTypeID::MOVIE,
         ];
+    }
 
-        factory(Project::class)->create($approvedProject);
-        factory(Project::class)->create($unapprovedProject);
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Admin\ProjectsController::index
+     */
+    public function should_only_return_the_unapproved_project()
+    {
+        factory(Project::class)->create($this->approvedProject);
+        factory(Project::class)->create($this->unapprovedProject);
 
         $user = $this->createAdmin();
 
@@ -58,15 +63,11 @@ class ApprovingProjectFeatureTest extends TestCase
         );
     }
 
-    public function test_only_admin_can_see_unapproved_project()
+    public function test_only_admin_can_see_unapproved_projects_page()
     {
-        // Create Approved / UnApproved projects
-
         $this->actingAs($this->createAdmin())
             ->get(route('admin.projects'))
             ->assertStatus(Response::HTTP_OK);
-
-        // Assert only unApproved projects will be shown on the page
     }
 
     /**
