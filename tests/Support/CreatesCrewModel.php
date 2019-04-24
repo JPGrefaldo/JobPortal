@@ -8,8 +8,11 @@ use App\Models\CrewResume;
 use App\Models\CrewSocial;
 use App\Models\Role;
 use App\Models\User;
+use Arr;
 use Illuminate\Http\UploadedFile;
 use Storage;
+use Tests\Support\Data\SocialLinkTypeID;
+use function Tests\Unit\array_recursive_combine;
 
 trait CreatesCrewModel
 {
@@ -23,15 +26,15 @@ trait CreatesCrewModel
 
         $user = $this->createCrew($attributes);
 
-        $resume = $this->createCrewResume(array_merge([
+        $resume = $this->createCrewResume(Arr::recursive_combine([
             'crew_id' => $user->crew->id,
         ], $attributes['resume']));
 
-        $reel = $this->createCrewReel(array_merge([
+        $reel = $this->createCrewReel(Arr::recursive_combine([
             'crew_id' => $user->crew->id,
         ], $attributes['reel']));
 
-        $socials = $this->createCrewSocials(array_merge([
+        $socials = $this->createCrewSocials(Arr::recursive_combine([
             'crew_id' => $user->crew->id,
         ], $attributes['socials']));
 
@@ -53,11 +56,15 @@ trait CreatesCrewModel
     {
         Storage::fake('s3');
 
+        if (empty($attributes)) {
+            $attributes = $this->setupAttributes($attributes);
+        }
+
         $user = $this->createUser($attributes);
 
         $user->assignRole(Role::CREW);
 
-        factory(Crew::class)->create(array_merge([
+        factory(Crew::class)->create(Arr::recursive_combine([
             'user_id'    => $user->id,
             'photo_path' => UploadedFile::fake()->create('fakephoto.jpg')->store(
                 $user->hash_id . '/photos',
@@ -105,14 +112,119 @@ trait CreatesCrewModel
         return factory(CrewSocial::class)->create($attributes);
     }
 
+    /**
+     * @param array $customData
+     *
+     * @return array
+     */
+    public function getUpdateCrewData($customData = [])
+    {
+        $data = [
+            'bio'     => 'updated bio',
+            'photo'   => UploadedFile::fake()->image('new-photo.png'),
+            'resume'  => UploadedFile::fake()->create('new-resume.pdf'),
+            'reel'    => 'https://www.youtube.com/embed/WI5AF1DCQlc',
+            'socials' => [
+                'facebook'         => [
+                    'url' => 'https://www.facebook.com/new-castingcallsamerica/',
+                    'id'  => SocialLinkTypeID::FACEBOOK,
+                ],
+                'twitter'          => [
+                    'url' => 'https://twitter.com/new-casting_america',
+                    'id'  => SocialLinkTypeID::TWITTER,
+                ],
+                'youtube'          => [
+                    'url' => 'https://www.youtube.com/channel/UCHBOnWRvXSZ2xzBXyoDnCJwNEW',
+                    'id'  => SocialLinkTypeID::YOUTUBE,
+                ],
+                'imdb'             => [
+                    'url' => 'http://www.imdb.com/name/nm0000134/-updated',
+                    'id'  => SocialLinkTypeID::IMDB,
+                ],
+                'tumblr'           => [
+                    'url' => 'http://new-updated.tumblr.com',
+                    'id'  => SocialLinkTypeID::TUMBLR,
+                ],
+                'vimeo'            => [
+                    'url' => 'https://vimeo.com/new-mackevision',
+                    'id'  => SocialLinkTypeID::VIMEO,
+                ],
+                'instagram'        => [
+                    'url' => 'https://www.instagram.com/new-castingamerica/',
+                    'id'  => SocialLinkTypeID::INSTAGRAM,
+                ],
+                'personal_website' => [
+                    'url' => 'https://new-castingcallsamerica.com',
+                    'id'  => SocialLinkTypeID::PERSONAL_WEBSITE,
+                ],
+            ],
+        ];
 
+        return Arr::recursive_combine($data, $customData);
+    }
+
+    /**
+     * @param array $customData
+     *
+     * @return array
+     */
+    public function getCreateCrewData($customData = [])
+    {
+        $data = [
+            'bio'     => 'some bio',
+            'photo'   => UploadedFile::fake()->image('photo.png'),
+            'resume'  => UploadedFile::fake()->create('resume.pdf'),
+            'reel'    => 'http://www.youtube.com/embed/G8S81CEBdNs',
+            'socials' => [
+                'facebook'         => [
+                    'url' => 'https://www.facebook.com/castingcallsamerica/',
+                    'id'  => SocialLinkTypeID::FACEBOOK,
+                ],
+                'twitter'          => [
+                    'url' => 'https://twitter.com/casting_america',
+                    'id'  => SocialLinkTypeID::TWITTER,
+                ],
+                'youtube'          => [
+                    'url' => 'https://www.youtube.com/channel/UCHBOnWRvXSZ2xzBXyoDnCJw',
+                    'id'  => SocialLinkTypeID::YOUTUBE,
+                ],
+                'imdb'             => [
+                    'url' => 'http://www.imdb.com/name/nm0000134/',
+                    'id'  => SocialLinkTypeID::IMDB,
+                ],
+                'tumblr'           => [
+                    'url' => 'http://test.tumblr.com',
+                    'id'  => SocialLinkTypeID::TUMBLR,
+                ],
+                'vimeo'            => [
+                    'url' => 'https://vimeo.com/mackevision',
+                    'id'  => SocialLinkTypeID::VIMEO,
+                ],
+                'instagram'        => [
+                    'url' => 'https://www.instagram.com/castingamerica/',
+                    'id'  => SocialLinkTypeID::INSTAGRAM,
+                ],
+                'personal_website' => [
+                    'url' => 'https://castingcallsamerica.com',
+                    'id'  => SocialLinkTypeID::PERSONAL_WEBSITE,
+                ],
+            ],
+        ];
+
+        return Arr::recursive_combine($data, $customData);
+    }
+
+    /**
+     * @param $attributes
+     * @return array
+     */
     private function setupAttributes($attributes)
     {
-        $attributes = \Arr::add($attributes, 'user', []);
-        $attributes = \Arr::add($attributes, 'crew', []);
-        $attributes = \Arr::add($attributes, 'reel', []);
-        $attributes = \Arr::add($attributes, 'resume', []);
-        $attributes = \Arr::add($attributes, 'socials', []);
+        $attributes = Arr::add($attributes, 'user', []);
+        $attributes = Arr::add($attributes, 'crew', []);
+        $attributes = Arr::add($attributes, 'reel', []);
+        $attributes = Arr::add($attributes, 'resume', []);
+        $attributes = Arr::add($attributes, 'socials', []);
 
         return $attributes;
     }

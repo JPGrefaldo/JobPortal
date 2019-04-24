@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Models;
 
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
 use App\Models\Crew;
 use App\Models\CrewGear;
@@ -201,5 +202,31 @@ class CrewTest extends TestCase
 
         // then
         $this->assertCount(3, $this->crew->projects);
+    }
+
+    /**
+     * @test
+     * @covers  \App\Models\Crew::getPhotoUrlAttribute
+     */
+    public function get_photo_url_attribute()
+    {
+        $crew = factory(Crew::class)->create();
+        $photo = UploadedFile::fake()
+            ->image('photo.png');
+
+        $crew->photo_path =
+            $crew->hash_id . '/' .
+            'photos' . '/' .
+            $photo->hashName();
+
+        $this->assertEquals(
+            config('filesystems.disks.s3.url') . '/' .
+            config('filesystems.disks.s3.bucket') . '/' .
+            $crew->hash_id . '/' .
+            'photos' . '/' .
+            $photo->hashName(),
+
+            $crew->photo_url
+        );
     }
 }
