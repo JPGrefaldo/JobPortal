@@ -6,9 +6,9 @@ class MessagesDashboardController extends Controller
 {
     public function index()
     {
-        $user = auth()->user();
+        $user = auth()->user()->load('crew');
         $roles = $user->roles->pluck('name');
-        $user = $user->crew;
+        
         return view('messages-dashboard', compact('user', 'roles'));
     }
 }

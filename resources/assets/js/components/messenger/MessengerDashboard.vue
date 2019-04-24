@@ -6,7 +6,7 @@
             <div
                 class="w-4/5 text-md border-black border-b font-bold flex justify-center items-center"
             >
-                <div v-if="project.title">{{ project.title }}: <a :href="'/crews/' + crew.user.hash_id">{{ thread.subject }}</a></div>
+                <div v-if="project.title">{{ project.title }}: <a :href="'/crews/' + user.hash_id">{{ thread.subject }}</a></div>
                 <div v-else>No Project Selected</div>
             </div>
         </div>
