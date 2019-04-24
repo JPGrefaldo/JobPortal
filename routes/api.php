@@ -123,3 +123,6 @@ Route::middleware('auth:api')->group(function () {
         });
     });
 });
+
+Route::get('admin/pending-projects', [\App\Http\Controllers\Admin\ProjectController::class, 'unApprovedProjects'])
+    ->name('admin.pending-projects');

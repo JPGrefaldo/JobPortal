@@ -27,8 +27,6 @@ Route::prefix('/admin/positions')->group(function () {
 Route::prefix('/admin/projects')->group(function () {
     Route::get('/', [\App\Http\Controllers\Admin\ProjectController::class, 'index'])
         ->name('admin.projects');
-    Route::get('/pending', [\App\Http\Controllers\Admin\ProjectController::class, 'unApprovedProjects'])
-        ->name('admin.pending-projects');
     Route::put('/{project}/approve', [\App\Http\Controllers\Admin\ProjectController::class, 'approve'])
         ->name('admin.projects.approve');
     Route::put('/{project}', [\App\Http\Controllers\Admin\ProjectController::class, 'update'])
