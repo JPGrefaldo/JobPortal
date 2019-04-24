@@ -3,6 +3,7 @@
     <!-- left pane -->
     <div class="flex w-2/5 border-r border-black">
         <div class="flex-1 overflow-auto bg-white">
+            <div v-if="allFlags.length == 0" class="bg-white flex flex-col p-4"><p>No pending flag messages</p></div>
             <div v-for="flag in allFlags" :key="flag.key" @click="setReason($event, flag.reason, flag.id)">
                 <button class="flex items-center justify-center p-2 hover:bg-grey-light w-full">
                     <div class="h-10 w-10 rounded-full bg-white background-missing-avatar border">
@@ -35,6 +36,8 @@ export default {
     },
     mounted() {
         this.$on('refreshList', function() {
+            this.reason = ''
+            this.messageId = ''
             this.fetchFlags()
         })
     },

@@ -37,6 +37,7 @@ export default {
                 'action': 'disapprove'
             }).then(response => {
                 this.displaySuccess(response)
+                this.$parent.$emit('refreshList')
             })
         }
     },
