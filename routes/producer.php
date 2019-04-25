@@ -36,4 +36,4 @@ Route::group(['prefix' => 'messages'], function () {
     ])->name('producer.messages.update');
 });
 
-Route::get('/crew/{hash_id}', [\App\Http\Controllers\Crew\CrewProfileController::class, 'show']);
+Route::get('/users/{user}/crew-profile', [\App\Http\Controllers\Crew\CrewProfileController::class, 'show']);

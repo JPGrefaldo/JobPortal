@@ -6,6 +6,7 @@ use App\Actions\Crew\StoreCrew;
 use App\Actions\Crew\UpdateCrew;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateCrewRequest;
+use App\Models\User;
 use App\Services\DepartmentsServices;
 use App\Services\SocialLinksServices;
 use Auth;
@@ -108,11 +109,8 @@ class CrewProfileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show(User $user)
     {
-        $user = Auth::user()->load([
-            'crew',
-        ]);
         return view('crew.profile.profile-show', compact('user'));
     }
 
