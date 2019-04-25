@@ -39,12 +39,12 @@ class CreateTestUserTest extends TestCase
     public function create_user_with_crew_role()
     {
         $command = $this->artisan(self::CMD, [
-            'email' => 'test@test.com', 
+            'email' => 'test@test.com',
             '--crew' => 'true',
         ]);
 
         $command->expectsOutput('User with role created.')
-        ->run();
+            ->run();
 
         $user = User::where('email', 'test@test.com')
             ->whereHas('sites', function ($query) {
@@ -152,7 +152,6 @@ class CreateTestUserTest extends TestCase
         $this->assertTrue($user->hasRole(Role::PRODUCER));
 
         $command->assertExitCode(0);
-        
     }
     /**
      * @test
