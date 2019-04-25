@@ -91,13 +91,27 @@ class ApprovingProjectFeatureTest extends TestCase
     {
         $project = factory(Project::class)->create($this->getUnapprovedProject());
 
-        $user = $this->createAdmin();
-
-        $this->actingAs($user)
+        $this->actingAs($this->createAdmin())
             ->put(route('admin.projects.approve', $project->id))
             ->assertSee('Project approved successfully.')
             ->assertSuccessful();
 
         $this->assertEquals(1, $project->refresh()->status);
+    }
+
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Admin\ProjectsController::approve
+     */
+    public function can_unapprove_projects()
+    {
+        $project = factory(Project::class)->create($this->getUnapprovedProject());
+
+        $this->actingAs($this->createAdmin())
+            ->put(route('admin.projects.unapprove', $project->id))
+            ->assertSee('Project unapproved successfully.')
+            ->assertSuccessful();
+
+        $this->assertEquals(2, $project->refresh()->status);
     }
 }

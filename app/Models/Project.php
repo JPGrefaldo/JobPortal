@@ -96,6 +96,19 @@ class Project extends Model
     }
 
     /**
+     * @return bool
+     */
+    public function unapprove()
+    {
+        return $this->update(
+            [
+                'unapproved_at' => Carbon::now(),
+                'status'        => 2
+            ]
+        );
+    }
+
+    /**
      * @param array $siteIds
      * @return array|\Illuminate\Support\Collection
      */

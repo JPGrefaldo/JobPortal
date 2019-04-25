@@ -98,6 +98,19 @@ class ProjectController extends Controller
         );
     }
 
+    public function unapprove(Project $project)
+    {
+        $project->unapprove();
+
+        return response()->json(
+            [
+                'message' => 'Project unapproved successfully.',
+                'project' => $project,
+            ],
+            Response::HTTP_OK
+        );
+    }
+
     public function unApprovedProjects()
     {
         $projects = Project::where('status', 0)->get();
