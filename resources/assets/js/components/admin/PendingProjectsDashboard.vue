@@ -17,7 +17,7 @@ export default {
     },
     methods: {
         fetchPendingProjects: function() {
-            axios.get('/api/admin/pending-projects')
+            axios.get('/api/admin/projects/unapproved')
                 .then(response => {
                     this.projects = response.data.projects
                 })

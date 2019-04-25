@@ -29,6 +29,8 @@ class CreateProjectsTable extends Migration
                 ->default(0);
             $table->timestamp('approved_at')
                 ->nullable();
+            $table->timestamp('unapproved_at')
+                ->nullable();
             $table->timestamps();
             $table->softDeletes();
 

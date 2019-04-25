@@ -111,9 +111,9 @@ class ProjectController extends Controller
         );
     }
 
-    public function unApprovedProjects()
+    public function unapprovedProjects()
     {
-        $projects = Project::where('status', 0)->get();
+        $projects = Project::where('approved_at', null)->get();
 
         return response()->json(
             [
