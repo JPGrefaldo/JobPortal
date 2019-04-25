@@ -21,9 +21,9 @@
                                 @if(isset($socialLinkType->crew[0]))
                                     <li class="social-links-item">
                                         <a href="{{ $socialLinkType->crew[0]->url }}"
-                                           class="social-links-item-link"
-                                           title="{{ $socialLinkType->crew[0]->url }}"
-                                           target="_blank" >
+                                            class="social-links-item-link"
+                                            title="{{ $socialLinkType->crew[0]->url }}"
+                                            target="_blank" >
                                             <div class="social-links-item-icon">
                                                 <img src="{{ asset($socialLinkType->image) }}">
                                             </div>
@@ -47,9 +47,9 @@
                             @if(isset($user->crew->reel))
                                 @if($user->crew->reel->type == 'file')
                                     <a href="/storage/{{$user->crew->reel->url }}" target="_blank"
-                                       class="border md:w-1/2 flex overflow-hidden rounded md:mr-2 mb-2 md:mb-0">
+                                        class="border md:w-1/2 flex overflow-hidden rounded md:mr-2 mb-2 md:mb-0">
                                         <div class="w-24 relative"
-                                             style="background: url(/images/th2.jpg); background-size: cover;">
+                                            style="background: url(/images/th2.jpg); background-size: cover;">
                                             <span class="btn-play w-10 h-10"></span>
                                         </div>
                                         <span class='uppercase text-green font-semibold p-4 text-sm tracking-wide'>VIEW POSITION WORK REEL</span>
@@ -58,7 +58,7 @@
                                     <a href="{{$user->crew->reel->url }}" target="_blank"
                                        class="border md:w-1/2 flex overflow-hidden rounded md:mr-2 mb-2 md:mb-0">
                                         <div class="w-24 relative"
-                                             style="background: url(../images/th2.jpg); background-size: cover;">
+                                            style="background: url(../images/th2.jpg); background-size: cover;">
                                             <span class="btn-play w-10 h-10"></span>
                                         </div>
                                         <span class='uppercase text-green font-semibold p-4 text-sm tracking-wide'>VIEW POSITION WORK REEL</span>
@@ -67,7 +67,7 @@
                             @else
                                 <a href="#" class="border md:w-1/2 flex overflow-hidden rounded md:mr-2 mb-2 md:mb-0">
                                     <div class="w-24 relative"
-                                         style="background: url(/images/th2.jpg); background-size: cover;">
+                                        style="background: url(/images/th2.jpg); background-size: cover;">
                                         <span class="btn-play w-10 h-10"></span>
                                     </div>
                                     <span class='uppercase text-green font-semibold p-4 text-sm tracking-wide'>VIEW POSITION WORK REEL</span>
@@ -76,15 +76,15 @@
 
                             @if (isset($resume_url))
                                 <a href="https://s3-us-west-2.amazonaws.com/test.crewcalls.info{{$resume_url}}"
-                                   target="_blank"
-                                   class="border md:w-1/2 flex items-center overflow-hidden rounded md:ml-2">
+                                    target="_blank"
+                                    class="border md:w-1/2 flex items-center overflow-hidden rounded md:ml-2">
                                     <i class="far fa-file-alt px-6 text-lg"></i>
                                     <span class='uppercase text-green font-semibold px-0 py-6 text-sm tracking-wide'>VIEW POSITION RESUME</span>
                                 </a>
                             @else
                                 <a href="#"
-                                   target="_blank"
-                                   class="border md:w-1/2 flex items-center overflow-hidden rounded md:ml-2">
+                                    target="_blank"
+                                    class="border md:w-1/2 flex items-center overflow-hidden rounded md:ml-2">
                                     <i class="far fa-file-alt px-6 text-lg"></i>
                                     <span class='uppercase text-green font-semibold px-0 py-6 text-sm tracking-wide'>VIEW POSITION RESUME</span>
                                 </a>
@@ -118,7 +118,7 @@
                                     </a>
                                     <a href="#" class="border md:w-1/2 flex items-center overflow-hidden rounded md:ml-2">
                                         <i class="far fa-file-alt px-6 text-lg"></i>
-                                    <span class='uppercase text-green font-semibold px-0 py-6 text-sm tracking-wide'>VIEW POSITION RESUME</span>
+                                        <span class='uppercase text-green font-semibold px-0 py-6 text-sm tracking-wide'>VIEW POSITION RESUME</span>
                                     </a>
                                     </div>
                                 </div>
