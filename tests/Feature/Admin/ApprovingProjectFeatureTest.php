@@ -15,24 +15,20 @@ class ApprovingProjectFeatureTest extends TestCase
 
     protected function getApprovedProject()
     {
-        $data = [
+        return [
             'production_name_public' => 1,
             'project_type_id'        => ProjectTypeID::TV,
             'status'                 => 1,
             'approved_at'            => '2019-04-04 22:2=14:45',
         ];
-
-        return $data;
     }
 
     protected function getUnapprovedProject()
     {
-        $data = [
+        return [
             'production_name_public' => 0,
             'project_type_id'        => ProjectTypeID::MOVIE,
         ];
-
-        return $data;
     }
 
     /**
@@ -76,15 +72,15 @@ class ApprovingProjectFeatureTest extends TestCase
     {
         $this->actingAs($this->createAdmin())
             ->get(route('admin.projects'))
-            ->assertStatus(Response::HTTP_OK);
+            ->assertSuccessful();
 
         $this->actingAs($this->createCrew())
             ->get(route('admin.projects'))
-            ->assertStatus(Response::HTTP_FORBIDDEN);
+            ->assertForbidden();
 
         $this->actingAs($this->createProducer())
             ->get(route('admin.projects'))
-            ->assertStatus(Response::HTTP_FORBIDDEN);
+            ->assertForbidden();
     }
 
     /**
@@ -93,13 +89,7 @@ class ApprovingProjectFeatureTest extends TestCase
      */
     public function can_approve_projects()
     {
-        $project = factory(Project::class)->create(
-            [
-                'production_name_public' => 1,
-                'project_type_id'        => ProjectTypeID::MOVIE,
-                'status'                 => 0,
-            ]
-        );
+        $project = factory(Project::class)->create($this->getUnapprovedProject());
 
         $user = $this->createAdmin();
 
