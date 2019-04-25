@@ -23,6 +23,8 @@ class CreateEmailVerificationCodesTable extends Migration
                 ->references('id')
                 ->on('users')
                 ->onDelete('cascade');
+
+            $table->index('code');
         });
     }
 

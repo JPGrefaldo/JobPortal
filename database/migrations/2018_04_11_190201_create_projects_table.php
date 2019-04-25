@@ -48,6 +48,8 @@ class CreateProjectsTable extends Migration
                 ->references('id')
                 ->on('project_types')
                 ->onDelete('cascade');
+
+            $table->index('user_id');
         });
     }
 
