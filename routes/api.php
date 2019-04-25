@@ -122,7 +122,7 @@ Route::middleware('auth:api')->group(function () {
             ])->name('producer.project.type');
         });
     });
-});
 
-Route::get('admin/pending-projects', [\App\Http\Controllers\Admin\ProjectController::class, 'unApprovedProjects'])
-    ->name('admin.pending-projects');
+    Route::get('admin/pending-projects', [\App\Http\Controllers\Admin\ProjectController::class, 'unApprovedProjects'])
+        ->name('admin.pending-projects');
+});

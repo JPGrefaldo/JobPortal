@@ -13,21 +13,26 @@ class ApprovingProjectFeatureTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
 
-    public function __construct()
+    protected function getApprovedProject()
     {
-        parent::__construct();
-
-        $this->approvedProject = [
+        $data = [
             'production_name_public' => 1,
             'project_type_id'        => ProjectTypeID::TV,
             'status'                 => 1,
             'approved_at'            => '2019-04-04 22:2=14:45',
         ];
 
-        $this->unapprovedProject = [
+        return $data;
+    }
+
+    protected function getUnapprovedProject()
+    {
+        $data = [
             'production_name_public' => 0,
             'project_type_id'        => ProjectTypeID::MOVIE,
         ];
+
+        return $data;
     }
 
     /**
@@ -36,12 +41,12 @@ class ApprovingProjectFeatureTest extends TestCase
      */
     public function should_only_return_the_unapproved_project()
     {
-        factory(Project::class)->create($this->approvedProject);
-        factory(Project::class)->create($this->unapprovedProject);
+        factory(Project::class)->create($this->getApprovedProject());
+        factory(Project::class)->create($this->getUnapprovedProject());
 
         $user = $this->createAdmin();
 
-        $response = $this->actingAs($user)
+        $response = $this->actingAs($user, 'api')
             ->get(route('admin.pending-projects'))
             ->assertSee('Succesfully fetched all projects.')
             ->assertSuccessful();
@@ -63,11 +68,23 @@ class ApprovingProjectFeatureTest extends TestCase
         );
     }
 
-    public function test_only_admin_can_see_unapproved_projects_page()
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Admin\ProjectController
+     */
+    public function only_admin_can_see_unapproved_projects_page()
     {
         $this->actingAs($this->createAdmin())
             ->get(route('admin.projects'))
             ->assertStatus(Response::HTTP_OK);
+
+        $this->actingAs($this->createCrew())
+            ->get(route('admin.projects'))
+            ->assertStatus(Response::HTTP_FORBIDDEN);
+
+        $this->actingAs($this->createProducer())
+            ->get(route('admin.projects'))
+            ->assertStatus(Response::HTTP_FORBIDDEN);
     }
 
     /**

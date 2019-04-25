@@ -100,12 +100,12 @@ class ProjectController extends Controller
 
     public function unApprovedProjects()
     {
-        $project = Project::where('status', 0)->get();
+        $projects = Project::where('status', 0)->get();
 
         return response()->json(
             [
                 'message'  => 'Succesfully fetched all projects.',
-                'projects' => $project,
+                'projects' => $projects,
             ],
             Response::HTTP_OK
         );
