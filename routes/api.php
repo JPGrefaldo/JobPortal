@@ -122,9 +122,9 @@ Route::middleware('auth:api')->group(function () {
             ])->name('producer.project.type');
         });
     });
-});
 
-Route::get('/admin/flag-messages', [
-    \App\Http\Controllers\Api\Admin\FlagMessagesController::class,
-    'index'
-])->middleware('role:Admin');
+    Route::get('/admin/flag-messages', [
+        \App\Http\Controllers\Api\Admin\FlagMessagesController::class,
+        'index'
+    ])->middleware('role:Admin');
+});

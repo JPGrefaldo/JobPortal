@@ -34,7 +34,7 @@ class PendingFlagMessageFeatureTest extends TestCase
             ->get(route('admin.flag-messages.index'))
             ->assertSuccessful();
 
-        $this->actingAs($admin)
+        $this->actingAs($admin, 'api')
             ->get('api/admin/flag-messages')
             ->assertSuccessful();
     }
