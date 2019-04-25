@@ -111,7 +111,18 @@ class CrewProfileController extends Controller
      */
     public function show(User $user)
     {
-        return view('crew.profile.profile-show', compact('user'));
+        $resume_url = '';
+        if (isset($user->crew->resumes->where('general', 1)->first()->url)) {
+            $resume_url = $user->crew->resumes->where('general', 1)->first()->url;
+        }
+
+        return view('crew.profile.profile-show', [
+            'user'            => $user,
+            'socialLinkTypes' => $this->getAllSocialLinkTypes($user),
+            'departments'     => $this->getDepartments(),
+            'crewPositions'   => $this->getCrewPositions($user),
+            'resume_url'      => $resume_url,
+        ]);
     }
 
     /**
