@@ -53,6 +53,8 @@ class CreateProjectJobsTable extends Migration
                 ->references('id')
                 ->on('pay_types')
                 ->onDelete('cascade');
+
+            $table->index('project_id');
         });
     }
 

@@ -33,6 +33,9 @@ class CreateManagersTable extends Migration
                 ->references('id')
                 ->on('users')
                 ->onDelete('cascade');
+
+            $table->index('manager_id');
+            $table->index('subordinate_id');
         });
     }
 

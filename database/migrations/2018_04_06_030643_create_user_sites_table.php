@@ -30,6 +30,8 @@ class CreateUserSitesTable extends Migration
                 ->references('id')
                 ->on('sites')
                 ->onDelete('cascade');
+
+            $table->index('user_id');
         });
     }
 
