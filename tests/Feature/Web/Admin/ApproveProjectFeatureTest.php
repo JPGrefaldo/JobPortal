@@ -62,7 +62,7 @@ class ApproveProjectFeatureTest extends TestCase
                 'production_name_public' => true,
                 'project_type_id'        => ProjectTypeID::TV,
                 'status'                 => Project::APPROVED,
-                'approved_at'            => '2019-04-04 22:14:45',
+                'approved_at'            => Carbon::now(),
             ]
         );
     }
