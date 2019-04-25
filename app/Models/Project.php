@@ -93,7 +93,7 @@ class Project extends Model
         return $this->update(
             [
                 'approved_at' => Carbon::now(),
-                'status'      => $this::APPROVED,
+                'status'      => static::APPROVED,
             ]
         );
     }
@@ -107,7 +107,7 @@ class Project extends Model
             [
                 'unapproved_at' => Carbon::now(),
                 'approved_at'   => null,
-                'status'        => $this::UNAPPROVED
+                'status'        => static::UNAPPROVED
             ]
         );
     }

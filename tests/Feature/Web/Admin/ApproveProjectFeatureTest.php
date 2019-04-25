@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\Support\Data\ProjectTypeID;
 use Tests\TestCase;
+use Carbon\Carbon;
 
 class ApproveProjectFeatureTest extends TestCase
 {
@@ -16,10 +17,10 @@ class ApproveProjectFeatureTest extends TestCase
     {
         return [
             'user_id'                => $this->createProducer(),
-            'production_name_public' => 1,
+            'production_name_public' => true,
             'project_type_id'        => ProjectTypeID::TV,
-            'status'                 => 1,
-            'approved_at'            => '2019-04-04 22:2=14:45',
+            'status'                 => Project::APPROVED,
+            'approved_at'            => '2019-04-04 22:14:45',
         ];
     }
 
@@ -27,8 +28,9 @@ class ApproveProjectFeatureTest extends TestCase
     {
         return [
             'user_id'                => $this->createProducer(),
-            'production_name_public' => 0,
+            'production_name_public' => false,
             'project_type_id'        => ProjectTypeID::MOVIE,
+            'status'                 => Project::UNAPPROVED,
         ];
     }
 
@@ -52,15 +54,15 @@ class ApproveProjectFeatureTest extends TestCase
             [
                 'production_name_public' => false,
                 'project_type_id'        => ProjectTypeID::MOVIE,
-                'status'                 => 0,
+                'status'                 => Project::UNAPPROVED,
             ]
         );
         $response->assertJsonMissing(
             [
                 'production_name_public' => true,
                 'project_type_id'        => ProjectTypeID::TV,
-                'status'                 => 1,
-                'approved_at'            => '2019-04-04 22:2=14:45',
+                'status'                 => Project::APPROVED,
+                'approved_at'            => '2019-04-04 22:14:45',
             ]
         );
     }
@@ -94,15 +96,15 @@ class ApproveProjectFeatureTest extends TestCase
 
         $project = factory(Project::class)->create($this->getUnapprovedProject());
 
-        $this->assertEquals(0, $project->status);
+        $this->assertEquals(Project::UNAPPROVED, $project->status);
 
         $this->actingAs($admin)
             ->put(route('admin.projects.approve', $project->id))
             ->assertOk();
 
         $this->assertEquals(Project::APPROVED, $project->refresh()->status);
-        $this->assertEquals(\Carbon\Carbon::now(), $project->refresh()->approved_at);
-        $this->assertEquals(null, $project->refresh()->unapproved_at);
+        $this->assertEquals(Carbon::now(), $project->refresh()->approved_at);
+        $this->assertNull($project->refresh()->unapproved_at);
     }
 
     /**
@@ -119,7 +121,7 @@ class ApproveProjectFeatureTest extends TestCase
             ->assertSuccessful();
 
         $this->assertEquals(Project::UNAPPROVED, $project->refresh()->status);
-        $this->assertEquals(null, $project->refresh()->approved_at);
-        $this->assertEquals(\Carbon\Carbon::now(), $project->refresh()->unapproved_at);
+        $this->assertNull($project->refresh()->approved_at);
+        $this->assertEquals(Carbon::now(), $project->refresh()->unapproved_at);
     }
 }
