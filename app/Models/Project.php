@@ -11,7 +11,8 @@ class Project extends Model
 {
     use SoftDeletes;
 
-    const APPROVED = 1;
+    const PENDING    = 0;
+    const APPROVED   = 1;
     const UNAPPROVED = 2;
 
     /**
@@ -105,8 +106,8 @@ class Project extends Model
     {
         return $this->update(
             [
-                'unapproved_at' => Carbon::now(),
                 'approved_at'   => null,
+                'unapproved_at' => Carbon::now(),
                 'status'        => static::UNAPPROVED
             ]
         );

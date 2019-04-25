@@ -20,7 +20,7 @@ class ApproveProjectFeatureTest extends TestCase
             'production_name_public' => true,
             'project_type_id'        => ProjectTypeID::TV,
             'status'                 => Project::APPROVED,
-            'approved_at'            => '2019-04-04 22:14:45',
+            'approved_at'            => Carbon::now(),
         ];
     }
 
@@ -30,7 +30,7 @@ class ApproveProjectFeatureTest extends TestCase
             'user_id'                => $this->createProducer(),
             'production_name_public' => false,
             'project_type_id'        => ProjectTypeID::MOVIE,
-            'status'                 => Project::UNAPPROVED,
+            'status'                 => Project::PENDING,
         ];
     }
 
@@ -54,7 +54,7 @@ class ApproveProjectFeatureTest extends TestCase
             [
                 'production_name_public' => false,
                 'project_type_id'        => ProjectTypeID::MOVIE,
-                'status'                 => Project::UNAPPROVED,
+                'status'                 => Project::PENDING,
             ]
         );
         $response->assertJsonMissing(
@@ -96,14 +96,13 @@ class ApproveProjectFeatureTest extends TestCase
 
         $project = factory(Project::class)->create($this->getUnapprovedProject());
 
-        $this->assertEquals(Project::UNAPPROVED, $project->status);
+        $this->assertEquals(Project::PENDING, $project->status);
 
         $this->actingAs($admin)
             ->put(route('admin.projects.approve', $project->id))
             ->assertOk();
 
         $this->assertEquals(Project::APPROVED, $project->refresh()->status);
-        $this->assertEquals(Carbon::now(), $project->refresh()->approved_at);
         $this->assertNull($project->refresh()->unapproved_at);
     }
 
@@ -122,6 +121,5 @@ class ApproveProjectFeatureTest extends TestCase
 
         $this->assertEquals(Project::UNAPPROVED, $project->refresh()->status);
         $this->assertNull($project->refresh()->approved_at);
-        $this->assertEquals(Carbon::now(), $project->refresh()->unapproved_at);
     }
 }
