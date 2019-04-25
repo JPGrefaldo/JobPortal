@@ -13,17 +13,17 @@ class PendingFlagMessageFeatureTest extends TestCase
 
     public function test_only_admin_can_see_pending_flag_messages()
     {
-        factory(\App\Models\PendingFlagMessage::class)->create([
+        $pendingFlaggedMessage = factory(\App\Models\PendingFlagMessage::class)->create([
             'approved_at'    => null,
             'disapproved_at' => null
         ]);
 
-        factory(\App\Models\PendingFlagMessage::class)->create([
+        $approveFlaggedMessage = factory(\App\Models\PendingFlagMessage::class)->create([
             'approved_at'    => \Carbon\Carbon::now(),
             'disapproved_at' => null
         ]);
 
-        factory(\App\Models\PendingFlagMessage::class)->create([
+        $disapprovedFlaggedMessage = factory(\App\Models\PendingFlagMessage::class)->create([
             'approved_at'    => null,
             'disapproved_at' => \Carbon\Carbon::now()
         ]);
@@ -34,9 +34,30 @@ class PendingFlagMessageFeatureTest extends TestCase
             ->get(route('admin.flag-messages.index'))
             ->assertSuccessful();
 
-        $this->actingAs($admin, 'api')
+        $response = $this->actingAs($admin, 'api')
             ->get('api/admin/flag-messages')
             ->assertSuccessful();
+
+            $response->assertExactJson([
+                "data" => [
+                    [
+                        "approved_at"    => null,
+                        "disapproved_at" => null,
+                        "id"             => $pendingFlaggedMessage->id,
+                        "message"        => $pendingFlaggedMessage->message->body,
+                        "message_id"     => $pendingFlaggedMessage->message_id,
+                        "message_owner"  => $pendingFlaggedMessage->message->user->nickname,
+                        "reason"         => $pendingFlaggedMessage->reason,
+                        "thread"         => $pendingFlaggedMessage->message->thread->subject
+                    ]
+                ]
+            ]);
+    
+            // not sure if this is still needed
+            $response->assertJsonMissing([
+                $approveFlaggedMessage,
+                $disapprovedFlaggedMessage
+            ]);
     }
 
     public function test_crew_is_not_allowed_to_see_flag_messages()
@@ -47,8 +68,8 @@ class PendingFlagMessageFeatureTest extends TestCase
             ->get(route('admin.flag-messages.index'))
             ->assertStatus(Response::HTTP_FORBIDDEN);
 
-        $this->actingAs($crew)
-            ->get('api/admin/flag-messages')
+        $this->actingAs($crew, 'api')
+            ->get(route('admin.projects.flag-messages'))
             ->assertStatus(Response::HTTP_FORBIDDEN);
     }
 
@@ -60,8 +81,8 @@ class PendingFlagMessageFeatureTest extends TestCase
             ->get(route('admin.flag-messages.index'))
             ->assertStatus(Response::HTTP_FORBIDDEN);
 
-        $this->actingAs($producer)
-            ->get('api/admin/flag-messages')
+        $this->actingAs($producer, 'api')
+            ->get(route('admin.projects.flag-messages'))
             ->assertStatus(Response::HTTP_FORBIDDEN);
     }
 }

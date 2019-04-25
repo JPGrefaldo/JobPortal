@@ -126,5 +126,8 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/admin/flag-messages', [
         \App\Http\Controllers\Api\Admin\FlagMessagesController::class,
         'index'
-    ])->middleware('role:Admin');
+    ])->middleware('role:Admin')->name('admin.projects.flag-messages');
+
+    Route::get('admin/projects/unapproved', [\App\Http\Controllers\Admin\ProjectController::class, 'unapprovedProjects'])
+        ->name('admin.projects.unapproved');
 });

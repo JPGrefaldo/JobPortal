@@ -31,6 +31,8 @@ Route::prefix('/admin/projects')->group(function () {
         ->name('admin.projects.threads');
     Route::put('/{project}/approve', [\App\Http\Controllers\Admin\ProjectController::class, 'approve'])
         ->name('admin.projects.approve');
+    Route::put('/{project}/unapprove', [\App\Http\Controllers\Admin\ProjectController::class, 'unapprove'])
+        ->name('admin.projects.unapprove');
     Route::put('/{project}', [\App\Http\Controllers\Admin\ProjectController::class, 'update'])
         ->name('admin.projects.update');
 });
