@@ -134,6 +134,8 @@ Route::middleware('auth')->group(function () {
     Route::middleware('role:Producer')
         ->namespace('App\Http\Controllers\Producer')
         ->group(base_path('routes/producer.php'));
+        
+    Route::get('/users/{user}/crew-profile', [\App\Http\Controllers\Crew\CrewProfileController::class, 'show']);
 });
 
 Route::prefix('theme')->group(function () {

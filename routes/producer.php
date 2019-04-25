@@ -35,5 +35,3 @@ Route::group(['prefix' => 'messages'], function () {
         'update',
     ])->name('producer.messages.update');
 });
-
-Route::get('/users/{user}/crew-profile', [\App\Http\Controllers\Crew\CrewProfileController::class, 'show']);
