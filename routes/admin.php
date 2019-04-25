@@ -37,7 +37,5 @@ Route::prefix('/admin/projects')->group(function () {
         ->name('admin.projects.update');
 });
 
-Route::prefix('/admin/flag-messages')->group(function () {
-    Route::get('/', [\App\Http\Controllers\PendingFlagMessageController::class, 'index'])
-        ->name('admin.messages.flagged.index');
-});
+Route::get('/admin/flag-messages', [\App\Http\Controllers\PendingFlagMessageController::class, 'index'])
+    ->name('admin.messages.flagged.index');

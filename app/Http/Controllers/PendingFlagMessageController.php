@@ -18,7 +18,7 @@ class PendingFlagMessageController extends Controller
      */
     public function index()
     {
-        return view('flag-messages');
+        return view('flagged-messages');
     }
 
     /**
