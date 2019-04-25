@@ -35,7 +35,7 @@ class PendingFlagMessageFeatureTest extends TestCase
             ->assertSuccessful();
 
         $response = $this->actingAs($admin, 'api')
-            ->get('api/admin/flag-messages')
+            ->get(route('admin.projects.flag-messages'))
             ->assertSuccessful();
 
             $response->assertExactJson([
