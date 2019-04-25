@@ -19,7 +19,8 @@ class CreateCrewPositionsTable extends Migration
             $table->unsignedInteger('position_id');
             $table->text('details');
             // should be nullable or else it will conflict with logic of position
-            $table->text('union_description')->nullable();
+            $table->text('union_description')
+                ->nullable();
             $table->timestamps();
             $table->softDeletes();
 
@@ -32,6 +33,8 @@ class CreateCrewPositionsTable extends Migration
                 ->references('id')
                 ->on('positions')
                 ->onDelete('cascade');
+
+            $table->index('crew_id');
         });
     }
 
