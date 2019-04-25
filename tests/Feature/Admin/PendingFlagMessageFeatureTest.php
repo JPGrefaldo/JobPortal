@@ -5,7 +5,8 @@ namespace Tests\Feature\Admin;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
-use Illuminate\Http\Response;
+use Carbon\Carbon;
+use App\Models\PendingFlagMessage;
 
 class PendingFlagMessageFeatureTest extends TestCase
 {
@@ -15,27 +16,30 @@ class PendingFlagMessageFeatureTest extends TestCase
     {
         $pendingFlaggedMessage = factory(\App\Models\PendingFlagMessage::class)->create([
             'approved_at'    => null,
-            'disapproved_at' => null
+            'disapproved_at' => null,
+            'status'         => PendingFlagMessage::PENDING,
         ]);
 
         $approveFlaggedMessage = factory(\App\Models\PendingFlagMessage::class)->create([
-            'approved_at'    => \Carbon\Carbon::now(),
-            'disapproved_at' => null
+            'approved_at'    => Carbon::now(),
+            'disapproved_at' => null,
+            'status'         => PendingFlagMessage::APPROVED,
         ]);
 
         $disapprovedFlaggedMessage = factory(\App\Models\PendingFlagMessage::class)->create([
             'approved_at'    => null,
-            'disapproved_at' => \Carbon\Carbon::now()
+            'disapproved_at' => Carbon::now(),
+            'status'         => PendingFlagMessage::UNAPPROVED,
         ]);
         
         $admin = $this->createAdmin();
 
         $this->actingAs($admin)
-            ->get(route('admin.flag-messages.index'))
+            ->get(route('admin.messages.flagged.index'))
             ->assertSuccessful();
 
         $response = $this->actingAs($admin, 'api')
-            ->get(route('admin.projects.flag-messages'))
+            ->get(route('admin.messages.flagged'))
             ->assertSuccessful();
 
             $response->assertExactJson([
@@ -60,29 +64,41 @@ class PendingFlagMessageFeatureTest extends TestCase
             ]);
     }
 
-    public function test_crew_is_not_allowed_to_see_flag_messages()
+    /**
+     * @test
+     * 
+     * @covers \App\Http\Controllers\PendingFlagMessageController
+     * @covers \App\Http\Controllers\Api\Admin\FlagMessagesController
+     */
+    public function crew_is_not_allowed_to_see_flagged_messages()
     {
         $crew = $this->createCrew();
 
         $this->actingAs($crew)
-            ->get(route('admin.flag-messages.index'))
-            ->assertStatus(Response::HTTP_FORBIDDEN);
+            ->get(route('admin.messages.flagged.index'))
+            ->assertForbidden();
 
         $this->actingAs($crew, 'api')
-            ->get(route('admin.projects.flag-messages'))
-            ->assertStatus(Response::HTTP_FORBIDDEN);
+            ->get(route('admin.messages.flagged'))
+            ->assertForbidden();
     }
 
-    public function test_producer_is_not_allowed_to_see_flag_messages()
+    /**
+     * @test
+     * 
+     * @covers \App\Http\Controllers\PendingFlagMessageController
+     * @covers \App\Http\Controllers\Api\Admin\FlagMessagesController
+     */
+    public function producer_is_not_allowed_to_see_flagged_messages()
     {
         $producer = $this->createProducer();
 
         $this->actingAs($producer)
-            ->get(route('admin.flag-messages.index'))
-            ->assertStatus(Response::HTTP_FORBIDDEN);
+            ->get(route('admin.messages.flagged.index'))
+            ->assertForbidden();
 
         $this->actingAs($producer, 'api')
-            ->get(route('admin.projects.flag-messages'))
-            ->assertStatus(Response::HTTP_FORBIDDEN);
+            ->get(route('admin.messages.flagged'))
+            ->assertForbidden();
     }
 }
