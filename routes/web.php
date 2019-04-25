@@ -54,6 +54,9 @@ Route::get('about/producers', [\App\Http\Controllers\StaticPageController::class
 
 Route::get('about/crew', [\App\Http\Controllers\StaticPageController::class, 'showAboutCrew'])
     ->name('about.crew');
+
+Route::get('current-projects', [\App\Http\Controllers\ProjectController::class, 'showCurrentProjects'])
+    ->name('projects.current-projects');
 /*
 |--------------------------------------------------------------------------
 | Auth Routes
