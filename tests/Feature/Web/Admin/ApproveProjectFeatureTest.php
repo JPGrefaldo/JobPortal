@@ -100,7 +100,9 @@ class ApproveProjectFeatureTest extends TestCase
             ->put(route('admin.projects.approve', $project->id))
             ->assertOk();
 
-        $this->assertEquals(1, $project->refresh()->status);
+        $this->assertEquals(Project::APPROVED, $project->refresh()->status);
+        $this->assertEquals(\Carbon\Carbon::now(), $project->refresh()->approved_at);
+        $this->assertEquals(null, $project->refresh()->unapproved_at);
     }
 
     /**
@@ -116,6 +118,8 @@ class ApproveProjectFeatureTest extends TestCase
             ->assertSee('Project unapproved successfully.')
             ->assertSuccessful();
 
-        $this->assertEquals(2, $project->refresh()->status);
+        $this->assertEquals(Project::UNAPPROVED, $project->refresh()->status);
+        $this->assertEquals(null, $project->refresh()->approved_at);
+        $this->assertEquals(\Carbon\Carbon::now(), $project->refresh()->unapproved_at);
     }
 }
