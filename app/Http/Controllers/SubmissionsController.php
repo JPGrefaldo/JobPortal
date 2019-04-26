@@ -11,6 +11,12 @@ class SubmissionsController extends Controller
     public function show(Project $project, ProjectJob $job)
     {
         $job = $job->load('pay_type', 'position');
-        return view('projects.submissions', compact('project', 'job'));
+        $submissions = $job->submissions()
+                            ->with(['crew' => function($q){
+                                $q->with('user');
+                            }])
+                            ->get();
+        
+        return view('projects.submissions', compact('project', 'job', 'submissions'));
     }
 }
