@@ -31,7 +31,9 @@
             </div>
             <div class="flex w-4/5 border-r border-black">
                 <div v-if="selectedProject === null">
-                    No Selected item
+                    <div class="p-2 flex-1">
+                        <div class="mb-1 text-grey">No selected item</div>
+                    </div>
                 </div>
                 <div v-else class="w-full m-4">
                     <div class="bg-white shadow-md mb-8 rounded border border-grey-light">
@@ -84,7 +86,6 @@
                                     </a>
                                 </div>
                                 <div>
-
                                 </div>
                             </div>
                         </div>
@@ -96,6 +97,8 @@
 </template>
 
 <script>
+import { alert } from '../../mixins';
+
 export default {
     data() {
         return {
@@ -103,6 +106,9 @@ export default {
             selectedProject: null
         }
     },
+
+    mixins: [alert],
+
     methods: {
         fetchPendingProjects: function() {
             axios.get('/api/admin/projects/unapproved')
@@ -114,13 +120,20 @@ export default {
             this.selectedProject = projectId
         },
         onClickApproveProject: function() {
-            // axios.put(`/admin/projects/${this.selectedProject}/approve`)
-            //     .then(response => {
-                    
-            //     })
+            axios.put(`/admin/projects/${this.selectedProject}/approve`)
+                .then(response => {
+                    this.displaySuccess(response)
+                    this.selectedProject = null
+                    this.fetchPendingProjects()
+                })
         },
         onClickDisapproveProject: function() {
-            console.log('Disapproved ' + this.selectedProject)
+            axios.put(`/admin/projects/${this.selectedProject}/unapprove`)
+                .then(response => {
+                    this.displaySuccess(response)
+                    this.selectedProject = null
+                    this.fetchPendingProjects()
+                })
         }
     },
     mounted() {
