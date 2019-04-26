@@ -9,12 +9,12 @@ use Tests\TestCase;
 
 class BanUserTest extends TestCase
 {
+    use RefreshDatabase, SeedDatabaseAfterRefresh;
+
     /**
      * @var \App\Actions\Admin\BanUser
      */
     protected $service;
-
-    use RefreshDatabase, SeedDatabaseAfterRefresh;
 
     public function setUp(): void
     {

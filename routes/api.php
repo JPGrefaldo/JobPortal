@@ -122,4 +122,7 @@ Route::middleware('auth:api')->group(function () {
             ])->name('producer.project.type');
         });
     });
+
+    Route::get('admin/projects/unapproved', [\App\Http\Controllers\Admin\ProjectController::class, 'unapprovedProjects'])
+        ->name('admin.projects.unapproved');
 });

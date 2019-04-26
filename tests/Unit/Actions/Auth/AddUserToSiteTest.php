@@ -4,6 +4,7 @@ namespace Tests\Unit\Actions\Auth;
 
 use App\Actions\Auth\AddUserToSite;
 use App\Models\Site;
+use App\Models\UserSites;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
@@ -31,7 +32,7 @@ class AddUserToSiteTest extends TestCase
      * @test
      * @covers \App\Actions\Auth\AddUserToSite::execute
      */
-    public function execute()
+    public function can_add_a_user_to_a_site_they_are_not_a_member_of()
     {
         $user = $this->createUser();
 
@@ -46,5 +47,27 @@ class AddUserToSiteTest extends TestCase
         $this->assertDatabaseHas('user_sites', [
             'user_id' => $user->id,
         ]);
+    }
+
+    /**
+     * @test
+     * @covers \App\Actions\Auth\AddUserToSite::execute
+     */
+    public function returns_user_site_if_user_is_already_a_member()
+    {
+        $user = $this->createUser();
+
+        $this->assertDatabaseMissing('user_sites', [
+            'user_id' => $user->id,
+        ]);
+
+        $site = factory(Site::class)->create();
+
+        $userSite = UserSites::create([
+            'user_id' => $user->id,
+            'site_id' => $site->id,
+        ]);
+
+        $this->assertEquals($userSite->toArray(), $this->service->execute($user, $site)->toArray());
     }
 }

@@ -6,7 +6,7 @@
         </a>
     </div>
     <ul class="list-reset hidden md:flex items-center">
-        <li class="{{ Route::is('myProject') ? 'border-b-2 border-red border-solid' : '' }}">
+        <li class="{{ Route::is('producer.projects') ? 'border-b-2 border-red border-solid' : '' }}">
             <a class="block py-6 px-4 tracking-wide block font-bold leading-none uppercase text-sm text-blue-dark hover:text-green"
                href="/producer/projects">my projects</a>
         </li>

@@ -11,6 +11,10 @@ class Project extends Model
 {
     use SoftDeletes;
 
+    const PENDING    = 0;
+    const APPROVED   = 1;
+    const UNAPPROVED = 2;
+
     /**
      * The protected attributes
      *
@@ -90,7 +94,21 @@ class Project extends Model
         return $this->update(
             [
                 'approved_at' => Carbon::now(),
-                'status'      => 1,
+                'status'      => static::APPROVED,
+            ]
+        );
+    }
+
+    /**
+     * @return bool
+     */
+    public function unapprove()
+    {
+        return $this->update(
+            [
+                'approved_at'   => null,
+                'unapproved_at' => Carbon::now(),
+                'status'        => static::UNAPPROVED
             ]
         );
     }

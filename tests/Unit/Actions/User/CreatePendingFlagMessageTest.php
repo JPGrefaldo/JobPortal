@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Actions\User;
 
 use App\Actions\User\CreatePendingFlagMessage;
 use App\Mail\PendingMessageFlagged;
@@ -15,7 +15,7 @@ class CreatePendingFlagMessageTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Actions\User::execute
+     * @covers \App\Actions\User\CreatePendingFlagMessage::execute
      */
     public function execute()
     {

@@ -3,12 +3,12 @@
 namespace Tests\Unit\Observers;
 
 use App\Mail\RushCallEmail;
+use App\Models\CrewPosition;
 use App\Models\ProjectJob;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Mail;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
-use App\Models\CrewPosition;
 
 class ProjectJobObserverTest extends TestCase
 {
@@ -21,17 +21,18 @@ class ProjectJobObserverTest extends TestCase
     public function should_send_email_to_the_crew_with_the_same_position_needed_for_the_job()
     {
         Mail::fake();
+
         $crew = $this->createCrew();
 
         factory(CrewPosition::class)->create([
             'crew_id'       => 1,
-            'position_id'   => 1
+            'position_id'   => 1,
         ]);
 
         factory(ProjectJob::class)->create([
             'position_id'   => 1,
             'project_id'    => 1,
-            'rush_call'     => 1
+            'rush_call'     => 1,
         ]);
 
         Mail::assertSent(
@@ -49,17 +50,18 @@ class ProjectJobObserverTest extends TestCase
     public function should_not_send_email_to_the_crew_not_the_same_position_needed_for_the_job()
     {
         Mail::fake();
+
         $crew = $this->createCrew();
 
         factory(CrewPosition::class)->create([
             'crew_id'       => 1,
-            'position_id'   => 1
+            'position_id'   => 1,
         ]);
 
         factory(ProjectJob::class)->create([
             'position_id'   => 2,
             'project_id'    => 1,
-            'rush_call'     => 1
+            'rush_call'     => 1,
         ]);
 
         Mail::assertNothingSent(
@@ -77,17 +79,18 @@ class ProjectJobObserverTest extends TestCase
     public function should_send_email_when_job_is_rush_call()
     {
         Mail::fake();
+
         $crew = $this->createCrew();
 
         factory(CrewPosition::class)->create([
             'crew_id'       => 1,
-            'position_id'   => 1
+            'position_id'   => 1,
         ]);
 
         factory(ProjectJob::class)->create([
             'position_id'   => 1,
             'project_id'    => 1,
-            'rush_call'     => 1
+            'rush_call'     => 1,
         ]);
 
         Mail::assertSent(
@@ -109,13 +112,13 @@ class ProjectJobObserverTest extends TestCase
 
         factory(CrewPosition::class)->create([
             'crew_id'       => 1,
-            'position_id'   => 1
+            'position_id'   => 1,
         ]);
 
         factory(ProjectJob::class)->create([
             'position_id'   => 1,
             'project_id'    => 1,
-            'rush_call'     => 0
+            'rush_call'     => 0,
         ]);
 
         Mail::assertNothingSent(
@@ -141,7 +144,7 @@ class ProjectJobObserverTest extends TestCase
 
         factory(ProjectJob::class)->create([
             'project_id' => 1,
-            'rush_call'  => 1
+            'rush_call'  => 1,
         ]);
 
         Mail::assertNothingSent(
