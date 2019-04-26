@@ -26,9 +26,7 @@
                                         style="background: url('{{ $user->crew->photo_url }}'); background-size: cover;">
                                     </div>
                                 @else
-                                    <img src="{{ url('photos/avatar.png') }}"
-                                    class="rounded"
-                                    alt="Avatar" />
+                                    <img src="{{ Avatar::create( $user->first_name .' '. $user->last_name )->toBase64() }}" />
                                 @endif
                             </div>
                             <div class="">
