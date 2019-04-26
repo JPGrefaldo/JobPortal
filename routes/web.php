@@ -43,8 +43,20 @@ Route::get('verify/email/{code}', [\App\Http\Controllers\VerifyEmailController::
 Route::get('confirm/{user}/{subordinate}', [\App\Http\Controllers\Manager\ManagerConfirmationController::class, 'index'])
     ->name('manager.confirm');
 
-Route::get('terms-and-conditions', [\App\Http\Controllers\TermsAndConditionsController::class, 'show'])
+Route::get('terms-and-conditions', [\App\Http\Controllers\StaticPageController::class, 'showTermsAndConditions'])
     ->name('termsandconditions');
+
+Route::get('about', [\App\Http\Controllers\StaticPageController::class, 'showAbout'])
+    ->name('about');
+
+Route::get('about/producers', [\App\Http\Controllers\StaticPageController::class, 'showAboutProducers'])
+    ->name('about.producers');
+
+Route::get('about/crew', [\App\Http\Controllers\StaticPageController::class, 'showAboutCrew'])
+    ->name('about.crew');
+
+Route::get('current-projects', [\App\Http\Controllers\ProjectController::class, 'showCurrentProjects'])
+    ->name('projects.current-projects');
 /*
 |--------------------------------------------------------------------------
 | Auth Routes
@@ -127,6 +139,8 @@ Route::middleware('auth')->group(function () {
         \App\Http\Controllers\SubmissionsController::class,
         'show',
     ])->middleware('role:Admin|Producer')->name('project.job.submissions.show');
+        
+    Route::get('/users/{user}/crew-profile', [\App\Http\Controllers\Crew\CrewProfileController::class, 'show']);
 });
 
 Route::prefix('theme')->group(function () {

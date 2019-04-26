@@ -7,17 +7,17 @@
         </a>
     </div>
     <ul class="list-reset hidden lg:flex items-center">
-        <li class="border-b-2 border-red border-solid">
+        <li class="{{ Route::is('producer.projects.create') ? 'border-b-2 border-red border-solid' : '' }}">
             <a class="block py-6 px-4 font-header tracking-wide block font-bold leading-none uppercase text-sm text-blue-dark hover:text-green"
                 href="#">post a project</a>
         </li>
-        <li>
+        <li class="{{ Route::is('findProject') ? 'border-b-2 border-red border-solid' : '' }}">
             <a class="block py-6 px-4 font-header tracking-wide font-bold leading-none uppercase text-sm text-blue-dark hover:text-green"
                 href="#">find a project</a>
         </li>
-        <li>
+        <li class="{{ Route::is('about') ? 'border-b-2 border-red border-solid' : '' }}">
             <a class="block py-6 px-4 font-header tracking-wide font-bold leading-none uppercase text-sm text-blue-dark hover:text-green"
-                href="#">about</a>
+                href="{{ route('about') }}">about</a>
         </li>
     </ul>
     <div class="hidden lg:block w-64">

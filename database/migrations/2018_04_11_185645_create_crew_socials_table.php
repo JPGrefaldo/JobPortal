@@ -30,6 +30,8 @@ class CreateCrewSocialsTable extends Migration
                 ->references('id')
                 ->on('social_link_types')
                 ->onDelete('cascade');
+
+            $table->index('crew_id');
         });
     }
 

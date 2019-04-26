@@ -10,12 +10,12 @@ use Tests\TestCase;
 
 class DisapproveFlagMessageTest extends TestCase
 {
+    use RefreshDatabase, SeedDatabaseAfterRefresh;
+
     /**
      * @var \App\Actions\Admin\DisapproveFlagMessage
      */
     protected $service;
-
-    use RefreshDatabase, SeedDatabaseAfterRefresh;
 
     public function setUp(): void
     {

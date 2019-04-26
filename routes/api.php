@@ -133,4 +133,6 @@ Route::middleware('auth:api')->group(function () {
     ])->middleware('role:Crew')->name('project.job.submissions.create');
 
 
+    Route::get('admin/projects/unapproved', [\App\Http\Controllers\Admin\ProjectController::class, 'unapprovedProjects'])
+        ->name('admin.projects.unapproved');
 });

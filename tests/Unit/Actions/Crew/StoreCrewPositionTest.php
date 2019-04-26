@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Unit\Actions\Crew;
 
 use App\Actions\Crew\StoreCrewPosition;
 use App\Models\Crew;

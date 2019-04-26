@@ -39,7 +39,7 @@ class ProjectJobFeatureTest extends TestCase
         $response = $this->actingAs($user, 'api')
             ->get(route('producer.project.jobs'))
             ->assertSee('Sucessfully fetch the project\'s jobs.')
-            ->assertStatus(Response::HTTP_OK);
+            ->assertSuccessful();
 
         $response->assertJsonCount(2);
 
@@ -194,7 +194,7 @@ class ProjectJobFeatureTest extends TestCase
             '2019-01-04',
             '2019-01-05'
         ];
-        
+
         $data    = [
             'persons_needed'       => '2',
             'gear_provided'        => 'Some Gear Provided',
@@ -259,7 +259,7 @@ class ProjectJobFeatureTest extends TestCase
                 ]
             )
             ->assertSee('Sucessfully updated the project\'s job.')
-            ->assertStatus(Response::HTTP_OK);
+            ->assertSuccessful();
 
         $response->assertJsonFragment(
             [
@@ -386,8 +386,7 @@ class ProjectJobFeatureTest extends TestCase
                     'Accept' => 'application/json',
                 ]
             )
-            ->assertSee('This action is unauthorized.')
-            ->assertStatus(Response::HTTP_FORBIDDEN);
+            ->assertForbidden();
     }
 
     /**
@@ -409,8 +408,7 @@ class ProjectJobFeatureTest extends TestCase
                      'Accept' => 'application/json',
                  ]
             )
-            ->assertSee('This action is unauthorized.')
-            ->assertStatus(Response::HTTP_FORBIDDEN);
+            ->assertForbidden();
     }
 
     /**
@@ -430,7 +428,7 @@ class ProjectJobFeatureTest extends TestCase
                     'Accept' => 'application/json',
                 ]
             )
-            ->assertStatus(Response::HTTP_FORBIDDEN);
+            ->assertForbidden();
     }
 
     /**

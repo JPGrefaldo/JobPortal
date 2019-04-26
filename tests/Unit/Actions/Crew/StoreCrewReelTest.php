@@ -30,15 +30,16 @@ class StoreCrewReelTest extends TestCase
 
         Storage::fake('s3');
 
-        $this->models = $this->createCompleteCrew($this->getCreateData());
+        $this->models = $this->createCompleteCrew();
     }
+
     /**
      * @test
      * @covers \App\Actions\Crew\StoreCrewReel
      */
     public function blank_reel_can_be_updated_to_reel_link()
     {
-        $data = $this->getUpdateData();
+        $data = $this->getUpdateCrewData();
 
         app(StoreCrewReel::class)->execute($this->models['crew'], $data);
 
@@ -56,7 +57,7 @@ class StoreCrewReelTest extends TestCase
      */
     public function blank_reel_can_be_updated_to_reel_file()
     {
-        $data = $this->getUpdateData([
+        $data = $this->getUpdateCrewData([
             'reel' => UploadedFile::fake()->create('new-reel.mp4'),
         ]);
 
@@ -80,7 +81,7 @@ class StoreCrewReelTest extends TestCase
      */
     public function reel_link_can_be_updated_to_reel_link()
     {
-        $data = $this->getUpdateData();
+        $data = $this->getUpdateCrewData();
 
         app(StoreCrewReel::class)->execute($this->models['crew'], $data);
 
@@ -98,7 +99,7 @@ class StoreCrewReelTest extends TestCase
      */
     public function reel_link_can_be_updated_to_reel_file()
     {
-        $data = $this->getUpdateData([
+        $data = $this->getUpdateCrewData([
             'reel' => UploadedFile::fake()->create('new-reel.mp4'),
         ]);
 
@@ -122,7 +123,7 @@ class StoreCrewReelTest extends TestCase
      */
     public function reel_file_can_be_updated_to_reel_link()
     {
-        $data = $this->getUpdateData();
+        $data = $this->getUpdateCrewData();
 
         $reelPath = $this->models['user']->hash_id . '/reels/reel.mp4';
 
@@ -160,7 +161,7 @@ class StoreCrewReelTest extends TestCase
             'path' => $reelPath,
         ]);
 
-        $data = $this->getUpdateData([
+        $data = $this->getUpdateCrewData([
             'reel' => UploadedFile::fake()->create('new-reel.mp4'),
         ]);
 
@@ -253,117 +254,5 @@ class StoreCrewReelTest extends TestCase
             'general'          => true,
             'crew_position_id' => null,
         ]);
-    }
-
-    /**
-     * @param array $customData
-     *
-     * @return array
-     */
-    public function getUpdateData($customData = [])
-    {
-        $data = [
-            'bio'     => 'updated bio',
-            'photo'   => UploadedFile::fake()->image('new-photo.png'),
-            'resume'  => UploadedFile::fake()->create('new-resume.pdf'),
-            'reel'    => 'https://www.youtube.com/embed/WI5AF1DCQlc',
-            'socials' => [
-                'facebook'         => [
-                    'url' => 'https://www.facebook.com/new-castingcallsamerica/',
-                    'id'  => SocialLinkTypeID::FACEBOOK,
-                ],
-                'twitter'          => [
-                    'url' => 'https://twitter.com/new-casting_america',
-                    'id'  => SocialLinkTypeID::TWITTER,
-                ],
-                'youtube'          => [
-                    'url' => 'https://www.youtube.com/channel/UCHBOnWRvXSZ2xzBXyoDnCJwNEW',
-                    'id'  => SocialLinkTypeID::YOUTUBE,
-                ],
-                'imdb'             => [
-                    'url' => 'http://www.imdb.com/name/nm0000134/-updated',
-                    'id'  => SocialLinkTypeID::IMDB,
-                ],
-                'tumblr'           => [
-                    'url' => 'http://new-updated.tumblr.com',
-                    'id'  => SocialLinkTypeID::TUMBLR,
-                ],
-                'vimeo'            => [
-                    'url' => 'https://vimeo.com/new-mackevision',
-                    'id'  => SocialLinkTypeID::VIMEO,
-                ],
-                'instagram'        => [
-                    'url' => 'https://www.instagram.com/new-castingamerica/',
-                    'id'  => SocialLinkTypeID::INSTAGRAM,
-                ],
-                'personal_website' => [
-                    'url' => 'https://new-castingcallsamerica.com',
-                    'id'  => SocialLinkTypeID::PERSONAL_WEBSITE,
-                ],
-            ],
-        ];
-
-        return $this->customizeData($data, $customData);
-    }
-
-    /**
-     * @param $data
-     * @param $customData
-     *
-     * @return mixed
-     */
-    protected function customizeData($data, $customData)
-    {
-        foreach ($customData as $key => $value) {
-            Arr::set($data, $key, $value);
-        }
-
-        return $data;
-    }
-
-    /**
-     * @param array $customData
-     *
-     * @return array
-     */
-    public function getCreateData($customData = [])
-    {
-        $data = [
-            'socials' =>
-            [
-                'url' => 'https://www.facebook.com/castingcallsamerica/',
-                'id'  => SocialLinkTypeID::FACEBOOK,
-            ],
-            [
-                'url' => 'https://twitter.com/casting_america',
-                'id'  => SocialLinkTypeID::TWITTER,
-            ],
-            [
-                'url' => 'https://www.youtube.com/channel/UCHBOnWRvXSZ2xzBXyoDnCJw',
-                'id'  => SocialLinkTypeID::YOUTUBE,
-            ],
-            [
-                'url' => 'http://www.imdb.com/name/nm0000134/',
-                'id'  => SocialLinkTypeID::IMDB,
-            ],
-            [
-                'url' => 'http://test.tumblr.com',
-                'id'  => SocialLinkTypeID::TUMBLR,
-            ],
-            [
-                'url' => 'https://vimeo.com/mackevision',
-                'id'  => SocialLinkTypeID::VIMEO,
-            ],
-            [
-                'url' => 'https://www.instagram.com/castingamerica/',
-                'id'  => SocialLinkTypeID::INSTAGRAM,
-            ],
-            [
-                'url' => 'https://castingcallsamerica.com',
-                'id'  => SocialLinkTypeID::PERSONAL_WEBSITE,
-            ],
-        ];
-
-        return $this->customizeData($data, $customData);
     }
 }
