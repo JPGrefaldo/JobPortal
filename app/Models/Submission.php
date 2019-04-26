@@ -15,4 +15,12 @@ class Submission extends Model
     {
         return $this->belongsTo(Submission::class);
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function crew()
+    {
+        return $this->belongsTo(Crew::class);
+	}
 }

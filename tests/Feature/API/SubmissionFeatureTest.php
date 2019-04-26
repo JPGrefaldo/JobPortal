@@ -20,8 +20,6 @@ class SubmissionFeatureTest extends TestCase
      */
     public function can_fetch_job_and_all_submissions()
     {
-        $this->withoutExceptionHandling();
-        
         $producer = $this->createProducer();
 
         $project  = factory(Project::class)->create([
