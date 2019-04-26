@@ -33,7 +33,7 @@ export const actions = {
     fetch(context, id) {
         axios.get(`/api/project/job/${id}/submissions`)
              .then(response => {
-                 context.commit(response.data.submissions)
+                context.commit(response.data.submissions);
              })
     }
 }
