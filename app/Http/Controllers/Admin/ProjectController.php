@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Http\Resources\ProjectResource;
 
 class ProjectController extends Controller
 {
@@ -113,7 +114,7 @@ class ProjectController extends Controller
 
     public function unapprovedProjects()
     {
-        $projects = Project::where('approved_at', null)->get();
+        $projects = ProjectResource::collection(Project::where('approved_at', null)->get());
 
         return response()->json(
             [
