@@ -66,9 +66,8 @@ Route::middleware('auth:api')->group(function () {
         'index',
     ])->name('crew.threads.index');
 
-    Route::prefix('producer')->middleware('role:Producer')->group(function() {
-
-        Route::prefix('projects')->group(function() {
+    Route::prefix('producer')->middleware('role:Producer')->group(function () {
+        Route::prefix('projects')->group(function () {
             Route::get('/', [
                 \App\Http\Controllers\API\Producer\ProjectsController::class,
                 'index',
@@ -89,22 +88,22 @@ Route::middleware('auth:api')->group(function () {
                 'approved',
             ])->name('producer.projects.approved');
 
-            Route::prefix('jobs')->group(function() {
+            Route::prefix('jobs')->group(function () {
                 Route::get('/', [
                     \App\Http\Controllers\API\Producer\ProjectJobsController::class,
                     'index',
                 ])->name('producer.project.jobs');
-    
+
                 Route::post('/', [
                     \App\Http\Controllers\API\Producer\ProjectJobsController::class,
                     'store',
                 ])->name('producer.project.jobs.store');
-    
+
                 Route::put('/{projectJob}', [
                     \App\Http\Controllers\API\Producer\ProjectJobsController::class,
                     'update',
                 ])->name('producer.project.jobs.update');
-    
+
                 Route::delete('/{projectJob}', [
                     \App\Http\Controllers\API\Producer\ProjectJobsController::class,
                     'destroy',

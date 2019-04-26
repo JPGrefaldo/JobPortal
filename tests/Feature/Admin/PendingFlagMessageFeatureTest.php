@@ -2,11 +2,11 @@
 
 namespace Tests\Feature\Admin;
 
-use Tests\TestCase;
+use App\Models\PendingFlagMessage;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
-use Carbon\Carbon;
-use App\Models\PendingFlagMessage;
+use Tests\TestCase;
 
 class PendingFlagMessageFeatureTest extends TestCase
 {
@@ -52,7 +52,7 @@ class PendingFlagMessageFeatureTest extends TestCase
         $disapprovedFlagMessage = factory(\App\Models\PendingFlagMessage::class)->create(
             $this->getDisapprovedFlagMessage()
         );
-        
+
         $admin = $this->createAdmin();
 
         $this->actingAs($admin)
@@ -63,31 +63,31 @@ class PendingFlagMessageFeatureTest extends TestCase
             ->get(route('admin.messages.flagged'))
             ->assertSuccessful();
 
-            $response->assertExactJson([
-                "data" => [
-                    [
-                        "approved_at"    => null,
-                        "disapproved_at" => null,
-                        "id"             => $pendingFlagMessage->id,
-                        "message"        => $pendingFlagMessage->message->body,
-                        "message_id"     => $pendingFlagMessage->message_id,
-                        "message_owner"  => $pendingFlagMessage->message->user->nickname,
-                        "reason"         => $pendingFlagMessage->reason,
-                        "thread"         => $pendingFlagMessage->message->thread->subject
-                    ]
+        $response->assertExactJson([
+            "data" => [
+                [
+                    "approved_at"    => null,
+                    "disapproved_at" => null,
+                    "id"             => $pendingFlagMessage->id,
+                    "message"        => $pendingFlagMessage->message->body,
+                    "message_id"     => $pendingFlagMessage->message_id,
+                    "message_owner"  => $pendingFlagMessage->message->user->nickname,
+                    "reason"         => $pendingFlagMessage->reason,
+                    "thread"         => $pendingFlagMessage->message->thread->subject
                 ]
-            ]);
-    
-            // not sure if this is still needed
-            $response->assertJsonMissing([
-                $approvedFlagMessage,
-                $disapprovedFlagMessage
-            ]);
+            ]
+        ]);
+
+        // not sure if this is still needed
+        $response->assertJsonMissing([
+            $approvedFlagMessage,
+            $disapprovedFlagMessage
+        ]);
     }
 
     /**
      * @test
-     * 
+     *
      * @covers \App\Http\Controllers\PendingFlagMessageController
      * @covers \App\Http\Controllers\Api\Admin\FlagMessagesController
      */
@@ -106,7 +106,7 @@ class PendingFlagMessageFeatureTest extends TestCase
 
     /**
      * @test
-     * 
+     *
      * @covers \App\Http\Controllers\PendingFlagMessageController
      * @covers \App\Http\Controllers\Api\Admin\FlagMessagesController
      */
