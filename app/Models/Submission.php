@@ -13,14 +13,6 @@ class Submission extends Model
      */
     public function job()
     {
-        return $this->belongsTo(Job::class);
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function crew()
-    {
-        return $this->belongsTo(Crew::class);
+        return $this->belongsTo(Submission::class);
     }
 }

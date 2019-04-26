@@ -1,5 +1,5 @@
 @extends('layouts.default_layout')
 
 @section('content')
-<cca-project-job-submissions :job="{{ $job }}" :project="{{ $project }}" :submissions="{{ $submissions }}"/>
+<cca-project-job-submissions :job="{{ $job }}" :project="{{ $project }}"/>
 @endsection

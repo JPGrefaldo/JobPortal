@@ -20,6 +20,8 @@ class SubmissionFeatureTest extends TestCase
      */
     public function can_fetch_job_and_all_submissions()
     {
+        $this->withoutExceptionHandling();
+        
         $producer = $this->createProducer();
 
         $project  = factory(Project::class)->create([
@@ -127,8 +129,6 @@ class SubmissionFeatureTest extends TestCase
             ->assertSee('User does not have the right roles.')
             ->assertForbidden();
     }
-
-
 
     public function createProjectAndJob()
     {
