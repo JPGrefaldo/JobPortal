@@ -21,7 +21,8 @@ class ProjectResource extends JsonResource
             'description'  => $this->description,
             'location'     => $this->location,
             'project_type' => $this->type->name,
-            'owner'        => $this->owner->nickname
+            'owner'        => $this->owner->nickname,
+            'production'   => $this->production_name
         ];
     }
 }

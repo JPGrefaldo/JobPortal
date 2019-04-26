@@ -34,41 +34,58 @@
                     No Selected item
                 </div>
                 <div v-else class="w-full m-4">
-                    <div class="bg-white shadow-md rounded mb-8 border border-grey-light p-8">
-                        <div class="w-full mb-6 flex justify-between">
-                            <h3 class="text-blue-dark font-semibold text-lf mb-1 font-header">{{ projects[selectedProject - 1].title }}</h3>
-                            <p>Production: {{ projects[selectedProject - 1].production_name }}</p>
+                    <div class="bg-white shadow-md mb-8 rounded border border-grey-light">
+                        <div class="bg-white shadow-md rounded border border-grey-light p-8">
+                            <div class="w-full mb-6 flex justify-between">
+                                <h3 class="text-blue-dark font-semibold text-lf mb-1 font-header">{{ projects[selectedProject - 1].title }}</h3>
+                                <p>Production: {{ projects[selectedProject - 1].production }}</p>
+                            </div>
+                            <div class="md:flex">
+                                <div class="md:w-1/4 mb-4 md:mb-0">
+                                    <h3 class="text-grey">Details</h3>
+                                </div>
+                                <div class="md:w-3/4 mb-4 md:mb-0">
+                                    <p>{{ projects[selectedProject - 1].description }}</p>
+                                </div>
+                            </div>
+                            <div class="md:flex">
+                                <div class="md:w-1/4 mb-4 md:mb-0">
+                                    <h3 class="text-grey">Location</h3>
+                                </div>
+                                <div class="md:w-3/4 mb-4 md:mb-0">
+                                    <p>{{ projects[selectedProject - 1].location }}</p>
+                                </div>
+                            </div>
+                            <div class="md:flex">
+                                <div class="md:w-1/4 mb-4 md:mb-0">
+                                    <h3 class="text-grey">Owner</h3>
+                                </div>
+                                <div class="md:w-3/4 mb-4 md:mb-0">
+                                    <p>{{ projects[selectedProject - 1].owner }}</p>
+                                </div>
+                            </div>
+                            <div class="md:flex">
+                                <div class="md:w-1/4 mb-4 md:mb-0">
+                                    <h3 class="text-grey">Project Type</h3>
+                                </div>
+                                <div class="md:w-3/4 mb-4 md:mb-0">
+                                    <p>{{ projects[selectedProject - 1].project_type }}</p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="md:flex">
-                            <div class="md:w-1/4 mb-4 md:mb-0">
-                                <h3 class="text-grey">Details</h3>
-                            </div>
-                            <div class="md:w-3/4 mb-4 md:mb-0">
-                                <p>{{ projects[selectedProject - 1].description }}</p>
-                            </div>
-                        </div>
-                        <div class="md:flex">
-                            <div class="md:w-1/4 mb-4 md:mb-0">
-                                <h3 class="text-grey">Location</h3>
-                            </div>
-                            <div class="md:w-3/4 mb-4 md:mb-0">
-                                <p>{{ projects[selectedProject - 1].location }}</p>
-                            </div>
-                        </div>
-                        <div class="md:flex">
-                            <div class="md:w-1/4 mb-4 md:mb-0">
-                                <h3 class="text-grey">Owner</h3>
-                            </div>
-                            <div class="md:w-3/4 mb-4 md:mb-0">
-                                <p>{{ projects[selectedProject - 1].owner }}</p>
-                            </div>
-                        </div>
-                        <div class="md:flex">
-                            <div class="md:w-1/4 mb-4 md:mb-0">
-                                <h3 class="text-grey">Project Type</h3>
-                            </div>
-                            <div class="md:w-3/4 mb-4 md:mb-0">
-                                <p>{{ projects[selectedProject - 1].project_type }}</p>
+                        <div class="bg-grey-lighter pb-2 md:pb-8 px-2 md:px-8 border-t border-grey-light rounded-b">
+                            <div class="flex justify-between items-center pt-4">
+                                <div>
+                                    <a @click.prevent="onClickApproveProject()" class="btn-green-outline">
+                                        Approve
+                                    </a>
+                                    <a @click.prevent="onClickDisapproveProject()" class="btn-green-outline">
+                                        Disapprove
+                                    </a>
+                                </div>
+                                <div>
+
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -95,6 +112,15 @@ export default {
         },
         onClickPendingProject: function(projectId) {
             this.selectedProject = projectId
+        },
+        onClickApproveProject: function() {
+            // axios.put(`/admin/projects/${this.selectedProject}/approve`)
+            //     .then(response => {
+                    
+            //     })
+        },
+        onClickDisapproveProject: function() {
+            console.log('Disapproved ' + this.selectedProject)
         }
     },
     mounted() {
@@ -103,6 +129,3 @@ export default {
 }
 </script>
 
-<style>
-
-</style>
