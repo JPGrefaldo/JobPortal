@@ -4,6 +4,7 @@ namespace App\Actions\Admin;
 
 use App\Models\PendingFlagMessage;
 use Illuminate\Support\Carbon;
+use App\Models\Message;
 
 class DisapproveFlagMessage
 {
@@ -16,5 +17,8 @@ class DisapproveFlagMessage
             'disapproved_at' => Carbon::now(),
             'status'         => PendingFlagMessage::UNAPPROVED,
         ]);
+        
+        $pendingFlagMessage->message->flagged_at = null;
+        $pendingFlagMessage->message->save();
     }
 }
