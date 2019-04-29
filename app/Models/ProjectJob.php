@@ -55,4 +55,9 @@ class ProjectJob extends Model
     {
         return $this->belongsTo(PayType::class);
     }
+
+    public function submissions()
+    {
+        return $this->hasMany(Submission::class);
+    }
 }
