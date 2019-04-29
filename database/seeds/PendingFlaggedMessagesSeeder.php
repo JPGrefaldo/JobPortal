@@ -20,8 +20,8 @@ class PendingFlaggedMessagesSeeder extends Seeder
         factory(PendingFlagMessage::class, 5)->create([
             'message_id' => function() {
                 return factory(Message::class)->create([
-                    'thread_id' => factory(Thread::class)->create(),
-                    'user_id'   => factory(User::class)->create()
+                    'thread_id' => factory(Thread::class),
+                    'user_id'   => factory(User::class)
                 ]);
             },
             'reason' => $faker->paragraph
