@@ -17,7 +17,7 @@ class PendingFlagMessageFeatureTest extends TestCase
         return [
             'approved_at'    => null,
             'disapproved_at' => null,
-            'status'         => PendingFlagMessage::PENDING,
+            'status'         => PendingFlagMessage::UNAPPROVED,
         ];
     }
 
@@ -63,7 +63,7 @@ class PendingFlagMessageFeatureTest extends TestCase
             ->get(route('admin.messages.flagged'))
             ->assertSuccessful();
 
-        $response->assertExactJson([
+        $response->assertJson([
             "data" => [
                 [
                     "approved_at"    => null,
@@ -131,7 +131,7 @@ class PendingFlagMessageFeatureTest extends TestCase
     {
         $pendingFlagMessage = factory(PendingFlagMessage::class)->create($this->getPendingFlaggedMessage());
 
-        $this->assertEquals(PendingFlagMessage::PENDING, $pendingFlagMessage->status);
+        $this->assertEquals(PendingFlagMessage::UNAPPROVED, $pendingFlagMessage->status);
 
         $this->actingAs($this->createAdmin())
             ->put(route('pending-flag-messages.update', $pendingFlagMessage->id), [
@@ -152,7 +152,7 @@ class PendingFlagMessageFeatureTest extends TestCase
     {
         $pendingFlagMessage = factory(PendingFlagMessage::class)->create($this->getPendingFlaggedMessage());
 
-        $this->assertEquals(PendingFlagMessage::PENDING, $pendingFlagMessage->status);
+        $this->assertEquals(PendingFlagMessage::UNAPPROVED, $pendingFlagMessage->status);
 
         $this->actingAs($this->createAdmin())
             ->put(route('pending-flag-messages.update', $pendingFlagMessage->id), [

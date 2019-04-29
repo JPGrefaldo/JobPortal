@@ -7,9 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class PendingFlagMessage extends Model
 {
-    const PENDING    = 0;
+    const UNAPPROVED = 0;
     const APPROVED   = 1;
-    const UNAPPROVED = 2;
 
     /**
      * The protected attributes

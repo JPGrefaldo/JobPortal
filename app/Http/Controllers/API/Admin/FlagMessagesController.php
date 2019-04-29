@@ -11,7 +11,7 @@ class FlagMessagesController extends Controller
     public function index(PendingFlagMessage $pendingFlagMessages)
     {
         return FlagMessageResource::collection($pendingFlagMessages->where([
-            'status' => PendingFlagMessage::PENDING,
+            'status' => PendingFlagMessage::UNAPPROVED,
         ])->get());
     }
 }
