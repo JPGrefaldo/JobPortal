@@ -90,13 +90,6 @@ Route::middleware('auth:api')->group(function () {
             ])->name('producer.projects.approved');
 
             Route::prefix('jobs')->group(function() {
-                Route::prefix('submissions')->group(function() {
-                    Route::get('/{job}', [
-                        \App\Http\Controllers\API\Producer\ProjectJobsSubmissionsController::class,
-                        'index'
-                    ])->name('project.job.submissions.index');
-                });
-
                 Route::get('/', [
                     \App\Http\Controllers\API\Producer\ProjectJobsController::class,
                     'index',
@@ -130,6 +123,20 @@ Route::middleware('auth:api')->group(function () {
         });
     });
 
-    Route::get('admin/projects/unapproved', [\App\Http\Controllers\Admin\ProjectController::class, 'unapprovedProjects'])
-        ->name('admin.projects.unapproved');
+    Route::prefix('admin/projects')->group(function() {
+        Route::get('unapproved', [\App\Http\Controllers\Admin\ProjectController::class, 'unapprovedProjects'])
+            ->name('admin.projects.unapproved');
+
+        Route::prefix('submissions')->group(function() {
+            Route::get('/{job}', [
+                \App\Http\Controllers\API\Producer\ProjectJobsSubmissionsController::class,
+                'index'
+            ])->middleware('role:Producer')->name('project.job.submissions.index');
+    
+            Route::post('/{job}', [
+                \App\Http\Controllers\API\Producer\ProjectJobsSubmissionsController::class,
+                'store'
+            ])->middleware('role:Crew')->name('project.job.submissions.create');
+        });
+    });
 });

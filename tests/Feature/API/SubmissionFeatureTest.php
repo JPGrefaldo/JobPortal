@@ -20,8 +20,6 @@ class SubmissionFeatureTest extends TestCase
      */
     public function can_fetch_job_and_all_submissions()
     {
-        $this->withoutExceptionHandling();
-
         $producer = $this->createProducer();
 
         $project  = factory(Project::class)->create([
@@ -60,6 +58,8 @@ class SubmissionFeatureTest extends TestCase
      */
     public function can_create_submissions()
     {
+        $this->withoutExceptionHandling();
+
         $crew       = $this->createCrew();
         $projectJob = $this->createProjectAndJob();
 
@@ -67,7 +67,7 @@ class SubmissionFeatureTest extends TestCase
         
         $data = [
             'crew_id'        => $crew->id,
-            'project_job_id'  => $projectJob->id
+            'project_job_id' => $projectJob->id
         ];
 
         $response = $this->actingAs($crew, 'api')
