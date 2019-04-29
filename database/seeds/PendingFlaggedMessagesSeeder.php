@@ -1,12 +1,7 @@
 <?php
 
-use Illuminate\Database\Seeder;
 use App\Models\PendingFlagMessage;
-use Cmgmyr\Messenger\Models\Thread;
-use Cmgmyr\Messenger\Models\Message;
-use Faker\Generator as Faker;
-use App\Models\Role;
-use App\Models\User;
+use Illuminate\Database\Seeder;
 
 class PendingFlaggedMessagesSeeder extends Seeder
 {
@@ -15,16 +10,8 @@ class PendingFlaggedMessagesSeeder extends Seeder
      *
      * @return void
      */
-    public function run(Faker $faker)
+    public function run()
     {
-        factory(PendingFlagMessage::class, 5)->create([
-            'message_id' => function() {
-                return factory(Message::class)->create([
-                    'thread_id' => factory(Thread::class),
-                    'user_id'   => factory(User::class)
-                ]);
-            },
-            'reason' => $faker->paragraph
-        ]);
+        factory(PendingFlagMessage::class, 5)->create();
     }
 }
