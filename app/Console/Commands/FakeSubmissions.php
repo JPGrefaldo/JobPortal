@@ -17,7 +17,7 @@ class FakeSubmissions extends Command
      *
      * @var string
      */
-    protected $signature = 'fake:submissions 
+    protected $signature = 'fake:submissions
                                             {--new=false : Create submission with new users}
                                             {--users=10  : Users count to be created}';
 
@@ -50,14 +50,14 @@ class FakeSubmissions extends Command
 
         if ($options['new'] == 'true') {
             $this->info('Creating submissions from '.$users.' new users with crew role');
-            $crews = $this->createusers($users);
+            $crews = $this->createUsers($users);
         } else {
             $this->info('Creating submissions from existing users with crew role');
             $crews = $this->getExistingUsers();
 
             if (! isset($crews) || count($crews) === 0) {
                 $this->info('No existing users found with crew role, creating submissions from default 10 new users with crew role instead');
-                $crews = $this->createusers($users);
+                $crews = $this->createUsers($users);
             }
         }
 
@@ -67,7 +67,7 @@ class FakeSubmissions extends Command
         $project = factory(Project::class)->create([
             'user_id' => $producer->id,
         ]);
-        
+
         $projectJob = factory(ProjectJob::class)->create([
             'project_id' => $project->id,
         ]);
@@ -89,7 +89,7 @@ class FakeSubmissions extends Command
         $this->info('Done creating submissions');
     }
 
-    private function createusers($users)
+    private function createUsers($users)
     {
         return factory(User::class, (int)$users)->create();
     }
