@@ -38,4 +38,4 @@ Route::prefix('/admin/projects')->group(function () {
 });
 
 Route::get('/admin/flag-messages', [\App\Http\Controllers\PendingFlagMessageController::class, 'index'])
-    ->name('admin.messages.flagged.index');
+    ->middleware('role:Admin')->name('admin.messages.flagged.index');

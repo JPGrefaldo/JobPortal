@@ -132,6 +132,10 @@ Route::middleware('auth:api')->group(function () {
         'store',
     ])->middleware('role:Crew')->name('project.job.submissions.create');
 
+    Route::get('/admin/flag-messages', [
+        \App\Http\Controllers\Api\Admin\FlagMessagesController::class,
+        'index'
+    ])->middleware('role:Admin')->name('admin.messages.flagged');
 
     Route::get('admin/projects/unapproved', [\App\Http\Controllers\Admin\ProjectController::class, 'unapprovedProjects'])
         ->name('admin.projects.unapproved');
