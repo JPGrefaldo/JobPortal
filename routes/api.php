@@ -68,7 +68,7 @@ Route::middleware('auth:api')->group(function () {
 
     Route::prefix('producer')->middleware('role:Producer')->group(function() {
         Route::prefix('projects')->group(function() {
-            Route::get('submissions/{job}', [
+            Route::get('/{job}', [
                 \App\Http\Controllers\API\Admin\ProjectJobsSubmissionsController::class,
                 'index'
             ])->middleware('role:Producer')->name('project.job.submissions.index');
