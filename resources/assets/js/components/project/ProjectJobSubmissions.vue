@@ -13,7 +13,7 @@
                     </a>
                 </div>
 
-                <project-job-info class="bg-white mt-4 rounded p-4 md:p-8 shadow" :job="job" :project="project"></project-job-info>
+                <project-job-info :job="job" :project="project"></project-job-info>
 
                 <!-- Submissions Section
                 ******************************************-->
@@ -26,7 +26,6 @@
                         <a href="#" class="btn-outline inline-block bg-green text-white">CONTACT ALL “YES” SELECTIONS</a>
                     </div>
                 </div>
-
                 <div class="md:hidden w-full md:w-1/4 float-left md:mb-3">
                     <div class="has-menu relative">
                         <div class="flex justify-between justify-center items-center rounded-lg w-full float-left mb-4 py-3 px-3 border border-grey-light bg-white cursor-pointer text-sm">
@@ -67,7 +66,6 @@
                         </li>
                     </ul>
                 </div>
-
                 <div class="hidden md:flex justify-between border-b-2 border-grey-light">
                     <div>
                         <ul class="list-reset flex items-center">
@@ -112,9 +110,67 @@
                 <!-- Cards Section
                 ******************************************-->
                 <div class="w-full float-left py-6 md:py-lg grid-cards">
-                    <div class="bg-white rounded border-grey-lighter shadow-md w-full flex flex-col justify-between"
-                        v-for="submission in submissions" :key="submission.id"
-                    >
+                    <div class="bg-white rounded border-grey-lighter shadow-md w-full flex flex-col justify-between">
+                        <div class="p-6 relative">
+                            <a href="#" class="btn-more absolute pin-top-right"></a>
+                            <div class="rounded-full w-48 h-48 m-auto mt-3" style="background: url(/images/thumb.jpg) no-repeat center; background-size: cover"></div>
+                            <div class="py-2 w-full float-left -mt-6">
+                                <ul class="list-reset text-center flex justify-center">
+                                    <li class="w-8 h-8 bg-yellow-imdb rounded-full responsive p-1 inline-block -mr-2">
+                                        <a href="#">
+                                            <img src="/images/imdb.svg" alt="imdb">
+                                        </a>
+                                    </li>
+                                    <li class="w-8 h-8 bg-blue-linkedin rounded-full responsive p-1 items-center justify-center inline-block">
+                                        <a href="#" class="block">
+                                            <i class="fab fa-linkedin-in text-white"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="text-center">
+                                <div class="pb-4">
+                                    <h3 class="mb-1">Nathan Shaw</h3>
+                                    <span class="text-grey">Director of photography</span>
+                                </div>
+                                <p class="text-sm">Nathan Shaw began his career in Hollywood as an assistant director and unit production manager...</p>
+                                <a href="#" class="h4 my-4 block">view full profile</a>
+                            </div>
+
+                            <div class="border-t border-grey-light pt-3 mt-6 block">
+                                <ul class="list-reset">
+                                    <li class="my-2">
+                                        <a href="#" class="flex items-center">
+                                            <div class="relative w-6 h-6 bg-green rounded-full mr-2">
+                                                <img src="images/play.svg" alt="" class="pos-center" />
+                                            </div> Professional Work Reel</a>
+                                    </li>
+                                    <li class="my-2">
+                                        <a href="#" class="flex items-center">
+                                            <div class="relative w-6 h-6 bg-green rounded-full mr-2">
+                                                <i class="far fa-file-alt text-white pos-center"></i>
+                                            </div> Professional Resume</a>
+                                    </li>
+
+                                </ul>
+                            </div>
+
+                        </div>
+                        <div class="bg-grey-lighter rounded-b px-6 py-3">
+                            <div class="border border-grey-light overflow-hidden rounded-full flex bg-white justify-center text-center">
+                                <div class="w-1/3 cursor-pointer text-xs px-4 py-3 h4 text-grey">
+                                    yes
+                                </div>
+                                <div class="w-1/3 cursor-pointer text-xs px-4 py-3 border-r border-grey-light border-l h4 text-grey">
+                                    maybe
+                                </div>
+                                <div class="w-1/3 cursor-pointer text-xs px-4 py-3 h4 text-grey">
+                                    no
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded border-grey-lighter shadow-md w-full flex flex-col justify-between">
                         <div class="p-6 relative">
                             <span class="text-yellow h4 mb-2 w-full absolute text-xs pin-top-left">
                                 <i class="fas fa-star mr-1"></i>requested submission</span>
@@ -136,10 +192,190 @@
                             </div>
                             <div class="text-center">
                                 <div class="pb-4">
-                                    <h3 class="mb-1">{{ submission.crew.user.first_name }} {{ submission.crew.user.last_name }}</h3>
-                                    <span class="text-grey">{{ job.position.name }}</span>
+                                    <h3 class="mb-1">Nathan Shaw</h3>
+                                    <span class="text-grey">Director of photography</span>
                                 </div>
-                                <p class="text-sm">{{ submission.crew.details }}</p>
+                                <p class="text-sm">Nathan Shaw began his career in Hollywood as an assistant director and unit production manager...</p>
+                                <a href="#" class="h4 my-4 block">view full profile</a>
+                            </div>
+
+                            <div class="border-t border-grey-light pt-3 mt-6 block">
+                                <ul class="list-reset">
+                                    <li class="my-2">
+                                        <a href="#" class="flex items-center">
+                                            <div class="relative w-6 h-6 bg-green rounded-full mr-2">
+                                                <img src="images/play.svg" alt="" class="pos-center" />
+                                            </div> Professional Work Reel</a>
+                                    </li>
+                                    <li class="my-2">
+                                        <a href="#" class="flex items-center">
+                                            <div class="relative w-6 h-6 bg-green rounded-full mr-2">
+                                                <i class="far fa-file-alt text-white pos-center"></i>
+                                            </div> Professional Resume</a>
+                                    </li>
+
+                                </ul>
+                            </div>
+
+                        </div>
+                        <div class="bg-grey-lighter rounded-b px-6 py-3">
+                            <div class="border border-grey-light overflow-hidden rounded-full flex bg-white justify-center text-center">
+                                <div class="w-1/3 cursor-pointer text-xs px-4 py-3 h4 text-grey">
+                                    yes
+                                </div>
+                                <div class="w-1/3 cursor-pointer text-xs px-4 py-3 border-r border-grey-light border-l h4 text-grey">
+                                    maybe
+                                </div>
+                                <div class="w-1/3 cursor-pointer text-xs px-4 py-3 h4 text-grey">
+                                    no
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded border-grey-lighter shadow-md w-full flex flex-col justify-between">
+                        <div class="p-6 relative">
+                            <a href="#" class="btn-more absolute pin-top-right"></a>
+                            <div class="rounded-full w-48 h-48 m-auto mt-3" style="background: url(/images/thumb.jpg) no-repeat center; background-size: cover"></div>
+                            <div class="py-2 w-full float-left -mt-6">
+                                <ul class="list-reset text-center flex justify-center">
+                                    <li class="w-8 h-8 bg-yellow-imdb rounded-full responsive p-1 inline-block -mr-2">
+                                        <a href="#">
+                                            <img src="/images/imdb.svg" alt="imdb">
+                                        </a>
+                                    </li>
+                                    <li class="w-8 h-8 bg-blue-linkedin rounded-full responsive p-1 items-center justify-center inline-block">
+                                        <a href="#" class="block">
+                                            <i class="fab fa-linkedin-in text-white"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="text-center">
+                                <div class="pb-4">
+                                    <h3 class="mb-1">Nathan Shaw</h3>
+                                    <span class="text-grey">Director of photography</span>
+                                </div>
+                                <p class="text-sm">Nathan Shaw began his career in Hollywood as an assistant director and unit production manager...</p>
+                                <a href="#" class="h4 my-4 block">view full profile</a>
+                            </div>
+
+                            <div class="border-t border-grey-light pt-3 mt-6 block">
+                                <ul class="list-reset">
+                                    <li class="my-2">
+                                        <a href="#" class="flex items-center">
+                                            <div class="relative w-6 h-6 bg-green rounded-full mr-2">
+                                                <img src="images/play.svg" alt="" class="pos-center" />
+                                            </div> Professional Work Reel</a>
+                                    </li>
+                                    <li class="my-2">
+                                        <a href="#" class="flex items-center">
+                                            <div class="relative w-6 h-6 bg-green rounded-full mr-2">
+                                                <i class="far fa-file-alt text-white pos-center"></i>
+                                            </div> Professional Resume</a>
+                                    </li>
+
+                                </ul>
+                            </div>
+
+                        </div>
+                        <div class="bg-grey-lighter rounded-b px-6 py-3">
+                            <div class="border border-grey-light overflow-hidden rounded-full flex bg-white justify-center text-center">
+                                <div class="w-1/3 cursor-pointer text-xs px-4 py-3 h4 text-grey">
+                                    yes
+                                </div>
+                                <div class="w-1/3 cursor-pointer text-xs px-4 py-3 border-r border-grey-light border-l h4 text-grey">
+                                    maybe
+                                </div>
+                                <div class="w-1/3 cursor-pointer text-xs px-4 py-3 h4 text-grey">
+                                    no
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded border-grey-lighter shadow-md w-full flex flex-col justify-between">
+                        <div class="p-6 relative">
+                            <a href="#" class="btn-more absolute pin-top-right"></a>
+                            <div class="rounded-full w-48 h-48 m-auto mt-3" style="background: url(/images/thumb.jpg) no-repeat center; background-size: cover"></div>
+                            <div class="py-2 w-full float-left -mt-6">
+                                <ul class="list-reset text-center flex justify-center">
+                                    <li class="w-8 h-8 bg-yellow-imdb rounded-full responsive p-1 inline-block -mr-2">
+                                        <a href="#">
+                                            <img src="/images/imdb.svg" alt="imdb">
+                                        </a>
+                                    </li>
+                                    <li class="w-8 h-8 bg-blue-linkedin rounded-full responsive p-1 items-center justify-center inline-block">
+                                        <a href="#" class="block">
+                                            <i class="fab fa-linkedin-in text-white"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="text-center">
+                                <div class="pb-4">
+                                    <h3 class="mb-1">Nathan Shaw</h3>
+                                    <span class="text-grey">Director of photography</span>
+                                </div>
+                                <p class="text-sm">Nathan Shaw began his career in Hollywood as an assistant director and unit production manager...</p>
+                                <a href="#" class="h4 my-4 block">view full profile</a>
+                            </div>
+
+                            <div class="border-t border-grey-light pt-3 mt-6 block">
+                                <ul class="list-reset">
+                                    <li class="my-2">
+                                        <a href="#" class="flex items-center">
+                                            <div class="relative w-6 h-6 bg-green rounded-full mr-2">
+                                                <img src="images/play.svg" alt="" class="pos-center" />
+                                            </div> Professional Work Reel</a>
+                                    </li>
+                                    <li class="my-2">
+                                        <a href="#" class="flex items-center">
+                                            <div class="relative w-6 h-6 bg-green rounded-full mr-2">
+                                                <i class="far fa-file-alt text-white pos-center"></i>
+                                            </div> Professional Resume</a>
+                                    </li>
+
+                                </ul>
+                            </div>
+
+                        </div>
+                        <div class="bg-grey-lighter rounded-b px-6 py-3">
+                            <div class="border border-grey-light overflow-hidden rounded-full flex bg-white justify-center text-center">
+                                <div class="w-1/3 cursor-pointer text-xs px-4 py-3 h4 text-grey">
+                                    yes
+                                </div>
+                                <div class="w-1/3 cursor-pointer text-xs px-4 py-3 border-r border-grey-light border-l h4 text-grey">
+                                    maybe
+                                </div>
+                                <div class="w-1/3 cursor-pointer text-xs px-4 py-3 h4 text-grey">
+                                    no
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded border-grey-lighter shadow-md w-full flex flex-col justify-between">
+                        <div class="p-6 relative">
+                            <a href="#" class="btn-more absolute pin-top-right"></a>
+                            <div class="rounded-full w-48 h-48 m-auto mt-3" style="background: url(/images/thumb.jpg) no-repeat center; background-size: cover"></div>
+                            <div class="py-2 w-full float-left -mt-6">
+                                <ul class="list-reset text-center flex justify-center">
+                                    <li class="w-8 h-8 bg-yellow-imdb rounded-full responsive p-1 inline-block -mr-2">
+                                        <a href="#">
+                                            <img src="/images/imdb.svg" alt="imdb">
+                                        </a>
+                                    </li>
+                                    <li class="w-8 h-8 bg-blue-linkedin rounded-full responsive p-1 items-center justify-center inline-block">
+                                        <a href="#" class="block">
+                                            <i class="fab fa-linkedin-in text-white"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="text-center">
+                                <div class="pb-4">
+                                    <h3 class="mb-1">Nathan Shaw</h3>
+                                    <span class="text-grey">Director of photography</span>
+                                </div>
+                                <p class="text-sm">Nathan Shaw began his career in Hollywood as an assistant director and unit production manager...</p>
                                 <a href="#" class="h4 my-4 block">view full profile</a>
                             </div>
 
@@ -189,7 +425,7 @@
     import TheProjectJobInfoCard from '../project/TheProjectJobInfoCard.vue'
 
     export default {
-        props: ['job', 'project', 'submissions'],
+        props: ['job', 'project'],
 
         components: {
             'project-side-nav': TheProjectSideNav,
@@ -204,7 +440,7 @@
 
         computed:{
             ...mapGetters({
-                'projects': 'project/list',
+                'projects': 'project/list'
             })
         }
     }
