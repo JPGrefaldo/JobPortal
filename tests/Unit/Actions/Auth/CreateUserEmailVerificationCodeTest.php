@@ -63,7 +63,7 @@ class CreateUserEmailVerificationCodeTest extends TestCase
 
         $this->service->execute($user);
 
-        $this->assertCount(1, $user->emailVerificationCode()->count());
+        $this->assertCount(1, $user->emailVerificationCode()->get());
         $this->assertEquals($code, $emailCode->code);
     }
 }

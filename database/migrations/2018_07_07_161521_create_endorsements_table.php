@@ -35,6 +35,8 @@ class CreateEndorsementsTable extends Migration
                 ->onUpdate('cascade');
 
             $table->index('approved_at');
+            $table->index('crew_position_id');
+            $table->index('endorsement_request_id');
         });
     }
 

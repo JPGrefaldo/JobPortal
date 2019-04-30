@@ -6,6 +6,7 @@ use App\Actions\Crew\StoreCrew;
 use App\Actions\Crew\UpdateCrew;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateCrewRequest;
+use App\Models\User;
 use App\Services\DepartmentsServices;
 use App\Services\SocialLinksServices;
 use Auth;
@@ -108,9 +109,20 @@ class CrewProfileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(User $user)
     {
-        //
+        $resume_url = '';
+        if (isset($user->crew->resumes->where('general', 1)->first()->url)) {
+            $resume_url = $user->crew->resumes->where('general', 1)->first()->url;
+        }
+
+        return view('crew.profile.profile-show', [
+            'user'            => $user,
+            'socialLinkTypes' => $this->getAllSocialLinkTypes($user),
+            'departments'     => $this->getDepartments(),
+            'crewPositions'   => $this->getCrewPositions($user),
+            'resume_url'      => $resume_url,
+        ]);
     }
 
     /**

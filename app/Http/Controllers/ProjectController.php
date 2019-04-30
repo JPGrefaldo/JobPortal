@@ -26,6 +26,11 @@ class ProjectController extends Controller
         return view('projects.post-project');
     }
 
+    public function showCurrentProjects()
+    {
+        return view('projects.current-projects');
+    }
+
     /**
      * Show the form for creating a new resource.
      *
