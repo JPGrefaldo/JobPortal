@@ -48,8 +48,8 @@ class StartFromScratch extends Command
 
         $this->info('Creating User');
         Artisan::call('test_user', [
-            'email' => $this->argument('email'),
-            'role'  => 'crew',
+            'email'  => $this->argument('email'),
+            '--crew' => 'true',
         ]);
         $this->info('User Created');
     }
