@@ -22,10 +22,5 @@ class Submission extends Model
     public function crew()
     {
         return $this->belongsTo(Crew::class);
-    }
-    
-    public function projectJob()
-    {
-        return $this->belongsTo(ProjectJob::class);
-    }
+	}
 }

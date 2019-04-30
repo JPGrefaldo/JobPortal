@@ -29,8 +29,7 @@ class FakeSubmissionsFeatureTest extends TestCase
             ->expectsOutput('Done creating submissions')
             ->run();
 
-        $submissions = Submission::all();
-        $this->assertCount(10, $submissions);
+        $this->assertCount(10, Submission::all());
     }
 
     /**
@@ -44,8 +43,7 @@ class FakeSubmissionsFeatureTest extends TestCase
             ->expectsOutput('Done creating submissions')
             ->run();
 
-        $submissions = Submission::all();
-        $this->assertCount(5, $submissions);
+        $this->assertCount(5, Submission::all());
     }
 
     /**
@@ -65,8 +63,7 @@ class FakeSubmissionsFeatureTest extends TestCase
             ->expectsOutput('Done creating submissions')
             ->run();
 
-        $submissions = Submission::all();
-        $this->assertCount(10, $submissions);
+        $this->assertCount(10, Submission::all());
     }
 
     /**
@@ -81,8 +78,7 @@ class FakeSubmissionsFeatureTest extends TestCase
             ->expectsOutput('Done creating submissions')
             ->run();
 
-        $submissions = Submission::all();
-        $this->assertCount(10, $submissions);
+        $this->assertCount(10, Submission::all());
     }
 
     /**
@@ -93,17 +89,16 @@ class FakeSubmissionsFeatureTest extends TestCase
     {
         $users = User::all();
         $this->assertCount(0, $users);
-        
+
         $command = $this->artisan(self::CMD, ['--new' => true]);
         $command->expectsOutput('Creating submissions from 10 new users with crew role')
             ->expectsOutput('Done creating submissions')
             ->run();
-        
-        $users = User::all();
+
         $user  = User::role(Role::PRODUCER)->first();
 
         $this->assertNotEmpty($user->toArray());
-        $this->assertCount(11, $users->fresh());
+        $this->assertCount(11, User::all());
         $this->assertEquals(11, $user->id);
     }
 
@@ -117,7 +112,7 @@ class FakeSubmissionsFeatureTest extends TestCase
         $command->expectsOutput('Creating submissions from 10 new users with crew role')
             ->expectsOutput('Done creating submissions')
             ->run();
-        
+
         $project = Project::all();
 
         $this->assertNotEmpty($project[0]->toArray());
@@ -134,7 +129,7 @@ class FakeSubmissionsFeatureTest extends TestCase
         $command->expectsOutput('Creating submissions from 10 new users with crew role')
             ->expectsOutput('Done creating submissions')
             ->run();
-        
+
         $projectJob = ProjectJob::all();
 
         $this->assertNotEmpty($projectJob[0]->toArray());
