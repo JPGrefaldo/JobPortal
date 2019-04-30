@@ -44,4 +44,26 @@ class Endorsement extends Model
     {
         return $this->hasOne(CrewPosition::class, 'id', 'crew_position_id');
     }
+
+    /**
+     * @return mixed
+     */
+    public function endorser()
+    {
+        return $this->hasOneThrough(
+            EndorsementEndorser::class,
+            EndorsementRequest::class,
+            'endorsement_endorser_id',
+            'id'
+        );
+    }
+
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeApproved($query)
+    {
+        return $query->whereNotNull('approved_at');
+    }
 }
