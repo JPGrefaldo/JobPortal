@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\API\Producer;
+namespace App\Http\Controllers\API\Admin;
 
 use App\Models\ProjectJob;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Producer\ProjectJobsSubmissionsRequest;
+use App\Actions\Admin\CreateProjectJobsSubmission;
 
 class ProjectJobsSubmissionsController extends Controller
 {
@@ -23,12 +24,12 @@ class ProjectJobsSubmissionsController extends Controller
 
     public function store($id, ProjectJobsSubmissionsRequest $request)
     {
-        $request->createSubmission();
+        $data = app(CreateProjectJobsSubmission::class)->execute($request);
 
         return response()->json(
             [
                 'message'    => 'Submission successfully added',
-                'projectJob' => ProjectJob::find($request->project_job_id)->with('submissions')->get()
+                'projectJob' => ProjectJob::find($data->project_job_id)->with('submissions')->get()
             ],
             Response::HTTP_CREATED
         );

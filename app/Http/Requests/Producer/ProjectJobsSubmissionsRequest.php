@@ -5,7 +5,6 @@ namespace App\Http\Requests\Producer;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\ProjectJob;
 use App\Models\Submission;
-use Illuminate\Http\Response;
 
 class ProjectJobsSubmissionsRequest extends FormRequest
 {
@@ -34,13 +33,5 @@ class ProjectJobsSubmissionsRequest extends FormRequest
             'project_job_id' => 'required|numeric',
             'crew_id'        => 'required|numeric'
         ];
-    }
-
-    public function createSubmission()
-    {
-        $data = Submission::create([
-            'project_job_id' => $this->project_job_id,
-            'crew_id'        => $this->crew_id
-        ]);
     }
 }
