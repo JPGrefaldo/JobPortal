@@ -53,6 +53,7 @@ Vue.component('cca-department-component', require('./components/DepartmentsCompo
 Vue.component('cca-producer-projects-create', require('./components/project/ProjectCreate').default);
 Vue.component('cca-producer-projects-edit', require('./components/project/ProjectEdit').default);
 Vue.component('cca-producer-my-projects', require('./components/producer/Projects').default);
+Vue.component('cca-project-job-submissions', require('./components/project/ProjectJobSubmissions').default);
 
 new Vue({
     el: '#nav-container',

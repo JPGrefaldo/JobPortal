@@ -66,8 +66,8 @@ Route::middleware('auth:api')->group(function () {
         'index',
     ])->name('crew.threads.index');
 
-    Route::prefix('producer')->middleware('role:Producer')->group(function () {
-        Route::prefix('projects')->group(function () {
+    Route::prefix('producer')->middleware('role:Producer')->group(function() {
+        Route::prefix('projects')->group(function() {
             Route::get('/', [
                 \App\Http\Controllers\API\Producer\ProjectsController::class,
                 'index',
@@ -88,7 +88,17 @@ Route::middleware('auth:api')->group(function () {
                 'approved',
             ])->name('producer.projects.approved');
 
-            Route::prefix('jobs')->group(function () {
+            Route::get('/pending', [
+                \App\Http\Controllers\API\Producer\ProjectsController::class,
+                'pending',
+            ])->name('producer.projects.pending');
+
+            Route::get('/type', [
+                \App\Http\Controllers\API\Producer\ProjectTypes::class,
+                'index',
+            ])->name('producer.project.type');
+
+            Route::prefix('jobs')->group(function() {
                 Route::get('/', [
                     \App\Http\Controllers\API\Producer\ProjectJobsController::class,
                     'index',
@@ -109,23 +119,19 @@ Route::middleware('auth:api')->group(function () {
                     'destroy',
                 ])->name('producer.project.jobs.destroy');
             });
-
-            Route::get('/pending', [
-                \App\Http\Controllers\API\Producer\ProjectsController::class,
-                'pending',
-            ])->name('producer.projects.pending');
-
-            Route::get('/type', [
-                \App\Http\Controllers\API\Producer\ProjectTypes::class,
-                'index',
-            ])->name('producer.project.type');
         });
     });
 
-    Route::get('/admin/flag-messages', [
-        \App\Http\Controllers\Api\Admin\FlagMessagesController::class,
-        'index'
-    ])->middleware('role:Admin')->name('admin.messages.flagged');
+    Route::get('project/job/{job}/submissions', [
+        \App\Http\Controllers\API\SubmissionsController::class,
+        'index',
+    ])->middleware('role:Admin|Producer')->name('project.job.submissions.index');
+
+    Route::post('project/job/{job}/submissions', [
+        \App\Http\Controllers\API\SubmissionsController::class,
+        'store',
+    ])->middleware('role:Crew')->name('project.job.submissions.create');
+
 
     Route::get('admin/projects/unapproved', [\App\Http\Controllers\Admin\ProjectController::class, 'unapprovedProjects'])
         ->name('admin.projects.unapproved');
