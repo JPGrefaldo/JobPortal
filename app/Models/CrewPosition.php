@@ -47,12 +47,27 @@ class CrewPosition extends Pivot
     {
         return $this->belongsTo(Position::class);
     }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function endorsements()
     {
         return $this->hasMany(Endorsement::class, 'crew_position_id');
+    }
+
+    /**
+     * @return integer
+     */
+    public function getScoreAttribute()
+    {
+        $ret = $this->hasOne(CrewPositionEndorsementScore::class, 'crew_position_id')->first();
+
+        if (! $ret) {
+            return 1;
+        }
+
+        return $ret->score;
     }
 
     /**
