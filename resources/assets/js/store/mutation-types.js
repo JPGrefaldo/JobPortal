@@ -27,5 +27,8 @@ export const SELECTED_POSITION          = 'SELECTED_POSITION';
 export const SITE                       = 'SITE';
 export const SITES                      = 'SITES';
 
+export const SUBMISSION                 = 'SUBMISSION';
+export const SUBMISSIONS                = 'SUBMISSIONS';
+
 export const THREAD                     = 'THREAD';
 export const THREADS                    = 'THREADS';
