@@ -53,7 +53,9 @@ class CreateTestUser extends Command
             return;
         }
 
-        if ($role == '' || $role != 'admin' && $role != 'crew' && $role != 'producer') {
+        if ($role == '' ||
+            ($role != 'admin' && $role != 'crew' && $role != 'producer' && $role != 'all')
+        ) {
             $this->error('Enter role type: admin | crew | producer');
             return;
         }
@@ -67,16 +69,16 @@ class CreateTestUser extends Command
             'phone'      => '555-555-5555',
         ]);
 
-        if ($role == 'admin') {
+        if ($role == 'admin' || $role == 'all') {
             $user->assignRole(Role::ADMIN);
         }
 
-        if ($role == 'crew') {
+        if ($role == 'crew' || $role == 'all') {
             $user->assignRole(Role::CREW);
             app(StubCrew::class)->execute($user);
         }
 
-        if ($role == 'producer') {
+        if ($role == 'producer' || $role == 'all') {
             $user->assignRole(Role::PRODUCER);
         }
 
