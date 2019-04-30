@@ -18,7 +18,10 @@ class CreateTestUser extends Command
      *
      * @var string
      */
-    protected $signature = 'test_user {email} {role?}';
+    protected $signature = 'test_user {email}
+                            {--a|admin : Create test user with Admin role}
+                            {--c|crew : Create test user with Crew role}
+                            {--p|producer : Create test user with Producer role}';
 
     /**
      * The console command description.
@@ -46,16 +49,16 @@ class CreateTestUser extends Command
     public function handle()
     {
         $email = $this->argument('email');
-        $role  = $this->argument('role');
+        $role  = $this->options();
+
+        $roles = ['admin', 'crew', 'producer'];
 
         if (User::where('email', $email)->count()) {
             $this->error('Test user is already created');
             return;
         }
 
-        if ($role == '' ||
-            ($role != 'admin' && $role != 'crew' && $role != 'producer' && $role != 'all')
-        ) {
+        if (!($role['admin'] || $role['crew'] || $role['producer'])) {
             $this->error('Enter role type: admin | crew | producer');
             return;
         }
@@ -69,17 +72,14 @@ class CreateTestUser extends Command
             'phone'      => '555-555-5555',
         ]);
 
-        if ($role == 'admin' || $role == 'all') {
-            $user->assignRole(Role::ADMIN);
-        }
+        foreach ($roles as $index) {
+            if ($role[($index)]) {
+                $user->assignRole(constant(Role::class . '::' . strtoupper($index)));
+            }
 
-        if ($role == 'crew' || $role == 'all') {
-            $user->assignRole(Role::CREW);
-            app(StubCrew::class)->execute($user);
-        }
-
-        if ($role == 'producer' || $role == 'all') {
-            $user->assignRole(Role::PRODUCER);
+            if ($index == 'crew') {
+                app(StubCrew::class)->execute($user);
+            }
         }
 
         app(AddUserToSite::class)->execute(
@@ -97,6 +97,6 @@ class CreateTestUser extends Command
             'receive_sms'                => true,
         ]);
 
-        $this->info('User with ' . $role . ' role created.');
+        $this->info('User with role created.');
     }
 }

@@ -40,10 +40,10 @@ class CreateTestUserTest extends TestCase
     {
         $command = $this->artisan(self::CMD, [
             'email' => 'test@test.com',
-            'role' => 'crew',
+            '--crew' => 'true',
         ]);
 
-        $command->expectsOutput('User with crew role created.')
+        $command->expectsOutput('User with role created.')
             ->run();
 
         $user = User::where('email', 'test@test.com')
@@ -75,10 +75,10 @@ class CreateTestUserTest extends TestCase
     {
         $command = $this->artisan(self::CMD, [
             'email' => 'test@test.com',
-            'role' => 'producer',
+            '--producer' => 'true',
         ]);
 
-        $command->expectsOutput('User with producer role created.')
+        $command->expectsOutput('User with role created.')
             ->run();
 
         $user = User::where('email', 'test@test.com')
@@ -99,10 +99,10 @@ class CreateTestUserTest extends TestCase
     {
         $command = $this->artisan(self::CMD, [
             'email' => 'test@test.com',
-            'role' => 'admin',
+            '--admin' => 'true',
         ]);
 
-        $command->expectsOutput('User with admin role created.')
+        $command->expectsOutput('User with role created.')
             ->run();
 
         $user = User::where('email', 'test@test.com')
@@ -111,6 +111,45 @@ class CreateTestUserTest extends TestCase
             })->first();
 
         $this->assertTrue($user->hasRole(Role::ADMIN));
+
+        $command->assertExitCode(0);
+    }
+
+    /** 
+     * @test 
+     * @covers \App\Console\Commands\CreateTestUser::handle
+    */
+    public function create_user_with_multiple_roles()
+    {
+        $command = $this->artisan(self::CMD, [
+            'email' => 'test@test.com',
+            '--admin' => 'true',
+            '--crew' => 'true',
+            '--producer' => 'true',
+        ]);
+
+        $command->expectsOutput('User with role created.')
+            ->run();
+
+        $user = User::where('email', 'test@test.com')
+            ->whereHas('sites', function ($query) {
+                $query->where('hostname', self::HOST_NAME);
+            })->first();
+        
+        $user->load('roles', 'notificationSettings');
+
+        $this->assertArrayHas([
+            'confirmed'             => true,
+            'notification_settings' => [
+                'receive_email_notification' => true,
+                'receive_other_emails'       => true,
+                'receive_sms'                => true,
+            ],
+        ], $user->toArray());
+
+        $this->assertTrue($user->hasRole(Role::ADMIN));
+        $this->assertTrue($user->hasRole(Role::CREW));
+        $this->assertTrue($user->hasRole(Role::PRODUCER));
 
         $command->assertExitCode(0);
     }
