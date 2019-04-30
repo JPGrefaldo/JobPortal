@@ -3,8 +3,12 @@
 namespace Tests\Support;
 
 use App\Models\Crew;
+use App\Models\CrewPosition;
+use App\Models\Position;
 use App\Models\Role;
 use App\Models\User;
+use App\Utils\StrUtils;
+use Carbon\Carbon;
 
 trait CreatesModels
 {
@@ -62,5 +66,13 @@ trait CreatesModels
         $user->assignRole(Role::PRODUCER);
 
         return $user;
+    }
+
+    /**
+     * @return Position
+     */
+    public function getRandomPosition(): Position
+    {
+        return Position::inRandomOrder()->get()->first();
     }
 }
