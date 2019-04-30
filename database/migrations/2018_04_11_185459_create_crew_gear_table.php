@@ -31,6 +31,9 @@ class CreateCrewGearTable extends Migration
                 ->references('id')
                 ->on('crew_position')
                 ->onDelete('cascade');
+
+            $table->index('crew_id');
+            $table->index('crew_position_id');
         });
     }
 

@@ -54,6 +54,9 @@ Route::get('about/producers', [\App\Http\Controllers\StaticPageController::class
 
 Route::get('about/crew', [\App\Http\Controllers\StaticPageController::class, 'showAboutCrew'])
     ->name('about.crew');
+
+Route::get('current-projects', [\App\Http\Controllers\ProjectController::class, 'showCurrentProjects'])
+    ->name('projects.current-projects');
 /*
 |--------------------------------------------------------------------------
 | Auth Routes
@@ -131,6 +134,13 @@ Route::middleware('auth')->group(function () {
     Route::middleware('role:Producer')
         ->namespace('App\Http\Controllers\Producer')
         ->group(base_path('routes/producer.php'));
+
+    Route::get('projects/{project}/jobs/{job}/submissions', [
+        \App\Http\Controllers\SubmissionsController::class,
+        'show',
+    ])->middleware('role:Admin|Producer')->name('project.job.submissions.show');
+        
+    Route::get('/users/{user}/crew-profile', [\App\Http\Controllers\Crew\CrewProfileController::class, 'show']);
 });
 
 Route::prefix('theme')->group(function () {
