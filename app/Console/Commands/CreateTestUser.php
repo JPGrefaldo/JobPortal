@@ -18,7 +18,7 @@ class CreateTestUser extends Command
      *
      * @var string
      */
-    protected $signature = 'test_user {email} 
+    protected $signature = 'test_user {email}
                             {--a|admin : Create test user with Admin role}
                             {--c|crew : Create test user with Crew role}
                             {--p|producer : Create test user with Producer role}';
@@ -52,7 +52,7 @@ class CreateTestUser extends Command
         $role  = $this->options();
 
         $roles = ['admin', 'crew', 'producer'];
-        
+
         if (User::where('email', $email)->count()) {
             $this->error('Test user is already created');
             return;
@@ -72,16 +72,16 @@ class CreateTestUser extends Command
             'phone'      => '555-555-5555',
         ]);
 
-        foreach($roles as $index){
+        foreach ($roles as $index) {
             if ($role[($index)]) {
                 $user->assignRole(constant(Role::class . '::' . strtoupper($index)));
             }
 
-            if($index == 'crew'){
+            if ($index == 'crew') {
                 app(StubCrew::class)->execute($user);
             }
         }
-        
+
         app(AddUserToSite::class)->execute(
             $user,
             Site::whereHostname(
