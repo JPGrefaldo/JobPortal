@@ -56,7 +56,7 @@
                                 <a href="/storage/{{$user->crew->reel->url }}" target="_blank"
                                    class="border md:w-1/2 flex overflow-hidden rounded md:mr-2 mb-2 md:mb-0">
                                     <div class="w-24 relative"
-                                         style="background: url("/images/th2.jpg"); background-size: cover;">
+                                         style="background: url(/images/th2.jpg); background-size: cover;">
                                         <span class="btn-play w-10 h-10"></span>
                                     </div>
                                     <span class='uppercase text-green font-semibold p-4 text-sm tracking-wide'>VIEW POSITION WORK REEL</span>
@@ -65,7 +65,7 @@
                                 <a href="{{$user->crew->reel->url }}" target="_blank"
                                    class="border md:w-1/2 flex overflow-hidden rounded md:mr-2 mb-2 md:mb-0">
                                     <div class="w-24 relative"
-                                         style="background: url(../images/th2.jpg); background-size: cover;">
+                                         style="background: url(/images/th2.jpg); background-size: cover;">
                                         <span class="btn-play w-10 h-10"></span>
                                     </div>
                                     <span class='uppercase text-green font-semibold p-4 text-sm tracking-wide'>VIEW POSITION WORK REEL</span>
@@ -74,7 +74,7 @@
                         @else
                             <a href="#" class="border md:w-1/2 flex overflow-hidden rounded md:mr-2 mb-2 md:mb-0">
                                 <div class="w-24 relative"
-                                     style="background: url("/images/th2.jpg"); background-size: cover;">
+                                     style="background: url(/images/th2.jpg); background-size: cover;">
                                     <span class="btn-play w-10 h-10"></span>
                                 </div>
                                 <span class='uppercase text-green font-semibold p-4 text-sm tracking-wide'>VIEW POSITION WORK REEL</span>
@@ -123,7 +123,7 @@
                                     </div>
                                     <div class="pb-2 md:flex">
                                         <a href="#" class="border md:w-1/2 flex overflow-hidden rounded md:mr-2 mb-2 md:mb-0">
-                                    <div class="w-24 relative" style="background: url(images/th2.jpg); background-size: cover;">
+                                    <div class="w-24 relative" style="background: url(/images/th2.jpg); background-size: cover;">
                                         <span class="btn-play w-10 h-10"></span>
                                     </div>
                                     <span class='uppercase text-green font-semibold p-4 text-sm tracking-wide'>VIEW POSITION WORK REEL</span>
