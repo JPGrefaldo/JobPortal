@@ -4,6 +4,7 @@ namespace Tests\Unit\Models;
 
 use App\Models\Crew;
 use App\Models\CrewPosition;
+use App\Models\CrewPositionEndorsementScore;
 use App\Models\Position;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -37,6 +38,47 @@ class CrewPositionTest extends TestCase
         $this->assertEquals(
             $this->crew->id,
             $this->crewPosition->crew->id
+        );
+    }
+
+    /**
+     * @test
+     * @covers \App\Models\CrewPosition::getScoreAttribute
+     */
+    public function score()
+    {
+        CrewPositionEndorsementScore::create([
+            'crew_position_id'  => $this->crewPosition->id,
+            'score'             => 25,
+        ]);
+
+        $this->assertEquals(
+            25,
+            $this->crewPosition->score
+        );
+    }
+
+    /**
+     * @test
+     * @covers \App\Models\CrewPosition::getScoreAttribute
+     */
+    public function score_crew_position_does_not_exist()
+    {
+        $this->assertEquals(
+            1,
+            $this->crewPosition->score
+        );
+    }
+
+    /**
+     * @test
+     * @covers \App\Models\CrewPosition::position
+     */
+    public function position()
+    {
+        $this->assertEquals(
+            $this->position->id,
+            $this->crewPosition->position->id
         );
     }
 
