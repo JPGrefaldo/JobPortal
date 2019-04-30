@@ -5,7 +5,6 @@ namespace Tests\Feature\Admin\Web;
 use App\Models\Project;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
-use Tests\Support\Data\ProjectTypeID;
 use Tests\TestCase;
 use Carbon\Carbon;
 
@@ -18,7 +17,7 @@ class ApproveProjectFeatureTest extends TestCase
         return [
             'user_id'                => $this->createProducer(),
             'production_name_public' => true,
-            'project_type_id'        => ProjectTypeID::TV,
+            'project_type_id'        => 1,
             'status'                 => Project::APPROVED,
             'approved_at'            => Carbon::now(),
         ];
@@ -29,7 +28,7 @@ class ApproveProjectFeatureTest extends TestCase
         return [
             'user_id'                => $this->createProducer(),
             'production_name_public' => false,
-            'project_type_id'        => ProjectTypeID::MOVIE,
+            'project_type_id'        => 2,
             'status'                 => Project::PENDING,
         ];
     }
@@ -52,17 +51,13 @@ class ApproveProjectFeatureTest extends TestCase
 
         $response->assertJsonFragment(
             [
-                'production_name_public' => false,
-                'project_type_id'        => ProjectTypeID::MOVIE,
-                'status'                 => Project::PENDING,
+                'status' => Project::PENDING,
             ]
         );
+
         $response->assertJsonMissing(
             [
-                'production_name_public' => true,
-                'project_type_id'        => ProjectTypeID::TV,
-                'status'                 => Project::APPROVED,
-                'approved_at'            => Carbon::now(),
+                'status' => Project::APPROVED,
             ]
         );
     }

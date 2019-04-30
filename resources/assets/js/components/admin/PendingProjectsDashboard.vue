@@ -12,8 +12,8 @@
         <div class="flex h-full">
             <div class="flex w-1/5 border-r border-black">
                 <div v-if="projects.length === 0"  class="w-full">
-                    <div class="flex p-4 justify-center text-dark">
-                        Select a project
+                    <div class="p-2 flex-1">
+                        <p class="mb-1 text-grey">No pending projects</p>
                     </div>
                 </div>
                 <div v-else class="w-full">

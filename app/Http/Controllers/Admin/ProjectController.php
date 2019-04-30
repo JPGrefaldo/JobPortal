@@ -114,7 +114,7 @@ class ProjectController extends Controller
 
     public function unapprovedProjects()
     {
-        $projects = ProjectResource::collection(Project::where('approved_at', null)->get());
+        $projects = ProjectResource::collection(Project::whereStatus(0)->get());
 
         return response()->json(
             [
