@@ -55,4 +55,12 @@ class ProjectJob extends Model
     {
         return $this->belongsTo(PayType::class);
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function submissions()
+    {
+        return $this->hasMany(Submission::class, 'project_job_id');
+    }
 }
