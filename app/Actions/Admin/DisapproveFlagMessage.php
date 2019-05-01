@@ -17,8 +17,9 @@ class DisapproveFlagMessage
             'disapproved_at' => Carbon::now(),
             'status'         => PendingFlagMessage::UNAPPROVED,
         ]);
-        
-        $pendingFlagMessage->message->flagged_at = null;
-        $pendingFlagMessage->message->save();
+
+        $pendingFlagMessage->message->update([
+            'flagged_at' => null,
+        ]);
     }
 }
