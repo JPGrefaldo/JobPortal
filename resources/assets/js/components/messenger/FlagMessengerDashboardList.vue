@@ -3,7 +3,7 @@
     <!-- left pane -->
     <div class="flex w-2/5 border-r border-black">
         <div class="flex-1 overflow-auto bg-white">
-            <div v-if="typeof allFlags === 'undefined'" class="bg-white flex flex-col p-4">
+            <div v-if="allFlags.length === 0" class="bg-white flex flex-col p-4">
                 <p>No pending flag messages</p>
             </div>
             <!-- <div v-if="allFlags.length == 0" class="bg-white flex flex-col p-4"><p>No pending flag messages</p></div> -->
