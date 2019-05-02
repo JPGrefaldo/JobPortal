@@ -15,8 +15,10 @@
                             class="form-control w-full h-64"
                             placeholder="Position Biography"
                             v-model="form.bio"
+                            :class="{ 'input__error': form.errors.has('bio') }"
                         >
                         </textarea>
+                        <has-error :form="form" field="bio"></has-error>
                     </div>
                 </div>
                 <div class="py-2">
@@ -36,9 +38,11 @@
                         </div>
                         <div class="md:w-2/3">
                             <label for="resume" class="btn-outline text-green inline-block"
+                            :class="{ 'input__error': form.errors.has('resume') }"
                                 >Upload file</label>
-                            <input type="file" name="resume" class="hidden" />
+                            <input type="file" id="resume" name="resume" @change="selectFile" class="hidden" />
                         </div>
+                            <has-error :form="form" field="resume"></has-error>
                     </div>
                 </div>
                 <div class="border-t-2 border-grey-lighter py-4">
@@ -54,10 +58,10 @@
                                 v-model="form.reel_link"
                             />
                             or
-                            <label for="resume" class="btn-outline text-green inline-block"
+                            <label for="rell_file" class="btn-outline text-green inline-block"
                                 >Upload file</label
                             >
-                            <input type="file" name="resume" class="hidden" />
+                            <input type="file" id="reel_file" @change="selectFile" class="hidden" />
                         </div>
                     </div>
                 </div>
@@ -104,8 +108,8 @@
                 </div>
             </div>
             <div class="pt-8 pb-4 text-right border-t-2 border-grey-lighter">
-                <a href="#" class="text-grey bold mr-4 hover:text-green">Cancel</a>
-                <a href="#" class="btn-green" @click="onClickSave">SAVE CHANGES</a>
+                <button href class="text-grey bold mr-4 hover:text-green focus:outline-none" @click="selected = false">Cancel</button>
+                <button class="btn-green focus:outline-none" @click="onClickSave">SAVE CHANGES</button>
             </div>
         </div>
     </div>
@@ -113,9 +117,14 @@
 
 <script>
 import { Form, HasError, AlertError } from 'vform';
+import InputErrors from './_partials/InputErrors';
+import objectToFormData from 'object-to-formdata';
+
+     window.objectToFormData = objectToFormData
 
 export default {
     name: 'PositionComponent',
+    components: { 'has-error': InputErrors },
     props: {
         position: Object,
     },
@@ -126,19 +135,31 @@ export default {
             form: new Form({
                 bio: '',
                 union_description: '',
+                resume: null,
                 reel_link: '',
+                reel_file: null,
                 gear: '',
                 position: this.position.id,
             }),
         };
     },
     methods: {
+        selectFile: function(e){
+            console.log('hello world');
+          const file = e.target.files[0]
+          // Do some client side validation...
+          this.form.resume = file
+        },
         onClickSave: function() {
             this.saveCrewPosition();
         },
 
         saveCrewPosition: function() {
-            this.form.post('/crew/positions/' + this.position.id);
+            this.form.submit('post','/crew/positions/' + this.position.id,{
+              transformRequest: [function (data, headers) {
+                return objectToFormData(data)
+              }]
+            });
         },
     },
 };
