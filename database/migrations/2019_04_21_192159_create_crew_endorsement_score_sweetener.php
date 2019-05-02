@@ -21,7 +21,7 @@ class CreateCrewEndorsementScoreSweetener extends Migration
 
             $table->foreign('crew_id')
                 ->references('id')
-                ->on('crew')
+                ->on('crews')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
 
