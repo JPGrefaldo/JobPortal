@@ -3,36 +3,15 @@
 namespace Tests\Feature\Admin\Web;
 
 use App\Models\Project;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
-use Tests\TestCase;
-use Carbon\Carbon;
 use Tests\Support\Data\ProjectTypeID;
+use Tests\TestCase;
 
 class ApproveProjectFeatureTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
-
-    protected function getApprovedProject()
-    {
-        return [
-            'user_id'                => $this->createProducer(),
-            'production_name_public' => true,
-            'project_type_id'        => ProjectTypeID::MOVIE,
-            'status'                 => Project::APPROVED,
-            'approved_at'            => Carbon::now(),
-        ];
-    }
-
-    protected function getUnapprovedProject()
-    {
-        return [
-            'user_id'                => $this->createProducer(),
-            'production_name_public' => false,
-            'project_type_id'        => ProjectTypeID::TV,
-            'status'                 => Project::PENDING,
-        ];
-    }
 
     /**
      * @test
@@ -117,5 +96,26 @@ class ApproveProjectFeatureTest extends TestCase
 
         $this->assertEquals(Project::UNAPPROVED, $project->refresh()->status);
         $this->assertNull($project->refresh()->approved_at);
+    }
+    
+    protected function getApprovedProject()
+    {
+        return [
+            'user_id'                => $this->createProducer(),
+            'production_name_public' => true,
+            'project_type_id'        => ProjectTypeID::MOVIE,
+            'status'                 => Project::APPROVED,
+            'approved_at'            => Carbon::now(),
+        ];
+    }
+
+    protected function getUnapprovedProject()
+    {
+        return [
+            'user_id'                => $this->createProducer(),
+            'production_name_public' => false,
+            'project_type_id'        => ProjectTypeID::TV,
+            'status'                 => Project::PENDING,
+        ];
     }
 }
