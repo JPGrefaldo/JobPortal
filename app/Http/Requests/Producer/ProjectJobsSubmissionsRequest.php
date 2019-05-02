@@ -15,7 +15,7 @@ class ProjectJobsSubmissionsRequest extends FormRequest
      */
     public function authorize()
     {
-        if(ProjectJob::find($this->project_job_id) === null) {
+        if (ProjectJob::find($this->project_job_id) === null) {
             return false;
         }
 
@@ -30,8 +30,8 @@ class ProjectJobsSubmissionsRequest extends FormRequest
     public function rules()
     {
         return [
-            'project_job_id' => 'required|numeric',
-            'crew_id'        => 'required|numeric'
+            'project_job_id' => 'exists:project_jobs,id',
+            'crew_id'        => 'required:crews,id'
         ];
     }
 }
