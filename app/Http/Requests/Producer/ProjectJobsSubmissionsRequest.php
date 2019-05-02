@@ -30,8 +30,8 @@ class ProjectJobsSubmissionsRequest extends FormRequest
     public function rules()
     {
         return [
-            'project_job_id' => 'exists:project_jobs,id',
-            'crew_id'        => 'required:crews,id'
+            'project_job_id' => 'required|exists:project_jobs,id',
+            'crew_id'        => 'required|exists:crews,id'
         ];
     }
 }

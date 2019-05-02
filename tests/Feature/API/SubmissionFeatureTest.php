@@ -60,8 +60,6 @@ class SubmissionFeatureTest extends TestCase
     {
         $crew       = $this->createCrew();
         $projectJob = $this->createProjectAndJob();
-
-        $crew = $this->createCrew();
         
         $data = [
             'crew_id'        => $crew->id,
