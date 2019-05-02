@@ -17,9 +17,6 @@ class CreatePendingFlagMessage
     {
         $message = Message::find($data['message_id']);
 
-        $message->flagged_at = Carbon::now();
-        $message->save();
-
         $message->update([
             'flagged_at' => Carbon::now()
         ]);
