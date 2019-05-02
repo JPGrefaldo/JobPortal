@@ -1,16 +1,18 @@
 @extends('layouts.default_layout')
 
 @section('content')
-    <main class="float-left w-full py-md md:py-lg px-3">
         <div class="container">
-            <div class="w-full float-left">
+            <div class="w-full py-md md:py-lg px-3">
                 <div class="card float-left md:flex mb-8 w-full">
                     <div class="md:w-1/4 md:pr-8 text-center">
                         <img src="images/thumb.jpg" class="rounded" alt="" />
                         <ul class="list-reset py-4">
                             <li class="py-1">
                                 <a href="#" class="flex items-center">
-                                    <div class="p-1 rounded bg-yellow-imdb w-8 h-8"><img src="images/imdb.svg" alt="" class="mr-2 img-responsive"></div><span class="ml-2 text-yellow-imdb">IMDb profile</span></a>
+                                    <div class="p-1 rounded bg-yellow-imdb w-8 h-8"><img src="images/imdb.svg" alt="" class="mr-2 img-responsive">
+                                    </div>
+                                    <span class="ml-2 text-yellow-imdb">IMDb profile</span>
+                                </a>
                             </li>
                             <li class="py-1">
                                 <a href="#" class="flex items-center text-blue-linkedin">
@@ -37,9 +39,9 @@
                                         @if(isset($socialLinkType->crew[0]))
                                             <li class="social-links-item">
                                                 <a href="{{ $socialLinkType->crew[0]->url }}"
-                                                   class="social-links-item-link"
-                                                   title="{{ $socialLinkType->crew[0]->url }}"
-                                                   target="_blank" >
+                                                    class="social-links-item-link"
+                                                    title="{{ $socialLinkType->crew[0]->url }}"
+                                                    target="_blank" >
                                                     <div class="social-links-item-icon">
                                                         <img src="{{ asset($socialLinkType->image) }}">
                                                     </div>
@@ -74,7 +76,7 @@
                                     <a href="{{$user->crew->reel->url }}" target="_blank"
                                         class="border md:w-1/2 flex overflow-hidden rounded md:mr-2 mb-2 md:mb-0">
                                         <div class="w-24 relative"
-                                            style="background: url(../images/th2.jpg); background-size: cover;">
+                                            style="background: url(/images/th2.jpg); background-size: cover;">
                                             <span class="btn-play w-10 h-10"></span>
                                         </div>
                                         <span class='uppercase text-green font-semibold p-4 text-sm tracking-wide'>VIEW POSITION WORK REEL</span>
@@ -83,7 +85,7 @@
                             @else
                                 <a href="#" class="border md:w-1/2 flex overflow-hidden rounded md:mr-2 mb-2 md:mb-0">
                                     <div class="w-24 relative"
-                                        style="background: url(images/th2.jpg); background-size: cover;">
+                                        style="background: url(/images/th2.jpg); background-size: cover;">
                                         <span class="btn-play w-10 h-10"></span>
                                     </div>
                                     <span class='uppercase text-green font-semibold p-4 text-sm tracking-wide'>VIEW POSITION WORK REEL</span>
@@ -130,7 +132,7 @@
                                     </div>
                                     <div class="pb-2 md:flex">
                                         <a href="#" class="border md:w-1/2 flex overflow-hidden rounded md:mr-2 mb-2 md:mb-0">
-                                            <div class="w-24 relative" style="background: url(images/th2.jpg); background-size: cover;">
+                                            <div class="w-24 relative" style="background: url(/images/th2.jpg); background-size: cover;">
                                                 <span class="btn-play w-10 h-10"></span>
                                             </div>
                                             <span class='uppercase text-green font-semibold p-4 text-sm tracking-wide'>VIEW POSITION WORK REEL</span>
@@ -161,5 +163,4 @@
                 @endforeach
             </div>
         </div>
-    </main>
 @endsection
