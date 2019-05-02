@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 use Carbon\Carbon;
+use Tests\Support\Data\ProjectTypeID;
 
 class ApproveProjectFeatureTest extends TestCase
 {
@@ -17,7 +18,7 @@ class ApproveProjectFeatureTest extends TestCase
         return [
             'user_id'                => $this->createProducer(),
             'production_name_public' => true,
-            'project_type_id'        => 1,
+            'project_type_id'        => ProjectTypeID::MOVIE,
             'status'                 => Project::APPROVED,
             'approved_at'            => Carbon::now(),
         ];
@@ -28,7 +29,7 @@ class ApproveProjectFeatureTest extends TestCase
         return [
             'user_id'                => $this->createProducer(),
             'production_name_public' => false,
-            'project_type_id'        => 2,
+            'project_type_id'        => ProjectTypeID::TV,
             'status'                 => Project::PENDING,
         ];
     }
