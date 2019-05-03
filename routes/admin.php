@@ -34,3 +34,6 @@ Route::prefix('/admin/projects')->group(function () {
     Route::put('/{project}', [\App\Http\Controllers\Admin\ProjectController::class, 'update'])
         ->name('admin.projects.update');
 });
+
+Route::get('/admin/flag-messages', [\App\Http\Controllers\PendingFlagMessageController::class, 'index'])
+    ->middleware('role:Admin')->name('admin.messages.flagged.index');

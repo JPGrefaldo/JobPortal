@@ -1,4 +1,17 @@
+import { Form } from 'vform';
+import { alert } from '../mixins'
+
 export default {
+    data() {
+        return {
+            form: new Form({
+                message_id: '',
+                reason: ''
+            }),
+            
+        }
+    },
+    mixins: [alert],
     methods: {
         onClickRequestFlag: function(message) {
             this.requestFlag(message);
