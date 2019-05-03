@@ -103,17 +103,17 @@ Route::middleware('auth:api')->group(function () {
                     \App\Http\Controllers\API\Producer\ProjectJobsController::class,
                     'index',
                 ])->name('producer.project.jobs');
-    
+
                 Route::post('/', [
                     \App\Http\Controllers\API\Producer\ProjectJobsController::class,
                     'store',
                 ])->name('producer.project.jobs.store');
-    
+
                 Route::put('/{projectJob}', [
                     \App\Http\Controllers\API\Producer\ProjectJobsController::class,
                     'update',
                 ])->name('producer.project.jobs.update');
-    
+
                 Route::delete('/{projectJob}', [
                     \App\Http\Controllers\API\Producer\ProjectJobsController::class,
                     'destroy',
@@ -132,6 +132,10 @@ Route::middleware('auth:api')->group(function () {
         'store',
     ])->middleware('role:Crew')->name('project.job.submissions.create');
 
+    Route::get('/admin/flag-messages', [
+        \App\Http\Controllers\Api\Admin\FlagMessagesController::class,
+        'index'
+    ])->middleware('role:Admin')->name('admin.messages.flagged');
 
     Route::get('admin/projects/unapproved', [\App\Http\Controllers\Admin\ProjectController::class, 'unapprovedProjects'])
         ->name('admin.projects.unapproved');

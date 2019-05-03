@@ -10,7 +10,7 @@
 </div>
 
 <main id="content"
-    class="flex-1 @if (Route::current()->getName() !== 'messages') float-left w-full py-lg @endif">
+    class="flex-1 @if (Route::current()->getName() !== 'messages' && Route::current()->getName() !== 'admin.flag-messages.index') float-left w-full py-lg @endif">
     @include('_parts.messagebox')
     @yield('content')
 </main>

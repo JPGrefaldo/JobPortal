@@ -17,6 +17,8 @@ class CreatePendingFlagMessagesTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('message_id');
             $table->text('reason');
+            $table->smallInteger('status')
+                ->default(0);
             $table->timestamp('approved_at')->nullable();
             $table->timestamp('disapproved_at')->nullable();
             $table->timestamps();
