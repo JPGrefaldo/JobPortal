@@ -12,7 +12,7 @@ class PendingFlagMessageFeatureTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
 
-    public function getPendingFlaggedMessage()
+    private function getPendingFlaggedMessage()
     {
         return [
             'approved_at'    => null,
@@ -21,7 +21,7 @@ class PendingFlagMessageFeatureTest extends TestCase
         ];
     }
 
-    public function getApprovedFlagMessage()
+    private function getApprovedFlagMessage()
     {
         return [
             'approved_at'    => Carbon::now(),
@@ -30,7 +30,7 @@ class PendingFlagMessageFeatureTest extends TestCase
         ];
     }
 
-    public function getDisapprovedFlagMessage()
+    private function getDisapprovedFlagMessage()
     {
         return [
             'approved_at'    => null,
@@ -39,18 +39,14 @@ class PendingFlagMessageFeatureTest extends TestCase
         ];
     }
 
-    public function test_only_admin_can_see_pending_flag_messages()
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Api\Admin\FlagMessagesController::index
+     */
+    public function admin_can_see_pending_flag_messages()
     {
         $pendingFlagMessage = factory(\App\Models\PendingFlagMessage::class)->create(
             $this->getPendingFlaggedMessage()
-        );
-
-        $approvedFlagMessage = factory(\App\Models\PendingFlagMessage::class)->create(
-            $this->getApprovedFlagMessage()
-        );
-
-        $disapprovedFlagMessage = factory(\App\Models\PendingFlagMessage::class)->create(
-            $this->getDisapprovedFlagMessage()
         );
 
         $admin = $this->createAdmin();
@@ -66,30 +62,24 @@ class PendingFlagMessageFeatureTest extends TestCase
         $response->assertJson([
             "data" => [
                 [
-                    "approved_at"    => null,
-                    "disapproved_at" => null,
                     "id"             => $pendingFlagMessage->id,
                     "message"        => $pendingFlagMessage->message->body,
                     "message_id"     => $pendingFlagMessage->message_id,
                     "message_owner"  => $pendingFlagMessage->message->user->nickname,
                     "reason"         => $pendingFlagMessage->reason,
-                    "thread"         => $pendingFlagMessage->message->thread->subject
+                    "thread"         => $pendingFlagMessage->message->thread->subject,
+                    "approved_at"    => null,
+                    "disapproved_at" => null,
                 ]
             ]
-        ]);
-
-        // not sure if this is still needed
-        $response->assertJsonMissing([
-            $approvedFlagMessage,
-            $disapprovedFlagMessage
         ]);
     }
 
     /**
      * @test
      *
-     * @covers \App\Http\Controllers\PendingFlagMessageController
-     * @covers \App\Http\Controllers\Api\Admin\FlagMessagesController
+     * @covers \App\Http\Controllers\PendingFlagMessageController::index
+     * @covers \App\Http\Controllers\Api\Admin\FlagMessagesController::index
      */
     public function crew_is_not_allowed_to_see_flagged_messages()
     {
@@ -107,8 +97,8 @@ class PendingFlagMessageFeatureTest extends TestCase
     /**
      * @test
      *
-     * @covers \App\Http\Controllers\PendingFlagMessageController
-     * @covers \App\Http\Controllers\Api\Admin\FlagMessagesController
+     * @covers \App\Http\Controllers\PendingFlagMessageController::index
+     * @covers \App\Http\Controllers\Api\Admin\FlagMessagesController::index
      */
     public function producer_is_not_allowed_to_see_flagged_messages()
     {
@@ -125,16 +115,16 @@ class PendingFlagMessageFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\PendingFlagMessageController
+     * @covers \App\Http\Controllers\PendingFlagMessageController::update
      */
-    public function can_approve_pending_flag_message()
+    public function admin_can_approve_pending_flag_message()
     {
         $pendingFlagMessage = factory(PendingFlagMessage::class)->create($this->getPendingFlaggedMessage());
 
         $this->assertEquals(PendingFlagMessage::UNAPPROVED, $pendingFlagMessage->status);
 
         $this->actingAs($this->createAdmin())
-            ->put(route('pending-flag-messages.update', $pendingFlagMessage->id), [
+            ->put(route('pending-flag-messages.update', $pendingFlagMessage), [
                 'action' => 'approve'
             ])
             ->assertSee('Pending flag message approved')
@@ -146,16 +136,16 @@ class PendingFlagMessageFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\PendingFlagMessageController
+     * @covers \App\Http\Controllers\PendingFlagMessageController::update
      */
-    public function can_disapprove_pending_flag_message()
+    public function admin_can_disapprove_pending_flag_message()
     {
         $pendingFlagMessage = factory(PendingFlagMessage::class)->create($this->getPendingFlaggedMessage());
 
         $this->assertEquals(PendingFlagMessage::UNAPPROVED, $pendingFlagMessage->status);
 
         $this->actingAs($this->createAdmin())
-            ->put(route('pending-flag-messages.update', $pendingFlagMessage->id), [
+            ->put(route('pending-flag-messages.update', $pendingFlagMessage), [
                 'action' => 'disapprove'
             ])
             ->assertSee('Pending flag message disapproved')
