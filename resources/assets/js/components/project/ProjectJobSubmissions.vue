@@ -157,6 +157,11 @@
                                                         <i class="far fa-file-alt text-white pos-center"></i>
                                                     </div> Professional Resume</a>
                                             </li>
+                                            <li class="my-2" v-if="submission.crew.submissionCount > 1">
+                                                <label class="flex text-center text-grey">
+                                                    {{ submission.crew.submissionCount }} positions applied on this project 
+                                                </label>
+                                            </li>
 
                                         </ul>
                                     </div>
