@@ -42,6 +42,7 @@ return [
         'main' => [
             'salt' => 'your-salt-string',
             'length' => '5',
+            'alphabet' => 'abcdefghijklmnopqrstuvwxyz',
         ],
 
         'alternative' => [
