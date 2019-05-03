@@ -69,28 +69,40 @@ class SubmissionFeatureTest extends TestCase
             'project_id' => $project->id
         ]);
 
-        $user = $this->createCrew();
+        $crew = $this->createCrew();
 
-        $projectJobs->map(function($projectJob) use($user, $project) {
+        $projectJobs->map(function($projectJob) use($crew, $project) {
             factory(Submission::class)->create([
-                'crew_id'         => $user->crew->id,
+                'crew_id'         => $crew->id,
                 'project_id'      => $project->id,
                 'project_job_id'  => $projectJob->id
             ]);
         });
 
-        $projectJobs->map(function($job) use($project) {
-            $submissions = $job->submissions()->get();
+        $this->actingAs($producer)
+            ->get(
+                route(
+                    'project.job.submissions.show',
+                    [   
+                        'project' => $project->id,
+                        'job' => 1
+                    ]
+                )
+            )
+            ->assertSuccessful();
 
-            $submissions->map(function($submission) use($project){
-                $this->assertEquals(3, Submission::where(
-                        [
-                            'crew_id' => $submission->crew->id,
-                            'project_id' => $project->id
-                        ]
-                    )->count()
-                );
-            });
-        });
+        // $projectJobs->map(function($job) use($project) {
+        //     $submissions = $job->submissions()->get();
+
+        //     $submissions->map(function($submission) use($project){
+        //         $this->assertEquals(3, Submission::where(
+        //                 [
+        //                     'crew_id' => $submission->crew->id,
+        //                     'project_id' => $project->id
+        //                 ]
+        //             )->count()
+        //         );
+        //     });
+        // });
     }
 }

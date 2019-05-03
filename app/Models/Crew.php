@@ -24,6 +24,8 @@ class Crew extends Model
         'photo'   => 'string',
     ];
 
+    protected $appends = ['submission_count'];
+
     /**
      * Users many to many relationship
      *
@@ -162,5 +164,22 @@ class Crew extends Model
     public function submissions()
     {
         return $this->hasMany(Submission::class);
+    }
+
+
+    public function getSubmissionCountAttribute($value)
+    {
+        return $value;
+    }
+
+    /**
+     * Set the crew submissions count
+     *
+     * @param  integer  $value
+     * @return void
+     */
+    public function setSubmissionCountAttribute($value)
+    {
+        $this->attributes['submission_count'] = $value;
     }
 }

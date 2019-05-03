@@ -19,14 +19,26 @@ class SubmissionsController extends Controller
                             ->get();
 
         $submissions->map(function($submission) use($project){
-            $submission->crew
-                        ->submissionCount = Submission::where(
-                            [
-                                'crew_id'    => $submission->crew->id,
-                                'project_id' => $project->id
-                            ]
-                        )->count();
+            // $crew = $submission->crew()->get();
+
+            // $crew->submission_count = Submission::where(
+            //                 [
+            //                     'crew_id'    => $submission->crew_id,
+            //                     'project_id' => $project->id
+            //                 ]
+            //             )->count();
+
+            $submission_count = Submission::where(
+                [
+                    'crew_id'    => $submission->crew_id,
+                    'project_id' => $project->id
+                ]
+            )->count();
+
+            $submission->crew()->submission_count = $submission_count;
         });
+
+        dump($submissions->toArray());
         
         return view('projects.submissions', compact('project', 'job', 'submissions'));
     }
