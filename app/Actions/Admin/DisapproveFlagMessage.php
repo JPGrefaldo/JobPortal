@@ -21,5 +21,9 @@ class DisapproveFlagMessage
         $pendingFlagMessage->message->update([
             'flagged_at' => null,
         ]);
+
+        $pendingFlagMessage->message->update([
+            'flagged_at' => null,
+        ]);
     }
 }
