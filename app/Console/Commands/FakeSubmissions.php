@@ -72,7 +72,7 @@ class FakeSubmissions extends Command
             'project_id' => $project->id,
         ]);
 
-        $crews->map(function ($crew) use ($options, $projectJob) {
+        $crews->map(function ($crew) use ($options, $project, $projectJob) {
             if ($options['new'] == 'true') {
                 $crew->assignRole(Role::CREW);
                 app(StubCrew::class)->execute($crew);
@@ -81,6 +81,7 @@ class FakeSubmissions extends Command
             factory(Submission::class)->create(
                 [
                     'crew_id'           => $crew->id,
+                    'project_id'        => $project->id,
                     'project_job_id'    => $projectJob->id,
                 ]
             );
