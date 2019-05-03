@@ -18,10 +18,10 @@
                 </div>
                 <div v-else class="w-full">
                     <button
-                        v-for="project in projects"
-                        :key="project.id"
+                        v-for="(project, index) in projects"
+                        :key="index"
                         class="flex justify-center p-2 hover:bg-grey-light w-full text-left"
-                        @click="onClickPendingProject(project.id)"
+                        @click="onClickPendingProject(index)"
                     >
                         <div class="p-2 flex-1">
                             <div class="mb-1">{{ project.title }}</div>
@@ -39,15 +39,15 @@
                     <div class="bg-white shadow-md mb-8 rounded border border-grey-light">
                         <div class="bg-white shadow-md rounded border border-grey-light p-8">
                             <div class="w-full mb-6 flex justify-between">
-                                <h3 class="text-blue-dark font-semibold text-lf mb-1 font-header">{{ projects[selectedProject - 1].title }}</h3>
-                                <p>Production: {{ projects[selectedProject - 1].production }}</p>
+                                <h3 class="text-blue-dark font-semibold text-lf mb-1 font-header">{{ projects[selectedProject].title }}</h3>
+                                <p>Production: {{ projects[selectedProject].production }}</p>
                             </div>
                             <div class="md:flex">
                                 <div class="md:w-1/4 mb-4 md:mb-0">
                                     <h3 class="text-grey">Details</h3>
                                 </div>
                                 <div class="md:w-3/4 mb-4 md:mb-0">
-                                    <p>{{ projects[selectedProject - 1].description }}</p>
+                                    <p>{{ projects[selectedProject].description }}</p>
                                 </div>
                             </div>
                             <div class="md:flex">
@@ -55,7 +55,7 @@
                                     <h3 class="text-grey">Location</h3>
                                 </div>
                                 <div class="md:w-3/4 mb-4 md:mb-0">
-                                    <p>{{ projects[selectedProject - 1].location }}</p>
+                                    <p>{{ projects[selectedProject].location }}</p>
                                 </div>
                             </div>
                             <div class="md:flex">
@@ -63,7 +63,7 @@
                                     <h3 class="text-grey">Owner</h3>
                                 </div>
                                 <div class="md:w-3/4 mb-4 md:mb-0">
-                                    <p>{{ projects[selectedProject - 1].owner }}</p>
+                                    <p>{{ projects[selectedProject].owner }}</p>
                                 </div>
                             </div>
                             <div class="md:flex">
@@ -71,7 +71,7 @@
                                     <h3 class="text-grey">Project Type</h3>
                                 </div>
                                 <div class="md:w-3/4 mb-4 md:mb-0">
-                                    <p>{{ projects[selectedProject - 1].project_type }}</p>
+                                    <p>{{ projects[selectedProject].project_type }}</p>
                                 </div>
                             </div>
                         </div>
@@ -120,7 +120,7 @@ export default {
             this.selectedProject = projectId
         },
         onClickApproveProject: function() {
-            axios.put(`/admin/projects/${this.selectedProject}/approve`)
+            axios.put(`/admin/projects/${this.projects[this.selectedProject].id}/approve`)
                 .then(response => {
                     this.displaySuccess(response)
                     this.selectedProject = null
@@ -128,7 +128,7 @@ export default {
                 })
         },
         onClickDisapproveProject: function() {
-            axios.put(`/admin/projects/${this.selectedProject}/unapprove`)
+            axios.put(`/admin/projects/${this.projects[this.selectedProject].id}/unapprove`)
                 .then(response => {
                     this.displaySuccess(response)
                     this.selectedProject = null
