@@ -39,7 +39,9 @@
                     <div class="bg-white shadow-md mb-8 rounded border border-grey-light">
                         <div class="bg-white shadow-md rounded border border-grey-light p-8">
                             <div class="w-full mb-6 flex justify-between">
-                                <h3 class="text-blue-dark font-semibold text-lf mb-1 font-header">{{ projects[selectedProject].title }}</h3>
+                                <h3 class="text-blue-dark font-semibold text-lf mb-1 font-header">
+                                    {{ projects[selectedProject].title }}
+                                </h3>
                                 <p>Production: {{ projects[selectedProject].production }}</p>
                             </div>
                             <div class="md:flex">
