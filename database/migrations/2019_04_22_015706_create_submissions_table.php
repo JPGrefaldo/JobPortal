@@ -16,19 +16,18 @@ class CreateSubmissionsTable extends Migration
         Schema::create('submissions', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('crew_id');
+            $table->unsignedInteger('project_id');
             $table->unsignedInteger('project_job_id');
             $table->timestamps();
 
-            $table->unique(
-                [
-                    'crew_id',
-                    'project_job_id'
-                ]
-            );
-
             $table->foreign('crew_id')
                 ->references('id')
-                ->on('users')
+                ->on('crews')
+                ->onDelete('cascade');
+            
+            $table->foreign('project_id')
+                ->references('id')
+                ->on('projects')
                 ->onDelete('cascade');
 
             $table->foreign('project_job_id')
