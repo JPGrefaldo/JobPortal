@@ -39,7 +39,7 @@ class CreateTestUserTest extends TestCase
     public function create_user_with_crew_role()
     {
         $command = $this->artisan(self::CMD, [
-            'email' => 'test@test.com',
+            'email'  => 'test@test.com',
             '--crew' => 'true',
         ]);
 
@@ -74,7 +74,7 @@ class CreateTestUserTest extends TestCase
     public function create_user_with_producer_role()
     {
         $command = $this->artisan(self::CMD, [
-            'email' => 'test@test.com',
+            'email'      => 'test@test.com',
             '--producer' => 'true',
         ]);
 
@@ -98,7 +98,7 @@ class CreateTestUserTest extends TestCase
     public function create_user_with_admin_role()
     {
         $command = $this->artisan(self::CMD, [
-            'email' => 'test@test.com',
+            'email'   => 'test@test.com',
             '--admin' => 'true',
         ]);
 
@@ -115,16 +115,16 @@ class CreateTestUserTest extends TestCase
         $command->assertExitCode(0);
     }
 
-    /** 
-     * @test 
+    /**
+     * @test
      * @covers \App\Console\Commands\CreateTestUser::handle
     */
     public function create_user_with_multiple_roles()
     {
         $command = $this->artisan(self::CMD, [
-            'email' => 'test@test.com',
-            '--admin' => 'true',
-            '--crew' => 'true',
+            'email'      => 'test@test.com',
+            '--admin'    => 'true',
+            '--crew'     => 'true',
             '--producer' => 'true',
         ]);
 
