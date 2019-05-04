@@ -21,22 +21,16 @@ class StoreCrewPosition
         ]);
 
         $crewPosition = CrewPosition::byCrewAndPosition($crew, $position)->first();
-        
-        $crew->resumes()->create([
-            'crew_id'          => $crew->id,
-            'path'             => $data['resume'],
-            'crew_position_id' => $crewPosition->id,
-        ]);
 
         $crew->gears()->create([
             'description'      => $data['gear'],
             'crew_position_id' => $crewPosition->id,
         ]);
 
-        $crew->reels()->create([
-            'crew_id'          => $crew->id,
-            'path'             => $data['reel_link'],
-            'crew_position_id' => $crewPosition->id,
-        ]);
+        $data['crew_position_id'] =  $crewPosition->id;
+
+        app(StoreCrewResume::class)->execute($crew, $data);
+
+        app(StoreCrewReel::class)->execute($crew, $data);
     }
 }

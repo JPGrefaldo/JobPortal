@@ -108,11 +108,11 @@ class CrewPosition extends Pivot
 
     public function gear()
     {
-        return $this->belongsTo(CrewGear::class);
+        return $this->hasOne(CrewGear::class,'crew_position_id');
     }
 
     public function resume()
     {
-        return $this->belongsTo(CrewResume::class);
+        return $this->hasOne(CrewResume::class,'crew_position_id');
     }
 }
