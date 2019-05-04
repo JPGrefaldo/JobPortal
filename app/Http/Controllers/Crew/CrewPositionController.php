@@ -15,14 +15,7 @@ class CrewPositionController extends Controller
     {
         $crew = auth()->user()->crew;
 
-        $data = $request->validate([
-            'bio'               => 'required|nullable|string',
-            'resume'            => 'required|file|mimes:pdf,doc,docx',
-            'reel_link'         => ['nullable','required_without:reel_file', 'string', new Reel()],
-            'reel_file'         => 'nullable|required_without:reel_link|file|mimes:mp4,avi,wmv | max:20000',
-            'gear'              => 'nullable',
-            'union_description' => 'nullable'
-        ]);
+        $data = $request->validated();
 
         app(StoreCrewPosition::class)->execute($crew, $position, $data);
     }
