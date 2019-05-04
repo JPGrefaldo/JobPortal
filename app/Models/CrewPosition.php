@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\CrewReel;
+use App\Models\CrewResume;
+use App\Models\CrewGear;
 
 class CrewPosition extends Pivot
 {
@@ -96,5 +99,20 @@ class CrewPosition extends Pivot
     public function setUnionDescriptionAttribute($value)
     {
         $this->attributes['union_description'] = (is_null($value) ? '' : $value);
+    }
+
+    public function reel()
+    {
+        return $this->hasOne(CrewReel::class,'crew_position_id');
+    }
+
+    public function gear()
+    {
+        return $this->belongsTo(CrewGear::class);
+    }
+
+    public function resume()
+    {
+        return $this->belongsTo(CrewResume::class);
     }
 }

@@ -1,13 +1,13 @@
 <template>
     <div>
         <div class="py-2">
-            <label class="checkbox-control">
+            <label class="checkbox-control" @click.stop.prevent="selected">
                 <h3 class="text-md" v-text="position.name"></h3>
-                <input type="checkbox" v-model="selected" />
+                <input type="checkbox"/>
                 <div class="control-indicator"></div>
             </label>
         </div>
-        <div v-if="selected">
+        <div v-if="thisVar">
             <div class="p-2 md:p-4 border-t-2 border-grey-lighter bg-white">
                 <div class="py-2">
                     <div class="mb-2">
@@ -37,12 +37,12 @@
                             <h3 class="text-md font-header mb-2 md:mb-0">Resume</h3>
                         </div>
                         <div class="md:w-2/3">
-                            <label for="resume" class="btn-outline text-green inline-block"
-                            :class="{ 'input__error': form.errors.has('resume') }"
+                            <label :for="'resume' + position.id" class="btn-outline text-green inline-block"
+                                :class="{ 'input__error': form.errors.has('resume') }"
                                 >Upload file</label>
-                            <input type="file" id="resume" name="resume" @change="selectFile" class="hidden" />
-                        </div>
+                            <input type="file" :id="'resume' + position.id" @change="selectFile" name="resume" class="hidden" />
                             <has-error :form="form" field="resume"></has-error>
+                        </div>
                     </div>
                 </div>
                 <div class="border-t-2 border-grey-lighter py-4">
@@ -54,14 +54,18 @@
                             <input
                                 type="text"
                                 class="form-control bg-light w-64 mr-2 mb-2 md:mb-0"
+                                :class="{ 'input__error': form.errors.has('reel_link') }"
                                 placeholder="Add link"
                                 v-model="form.reel_link"
                             />
+                            <has-error :form="form" field="reel_link"></has-error>
                             or
-                            <label for="rell_file" class="btn-outline text-green inline-block"
+                            <label :for="'reel_file' + position.id" class="btn-outline text-green inline-block"
+                                :class="{ 'input__error': form.errors.has('reel_file') }"
                                 >Upload file</label
                             >
-                            <input type="file" id="reel_file" @change="selectFile" class="hidden" />
+                            <input type="file" :id="'reel_file' + position.id" @change="selectFile" name="reel_file"class="hidden" />
+                            <has-error :form="form" field="reel_file"></has-error>
                         </div>
                     </div>
                 </div>
@@ -131,7 +135,7 @@ export default {
     data() {
         return {
             has_gear: false,
-            selected: false,
+            thisVar: false,
             form: new Form({
                 bio: '',
                 union_description: '',
@@ -144,11 +148,12 @@ export default {
         };
     },
     methods: {
+        selected: function(){
+            this.thisVar = ! this.thisVar
+            return false;
+        },
         selectFile: function(e){
-            console.log('hello world');
-          const file = e.target.files[0]
-          // Do some client side validation...
-          this.form.resume = file
+          this.form[e.target.name] = e.target.files[0]
         },
         onClickSave: function() {
             this.saveCrewPosition();

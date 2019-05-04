@@ -40,4 +40,5 @@ Route::prefix('crew/profile')->group(function () {
     Route::put('edit', [\App\Http\Controllers\Crew\CrewProfileController::class, 'update']);
 });
 
+Route::get('/crew/position-data/{position}',[\App\Http\Controllers\Crew\CrewPositionController::class, 'fetchPosition']);
 Route::post('/crew/positions/{position}', [\App\Http\Controllers\Crew\CrewPositionController::class, 'applyFor'])->name('crew-position.store');

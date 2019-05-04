@@ -21,6 +21,12 @@ class StoreCrewPosition
         ]);
 
         $crewPosition = CrewPosition::byCrewAndPosition($crew, $position)->first();
+        
+        $crew->resumes()->create([
+            'crew_id'          => $crew->id,
+            'path'             => $data['resume'],
+            'crew_position_id' => $crewPosition->id,
+        ]);
 
         $crew->gears()->create([
             'description'      => $data['gear'],
