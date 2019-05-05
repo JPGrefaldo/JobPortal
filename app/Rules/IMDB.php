@@ -26,7 +26,7 @@ class IMDB implements Rule
      */
     public function passes($attribute, $value)
     {
-        return (bool) preg_match('/^(?:http(s)?:\/\/)?www.imdb.com\/name\/[\w]+(\/)?$/',$value);
+        return (bool) preg_match('/^(?:https:\/\/)?www.imdb.com\/name\/[\w]+(\/)?$/', $value);
     }
 
     /**
