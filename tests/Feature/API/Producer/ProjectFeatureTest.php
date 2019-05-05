@@ -33,7 +33,7 @@ class ProjectFeatureTest extends TestCase
         factory(Project::class)->create([
             'production_name_public' => 0,
             'project_type_id'        => ProjectTypeID::MOVIE,
-            'status'                 => 1
+            'status'                 => 1,
         ]);
 
         $response = $this->actingAs($user, 'api')
@@ -45,12 +45,12 @@ class ProjectFeatureTest extends TestCase
 
         $response->assertJsonFragment([
             'production_name_public' => true,
-            'project_type_id'        => ProjectTypeID::TV
+            'project_type_id'        => ProjectTypeID::TV,
         ]);
 
         $response->assertJsonFragment([
             'production_name_public' => false,
-            'project_type_id'        => ProjectTypeID::MOVIE
+            'project_type_id'        => ProjectTypeID::MOVIE,
         ]);
     }
 
@@ -70,7 +70,7 @@ class ProjectFeatureTest extends TestCase
         factory(Project::class)->create([
             'production_name_public' => 0,
             'project_type_id'        => ProjectTypeID::MOVIE,
-            'status'                 => 1
+            'status'                 => 1,
         ]);
 
         $response = $this->actingAs($user, 'api')
@@ -82,13 +82,13 @@ class ProjectFeatureTest extends TestCase
 
         $response->assertJsonFragment([
             'status'                 => 0,
-            'project_type_id'        => ProjectTypeID::TV
+            'project_type_id'        => ProjectTypeID::TV,
         ]);
 
         $response->assertJsonMissing([
             'production_name_public' => 0,
             'project_type_id'        => ProjectTypeID::MOVIE,
-            'status'                 => 1
+            'status'                 => 1,
         ]);
     }
 
@@ -102,13 +102,13 @@ class ProjectFeatureTest extends TestCase
 
         factory(Project::class)->create([
             'production_name_public' => 1,
-            'project_type_id'        => ProjectTypeID::TV
+            'project_type_id'        => ProjectTypeID::TV,
         ]);
 
         factory(Project::class)->create([
             'production_name_public' => 0,
             'project_type_id'        => ProjectTypeID::MOVIE,
-            'status'                 => 1
+            'status'                 => 1,
         ]);
 
         $response = $this->actingAs($user, 'api')
@@ -119,7 +119,7 @@ class ProjectFeatureTest extends TestCase
         $response->assertJsonCount(2);
 
         $response->assertJsonFragment([
-            'count' => 1
+            'count' => 1,
         ]);
     }
 
@@ -135,13 +135,13 @@ class ProjectFeatureTest extends TestCase
         factory(Project::class)->create([
             'production_name_public' => 1,
             'project_type_id'        => ProjectTypeID::TV,
-            'status'                 => 1
+            'status'                 => 1,
         ]);
 
         factory(Project::class)->create([
             'production_name_public' => 0,
             'project_type_id'        => ProjectTypeID::MOVIE,
-            'status'                 => 0
+            'status'                 => 0,
         ]);
 
         $response = $this->actingAs($user, 'api')
@@ -153,12 +153,12 @@ class ProjectFeatureTest extends TestCase
 
         $response->assertJsonFragment([
             'project_type_id'        => ProjectTypeID::TV,
-            'status'                 => 1
+            'status'                 => 1,
         ]);
 
         $response->assertJsonMissing([
             'project_type_id'        => ProjectTypeID::MOVIE,
-            'status'                 => 0
+            'status'                 => 0,
         ]);
     }
 
@@ -172,13 +172,13 @@ class ProjectFeatureTest extends TestCase
 
         factory(Project::class)->create([
             'production_name_public' => 1,
-            'project_type_id'        => ProjectTypeID::TV
+            'project_type_id'        => ProjectTypeID::TV,
         ]);
 
         factory(Project::class)->create([
             'production_name_public' => 0,
             'project_type_id'        => ProjectTypeID::MOVIE,
-            'status'                 => 1
+            'status'                 => 1,
         ]);
 
         $response = $this->actingAs($user, 'api')
@@ -189,7 +189,7 @@ class ProjectFeatureTest extends TestCase
         $response->assertJsonCount(2);
 
         $response->assertJsonFragment([
-            'count' => 1
+            'count' => 1,
         ]);
     }
 
@@ -209,8 +209,8 @@ class ProjectFeatureTest extends TestCase
             'location'               => 'Some Location',
             'remotes'                => [
                 SiteID::CREWCALLSAMERICA,
-                SiteID::CREWCALLSALASKA
-            ]
+                SiteID::CREWCALLSALASKA,
+            ],
         ];
 
         $response = $this->actingAs($user, 'api')
@@ -218,7 +218,7 @@ class ProjectFeatureTest extends TestCase
                 route('producer.project.store'),
                 $data,
                 [
-                    'Accept' => 'application/json'
+                    'Accept' => 'application/json',
                 ]
             )
             ->assertSee('Project successfully added.')
@@ -235,7 +235,7 @@ class ProjectFeatureTest extends TestCase
                 'project_type_id'        => ProjectTypeID::TV,
                 'description'            => 'Some Description',
                 'location'               => 'Some Location',
-                'user_id'                => $user->id
+                'user_id'                => $user->id,
             ]
         );
     }
@@ -258,8 +258,8 @@ class ProjectFeatureTest extends TestCase
             'location'               => 'Some Location',
             'remotes'                => [
                 SiteID::CREWCALLSAMERICA,
-                SiteID::CREWCALLSALASKA
-            ]
+                SiteID::CREWCALLSALASKA,
+            ],
         ];
 
         $response = $this->actingAs($user, 'api')
@@ -270,7 +270,7 @@ class ProjectFeatureTest extends TestCase
                 ),
                 $data,
                 [
-                    'Accept' => 'application/json'
+                    'Accept' => 'application/json',
                 ]
             )
             ->assertSee('Project successfully updated.')
@@ -287,7 +287,7 @@ class ProjectFeatureTest extends TestCase
                 'project_type_id'        => ProjectTypeID::TV,
                 'description'            => 'Some Description',
                 'location'               => 'Some Location',
-                'user_id'                => $user->id
+                'user_id'                => $user->id,
             ]
         );
     }
@@ -307,7 +307,7 @@ class ProjectFeatureTest extends TestCase
                 route('producer.projects.store'),
                 $data,
                 [
-                    'Accept' => 'application/json'
+                    'Accept' => 'application/json',
                 ]
             )
             ->assertSee('User does not have the right roles.')
@@ -327,7 +327,7 @@ class ProjectFeatureTest extends TestCase
             'production_name'        => '',
             'production_name_public' => '',
             'project_type_id'        => '',
-            'description'            => ''
+            'description'            => '',
         ];
 
         $this->actingAs($user, 'api')
@@ -335,7 +335,7 @@ class ProjectFeatureTest extends TestCase
                 route('producer.project.store'),
                 $data,
                 [
-                    'Accept' => 'application/json'
+                    'Accept' => 'application/json',
                 ]
             )
             ->assertSee('The given data was invalid.')
@@ -362,7 +362,7 @@ class ProjectFeatureTest extends TestCase
             'project_type_id'        => 'abc',
             'description'            => false,
             'location'               => false,
-            'remotes'                => new \stdClass()
+            'remotes'                => new \stdClass(),
         ];
 
         $this->actingAs($user, 'api')
@@ -370,7 +370,7 @@ class ProjectFeatureTest extends TestCase
                 route('producer.project.store'),
                 $data,
                 [
-                    'Accept' => 'application/json'
+                    'Accept' => 'application/json',
                 ]
             )
             ->assertSee('The given data was invalid.')
@@ -403,7 +403,7 @@ class ProjectFeatureTest extends TestCase
                 route('producer.project.update', ['project' => 1]),
                 $data,
                 [
-                    'Accept' => 'application/json'
+                    'Accept' => 'application/json',
                 ]
             )
             ->assertSee('User does not have the right roles.')
@@ -429,7 +429,7 @@ class ProjectFeatureTest extends TestCase
             'travel_expenses_paid' => '1',
             'rush_call'            => '1',
             'position_id'          => PositionID::CAMERA_OPERATOR,
-            'project_id'           => $project->id
+            'project_id'           => $project->id,
         ];
         $sites   = collect(1, 2, 3);
 
@@ -438,7 +438,7 @@ class ProjectFeatureTest extends TestCase
         $sites->each(function ($site) use ($project) {
             $project->remotes()
                 ->create([
-                    'site_id' => $site
+                    'site_id' => $site,
                 ]);
         });
 
@@ -470,8 +470,8 @@ class ProjectFeatureTest extends TestCase
             'location'               => '',
             'remotes'                => [
                 SiteID::CREWCALLSAMERICA,
-                SiteID::CREWCALLSALASKA
-            ]
+                SiteID::CREWCALLSALASKA,
+            ],
         ];
 
         $response = $this->actingAs($user, 'api')
@@ -479,7 +479,7 @@ class ProjectFeatureTest extends TestCase
                 route('producer.project.store'),
                 $data,
                 [
-                    'Accept' => 'application/json'
+                    'Accept' => 'application/json',
                 ]
             )
             ->assertSee('Project successfully added.')
@@ -496,7 +496,7 @@ class ProjectFeatureTest extends TestCase
                 'project_type_id'        => ProjectTypeID::TV,
                 'description'            => 'Some Description',
                 'location'               => null,
-                'user_id'                => $user->id
+                'user_id'                => $user->id,
             ]
         );
     }

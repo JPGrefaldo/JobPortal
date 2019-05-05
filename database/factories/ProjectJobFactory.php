@@ -12,7 +12,7 @@ $factory->define(ProjectJob::class, function (Faker $faker) {
     return [
         'persons_needed'       => $faker->numberBetween(1, 10),
         'dates_needed'         => $faker->date(),
-        'pay_rate'             => $faker->randomFloat(2, 100),
+        'pay_rate'             => $faker->numberBetween(2, 100),
         'notes'                => $faker->paragraph,
         'rush_call'            => $faker->boolean,
         'travel_expenses_paid' => $faker->boolean,
