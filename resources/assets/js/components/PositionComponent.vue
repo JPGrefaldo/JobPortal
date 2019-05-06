@@ -137,6 +137,7 @@ export default {
     methods: {
         onClickSave: function() {
             this.saveCrewPosition();
+            console.log(this.form.reel_link)
         },
 
         saveCrewPosition: function() {
@@ -179,7 +180,9 @@ export default {
         fetchCrewPosition: function() {
             axios.get('/crew/crew-positions/' + this.position.id)
                 .then(response => {
-                    this.form.bio = response.data[0].details
+                    this.form.bio               = response.data[0].details
+                    this.form.union_description = response.data[0].union_description
+                    // console.log(response.date[0].reel_link)
                 })
         },
     },
