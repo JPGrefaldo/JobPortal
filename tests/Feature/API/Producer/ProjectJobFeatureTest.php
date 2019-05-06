@@ -5,13 +5,13 @@ namespace Tests\Feature\API\Producer;
 use App\Models\Project;
 use App\Models\ProjectJob;
 use App\Models\User;
+use function GuzzleHttp\json_encode;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Tests\Support\Data\PayTypeID;
 use Tests\Support\Data\PositionID;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
-use function GuzzleHttp\json_encode;
 
 class ProjectJobFeatureTest extends TestCase
 {
@@ -192,7 +192,7 @@ class ProjectJobFeatureTest extends TestCase
             '2019-01-02',
             '2019-01-03',
             '2019-01-04',
-            '2019-01-05'
+            '2019-01-05',
         ];
 
         $data    = [
@@ -221,7 +221,7 @@ class ProjectJobFeatureTest extends TestCase
             ->assertStatus(Response::HTTP_CREATED);
 
         $response->assertJsonFragment([
-            'dates_needed' => $this->frontendJsonString($dates)
+            'dates_needed' => $this->frontendJsonString($dates),
         ]);
     }
 
@@ -405,8 +405,8 @@ class ProjectJobFeatureTest extends TestCase
                 route('producer.project.jobs.update', $projectJob),
                 $data,
                 [
-                     'Accept' => 'application/json',
-                 ]
+                    'Accept' => 'application/json',
+                ]
             )
             ->assertForbidden();
     }

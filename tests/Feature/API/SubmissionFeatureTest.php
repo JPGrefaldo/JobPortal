@@ -6,35 +6,35 @@ use App\Models\Project;
 use App\Models\ProjectJob;
 use App\Models\Submission;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Response;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
-use Illuminate\Http\Response;
 
 class SubmissionFeatureTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
 
-   /**
-     * @test
-     * @covers \App\Http\Controllers\API\SubmissionsController::index
-     */
+    /**
+      * @test
+      * @covers \App\Http\Controllers\API\SubmissionsController::index
+      */
     public function can_fetch_job_and_all_submissions()
     {
         $producer = $this->createProducer();
 
         $project  = factory(Project::class)->create([
-            'user_id' => $producer->id
+            'user_id' => $producer->id,
         ]);
 
         $projectJob = factory(ProjectJob::class)->create([
-            'project_id' => $project->id
+            'project_id' => $project->id,
         ]);
 
         $crew = $this->createCrew();
         
         factory(Submission::class)->create([
-            'crew_id'        => $crew->id,
-            'project_job_id'  => $projectJob->id
+            'crew_id'         => $crew->id,
+            'project_job_id'  => $projectJob->id,
         ]);
 
         $response = $this->actingAs($producer, 'api')
@@ -49,7 +49,6 @@ class SubmissionFeatureTest extends TestCase
 
         $response->assertJsonFragment($projectJob->toArray());
         $response->assertJsonFragment($projectJob->submissions->toArray());
-
     }
 
     /**
@@ -64,8 +63,8 @@ class SubmissionFeatureTest extends TestCase
         $crew = $this->createCrew();
         
         $data = [
-            'crew_id'        => $crew->id,
-            'project_job_id'  => $projectJob->id
+            'crew_id'         => $crew->id,
+            'project_job_id'  => $projectJob->id,
         ];
 
         $response = $this->actingAs($crew, 'api')
@@ -76,7 +75,7 @@ class SubmissionFeatureTest extends TestCase
                 ),
                 $data,
                 [
-                    'Accept' => 'application/json'
+                    'Accept' => 'application/json',
                 ]
             )
             ->assertSee('Submission successfully added')
@@ -121,7 +120,7 @@ class SubmissionFeatureTest extends TestCase
                 ),
                 $data,
                 [
-                    'Accept' => 'application/json'
+                    'Accept' => 'application/json',
                 ]
             )
             ->assertSee('User does not have the right roles.')
@@ -133,11 +132,11 @@ class SubmissionFeatureTest extends TestCase
         $producer = $this->createProducer();
 
         $project  = factory(Project::class)->create([
-            'user_id' => $producer->id
+            'user_id' => $producer->id,
         ]);
 
         $projectJob = factory(ProjectJob::class)->create([
-            'project_id' => $project->id
+            'project_id' => $project->id,
         ]);
 
         return $projectJob;

@@ -58,7 +58,7 @@ class CreateTestUser extends Command
             return;
         }
 
-        if (!($role['admin'] || $role['crew'] || $role['producer'])) {
+        if (! ($role['admin'] || $role['crew'] || $role['producer'])) {
             $this->error('Enter role type: admin | crew | producer');
             return;
         }
