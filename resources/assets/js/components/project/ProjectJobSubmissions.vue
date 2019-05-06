@@ -113,13 +113,23 @@
                 ******************************************-->
                 <div class="w-full float-left py-6 md:py-lg grid-cards">
                     <div v-for="submission in submissions" :key="submission.id">
-                        <div v-if="submission.crew != null">
+                        <div v-if="submission.crew.length != 0">
                             <div class="bg-white rounded border-grey-lighter shadow-md w-full flex flex-col justify-between">
                                 <div class="p-6 relative">
                                     <span class="text-yellow h4 mb-2 w-full absolute text-xs pin-top-left">
-                                        <i class="fas fa-star mr-1"></i>requested submission</span>
-                                    <a href="#" class="btn-more absolute pin-top-right"></a>
+                                        <i class="fas fa-star mr-1"></i>
+                                        requested submission
+                                    </span>
+
+                                    
+                                    <a href="#" class="absolute pin-top-right text-color-green" v-if="submission.approve_at !== null">
+                                        <i class="fa fa-check-square"></i>
+                                    </a>
+
+                                    <a href="#" class="btn-more absolute pin-top-right" v-else></a>
+
                                     <div class="rounded-full w-48 h-48 m-auto mt-3" style="background: url(/images/thumb.jpg) no-repeat center; background-size: cover"></div>
+
                                     <div class="py-2 w-full float-left -mt-6">
                                         <ul class="list-reset text-center flex justify-center">
                                             <li class="w-8 h-8 bg-yellow-imdb rounded-full responsive p-1 inline-block -mr-2">
@@ -157,6 +167,11 @@
                                                         <i class="far fa-file-alt text-white pos-center"></i>
                                                     </div> Professional Resume</a>
                                             </li>
+                                            <li class="my-2" v-if="submission.crew.submission_count > 1">
+                                                <label class="flex text-center text-grey">
+                                                    {{ submission.crew.submission_count }} positions applied on this project 
+                                                </label>
+                                            </li>
 
                                         </ul>
                                     </div>
@@ -164,7 +179,7 @@
                                 </div>
                                 <div class="bg-grey-lighter rounded-b px-6 py-3">
                                     <div class="border border-grey-light overflow-hidden rounded-full flex bg-white justify-center text-center">
-                                        <div class="w-1/3 cursor-pointer text-xs px-4 py-3 h4 text-grey">
+                                        <div class="w-1/3 cursor-pointer text-xs px-4 py-3 h4 text-grey" @click.stop="approve(submission.id)">
                                             yes
                                         </div>
                                         <div class="w-1/3 cursor-pointer text-xs px-4 py-3 border-r border-grey-light border-l h4 text-grey">
@@ -205,10 +220,16 @@
             this.$store.dispatch('project/fetchAllPendingCount')
         },
 
-        computed:{
+        computed: {
             ...mapGetters({
                 'projects': 'project/list',
             })
+        },
+
+        methods: {
+            approve: function(id) {
+                this.$store.dispatch('submission/approve', id)
+            }
         }
     }
 </script>
