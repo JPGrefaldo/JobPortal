@@ -105,7 +105,8 @@
             </div>
             <div class="pt-8 pb-4 text-right border-t-2 border-grey-lighter">
                 <button class="text-grey bold mr-4 hover:text-green" @click="selected = false">Cancel</button>
-                <button class="btn-green" @click="onClickSave">SAVE CHANGES</button>
+                <button class="btn-green" v-if="position_exists" @click="onClickSave">UPDATE CHANGES</button>
+                <button class="btn-green" v-else @click="onClickSave">SAVE CHANGES</button>
             </div>
         </div>
     </div>
@@ -121,14 +122,15 @@ export default {
     },
     data() {
         return {
-            has_gear: false,
-            selected: false,
+            position_exists: false,
+            has_gear       : false,
+            selected       : false,
             form: new Form({
-                bio: '',
+                bio              : '',
                 union_description: '',
-                reel_link: '',
-                gear: '',
-                position: this.position.id,
+                reel_link        : '',
+                gear             : '',
+                position         : this.position.id,
             }),
         };
     },
@@ -138,26 +140,37 @@ export default {
         },
 
         saveCrewPosition: function() {
-            this.form.post('/crew/positions/' + this.position.id, {
-                'bio'              : this.form.bio,
-                'union_description': this.form.union_description,
-                'reel_link'        : this.form.reel_link,
-                'gear'             : this.form.gear,
-                'position'         : this.form.position
-            }).then(response => {
-                
-            }).catch(error => {
-                
-            });
+            if (this.position_exists === false) {
+                this.form.post('/crew/positions/' + this.position.id, {
+                    'bio'              : this.form.bio,
+                    'union_description': this.form.union_description,
+                    'reel_link'        : this.form.reel_link,
+                    'gear'             : this.form.gear,
+                    'position'         : this.form.position
+                })
+
+                console.log('position create')
+            } else {
+                this.form.put('/crew/positions/' + this.position.id, {
+                    'bio'              : this.form.bio,
+                    'union_description': this.form.union_description,
+                    'reel_link'        : this.form.reel_link,
+                    'gear'             : this.form.gear,
+                    'position'         : this.form.position
+                })
+
+                console.log('position update')
+            }
         },
 
         checkExistingCrewPosition: function() {
             axios.get('/crew/crew-positions')
                 .then(response => {
                     if (response.data.includes(this.form.position)) {
-                        this.selected = true
+                        this.selected        = true
+                        this.position_exists = true
                         this.fetchCrewPosition()
-                    } 
+                    }
                     else 
                         this.selected = false
                 })
@@ -167,11 +180,10 @@ export default {
             axios.get('/crew/crew-positions/' + this.position.id)
                 .then(response => {
                     this.form.bio = response.data[0].details
-                    console.log(response.data[0].details)
                 })
         },
     },
-    created() {
+    mounted() {
         this.checkExistingCrewPosition()
     }
 };

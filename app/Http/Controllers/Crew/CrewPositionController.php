@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCrewPositionRequest;
 use App\Models\Position;
 use App\Models\CrewPosition;
+use App\Actions\Crew\UpdateCrewPosition;
 
 class CrewPositionController extends Controller
 {
@@ -31,5 +32,14 @@ class CrewPositionController extends Controller
         $data = $request->validated();
 
         app(StoreCrewPosition::class)->execute($crew, $position, $data);
+    }
+
+    public function update(Position $position, StoreCrewPositionRequest $request)
+    {
+        $crew = auth()->user()->crew;
+
+        $data = $request->validated();
+
+        app(UpdateCrewPosition::class)->execute($crew, $position, $data);
     }
 }
