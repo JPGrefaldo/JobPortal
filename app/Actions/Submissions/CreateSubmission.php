@@ -10,7 +10,8 @@ class CreateSubmission
     public function execute(Crew $crew, ProjectJob $job): ProjectJob
     {
         $job->submissions()->create([
-            'crew_id' => $crew->id
+            'crew_id'     => $crew->id,
+            'project_id'  => $job->project_id
         ]);
 
         return $job;
