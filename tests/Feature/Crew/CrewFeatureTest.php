@@ -85,7 +85,8 @@ class CrewFeatureTest extends TestCase
         $data = $this->getCreateData([
             'photo'                        => UploadedFile::fake()->create('image.php'),
             'resume'                       => UploadedFile::fake()->create('resume.php'),
-            'reel'                         => 'https://some-invalid-reel.com',
+            'reel_file'                    => UploadedFile::fake()->create('video.php'),
+            'reel_link'                    => 'https://some-invalid-reel.com',
             'socials.facebook.url'         => 'https://invalid-facebook.com/invalid',
             'socials.twitter.url'          => 'https://invalid-twitter.com/invalid',
             'socials.youtube.url'          => 'https://invalid-youtube.com/invalid',
@@ -109,7 +110,8 @@ class CrewFeatureTest extends TestCase
         $response->assertSessionHasErrors([
             'photo'                        => 'The photo must be an image.',
             'resume'                       => 'The resume must be a file of type: pdf, doc, docx.',
-            'reel'                         => 'The reel must be a valid Reel.',
+            'reel_link'                    => 'The reel link must be a valid Reel.',
+            'reel_file'                    => 'The reel file must be a file of type: mp4, avi, wmv .',
             'socials.facebook.url'         => 'facebook must be a valid Facebook URL.',
             'socials.twitter.url'          => 'twitter must be a valid Twitter URL.',
             'socials.youtube.url'          => 'youtube must be a valid YouTube URL.',

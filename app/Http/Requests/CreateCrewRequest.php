@@ -37,7 +37,7 @@ class CreateCrewRequest extends FormRequest
             'bio'                          => 'required|nullable|string',
             'photo'                        => 'nullable|image',
             'resume'                       => 'nullable|file|mimes:pdf,doc,docx',
-            'reel'                         => ['nullable', 'string', new Reel()],
+            'reel_link'                    => ['nullable', 'string', new Reel()],
             'reel_file'                    => 'nullable|file|mimes:mp4,avi,wmv | max:20000',
             'socials'                      => 'array', 'socials.facebook.url' => ['nullable', new Facebook],
             'socials.twitter.url'          => ['nullable', new Twitter],
