@@ -75,6 +75,11 @@ class Crew extends Model
         return $this->reels()->where('general', true)->count() > 0;
     }
 
+    public function hasGeneralResume(): bool
+    {
+        return $this->resumes()->whereGeneral(true)->count() > 0;
+    }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

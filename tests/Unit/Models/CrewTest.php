@@ -51,7 +51,7 @@ class CrewTest extends TestCase
     public function positions()
     {
         factory(Position::class, 10)->create();
-        $first = rand(1, 10);
+        $first  = rand(1, 10);
         $second = rand(1, 10);
 
         factory(CrewPosition::class)->create([
@@ -101,6 +101,25 @@ class CrewTest extends TestCase
 
     /**
      * @test
+     * @covers \App\Models\Crew::hasGeneralReel
+     */
+    public function hasGeneralResume()
+    {
+        // given
+        $this->assertFalse($this->crew->hasGeneralResume());
+
+        // when
+        factory(CrewResume::class)->create([
+            'crew_id' => $this->crew->id,
+            'general' => true,
+        ]);
+
+        // then
+        $this->assertTrue($this->crew->hasGeneralResume());
+    }
+
+    /**
+     * @test
      * @covers \App\Models\Crew::resumes
      */
     public function resumes()
@@ -145,7 +164,7 @@ class CrewTest extends TestCase
     public function applyFor()
     {
         // given
-        $position = factory(Position::class)->create();
+        $position     = factory(Position::class)->create();
         $crewPosition = factory(CrewPosition::class)->make()->toArray();
 
         // when
@@ -210,7 +229,7 @@ class CrewTest extends TestCase
      */
     public function get_photo_url_attribute()
     {
-        $crew = factory(Crew::class)->create();
+        $crew  = factory(Crew::class)->create();
         $photo = UploadedFile::fake()
             ->image('photo.png');
 
@@ -225,7 +244,6 @@ class CrewTest extends TestCase
             $crew->hash_id . '/' .
             'photos' . '/' .
             $photo->hashName(),
-
             $crew->photo_url
         );
     }
