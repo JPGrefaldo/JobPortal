@@ -14,7 +14,7 @@ class IMDBTest extends TestCase
     public function valid()
     {
         $result = $this->app['validator']->make(
-            ['imdb' => 'http://www.imdb.com/name/nm0000134/'],
+            ['imdb' => 'https://www.imdb.com/name/nm0000134/'],
             [
                 'imdb' => [
                     'required',
