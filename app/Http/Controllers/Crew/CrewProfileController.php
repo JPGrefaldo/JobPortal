@@ -54,6 +54,7 @@ class CrewProfileController extends Controller
             'user'            => $user,
             'socialLinkTypes' => $this->getAllSocialLinkTypes($user),
             'departments'     => $this->getDepartments(),
+            'positions'       => $this->getCrewPositions($user),
         ]);
     }
 

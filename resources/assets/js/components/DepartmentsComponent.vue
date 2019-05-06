@@ -12,6 +12,7 @@ export default {
     components: { WorkPositionComponent },
     props: {
         departments: Array,
+        positions  : Array,
     },
 };
 </script>

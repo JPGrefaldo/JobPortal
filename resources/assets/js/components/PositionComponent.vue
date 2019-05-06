@@ -104,8 +104,8 @@
                 </div>
             </div>
             <div class="pt-8 pb-4 text-right border-t-2 border-grey-lighter">
-                <a href="#" class="text-grey bold mr-4 hover:text-green">Cancel</a>
-                <a href="#" class="btn-green" @click="onClickSave">SAVE CHANGES</a>
+                <button class="text-grey bold mr-4 hover:text-green" @click="selected = false">Cancel</button>
+                <button class="btn-green" @click="onClickSave">SAVE CHANGES</button>
             </div>
         </div>
     </div>
@@ -138,7 +138,13 @@ export default {
         },
 
         saveCrewPosition: function() {
-            this.form.post('/crew/positions/' + this.position.id);
+            this.form.post('/crew/positions/' + this.position.id, {
+                'bio'              : this.form.bio,
+                'union_description': this.form.union_description,
+                'reel_link'        : this.form.reel_link,
+                'gear'             : this.form.gear,
+                'position'         : this.form.position
+            });
         },
     },
 };
