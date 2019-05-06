@@ -7,6 +7,7 @@ use App\Actions\Crew\StoreCrewPhoto;
 use App\Actions\Crew\UpdateCrew;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateCrewRequest;
+use App\Http\Requests\CreatePhotoRequest;
 use App\Models\User;
 use App\Services\DepartmentsServices;
 use App\Services\SocialLinksServices;
@@ -110,10 +111,10 @@ class CrewProfileController extends Controller
      * @param  CreateCrewRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function photoStore(CreatePhotoRequest $request, User $user)
+    public function photoStore(CreatePhotoRequest $request)
     {
         $data = $request->validated();
-
+        $user = Auth::user()->crew;
         app(StoreCrewPhoto::class)->execute($user, $data);
     }
 

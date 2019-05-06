@@ -19,12 +19,13 @@ import { setOptions } from 'vue-filepond'
 
 setOptions({
     server: {
-        url: 'http://localhost:8000',
         process: {
             url: '/crew/photos',
             method: 'POST',
             withCredentials: false,
-            headers: {},
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            },
             onload: null,
             onerror: null,
             ondata: null
