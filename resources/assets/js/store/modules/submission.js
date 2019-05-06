@@ -38,6 +38,6 @@ export const actions = {
     },
 
     approve(context, id) {
-        axios.post(`/api/approve/submissions/${id}`)
+        axios.post(`/api/producer/projects/approve/submissions/${id}`)
     }
 }
