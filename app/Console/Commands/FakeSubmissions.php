@@ -46,8 +46,8 @@ class FakeSubmissions extends Command
      */
     public function handle()
     {
-        $options = $this->options();
-        $users   = $options['users'];
+        $options    = $this->options();
+        $userCount  = $options['users'];
 
         $producer = factory(User::class)->create();
         $producer->assignRole(Role::PRODUCER);
@@ -57,15 +57,15 @@ class FakeSubmissions extends Command
         ]);
 
         if ($options['new']) {
-            $this->info('Creating submissions with '.$users.' new users with crew role');
-            $users = $this->createUsers($users);
+            $this->info('Creating submissions with '.$userCount.' new users with crew role');
+            $users = $this->createUsers($userCount);
         } else {
             $this->info('Creating submissions from existing users with crew role');
-            $users = $this->getExistingUsers();
+            $users = $this->getExistingCrews();
 
-            if (! isset($crews) || count($crews) === 0) {
+            if (! isset($users) || count($users) === 0) {
                 $this->info('No existing users found with crew role, creating submissions with 10 new users with crew role instead');
-                $users = $this->createUsers($users);
+                $users = $this->createUsers($userCount);
             }
         }
 
@@ -74,11 +74,6 @@ class FakeSubmissions extends Command
                      : $this->createProjectJob($project);
 
         $users->map(function ($user) use ($options, $project, $projectJobs) {
-            if ($options['new']) {
-                $user->assignRole(Role::CREW);
-                app(StubCrew::class)->execute($user);
-            }
-
             $projectJobs->map(function($job) use($user, $project){
                 $this->createSubmission($user, $project, $job);
             });
@@ -87,12 +82,19 @@ class FakeSubmissions extends Command
         $this->info('Done creating submissions');
     }
 
-    private function createUsers($users)
+    private function createUsers($userCount)
     {
-        return factory(User::class, (int)$users)->create();
+        $users = factory(User::class, (int)$userCount)->create();
+
+        $users->map(function ($user) {
+            $user->assignRole(Role::CREW);
+            app(StubCrew::class)->execute($user);
+        });
+
+        return $users;
     }
 
-    private function getExistingUsers()
+    private function getExistingCrews()
     {
         return User::role(Role::CREW)->get();
     }
