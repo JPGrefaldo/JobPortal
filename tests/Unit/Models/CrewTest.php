@@ -101,21 +101,22 @@ class CrewTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Models\Crew::hasGeneralReel
-     */
-    public function hasGeneralResume()
+     * @covers \App\Models\Crew::getGeneralReelLink
+    */
+    public function getGeneralReelLink()
     {
-        // given
-        $this->assertFalse($this->crew->hasGeneralResume());
+        //given
+        $this->assertNull($this->crew->getGeneralReelLink());
 
         // when
-        factory(CrewResume::class)->create([
+        factory(CrewReel::class)->create([
             'crew_id' => $this->crew->id,
+            'path'    => 'https://www.youtube.com/embed/WI5AF1DCQlc',
             'general' => true,
         ]);
 
-        // then
-        $this->assertTrue($this->crew->hasGeneralResume());
+        //then
+        $this->assertEquals('https://www.youtube.com/embed/WI5AF1DCQlc', $this->crew->getGeneralReelLink());
     }
 
     /**

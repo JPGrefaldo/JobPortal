@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Position;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 
@@ -17,7 +18,7 @@ class StoreCrewPositionFeatureTest extends TestCase
      */
     public function store()
     {
-        $this->withoutExceptionHandling();
+        //$this->withoutExceptionHandling();
 
         // given
         $user = $this->createCrew();
@@ -27,14 +28,14 @@ class StoreCrewPositionFeatureTest extends TestCase
             'position_id'       => $position->id,
             'bio'               => 'This is the bio',
             'gear'              => 'This is the gear',
-            'reel_link'         => 'This is the reel link',
+            'reel_link'         => 'http://www.youtube.com/embed/G8S81CEBdNs',
+            'resume'            => UploadedFile::fake()->create('test.pdf'),
             'union_description' => '',
         ];
 
         // when
         $response = $this->actingAs($user)
             ->postJson(route('crew-position.store', $position->id), $data);
-
 
         // then
         $response->assertSuccessful();

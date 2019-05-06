@@ -40,8 +40,10 @@ Route::prefix('crew/profile')->group(function () {
     Route::put('edit', [\App\Http\Controllers\Crew\CrewProfileController::class, 'update']);
 });
 
-Route::post('/crew/positions/{position}', [\App\Http\Controllers\Crew\CrewPositionController::class, 'applyFor'])->name('crew-position.store');
-Route::put('/crew/positions/{position}', [\App\Http\Controllers\Crew\CrewPositionController::class, 'update'])->name('crew-position.update');
+Route::post('/crew/positions/{position}', [\App\Http\Controllers\Crew\CrewPositionController::class, 'applyFor'])
+    ->name('crew-position.store');
+Route::put('/crew/positions/{position}', [\App\Http\Controllers\Crew\CrewPositionController::class, 'update'])
+    ->name('crew-position.update');
 
 Route::get('/crew/crew-positions', [\App\Http\Controllers\Crew\CrewPositionController::class, 'checkCrewPositions']);
 Route::get('/crew/crew-positions/{position}', [\App\Http\Controllers\Crew\CrewPositionController::class, 'fetchCrewPosition']);

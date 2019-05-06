@@ -81,6 +81,20 @@ class Crew extends Model
     }
 
     /**
+     * @return string
+     */
+    public function getGeneralReelLink()
+    {
+        $reelPath = optional($this->reels()->whereGeneral(true)->first())->path;
+
+        if (\Str::contains($reelPath, $this->user->hash_id)) {
+            return null;
+        }
+
+        return $reelPath;
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function resumes()
