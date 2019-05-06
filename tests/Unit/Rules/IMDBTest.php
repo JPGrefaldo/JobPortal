@@ -50,4 +50,28 @@ class IMDBTest extends TestCase
             $result->errors()->first()
         );
     }
+
+    /**
+     * @test
+     * @covers \App\Rules\IMDB::passes
+     */
+    public function must_be_https()
+    {
+        $result = $this->app['validator']->make(
+            ['imdb' => 'http://www.imdb.com/name/nm0000134/'],
+            [
+                'imdb' => [
+                    'required',
+                    'string',
+                    new IMDB(),
+                ],
+            ]
+        );
+
+        $this->assertFalse($result->passes());
+        $this->assertEquals(
+            'imdb must be a valid IMDB URL.',
+            $result->errors()->first()
+        );
+    }
 }
