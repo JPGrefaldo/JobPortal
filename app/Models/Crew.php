@@ -18,13 +18,12 @@ class Crew extends Model
      * @var array
      */
     protected $casts = [
-        'id'      => 'integer',
-        'user_id' => 'integer',
-        'bio'     => 'string',
-        'photo'   => 'string',
+        'id'                => 'integer',
+        'user_id'           => 'integer',
+        'bio'               => 'string',
+        'photo'             => 'string',
+        'submission_count'  => 'integer'
     ];
-
-    protected $appends = ['submission_count'];
 
     /**
      * Users many to many relationship
@@ -164,12 +163,6 @@ class Crew extends Model
     public function submissions()
     {
         return $this->hasMany(Submission::class);
-    }
-
-
-    public function getSubmissionCountAttribute($value)
-    {
-        return $value;
     }
 
     /**
