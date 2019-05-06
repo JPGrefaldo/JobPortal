@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Crew;
 
 use App\Actions\Crew\StoreCrew;
+use App\Actions\Crew\StoreCrewPhoto;
 use App\Actions\Crew\UpdateCrew;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateCrewRequest;
@@ -101,6 +102,19 @@ class CrewProfileController extends Controller
         app(StoreCrew::class)->execute($user, $data);
 
         return back()->with('infoMessage', 'Created');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  CreateCrewRequest $request
+     * @return \Illuminate\Http\Response
+     */
+    public function photoStore(CreatePhotoRequest $request, User $user)
+    {
+        $data = $request->validated();
+
+        app(StoreCrewPhoto::class)->execute($user, $data);
     }
 
     /**

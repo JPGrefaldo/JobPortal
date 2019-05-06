@@ -40,4 +40,6 @@ Route::prefix('crew/profile')->group(function () {
     Route::put('edit', [\App\Http\Controllers\Crew\CrewProfileController::class, 'update']);
 });
 
+Route::post('/crew/photos', [\App\Http\Controllers\Crew\CrewProfileController::class, 'photoStore']);
+
 Route::post('/crew/positions/{position}', [\App\Http\Controllers\Crew\CrewPositionController::class, 'applyFor'])->name('crew-position.store');
