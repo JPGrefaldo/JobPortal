@@ -110,7 +110,7 @@ class CrewFeatureTest extends TestCase
         $response->assertSessionHasErrors([
             'photo'                        => 'The photo must be an image.',
             'resume'                       => 'The resume must be a file of type: pdf, doc, docx.',
-            'reel_link'                    => 'The reel link must be a valid Reel.',
+            'reel_link'                    => 'The reel must be a valid Reel.',
             'reel_file'                    => 'The reel file must be a file of type: mp4, avi, wmv .',
             'socials.facebook.url'         => 'facebook must be a valid Facebook URL.',
             'socials.twitter.url'          => 'twitter must be a valid Twitter URL.',
