@@ -2,7 +2,6 @@
     <div>  
         <file-pond class="w-2/5" name="photo" ref="photo" label-idle="Drop files here or <span class='filepond--label-action'>Browse</span>"
             allow-multiple="true" accepted-file-types="image/jpeg, image/png" v-bind:files="myFiles"/>
-        <button @click="createPhoto" class="btn-blue">UPDATE PHOTO</button>
     </div>
 </template>
 
