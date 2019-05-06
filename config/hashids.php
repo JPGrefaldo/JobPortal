@@ -40,8 +40,9 @@ return [
     'connections' => [
 
         'main' => [
-            'salt' => 'your-salt-string',
-            'length' => '5',
+            'salt' => '^Cr3wCa11s',
+            'length' => '8',
+            'alphabet' => 'abcdefghijklmnopqrstuvwxyz1234567890',
         ],
 
         'alternative' => [

@@ -28,7 +28,7 @@ class CreateSubmissionsTable extends Migration
 
             $table->foreign('crew_id')
                 ->references('id')
-                ->on('users')
+                ->on('crews')
                 ->onDelete('cascade');
 
             $table->foreign('project_job_id')
