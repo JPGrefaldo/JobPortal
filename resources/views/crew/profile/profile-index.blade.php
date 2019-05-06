@@ -136,19 +136,19 @@
                                 </div>
                             </div>
                             <div class="border-t-2 border-grey-lighter mt-4 pt-6 pb-4">
-                            <div class="md:flex">
-                                <div class="md:w-1/4 md:pr-8 mb-2 md:mb-0">
-                                    <h3 class="text-md text-grey font-header">Gear</h3>
-                                </div>
-                                <div class="md:w-3/4">
-                                    <div class="bg-grey-lighter p-6 rounded">
-                                        {{--@foreach( $crewPosition->crew->gears->where('crew_position_id',$crewPosition->position_id) as $gear )--}}
-                                            {{--<p>{{ $gear->description }}</p>--}}
-                                        {{--@endforeach--}}
+                                <div class="md:flex">
+                                    <div class="md:w-1/4 md:pr-8 mb-2 md:mb-0">
+                                        <h3 class="text-md text-grey font-header">Gear</h3>
+                                    </div>
+                                    <div class="md:w-3/4">
+                                        <div class="bg-grey-lighter p-6 rounded">
+                                            {{--@foreach( $crewPosition->crew->gears->where('crew_position_id',$crewPosition->position_id) as $gear )--}}
+                                                {{--<p>{{ $gear->description }}</p>--}}
+                                            {{--@endforeach--}}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
                         </div>
                     @endif
                 @endforeach

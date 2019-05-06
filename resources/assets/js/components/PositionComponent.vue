@@ -180,9 +180,17 @@ export default {
         fetchCrewPosition: function() {
             axios.get('/crew/crew-positions/' + this.position.id)
                 .then(response => {
-                    this.form.bio               = response.data[0].details
-                    this.form.union_description = response.data[0].union_description
-                    // console.log(response.date[0].reel_link)
+                    this.form.bio               = response.data.crewPosition.details
+                    this.form.union_description = response.data.crewPosition.union_description
+
+                    if (response.data.reel != null) {
+                        this.form.reel_link = response.data.reel.path
+                    }
+
+                    if (response.data.gear != null) {
+                        this.has_gear = true
+                        this.form.gear = response.data.gear.description
+                    }
                 })
         },
     },

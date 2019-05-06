@@ -18,11 +18,17 @@ class CrewPositionController extends Controller
         );
     }
 
-    public function fetchCrewPosition($id)
+    public function fetchCrewPosition(Position $position)
     {
-        return response()->json(
-            CrewPosition::where('position_id', $id)->get()
-        );
+        $crew = auth()->user()->crew;
+
+        $crewPosition = CrewPosition::byCrewAndPosition($crew, $position)->first();
+
+        return response()->json([
+            'crewPosition' => $crewPosition,
+            'gear'         => $crew->gears()->where('crew_position_id', $crewPosition->id)->first(),
+            'reel'         => $crew->reels()->where('crew_position_id', $crewPosition->id)->first(),
+        ]);
     }
 
     public function applyFor(Position $position, StoreCrewPositionRequest $request)
