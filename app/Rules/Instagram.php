@@ -26,7 +26,7 @@ class Instagram implements Rule
      */
     public function passes($attribute, $value)
     {
-        return (substr($value, 0, 26) === 'https://www.instagram.com/');
+        return (bool) preg_match('/^(?:https:\/\/)?www.instagram.com\/[\w]+(\/)?$/', $value);
     }
 
     /**

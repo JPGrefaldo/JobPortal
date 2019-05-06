@@ -201,10 +201,6 @@ class CrewUpdateFeatureTest extends TestCase
                     'url' => 'https://www.youtube.com/channel/UCHBOnWRvXSZ2xzBXyoDnCJw',
                     'id'  => SocialLinkTypeID::YOUTUBE,
                 ],
-                'google_plus'      => [
-                    'url' => 'https://plus.google.com/+marvel',
-                    'id'  => SocialLinkTypeID::GOOGLE_PLUS,
-                ],
                 'imdb'             => [
                     'url' => 'http://www.imdb.com/name/nm0000134/',
                     'id'  => SocialLinkTypeID::IMDB,
@@ -270,10 +266,6 @@ class CrewUpdateFeatureTest extends TestCase
                 'youtube'          => [
                     'url' => 'https://www.youtube.com/channel/UCHBOnWRvXSZ2xzBXyoDnCJwNEW',
                     'id'  => SocialLinkTypeID::YOUTUBE,
-                ],
-                'google_plus'      => [
-                    'url' => 'https://plus.google.com/+marvel-new',
-                    'id'  => SocialLinkTypeID::GOOGLE_PLUS,
                 ],
                 'imdb'             => [
                     'url' => 'http://www.imdb.com/name/nm0000134/-updated',
