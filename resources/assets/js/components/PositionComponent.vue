@@ -144,8 +144,35 @@ export default {
                 'reel_link'        : this.form.reel_link,
                 'gear'             : this.form.gear,
                 'position'         : this.form.position
+            }).then(response => {
+                
+            }).catch(error => {
+                
             });
         },
+
+        checkExistingCrewPosition: function() {
+            axios.get('/crew/crew-positions')
+                .then(response => {
+                    if (response.data.includes(this.form.position)) {
+                        this.selected = true
+                        this.fetchCrewPosition()
+                    } 
+                    else 
+                        this.selected = false
+                })
+        },
+
+        fetchCrewPosition: function() {
+            axios.get('/crew/crew-positions/' + this.position.id)
+                .then(response => {
+                    this.form.bio = response.data[0].details
+                    console.log(response.data[0].details)
+                })
+        },
     },
+    created() {
+        this.checkExistingCrewPosition()
+    }
 };
 </script>

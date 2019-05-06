@@ -34,7 +34,7 @@ class CreateCrewRequest extends FormRequest
     public function rules()
     {
         return [
-            'bio'                          => 'required|nullable|string',
+            'bio'                          => 'nullable|string',
             'photo'                        => 'nullable|image',
             'resume'                       => 'nullable|file|mimes:pdf,doc,docx',
             'reel'                         => ['nullable', 'string', new Reel()],

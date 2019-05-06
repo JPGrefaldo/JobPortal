@@ -41,3 +41,6 @@ Route::prefix('crew/profile')->group(function () {
 });
 
 Route::post('/crew/positions/{position}', [\App\Http\Controllers\Crew\CrewPositionController::class, 'applyFor'])->name('crew-position.store');
+
+Route::get('/crew/crew-positions', [\App\Http\Controllers\Crew\CrewPositionController::class, 'checkCrewPositions']);
+Route::get('/crew/crew-positions/{id}', [\App\Http\Controllers\Crew\CrewPositionController::class, 'fetchCrewPosition']);

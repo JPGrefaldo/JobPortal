@@ -10,7 +10,6 @@ use App\Models\User;
 use App\Services\DepartmentsServices;
 use App\Services\SocialLinksServices;
 use Auth;
-use Illuminate\Http\Request;
 
 class CrewProfileController extends Controller
 {
