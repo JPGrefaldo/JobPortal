@@ -4,19 +4,17 @@ namespace App\Http\Controllers\Crew;
 
 use App\Actions\Crew\StoreCrewPosition;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreCrewPositionRequest;
 use App\Models\Position;
-use Illuminate\Http\Request;
 
 class CrewPositionController extends Controller
 {
-    public function applyFor(Position $position, Request $request)
+    public function applyFor(Position $position, StoreCrewPositionRequest $request)
     {
         $crew = auth()->user()->crew;
-        app(StoreCrewPosition::class)->execute($crew, $position, $request->only([
-            'bio',
-            'union_description',
-            'gear',
-            'reel_link',
-        ]));
+
+        $data = $request->validated();
+
+        app(StoreCrewPosition::class)->execute($crew, $position, $data);
     }
 }

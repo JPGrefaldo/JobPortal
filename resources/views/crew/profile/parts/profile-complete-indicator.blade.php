@@ -18,7 +18,7 @@
     @endif
     
 
-    @if (! isset($user->crew->resume))
+    @if (! $user->crew->hasGeneralResume())
         <li>GENERAL WORK RESUME</li>
      @else
         <li class="is-checked">GENERAL WORK RESUME</li>
