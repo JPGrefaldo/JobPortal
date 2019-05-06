@@ -15,7 +15,8 @@ class SubmissionsController extends Controller
                             ->with(['crew' => function($q){
                                 $q->with('user');
                             }])
-                            ->get();
+                            ->get()
+                            ->sortByDesc('approve_at');
         
         return view('projects.submissions', compact('project', 'job', 'submissions'));
     }
