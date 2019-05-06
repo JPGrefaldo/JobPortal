@@ -229,6 +229,7 @@
         methods: {
             approve: function(id) {
                 this.$store.dispatch('submission/approve', id)
+                    .then(() => location.reload())
             }
         }
     }
