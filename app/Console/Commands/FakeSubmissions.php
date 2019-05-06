@@ -18,8 +18,8 @@ class FakeSubmissions extends Command
      * @var string
      */
     protected $signature = 'fake:submissions
-                                            {--new=false : Create submission with new users}
-                                            {--users=10  : Users count to be created}';
+                                            {--new    : Create submission with new users}
+                                            {--users=10 : Users count to be created}';
 
     /**
      * The console command description.
@@ -48,7 +48,7 @@ class FakeSubmissions extends Command
         $options = $this->options();
         $users   = $options['users'];
 
-        if ($options['new'] == 'true') {
+        if ($options['new']) {
             $this->info('Creating submissions from '.$users.' new users with crew role');
             $crews = $this->createUsers($users);
         } else {
@@ -72,16 +72,16 @@ class FakeSubmissions extends Command
             'project_id' => $project->id,
         ]);
 
-        $crews->map(function ($crew) use ($options, $projectJob) {
-            if ($options['new'] == 'true') {
+        $crews->map(function ($crew) use ($options, $project, $projectJob) {
+            if ($options['new']) {
                 $crew->assignRole(Role::CREW);
                 app(StubCrew::class)->execute($crew);
             }
 
             factory(Submission::class)->create(
                 [
-                    'crew_id'           => $crew->id,
-                    'project_job_id'    => $projectJob->id,
+                    'crew_id'          => $crew->id,
+                    'project_job_id'   => $projectJob->id,
                 ]
             );
         });
