@@ -79,30 +79,18 @@ class SubmissionFeatureTest extends TestCase
             ]);
         });
 
-        $this->actingAs($producer)
-            ->get(
-                route(
-                    'project.job.submissions.show',
-                    [   
-                        'project' => $project->id,
-                        'job' => 1
-                    ]
-                )
-            )
-            ->assertSuccessful();
+        $projectJobs->map(function($job) use($project) {
+            $submissions = $job->submissions()->get();
 
-        // $projectJobs->map(function($job) use($project) {
-        //     $submissions = $job->submissions()->get();
-
-        //     $submissions->map(function($submission) use($project){
-        //         $this->assertEquals(3, Submission::where(
-        //                 [
-        //                     'crew_id' => $submission->crew->id,
-        //                     'project_id' => $project->id
-        //                 ]
-        //             )->count()
-        //         );
-        //     });
-        // });
+            $submissions->map(function($submission) use($project){
+                $this->assertEquals(3, Submission::where(
+                        [
+                            'crew_id' => $submission->crew->id,
+                            'project_id' => $project->id
+                        ]
+                    )->count()
+                );
+            });
+        });
     }
 }
