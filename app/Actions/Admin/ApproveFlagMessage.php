@@ -14,6 +14,7 @@ class ApproveFlagMessage
     {
         $pendingFlagMessage->update([
             'approved_at' => Carbon::now(),
+            'status'      => PendingFlagMessage::APPROVED,
         ]);
 
         $pendingFlagMessage->message->flagged_at = Carbon::now();

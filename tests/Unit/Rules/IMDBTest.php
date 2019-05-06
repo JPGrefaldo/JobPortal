@@ -14,7 +14,7 @@ class IMDBTest extends TestCase
     public function valid()
     {
         $result = $this->app['validator']->make(
-            ['imdb' => 'http://www.imdb.com/name/nm0000134/'],
+            ['imdb' => 'https://www.imdb.com/name/nm0000134/'],
             [
                 'imdb' => [
                     'required',
@@ -35,6 +35,30 @@ class IMDBTest extends TestCase
     {
         $result = $this->app['validator']->make(
             ['imdb' => 'https://invalid-imdb.com/something'],
+            [
+                'imdb' => [
+                    'required',
+                    'string',
+                    new IMDB(),
+                ],
+            ]
+        );
+
+        $this->assertFalse($result->passes());
+        $this->assertEquals(
+            'imdb must be a valid IMDB URL.',
+            $result->errors()->first()
+        );
+    }
+
+    /**
+     * @test
+     * @covers \App\Rules\IMDB::passes
+     */
+    public function must_be_https()
+    {
+        $result = $this->app['validator']->make(
+            ['imdb' => 'http://www.imdb.com/name/nm0000134/'],
             [
                 'imdb' => [
                     'required',

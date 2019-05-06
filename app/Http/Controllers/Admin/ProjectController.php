@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Http\Resources\ThreadResource;
 
 class ProjectController extends Controller
 {
