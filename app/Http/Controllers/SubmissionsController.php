@@ -6,6 +6,7 @@ use App\Models\Project;
 use App\Models\ProjectJob;
 use Illuminate\Http\Request;
 use App\Models\Submission;
+use App\Actions\Submissions\AddSubmissionsCounter;
 
 class SubmissionsController extends Controller
 {
@@ -18,17 +19,8 @@ class SubmissionsController extends Controller
                             }])
                             ->get();
 
-        $submissions->map(function($submission) use($project){
-            $submission_count = Submission::where(
-                [
-                    'crew_id'    => $submission->crew_id,
-                    'project_id' => $project->id
-                ]
-            )->count();
+        $submissions = app(AddSubmissionsCounter::class)->execute($project, $submissions);
 
-            $submission->crew->submission_count = $submission_count;
-        });
-        
         return view('projects.submissions', compact('project', 'job', 'submissions'));
     }
 }
