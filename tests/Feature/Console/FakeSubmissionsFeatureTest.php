@@ -16,7 +16,8 @@ class FakeSubmissionsFeatureTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
 
-    private const CMD = 'fake:submissions';
+    private const CMD     = 'fake:submissions';
+    private const CMD_NEW = 'fake:submissions --new';
 
     /**
      * @test
@@ -24,8 +25,8 @@ class FakeSubmissionsFeatureTest extends TestCase
      */
     public function can_create_submissions_with_new_users_using_default_count()
     {
-        $command = $this->artisan(self::CMD, ['--new' => true]);
-        $command->expectsOutput('Creating submissions from 10 new users with crew role')
+        $command = $this->artisan(self::CMD_NEW);
+        $command->expectsOutput('Creating submissions with 10 new users with crew role')
             ->expectsOutput('Done creating submissions')
             ->run();
 
@@ -38,8 +39,8 @@ class FakeSubmissionsFeatureTest extends TestCase
      */
     public function can_create_submissions_with_new_users_using_custom_count()
     {
-        $command = $this->artisan(self::CMD, ['--new' => true, '--users' => 5]);
-        $command->expectsOutput('Creating submissions from 5 new users with crew role')
+        $command = $this->artisan(self::CMD_NEW.' --users=5');
+        $command->expectsOutput('Creating submissions with 5 new users with crew role')
             ->expectsOutput('Done creating submissions')
             ->run();
 
@@ -70,11 +71,11 @@ class FakeSubmissionsFeatureTest extends TestCase
      * @test
      * @covers \App\Console\Commands\FakeSubmissions::handle
      */
-    public function should_create_submissions_from_new_users_when_no_existing_crew_users()
+    public function should_create_submissions_with_new_users_when_no_existing_crew_users()
     {
         $command = $this->artisan(self::CMD);
         $command->expectsOutput('Creating submissions from existing users with crew role')
-            ->expectsOutput('No existing users found with crew role, creating submissions from default 10 new users with crew role instead')
+            ->expectsOutput('No existing users found with crew role, creating submissions with 10 new users with crew role instead')
             ->expectsOutput('Done creating submissions')
             ->run();
 
@@ -90,8 +91,8 @@ class FakeSubmissionsFeatureTest extends TestCase
         $users = User::all();
         $this->assertCount(0, $users);
 
-        $command = $this->artisan(self::CMD, ['--new' => true]);
-        $command->expectsOutput('Creating submissions from 10 new users with crew role')
+        $command = $this->artisan(self::CMD_NEW);
+        $command->expectsOutput('Creating submissions with 10 new users with crew role')
             ->expectsOutput('Done creating submissions')
             ->run();
 
@@ -99,7 +100,7 @@ class FakeSubmissionsFeatureTest extends TestCase
 
         $this->assertNotEmpty($user->toArray());
         $this->assertCount(11, User::all());
-        $this->assertEquals(11, $user->id);
+        $this->assertEquals(1, $user->id);
     }
 
     /**
@@ -108,8 +109,8 @@ class FakeSubmissionsFeatureTest extends TestCase
      */
     public function should_create_a_project_in_the_process()
     {
-        $command = $this->artisan(self::CMD, ['--new' => true]);
-        $command->expectsOutput('Creating submissions from 10 new users with crew role')
+        $command = $this->artisan(self::CMD_NEW);
+        $command->expectsOutput('Creating submissions with 10 new users with crew role')
             ->expectsOutput('Done creating submissions')
             ->run();
 
@@ -125,8 +126,8 @@ class FakeSubmissionsFeatureTest extends TestCase
      */
     public function should_create_a_project_job_in_the_process()
     {
-        $command = $this->artisan(self::CMD, ['--new' => true]);
-        $command->expectsOutput('Creating submissions from 10 new users with crew role')
+        $command = $this->artisan(self::CMD_NEW);
+        $command->expectsOutput('Creating submissions with 10 new users with crew role')
             ->expectsOutput('Done creating submissions')
             ->run();
 
@@ -144,7 +145,7 @@ class FakeSubmissionsFeatureTest extends TestCase
     {
         $command = $this->artisan(self::CMD);
         $command->expectsOutput('Creating submissions from existing users with crew role')
-            ->expectsOutput('No existing users found with crew role, creating submissions from default 10 new users with crew role instead')
+            ->expectsOutput('No existing users found with crew role, creating submissions with 10 new users with crew role instead')
             ->expectsOutput('Done creating submissions')
             ->run();
 

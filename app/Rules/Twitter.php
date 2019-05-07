@@ -24,7 +24,7 @@ class Twitter implements Rule
      */
     public function passes($attribute, $value)
     {
-        return (substr($value, 0, 20) === 'https://twitter.com/');
+        return (bool) preg_match('/^(https:\/\/)?(www\.)?twitter.com\/[\w]+(\/)?$/', $value);
     }
 
     /**

@@ -17,7 +17,8 @@ class StoreCrewReel
      */
     public function execute(Crew $crew, array $data): void
     {
-        if (! isset($data['reel']) || empty($data['reel'])) {
+        if (! (isset($data['reel_link']) || isset($data['reel_file']))
+            || (empty($data['reel_link']) && empty($data['reel_file']))) {
             return;
         }
 
@@ -28,13 +29,13 @@ class StoreCrewReel
         }
 
         if ($this->isUploadedFile($data)) {
-            $reelPath = $data['reel']->store(
+            $reelPath = $data['reel_file']->store(
                 $crew->user->hash_id . '/reels',
                 's3',
                 'public'
             );
         } else {
-            $reelPath = app(CleanVideoLink::class)->execute($data['reel']);
+            $reelPath = app(CleanVideoLink::class)->execute($data['reel_link']);
         }
 
         $reel = [
@@ -63,6 +64,6 @@ class StoreCrewReel
      */
     public function isUploadedFile(array $data): bool
     {
-        return $data['reel'] instanceof UploadedFile;
+        return ($data['reel_file'] ?? false) instanceof UploadedFile;
     }
 }

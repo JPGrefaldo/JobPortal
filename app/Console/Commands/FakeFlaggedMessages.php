@@ -39,7 +39,7 @@ class FakeFlaggedMessages extends Command
     public function handle()
     {
         $this->info('Seeding PendingFlaggedMessagesSeeder');
-        Artisan::call('test_user admin@admin.com admin');
+        Artisan::call('test_user admin@admin.com --admin');
         Artisan::call('db:seed', ['--class' => 'PendingFlaggedMessagesSeeder']);
         $this->info('PendingFlaggedMessagesSeeder Seeded');
     }

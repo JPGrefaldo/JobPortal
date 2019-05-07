@@ -18,5 +18,5 @@ const modules = requireContext
     }, {});
 
 export default new Vuex.Store({
-    modules,
+    modules
 });
