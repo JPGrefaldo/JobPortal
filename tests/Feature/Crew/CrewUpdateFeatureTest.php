@@ -129,7 +129,7 @@ class CrewUpdateFeatureTest extends TestCase
         $data = $this->getUpdateData([
             'photo'                        => UploadedFile::fake()->create('image.php'),
             'resume'                       => UploadedFile::fake()->create('resume.php'),
-            'reel'                         => 'https://some-invalid-reel.com',
+            'reel_link'                    => 'https://some-invalid-reel.com',
             'socials.facebook.url'         => 'https://invalid-facebook.com/invalid',
             'socials.twitter.url'          => 'https://invalid-twitter.com/invalid',
             'socials.youtube.url'          => 'https://invalid-youtube.com/invalid',
@@ -144,10 +144,12 @@ class CrewUpdateFeatureTest extends TestCase
         $response = $this->actingAs($this->user)
             ->put(route('crew.profile.create', $this->user->crew), $data);
 
+
+
         $response->assertSessionHasErrors([
             'photo'                        => 'The photo must be an image.',
             'resume'                       => 'The resume must be a file of type: pdf, doc, docx.',
-            'reel'                         => 'The reel must be a valid Reel.',
+            'reel_link'                    => 'The reel must be a valid Reel.',
             'socials.facebook.url'         => 'facebook must be a valid Facebook URL.',
             'socials.twitter.url'          => 'twitter must be a valid Twitter URL.',
             'socials.youtube.url'          => 'youtube must be a valid YouTube URL.',
@@ -200,10 +202,6 @@ class CrewUpdateFeatureTest extends TestCase
                 'youtube'          => [
                     'url' => 'https://www.youtube.com/channel/UCHBOnWRvXSZ2xzBXyoDnCJw',
                     'id'  => SocialLinkTypeID::YOUTUBE,
-                ],
-                'google_plus'      => [
-                    'url' => 'https://plus.google.com/+marvel',
-                    'id'  => SocialLinkTypeID::GOOGLE_PLUS,
                 ],
                 'imdb'             => [
                     'url' => 'http://www.imdb.com/name/nm0000134/',
@@ -270,10 +268,6 @@ class CrewUpdateFeatureTest extends TestCase
                 'youtube'          => [
                     'url' => 'https://www.youtube.com/channel/UCHBOnWRvXSZ2xzBXyoDnCJwNEW',
                     'id'  => SocialLinkTypeID::YOUTUBE,
-                ],
-                'google_plus'      => [
-                    'url' => 'https://plus.google.com/+marvel-new',
-                    'id'  => SocialLinkTypeID::GOOGLE_PLUS,
                 ],
                 'imdb'             => [
                     'url' => 'http://www.imdb.com/name/nm0000134/-updated',

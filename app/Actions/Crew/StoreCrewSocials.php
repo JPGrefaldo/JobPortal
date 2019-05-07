@@ -18,7 +18,7 @@ class StoreCrewSocials
             return;
         }
 
-        foreach ($data['socials'] as $key => $value) {
+        foreach ($data['socials'] as $value) {
             $crew->socials()->where('social_link_type_id', $value['id'])->delete();
 
             if (! empty($value['url'])) {

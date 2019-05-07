@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Actions\Submissions\CreateSubmission;
 use App\Http\Controllers\Controller;
 use App\Models\ProjectJob;
+use App\Models\Submission;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Actions\Submissions\CreateSubmission;
 
 class SubmissionsController extends Controller
 {
@@ -34,6 +36,19 @@ class SubmissionsController extends Controller
                 'submissions'   => $job->submissions
             ],
             Response::HTTP_CREATED
+        );
+    }
+
+    public function approve(Submission $submission)
+    {
+        $submission->approve_at = Carbon::now();
+        $submission->save();
+
+        return response()->json(
+            [
+                'message'    => 'Submission is successfully approved',
+                'submission' => $submission
+            ]
         );
     }
 }

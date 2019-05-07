@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class PendingFlagMessage extends Model
 {
+    const UNAPPROVED = 0;
+    const APPROVED   = 1;
+
     /**
      * The protected attributes
      *
@@ -28,5 +31,32 @@ class PendingFlagMessage extends Model
     public function message()
     {
         return $this->belongsTo(Message::class);
+    }
+
+    /**
+     * @return bool
+     */
+    public function approve()
+    {
+        return $this->update(
+            [
+                'approved_at' => Carbon::now(),
+                'status'      => static::APPROVED,
+            ]
+        );
+    }
+
+    /**
+     * @return bool
+     */
+    public function disapprove()
+    {
+        return $this->update(
+            [
+                'approved_at'   => null,
+                'disapproved_at' => Carbon::now(),
+                'status'        => static::UNAPPROVED
+            ]
+        );
     }
 }

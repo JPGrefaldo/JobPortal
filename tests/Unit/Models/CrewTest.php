@@ -51,7 +51,7 @@ class CrewTest extends TestCase
     public function positions()
     {
         factory(Position::class, 10)->create();
-        $first = rand(1, 10);
+        $first  = rand(1, 10);
         $second = rand(1, 10);
 
         factory(CrewPosition::class)->create([
@@ -101,6 +101,26 @@ class CrewTest extends TestCase
 
     /**
      * @test
+     * @covers \App\Models\Crew::getGeneralReelLink
+    */
+    public function getGeneralReelLink()
+    {
+        //given
+        $this->assertNull($this->crew->getGeneralReelLink());
+
+        // when
+        factory(CrewReel::class)->create([
+            'crew_id' => $this->crew->id,
+            'path'    => 'https://www.youtube.com/embed/WI5AF1DCQlc',
+            'general' => true,
+        ]);
+
+        //then
+        $this->assertEquals('https://www.youtube.com/embed/WI5AF1DCQlc', $this->crew->getGeneralReelLink());
+    }
+
+    /**
+     * @test
      * @covers \App\Models\Crew::resumes
      */
     public function resumes()
@@ -145,7 +165,7 @@ class CrewTest extends TestCase
     public function applyFor()
     {
         // given
-        $position = factory(Position::class)->create();
+        $position     = factory(Position::class)->create();
         $crewPosition = factory(CrewPosition::class)->make()->toArray();
 
         // when
@@ -210,7 +230,7 @@ class CrewTest extends TestCase
      */
     public function get_photo_url_attribute()
     {
-        $crew = factory(Crew::class)->create();
+        $crew  = factory(Crew::class)->create();
         $photo = UploadedFile::fake()
             ->image('photo.png');
 
@@ -225,7 +245,6 @@ class CrewTest extends TestCase
             $crew->hash_id . '/' .
             'photos' . '/' .
             $photo->hashName(),
-
             $crew->photo_url
         );
     }
