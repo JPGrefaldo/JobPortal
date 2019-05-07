@@ -137,9 +137,17 @@ class CrewProfileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit()
     {
-        //
+        $user = Auth::user()->load([
+            'crew',
+        ]);
+
+        return view('crew.profile.profile-create', [
+            'user'            => $user,
+            'socialLinkTypes' => $this->getAllSocialLinkTypes($user),
+            'departments'     => $this->getDepartments(),
+        ]);
     }
 
     /**

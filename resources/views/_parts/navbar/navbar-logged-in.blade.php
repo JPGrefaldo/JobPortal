@@ -73,9 +73,9 @@
                                     profile</a>
                             </li>
                         @endif
-                        @if(! Route::is('crew.profile.create'))
+                        @if(! Route::is('crew.profile.edit'))
                             <li class="py-2 px-4">
-                                <a href="{{ route('crew.profile.create') }}" class="block text-blue-dark hover:text-green">Edit
+                                <a href="{{ route('crew.profile.edit') }}" class="block text-blue-dark hover:text-green">Edit
                                     profile</a>
                             </li>
                         @endif
@@ -122,9 +122,9 @@
                     <a href="{{ route('crew.profile') }}" class="block text-white">View profile</a>
                 </li>
             @endif
-            @if(! Route::is('crew.profile.create'))
+            @if(! Route::is('crew.profile.edit'))
                 <li class="py-1 px-4">
-                    <a href="{{ route('crew.profile.create') }}" class="block text-white">Edit profile</a>
+                    <a href="{{ route('crew.profile.edit') }}" class="block text-white">Edit profile</a>
                 </li>
             @endif
             <li class="py-1 px-4">

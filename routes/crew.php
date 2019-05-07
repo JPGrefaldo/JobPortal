@@ -33,15 +33,15 @@ Route::post('/crew/messages', [\App\Http\Controllers\Crew\MessageController::cla
 Route::prefix('crew/profile')->group(function () {
     Route::get('/', [\App\Http\Controllers\Crew\CrewProfileController::class, 'index'])
         ->name('crew.profile');
+    Route::get('edit', [\App\Http\Controllers\Crew\CrewProfileController::class, 'edit'])
+    ->name('crew.profile.edit');
 
-    Route::get('edit', [\App\Http\Controllers\Crew\CrewProfileController::class, 'create'])
+    Route::get('create', [\App\Http\Controllers\Crew\CrewProfileController::class, 'create'])
         ->name('crew.profile.create');
     Route::post('edit', [\App\Http\Controllers\Crew\CrewProfileController::class, 'store']);
     Route::put('edit', [\App\Http\Controllers\Crew\CrewProfileController::class, 'update']);
 });
 
-
 Route::get('/crew/{position}/data', [\App\Http\Controllers\Crew\CrewPositionController::class, 'getPositionData']);
-Route::post('/crew/positions/{position}', [\App\Http\Controllers\Crew\CrewPositionController::class, 'applyFor'])
-    ->name('crew-position.store');
+Route::post('/crew/positions/{position}', [\App\Http\Controllers\Crew\CrewPositionController::class, 'applyFor'])->name('crew-position.store');
 Route::get('/crew/{position}/remove/resume', [\App\Http\Controllers\Crew\CrewPositionController::class, 'removeResume']);
