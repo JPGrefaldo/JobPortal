@@ -162,7 +162,8 @@ export default {
             return false;
         },
         selectFile: function(e){
-          this.form[e.target.name] = e.target.files[0]
+            this.form[e.target.name] = e.target.files[0]
+            e.target.value = ''
         },
         onClickSave: function() {
             this.saveCrewPosition();
@@ -209,6 +210,8 @@ export default {
                         this.getPositionData();
                     }
             })
+
+            this.form.resume = null
         }
     },
     mounted(){

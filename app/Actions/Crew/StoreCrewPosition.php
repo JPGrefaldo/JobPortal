@@ -15,10 +15,10 @@ class StoreCrewPosition
      */
     public function execute(Crew $crew, Position $position, array $data): void
     {
-        $crew->positions()->attach($position, [
+        $crew->positions()->syncWithoutDetaching(array($position->id => [
             'details'           => $data['bio'],
             'union_description' => $data['union_description'],
-        ]);
+        ]));
 
         $crewPosition = CrewPosition::byCrewAndPosition($crew, $position)->first();
 
