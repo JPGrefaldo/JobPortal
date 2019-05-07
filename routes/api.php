@@ -51,11 +51,6 @@ Route::middleware('auth:api')->group(function () {
         'store',
     ])->middleware('role:Producer|Crew')->name('messages.store');
 
-    Route::get('/producer/projects/{project}/threads', [
-        \App\Http\Controllers\Producer\ThreadsController::class,
-        'index',
-    ])->name('producer.threads.index');
-
     Route::post('/threads/{thread}/participants', [
         \App\Http\Controllers\API\ParticipantsController::class,
         'search',
@@ -77,11 +72,17 @@ Route::middleware('auth:api')->group(function () {
                 \App\Http\Controllers\API\Producer\ProjectsController::class,
                 'store',
             ])->name('producer.project.store');
+            
 
             Route::put('/{project}', [
                 \App\Http\Controllers\API\Producer\ProjectsController::class,
                 'update',
             ])->name('producer.projects.update');
+
+            Route::get('/{project}/threads', [
+                \App\Http\Controllers\Producer\ThreadsController::class,
+                'index',
+            ])->name('producer.threads.index');
 
             Route::get('/approved', [
                 \App\Http\Controllers\API\Producer\ProjectsController::class,
@@ -124,6 +125,23 @@ Route::middleware('auth:api')->group(function () {
                 \App\Http\Controllers\API\SubmissionsController::class,
                 'approve'
             ])->name('producer.projects.approve.submissions');
+        });
+
+        Route::prefix('messages')->group(function() {
+            Route::prefix('macros')->group(function() {
+                Route::get('/',[
+                    \App\Http\Controllers\API\Producer\MessageMacrosController::class,
+                    'index'
+                ])->name('producer.message.macros');
+            });
+
+            Route::prefix('macros')->group(function() {
+                Route::post('/',[
+                    \App\Http\Controllers\API\Producer\MessageMacrosController::class,
+                    'store'
+                ])->name('producer.message.macros');
+            });
+            
         });
     });
 
