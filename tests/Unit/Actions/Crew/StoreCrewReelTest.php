@@ -58,12 +58,12 @@ class StoreCrewReelTest extends TestCase
     public function blank_reel_can_be_updated_to_reel_file()
     {
         $data = $this->getUpdateCrewData([
-            'reel' => UploadedFile::fake()->create('new-reel.mp4'),
+            'reel_file' => UploadedFile::fake()->create('new-reel.mp4'),
         ]);
 
         app(StoreCrewReel::class)->execute($this->models['crew'], $data);
 
-        $expectedPath = $this->models['crew']->user->hash_id . '/reels/'. $data['reel']->hashName();
+        $expectedPath = $this->models['crew']->user->hash_id . '/reels/'. $data['reel_file']->hashName();
 
         Storage::disk('s3')->assertExists($expectedPath);
 
@@ -100,12 +100,12 @@ class StoreCrewReelTest extends TestCase
     public function reel_link_can_be_updated_to_reel_file()
     {
         $data = $this->getUpdateCrewData([
-            'reel' => UploadedFile::fake()->create('new-reel.mp4'),
+            'reel_file' => UploadedFile::fake()->create('new-reel.mp4'),
         ]);
 
         app(StoreCrewReel::class)->execute($this->models['crew'], $data);
 
-        $expectedPath = $this->models['crew']->user->hash_id . '/reels/'. $data['reel']->hashName();
+        $expectedPath = $this->models['crew']->user->hash_id . '/reels/'. $data['reel_file']->hashName();
 
         Storage::disk('s3')->assertExists($expectedPath);
 
@@ -162,14 +162,14 @@ class StoreCrewReelTest extends TestCase
         ]);
 
         $data = $this->getUpdateCrewData([
-            'reel' => UploadedFile::fake()->create('new-reel.mp4'),
+            'reel_file' => UploadedFile::fake()->create('new-reel.mp4'),
         ]);
 
         app(StoreCrewReel::class)->execute($this->models['crew'], $data);
 
         Storage::disk('s3')->assertMissing($reelPath);
 
-        $expectedPath = $this->models['crew']->user->hash_id . '/reels/'. $data['reel']->hashName();
+        $expectedPath = $this->models['crew']->user->hash_id . '/reels/'. $data['reel_file']->hashName();
 
         Storage::disk('s3')->assertExists($expectedPath);
 
@@ -189,7 +189,7 @@ class StoreCrewReelTest extends TestCase
     {
         // given
         $data = [
-            'reel' => 'https://www.youtube.com/watch?v=2-_rLbU6zJo',
+            'reel_link' => 'https://www.youtube.com/watch?v=2-_rLbU6zJo',
         ];
 
         // when
@@ -212,7 +212,7 @@ class StoreCrewReelTest extends TestCase
     {
         // given
         $data = [
-            'reel' => 'https://vimeo.com/230046783',
+            'reel_link' => 'https://vimeo.com/230046783',
         ];
 
         // when
@@ -237,14 +237,14 @@ class StoreCrewReelTest extends TestCase
         Storage::fake('s3');
 
         $data = [
-            'reel' => UploadedFile::fake()->create('reel.mp4'),
+            'reel_file' => UploadedFile::fake()->create('reel.mp4'),
         ];
 
         // when
         app(StoreCrewReel::class)->execute($this->models['crew'], $data);
 
         // then
-        $expectedPath = $this->models['crew']->user->hash_id . '/reels/'. $data['reel']->hashName();
+        $expectedPath = $this->models['crew']->user->hash_id . '/reels/'. $data['reel_file']->hashName();
 
         Storage::disk('s3')->assertExists($expectedPath);
 

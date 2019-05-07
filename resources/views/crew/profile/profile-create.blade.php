@@ -74,10 +74,18 @@
                                     <h3 class="text-md font-header mt-2 mb-2 md:mb-0">General reel</h3>
                                 </div>
                                 <div class="md:w-2/3">
+                                    <label for="reel_file" class="btn-outline text-green inline-block" >Upload file</label>
+
+                                    <input id="reel_file"
+                                           type="file"
+                                           name="reel_file"
+                                           class="hidden">
+                                    or
                                     <input type="text"
                                            name="reel_link"
-                                           class="form-control bg-light w-full mr-2 mb-2 md:mb-0"
-                                           placeholder="Add link">
+                                           class="form-control bg-light md:w-2/3 mr-2 mb-2 md:mb-0"
+                                           placeholder="Add link"
+                                           value="{{ old('reel_link', (isset($user->crew) ? $user->crew->getGeneralReelLink() : '')) }}">
                                 </div>
                             </div>
                         </div>

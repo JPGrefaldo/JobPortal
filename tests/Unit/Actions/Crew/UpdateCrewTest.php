@@ -124,7 +124,7 @@ class UpdateCrewTest extends TestCase
     {
         // given
         $data = $this->getUpdateCrewData([
-            'reel'                => 'https://www.youtube.com/watch?v=2-_rLbU6zJo',
+            'reel_link'           => 'https://www.youtube.com/watch?v=2-_rLbU6zJo',
             'socials'             => [
                 'youtube' => [
                     'url' => 'https://www.youtube.com/watch?v=G8S81CEBdNs',
