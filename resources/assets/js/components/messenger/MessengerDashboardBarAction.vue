@@ -25,12 +25,12 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { color } from '../../mixins';
+import { alert, color } from '../../mixins';
 
 export default {
     props: ['roles', 'user'],
 
-    mixins: [color],
+    mixins: [alert, color],
 
     data() {
         return {
@@ -61,12 +61,35 @@ export default {
         },
 
         sendMessage() {
+            this.showSaveAsMacro(this.message)
+
             let params = {
                 message: this.message,
                 thread: this.thread.id,
             };
             this.$store.dispatch('message/send', params);
         },
+
+        showSaveAsMacro(message) {
+            this.$swal({
+                title: 'Do you want to save this message?',
+                text: "You can use it later when you send another message",
+                type: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, save it!',
+            })
+            .then(res => {
+                if (res.value) {
+                    this.$store
+                        .dispatch('message/save', {message})
+                        .then(response => {
+                            this.displaySuccess(response)
+                        })
+                }
+            });
+        }
     },
 };
 </script>

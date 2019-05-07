@@ -28,4 +28,8 @@ export const actions = {
             //TODO: Update the message list
         });
     },
+
+    save(context, message) {
+        return axios.post('/api/producer/messages/macros', message)
+    }
 };
