@@ -14,6 +14,13 @@ class CrewResume extends Model
     protected $guarded = ['id'];
 
     /**
+     * The fillable attributes
+     *
+     * @var array
+     */
+    protected $fillable = ['crew_id', 'crew_position_id', 'path', 'general'];
+
+    /**
      * @var array
      */
     protected $casts = [

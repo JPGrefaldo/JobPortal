@@ -38,7 +38,7 @@ class StoreCrewResume
         if (isset($data['crew_position_id'])) {
             $data['path'] = $resumePath;
 
-            $resume       = [
+            $resume = [
                 array('crew_position_id' => $data['crew_position_id']),
                 $data,
             ];

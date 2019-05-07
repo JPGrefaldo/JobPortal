@@ -17,7 +17,8 @@ class CreateCrewResumesTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('crew_id');
             $table->string('path');
-            $table->boolean('general');
+            $table->boolean('general')
+                ->default(false);
             $table->unsignedInteger('crew_position_id')
                 ->nullable()
                 ->default(null);
