@@ -8,7 +8,6 @@ use App\Http\Requests\StoreCrewPositionRequest;
 use App\Models\Position;
 use App\Models\CrewPosition;
 use App\Actions\Crew\UpdateCrewPosition;
-use Illuminate\Http\Request;
 
 class CrewPositionController extends Controller
 {
