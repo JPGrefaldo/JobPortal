@@ -41,7 +41,7 @@ class CrewPositionController extends Controller
         app(StoreCrewPosition::class)->execute($crew, $position, $data);
     }
 
-    public function update(Position $position, Request $request)
+    public function update(Position $position, StoreCrewPositionRequest $request)
     {
         $crew = auth()->user()->crew;
 
