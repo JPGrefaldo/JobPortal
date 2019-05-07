@@ -46,7 +46,7 @@ class ApproveProjectFeatureTest extends TestCase
         $user = $this->createAdmin();
 
         $response = $this->actingAs($user, 'api')
-            ->get(route('admin.projects.unapproved'))
+            ->get(route('admin.pending-projects'))
             ->assertSee('Succesfully fetched all projects.')
             ->assertSuccessful();
 

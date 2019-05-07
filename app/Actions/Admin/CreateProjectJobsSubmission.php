@@ -15,7 +15,8 @@ class CreateProjectJobsSubmission
     {
         return Submission::create([
             'project_job_id' => $request->project_job_id,
-            'crew_id'        => $request->crew_id
+            'crew_id'        => $request->crew_id,
+            'project_id'     => $request->project_id,
         ]);
     }
 }

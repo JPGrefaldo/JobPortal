@@ -116,6 +116,11 @@ Route::middleware('auth:api')->group(function () {
                 ])->name('producer.project.jobs.destroy');
             });
 
+            Route::post('approve/submissions/{submission}', [
+                \App\Http\Controllers\API\SubmissionsController::class,
+                'approve'
+            ])->name('producer.projects.approve.submissions');
+
             Route::get('/pending', [
                 \App\Http\Controllers\API\Producer\ProjectsController::class,
                 'pending',
