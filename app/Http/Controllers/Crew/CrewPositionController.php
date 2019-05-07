@@ -44,6 +44,17 @@ class CrewPositionController extends Controller
     {
         $crew = auth()->user()->crew;
 
+        // $exploded = explode(',', $request->resume);
+        // $decoded = base64_decode($exploded[1]);
+        // $extension = $exploded[0];
+        // $fileName = str_random() . '.' . $extension;
+        // $path = public_path() . '/' / $fileName;
+        // file_put_contents($path, $decoded);
+
+        // $request['resume'] = $fileName;
+
+        \Log::info($request->all());
+
         $data = $request->validated();
 
         app(UpdateCrewPosition::class)->execute($crew, $position, $data);

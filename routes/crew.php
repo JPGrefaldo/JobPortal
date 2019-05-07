@@ -47,3 +47,4 @@ Route::put('/crew/positions/{position}', [\App\Http\Controllers\Crew\CrewPositio
 
 Route::get('/crew/crew-positions', [\App\Http\Controllers\Crew\CrewPositionController::class, 'checkCrewPositions']);
 Route::get('/crew/crew-positions/{position}', [\App\Http\Controllers\Crew\CrewPositionController::class, 'fetchCrewPosition']);
+ 

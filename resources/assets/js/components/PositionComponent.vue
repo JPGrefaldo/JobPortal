@@ -35,9 +35,10 @@
                             <h3 class="text-md font-header mb-2 md:mb-0">Resume</h3>
                         </div>
                         <div class="md:w-2/3">
-                            <label for="resume" class="btn-outline text-green inline-block"
-                                >Upload file</label>
-                            <input type="file" name="resume" class="hidden" />
+                            <button for="resume" class="btn-outline text-green inline-block" @click="uploadResume">
+                                Upload file
+                            </button>
+                            <input id="crewResume" class="hidden" type="file" name="resume" ref="file" enctype="multipart/form-data" @change="onResumeChange" />
                         </div>
                     </div>
                 </div>
@@ -54,10 +55,10 @@
                                 v-model="form.reel_link"
                             />
                             or
-                            <label for="resume" class="btn-outline text-green inline-block"
+                            <label for="reel" class="btn-outline text-green inline-block"
                                 >Upload file</label
                             >
-                            <input type="file" name="resume" class="hidden" />
+                            <input id="reel" type="file" name="reel" class="hidden" />
                         </div>
                     </div>
                 </div>
@@ -131,36 +132,49 @@ export default {
                 reel_link        : '',
                 gear             : '',
                 position         : this.position.id,
+                resume           : '',
             }),
         };
     },
     methods: {
         onClickSave: function() {
             this.saveCrewPosition();
-            console.log(this.form.reel_link)
+        },
+
+        uploadResume: function() {
+            document.getElementById("crewResume").click()
+        },
+
+        onResumeChange(e) {
+            var fileReader = new FileReader()
+            var file = e.target.files[0]
+
+            fileReader.readAsDataURL(e.target.files[0])
+
+            fileReader.onload = (e) => {
+                this.form.resume = e.target.result
+            }
         },
 
         saveCrewPosition: function() {
             if (this.position_exists === false) {
-                this.form.post('/crew/positions/' + this.position.id, {
+                axios.post('/crew/positions/' + this.position.id, {
                     'bio'              : this.form.bio,
                     'union_description': this.form.union_description,
                     'reel_link'        : this.form.reel_link,
                     'gear'             : this.form.gear,
-                    'position'         : this.form.position
+                    'position'         : this.form.position,
+                    'resume'           : this.form.resume,
                 })
-
-                console.log('position create')
             } else {
-                this.form.put('/crew/positions/' + this.position.id, {
+                axios.put('/crew/positions/' + this.position.id, {
                     'bio'              : this.form.bio,
                     'union_description': this.form.union_description,
                     'reel_link'        : this.form.reel_link,
                     'gear'             : this.form.gear,
-                    'position'         : this.form.position
+                    'position'         : this.form.position,
+                    'resume'           : this.form.resume,
                 })
-
-                console.log('position update')
             }
         },
 
