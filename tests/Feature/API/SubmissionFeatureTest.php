@@ -34,6 +34,7 @@ class SubmissionFeatureTest extends TestCase
         
         factory(Submission::class)->create([
             'crew_id'         => $crew->id,
+            'project_id'      => $project->id,
             'project_job_id'  => $projectJob->id,
         ]);
 
@@ -57,13 +58,20 @@ class SubmissionFeatureTest extends TestCase
      */
     public function can_create_submissions()
     {
-        $crew       = $this->createCrew();
-        $projectJob = $this->createProjectAndJob();
+        $crew     = $this->createCrew();
+        $producer = $this->createProducer();
 
-        $crew = $this->createCrew();
+        $project  = factory(Project::class)->create([
+            'user_id' => $producer->id,
+        ]);
+
+        $projectJob = factory(ProjectJob::class)->create([
+            'project_id' => $project->id,
+        ]);
         
         $data = [
             'crew_id'         => $crew->id,
+            'project_id'      => $project->id,
             'project_job_id'  => $projectJob->id,
         ];
 

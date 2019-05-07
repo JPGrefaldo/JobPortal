@@ -12,7 +12,6 @@ use Arr;
 use Illuminate\Http\UploadedFile;
 use Storage;
 use Tests\Support\Data\SocialLinkTypeID;
-use function Tests\Unit\array_recursive_combine;
 
 trait CreatesCrewModel
 {
@@ -120,11 +119,11 @@ trait CreatesCrewModel
     public function getUpdateCrewData($customData = [])
     {
         $data = [
-            'bio'     => 'updated bio',
-            'photo'   => UploadedFile::fake()->image('new-photo.png'),
-            'resume'  => UploadedFile::fake()->create('new-resume.pdf'),
-            'reel'    => 'https://www.youtube.com/embed/WI5AF1DCQlc',
-            'socials' => [
+            'bio'          => 'updated bio',
+            'photo'        => UploadedFile::fake()->image('new-photo.png'),
+            'resume'       => UploadedFile::fake()->create('new-resume.pdf'),
+            'reel_link'    => 'https://www.youtube.com/embed/WI5AF1DCQlc',
+            'socials'      => [
                 'facebook'         => [
                     'url' => 'https://www.facebook.com/new-castingcallsamerica/',
                     'id'  => SocialLinkTypeID::FACEBOOK,
