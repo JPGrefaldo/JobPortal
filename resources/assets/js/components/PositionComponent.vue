@@ -35,10 +35,10 @@
                             <h3 class="text-md font-header mb-2 md:mb-0">Resume</h3>
                         </div>
                         <div class="md:w-2/3">
-                            <button for="resume" class="btn-outline text-green inline-block" @click="uploadResume">
+                            <button for="resume" class="btn-outline text-green inline-block" @click="uploadResume()">
                                 Upload file
                             </button>
-                            <input id="crewResume" class="hidden" type="file" name="resume" ref="file" enctype="multipart/form-data" @change="onResumeChange" />
+                            <input id="crewResume" class="hidden" type="file" name="resume" ref="resume" @change="onResumeChange" />
                         </div>
                     </div>
                 </div>
@@ -126,13 +126,13 @@ export default {
             position_exists: false,
             has_gear       : false,
             selected       : false,
+            fileResume     : null,
             form: new Form({
                 bio              : '',
                 union_description: '',
                 reel_link        : '',
                 gear             : '',
                 position         : this.position.id,
-                resume           : '',
             }),
         };
     },
@@ -146,17 +146,21 @@ export default {
         },
 
         onResumeChange(e) {
-            var fileReader = new FileReader()
+            // this.fileResume = this.$refs.resume.files[0]
+
+            var reader = new FileReader()
             var file = e.target.files[0]
 
-            fileReader.readAsDataURL(e.target.files[0])
+            reader.readAsDataURL(file)
 
-            fileReader.onload = (e) => {
-                this.form.resume = e.target.result
+            reader.onload = (e) => {
+                this.fileResume = e.target.result
             }
         },
 
         saveCrewPosition: function() {
+            console.log(this.fileResume)
+
             if (this.position_exists === false) {
                 axios.post('/crew/positions/' + this.position.id, {
                     'bio'              : this.form.bio,
@@ -164,7 +168,14 @@ export default {
                     'reel_link'        : this.form.reel_link,
                     'gear'             : this.form.gear,
                     'position'         : this.form.position,
-                    'resume'           : this.form.resume,
+                    'resume'           : this.fileResume
+                }, {
+                    headers: {
+                        'Content-Type': [
+                            'application/json',
+                            'multipart/form-data'
+                        ],
+                    }
                 })
             } else {
                 axios.put('/crew/positions/' + this.position.id, {
@@ -173,7 +184,14 @@ export default {
                     'reel_link'        : this.form.reel_link,
                     'gear'             : this.form.gear,
                     'position'         : this.form.position,
-                    'resume'           : this.form.resume,
+                    'resume'           : this.fileResume
+                }, {
+                    headers: {
+                        'Content-Type': [
+                            'application/json',
+                            'multipart/form-data'
+                        ],
+                    }
                 })
             }
         },

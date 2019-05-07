@@ -8,6 +8,7 @@ use App\Http\Requests\StoreCrewPositionRequest;
 use App\Models\Position;
 use App\Models\CrewPosition;
 use App\Actions\Crew\UpdateCrewPosition;
+use Illuminate\Http\Request;
 
 class CrewPositionController extends Controller
 {
@@ -40,22 +41,28 @@ class CrewPositionController extends Controller
         app(StoreCrewPosition::class)->execute($crew, $position, $data);
     }
 
-    public function update(Position $position, StoreCrewPositionRequest $request)
+    public function update(Position $position, Request $request)
     {
         $crew = auth()->user()->crew;
 
-        // $exploded = explode(',', $request->resume);
-        // $decoded = base64_decode($exploded[1]);
-        // $extension = $exploded[0];
-        // $fileName = str_random() . '.' . $extension;
-        // $path = public_path() . '/' / $fileName;
-        // file_put_contents($path, $decoded);
+        $exploded = explode(',', $request->resume);
+        $decoded  = base64_decode($exploded[1]);
 
-        // $request['resume'] = $fileName;
+        if (str_contains($exploded[0], 'pdf')) {
+            $extension = 'pdf';
+        } elseif (str_contains($exploded[0], 'doc')) {
+            $extension = 'doc';
+        } elseif (str_contains($exploded[0], 'docx')) {
+            $extension = 'docx';
+        }
 
-        \Log::info($request->all());
+        $fileName = str_random() . '.' . $extension;
+        $path     = public_path() . '/' . $fileName;
+        file_put_contents($path, $decoded);
 
-        $data = $request->validated();
+        $request->resume = $fileName;
+
+        $data = $request->all();
 
         app(UpdateCrewPosition::class)->execute($crew, $position, $data);
     }
