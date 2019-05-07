@@ -22,7 +22,7 @@ class CrewDepartmentPositionTest extends TestCase
     public function apply_for()
     {
         // given
-        // $this->withoutExceptionHandling();
+        $this->withoutExceptionHandling();
 
         $crew     = $this->createCrew();
         $position = factory(Position::class)->create();
@@ -64,7 +64,7 @@ class CrewDepartmentPositionTest extends TestCase
     */
     public function cannot_apply_without_general_resume()
     {
-        // $this->withoutExceptionHandling();
+        //$this->withoutExceptionHandling();
         $crew     = $this->createCrew();
         $position = factory(Position::class)->create();
 

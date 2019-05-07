@@ -46,8 +46,14 @@ class CrewProfileController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(CreateCrewRequest $request)
     {
+        $data = $request->validated();
+
+        $user = Auth::user();
+
+        app(StoreCrew::class)->execute($user, $data);
+
         $user = Auth::user()->load([
             'crew',
         ]);

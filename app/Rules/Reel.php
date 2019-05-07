@@ -36,6 +36,6 @@ class Reel implements Rule
      */
     public function message()
     {
-        return 'The :attribute must be a valid Reel.';
+        return 'The reel must be a valid Reel.';
     }
 }
