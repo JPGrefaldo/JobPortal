@@ -12,12 +12,14 @@ use Tests\TestCase;
 class SubmissionFeatureTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
+
     /**
      * @test
      * @covers App\Http\Controllers\SubmissionsController::store
      */
     public function show()
     {
+        $crew     = $this->createCrew();
         $producer = $this->createProducer();
 
         $project  = factory(Project::class)->create([
@@ -27,11 +29,10 @@ class SubmissionFeatureTest extends TestCase
         $projectJob = factory(ProjectJob::class)->create([
             'project_id' => $project->id
         ]);
-
-        $crew = $this->createCrew();
         
         factory(Submission::class)->create([
-            'crew_id'        => $crew->id,
+            'crew_id'         => $crew->id,
+            'project_id'      => $project->id,
             'project_job_id'  => $projectJob->id
         ]);
 
@@ -41,12 +42,53 @@ class SubmissionFeatureTest extends TestCase
                     'project.job.submissions.show',
                     [   
                         'project' => $project->id,
-                        'job' => $projectJob->id
+                        'job'     => $projectJob->id
                     ]
                 )
             )
             ->assertSuccessful();
         
         $response->assertSee('Submissions');
+    }
+
+    /**
+     * @test
+     * @covers App\Http\Controllers\SubmissionsController::show
+     */
+    public function should_include_crew_how_many_roles_applied_in_a_project()
+    {
+        $producer = $this->createProducer();
+
+        $project  = factory(Project::class)->create([
+            'user_id' => $producer->id
+        ]);
+
+        $projectJobs = factory(ProjectJob::class, 3)->create([
+            'project_id' => $project->id
+        ]);
+
+        $crew = $this->createCrew();
+
+        $projectJobs->map(function($projectJob) use($crew, $project) {
+            factory(Submission::class)->create([
+                'crew_id'         => $crew->id,
+                'project_id'      => $project->id,
+                'project_job_id'  => $projectJob->id
+            ]);
+        });
+
+        $projectJobs->map(function($job) use($project) {
+            $submissions = $job->submissions()->get();
+
+            $submissions->map(function($submission) use($project){
+                $this->assertEquals(3, Submission::where(
+                        [
+                            'crew_id'    => $submission->crew_id,
+                            'project_id' => $project->id
+                        ]
+                    )->count()
+                );
+            });
+        });
     }
 }
