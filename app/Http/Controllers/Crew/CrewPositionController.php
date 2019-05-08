@@ -45,23 +45,6 @@ class CrewPositionController extends Controller
     {
         $crew = auth()->user()->crew;
 
-        $exploded = explode(',', $request->resume);
-        $decoded  = base64_decode($exploded[1]);
-
-        if (str_contains($exploded[0], 'pdf')) {
-            $extension = 'pdf';
-        } elseif (str_contains($exploded[0], 'doc')) {
-            $extension = 'doc';
-        } elseif (str_contains($exploded[0], 'docx')) {
-            $extension = 'docx';
-        }
-
-        $fileName = str_random() . '.' . $extension;
-        $path     = public_path() . '/' . $fileName; // Not sure where can I put uploaded resume
-        file_put_contents($path, $decoded);
-
-        // $request->resume = base64_decode($request->resume); // base64 to file
-
         $data = $request->all();
 
         app(UpdateCrewPosition::class)->execute($crew, $position, $data);
