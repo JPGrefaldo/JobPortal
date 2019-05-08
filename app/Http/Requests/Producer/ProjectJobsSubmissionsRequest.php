@@ -2,9 +2,8 @@
 
 namespace App\Http\Requests\Producer;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Models\ProjectJob;
-use App\Models\Submission;
+use Illuminate\Foundation\Http\FormRequest;
 
 class ProjectJobsSubmissionsRequest extends FormRequest
 {

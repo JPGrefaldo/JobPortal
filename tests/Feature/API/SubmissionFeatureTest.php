@@ -31,7 +31,7 @@ class SubmissionFeatureTest extends TestCase
         ]);
 
         $crew = $this->createCrew();
-        
+
         factory(Submission::class)->create([
             'crew_id'         => $crew->id,
             'project_id'      => $project->id,
@@ -58,7 +58,7 @@ class SubmissionFeatureTest extends TestCase
      */
     public function can_create_submissions()
     {
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
 
         $crew       = $this->createCrew();
         $projectJob = $this->createProjectAndJob();
@@ -71,7 +71,7 @@ class SubmissionFeatureTest extends TestCase
         $projectJob = factory(ProjectJob::class)->create([
             'project_id' => $project->id,
         ]);
-        
+
         $data = [
             'crew_id'         => $crew->id,
             'project_id'      => $project->id,
@@ -124,21 +124,18 @@ class SubmissionFeatureTest extends TestCase
         $data       = [];
 
         $this->actingAs($user, 'api')
-            ->post(
+            ->postJson(
                 route(
                     'project.job.submissions.create',
                     ['job' => $projectJob->id]
                 ),
-                $data,
-                [
-                    'Accept' => 'application/json',
-                ]
+                $data
             )
             ->assertSee('User does not have the right roles.')
             ->assertForbidden();
     }
 
-    public function createProjectAndJob()
+    protected function createProjectAndJob()
     {
         $producer = $this->createProducer();
 
