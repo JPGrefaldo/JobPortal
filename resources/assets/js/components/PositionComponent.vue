@@ -146,15 +146,15 @@ export default {
         },
 
         onResumeChange(e) {
-            // this.fileResume = this.$refs.resume.files[0]
-
             var reader = new FileReader()
             var file = e.target.files[0]
 
             reader.readAsDataURL(file)
 
             reader.onload = (e) => {
-                this.fileResume = e.target.result
+                var vm = this
+
+                vm.fileResume = e.target.result
             }
         },
 

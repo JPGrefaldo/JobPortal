@@ -8,6 +8,7 @@ use App\Http\Requests\StoreCrewPositionRequest;
 use App\Models\Position;
 use App\Models\CrewPosition;
 use App\Actions\Crew\UpdateCrewPosition;
+use Illuminate\Http\Request;
 
 class CrewPositionController extends Controller
 {
@@ -56,12 +57,12 @@ class CrewPositionController extends Controller
         }
 
         $fileName = str_random() . '.' . $extension;
-        $path     = public_path() . '/' . $fileName;
-        file_put_contents($path, $decoded);
+        $path     = public_path() . '/' . $fileName; // Not sure where can I put uploaded resume
+        $file     = file_put_contents($path, $decoded);
 
-        $request->resume = $fileName;
+        $request->resume = $file; // base64 to file
 
-        $data = $request->all();
+        $data = $request->validated();
 
         app(UpdateCrewPosition::class)->execute($crew, $position, $data);
     }
