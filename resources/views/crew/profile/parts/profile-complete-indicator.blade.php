@@ -24,7 +24,7 @@
         <li class="is-checked">GENERAL WORK RESUME</li>
     @endif
 
-     @if (! isset($user->crew->reel))
+     @if (! $user->crew->hasGeneralReel())
         <li>GENERAL WORK REEL</li>
      @else
         <li class="is-checked">GENERAL WORK REEL</li>

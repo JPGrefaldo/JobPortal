@@ -17,6 +17,7 @@ class SubmissionsController extends Controller
                             ->with(['crew' => function($q){
                                 $q->with('user');
                             }])
+                            ->orderByDesc('approve_at')
                             ->get();
 
         $submissions = app(AddSubmissionsCounter::class)->execute($project, $submissions);

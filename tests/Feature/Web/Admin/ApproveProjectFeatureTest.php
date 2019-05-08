@@ -3,36 +3,15 @@
 namespace Tests\Feature\Admin\Web;
 
 use App\Models\Project;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\Support\SeedDatabaseAfterRefresh;
-use Tests\Support\Data\ProjectTypeID;
-use Tests\TestCase;
 use Carbon\Carbon;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Support\Data\ProjectTypeID;
+use Tests\Support\SeedDatabaseAfterRefresh;
+use Tests\TestCase;
 
 class ApproveProjectFeatureTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
-
-    protected function getApprovedProject()
-    {
-        return [
-            'user_id'                => $this->createProducer(),
-            'production_name_public' => true,
-            'project_type_id'        => ProjectTypeID::TV,
-            'status'                 => Project::APPROVED,
-            'approved_at'            => Carbon::now(),
-        ];
-    }
-
-    protected function getUnapprovedProject()
-    {
-        return [
-            'user_id'                => $this->createProducer(),
-            'production_name_public' => false,
-            'project_type_id'        => ProjectTypeID::MOVIE,
-            'status'                 => Project::PENDING,
-        ];
-    }
 
     /**
      * @test
@@ -46,23 +25,19 @@ class ApproveProjectFeatureTest extends TestCase
         $user = $this->createAdmin();
 
         $response = $this->actingAs($user, 'api')
-            ->get(route('admin.projects.unapproved'))
+            ->get(route('admin.pending-projects'))
             ->assertSee('Succesfully fetched all projects.')
             ->assertSuccessful();
 
         $response->assertJsonFragment(
             [
-                'production_name_public' => false,
-                'project_type_id'        => ProjectTypeID::MOVIE,
-                'status'                 => Project::PENDING,
+                'status' => Project::PENDING,
             ]
         );
+
         $response->assertJsonMissing(
             [
-                'production_name_public' => true,
-                'project_type_id'        => ProjectTypeID::TV,
-                'status'                 => Project::APPROVED,
-                'approved_at'            => Carbon::now(),
+                'status' => Project::APPROVED,
             ]
         );
     }
@@ -115,11 +90,32 @@ class ApproveProjectFeatureTest extends TestCase
         $project = factory(Project::class)->create($this->getUnapprovedProject());
 
         $this->actingAs($this->createAdmin())
-            ->put(route('admin.projects.unapprove', $project->id))
+            ->put(route('admin.projects.unapprove', $project))
             ->assertSee('Project unapproved successfully.')
             ->assertSuccessful();
 
         $this->assertEquals(Project::UNAPPROVED, $project->refresh()->status);
         $this->assertNull($project->refresh()->approved_at);
+    }
+
+    protected function getApprovedProject()
+    {
+        return [
+            'user_id'                => $this->createProducer(),
+            'production_name_public' => true,
+            'project_type_id'        => ProjectTypeID::MOVIE,
+            'status'                 => Project::APPROVED,
+            'approved_at'            => Carbon::now(),
+        ];
+    }
+
+    protected function getUnapprovedProject()
+    {
+        return [
+            'user_id'                => $this->createProducer(),
+            'production_name_public' => false,
+            'project_type_id'        => ProjectTypeID::TV,
+            'status'                 => Project::PENDING,
+        ];
     }
 }
