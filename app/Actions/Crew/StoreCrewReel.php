@@ -38,12 +38,24 @@ class StoreCrewReel
             $reelPath = app(CleanVideoLink::class)->execute($data['reel_link']);
         }
 
-        $crew->reels()->updateOrCreate([
-            'general' => true,
-        ], [
-            'path'    => $reelPath,
-            'general' => true,
-        ]);
+        $reel = [
+            ['general' => true],
+            [
+                'path'    => $reelPath,
+                'general' => true,
+            ]
+        ];
+
+        if (isset($data['crew_position_id'])) {
+            $data['path'] = $reelPath;
+
+            $reel = [
+                array('crew_position_id' => $data['crew_position_id']),
+                $data,
+            ];
+        }
+
+        $crew->reels()->updateOrCreate(...$reel);
     }
 
     /**

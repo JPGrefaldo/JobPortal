@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Crew;
 
-use App\Actions\Crew\StoreCrewPosition;
 use App\Actions\Crew\GetCrewPositionByPosition;
+use App\Actions\Crew\StoreCrewPosition;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCrewPositionRequest;
 use App\Models\Position;
 use App\Rules\Reel;
-use App\Http\Requests\StoreCrewPositionRequest;
+use App\Models\CrewPosition;
 
 class CrewPositionController extends Controller
 {
@@ -19,10 +19,18 @@ class CrewPositionController extends Controller
         $data = $request->validated();
 
         app(StoreCrewPosition::class)->execute($crew, $position, $data);
+
+        return 'success';
     }
 
-    public function fetchPosition(Position $position)
+    public function getPositionData(Position $position)
     {
         return app(GetCrewPositionByPosition::class)->execute(auth()->user(), $position)->load(['reel','gear','resume']);
+        return app(GetCrewPositionByPosition::class)->execute(auth()->user(), $position)->load(['resume','gear']);        
+    }
+
+    public function removeResume(CrewPosition $position)
+    {
+        return $position->resume->delete() ? 'success' : 'failed';
     }
 }

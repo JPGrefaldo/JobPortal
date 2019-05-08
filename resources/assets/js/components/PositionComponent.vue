@@ -1,13 +1,13 @@
 <template>
     <div>
         <div class="py-2">
-            <label class="checkbox-control" @click.stop.prevent="selected">
+            <label class="checkbox-control" @click.stop.prevent="select">
                 <h3 class="text-md" v-text="position.name"></h3>
-                <input type="checkbox"/>
+                <input type="checkbox" v-model="filled"/>
                 <div class="control-indicator"></div>
             </label>
         </div>
-        <div v-if="thisVar">
+        <div v-if="selected">
             <div class="p-2 md:p-4 border-t-2 border-grey-lighter bg-white">
                 <div class="py-2">
                     <div class="mb-2">
@@ -37,10 +37,16 @@
                             <h3 class="text-md font-header mb-2 md:mb-0">Resume</h3>
                         </div>
                         <div class="md:w-2/3">
-                            <label :for="'resume' + position.id" class="btn-outline text-green inline-block"
-                                :class="{ 'input__error': form.errors.has('resume') }"
-                                >Upload file</label>
-                            <input type="file" :id="'resume' + position.id" @change="selectFile" name="resume" class="hidden" />
+                            <label :for="'resume' + position.id" 
+                                class="btn-outline text-white inline-block cursor-pointer bg-green">{{form.resume ? "change" : "upload"}} file</label>
+                            <input type="file" :id="'resume' + position.id" @change="selectFile" name="resume" class="hidden"/> 
+                            <button v-if="form.resume" @click="removeResume(form.id)" class="btn-outline text-green inline-block cursor-pointer">Remove</button>
+                            <div v-if="form.resume" class="w-full pt-2">
+                                <i class="fas fa-file-pdf"></i>
+                                <span>
+                                    <a target="_blank" :href="'/'+form.resume.path">Resume</a>
+                                </span>
+                            </div>
                             <has-error :form="form" field="resume"></has-error>
                         </div>
                     </div>
@@ -135,7 +141,10 @@ export default {
     data() {
         return {
             has_gear: false,
-            thisVar: false,
+            selected: false,
+            filled: false,
+            positionData: {},
+            positionData: [],
             form: new Form({
                 bio: '',
                 union_description: '',
@@ -148,12 +157,13 @@ export default {
         };
     },
     methods: {
-        selected: function(){
-            this.thisVar = ! this.thisVar
+        select: function(){
+            this.selected = ! this.selected
             return false;
         },
         selectFile: function(e){
-          this.form[e.target.name] = e.target.files[0]
+            this.form[e.target.name] = e.target.files[0]
+            e.target.value = ''
         },
         onClickSave: function() {
             this.saveCrewPosition();
@@ -164,8 +174,50 @@ export default {
               transformRequest: [function (data, headers) {
                 return objectToFormData(data)
               }]
+            })
+            .then(({ data }) => {
+                if(data === 'success'){
+                    this.filled = true;
+                    this.getPositionData();
+                }
             });
         },
+        fillData: function(data){
+            
+            this.form = new Form({
+                id: data.id,
+                bio: data.details,
+                union_description: data.union_description || '',
+                resume: data.resume || null,
+                reel: data.reel || false ,
+                gear: (data.gear || []).description || '',
+            });
+        },
+        getPositionData: function(){
+            axios
+                .get(`/crew/${this.position.id}/data`)
+                .then(response => {
+                    this.filled = true
+                    this.fillData(response.data);
+                })
+        },
+        removeResume: function(crewPosition){
+            axios
+                .get(`/crew/${crewPosition}/remove/resume`)
+                .then(({data}) => {
+                    console.log(data);
+                    if(data == 'success'){
+                        this.getPositionData();
+                    }
+            })
+
+            this.form.resume = null
+        }
     },
+    mounted(){
+         this.$nextTick(function () {
+                this.getPositionData();
+            });
+    }
 };
 </script>
