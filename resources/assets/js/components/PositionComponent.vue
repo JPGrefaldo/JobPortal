@@ -146,13 +146,13 @@ export default {
         },
 
         onResumeChange(e) {
-            var reader = new FileReader()
-            var file = e.target.files[0]
+            let reader = new FileReader()
+            let file = e.target.files[0]
 
             reader.readAsDataURL(file)
 
             reader.onload = (e) => {
-                var vm = this
+                let vm = this
 
                 vm.fileResume = e.target.result
             }

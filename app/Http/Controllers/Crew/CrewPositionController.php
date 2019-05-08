@@ -41,7 +41,7 @@ class CrewPositionController extends Controller
         app(StoreCrewPosition::class)->execute($crew, $position, $data);
     }
 
-    public function update(Position $position, StoreCrewPositionRequest $request)
+    public function update(Position $position, Request $request)
     {
         $crew = auth()->user()->crew;
 
@@ -58,11 +58,11 @@ class CrewPositionController extends Controller
 
         $fileName = str_random() . '.' . $extension;
         $path     = public_path() . '/' . $fileName; // Not sure where can I put uploaded resume
-        $file     = file_put_contents($path, $decoded);
+        file_put_contents($path, $decoded);
 
-        $request->resume = $file; // base64 to file
+        // $request->resume = base64_decode($request->resume); // base64 to file
 
-        $data = $request->validated();
+        $data = $request->all();
 
         app(UpdateCrewPosition::class)->execute($crew, $position, $data);
     }
