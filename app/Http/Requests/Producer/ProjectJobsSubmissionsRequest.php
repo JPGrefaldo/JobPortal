@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Producer;
 
-use App\Models\ProjectJob;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ProjectJobsSubmissionsRequest extends FormRequest
@@ -14,10 +13,6 @@ class ProjectJobsSubmissionsRequest extends FormRequest
      */
     public function authorize()
     {
-        if (ProjectJob::find($this->project_job_id) === null) {
-            return false;
-        }
-
         return true;
     }
 
