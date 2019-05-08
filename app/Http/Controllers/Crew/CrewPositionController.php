@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Crew;
 
 use App\Actions\Crew\StoreCrewPosition;
+use App\Actions\Crew\UpdateCrewPosition;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCrewPositionRequest;
+use App\Http\Requests\UpdateCrewPositionRequest;
 use App\Models\Position;
 use App\Models\CrewPosition;
-use App\Actions\Crew\UpdateCrewPosition;
-use Illuminate\Http\Request;
 
 class CrewPositionController extends Controller
 {
@@ -41,11 +41,11 @@ class CrewPositionController extends Controller
         app(StoreCrewPosition::class)->execute($crew, $position, $data);
     }
 
-    public function update(Position $position, Request $request)
+    public function update(Position $position, UpdateCrewPositionRequest $request)
     {
         $crew = auth()->user()->crew;
 
-        $data = $request->all();
+        $data = $request->validated();
 
         app(UpdateCrewPosition::class)->execute($crew, $position, $data);
     }

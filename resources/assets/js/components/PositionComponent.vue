@@ -115,6 +115,9 @@
 
 <script>
 import { Form, HasError, AlertError } from 'vform';
+import objectToFormData from 'object-to-formdata';
+
+window.objectToFormData = objectToFormData
 
 export default {
     name: 'PositionComponent',
@@ -126,11 +129,12 @@ export default {
             position_exists: false,
             has_gear       : false,
             selected       : false,
-            fileResume     : null,
             form: new Form({
                 bio              : '',
                 union_description: '',
+                resume           : null,
                 reel_link        : '',
+                reel_file        : null,
                 gear             : '',
                 position         : this.position.id,
             }),
@@ -145,54 +149,46 @@ export default {
             document.getElementById("crewResume").click()
         },
 
-        onResumeChange(e) {
-            let reader = new FileReader()
-            let file = e.target.files[0]
+        onResumeChange: function(e) {
+            let vm = this
 
-            reader.readAsDataURL(file)
-
-            reader.onload = (e) => {
-                let vm = this
-
-                vm.fileResume = e.target.result
-            }
+            vm.form.resume = e.target.files[0]
+            e.target.value = ''
         },
 
         saveCrewPosition: function() {
-            console.log(this.fileResume)
-
             if (this.position_exists === false) {
-                axios.post('/crew/positions/' + this.position.id, {
-                    'bio'              : this.form.bio,
-                    'union_description': this.form.union_description,
-                    'reel_link'        : this.form.reel_link,
-                    'gear'             : this.form.gear,
-                    'position'         : this.form.position,
-                    'resume'           : this.fileResume
-                }, {
-                    headers: {
-                        'Content-Type': [
-                            'application/json',
-                            'multipart/form-data'
-                        ],
-                    }
+                this.form.submit('post', '/crew/positions/' + this.position.id, {
+                    bio              : this.form.bio,
+                    union_description: this.form.union_description,
+                    resume           : this.form.resume,
+                    reel_link        : this.form.reel_link,
+                    reel_file        : this.form.reel_file,
+                    gear             : this.form.gear,
+                    position         : this.form.position,
                 })
+                .then(({ data }) => {
+                    window.location = '/crew/profile/edit'
+                })
+                .catch(err => {
+                    console.log(this.form)
+                });
             } else {
-                axios.put('/crew/positions/' + this.position.id, {
-                    'bio'              : this.form.bio,
-                    'union_description': this.form.union_description,
-                    'reel_link'        : this.form.reel_link,
-                    'gear'             : this.form.gear,
-                    'position'         : this.form.position,
-                    'resume'           : this.fileResume
-                }, {
-                    headers: {
-                        'Content-Type': [
-                            'application/json',
-                            'multipart/form-data'
-                        ],
-                    }
+                this.form.submit('put', '/crew/positions/' + this.position.id, {
+                    bio              : this.form.bio,
+                    union_description: this.form.union_description,
+                    resume           : this.form.resume,
+                    reel_link        : this.form.reel_link,
+                    reel_file        : this.form.reel_file,
+                    gear             : this.form.gear,
+                    position         : this.form.position,
                 })
+                .then(({ data }) => {
+                    window.location = '/crew/profile/edit'
+                })
+                .catch(err => {
+                    console.log(this.form)
+                });
             }
         },
 

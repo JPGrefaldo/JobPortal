@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use App\Rules\Reel;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreCrewPositionRequest extends FormRequest
+class UpdateCrewPositionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,7 +26,7 @@ class StoreCrewPositionRequest extends FormRequest
     {
         return [
             'bio'               => 'required|string|min:10',
-            'resume'            => 'required|mimes:doc,pdf,docx,zip',
+            'resume'            => 'nullable|mimes:doc,pdf,docx,zip',
             'reel_link'         => [
                 'nullable',
                 'max:50',
