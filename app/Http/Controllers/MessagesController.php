@@ -19,9 +19,9 @@ class MessagesController extends Controller
     {
         $user = auth()->user();
 
-        if (! $thread->hasParticipant($user->id)) {
-            return abort(403);
-        }
+        // if (! $thread->hasParticipant($user->id)) {
+        //     return abort(403);
+        // }
 
         $messages = $thread->messages()->with('user')->where('flagged_at', null)->get();
 

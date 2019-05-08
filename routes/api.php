@@ -132,16 +132,13 @@ Route::middleware('auth:api')->group(function () {
                 Route::get('/',[
                     \App\Http\Controllers\API\Producer\MessageTemplatesController::class,
                     'index'
-                ])->name('producer.message.templates');
-            });
+                ])->name('producer.messages.templates');
 
-            Route::prefix('templates')->group(function() {
                 Route::post('/',[
                     \App\Http\Controllers\API\Producer\MessageTemplatesController::class,
                     'store'
-                ])->name('producer.message.templates');
+                ])->name('producer.messages.templates');
             });
-            
         });
     });
 
