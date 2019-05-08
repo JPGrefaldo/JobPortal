@@ -30,6 +30,6 @@ export const actions = {
     },
 
     save(context, message) {
-        return axios.post('/api/producer/messages/macros', message)
+        return axios.post('/api/producer/messages/templates', message)
     }
 };

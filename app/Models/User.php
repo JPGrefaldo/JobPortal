@@ -118,9 +118,9 @@ class User extends Authenticatable implements JWTSubject
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function messageMacros()
+    public function messageTemplates()
     {
-        return $this->hasMany(MessageMacro::class);
+        return $this->hasMany(MessageTemplate::class);
     }
 
     /**

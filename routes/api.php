@@ -128,18 +128,18 @@ Route::middleware('auth:api')->group(function () {
         });
 
         Route::prefix('messages')->group(function() {
-            Route::prefix('macros')->group(function() {
+            Route::prefix('templates')->group(function() {
                 Route::get('/',[
-                    \App\Http\Controllers\API\Producer\MessageMacrosController::class,
+                    \App\Http\Controllers\API\Producer\MessageTemplatesController::class,
                     'index'
-                ])->name('producer.message.macros');
+                ])->name('producer.message.templates');
             });
 
-            Route::prefix('macros')->group(function() {
+            Route::prefix('templates')->group(function() {
                 Route::post('/',[
-                    \App\Http\Controllers\API\Producer\MessageMacrosController::class,
+                    \App\Http\Controllers\API\Producer\MessageTemplatesController::class,
                     'store'
-                ])->name('producer.message.macros');
+                ])->name('producer.message.templates');
             });
             
         });
