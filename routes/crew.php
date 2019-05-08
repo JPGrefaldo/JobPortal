@@ -42,4 +42,5 @@ Route::prefix('crew/profile')->group(function () {
 
 Route::post('/crew/photos', [\App\Http\Controllers\Crew\CrewProfileController::class, 'photoStore']);
 
+Route::get('/crew/position-data/{position}',[\App\Http\Controllers\Crew\CrewPositionController::class, 'fetchPosition']);
 Route::post('/crew/positions/{position}', [\App\Http\Controllers\Crew\CrewPositionController::class, 'applyFor'])->name('crew-position.store');

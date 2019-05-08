@@ -11,7 +11,7 @@
             v-for="position in department.positions"
             :key="position.id"
         >
-            <cca-position-component :position="position" />
+            <cca-position-component :position="position" :data="fetchData(position)" />
         </div>
     </div>
 </template>
@@ -22,5 +22,12 @@ export default {
     props: {
         department: Object,
     },
+    methods: {
+        fetchData: function(position){
+             axios
+                .get('/crew/position-data/'+position)
+                .then(response => (this.info = response))
+        }
+    }
 };
 </script>

@@ -33,6 +33,7 @@
         "filepond-plugin-image-preview": "^4.0.8",
         "filepond-plugin-image-resize": "^2.0.4",
         "filepond-plugin-image-transform": "^3.2.4",
+        "object-to-formdata": "^1.6.4",
         "slick-carousel": "^1.8.1",
         "tooltipster": "^4.2.6",
         "v-tooltip": "^2.0.0-rc.33",

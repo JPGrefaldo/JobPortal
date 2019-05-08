@@ -27,10 +27,10 @@ class StoreCrewPosition
             'crew_position_id' => $crewPosition->id,
         ]);
 
-        $crew->reels()->create([
-            'crew_id'          => $crew->id,
-            'path'             => $data['reel_link'],
-            'crew_position_id' => $crewPosition->id,
-        ]);
+        $data['crew_position_id'] =  $crewPosition->id;
+
+        app(StoreCrewResume::class)->execute($crew, $data);
+
+        app(StoreCrewReel::class)->execute($crew, $data);
     }
 }

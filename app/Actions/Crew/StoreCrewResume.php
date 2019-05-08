@@ -27,11 +27,23 @@ class StoreCrewResume
             'public'
         );
 
-        $crew->resumes()->updateOrCreate([
-            'general' => true,
-        ], [
-            'path'    => $resumePath,
-            'general' => true,
-        ]);
+        $resume = [
+            ['general' => true],
+            [
+                'path'    => $resumePath,
+                'general' => true,
+            ]
+        ];
+
+        if (isset($data['crew_position_id'])) {
+            $data['path'] = $resumePath;
+
+            $resume       = [
+                array('crew_position_id' => $data['crew_position_id']),
+                $data,
+            ];
+        }
+
+        $crew->resumes()->updateOrCreate(...$resume);
     }
 }
