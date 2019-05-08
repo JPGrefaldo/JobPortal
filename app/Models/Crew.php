@@ -18,10 +18,11 @@ class Crew extends Model
      * @var array
      */
     protected $casts = [
-        'id'      => 'integer',
-        'user_id' => 'integer',
-        'bio'     => 'string',
-        'photo'   => 'string',
+        'id'                => 'integer',
+        'user_id'           => 'integer',
+        'bio'               => 'string',
+        'photo'             => 'string',
+        'submission_count'  => 'integer'
     ];
 
     /**
@@ -173,5 +174,24 @@ class Crew extends Model
     public function projects()
     {
         return $this->belongsToMany(Project::class);
+    }
+
+     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function submissions()
+    {
+        return $this->hasMany(Submission::class);
+    }
+
+    /**
+     * Set the crew submissions count
+     *
+     * @param  integer  $value
+     * @return void
+     */
+    public function setSubmissionCountAttribute($value)
+    {
+        $this->attributes['submission_count'] = $value;
     }
 }
