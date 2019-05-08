@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\API\Admin;
 
-use App\Actions\Admin\CreateProjectJobsSubmission;
+use App\Actions\Admin\StoreProjectJobsSubmission;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Producer\ProjectJobsSubmissionsRequest;
 use App\Models\ProjectJob;
@@ -34,7 +34,7 @@ class ProjectJobsSubmissionsController extends Controller
      */
     public function store(ProjectJobsSubmissionsRequest $request)
     {
-        $data = app(CreateProjectJobsSubmission::class)->execute($request);
+        $data = app(StoreProjectJobsSubmission::class)->execute($request);
 
         return response()->json(
             [

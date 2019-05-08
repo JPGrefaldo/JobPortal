@@ -5,7 +5,7 @@ namespace App\Actions\Admin;
 use App\Http\Requests\Producer\ProjectJobsSubmissionsRequest;
 use App\Models\Submission;
 
-class CreateProjectJobsSubmission
+class StoreProjectJobsSubmission
 {
     /**
      * @param \App\Http\Requests\Producer\ProjectJobsSubmissionsRequest $request
