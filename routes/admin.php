@@ -33,6 +33,8 @@ Route::prefix('/admin/projects')->group(function () {
         ->name('admin.projects.unapprove');
     Route::put('/{project}', [\App\Http\Controllers\Admin\ProjectController::class, 'update'])
         ->name('admin.projects.update');
+    Route::get('/pending', [\App\Http\Controllers\Admin\ProjectController::class, 'unApprovedProjects'])
+        ->name('admin.pending-projects');
 });
 
 Route::get('/admin/flag-messages', [\App\Http\Controllers\PendingFlagMessageController::class, 'index'])

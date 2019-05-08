@@ -5,8 +5,8 @@ namespace Tests\Feature\Admin\Web;
 use App\Models\Project;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\Support\Data\ProjectTypeID;
+use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 
 class ApproveProjectFeatureTest extends TestCase
@@ -25,7 +25,7 @@ class ApproveProjectFeatureTest extends TestCase
         $user = $this->createAdmin();
 
         $response = $this->actingAs($user, 'api')
-            ->get(route('admin.projects.unapproved'))
+            ->get(route('admin.pending-projects'))
             ->assertSee('Succesfully fetched all projects.')
             ->assertSuccessful();
 
@@ -90,14 +90,14 @@ class ApproveProjectFeatureTest extends TestCase
         $project = factory(Project::class)->create($this->getUnapprovedProject());
 
         $this->actingAs($this->createAdmin())
-            ->put(route('admin.projects.unapprove', $project->id))
+            ->put(route('admin.projects.unapprove', $project))
             ->assertSee('Project unapproved successfully.')
             ->assertSuccessful();
 
         $this->assertEquals(Project::UNAPPROVED, $project->refresh()->status);
         $this->assertNull($project->refresh()->approved_at);
     }
-    
+
     protected function getApprovedProject()
     {
         return [
