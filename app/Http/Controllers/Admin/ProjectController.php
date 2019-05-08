@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ProjectResource;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Http\Resources\ThreadResource;
 
 class ProjectController extends Controller
 {
@@ -114,7 +114,7 @@ class ProjectController extends Controller
 
     public function unapprovedProjects()
     {
-        $projects = Project::where('approved_at', null)->get();
+        $projects = ProjectResource::collection(Project::whereStatus(0)->get());
 
         return response()->json(
             [
