@@ -130,6 +130,7 @@ export const actions = {
             reel_file        : data.reel_file,
             gear             : data.gear,
             position         : data.position,
+            method           : 'put'
         })
         .then(response => {
             window.location = '/crew/profile/edit';
@@ -146,6 +147,7 @@ export const actions = {
             reel_file        : data.reel_file,
             gear             : data.gear,
             position         : data.position,
+            method           : 'post'
         })
         .then(response => {
             window.location = '/crew/profile/edit';
