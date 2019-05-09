@@ -62,7 +62,13 @@ Route::middleware('auth:api')->group(function () {
     ])->name('crew.threads.index');
 
     Route::prefix('producer')->middleware('role:Producer')->group(function() {
+
         Route::prefix('projects')->group(function() {
+            Route::get('submissions/{job}', [
+                \App\Http\Controllers\API\Admin\ProjectJobsSubmissionsController::class,
+                'index'
+            ])->middleware('role:Producer')->name('project.job.submissions.index');
+
             Route::get('/', [
                 \App\Http\Controllers\API\Producer\ProjectsController::class,
                 'index',
@@ -88,16 +94,6 @@ Route::middleware('auth:api')->group(function () {
                 \App\Http\Controllers\API\Producer\ProjectsController::class,
                 'approved',
             ])->name('producer.projects.approved');
-
-            Route::get('/pending', [
-                \App\Http\Controllers\API\Producer\ProjectsController::class,
-                'pending',
-            ])->name('producer.projects.pending');
-
-            Route::get('/type', [
-                \App\Http\Controllers\API\Producer\ProjectTypes::class,
-                'index',
-            ])->name('producer.project.type');
 
             Route::prefix('jobs')->group(function() {
                 Route::get('/', [
@@ -142,21 +138,32 @@ Route::middleware('auth:api')->group(function () {
         });
     });
 
-    Route::get('project/job/{job}/submissions', [
-        \App\Http\Controllers\API\SubmissionsController::class,
-        'index',
-    ])->middleware('role:Admin|Producer')->name('project.job.submissions.index');
+            Route::get('/pending', [
+                \App\Http\Controllers\API\Producer\ProjectsController::class,
+                'pending',
+            ])->name('producer.projects.pending');
 
-    Route::post('project/job/{job}/submissions', [
-        \App\Http\Controllers\API\SubmissionsController::class,
-        'store',
-    ])->middleware('role:Crew')->name('project.job.submissions.create');
+            Route::get('/type', [
+                \App\Http\Controllers\API\Producer\ProjectTypes::class,
+                'index',
+            ])->name('producer.project.type');
+        });
+    });
 
     Route::get('/admin/flag-messages', [
         \App\Http\Controllers\Api\Admin\FlagMessagesController::class,
         'index'
     ])->middleware('role:Admin')->name('admin.messages.flagged');
 
-    Route::get('admin/projects/unapproved', [\App\Http\Controllers\Admin\ProjectController::class, 'unapprovedProjects'])
-        ->name('admin.projects.unapproved');
+    Route::prefix('submissions')->group(function() {
+        Route::get('/{job}', [
+            \App\Http\Controllers\API\Admin\ProjectJobsSubmissionsController::class,
+            'index'
+        ])->middleware('role:Admin')->name('admin.project.job.submissions.index');
+
+        Route::post('/{job}', [
+            \App\Http\Controllers\API\Admin\ProjectJobsSubmissionsController::class,
+            'store'
+        ])->middleware('role:Crew')->name('project.job.submissions.create');
+    });
 });
