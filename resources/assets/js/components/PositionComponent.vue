@@ -115,9 +115,7 @@
 
 <script>
 import { Form, HasError, AlertError } from 'vform';
-import objectToFormData from 'object-to-formdata';
-
-window.objectToFormData = objectToFormData
+import { mapGetters } from 'vuex';
 
 export default {
     name: 'PositionComponent',
@@ -140,90 +138,63 @@ export default {
             }),
         };
     },
+    computed: {
+        ...mapGetters({
+            existingCrewPositions: 'crew/existingCrewPositions',
+            crewPositionInfo     : 'crew/crewPositionInfo',
+        })
+    },
     methods: {
         onClickSave: function() {
             this.saveCrewPosition();
         },
 
         uploadResume: function() {
-            document.getElementById("crewResume").click()
+            document.getElementById("crewResume").click();
         },
 
         onResumeChange: function(e) {
-            let vm = this
-
-            vm.form.resume = e.target.files[0]
-            e.target.value = ''
+            let vm = this;
+            vm.form.resume = e.target.files[0];
         },
 
         saveCrewPosition: function() {
-            if (this.position_exists === false) {
-                this.form.submit('post', '/crew/positions/' + this.position.id, {
-                    bio              : this.form.bio,
-                    union_description: this.form.union_description,
-                    resume           : this.form.resume,
-                    reel_link        : this.form.reel_link,
-                    reel_file        : this.form.reel_file,
-                    gear             : this.form.gear,
-                    position         : this.form.position,
-                })
-                .then(({ data }) => {
-                    window.location = '/crew/profile/edit'
-                })
-                .catch(err => {
-                    console.log(this.form)
-                });
-            } else {
-                this.form.submit('put', '/crew/positions/' + this.position.id, {
-                    bio              : this.form.bio,
-                    union_description: this.form.union_description,
-                    resume           : this.form.resume,
-                    reel_link        : this.form.reel_link,
-                    reel_file        : this.form.reel_file,
-                    gear             : this.form.gear,
-                    position         : this.form.position,
-                })
-                .then(({ data }) => {
-                    window.location = '/crew/profile/edit'
-                })
-                .catch(err => {
-                    console.log(this.form)
-                });
-            }
+            if (this.position_exists)
+                this.$store.dispatch('crew/updateCrewPositionInfo', this.form);
+            else
+                this.$store.dispatch('crew/addCrewPositionInfo', this.form);
         },
 
         checkExistingCrewPosition: function() {
-            axios.get('/crew/crew-positions')
-                .then(response => {
-                    if (response.data.includes(this.form.position)) {
-                        this.selected        = true
-                        this.position_exists = true
-                        this.fetchCrewPosition()
-                    }
-                    else 
-                        this.selected = false
-                })
+            if (this.existingCrewPositions.includes(this.position.id)) {
+                this.selected        = true;
+                this.position_exists = true;
+
+                this.$store.dispatch('crew/fetchCrewPositionInfo', this.position.id);
+
+                setTimeout(() => this.fetchCrewPosition(), 2000);
+            }
+            else
+                this.selected = false;
         },
 
         fetchCrewPosition: function() {
-            axios.get('/crew/crew-positions/' + this.position.id)
-                .then(response => {
-                    this.form.bio               = response.data.crewPosition.details
-                    this.form.union_description = response.data.crewPosition.union_description
+            this.form.bio               = this.crewPositionInfo.crewPosition.details;
+            this.form.union_description = this.crewPositionInfo.crewPosition.union_description;
 
-                    if (response.data.reel != null) {
-                        this.form.reel_link = response.data.reel.path
-                    }
+            if (this.crewPositionInfo.reel != null) {
+                this.form.reel_link = this.crewPositionInfo.reel.path;
+            }
 
-                    if (response.data.gear != null) {
-                        this.has_gear = true
-                        this.form.gear = response.data.gear.description
-                    }
-                })
+            if (this.crewPositionInfo.gear != null) {
+                this.has_gear = true;
+                this.form.gear = this.crewPositionInfo.gear.description;
+            }
         },
     },
     mounted() {
-        this.checkExistingCrewPosition()
-    }
+        this.$store.dispatch('crew/checkExistingCrewPosition');
+        setTimeout(() => this.checkExistingCrewPosition(), 2000);
+    },
 };
 </script>

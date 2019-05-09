@@ -8,6 +8,8 @@ export const state = {
     selectedPosition: '',
     site: {},
     sites: [],
+    existingCrewPositions: [],
+    crewPositionInfo: [],
 };
 
 export const getters = {
@@ -38,6 +40,14 @@ export const getters = {
     sites(state) {
         return state.sites;
     },
+
+    existingCrewPositions(state) {
+        return state.existingCrewPositions;
+    },
+
+    crewPositionInfo(state) {
+        return state.crewPositionInfo;
+    }
 };
 
 export const mutations = {
@@ -68,6 +78,14 @@ export const mutations = {
     [types.SITES](state, payload) {
         state.sites = payload;
     },
+
+    [types.EXISTING_CREW_POSITIONS](state, payload) {
+        state.existingCrewPositions = payload;
+    },
+
+    [types.CREW_POSITION_INFO](state, payload) {
+        state.crewPositionInfo = payload;
+    }
 };
 
 export const actions = {
@@ -88,4 +106,50 @@ export const actions = {
             context.commit(types.SITES, response.data.sites);
         });
     },
+
+    checkExistingCrewPosition(context) {
+        axios.get('/crew/crew-positions')
+            .then(response => {
+                context.commit(types.EXISTING_CREW_POSITIONS, response.data);
+            });
+    },
+
+    fetchCrewPositionInfo(context, positionId) {
+        axios.get('/crew/crew-positions/' + positionId)
+            .then(response => {
+                context.commit(types.CREW_POSITION_INFO, response.data);
+            });
+    },
+
+    updateCrewPositionInfo(context, data) {
+        axios.put('/crew/positions/' + data.position, {
+            bio              : data.bio,
+            union_description: data.union_description,
+            resume           : data.resume,
+            reel_link        : data.reel_link,
+            reel_file        : data.reel_file,
+            gear             : data.gear,
+            position         : data.position,
+        })
+        .then(response => {
+            window.location = '/crew/profile/edit';
+            console.log(response);
+        })
+    },
+
+    addCrewPositionInfo(context, data) {
+        axios.post('/crew/positions/' + data.position, {
+            bio              : data.bio,
+            union_description: data.union_description,
+            resume           : data.resume,
+            reel_link        : data.reel_link,
+            reel_file        : data.reel_file,
+            gear             : data.gear,
+            position         : data.position,
+        })
+        .then(response => {
+            window.location = '/crew/profile/edit';
+            console.log(response);
+        })
+    }
 };

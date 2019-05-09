@@ -24,28 +24,41 @@ class StoreCrewPositionRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'bio'               => 'required|string|min:10',
-            'resume'            => 'required|mimes:doc,pdf,docx,zip',
-            'reel_link'         => [
-                'nullable',
-                'max:50',
-                'string',
-                new Reel(),
-            ],
-            'reel_file'         => 'nullable|file|mimes:mp4,avi,wmv|max:20000',
-            'gear'              => 'nullable|string|max:50|min:8',
-            'union_description' => 'nullable|string|max:50|min:8',
-        ];
-    }
-
-    /**
-     * @return array
-     *
-     */
-    public function attributes()
-    {
-        return [
-        ];
+        switch($this->method())
+        {
+            case 'POST':
+            {
+                return [
+                    'bio'               => 'required|string|min:10',
+                    'resume'            => 'required|mimes:doc,pdf,docx,zip',
+                    'reel_link'         => [
+                        'nullable',
+                        'max:50',
+                        'string',
+                        new Reel(),
+                    ],
+                    'reel_file'         => 'nullable|file|mimes:mp4,avi,wmv|max:20000',
+                    'gear'              => 'nullable|string|max:50|min:8',
+                    'union_description' => 'nullable|string|max:50|min:8',
+                ];
+            }
+            case 'PUT':
+            {
+                return [
+                    'bio'               => 'required|string|min:10',
+                    'resume'            => 'nullable|mimes:doc,pdf,docx,zip',
+                    'reel_link'         => [
+                        'nullable',
+                        'max:50',
+                        'string',
+                        new Reel(),
+                    ],
+                    'reel_file'         => 'nullable|file|mimes:mp4,avi,wmv|max:20000',
+                    'gear'              => 'nullable|string|max:50|min:8',
+                    'union_description' => 'nullable|string|max:50|min:8',
+                ];
+            }
+            default: break;
+        }
     }
 }
