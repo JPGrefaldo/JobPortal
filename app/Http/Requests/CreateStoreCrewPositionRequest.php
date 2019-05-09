@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use App\Rules\Reel;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreCrewPositionRequest extends FormRequest
+class CreateStoreCrewPositionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
