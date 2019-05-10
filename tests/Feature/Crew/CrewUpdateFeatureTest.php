@@ -42,7 +42,7 @@ class CrewUpdateFeatureTest extends TestCase
 
         // when
         $response = $this->actingAs($this->user)
-            ->putJson(route('crew.profile.update'), $data);
+            ->put(route('crew.profile.update'), $data);
 
         // then
         $response->assertRedirect(route('crew.profile.create'));
@@ -213,7 +213,7 @@ class CrewUpdateFeatureTest extends TestCase
                     'id'  => SocialLinkTypeID::VIMEO,
                 ],
                 'instagram'        => [
-                    'url' => 'https://www.instagram.com/castingamerica/',
+                    'url' => 'https://www.instagram.com/new-castingamerica',
                     'id'  => SocialLinkTypeID::INSTAGRAM,
                 ],
                 'personal_website' => [
@@ -267,7 +267,7 @@ class CrewUpdateFeatureTest extends TestCase
                     'id'  => SocialLinkTypeID::YOUTUBE,
                 ],
                 'imdb'             => [
-                    'url' => 'https://www.imdb.com/name/nm0000134',
+                    'url' => 'https://www.imdb.com/name/nm0000134/-updated',
                     'id'  => SocialLinkTypeID::IMDB,
                 ],
                 'tumblr'           => [

@@ -79,7 +79,7 @@ class CrewFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Crew\CrewProfileController::create
+     * @covers \App\Http\Controllers\Crew\CrewProfileController::edit
      */
     public function edit()
     {
@@ -128,6 +128,7 @@ class CrewFeatureTest extends TestCase
     public function create_invalid_data()
     {
         // $this->withoutExceptionHandling();
+
         $data = $this->getStoreData([
             'photo'                        => UploadedFile::fake()->create('image.php'),
             'resume'                       => UploadedFile::fake()->create('resume.php'),
@@ -148,7 +149,6 @@ class CrewFeatureTest extends TestCase
             ->post(route('crew.profile.store'), $data);
 
         // then
-
         $response->assertSessionHasErrors([
             'photo'                        => 'The photo must be an image.',
             'resume'                       => 'The resume must be a file of type: pdf, doc, docx.',

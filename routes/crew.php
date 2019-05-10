@@ -33,12 +33,10 @@ Route::post('/crew/messages', [\App\Http\Controllers\Crew\MessageController::cla
 Route::prefix('crew/profile')->group(function () {
     Route::get('/', [\App\Http\Controllers\Crew\CrewProfileController::class, 'index'])
         ->name('crew.profile.index');
-    // create
     Route::get('create', [\App\Http\Controllers\Crew\CrewProfileController::class, 'create'])
         ->name('crew.profile.create');
     Route::post('', [\App\Http\Controllers\Crew\CrewProfileController::class, 'store'])
         ->name('crew.profile.store');
-    // show
     Route::get('edit', [\App\Http\Controllers\Crew\CrewProfileController::class, 'edit'])
         ->name('crew.profile.edit');
     Route::put('', [\App\Http\Controllers\Crew\CrewProfileController::class, 'update'])
