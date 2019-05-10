@@ -48,7 +48,7 @@ Route::prefix('/crew/positions')->group(function () {
 });
 
 Route::prefix('/crew/crew-positions')->group(function () {
-    Route::get('/', [\App\Http\Controllers\Crew\CrewPositionController::class, 'checkCrewPositions']);
-    Route::get('{position}', [\App\Http\Controllers\Crew\CrewPositionController::class, 'fetchCrewPosition']);
+    Route::get('/check', [\App\Http\Controllers\Crew\CrewPositionController::class, 'checkCrewPositions']);
+    Route::get('/', [\App\Http\Controllers\Crew\CrewPositionController::class, 'fetchCrewPosition']);
 });
  

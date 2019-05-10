@@ -170,7 +170,7 @@ export default {
                 this.selected        = true;
                 this.position_exists = true;
 
-                this.$store.dispatch('crew/fetchCrewPositionInfo', this.position.id);
+                this.$store.dispatch('crew/fetchCrewPositionInfo');
 
                 setTimeout(() => this.fetchCrewPosition(), 2000);
             }
@@ -179,16 +179,20 @@ export default {
         },
 
         fetchCrewPosition: function() {
-            this.form.bio               = this.crewPositionInfo.crewPosition.details;
-            this.form.union_description = this.crewPositionInfo.crewPosition.union_description;
+            for (var i = 0; i < this.crewPositionInfo['crewPositions'].length; i++) {
+                if (this.crewPositionInfo['crewPositions'][i].position_id == this.position.id) {
+                    this.form.bio = this.crewPositionInfo['crewPositions'][i].details;
+                    this.form.union_description = this.crewPositionInfo['crewPositions'][i].union_description;
 
-            if (this.crewPositionInfo.reel != null) {
-                this.form.reel_link = this.crewPositionInfo.reel.path;
-            }
+                    if (this.crewPositionInfo['reels'][i] != null) {
+                        this.form.reel_link = this.crewPositionInfo['reels'][i].path;
+                    }
 
-            if (this.crewPositionInfo.gear != null) {
-                this.has_gear = true;
-                this.form.gear = this.crewPositionInfo.gear.description;
+                    if (this.crewPositionInfo['gears'][i] != null) {
+                        this.has_gear = true;
+                        this.form.gear = this.crewPositionInfo['gears'][i].description;
+                    }
+                }
             }
         },
     },

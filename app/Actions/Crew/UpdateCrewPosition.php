@@ -24,9 +24,8 @@ class UpdateCrewPosition
 
         if ($data['gear'] != null) {
             if ($crew->gears()->where('crew_position_id', $crewPosition->id)->first()) {
-                $crew->gears()->update([
+                $crew->gears()->where('crew_position_id', $crewPosition->id)->update([
                     'description'      => $data['gear'],
-                    'crew_position_id' => $crewPosition->id,
                 ]);
             } else {
                 $crew->gears()->create([
@@ -38,10 +37,9 @@ class UpdateCrewPosition
 
         if ($data['reel_link'] != null) {
             if ($crew->reels()->where('crew_position_id', $crewPosition->id)->first()) {
-                $crew->reels()->update([
+                $crew->reels()->where('crew_position_id', $crewPosition->id)->update([
                     'crew_id'          => $crew->id,
                     'path'             => $data['reel_link'],
-                    'crew_position_id' => $crewPosition->id,
                 ]);
             } else {
                 $crew->reels()->create([

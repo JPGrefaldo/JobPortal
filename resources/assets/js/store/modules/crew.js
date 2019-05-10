@@ -108,14 +108,14 @@ export const actions = {
     },
 
     checkExistingCrewPosition(context) {
-        axios.get('/crew/crew-positions')
+        axios.get('/crew/crew-positions/check')
             .then(response => {
                 context.commit(types.EXISTING_CREW_POSITIONS, response.data);
             });
     },
 
-    fetchCrewPositionInfo(context, positionId) {
-        axios.get('/crew/crew-positions/' + positionId)
+    fetchCrewPositionInfo(context) {
+        axios.get('/crew/crew-positions/')
             .then(response => {
                 context.commit(types.CREW_POSITION_INFO, response.data);
             });
