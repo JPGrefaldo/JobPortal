@@ -2,17 +2,14 @@
 
 namespace Tests\Feature\Crew;
 
-use Illuminate\Support\Arr;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 use Tests\Support\Data\SocialLinkTypeID;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 
-/**
- * @group CrewsFeatureTest
- */
 class CrewFeatureTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
@@ -28,19 +25,70 @@ class CrewFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Crew\CrewProfileController::store
+     * @covers \App\Http\Controllers\Crew\CrewProfileController::index
+     */
+    public function index()
+    {
+        $this->actingAs($this->user)
+            ->get(route('crew.profile.index'))
+            ->assertSuccessful()
+            ->assertSee('My profile')
+            // ->assertViewIs('crew.profile.profile-index')
+            ->assertSee('COMPLETE YOUR ACCOUNT');
+    }
+
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Crew\CrewProfileController::create
      */
     public function create()
     {
-        $data = $this->getCreateData();
+        $this->actingAs($this->user)
+            ->get(route('crew.profile.create'))
+            ->assertRedirect(route('crew.profile.edit'));
+    }
+
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Crew\CrewProfileController::store
+     */
+    public function store()
+    {
+        $data = $this->getStoreData();
 
         $response = $this->actingAs($this->user)
-            ->get(route('crew.profile.create'));
+            ->post(route('crew.profile.store'), $data);
 
-        $response = $this->actingAs($this->user)
-            ->post(route('crew.profile.create'), $data);
+        $response->assertRedirect(route('crew.profile.edit'));
+    }
 
-        $response->assertRedirect(route('crew.profile.create'));
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Crew\CrewProfileController::show
+     */
+    public function show()
+    {
+        $anotherCrew = $this->createCrew();
+
+        $this->actingAs($this->user)
+            ->get(route('crew.profile.show', $anotherCrew))
+            ->assertSuccessful()
+            // ->assertViewIs('crew.profile.profile-show')
+            ->assertSee('IMDb profile');
+    }
+
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Crew\CrewProfileController::create
+     */
+    public function edit()
+    {
+        $this->actingAs($this->user)
+            ->get(route('crew.profile.edit'))
+            ->assertSuccessful()
+            ->assertSee('Edit profile')
+            // ->assertViewIs('crew.profile.profile-edit')
+            ->assertSee('COMPLETE YOUR ACCOUNT');
     }
 
     /**
@@ -52,7 +100,7 @@ class CrewFeatureTest extends TestCase
         // given
         // $this->withoutExceptionHandling();
 
-        $data = $this->getCreateData([
+        $data = $this->getStoreData([
             'resume'                       => '',
             'reel'                         => '',
             'socials.facebook.url'         => '',
@@ -67,13 +115,10 @@ class CrewFeatureTest extends TestCase
 
         // when
         $response = $this->actingAs($this->user)
-            ->get(route('crew.profile.create'));
-
-        $response = $this->actingAs($this->user)
-            ->post(route('crew.profile.create'), $data);
+            ->post(route('crew.profile.store'), $data);
 
         // then
-        $response->assertRedirect(route('crew.profile.create'));
+        $response->assertRedirect(route('crew.profile.edit'));
     }
 
     /**
@@ -82,7 +127,8 @@ class CrewFeatureTest extends TestCase
      */
     public function create_invalid_data()
     {
-        $data = $this->getCreateData([
+        // $this->withoutExceptionHandling();
+        $data = $this->getStoreData([
             'photo'                        => UploadedFile::fake()->create('image.php'),
             'resume'                       => UploadedFile::fake()->create('resume.php'),
             'reel_file'                    => UploadedFile::fake()->create('video.php'),
@@ -99,13 +145,9 @@ class CrewFeatureTest extends TestCase
         ]);
 
         $response = $this->actingAs($this->user)
-            ->get(route('crew.profile.create'));
-
-        $response = $this->actingAs($this->user)
-            ->post(route('crew.profile.create'), $data);
+            ->post(route('crew.profile.store'), $data);
 
         // then
-        $response->assertRedirect(route('crew.profile.create'));
 
         $response->assertSessionHasErrors([
             'photo'                        => 'The photo must be an image.',
@@ -115,7 +157,6 @@ class CrewFeatureTest extends TestCase
             'socials.facebook.url'         => 'facebook must be a valid Facebook URL.',
             'socials.twitter.url'          => 'twitter must be a valid Twitter URL.',
             'socials.youtube.url'          => 'youtube must be a valid YouTube URL.',
-            'socials.google_plus.url'      => 'google plus must be a valid Google Plus URL.',
             'socials.imdb.url'             => 'imdb must be a valid IMDB URL.',
             'socials.tumblr.url'           => 'tumblr must be a valid Tumblr URL.',
             'socials.vimeo.url'            => 'vimeo must be a valid Vimeo URL.',
@@ -131,20 +172,17 @@ class CrewFeatureTest extends TestCase
     public function create_youtube_cleaned()
     {
         // given
-        $data = $this->getCreateData([
+        $data = $this->getStoreData([
             'reel'                => 'https://www.youtube.com/watch?v=2-_rLbU6zJo',
             'socials.youtube.url' => 'https://www.youtube.com/watch?v=G8S81CEBdNs',
         ]);
 
         // when
         $response = $this->actingAs($this->user)
-            ->get(route('crew.profile.create'));
-
-        $response = $this->actingAs($this->user)
-            ->post(route('crew.profile.create'), $data);
+            ->post(route('crew.profile.store'), $data);
 
         // then
-        $response->assertRedirect(route('crew.profile.create'));
+        $response->assertRedirect(route('crew.profile.edit'));
     }
 
     /**
@@ -154,19 +192,16 @@ class CrewFeatureTest extends TestCase
     public function create_vimeo_reel_cleaned()
     {
         // given
-        $data = $this->getCreateData([
+        $data = $this->getStoreData([
             'reel' => 'https://vimeo.com/230046783',
         ]);
 
         // when
         $response = $this->actingAs($this->user)
-            ->get(route('crew.profile.create'));
-
-        $response = $this->actingAs($this->user)
-            ->post(route('crew.profile.create'), $data);
+            ->post(route('crew.profile.store'), $data);
 
         // then
-        $response->assertRedirect(route('crew.profile.create'));
+        $response->assertRedirect(route('crew.profile.edit'));
     }
 
     /**
@@ -174,7 +209,7 @@ class CrewFeatureTest extends TestCase
      *
      * @return array
      */
-    public function getCreateData($customData = [])
+    public function getStoreData($customData = [])
     {
         $data = [
             'bio'     => 'some bio',
@@ -195,7 +230,7 @@ class CrewFeatureTest extends TestCase
                     'id'  => SocialLinkTypeID::YOUTUBE,
                 ],
                 'imdb'             => [
-                    'url' => 'http://www.imdb.com/name/nm0000134/',
+                    'url' => 'https://www.imdb.com/name/nm0000134/',
                     'id'  => SocialLinkTypeID::IMDB,
                 ],
                 'tumblr'           => [
