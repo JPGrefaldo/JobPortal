@@ -5,7 +5,7 @@
 <div class="container max-w-xl flex justify-center items-center">
     <div class="overflow-hidden shadow-lg border-t-4 bg-white mb-4 rounded-b-lg rounded-t border-red-light w-full md:w-1/2">
         <div class="px-6 py-4 mb-2 mt-4 mb-8">
-            @if(Auth::user()->hasRole('Crew'))
+            @if(Auth::user()->hasRole(\App\Models\Role::CREW))
                 <div class="uppercase tracking-wide text-c2 mb-4">
                     Crew
                 </div>
@@ -26,7 +26,7 @@
                 </div>
             @endif
 
-            @if(Auth::user()->hasRole('Producer'))
+            @if(Auth::user()->hasRole(\App\Models\Role::PRODUCER))
                 <div class="uppercase tracking-wide text-c2 mb-4 mt-8">
                     Producer
                 </div>
