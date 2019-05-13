@@ -15,7 +15,7 @@ use Illuminate\Http\Request;
 class CrewProfileController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * shows the logged in user's crew profile
      *
      * @return \Illuminate\Http\Response
      */
@@ -44,23 +44,9 @@ class CrewProfileController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(CreateCrewRequest $request)
+    public function create()
     {
-        $data = $request->validated();
-
-        $user = Auth::user();
-
-        app(StoreCrew::class)->execute($user, $data);
-
-        $user = Auth::user()->load([
-            'crew',
-        ]);
-
-        return view('crew.profile.profile-create', [
-            'user'            => $user,
-            'socialLinkTypes' => $this->getAllSocialLinkTypes($user),
-            'departments'     => $this->getDepartments(),
-        ]);
+        return redirect(route('crew.profile.edit'));
     }
 
     /**
@@ -106,11 +92,11 @@ class CrewProfileController extends Controller
 
         app(StoreCrew::class)->execute($user, $data);
 
-        return back()->with('infoMessage', 'Created');
+        return redirect(route('crew.profile.edit'))->with('infoMessage', 'Created');
     }
 
     /**
-     * Display the specified resource.
+     * Shows another crew's profile that is not of the logged in user
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -137,9 +123,17 @@ class CrewProfileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit()
     {
-        //
+        $user = Auth::user()->load([
+            'crew',
+        ]);
+
+        return view('crew.profile.profile-edit', [
+            'user'            => $user,
+            'socialLinkTypes' => $this->getAllSocialLinkTypes($user),
+            'departments'     => $this->getDepartments(),
+        ]);
     }
 
     /**

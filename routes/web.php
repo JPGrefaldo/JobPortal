@@ -139,8 +139,8 @@ Route::middleware('auth')->group(function () {
         \App\Http\Controllers\SubmissionController::class,
         'show',
     ])->middleware('role:Admin|Producer')->name('project.job.submissions.show');
-        
-    Route::get('/users/{user}/crew-profile', [\App\Http\Controllers\Crew\CrewProfileController::class, 'show']);
+
+    Route::get('/users/{user}/crew/profile', [\App\Http\Controllers\Crew\CrewProfileController::class, 'show'])->name('crew.profile.show');
 });
 
 Route::prefix('theme')->group(function () {
