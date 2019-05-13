@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use App\Rules\Facebook;
-use App\Rules\GooglePlus;
 use App\Rules\IMDB;
 use App\Rules\Instagram;
 use App\Rules\Reel;
@@ -43,7 +42,6 @@ class CreateCrewRequest extends FormRequest
             'socials.facebook.url'         => ['nullable', new Facebook],
             'socials.twitter.url'          => ['nullable', new Twitter],
             'socials.youtube.url'          => ['nullable', new YouTube],
-            'socials.google_plus.url'      => ['nullable', new GooglePlus],
             'socials.imdb.url'             => ['nullable', new IMDB],
             'socials.tumblr.url'           => ['nullable', new Tumblr],
             'socials.vimeo.url'            => ['nullable', new Vimeo],

@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\Crew;
 
-use Illuminate\Support\Arr;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 use Tests\Support\Data\SocialLinkTypeID;
 use Tests\Support\SeedDatabaseAfterRefresh;
@@ -42,7 +42,7 @@ class CrewUpdateFeatureTest extends TestCase
 
         // when
         $response = $this->actingAs($this->user)
-            ->put(route('crew.profile.create', $this->user->crew), $data);
+            ->put(route('crew.profile.update'), $data);
 
         // then
         $response->assertRedirect(route('crew.profile.create'));
@@ -59,7 +59,7 @@ class CrewUpdateFeatureTest extends TestCase
 
         // when
         $response = $this->actingAs($this->user)
-            ->put(route('crew.profile.create', $this->user->crew), $data);
+            ->put(route('crew.profile.update'), $data);
 
         // then
         $response->assertRedirect(route('crew.profile.create'));
@@ -77,7 +77,7 @@ class CrewUpdateFeatureTest extends TestCase
         ]);
 
         $response = $this->actingAs($this->user)
-            ->put(route('crew.profile.create', $this->user->crew), $data);
+            ->put(route('crew.profile.update'), $data);
 
         $response->assertRedirect(route('crew.profile.create'));
     }
@@ -96,7 +96,7 @@ class CrewUpdateFeatureTest extends TestCase
 
         // when
         $response = $this->actingAs($this->user)
-            ->put(route('crew.profile.create', $this->user->crew), $data);
+            ->put(route('crew.profile.update', $this->user->crew), $data);
 
         // then
         $response->assertRedirect(route('crew.profile.create'));
@@ -114,7 +114,7 @@ class CrewUpdateFeatureTest extends TestCase
 
         // when
         $response = $this->actingAs($this->user)
-            ->put(route('crew.profile.create', $this->user->crew), $data);
+            ->put(route('crew.profile.update', $this->user->crew), $data);
 
         // then
         $response->assertRedirect(route('crew.profile.create'));
@@ -142,9 +142,7 @@ class CrewUpdateFeatureTest extends TestCase
         ]);
 
         $response = $this->actingAs($this->user)
-            ->put(route('crew.profile.create', $this->user->crew), $data);
-
-
+            ->put(route('crew.profile.update', $this->user->crew), $data);
 
         $response->assertSessionHasErrors([
             'photo'                        => 'The photo must be an image.',
@@ -153,7 +151,6 @@ class CrewUpdateFeatureTest extends TestCase
             'socials.facebook.url'         => 'facebook must be a valid Facebook URL.',
             'socials.twitter.url'          => 'twitter must be a valid Twitter URL.',
             'socials.youtube.url'          => 'youtube must be a valid YouTube URL.',
-            'socials.google_plus.url'      => 'google plus must be a valid Google Plus URL.',
             'socials.imdb.url'             => 'imdb must be a valid IMDB URL.',
             'socials.tumblr.url'           => 'tumblr must be a valid Tumblr URL.',
             'socials.vimeo.url'            => 'vimeo must be a valid Vimeo URL.',
@@ -173,7 +170,7 @@ class CrewUpdateFeatureTest extends TestCase
         $data = $this->getUpdateData();
 
         $response = $this->actingAs($randomUser)
-            ->put(route('crew.profile.create', $this->user->crew), $data);
+            ->put(route('crew.profile.update', $this->user->crew), $data);
 
         $response->assertForbidden();
     }
@@ -216,7 +213,7 @@ class CrewUpdateFeatureTest extends TestCase
                     'id'  => SocialLinkTypeID::VIMEO,
                 ],
                 'instagram'        => [
-                    'url' => 'https://www.instagram.com/castingamerica/',
+                    'url' => 'https://www.instagram.com/new-castingamerica',
                     'id'  => SocialLinkTypeID::INSTAGRAM,
                 ],
                 'personal_website' => [
@@ -262,7 +259,7 @@ class CrewUpdateFeatureTest extends TestCase
                     'id'  => SocialLinkTypeID::FACEBOOK,
                 ],
                 'twitter'          => [
-                    'url' => 'https://twitter.com/new-casting_america',
+                    'url' => 'https://twitter.com/new_casting_america',
                     'id'  => SocialLinkTypeID::TWITTER,
                 ],
                 'youtube'          => [
@@ -270,7 +267,7 @@ class CrewUpdateFeatureTest extends TestCase
                     'id'  => SocialLinkTypeID::YOUTUBE,
                 ],
                 'imdb'             => [
-                    'url' => 'http://www.imdb.com/name/nm0000134/-updated',
+                    'url' => 'https://www.imdb.com/name/nm0000134/-updated',
                     'id'  => SocialLinkTypeID::IMDB,
                 ],
                 'tumblr'           => [
@@ -282,7 +279,7 @@ class CrewUpdateFeatureTest extends TestCase
                     'id'  => SocialLinkTypeID::VIMEO,
                 ],
                 'instagram'        => [
-                    'url' => 'https://www.instagram.com/new-castingamerica/',
+                    'url' => 'https://www.instagram.com/newcastingamerica/',
                     'id'  => SocialLinkTypeID::INSTAGRAM,
                 ],
                 'personal_website' => [
