@@ -116,6 +116,14 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function messageTemplates()
+    {
+        return $this->hasMany(MessageTemplate::class);
+    }
+
+    /**
      * @return bool
      */
     public function isConfirmed()
