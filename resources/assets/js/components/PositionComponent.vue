@@ -56,7 +56,11 @@
                         <div class="md:w-1/3 pr-8">
                             <h3 class="text-md font-header mt-2 mb-2 md:mb-0">Reel</h3>
                         </div>
-                        <div class="md:w-2/3">
+                        <div v-if="reel" class="md:w-2/3">
+                            <a :href="reel" target="_blank" class="btn-outline text-white inline-block bg-green">View File</a>
+                            <button @click="removeReel(form.id)" class="btn-outline text-green inline-block">Remove</button>
+                        </div>
+                        <div v-if="! reel" class="md:w-2/3">
                             <input
                                 type="text"
                                 class="form-control bg-light w-64 mr-2 mb-2 md:mb-0"
@@ -145,6 +149,8 @@ export default {
             filled: false,
             positionData: {},
             positionData: [],
+            reel: null,
+
             form: new Form({
                 bio: '',
                 union_description: '',
@@ -195,6 +201,8 @@ export default {
                 reel: data.reel ? data.reel : false ,
                 gear: data.gear ? data.gear.description : '',
             });
+
+            this.reel = data.reel ? data.reel.path : null;
         },
 
         getPositionData: function(){
@@ -205,18 +213,29 @@ export default {
                     this.fillData(response.data)
                 })
         },
-        
+
         removeResume: function(positionId){
             axios
                 .delete(`/crew/positions/${positionId}/resume`)
                 .then(({data}) => {
-
                     if(data == 'success'){
                         this.getPositionData();
                     }
             })
 
             this.form.resume = null
+        },
+
+        removeReel: function(positionId){
+            axios
+                .get(`/crew/positions/${positionId}/reel`)
+                .then(({data}) => {
+                    if(data == 'success'){
+                        this.getPositionData();
+                    }
+                })
+
+            this.form.reel_file = null
         }
     },
     mounted(){

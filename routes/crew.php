@@ -48,3 +48,4 @@ Route::get('/crew/positions/{position}/show', [\App\Http\Controllers\Crew\CrewPo
 Route::post('/crew/positions/{position}', [\App\Http\Controllers\Crew\CrewPositionController::class, 'applyFor'])
     ->name('crew-position.store');
 Route::delete('/crew/positions/{position}/resume', [\App\Http\Controllers\Crew\CrewPositionController::class, 'removeResume']);
+Route::get('/crew/positions/{position}/reel', [\App\Http\Controllers\Crew\CrewPositionController::class, 'removeReel']);

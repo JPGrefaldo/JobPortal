@@ -37,7 +37,11 @@ class CrewPositionController extends Controller
         $crew = auth()->user()->crew;
 
         $crewPosition = CrewPosition::byCrewAndPosition($crew, $position)
-            ->with(['resume', 'gear'])->firstOrFail();
+            ->with([
+                'resume',
+                'gear',
+                'reel',
+            ])->firstOrFail();
 
         return $crewPosition;
     }
@@ -52,5 +56,14 @@ class CrewPositionController extends Controller
         return response()->json([
             'message' => $position->resume->delete() ? 'success' : 'failed',
         ]);
+    }
+
+    /**
+     * @param \App\Models\CrewPosition $position
+     * @return string
+     */
+    public function removeReel(CrewPosition $position)
+    {
+        return $position->reel()->delete() ? 'success' : 'failed';
     }
 }
