@@ -136,18 +136,17 @@ Route::middleware('auth:api')->group(function () {
                 ])->name('producer.messages.templates');
             });
         });
-    });
 
-            Route::get('/pending', [
-                \App\Http\Controllers\API\Producer\ProjectsController::class,
-                'pending',
-            ])->name('producer.projects.pending');
+        Route::get('/pending', [
+            \App\Http\Controllers\API\Producer\ProjectsController::class,
+            'pending',
+        ])->name('producer.projects.pending');
 
-            Route::get('/type', [
-                \App\Http\Controllers\API\Producer\ProjectTypes::class,
-                'index',
-            ])->name('producer.project.type');
-        });
+        Route::get('/type', [
+            \App\Http\Controllers\API\Producer\ProjectTypes::class,
+            'index',
+        ])->name('producer.project.type');
+
     });
 
     Route::get('/admin/flag-messages', [
