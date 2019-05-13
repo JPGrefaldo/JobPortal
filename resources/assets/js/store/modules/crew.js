@@ -134,11 +134,10 @@ export const actions = {
         })
         .then(response => {
             window.location = '/crew/profile/edit';
-            console.log(response);
         })
     },
 
-    addCrewPositionInfo(context, data) {
+    storeCrewPositionInfo(context, data) {
         axios.post('/crew/positions/' + data.position, {
             bio              : data.bio,
             union_description: data.union_description,
@@ -151,7 +150,6 @@ export const actions = {
         })
         .then(response => {
             window.location = '/crew/profile/edit';
-            console.log(response);
         })
     }
 };

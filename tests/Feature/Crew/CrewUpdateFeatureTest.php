@@ -102,7 +102,6 @@ class CrewUpdateFeatureTest extends TestCase
         $response->assertRedirect(route('crew.profile.create'));
     }
 
-
     /**
      * @test
      * @covers \App\Http\Controllers\Crew\CrewProfileController::update
@@ -118,6 +117,106 @@ class CrewUpdateFeatureTest extends TestCase
 
         // then
         $response->assertRedirect(route('crew.profile.create'));
+    }
+
+    /**
+     * @test
+     * @covers App\Http\Controllers\Crew\CrewPositionController::update
+     */
+    public function update_crew_position()
+    {
+        $crewPosition = factory(\App\Models\CrewPosition::class)->create();
+
+        $this->actingAs($this->user)
+            ->put(route('crew-position.update', $crewPosition->id), [
+                'bio' => 'This is my bio',
+            ])->assertRedirect(route('crew.profile.create'));
+    }
+
+    /**
+     * @test
+     * @covers App\Http\Controllers\Crew\CrewPositionController::update
+     */
+    public function update_crew_position_resume_file_required_when_uploading_resume()
+    {
+        $crewPosition = factory(\App\Models\CrewPosition::class)->create();
+
+        $this->actingAs($this->user)
+            ->put(route('crew-position.update', $crewPosition->id), [
+                'bio'    => 'This is my bio',
+                'resume' => UploadedFile::fake()->create('resume.jpg'),
+                'method' => 'put'
+            ])->assertSessionHasErrors([
+                'resume'
+            ]);
+    }
+
+    /**
+     * @test
+     * @covers App\Http\Controllers\Crew\CrewPositionController::update
+     */
+    public function update_crew_position_valid_reel_link_required()
+    {
+        $crewPosition = factory(\App\Models\CrewPosition::class)->create();
+
+        $this->actingAs($this->user)
+            ->put(route('crew-position.update', $crewPosition->id), [
+                'bio'       => 'This is my bio',
+                'reel_link' => 'http://www.facebook.com/link',
+                'method'    => 'put'
+            ])->assertSessionHasErrors([
+                'reel_link'
+            ]);
+    }
+
+    /**
+     * @test
+     * @covers App\Http\Controllers\Crew\CrewPositionController::applyFor
+     */
+    public function create_crew_position_requires_resume_file()
+    {
+        $crewPosition = factory(\App\Models\CrewPosition::class)->create();
+
+        $this->actingAs($this->user)
+            ->put(route('crew-position.update', $crewPosition->id), [
+                'bio' => 'This is my bio',
+            ])->assertSessionHasErrors([
+                'resume'
+            ]);
+    }
+
+    /**
+     * @test
+     * @covers App\Http\Controllers\Crew\CrewPositionController::applyFor
+     */
+    public function create_crew_position_requires_bio()
+    {
+        $crewPosition = factory(\App\Models\CrewPosition::class)->create();
+
+        $this->actingAs($this->user)
+            ->put(route('crew-position.update', $crewPosition->id), [
+                'resume' => UploadedFile::fake()->create('resume.docx'),
+            ])->assertSessionHasErrors([
+                'bio'
+            ]);
+    }
+
+    /**
+     * @test
+     * @covers App\Http\Controllers\Crew\CrewPositionController::update
+     */
+    public function update_crew_position_reel_file_must_be_valid()
+    {
+        $crewPosition = factory(\App\Models\CrewPosition::class)->create();
+
+        $this->actingAs($this->user)
+            ->put(route('crew-position.update', $crewPosition->id), [
+                'bio'       => 'This is my bio',
+                'reel_file' => UploadedFile::fake()->create('resume.jpg'),
+                'method'    => 'put',
+            ])->assertSessionHasErrors([
+                'reel_file'
+            ]);
     }
 
     /**

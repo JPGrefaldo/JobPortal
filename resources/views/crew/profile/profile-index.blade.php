@@ -100,7 +100,7 @@
                     </div>
                 </div>
                 <div class="py-4">
-                    <a href='{{ route('crew.profile.create') }}' class="text-grey text-sm float-right">
+                    <a href='{{ route('crew.profile.edit') }}' class="text-grey text-sm float-right">
                         <i class="fas fa-pencil-alt mr-2"></i>Edit section</a>
                     <h4 class='text-grey'>WORK POSITIONS</h4>
                 </div>

@@ -162,7 +162,7 @@ export default {
             if (this.position_exists)
                 this.$store.dispatch('crew/updateCrewPositionInfo', this.form);
             else
-                this.$store.dispatch('crew/addCrewPositionInfo', this.form);
+                this.$store.dispatch('crew/storeCrewPositionInfo', this.form);
         },
 
         checkExistingCrewPosition: function() {

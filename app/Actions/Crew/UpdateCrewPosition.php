@@ -22,32 +22,17 @@ class UpdateCrewPosition
             'union_description' => $data['union_description'],
         ]);
 
-        if ($data['gear'] != null) {
-            if ($crew->gears()->where('crew_position_id', $crewPosition->id)->first()) {
-                $crew->gears()->where('crew_position_id', $crewPosition->id)->update([
-                    'description'      => $data['gear'],
-                ]);
-            } else {
-                $crew->gears()->create([
-                    'description'      => $data['gear'],
-                    'crew_position_id' => $crewPosition->id,
-                ]);
-            }
-        }
+        $crew->gears()->updateOrCreate(
+            ['crew_position_id' => $crewPosition->id],
+            ['description' => $data['gear'],]
+        );
 
-        if ($data['reel_link'] != null) {
-            if ($crew->reels()->where('crew_position_id', $crewPosition->id)->first()) {
-                $crew->reels()->where('crew_position_id', $crewPosition->id)->update([
-                    'crew_id'          => $crew->id,
-                    'path'             => $data['reel_link'],
-                ]);
-            } else {
-                $crew->reels()->create([
-                    'crew_id'          => $crew->id,
-                    'path'             => $data['reel_link'],
-                    'crew_position_id' => $crewPosition->id,
-                ]);
-            }
-        }
+        $crew->reels()->updateOrCreate(
+            ['crew_position_id', $crewPosition->id],
+            [
+                'crew_id' => $crew->id,
+                'path'    => $data['reel_link'],
+            ]
+        );
     }
 }

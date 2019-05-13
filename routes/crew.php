@@ -44,7 +44,7 @@ Route::prefix('crew/profile')->group(function () {
 });
 
 Route::prefix('/crew/positions')->group(function () {
-    Route::post('{position}', [\App\Http\Controllers\Crew\CrewPositionController::class, 'applyFor'])
+    Route::post('{position}', [\App\Http\Controllers\Crew\CrewPositionController::class, 'store'])
         ->name('crew-position.store');
     Route::put('{position}', [\App\Http\Controllers\Crew\CrewPositionController::class, 'update'])
         ->name('crew-position.update');

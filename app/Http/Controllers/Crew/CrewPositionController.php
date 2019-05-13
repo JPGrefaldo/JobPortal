@@ -7,7 +7,6 @@ use App\Actions\Crew\UpdateCrewPosition;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CrewPositionRequest;
 use App\Models\Position;
-use App\Models\CrewPosition;
 
 class CrewPositionController extends Controller
 {
@@ -26,12 +25,12 @@ class CrewPositionController extends Controller
 
         return response()->json([
             'crewPositions' => $crewPositions,
-            'gears' => $crew->gears->where('crew_id', $crew->id),
-            'reels' => $crew->reels->where('crew_id', $crew->id),
+            'gears'         => $crew->gears,
+            'reels'         => $crew->reels,
         ]);
     }
 
-    public function applyFor(Position $position, CrewPositionRequest $request)
+    public function store(Position $position, CrewPositionRequest $request)
     {
         $crew = auth()->user()->crew;
 
