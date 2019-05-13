@@ -67,9 +67,9 @@
                 </div>
                 <div class="dropdown shadow-md bg-white absolute py-3 font-body">
                     <ul class="list-reset text-left">
-                        @if(! Route::is('crew.profile'))
+                        @if(! Route::is('crew.profile.index'))
                             <li class="py-2 px-4">
-                                <a href="{{ route('crew.profile') }}" class="block text-blue-dark hover:text-green">View
+                                <a href="{{ route('crew.profile.index') }}" class="block text-blue-dark hover:text-green">View
                                     profile</a>
                             </li>
                         @endif
@@ -117,9 +117,9 @@
             <span class="ml-2 inline-block font-semibold text-white text-sm">{{ auth()->user()->full_name }}</span>
         </div>
         <ul class="list-reset text-left text-sm">
-            @if(! Route::is('crew.profile'))
+            @if(! Route::is('crew.profile.index'))
                 <li class="py-1 px-4">
-                    <a href="{{ route('crew.profile') }}" class="block text-white">View profile</a>
+                    <a href="{{ route('crew.profile.index') }}" class="block text-white">View profile</a>
                 </li>
             @endif
             @if(! Route::is('crew.profile.create'))
