@@ -1,6 +1,6 @@
 <?php
 
-Route::put('/admin/users/ban/{user}', [\App\Http\Controllers\Admin\AdminUsersController::class, 'updateBan'])
+Route::put('/admin/users/ban/{user}', [\App\Http\Controllers\Admin\AdminUserController::class, 'updateBan'])
     ->name('admin.users.ban');
 
 Route::prefix('/admin/sites')->group(function () {
@@ -9,18 +9,18 @@ Route::prefix('/admin/sites')->group(function () {
 });
 
 Route::prefix('/admin/departments')->group(function () {
-    Route::get('/', [\App\Http\Controllers\Admin\DepartmentsController::class, 'index'])
+    Route::get('/', [\App\Http\Controllers\Admin\DepartmentController::class, 'index'])
         ->name('admin.departments');
-    Route::post('/', [\App\Http\Controllers\Admin\DepartmentsController::class, 'store']);
-    Route::put('/{department}', [\App\Http\Controllers\Admin\DepartmentsController::class, 'update'])
+    Route::post('/', [\App\Http\Controllers\Admin\DepartmentController::class, 'store']);
+    Route::put('/{department}', [\App\Http\Controllers\Admin\DepartmentController::class, 'update'])
         ->name('admin.departments.update');
 });
 
 Route::prefix('/admin/positions')->group(function () {
-    Route::get('/', [\App\Http\Controllers\Admin\PositionsController::class, 'index'])
+    Route::get('/', [\App\Http\Controllers\Admin\PositionController::class, 'index'])
         ->name('admin.positions');
-    Route::post('/', [\App\Http\Controllers\Admin\PositionsController::class, 'store']);
-    Route::put('/{position}', [\App\Http\Controllers\Admin\PositionsController::class, 'update'])
+    Route::post('/', [\App\Http\Controllers\Admin\PositionController::class, 'store']);
+    Route::put('/{position}', [\App\Http\Controllers\Admin\PositionController::class, 'update'])
         ->name('admin.positions.update');
 });
 

@@ -17,7 +17,7 @@ class UpdateFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Producer\MessagesController::update
+     * @covers \App\Http\Controllers\Producer\MessageController::update
      */
     public function producer_can_flag_a_message()
     {

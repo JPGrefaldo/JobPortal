@@ -14,7 +14,7 @@ use App\Utils\UrlUtils;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 
-class ProjectsController extends Controller
+class ProjectController extends Controller
 {
     public function index()
     {

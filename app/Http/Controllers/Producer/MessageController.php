@@ -11,7 +11,7 @@ use App\Models\Project;
 use Cmgmyr\Messenger\Models\Message;
 use Illuminate\Support\Facades\Auth;
 
-class MessagesController extends Controller
+class MessageController extends Controller
 {
     public function store(ProducerStoreMessageRequest $request, Project $project)
     {

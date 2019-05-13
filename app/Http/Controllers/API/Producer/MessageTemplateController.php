@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Producer\Message\MessageTemplateRequest;
 use Illuminate\Http\Response;
 
-class MessageTemplatesController extends Controller
+class MessageTemplateController extends Controller
 {
     public function index()
     {

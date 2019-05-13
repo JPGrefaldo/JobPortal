@@ -15,11 +15,10 @@ class SubmissionFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers App\Http\Controllers\SubmissionsController::store
+     * @covers App\Http\Controllers\SubmissionController::store
      */
     public function show()
     {
-        $this->withoutExceptionHandling();
         $crew     = $this->createCrew();
         $producer = $this->createProducer();
 
@@ -54,7 +53,7 @@ class SubmissionFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers App\Http\Controllers\SubmissionsController::show
+     * @covers App\Http\Controllers\SubmissionController::show
      */
     public function should_include_crew_how_many_roles_applied_in_a_project()
     {

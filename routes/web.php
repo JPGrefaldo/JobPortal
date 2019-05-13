@@ -96,9 +96,9 @@ Route::middleware('auth')->group(function () {
         Route::get('manager/{manager}/resend-confirmation', [\App\Http\Controllers\Manager\ManagerConfirmationController::class, 'resend'])
             ->name('manager.resend-confirmation');
 
-        Route::get('notifications', [\App\Http\Controllers\Account\AccountNotificationsController::class, 'index'])
+        Route::get('notifications', [\App\Http\Controllers\Account\AccountNotificationController::class, 'index'])
             ->name('account.notifications');
-        Route::post('notifications', [\App\Http\Controllers\Account\AccountNotificationsController::class, 'store']);
+        Route::post('notifications', [\App\Http\Controllers\Account\AccountNotificationController::class, 'store']);
 
         Route::get('close', [\App\Http\Controllers\Account\AccountCloseController::class, 'index'])
             ->name('account.close');

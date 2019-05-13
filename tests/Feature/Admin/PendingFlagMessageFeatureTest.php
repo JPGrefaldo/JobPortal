@@ -41,7 +41,7 @@ class PendingFlagMessageFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Api\Admin\FlagMessagesController::index
+     * @covers \App\Http\Controllers\Api\Admin\FlagMessageController::index
      */
     public function admin_can_see_pending_flag_messages()
     {
@@ -79,7 +79,7 @@ class PendingFlagMessageFeatureTest extends TestCase
      * @test
      *
      * @covers \App\Http\Controllers\PendingFlagMessageController::index
-     * @covers \App\Http\Controllers\Api\Admin\FlagMessagesController::index
+     * @covers \App\Http\Controllers\Api\Admin\FlagMessageController::index
      */
     public function crew_is_not_allowed_to_see_flagged_messages()
     {
@@ -98,7 +98,7 @@ class PendingFlagMessageFeatureTest extends TestCase
      * @test
      *
      * @covers \App\Http\Controllers\PendingFlagMessageController::index
-     * @covers \App\Http\Controllers\Api\Admin\FlagMessagesController::index
+     * @covers \App\Http\Controllers\Api\Admin\FlagMessageController::index
      */
     public function producer_is_not_allowed_to_see_flagged_messages()
     {
