@@ -69,7 +69,7 @@ Route::middleware('auth')->group(function () {
     Route::get('dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])
         ->name('dashboard');
 
-    Route::get('/messages', ['as' => 'messages', 'uses' => 'MessagesDashboardController@index']);
+    Route::get('/messages', ['as' => 'messages', 'uses' => 'MessageDashboardController@index']);
 
     Route::prefix('account')->group(function () {
         Route::get('name', [\App\Http\Controllers\Account\AccountNameController::class, 'index'])
@@ -136,7 +136,7 @@ Route::middleware('auth')->group(function () {
         ->group(base_path('routes/producer.php'));
 
     Route::get('projects/{project}/jobs/{job}/submissions', [
-        \App\Http\Controllers\SubmissionsController::class,
+        \App\Http\Controllers\SubmissionController::class,
         'show',
     ])->middleware('role:Admin|Producer')->name('project.job.submissions.show');
         

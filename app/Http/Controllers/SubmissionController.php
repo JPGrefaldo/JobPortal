@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Submission;
 use App\Actions\Submissions\AddSubmissionsCounter;
 
-class SubmissionsController extends Controller
+class SubmissionController extends Controller
 {
     public function show(Project $project, ProjectJob $job)
     {

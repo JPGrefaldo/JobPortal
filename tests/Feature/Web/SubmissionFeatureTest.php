@@ -19,6 +19,7 @@ class SubmissionFeatureTest extends TestCase
      */
     public function show()
     {
+        $this->withoutExceptionHandling();
         $crew     = $this->createCrew();
         $producer = $this->createProducer();
 
@@ -48,7 +49,7 @@ class SubmissionFeatureTest extends TestCase
             )
             ->assertSuccessful();
         
-        $response->assertSee('Submissions');
+        $response->assertSee('Submission');
     }
 
     /**

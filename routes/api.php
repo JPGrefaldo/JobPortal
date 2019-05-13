@@ -42,12 +42,12 @@ Route::middleware('auth:api')->group(function () {
 
 
     Route::get('/threads/{thread}/messages', [
-        \App\Http\Controllers\MessagesController::class,
+        \App\Http\Controllers\MessageController::class,
         'index',
     ])->middleware('role:Producer|Crew')->name('messages.index');
 
     Route::post('/threads/{thread}/messages', [
-        \App\Http\Controllers\MessagesController::class,
+        \App\Http\Controllers\MessageController::class,
         'store',
     ])->middleware('role:Producer|Crew')->name('messages.store');
 
