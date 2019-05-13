@@ -1,12 +1,13 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Crew;
 
 use App\Models\Position;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
+use Illuminate\Support\Facades\Storage;
 
 class StoreCrewPositionFeatureTest extends TestCase
 {
@@ -19,6 +20,7 @@ class StoreCrewPositionFeatureTest extends TestCase
     public function store()
     {
         //$this->withoutExceptionHandling();
+        Storage::fake('s3');
 
         // given
         $user = $this->createCrew();

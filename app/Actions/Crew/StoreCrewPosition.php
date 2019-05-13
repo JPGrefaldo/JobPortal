@@ -15,9 +15,11 @@ class StoreCrewPosition
      */
     public function execute(Crew $crew, Position $position, array $data): void
     {
-        $crew->positions()->attach($position, [
-            'details'           => $data['bio'],
-            'union_description' => $data['union_description'],
+        $crew->positions()->syncWithoutDetaching([
+            $position->id => [
+                'details'           => $data['bio'],
+                'union_description' => $data['union_description'],
+            ],
         ]);
 
         $crewPosition = CrewPosition::byCrewAndPosition($crew, $position)->first();
@@ -27,10 +29,10 @@ class StoreCrewPosition
             'crew_position_id' => $crewPosition->id,
         ]);
 
-        $crew->reels()->create([
-            'crew_id'          => $crew->id,
-            'path'             => $data['reel_link'],
-            'crew_position_id' => $crewPosition->id,
-        ]);
+        $data['crew_position_id'] =  $crewPosition->id;
+
+        app(StoreCrewResume::class)->execute($crew, $data);
+
+        app(StoreCrewReel::class)->execute($crew, $data);
     }
 }

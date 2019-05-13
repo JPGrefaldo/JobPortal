@@ -7,6 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class CrewResume extends Model
 {
     /**
+     * @var array
+     */
+    protected $appends = [
+        'file_link',
+    ];
+
+    /**
      * The protected attributes
      *
      * @var array
@@ -30,5 +37,13 @@ class CrewResume extends Model
     public function crew()
     {
         return $this->belongsTo(Crew::class);
+    }
+
+    /**
+     * @return string
+     */
+    public function getFileLinkAttribute()
+    {
+        return config('filesystems.disks.s3.url') . '/' . $this->path;
     }
 }

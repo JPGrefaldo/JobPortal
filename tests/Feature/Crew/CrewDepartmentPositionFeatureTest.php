@@ -8,6 +8,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
+use Illuminate\Support\Facades\Storage;
 
 class CrewDepartmentPositionTest extends TestCase
 {
@@ -17,13 +18,14 @@ class CrewDepartmentPositionTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Crew\CrewPositionController::applyFor
+     * @covers \App\Http\Controllers\Crew\CrewPositionController::store
      */
     public function apply_for()
     {
         // given
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
 
+        Storage::fake('s3');
         $crew     = $this->createCrew();
         $position = factory(Position::class)->create();
 
@@ -33,7 +35,7 @@ class CrewDepartmentPositionTest extends TestCase
             'bio'               => 'This is the bio',
             'gear'              => 'This is the gear',
             'union_description' => 'Some union description',
-            'reel_link'         => 'http://www.youtube.com/embed/G8S81CEBdNs',
+            'reel_link'         => 'https://www.youtube.com/embed/G8S81CEBdNs',
         ];
 
         $response = $this->actingAs($crew)
@@ -65,6 +67,9 @@ class CrewDepartmentPositionTest extends TestCase
     public function cannot_apply_without_general_resume()
     {
         //$this->withoutExceptionHandling();
+
+        Storage::fake('s3');
+
         $crew     = $this->createCrew();
         $position = factory(Position::class)->create();
 
@@ -73,7 +78,7 @@ class CrewDepartmentPositionTest extends TestCase
             'bio'               => 'This is the bio',
             'gear'              => 'This is the gear',
             'union_description' => 'Some union description',
-            'reel_link'         => 'http://www.youtube.com/embed/G8S81CEBdNs',
+            'reel_link'         => 'https://www.youtube.com/embed/G8S81CEBdNs',
         ];
 
         $response = $this->actingAs($crew)

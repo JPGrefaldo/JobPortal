@@ -43,5 +43,8 @@ Route::prefix('crew/profile')->group(function () {
         ->name('crew.profile.update');
 });
 
+
+Route::get('/crew/positions/{position}/show', [\App\Http\Controllers\Crew\CrewPositionController::class, 'getPositionData']);
 Route::post('/crew/positions/{position}', [\App\Http\Controllers\Crew\CrewPositionController::class, 'applyFor'])
     ->name('crew-position.store');
+Route::delete('/crew/positions/{position}/resume', [\App\Http\Controllers\Crew\CrewPositionController::class, 'removeResume']);
