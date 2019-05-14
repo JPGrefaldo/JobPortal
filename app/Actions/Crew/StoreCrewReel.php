@@ -37,6 +37,7 @@ class StoreCrewReel
         } else {
             $values['path'] = app(CleanVideoLink::class)->execute($data['reel_link']);
         }
+        
         $attributes = [
             'general' => true,
         ];

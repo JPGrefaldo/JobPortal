@@ -103,11 +103,11 @@ class CrewProfileController extends Controller
      * @param  CreateCrewRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function photoStore(CreatePhotoRequest $request)
+    public function storePhoto(CreatePhotoRequest $request)
     {
         $data = $request->validated();
-        $user = Auth::user()->crew;
-        app(StoreCrewPhoto::class)->execute($user, $data);
+        $crew = Auth::user()->crew;
+        app(StoreCrewPhoto::class)->execute($crew, $data);
     }
 
     /**
@@ -144,6 +144,7 @@ class CrewProfileController extends Controller
         $user = Auth::user()->load([
             'crew',
         ]);
+        
         return view('crew.profile.profile-edit', [
             'user'            => $user,
             'socialLinkTypes' => $this->getAllSocialLinkTypes($user),

@@ -1,5 +1,5 @@
 <template>
-    <div>  
+    <div id="app">  
         <file-pond class="w-2/5" name="photo" ref="photo" label-idle="Drop files here or <span class='filepond--label-action'>Browse</span>"
             allow-multiple="true" accepted-file-types="image/jpeg, image/png" imagePreviewHeight="200" imagePreviewWidth="200" allowImageResize="true" imageResizeTargetWidth="1000" imageResizeTargetHeight="1000" imageResizeMode="cover" imageResizeUpscale="true" allowImageCrop="true" imageCropAspectRatio="1:1" v-bind:files="myFiles"/>
     </div>
@@ -42,7 +42,7 @@ const FilePond = vueFilePond(
     FilePondPluginImageCrop
 )
 export default {
-    name: 'FilePondDemo',
+    name: 'app',
     data: function() {
         return { myFiles: [] }
     },
