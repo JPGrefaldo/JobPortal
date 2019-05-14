@@ -150,7 +150,6 @@ export default {
             positionData: {},
             positionData: [],
             reel: null,
-
             form: new Form({
                 bio: '',
                 union_description: '',

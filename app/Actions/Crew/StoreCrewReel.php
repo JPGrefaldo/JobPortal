@@ -45,7 +45,6 @@ class StoreCrewReel
         $values['general'] = true;
 
         if (isset($data['crew_position_id'])) {
-
             $attributes = [
                 'crew_position_id' => $data['crew_position_id'],
             ];
