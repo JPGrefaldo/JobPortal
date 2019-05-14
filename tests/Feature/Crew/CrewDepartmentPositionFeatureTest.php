@@ -6,9 +6,9 @@ use App\Models\Position;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
-use Illuminate\Support\Facades\Storage;
 
 class CrewDepartmentPositionFeatureTest extends TestCase
 {
@@ -37,7 +37,7 @@ class CrewDepartmentPositionFeatureTest extends TestCase
 
         $response = $this->actingAs($crew)
             ->postJson(route('crew-position.store', $position), $data);
-            
+
         $response->assertSuccessful();
 
         $this->assertDatabaseHas('crew_position', [

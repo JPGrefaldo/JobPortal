@@ -49,14 +49,4 @@ class CreateCrewRequest extends FormRequest
             'socials.personal_website.url' => ['nullable', new TLDR],
         ];
     }
-
-    /**
-     * @return array
-     *
-     */
-    public function attributes()
-    {
-        return [
-        ];
-    }
 }
