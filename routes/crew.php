@@ -43,15 +43,9 @@ Route::prefix('crew/profile')->group(function () {
         ->name('crew.profile.update');
 });
 
-Route::prefix('/crew/positions')->group(function () {
-    Route::post('{position}', [\App\Http\Controllers\Crew\CrewPositionController::class, 'store'])
-        ->name('crew-position.store');
-    Route::put('{position}', [\App\Http\Controllers\Crew\CrewPositionController::class, 'update'])
-        ->name('crew-position.update');
-});
 
-Route::prefix('/crew/crew-positions')->group(function () {
-    Route::get('/check', [\App\Http\Controllers\Crew\CrewPositionController::class, 'checkCrewPositions']);
-    Route::get('/', [\App\Http\Controllers\Crew\CrewPositionController::class, 'fetchCrewPosition']);
-});
- 
+Route::get('/crew/positions/{position}/show', [\App\Http\Controllers\Crew\CrewPositionController::class, 'getPositionData']);
+Route::post('/crew/positions/{position}', [\App\Http\Controllers\Crew\CrewPositionController::class, 'applyFor'])
+    ->name('crew-position.store');
+Route::delete('/crew/positions/{position}/resume', [\App\Http\Controllers\Crew\CrewPositionController::class, 'removeResume']);
+Route::get('/crew/positions/{position}/reel', [\App\Http\Controllers\Crew\CrewPositionController::class, 'removeReel']);

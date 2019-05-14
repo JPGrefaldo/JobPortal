@@ -30,7 +30,7 @@ class CrewPositionController extends Controller
         ]);
     }
 
-    public function store(Position $position, CrewPositionRequest $request)
+    public function applyFor(Position $position, CrewPositionRequest $request)
     {
         $crew = auth()->user()->crew;
 

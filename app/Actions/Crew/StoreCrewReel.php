@@ -29,21 +29,32 @@ class StoreCrewReel
         }
 
         if ($this->isUploadedFile($data)) {
-            $reelPath = $data['reel_file']->store(
+            $values['path'] = $data['reel_file']->store(
                 $crew->user->hash_id . '/reels',
                 's3',
                 'public'
             );
         } else {
-            $reelPath = app(CleanVideoLink::class)->execute($data['reel_link']);
+            $values['path'] = app(CleanVideoLink::class)->execute($data['reel_link']);
         }
 
-        $crew->reels()->updateOrCreate([
+        $attributes = [
             'general' => true,
-        ], [
-            'path'    => $reelPath,
-            'general' => true,
-        ]);
+        ];
+
+        $values['general'] = true;
+
+        if (isset($data['crew_position_id'])) {
+
+            $attributes = [
+                'crew_position_id' => $data['crew_position_id'],
+            ];
+
+            $values['crew_position_id'] = $data['crew_position_id'];
+            $values['general']          = false;
+        }
+
+        $crew->reels()->updateOrCreate($attributes, $values);
     }
 
     /**

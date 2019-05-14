@@ -12,6 +12,7 @@ class CrewReel extends Model
      * @var array
      */
     protected $guarded = ['id'];
+
     /**
      * @var array
      */

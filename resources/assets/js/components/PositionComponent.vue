@@ -1,9 +1,9 @@
 <template>
     <div>
         <div class="py-2">
-            <label class="checkbox-control">
+            <label class="checkbox-control" @click.stop.prevent="toggleSelect">
                 <h3 class="text-md" v-text="position.name"></h3>
-                <input type="checkbox" v-model="selected" />
+                <input type="checkbox" v-model="filled"/>
                 <div class="control-indicator"></div>
             </label>
         </div>
@@ -15,8 +15,10 @@
                             class="form-control w-full h-64"
                             placeholder="Position Biography"
                             v-model="form.bio"
+                            :class="{ 'input__error': form.errors.has('bio') }"
                         >
                         </textarea>
+                        <has-error :form="form" field="bio"></has-error>
                     </div>
                 </div>
                 <div class="py-2">
@@ -35,10 +37,17 @@
                             <h3 class="text-md font-header mb-2 md:mb-0">Resume</h3>
                         </div>
                         <div class="md:w-2/3">
-                            <button for="resume" class="btn-outline text-green inline-block" @click="uploadResume()">
-                                Upload file
-                            </button>
-                            <input id="crewResume" class="hidden" type="file" name="resume" ref="resume" @change="onResumeChange" />
+                            <label :for="'resume' + position.id" 
+                                class="btn-outline text-white inline-block cursor-pointer bg-green">{{form.resume ? "change" : "upload"}} file</label>
+                            <input type="file" :id="'resume' + position.id" @change="selectFile" name="resume" class="hidden"/> 
+                            <button v-if="form.resume" @click="removeResume(form.id)" class="btn-outline text-green inline-block cursor-pointer">Remove</button>
+                            <div v-if="form.resume" class="w-full pt-2">
+                                <i class="fas fa-file-pdf"></i>
+                                <span>
+                                    <a target="_blank" :href="form.resume.file_link">Resume</a>
+                                </span>
+                            </div>
+                            <has-error :form="form" field="resume"></has-error>
                         </div>
                     </div>
                 </div>
@@ -47,18 +56,26 @@
                         <div class="md:w-1/3 pr-8">
                             <h3 class="text-md font-header mt-2 mb-2 md:mb-0">Reel</h3>
                         </div>
-                        <div class="md:w-2/3">
+                        <div v-if="reel" class="md:w-2/3">
+                            <a :href="reel" target="_blank" class="btn-outline text-white inline-block bg-green">View File</a>
+                            <button @click="removeReel(form.id)" class="btn-outline text-green inline-block">Remove</button>
+                        </div>
+                        <div v-if="! reel" class="md:w-2/3">
                             <input
                                 type="text"
                                 class="form-control bg-light w-64 mr-2 mb-2 md:mb-0"
+                                :class="{ 'input__error': form.errors.has('reel_link') }"
                                 placeholder="Add link"
                                 v-model="form.reel_link"
                             />
+                            <has-error :form="form" field="reel_link"></has-error>
                             or
-                            <label for="reel" class="btn-outline text-green inline-block"
+                            <label :for="'reel_file' + position.id" class="btn-outline text-green inline-block"
+                                :class="{ 'input__error': form.errors.has('reel_file') }"
                                 >Upload file</label
                             >
-                            <input id="reel" type="file" name="reel" class="hidden" />
+                            <input type="file" :id="'reel_file' + position.id" @change="selectFile" name="reel_file" class="hidden" />
+                            <has-error :form="form" field="reel_file"></has-error>
                         </div>
                     </div>
                 </div>
@@ -105,9 +122,8 @@
                 </div>
             </div>
             <div class="pt-8 pb-4 text-right border-t-2 border-grey-lighter">
-                <button class="text-grey bold mr-4 hover:text-green" @click="selected = false">Cancel</button>
-                <button class="btn-green" v-if="position_exists" @click="onClickSave">UPDATE CHANGES</button>
-                <button class="btn-green" v-else @click="onClickSave">SAVE CHANGES</button>
+                <button class="text-grey bold mr-4 hover:text-green focus:outline-none" @click="selected = false">Cancel</button>
+                <button class="btn-green focus:outline-none" @click="onClickSave">SAVE CHANGES</button>
             </div>
         </div>
     </div>
@@ -115,26 +131,34 @@
 
 <script>
 import { Form, HasError, AlertError } from 'vform';
-import { mapGetters } from 'vuex';
+import InputErrors from './_partials/InputErrors';
+import objectToFormData from 'object-to-formdata';
+
+     window.objectToFormData = objectToFormData
 
 export default {
     name: 'PositionComponent',
+    components: { 'has-error': InputErrors },
     props: {
         position: Object,
     },
     data() {
         return {
-            position_exists: false,
-            has_gear       : false,
-            selected       : false,
+            has_gear: false,
+            selected: false,
+            filled: false,
+            positionData: {},
+            positionData: [],
+            reel: null,
+
             form: new Form({
                 bio              : '',
                 union_description: '',
-                resume           : null,
-                reel_link        : '',
-                reel_file        : null,
-                gear             : '',
-                position         : this.position.id,
+                resume: null,
+                reel_link: '',
+                reel_file: null,
+                gear: '',
+                position: this.position.id,
             }),
         };
     },
@@ -145,6 +169,16 @@ export default {
         })
     },
     methods: {
+        toggleSelect: function(){
+            this.selected = ! this.selected
+            return false;
+        },
+
+        selectFile: function(e){
+            this.form[e.target.name] = e.target.files[0]
+            e.target.value = ''
+        },
+
         onClickSave: function() {
             this.saveCrewPosition();
         },
@@ -159,46 +193,70 @@ export default {
         },
 
         saveCrewPosition: function() {
-            if (this.position_exists)
-                this.$store.dispatch('crew/updateCrewPositionInfo', this.form);
-            else
-                this.$store.dispatch('crew/storeCrewPositionInfo', this.form);
-        },
-
-        checkExistingCrewPosition: function() {
-            if (this.existingCrewPositions.includes(this.position.id)) {
-                this.selected        = true;
-                this.position_exists = true;
-
-                this.$store.dispatch('crew/fetchCrewPositionInfo');
-
-                setTimeout(() => this.fetchCrewPosition(), 2000);
-            }
-            else
-                this.selected = false;
-        },
-
-        fetchCrewPosition: function() {
-            for (var i = 0; i < this.crewPositionInfo['crewPositions'].length; i++) {
-                if (this.crewPositionInfo['crewPositions'][i].position_id == this.position.id) {
-                    this.form.bio = this.crewPositionInfo['crewPositions'][i].details;
-                    this.form.union_description = this.crewPositionInfo['crewPositions'][i].union_description;
-
-                    if (this.crewPositionInfo['reels'][i] != null) {
-                        this.form.reel_link = this.crewPositionInfo['reels'][i].path;
-                    }
-
-                    if (this.crewPositionInfo['gears'][i] != null) {
-                        this.has_gear = true;
-                        this.form.gear = this.crewPositionInfo['gears'][i].description;
-                    }
+            this.form.submit('post','/crew/positions/' + this.position.id,{
+              transformRequest: [function (data, headers) {
+                return objectToFormData(data)
+              }]
+            })
+            .then(({ data }) => {
+                if(data === 'success'){
+                    this.filled = true;
+                    this.getPositionData();
                 }
-            }
+            });
         },
+
+        fillData: function(data){
+            
+            this.form = new Form({
+                id: data.id,
+                bio: data.details,
+                union_description: data.union_description ? data.union_description : '',
+                resume: data.resume ? data.resume : null,
+                reel: data.reel ? data.reel : false ,
+                gear: data.gear ? data.gear.description : '',
+            });
+
+            this.reel = data.reel ? data.reel.path : null;
+        },
+
+        getPositionData: function(){
+            axios
+                .get(`/crew/positions/${this.position.id}/show`)
+                .then(response => {
+                    this.filled = true
+                    this.fillData(response.data)
+                })
+        },
+
+        removeResume: function(positionId){
+            axios
+                .delete(`/crew/positions/${positionId}/resume`)
+                .then(({data}) => {
+                    if(data == 'success'){
+                        this.getPositionData();
+                    }
+            })
+
+            this.form.resume = null
+        },
+
+        removeReel: function(positionId){
+            axios
+                .get(`/crew/positions/${positionId}/reel`)
+                .then(({data}) => {
+                    if(data == 'success'){
+                        this.getPositionData();
+                    }
+                })
+
+            this.form.reel_file = null
+        }
     },
-    mounted() {
-        this.$store.dispatch('crew/checkExistingCrewPosition');
-        setTimeout(() => this.checkExistingCrewPosition(), 2000);
-    },
+    mounted(){
+         this.$nextTick(function () {
+                this.getPositionData();
+            });
+    }
 };
 </script>

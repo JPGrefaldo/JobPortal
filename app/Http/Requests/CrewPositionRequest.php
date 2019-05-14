@@ -26,13 +26,8 @@ class CrewPositionRequest extends FormRequest
     {
         return [
             'bio'               => 'required|string|min:10',
-            'resume'            => 'required_unless:method,put|nullable|file|mimes:doc,pdf,docx,zip',
-            'reel_link'         => [
-                'nullable',
-                'max:50',
-                'string',
-                new Reel(),
-            ],
+            'resume'            => 'required|file|mimes:pdf,doc,docx',
+            'reel_link'         => ['nullable', 'max:50', 'string', new Reel()],
             'reel_file'         => 'nullable|file|mimes:mp4,avi,wmv|max:20000',
             'gear'              => 'nullable|string|max:50|min:8',
             'union_description' => 'nullable|string|max:50|min:8',
