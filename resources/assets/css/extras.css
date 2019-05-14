@@ -602,3 +602,7 @@ body.nav-open {
     pointer-events: initial;
     opacity: 1;
   }
+
+  .rotate-1\/2 {
+    transform: rotate(180deg);
+}
