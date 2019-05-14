@@ -35,14 +35,4 @@ class StoreCrewPositionRequest extends FormRequest
             'union_description' => 'nullable|string|max:50|min:8',
         ];
     }
-
-    /**
-     * @return array
-     *
-     */
-    public function attributes()
-    {
-        return [
-        ];
-    }
 }

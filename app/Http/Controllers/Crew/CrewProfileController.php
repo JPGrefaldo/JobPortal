@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Crew;
 
 use App\Actions\Crew\StoreCrew;
+use App\Actions\Crew\StoreCrewPhoto;
 use App\Actions\Crew\UpdateCrew;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateCrewRequest;
+use App\Http\Requests\CreatePhotoRequest;
 use App\Models\User;
 use App\Services\DepartmentsServices;
 use App\Services\SocialLinksServices;
@@ -95,6 +97,20 @@ class CrewProfileController extends Controller
     }
 
     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  CreateCrewRequest $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storePhoto(CreatePhotoRequest $request)
+    {
+        $data = $request->validated();
+        $crew = Auth::user()->crew;
+        app(StoreCrewPhoto::class)->execute($crew, $data);
+    }
+
+    /**
+     * Display the specified resource.
      * Shows another crew's profile that is not of the logged in user
      *
      * @param  int  $id

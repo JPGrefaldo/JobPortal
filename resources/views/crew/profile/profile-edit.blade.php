@@ -47,8 +47,7 @@
                                     <h3 class="text-md font-header mb-2 md:mb-0">Profile Photo</h3>
                                 </div>
                                 <div class="md:w-2/3">
-                                    <label for="photo-file" class="btn-outline text-green inline-block" >Upload file</label>
-                                    <input type="file" name="photo" id="photo-file" class="hidden">
+                                    <file-pond></file-pond>
                                 </div>
                             </div>
                         </div>
@@ -136,4 +135,3 @@
     </main>
 
 @endsection
-

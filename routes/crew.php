@@ -43,6 +43,7 @@ Route::prefix('crew/profile')->group(function () {
         ->name('crew.profile.update');
 });
 
+Route::post('/crew/photos', [\App\Http\Controllers\Crew\CrewProfileController::class, 'storePhoto']);
 
 Route::get('/crew/positions/{position}/show', [\App\Http\Controllers\Crew\CrewPositionController::class, 'getPositionData']);
 Route::post('/crew/positions/{position}', [\App\Http\Controllers\Crew\CrewPositionController::class, 'applyFor'])
