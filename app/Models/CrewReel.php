@@ -19,7 +19,7 @@ class CrewReel extends Model
      * @var array
      */
     protected $fillable = ['crew_id', 'crew_position_id', 'path', 'general'];
-
+    
     /**
      * @var array
      */

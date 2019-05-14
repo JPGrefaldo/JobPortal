@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="py-2">
-            <label class="checkbox-control" @click.stop.prevent="select">
+            <label class="checkbox-control" @click.stop.prevent="toggleSelect">
                 <h3 class="text-md" v-text="position.name"></h3>
                 <input type="checkbox" v-model="filled"/>
                 <div class="control-indicator"></div>
@@ -44,7 +44,7 @@
                             <div v-if="form.resume" class="w-full pt-2">
                                 <i class="fas fa-file-pdf"></i>
                                 <span>
-                                    <a target="_blank" :href="'/'+form.resume.path">Resume</a>
+                                    <a target="_blank" :href="form.resume.file_link">Resume</a>
                                 </span>
                             </div>
                             <has-error :form="form" field="resume"></has-error>
@@ -56,7 +56,11 @@
                         <div class="md:w-1/3 pr-8">
                             <h3 class="text-md font-header mt-2 mb-2 md:mb-0">Reel</h3>
                         </div>
-                        <div class="md:w-2/3">
+                        <div v-if="reel" class="md:w-2/3">
+                            <a :href="reel" target="_blank" class="btn-outline text-white inline-block bg-green">View File</a>
+                            <button @click="removeReel(form.id)" class="btn-outline text-green inline-block">Remove</button>
+                        </div>
+                        <div v-if="! reel" class="md:w-2/3">
                             <input
                                 type="text"
                                 class="form-control bg-light w-64 mr-2 mb-2 md:mb-0"
@@ -70,7 +74,7 @@
                                 :class="{ 'input__error': form.errors.has('reel_file') }"
                                 >Upload file</label
                             >
-                            <input type="file" :id="'reel_file' + position.id" @change="selectFile" name="reel_file"class="hidden" />
+                            <input type="file" :id="'reel_file' + position.id" @change="selectFile" name="reel_file" class="hidden" />
                             <has-error :form="form" field="reel_file"></has-error>
                         </div>
                     </div>
@@ -118,7 +122,7 @@
                 </div>
             </div>
             <div class="pt-8 pb-4 text-right border-t-2 border-grey-lighter">
-                <button href class="text-grey bold mr-4 hover:text-green focus:outline-none" @click="selected = false">Cancel</button>
+                <button class="text-grey bold mr-4 hover:text-green focus:outline-none" @click="selected = false">Cancel</button>
                 <button class="btn-green focus:outline-none" @click="onClickSave">SAVE CHANGES</button>
             </div>
         </div>
@@ -145,6 +149,7 @@ export default {
             filled: false,
             positionData: {},
             positionData: [],
+            reel: null,
             form: new Form({
                 bio: '',
                 union_description: '',
@@ -157,14 +162,16 @@ export default {
         };
     },
     methods: {
-        select: function(){
+        toggleSelect: function(){
             this.selected = ! this.selected
             return false;
         },
+
         selectFile: function(e){
             this.form[e.target.name] = e.target.files[0]
             e.target.value = ''
         },
+
         onClickSave: function() {
             this.saveCrewPosition();
         },
@@ -182,36 +189,52 @@ export default {
                 }
             });
         },
+
         fillData: function(data){
             
             this.form = new Form({
                 id: data.id,
                 bio: data.details,
-                union_description: data.union_description || '',
-                resume: data.resume || null,
-                reel: data.reel || false ,
-                gear: (data.gear || []).description || '',
+                union_description: data.union_description ? data.union_description : '',
+                resume: data.resume ? data.resume : null,
+                reel: data.reel ? data.reel : false ,
+                gear: data.gear ? data.gear.description : '',
             });
+
+            this.reel = data.reel ? data.reel.path : null;
         },
+
         getPositionData: function(){
             axios
-                .get(`/crew/${this.position.id}/data`)
+                .get(`/crew/positions/${this.position.id}/show`)
                 .then(response => {
                     this.filled = true
-                    this.fillData(response.data);
+                    this.fillData(response.data)
                 })
         },
-        removeResume: function(crewPosition){
+
+        removeResume: function(positionId){
             axios
-                .get(`/crew/${crewPosition}/remove/resume`)
+                .delete(`/crew/positions/${positionId}/resume`)
                 .then(({data}) => {
-                    console.log(data);
                     if(data == 'success'){
                         this.getPositionData();
                     }
             })
 
             this.form.resume = null
+        },
+
+        removeReel: function(positionId){
+            axios
+                .get(`/crew/positions/${positionId}/reel`)
+                .then(({data}) => {
+                    if(data == 'success'){
+                        this.getPositionData();
+                    }
+                })
+
+            this.form.reel_file = null
         }
     },
     mounted(){

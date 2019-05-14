@@ -12,6 +12,16 @@
             </button>
         </div>
         <div class="w-4/5 bg-grey-light flex justify-between items-center p-3">
+            <label class="checkbox-control">
+                Save
+                <input
+                    name="Post add on these websites"
+                    type="checkbox"
+                    value="all"
+                    v-model="saveTemplate"
+                />
+                <div class="control-indicator"></div>
+            </label>
             <input
                 v-model="message"
                 type="text"
@@ -25,16 +35,17 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { color } from '../../mixins';
+import { alert, color } from '../../mixins';
 
 export default {
     props: ['roles', 'user'],
 
-    mixins: [color],
+    mixins: [alert, color],
 
     data() {
         return {
             message: null,
+            saveTemplate: false
         };
     },
 
@@ -61,12 +72,24 @@ export default {
         },
 
         sendMessage() {
+            if (this.saveTemplate) {
+                this.saveMessageTemplate(this.message)
+            }
+
             let params = {
                 message: this.message,
                 thread: this.thread.id,
             };
             this.$store.dispatch('message/send', params);
         },
+
+        saveMessageTemplate(message) {
+            this.$store
+                .dispatch('message/save', {message})
+                .then(response => {
+                    this.displaySuccess(response)
+                })
+        }
     },
 };
 </script>

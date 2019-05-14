@@ -32,19 +32,20 @@ Route::post('/crew/messages', [\App\Http\Controllers\Crew\MessageController::cla
 
 Route::prefix('crew/profile')->group(function () {
     Route::get('/', [\App\Http\Controllers\Crew\CrewProfileController::class, 'index'])
-        ->name('crew.profile');
-    Route::get('edit', [\App\Http\Controllers\Crew\CrewProfileController::class, 'edit'])
-    ->name('crew.profile.edit');
-
+        ->name('crew.profile.index');
     Route::get('create', [\App\Http\Controllers\Crew\CrewProfileController::class, 'create'])
         ->name('crew.profile.create');
-    Route::post('edit', [\App\Http\Controllers\Crew\CrewProfileController::class, 'store']);
-    Route::put('edit', [\App\Http\Controllers\Crew\CrewProfileController::class, 'update']);
+    Route::post('', [\App\Http\Controllers\Crew\CrewProfileController::class, 'store'])
+        ->name('crew.profile.store');
+    Route::get('edit', [\App\Http\Controllers\Crew\CrewProfileController::class, 'edit'])
+        ->name('crew.profile.edit');
+    Route::put('', [\App\Http\Controllers\Crew\CrewProfileController::class, 'update'])
+        ->name('crew.profile.update');
 });
-
 Route::post('/crew/photos', [\App\Http\Controllers\Crew\CrewProfileController::class, 'photoStore']);
 
-Route::get('/crew/position-data/{position}',[\App\Http\Controllers\Crew\CrewPositionController::class, 'fetchPosition']);
-Route::post('/crew/positions/{position}', [\App\Http\Controllers\Crew\CrewPositionController::class, 'applyFor'])->name('crew-position.store');
-Route::get('/crew/{position}/data', [\App\Http\Controllers\Crew\CrewPositionController::class, 'getPositionData']);
-Route::get('/crew/{position}/remove/resume', [\App\Http\Controllers\Crew\CrewPositionController::class, 'removeResume']);
+Route::get('/crew/positions/{position}/show', [\App\Http\Controllers\Crew\CrewPositionController::class, 'getPositionData']);
+Route::post('/crew/positions/{position}', [\App\Http\Controllers\Crew\CrewPositionController::class, 'applyFor'])
+    ->name('crew-position.store');
+Route::delete('/crew/positions/{position}/resume', [\App\Http\Controllers\Crew\CrewPositionController::class, 'removeResume']);
+Route::get('/crew/positions/{position}/reel', [\App\Http\Controllers\Crew\CrewPositionController::class, 'removeReel']);

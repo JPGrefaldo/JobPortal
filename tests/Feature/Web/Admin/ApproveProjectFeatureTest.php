@@ -26,7 +26,7 @@ class ApproveProjectFeatureTest extends TestCase
 
         $response = $this->actingAs($user, 'api')
             ->get(route('admin.pending-projects'))
-            ->assertSee('Succesfully fetched all projects.')
+            ->assertSee('Successfully fetched all projects.')
             ->assertSuccessful();
 
         $response->assertJsonFragment(

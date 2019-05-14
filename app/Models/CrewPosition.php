@@ -101,18 +101,27 @@ class CrewPosition extends Pivot
         $this->attributes['union_description'] = (is_null($value) ? '' : $value);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function reel()
     {
-        return $this->hasOne(CrewReel::class,'crew_position_id');
+        return $this->hasOne(CrewReel::class, 'crew_position_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function gear()
     {
-        return $this->hasOne(CrewGear::class,'crew_position_id');
+        return $this->hasOne(CrewGear::class, 'crew_position_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function resume()
     {
-        return $this->hasOne(CrewResume::class,'crew_position_id');
+        return $this->hasOne(CrewResume::class, 'crew_position_id');
     }
 }

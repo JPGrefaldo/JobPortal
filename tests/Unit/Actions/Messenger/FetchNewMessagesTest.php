@@ -60,7 +60,7 @@ class FetchNewMessagesTest extends TestCase
         })
             ->flatMap(function ($emailFormat) {
 
-                    // Then we assert if we succesfully added the thread subject to the messages
+                    // Then we assert if we Successfully added the thread subject to the messages
                 $this->assertEquals('Thread Test Subject', $emailFormat->thread);
                     
                 // And assert if the email format is what we expected to be

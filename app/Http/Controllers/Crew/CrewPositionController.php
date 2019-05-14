@@ -12,6 +12,11 @@ use App\Models\CrewPosition;
 
 class CrewPositionController extends Controller
 {
+    /**
+     * @param \App\Models\Position $position
+     * @param \App\Http\Requests\StoreCrewPositionRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function applyFor(Position $position, StoreCrewPositionRequest $request)
     {
         $crew = auth()->user()->crew;
@@ -20,17 +25,47 @@ class CrewPositionController extends Controller
 
         app(StoreCrewPosition::class)->execute($crew, $position, $data);
 
-        return 'success';
+        return response()->json([
+            'message' => 'success',
+        ]);
     }
 
+    /**
+     * @param \App\Models\Position $position
+     * @return \App\Models\CrewPosition|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model
+     */
     public function getPositionData(Position $position)
     {
-        return app(GetCrewPositionByPosition::class)->execute(auth()->user(), $position)->load(['reel','gear','resume']);
-        return app(GetCrewPositionByPosition::class)->execute(auth()->user(), $position)->load(['resume','gear']);        
+        $crew = auth()->user()->crew;
+
+        $crewPosition = CrewPosition::byCrewAndPosition($crew, $position)
+            ->with([
+                'resume',
+                'gear',
+                'reel',
+            ])->firstOrFail();
+
+        return $crewPosition;
     }
 
+    /**
+     * @param \App\Models\CrewPosition $position
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
     public function removeResume(CrewPosition $position)
     {
-        return $position->resume->delete() ? 'success' : 'failed';
+        return response()->json([
+            'message' => $position->resume->delete() ? 'success' : 'failed',
+        ]);
+    }
+
+    /**
+     * @param \App\Models\CrewPosition $position
+     * @return string
+     */
+    public function removeReel(CrewPosition $position)
+    {
+        return $position->reel()->delete() ? 'success' : 'failed';
     }
 }

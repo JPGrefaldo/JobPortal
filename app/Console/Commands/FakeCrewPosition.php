@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\CrewPosition;
 use App\Models\Position;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Console\Command;
 
@@ -46,7 +47,7 @@ class FakeCrewPosition extends Command
     {
         $user = User::findOrFail((int) $this->argument('user'));
 
-        if (! $user->hasRole('Crew')) {
+        if (! $user->hasRole(Role::CREW)) {
             $this->error('User is '.$user->getRoleNames().' not a Crew');
             return;
         }

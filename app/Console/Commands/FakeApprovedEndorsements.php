@@ -7,6 +7,7 @@ use App\Models\Endorsement;
 use App\Models\EndorsementEndorser;
 use App\Models\EndorsementRequest;
 use App\Models\Position;
+use App\Models\Role;
 use App\Models\User;
 use App\Utils\StrUtils;
 use Carbon\Carbon;
@@ -58,7 +59,7 @@ class FakeApprovedEndorsements extends Command
 
         $user = User::findOrFail((int) $this->argument('user'));
 
-        if (! $user->hasRole('Crew')) {
+        if (! $user->hasRole(Role::CREW)) {
             throw new \Exception('User is not Crew');
         }
 
