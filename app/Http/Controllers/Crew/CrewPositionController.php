@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Crew;
 
 use App\Actions\Crew\StoreCrewPosition;
+use App\Actions\Submissions\CreateSubmission;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCrewPositionRequest;
 use App\Models\CrewPosition;
 use App\Models\Position;
+use App\Models\ProjectJob;
 
 class CrewPositionController extends Controller
 {
@@ -15,7 +17,7 @@ class CrewPositionController extends Controller
      * @param \App\Http\Requests\StoreCrewPositionRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function applyFor(Position $position, StoreCrewPositionRequest $request)
+    public function store(Position $position, StoreCrewPositionRequest $request)
     {
         $crew = auth()->user()->crew;
 
@@ -65,5 +67,12 @@ class CrewPositionController extends Controller
     public function removeReel(CrewPosition $position)
     {
         return $position->reel()->delete() ? 'success' : 'failed';
+    }
+
+    public function applyJob(ProjectJob $projectJob)
+    {
+        $crew = auth()->user()->crew;
+
+        app(CreateSubmission::class)->execute($crew, $projectJob);
     }
 }

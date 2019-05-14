@@ -24,6 +24,8 @@ Route::prefix('crew')->group(function () {
         Route::get('/job/{projectJob}', [\App\Http\Controllers\Crew\ProjectJobsController::class, 'show'])
             ->name('crew.project.job');
     });
+
+    Route::post('job/{job}/apply', [\App\Http\Controller\Crew\CrewPositionController::class, 'applyJob']);
 });
 
 // TODO: defer to common route for both crew and admin
@@ -43,9 +45,8 @@ Route::prefix('crew/profile')->group(function () {
         ->name('crew.profile.update');
 });
 
-
 Route::get('/crew/positions/{position}/show', [\App\Http\Controllers\Crew\CrewPositionController::class, 'getPositionData']);
-Route::post('/crew/positions/{position}', [\App\Http\Controllers\Crew\CrewPositionController::class, 'applyFor'])
+Route::post('/crew/positions/{position}', [\App\Http\Controllers\Crew\CrewPositionController::class, 'store'])
     ->name('crew-position.store');
 Route::delete('/crew/positions/{position}/resume', [\App\Http\Controllers\Crew\CrewPositionController::class, 'removeResume']);
 Route::get('/crew/positions/{position}/reel', [\App\Http\Controllers\Crew\CrewPositionController::class, 'removeReel']);
