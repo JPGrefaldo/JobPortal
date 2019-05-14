@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Crew;
 
 use App\Actions\Crew\StoreCrewPosition;
-use App\Actions\Submissions\CreateSubmission;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCrewPositionRequest;
 use App\Models\CrewPosition;
@@ -39,11 +38,7 @@ class CrewPositionController extends Controller
         $crew = auth()->user()->crew;
 
         $crewPosition = CrewPosition::byCrewAndPosition($crew, $position)
-            ->with([
-                'resume',
-                'gear',
-                'reel',
-            ])->firstOrFail();
+            ->with(['resume', 'gear', 'reel'])->firstOrFail();
 
         return $crewPosition;
     }
@@ -69,10 +64,23 @@ class CrewPositionController extends Controller
         return $position->reel()->delete() ? 'success' : 'failed';
     }
 
-    public function applyJob(ProjectJob $projectJob)
+    public function applyJob(ProjectJob $job)
     {
         $crew = auth()->user()->crew;
-        dd($projectJob);
-        app(CreateSubmission::class)->execute($crew, $projectJob);
+
+        abort_unless($crew->hasGeneralResume(), 403, 'Please upload General Resume');
+
+        $submission = $crew->submissions()->firstOrCreate([
+            'project_id'     => $job->project_id,
+            'project_job_id' => $job->id,
+        ], [
+            'project_id'     => $job->project_id,
+            'project_job_id' => $job->id,
+        ]);
+
+        return response()->json([
+            'submission'     => $submission,
+            'message'        => 'success',
+        ]);
     }
 }

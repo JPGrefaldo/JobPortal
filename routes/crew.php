@@ -23,9 +23,12 @@ Route::prefix('crew')->group(function () {
     Route::prefix('projects')->group(function () {
         Route::get('/job/{projectJob}', [\App\Http\Controllers\Crew\ProjectJobsController::class, 'show'])
             ->name('crew.project.job');
+        Route::get('/submitted/job/{projectJob}', [\App\Http\Controllers\Crew\ProjectJobsController::class, 'checkSubmission'])
+            ->name('crew.job.check-submission');
     });
 
-    Route::post('job/{job}/apply', [\App\Http\Controllers\Crew\CrewPositionController::class, 'applyJob']);
+    Route::post('job/{job}/apply', [\App\Http\Controllers\Crew\CrewPositionController::class, 'applyJob'])
+        ->name('crew.job.apply');
 });
 
 // TODO: defer to common route for both crew and admin

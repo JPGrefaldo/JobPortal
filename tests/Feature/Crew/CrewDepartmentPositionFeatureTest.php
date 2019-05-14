@@ -2,13 +2,15 @@
 
 namespace Tests\Feature\Crews;
 
+use App\Models\CrewResume;
 use App\Models\Position;
+use App\Models\ProjectJob;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
-use Illuminate\Support\Facades\Storage;
 
 class CrewDepartmentPositionTest extends TestCase
 {
@@ -20,7 +22,7 @@ class CrewDepartmentPositionTest extends TestCase
      * @test
      * @covers \App\Http\Controllers\Crew\CrewPositionController::store
      */
-    public function apply_for()
+    public function store()
     {
         // given
         // $this->withoutExceptionHandling();
@@ -40,7 +42,7 @@ class CrewDepartmentPositionTest extends TestCase
 
         $response = $this->actingAs($crew)
             ->postJson(route('crew-position.store', $position), $data);
-            
+
         $response->assertSuccessful();
 
         $this->assertDatabaseHas('crew_position', [
@@ -62,44 +64,58 @@ class CrewDepartmentPositionTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Crew\CrewPositionController::applyFor
+     * @covers \App\Http\Controllers\Crew\CrewPositionController::applJob
     */
-    public function cannot_apply_without_general_resume()
+    public function cannot_apply_job_without_general_resume()
     {
-        //$this->withoutExceptionHandling();
-
-        Storage::fake('s3');
+        // $this->withoutExceptionHandling();
 
         $crew     = $this->createCrew();
-        $position = factory(Position::class)->create();
-
-        $data = [
-            'position_id'       => $position->id,
-            'bio'               => 'This is the bio',
-            'gear'              => 'This is the gear',
-            'union_description' => 'Some union description',
-            'reel_link'         => 'https://www.youtube.com/embed/G8S81CEBdNs',
-        ];
+        $job      = factory(ProjectJob::class)->create();
 
         $response = $this->actingAs($crew)
-           ->postJson(route('crew-position.store', $position), $data);
+           ->postJson(route('crew.job.apply', $job->id));
 
-        $response->assertJsonValidationErrors('resume');
+        $response->assertStatus(403)
+            ->assertSee('Please upload General Resume');
 
-        $this->assertDatabaseMissing('crew_position', [
-            'crew_id'           => $crew->id,
-            'details'           => $data['bio'],
-            'union_description' => $data['union_description'],
+        $this->assertDatabaseMissing('submissions', [
+            'crew_id'              => $crew->id,
+            'project_id'           => $job->project_id,
+            'project_job_id'       => $job->project_id,
         ]);
+    }
 
-        $this->assertDatabaseMissing('crew_gears', [
-            'crew_id'     => $crew->id,
-            'description' => $data['gear'],
-        ]);
+    /**
+     * @test
+     * @covers \App\Http\Controllers\Crew\CrewPositionController::applJob
+    */
+    public function applyJob()
+    {
+        // $this->withoutExceptionHandling();
 
-        $this->assertDatabaseMissing('crew_reels', [
-            'crew_id' => $crew->id,
-            'path'    => $data['reel_link'],
+        $crew     = $this->createCrew();
+        $job      = factory(ProjectJob::class)->create();
+
+        factory(CrewResume::class)->create(['crew_id' => $crew->id]);
+
+        $response = $this->actingAs($crew)
+            ->postJson(route('crew.job.apply', $job->id));
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'message' => 'success',
+                'submission' => [
+                    'crew_id'              => $crew->id,
+                    'project_id'           => $job->project_id,
+                    'project_job_id'       => $job->project_id,
+                ]
+            ]);
+
+        $this->assertDatabaseHas('submissions', [
+            'crew_id'              => $crew->id,
+            'project_id'           => $job->project_id,
+            'project_job_id'       => $job->project_id,
         ]);
     }
 }
