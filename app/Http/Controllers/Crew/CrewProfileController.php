@@ -144,7 +144,7 @@ class CrewProfileController extends Controller
         $user = Auth::user()->load([
             'crew',
         ]);
-        
+
         return view('crew.profile.profile-edit', [
             'user'            => $user,
             'socialLinkTypes' => $this->getAllSocialLinkTypes($user),

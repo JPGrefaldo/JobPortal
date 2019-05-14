@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\ExistInCrewDB;
 use App\Rules\Reel;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
@@ -34,22 +33,6 @@ class StoreCrewPositionRequest extends FormRequest
             'reel_file'         => 'nullable|file|mimes:mp4,avi,wmv|max:20000',
             'gear'              => 'nullable|string|max:50|min:8',
             'union_description' => 'nullable|string|max:50|min:8',
-        ];
-
-        if ($this->hasFile('reel')){
-            $rules['reel'] = ['file','mimes:mp4,avi,wmv','max:20000', new ExistInCrewDB()];
-        }
-
-        return $rules;
-    }
-
-    /**
-     * @return array
-     *
-     */
-    public function attributes()
-    {
-        return [
         ];
     }
 }

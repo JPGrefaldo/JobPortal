@@ -4,9 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\CrewReel;
-use App\Models\CrewResume;
-use App\Models\CrewGear;
 
 class CrewPosition extends Pivot
 {

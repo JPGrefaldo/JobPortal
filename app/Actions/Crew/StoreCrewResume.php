@@ -26,6 +26,7 @@ class StoreCrewResume
             's3',
             'public'
         );
+
         $attributes = [
             'general' => true,
         ];

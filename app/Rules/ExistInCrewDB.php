@@ -2,9 +2,8 @@
 
 namespace App\Rules;
 
-use App\Models\CrewPosition;
-use App\Models\Position;
 use App\Actions\Crew\GetCrewPositionByPosition;
+use App\Models\Position;
 use Illuminate\Contracts\Validation\ImplicitRule;
 
 class ExistInCrewDB implements ImplicitRule
@@ -50,11 +49,11 @@ class ExistInCrewDB implements ImplicitRule
     private function getCrewPosition($position)
     {
         $position = Position::find($position);
-   
+
         try {
             return app(GetCrewPositionByPosition::class)->execute(auth()->user(), $position);
         } catch (\Exception $ex) {
-           return false;
+            return false;
         }
     }
 }

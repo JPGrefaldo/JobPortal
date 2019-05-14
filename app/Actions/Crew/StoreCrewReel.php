@@ -37,7 +37,7 @@ class StoreCrewReel
         } else {
             $values['path'] = app(CleanVideoLink::class)->execute($data['reel_link']);
         }
-        
+
         $attributes = [
             'general' => true,
         ];
@@ -45,7 +45,6 @@ class StoreCrewReel
         $values['general'] = true;
 
         if (isset($data['crew_position_id'])) {
-
             $attributes = [
                 'crew_position_id' => $data['crew_position_id'],
             ];

@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers\Crew;
 
-use App\Actions\Crew\GetCrewPositionByPosition;
 use App\Actions\Crew\StoreCrewPosition;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCrewPositionRequest;
-use App\Models\Position;
-use App\Rules\Reel;
 use App\Models\CrewPosition;
+use App\Models\Position;
 
 class CrewPositionController extends Controller
 {
