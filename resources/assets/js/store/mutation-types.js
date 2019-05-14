@@ -29,6 +29,7 @@ export const SITES                      = 'SITES';
 
 export const SUBMISSION                 = 'SUBMISSION';
 export const SUBMISSIONS                = 'SUBMISSIONS';
+export const APPROVED_SUBMISSIONS       = 'APPROVED_SUBMISSIONS';
 
 export const THREAD                     = 'THREAD';
 export const THREADS                    = 'THREADS';

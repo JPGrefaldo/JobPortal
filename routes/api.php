@@ -67,7 +67,7 @@ Route::middleware('auth:api')->group(function () {
             Route::get('submissions/{job}', [
                 \App\Http\Controllers\API\Admin\ProjectJobsSubmissionsController::class,
                 'index'
-            ])->middleware('role:Producer')->name('project.job.submissions.index');
+            ])->name('project.job.submissions.index');
 
             Route::get('/', [
                 \App\Http\Controllers\API\Producer\ProjectsController::class,
@@ -115,13 +115,43 @@ Route::middleware('auth:api')->group(function () {
                     \App\Http\Controllers\API\Producer\ProjectJobsController::class,
                     'destroy',
                 ])->name('producer.project.jobs.destroy');
+
+                Route::get('/{projectJob}/submissions/all-approved', [
+                    \App\Http\Controllers\API\SubmissionsController::class,
+                    'fetchByApprovedDate'
+                ])->name('fetch.submissions.by.approved');
             });
 
             Route::post('approve/submissions/{submission}', [
                 \App\Http\Controllers\API\SubmissionsController::class,
                 'approve'
             ])->name('producer.projects.approve.submissions');
+
+            Route::post('reject/submissions/{submission}', [
+                \App\Http\Controllers\API\SubmissionsController::class,
+                'reject'
+            ])->name('producer.projects.reject.submissions');
+    
+            Route::post('restore/submissions/{submission}', [
+                \App\Http\Controllers\API\SubmissionsController::class,
+                'restore'
+            ])->name('producer.projects.restore.submissions');
+    
+            Route::post('swap/submissions/{submissionToReject}/{submissionToApprove}', [
+                \App\Http\Controllers\API\SubmissionsController::class,
+                'swap'
+            ])->name('producer.projects.swap.submissions');
         });
+
+        Route::get('/pending', [
+            \App\Http\Controllers\API\Producer\ProjectsController::class,
+            'pending',
+        ])->name('producer.projects.pending');
+
+        Route::get('/type', [
+            \App\Http\Controllers\API\Producer\ProjectTypes::class,
+            'index',
+        ])->name('producer.project.type');
 
         Route::prefix('messages')->group(function() {
             Route::prefix('templates')->group(function() {

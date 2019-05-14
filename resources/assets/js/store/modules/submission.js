@@ -1,12 +1,10 @@
-import {
-    SUBMISSION,
-    SUBMISSIONS
-} from '../mutation-types.js';
+import * as types from '../mutation-types.js';
 
 
 export const state = {
     submission: {},
-    submissions: []
+    submissions: [],
+    approvedSubmissions: []
 };
 
 export const getters = {
@@ -16,16 +14,24 @@ export const getters = {
 
     submissions(state) {
         return state.submissions
+    },
+
+    approvedSubmissions(state) {
+        return state.approvedSubmissions
     }
 }
 
 export const mutations = {
-    [SUBMISSION](state, payload) {
+    [types.SUBMISSION](state, payload) {
         state.submission = payload
     },
 
-    [SUBMISSIONS](state, payload) {
+    [types.SUBMISSIONS](state, payload) {
         state.submissions = payload
+    },
+
+    [types.APPROVED_SUBMISSIONS](state, payload) {
+        state.approvedSubmissions = payload
     }
 }
 
@@ -37,7 +43,26 @@ export const actions = {
              })
     },
 
+    fetchAllApproved(context, id) {
+        return axios.get(`/api/producer/projects/jobs/${id}/submissions/all-approved`)
+             .then(response => {
+                 context.commit(types.APPROVED_SUBMISSIONS, response.data.submissions)
+             })
+    },
+
     approve(context, id) {
         axios.post(`/api/producer/projects/approve/submissions/${id}`)
+    },
+
+    reject(context, id) {
+        axios.post(`/api/producer/projects/reject/submissions/${id}`)
+    },
+
+    restore(context, id) {
+        axios.post(`/api/producer/projects/restore/submissions/${id}`)
+    },
+
+    swap(context, submissions) {
+        axios.post(`/api/producer/projects/swap/submissions/${submissions.toReject}/${submissions.toApprove}`)
     }
 }
