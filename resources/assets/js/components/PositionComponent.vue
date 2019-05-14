@@ -152,7 +152,7 @@ export default {
             reel: null,
 
             form: new Form({
-                bio              : '',
+                bio: '',
                 union_description: '',
                 resume: null,
                 reel_link: '',
@@ -161,12 +161,6 @@ export default {
                 position: this.position.id,
             }),
         };
-    },
-    computed: {
-        ...mapGetters({
-            existingCrewPositions: 'crew/existingCrewPositions',
-            crewPositionInfo     : 'crew/crewPositionInfo',
-        })
     },
     methods: {
         toggleSelect: function(){
@@ -181,15 +175,6 @@ export default {
 
         onClickSave: function() {
             this.saveCrewPosition();
-        },
-
-        uploadResume: function() {
-            document.getElementById("crewResume").click();
-        },
-
-        onResumeChange: function(e) {
-            let vm = this;
-            vm.form.resume = e.target.files[0];
         },
 
         saveCrewPosition: function() {
