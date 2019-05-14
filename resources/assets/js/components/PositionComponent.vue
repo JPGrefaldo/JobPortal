@@ -144,20 +144,21 @@ export default {
     },
     data() {
         return {
-            has_gear: false,
-            selected: false,
-            filled: false,
-            positionData: {},
-            positionData: [],
-            reel: null,
-            form: new Form({
-                bio: '',
+            has_gear      : false,
+            selected      : false,
+            filled        : false,
+            positionData  : {},
+            positionData  : [],
+            position_exist: false,
+            reel          : null,
+            form          : new Form({
+                bio              : '',
                 union_description: '',
-                resume: null,
-                reel_link: '',
-                reel_file: null,
-                gear: '',
-                position: this.position.id,
+                resume           : null,
+                reel_link        : '',
+                reel_file        : null,
+                gear             : '',
+                position         : this.position.id,
             }),
         };
     },
@@ -190,26 +191,40 @@ export default {
             });
         },
 
-        fillData: function(data){
-            
+        fillData: function(data){   
             this.form = new Form({
-                id: data.id,
-                bio: data.details,
-                union_description: data.union_description ? data.union_description : '',
-                resume: data.resume ? data.resume : null,
-                reel: data.reel ? data.reel : false ,
-                gear: data.gear ? data.gear.description : '',
+                id               : data.id,
+                bio              : data.details,
+                union_description: data.union_description ? data.union_description: '',
+                resume           : data.resume ? data.resume : null,
+                reel             : data.reel ? data.reel : false,
+                gear             : data.gear ? data.gear.description : '',
             });
 
             this.reel = data.reel ? data.reel.path : null;
         },
 
-        getPositionData: function(){
+        getPositionData: function() {
             axios
                 .get(`/crew/positions/${this.position.id}/show`)
                 .then(response => {
                     this.filled = true
                     this.fillData(response.data)
+                    if (response.data.gear != null) {
+                        this.has_gear = true;
+                        console.log(response.data)
+                    }
+                })
+        },
+
+        checkPositionIfExist: function() {
+            axios
+                .get('/crew/positions/list')
+                .then(response => {
+                    if (response.data.includes(this.position.id)) {
+                        this.position_exist = true;
+                        this.getPositionData();
+                    }
                 })
         },
 
@@ -237,10 +252,10 @@ export default {
             this.form.reel_file = null
         }
     },
-    mounted(){
+    mounted() {
          this.$nextTick(function () {
-                this.getPositionData();
-            });
+            this.checkPositionIfExist();
+        });
     }
 };
 </script>

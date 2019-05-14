@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCrewPositionRequest;
 use App\Models\CrewPosition;
 use App\Models\Position;
+use App\Models\Crew;
 
 class CrewPositionController extends Controller
 {
@@ -44,6 +45,13 @@ class CrewPositionController extends Controller
             ])->firstOrFail();
 
         return $crewPosition;
+    }
+
+    public function getPositionList()
+    {
+        $crew = auth()->user()->crew;
+
+        return $crew->crewPositions->pluck('position_id');
     }
 
     /**
