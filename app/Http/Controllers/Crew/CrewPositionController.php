@@ -72,7 +72,7 @@ class CrewPositionController extends Controller
     public function applyJob(ProjectJob $projectJob)
     {
         $crew = auth()->user()->crew;
-
+        dd($projectJob);
         app(CreateSubmission::class)->execute($crew, $projectJob);
     }
 }

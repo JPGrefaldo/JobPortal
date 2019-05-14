@@ -25,7 +25,7 @@ Route::prefix('crew')->group(function () {
             ->name('crew.project.job');
     });
 
-    Route::post('job/{job}/apply', [\App\Http\Controller\Crew\CrewPositionController::class, 'applyJob']);
+    Route::post('job/{job}/apply', [\App\Http\Controllers\Crew\CrewPositionController::class, 'applyJob']);
 });
 
 // TODO: defer to common route for both crew and admin
