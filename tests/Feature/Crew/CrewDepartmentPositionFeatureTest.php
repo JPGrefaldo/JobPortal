@@ -10,7 +10,7 @@ use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 use Illuminate\Support\Facades\Storage;
 
-class CrewDepartmentPositionTest extends TestCase
+class CrewDepartmentPositionFeatureTest extends TestCase
 {
     use RefreshDatabase,
         SeedDatabaseAfterRefresh,

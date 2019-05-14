@@ -35,9 +35,6 @@ class CrewUpdateFeatureTest extends TestCase
      */
     public function update()
     {
-        // given
-        // $this->withoutExceptionHandling();
-
         $data = $this->getUpdateData();
 
         // when
