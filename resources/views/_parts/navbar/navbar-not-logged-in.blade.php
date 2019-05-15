@@ -13,7 +13,7 @@
         </li>
         <li class="{{ Route::is('findProject') ? 'border-b-2 border-red border-solid' : '' }}">
             <a class="block py-6 px-4 font-header tracking-wide font-bold leading-none uppercase text-sm text-blue-dark hover:text-green"
-                href="#">find a project</a>
+                href="{{route('projects.current-projects')}}">find a project</a>
         </li>
         <li class="{{ Route::is('about') ? 'border-b-2 border-red border-solid' : '' }}">
             <a class="block py-6 px-4 font-header tracking-wide font-bold leading-none uppercase text-sm text-blue-dark hover:text-green"
