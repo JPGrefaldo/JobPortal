@@ -25,13 +25,9 @@
                 <div class="md:w-3/4">
                     <div class="w-full flex flex-row items-center justify-center">
                         <div class="md:w-1/4 md:pr-8">
-                            @if (isset($user->crew->photo_path) && !empty($user->crew->photo_path))
                                 <div class="flex h-none bg-grey-light items-center justify-center text-center border border-grey-light w-full pb-full rounded relative"
-                                    style="background: url('{{ $user->crew->photo_url }}'); background-size: cover;">
+                                    style="background: url('{{ $user->avatar }}'); background-size: cover;">
                                 </div>
-                            @else
-                                <img src="{{ Avatar::create( $user->first_name .' '. $user->last_name )->toBase64() }}" />
-                            @endif
                         </div>
                         <div class="">
                             <h3 class="text-blue-dark font-semibold text-lg mb-1 font-header">
