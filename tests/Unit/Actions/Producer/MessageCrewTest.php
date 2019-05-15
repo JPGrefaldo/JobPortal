@@ -5,11 +5,10 @@ namespace Tests\Unit\Actions\Producer;
 use App\Actions\Admin\MessageCrew;
 use App\Models\Crew;
 use App\Models\Project;
+use App\Models\Thread;
 use Cmgmyr\Messenger\Models\Message;
 use Cmgmyr\Messenger\Models\Participant;
-use Cmgmyr\Messenger\Models\Thread;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Carbon;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 
@@ -28,46 +27,40 @@ class MessageCrewTest extends TestCase
     public function execute()
     {
         // given
-        $producerUser = $this->createProducer();
-        $crew = factory(Crew::class)->create();
-        $project = factory(Project::class)->create([
-            'user_id' => $producerUser->id,
+        $producer   = $this->createProducer();
+        $crew       = factory(Crew::class)->create();
+        $project    = factory(Project::class)->create([
+            'user_id' => $producer->id,
         ]);
+
         $data = $this->getData();
         $data['recipients'] = [
             $crew->user->hash_id,
         ];
 
         // when
-        app(MessageCrew::class)->execute($data, $project, $producerUser);
+        app(MessageCrew::class)->execute($data, $project, $producer);
 
         // then
         $this->assertCount(1, Thread::all());
         $this->assertCount(1, Message::all());
-        $this->assertCount(2, Participant::all());
+        $this->assertCount(1, Participant::all());
 
         $thread = Thread::first();
 
         $this->assertDatabaseHas(
             'threads',
             [
-                'subject' => $crew->user->fullName,
+                'subject' => $producer->full_name,
             ]
         );
+
         $this->assertDatabaseHas(
             'messages',
             [
                 'thread_id' => $thread->id,
-                'user_id'   => $producerUser->id,
+                'user_id'   => $producer->id,
                 'body'      => 'Some message',
-            ]
-        );
-        $this->assertDatabaseHas(
-            'participants',
-            [
-                'thread_id' => $thread->id,
-                'user_id'   => $producerUser->id,
-                // 'last_read' => new Carbon(),
             ]
         );
 
@@ -76,10 +69,8 @@ class MessageCrewTest extends TestCase
             [
                 'thread_id' => $thread->id,
                 'user_id'   => $crew->user->id,
-                // 'last_read' => new Carbon,
             ]
         );
-        // TODO: add email checks
     }
 
     /**
@@ -88,50 +79,45 @@ class MessageCrewTest extends TestCase
      */
     public function thread_is_not_duplicated_when_messaging_a_crew_twice()
     {
+        // $this->withExceptionHandling();
         // given
-        $producerUser = $this->createUser();
-        $crew = factory(Crew::class)->create();
-        $project = factory(Project::class)->create([
-            'user_id' => $producerUser->id,
+        $producer   = $this->createUser();
+        $crew       = factory(Crew::class)->create();
+        $project    = factory(Project::class)->create([
+            'user_id' => $producer->id,
         ]);
+
         $project->contributors()->attach($crew);
+
         $data = $this->getData();
         $data['recipients'] = [
             $crew->user->hash_id,
         ];
 
         // when
-        app(MessageCrew::class)->execute($data, $project, $producerUser);
+        app(MessageCrew::class)->execute($data, $project, $producer);
         $this->assertCount(1, Thread::all());
-        app(MessageCrew::class)->execute($data, $project, $producerUser);
+        app(MessageCrew::class)->execute($data, $project, $producer);
 
         // then
         $this->assertCount(1, Thread::all());
         $this->assertCount(2, Message::all());
-        $this->assertCount(2, Participant::all());
+        $this->assertCount(1, Participant::all());
 
         $thread = Thread::first();
 
         $this->assertDatabaseHas(
             'threads',
             [
-                'subject' => $crew->user->fullName,
+                'subject' => $producer->fullName,
             ]
         );
         $this->assertDatabaseHas(
             'messages',
             [
                 'thread_id' => $thread->id,
-                'user_id'   => $producerUser->id,
+                'user_id'   => $producer->id,
                 'body'      => 'Some message',
-            ]
-        );
-        $this->assertDatabaseHas(
-            'participants',
-            [
-                'thread_id' => $thread->id,
-                'user_id'   => $producerUser->id,
-                // 'last_read' => new Carbon(),
             ]
         );
 
@@ -140,10 +126,8 @@ class MessageCrewTest extends TestCase
             [
                 'thread_id' => $thread->id,
                 'user_id'   => $crew->user->id,
-                // 'last_read' => new Carbon,
             ]
         );
-        // TODO: add email checks
     }
 
     /**
@@ -172,7 +156,7 @@ class MessageCrewTest extends TestCase
         $project->threads()->attach($thread);
 
         // when
-        $queriedThread = app(MessageCrew::class)->getThread($project, $crewUser);
+        $queriedThread = Thread::getByProjectAndParticipant($project, $crewUser);
 
         // then
         $this->assertEquals(

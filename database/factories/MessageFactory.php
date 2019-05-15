@@ -1,8 +1,8 @@
 <?php
 
+use App\Models\Thread;
 use App\Models\User;
 use Cmgmyr\Messenger\Models\Message;
-use Cmgmyr\Messenger\Models\Thread;
 use Faker\Generator as Faker;
 
 $factory->define(Message::class, function (Faker $faker) {
