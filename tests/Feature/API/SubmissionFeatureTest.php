@@ -16,7 +16,7 @@ class SubmissionFeatureTest extends TestCase
 
     /**
       * @test
-      * @covers \App\Http\Controllers\API\SubmissionsController::index
+      * @covers \App\Http\Controllers\API\SubmissionController::index
       */
     public function can_fetch_job_and_all_submissions()
     {
@@ -54,7 +54,7 @@ class SubmissionFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\API\SubmissionsController::store
+     * @covers \App\Http\Controllers\API\SubmissionController::store
      */
     public function can_create_submissions()
     {
@@ -94,7 +94,7 @@ class SubmissionFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\API\SubmissionsController::index
+     * @covers \App\Http\Controllers\API\SubmissionController::index
      */
     public function cannot_fetch_submmissions_the_crew_role()
     {
@@ -112,7 +112,7 @@ class SubmissionFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\API\SubmissionsController::store
+     * @covers \App\Http\Controllers\API\SubmissionController::store
      */
     public function cannot_create_submissions_the_non_crew_role()
     {

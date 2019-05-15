@@ -10,7 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class SubmissionsController extends Controller
+class SubmissionController extends Controller
 {
     public function index(ProjectJob $job)
     {

@@ -16,10 +16,11 @@ class ThreadResourceFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Crew\ThreadsController::index
+     * @covers \App\Http\Controllers\Crew\ThreadController::index
      */
     public function index()
     {
+        $this->withoutExceptionHandling();
         // given
         $user = $this->createProducer();
         $project = factory(Project::class)->create([

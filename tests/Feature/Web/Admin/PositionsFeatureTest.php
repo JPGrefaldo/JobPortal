@@ -15,7 +15,7 @@ class PositionsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Admin\PositionsController::index
+     * @covers \App\Http\Controllers\Admin\PositionController::index
      */
     public function index()
     {
@@ -30,7 +30,7 @@ class PositionsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Admin\PositionsController::store
+     * @covers \App\Http\Controllers\Admin\PositionController::store
      */
     public function create()
     {
@@ -65,7 +65,7 @@ class PositionsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Admin\PositionsController::store
+     * @covers \App\Http\Controllers\Admin\PositionController::store
      */
     public function create_not_required()
     {
@@ -98,7 +98,7 @@ class PositionsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Admin\PositionsController::store
+     * @covers \App\Http\Controllers\Admin\PositionController::store
      */
     public function create_formatted_name()
     {
@@ -133,7 +133,7 @@ class PositionsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Admin\PositionsController::store
+     * @covers \App\Http\Controllers\Admin\PositionController::store
      */
     public function create_invalid_data()
     {
@@ -160,7 +160,7 @@ class PositionsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Admin\PositionsController::store
+     * @covers \App\Http\Controllers\Admin\PositionController::store
      */
     public function create_unauthorized()
     {
@@ -180,7 +180,7 @@ class PositionsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Admin\PositionsController::update
+     * @covers \App\Http\Controllers\Admin\PositionController::update
      */
     public function update()
     {
@@ -214,7 +214,7 @@ class PositionsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Admin\PositionsController::update
+     * @covers \App\Http\Controllers\Admin\PositionController::update
      */
     public function update_not_required()
     {
@@ -246,7 +246,7 @@ class PositionsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Admin\PositionsController::update
+     * @covers \App\Http\Controllers\Admin\PositionController::update
      */
     public function update_formatted_name()
     {
@@ -281,7 +281,7 @@ class PositionsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Admin\PositionsController::update
+     * @covers \App\Http\Controllers\Admin\PositionController::update
      */
     public function update_same()
     {
@@ -315,7 +315,7 @@ class PositionsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Admin\PositionsController::update
+     * @covers \App\Http\Controllers\Admin\PositionController::update
      */
     public function update_invalid_data()
     {
@@ -347,7 +347,7 @@ class PositionsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Admin\PositionsController::update
+     * @covers \App\Http\Controllers\Admin\PositionController::update
      */
     public function update_not_exist()
     {
@@ -367,7 +367,7 @@ class PositionsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Admin\PositionsController::update
+     * @covers \App\Http\Controllers\Admin\PositionController::update
      */
     public function update_unauthorized()
     {

@@ -8,7 +8,7 @@ use App\Http\Requests\Producer\UpdateProjectJobRequest;
 use App\Models\ProjectJob;
 use App\Services\Producer\ProjectJobsService;
 
-class ProjectJobsController extends Controller
+class ProjectJobController extends Controller
 {
     /**
      * @param \App\Http\Requests\Producer\CreateProjectJobRequest $request

@@ -19,7 +19,7 @@ class ProjectJobFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\API\Producer\ProjectJobsController::index
+     * @covers \App\Http\Controllers\API\Producer\ProjectJobController::index
      */
     public function can_fetch_all_jobs()
     {
@@ -57,7 +57,7 @@ class ProjectJobFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\API\Producer\ProjectJobsController::store
+     * @covers \App\Http\Controllers\API\Producer\ProjectJobController::store
      */
     public function can_create_a_job()
     {
@@ -105,7 +105,7 @@ class ProjectJobFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\API\Producer\ProjectJobsController::store
+     * @covers \App\Http\Controllers\API\Producer\ProjectJobController::store
      */
     public function can_create_a_job_with_non_pay_rate()
     {
@@ -149,7 +149,7 @@ class ProjectJobFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\API\Producer\ProjectJobsController::store
+     * @covers \App\Http\Controllers\API\Producer\ProjectJobController::store
      */
     public function can_create_a_job_with_no_gear_and_no_persons_needed()
     {
@@ -180,7 +180,7 @@ class ProjectJobFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\API\Producer\ProjectJobsController::store
+     * @covers \App\Http\Controllers\API\Producer\ProjectJobController::store
      */
     public function can_create_a_job_with_multiple_dates()
     {
@@ -227,7 +227,7 @@ class ProjectJobFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\API\Producer\ProjectJobsController::update
+     * @covers \App\Http\Controllers\API\Producer\ProjectJobController::update
      */
     public function can_edit_a_job()
     {
@@ -280,7 +280,7 @@ class ProjectJobFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\API\Producer\ProjectJobsController::destroy
+     * @covers \App\Http\Controllers\API\Producer\ProjectJobController::destroy
      */
     public function can_delete_a_job()
     {
@@ -297,7 +297,7 @@ class ProjectJobFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\API\Producer\ProjectJobsController::store
+     * @covers \App\Http\Controllers\API\Producer\ProjectJobController::store
      */
     public function cannot_create_a_job_when_required_fields_are_empty()
     {
@@ -332,7 +332,7 @@ class ProjectJobFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\API\Producer\ProjectJobsController::store
+     * @covers \App\Http\Controllers\API\Producer\ProjectJobController::store
      */
     public function cannot_create_a_job_when_data_is_invalid()
     {
@@ -371,7 +371,7 @@ class ProjectJobFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\API\Producer\ProjectJobsController::store
+     * @covers \App\Http\Controllers\API\Producer\ProjectJobController::store
      */
     public function cannot_create_a_job_the_unauthorized_role()
     {
@@ -391,7 +391,7 @@ class ProjectJobFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\API\Producer\ProjectJobsController::update
+     * @covers \App\Http\Controllers\API\Producer\ProjectJobController::update
      */
     public function cannot_edit_a_job_the_unauthorized_role()
     {
@@ -413,7 +413,7 @@ class ProjectJobFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\API\Producer\ProjectJobsController::destroy
+     * @covers \App\Http\Controllers\API\Producer\ProjectJobController::destroy
      */
     public function cannot_delete_a_job_the_unauthorized_role()
     {
@@ -433,7 +433,7 @@ class ProjectJobFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\API\Producer\ProjectJobsController::store
+     * @covers \App\Http\Controllers\API\Producer\ProjectJobController::store
      */
     public function should_accept_pay_rate_type_id_when_no_pay_type_id()
     {

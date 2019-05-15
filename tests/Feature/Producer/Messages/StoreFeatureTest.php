@@ -15,7 +15,7 @@ class StoreFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Producer\MessagesController::store
+     * @covers \App\Http\Controllers\Producer\MessageController::store
      */
     public function only_producers_can_message()
     {
@@ -35,7 +35,7 @@ class StoreFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Producer\MessagesController::store
+     * @covers \App\Http\Controllers\Producer\MessageController::store
      */
     public function producer_must_own_project()
     {
@@ -51,7 +51,7 @@ class StoreFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Producer\MessagesController::store
+     * @covers \App\Http\Controllers\Producer\MessageController::store
      */
     public function all_fields_are_required()
     {
@@ -81,7 +81,7 @@ class StoreFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Producer\MessagesController::store
+     * @covers \App\Http\Controllers\Producer\MessageController::store
      */
     public function producer_cant_send_message_to_crews_who_has_not_applied()
     {
@@ -110,7 +110,7 @@ class StoreFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Producer\MessagesController::store
+     * @covers \App\Http\Controllers\Producer\MessageController::store
      */
     public function producer_can_send_message_to_multiple_crews_who_applied()
     {
