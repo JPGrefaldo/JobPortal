@@ -152,7 +152,6 @@ class CrewDepartmentPositionTest extends TestCase
             'bio'               => 'This is the bio',
             'resume'            => UploadedFile::fake()->create('resume.doc'),
             'union_description' => 'Some union description',
-            'gear'              => 'This is the gear',
             'reel_link'         => "http://www.youtube.com/embed/G8S81CEBdNs",
         ];
 
@@ -166,13 +165,9 @@ class CrewDepartmentPositionTest extends TestCase
             'union_description' => $data['union_description'],
         ]);
 
-        $this->assertDatabaseHas('crew_gears', [
-            'crew_id'     => $crew->id,
-            'description' => $data['gear'],
-        ]);
-
-        $this->assertDatabaseHas('crew_reels', [
+        $this->assertDatabaseMissing('crew_reels', [
             'crew_id' => $crew->id,
+            'path'    => $data['reel_link'],
         ]);
     }
 }
