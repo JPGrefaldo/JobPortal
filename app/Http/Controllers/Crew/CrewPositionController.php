@@ -47,6 +47,9 @@ class CrewPositionController extends Controller
         return $crewPosition;
     }
 
+    /**
+     * @return array
+     */
     public function getPositionList()
     {
         $crew = auth()->user()->crew;
