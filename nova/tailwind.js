@@ -146,7 +146,8 @@ module.exports = {
         '16': '4rem',
         // '24': '6rem',
         // '32': '8rem',
-        // '48': '12rem',
+        '40': '10rem',
+        '48': '12rem',
         // '64': '16rem',
         search: '18.75rem',
         '1/2': '50%',
@@ -199,10 +200,12 @@ module.exports = {
         '24': '6rem',
         site: '80rem',
         full: '100%',
+        'table-cell': '56px',
     },
 
     minHeight: {
         '0': '0',
+        input: '3rem',
         textarea: '4.875rem',
         full: '100%',
         screen: '100vh',
@@ -254,6 +257,7 @@ module.exports = {
         '4': '1rem',
         '6': '1.5rem',
         '8': '2rem',
+        '11': '2.75rem',
     },
 
     negativeMargin: {
@@ -302,7 +306,7 @@ module.exports = {
     modules: {
         appearance: ['responsive'],
         backgroundAttachment: ['responsive'],
-        backgroundColors: ['responsive', 'hover'],
+        backgroundColors: ['responsive', 'hover', 'focus', 'active'],
         backgroundPosition: ['responsive'],
         backgroundRepeat: ['responsive'],
         backgroundSize: ['responsive'],
