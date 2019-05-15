@@ -1,52 +1,60 @@
 <?php
 
+use App\Http\Controllers\Crew\CrewPositionController;
+use App\Http\Controllers\Crew\CrewProfileController;
+use App\Http\Controllers\Crew\Endorsements\EndorsementEndorsedController;
+use App\Http\Controllers\Crew\Endorsements\EndorsementPositionController;
+use App\Http\Controllers\Crew\Endorsements\EndorsementRequestController;
+use App\Http\Controllers\Crew\MessageController;
+use App\Http\Controllers\Crew\ProjectJobController;
+
 Route::prefix('crew')->group(function () {
     Route::prefix('endorsement')->group(function () {
-        Route::get('/', [App\Http\Controllers\Crew\Endorsements\EndorsementPositionController::class, 'index'])
+        Route::get('/', [EndorsementPositionController::class, 'index'])
             ->name('crew.endorsement.index');
 
         Route::prefix('positions')->group(function () {
-            Route::post('/{position}', [\App\Http\Controllers\Crew\Endorsements\EndorsementPositionController::class, 'store'])
+            Route::post('/{position}', [EndorsementPositionController::class, 'store'])
                 ->name('crew.endorsement.position.store');
-            Route::get('/{position}', [\App\Http\Controllers\Crew\Endorsements\EndorsementPositionController::class, 'show'])
+            Route::get('/{position}', [EndorsementPositionController::class, 'show'])
                 ->name('crew.endorsement.position.show');
 
             // TODO: Delete?
-            Route::get('endorsed/{position}', [App\Http\Controllers\Crew\Endorsements\EndorsementEndorsedController::class, 'index'])
+            Route::get('endorsed/{position}', [EndorsementEndorsedController::class, 'index'])
                 ->name('crew.endorsement.endorsed');
 
-            Route::delete('request/{endorsementRequest}', [\App\Http\Controllers\Crew\Endorsements\EndorsementRequestController::class, 'destroy'])
+            Route::delete('request/{endorsementRequest}', [EndorsementRequestController::class, 'destroy'])
                 ->name('crew.endorsement.request.destroy');
         });
     });
 
     Route::prefix('projects')->group(function () {
-        Route::get('/job/{projectJob}', [\App\Http\Controllers\Crew\ProjectJobController::class, 'show'])
+        Route::get('/job/{projectJob}', [ProjectJobController::class, 'show'])
             ->name('crew.project.job');
     });
 });
 
 // TODO: defer to common route for both crew and admin
-Route::post('/crew/messages', [\App\Http\Controllers\Crew\MessageController::class, 'store'])
+Route::post('/crew/messages', [MessageController::class, 'store'])
     ->name('crew.messages.store');
 
 Route::prefix('crew/profile')->group(function () {
-    Route::get('/', [\App\Http\Controllers\Crew\CrewProfileController::class, 'index'])
+    Route::get('/', [CrewProfileController::class, 'index'])
         ->name('crew.profile.index');
-    Route::get('create', [\App\Http\Controllers\Crew\CrewProfileController::class, 'create'])
+    Route::get('create', [CrewProfileController::class, 'create'])
         ->name('crew.profile.create');
-    Route::post('', [\App\Http\Controllers\Crew\CrewProfileController::class, 'store'])
+    Route::post('', [CrewProfileController::class, 'store'])
         ->name('crew.profile.store');
-    Route::get('edit', [\App\Http\Controllers\Crew\CrewProfileController::class, 'edit'])
+    Route::get('edit', [CrewProfileController::class, 'edit'])
         ->name('crew.profile.edit');
-    Route::put('', [\App\Http\Controllers\Crew\CrewProfileController::class, 'update'])
+    Route::put('', [CrewProfileController::class, 'update'])
         ->name('crew.profile.update');
 });
 
-Route::post('/crew/photos', [\App\Http\Controllers\Crew\CrewProfileController::class, 'storePhoto']);
+Route::post('/crew/photos', [CrewProfileController::class, 'storePhoto']);
 
-Route::get('/crew/positions/{position}/show', [\App\Http\Controllers\Crew\CrewPositionController::class, 'getPositionData']);
-Route::post('/crew/positions/{position}', [\App\Http\Controllers\Crew\CrewPositionController::class, 'applyFor'])
+Route::get('/crew/positions/{position}/show', [CrewPositionController::class, 'getPositionData']);
+Route::post('/crew/positions/{position}', [CrewPositionController::class, 'applyFor'])
     ->name('crew-position.store');
-Route::delete('/crew/positions/{position}/resume', [\App\Http\Controllers\Crew\CrewPositionController::class, 'removeResume']);
-Route::get('/crew/positions/{position}/reel', [\App\Http\Controllers\Crew\CrewPositionController::class, 'removeReel']);
+Route::delete('/crew/positions/{position}/resume', [CrewPositionController::class, 'removeResume']);
+Route::get('/crew/positions/{position}/reel', [CrewPositionController::class, 'removeReel']);
