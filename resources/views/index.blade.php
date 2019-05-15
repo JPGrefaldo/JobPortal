@@ -21,7 +21,7 @@
                         </li>
                         <li>
                             <a class="block py-6 px-4 font-header tracking-wide font-bold leading-none uppercase text-sm text-white hover:text-green"
-                                href="#">find a project</a>
+                                href="{{route('projects.current-projects')}}">find a project</a>
                         </li>
                         <li>
                             <a class="block py-6 px-4 font-header tracking-wide font-bold leading-none uppercase text-sm text-white hover:text-green"

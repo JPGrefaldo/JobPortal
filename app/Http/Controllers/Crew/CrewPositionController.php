@@ -20,6 +20,10 @@ class CrewPositionController extends Controller
     {
         $crew = auth()->user()->crew;
 
+        $request->request->add([
+            'method' => 'post',
+        ]);
+
         $data = $request->validated();
 
         app(StoreCrewPosition::class)->execute($crew, $position, $data);
@@ -41,6 +45,16 @@ class CrewPositionController extends Controller
             ->with(['resume', 'gear', 'reel'])->firstOrFail();
 
         return $crewPosition;
+    }
+
+    /**
+     * @return array
+     */
+    public function getPositionList()
+    {
+        $crew = auth()->user()->crew;
+
+        return $crew->crewPositions->pluck('position_id');
     }
 
     /**

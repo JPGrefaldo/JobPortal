@@ -7,6 +7,7 @@ use App\Utils\StrUtils;
 use Cmgmyr\Messenger\Traits\Messagable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Cashier\Billable;
 use Spatie\Permission\Traits\HasRoles;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Vinkla\Hashids\Facades\Hashids;
@@ -16,7 +17,8 @@ class User extends Authenticatable implements JWTSubject
     use Notifiable,
         LogsActivityOnlyDirty,
         Messagable,
-        HasRoles;
+        HasRoles,
+        Billable;
 
     protected static function boot()
     {
@@ -202,6 +204,20 @@ class User extends Authenticatable implements JWTSubject
         return (isset($this->nickname) && $this->nickname) ?
                 $this->nickname :
                 $this->full_name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAvatarAttribute()
+    {
+        if ($this->hasRole(\App\Models\Role::CREW)) {
+            if (isset($this->crew->photo_path) && ! empty($this->crew->photo_path)) {
+                return $this->crew->photo_url;
+            }
+        }
+
+        return \Avatar::create($this->full_name)->toBase64();
     }
 
     /**

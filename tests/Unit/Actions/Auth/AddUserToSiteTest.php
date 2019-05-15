@@ -4,7 +4,7 @@ namespace Tests\Unit\Actions\Auth;
 
 use App\Actions\Auth\AddUserToSite;
 use App\Models\Site;
-use App\Models\UserSites;
+use App\Models\UserSite;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
@@ -63,7 +63,7 @@ class AddUserToSiteTest extends TestCase
 
         $site = factory(Site::class)->create();
 
-        $userSite = UserSites::create([
+        $userSite = UserSite::create([
             'user_id' => $user->id,
             'site_id' => $site->id,
         ]);

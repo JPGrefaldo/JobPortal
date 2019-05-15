@@ -204,7 +204,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
         $attribute = $attribute ?? $this->attribute;
 
         if ($attribute === 'ComputedField') {
-            $this->value = call_user_func($this->computedCallback);
+            $this->value = call_user_func($this->computedCallback, $resource);
 
             return;
         }
@@ -332,15 +332,25 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
         if ($request->exists($requestAttribute)) {
             $value = $request[$requestAttribute];
 
-            $isNull = false;
-
-            if ($this->nullable) {
-                $isNull = is_callable($this->nullValues)
-                    ? ($this->nullValues)($value)
-                    : in_array($value, (array) $this->nullValues);
-            }
-            $model->{$attribute} = $isNull ? null : $value;
+            $model->{$attribute} = $this->isNullValue($value) ? null : $value;
         }
+    }
+
+    /**
+     * Check value for null value.
+     *
+     * @param  mixed $value
+     * @return bool
+     */
+    protected function isNullValue($value)
+    {
+        if (! $this->nullable) {
+            return false;
+        }
+
+        return is_callable($this->nullValues)
+            ? ($this->nullValues)($value)
+            : in_array($value, (array) $this->nullValues);
     }
 
     /**
@@ -539,9 +549,9 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
      * Set the callback used to determin if the field is readonly.
      *
      * @param Closure|bool $callback
-     * @return void
+     * @return $this
      */
-    public function readonly($callback)
+    public function readonly($callback = true)
     {
         $this->readonlyCallback = $callback;
 
@@ -557,7 +567,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
     public function isReadonly(NovaRequest $request)
     {
         return with($this->readonlyCallback, function ($callback) use ($request) {
-            if (is_callable($callback) && call_user_func($callback, $request) || $callback === true) {
+            if ($callback === true || (is_callable($callback) && call_user_func($callback, $request))) {
                 $this->setReadonlyAttribute();
 
                 return true;
