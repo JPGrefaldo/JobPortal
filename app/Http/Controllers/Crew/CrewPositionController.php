@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCrewPositionRequest;
 use App\Models\CrewPosition;
 use App\Models\Position;
-use App\Models\Crew;
 
 class CrewPositionController extends Controller
 {
@@ -19,10 +18,6 @@ class CrewPositionController extends Controller
     public function store(Position $position, StoreCrewPositionRequest $request)
     {
         $crew = auth()->user()->crew;
-
-        $request->request->add([
-            'method' => 'post',
-        ]);
 
         $data = $request->validated();
 
@@ -41,10 +36,6 @@ class CrewPositionController extends Controller
     public function update(Position $position, StoreCrewPositionRequest $request)
     {
         $crew = auth()->user()->crew;
-
-        $request->request->add([
-            'method' => 'put',
-        ]);
 
         $data = $request->validated();
 
