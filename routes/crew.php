@@ -50,5 +50,7 @@ Route::get('/crew/positions/list', [\App\Http\Controllers\Crew\CrewPositionContr
 Route::get('/crew/positions/{position}/show', [\App\Http\Controllers\Crew\CrewPositionController::class, 'getPositionData']);
 Route::post('/crew/positions/{position}', [\App\Http\Controllers\Crew\CrewPositionController::class, 'store'])
     ->name('crew-position.store');
+Route::post('/crew/positions/{position}/update', [\App\Http\Controllers\Crew\CrewPositionController::class, 'update'])
+    ->name('crew-position.update');
 Route::delete('/crew/positions/{position}/resume', [\App\Http\Controllers\Crew\CrewPositionController::class, 'removeResume']);
 Route::get('/crew/positions/{position}/reel', [\App\Http\Controllers\Crew\CrewPositionController::class, 'removeReel']);

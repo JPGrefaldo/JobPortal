@@ -35,6 +35,28 @@ class CrewPositionController extends Controller
 
     /**
      * @param \App\Models\Position $position
+     * @param \App\Http\Requests\StoreCrewPositionRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(Position $position, StoreCrewPositionRequest $request)
+    {
+        $crew = auth()->user()->crew;
+
+        $request->request->add([
+            'method' => 'put',
+        ]);
+
+        $data = $request->validated();
+
+        app(StoreCrewPosition::class)->execute($crew, $position, $data);
+
+        return response()->json([
+            'message' => 'success',
+        ]);
+    }
+
+    /**
+     * @param \App\Models\Position $position
      * @return \App\Models\CrewPosition|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model
      */
     public function getPositionData(Position $position)
