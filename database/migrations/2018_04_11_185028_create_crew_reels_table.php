@@ -16,7 +16,7 @@ class CreateCrewReelsTable extends Migration
         Schema::create('crew_reels', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('crew_id');
-            $table->string('path');
+            $table->string('path')->nullable();
             $table->boolean('general')
                 ->default(false);
             $table->unsignedInteger('crew_position_id')

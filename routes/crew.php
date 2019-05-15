@@ -45,8 +45,10 @@ Route::prefix('crew/profile')->group(function () {
 
 Route::post('/crew/photos', [\App\Http\Controllers\Crew\CrewProfileController::class, 'storePhoto']);
 
+Route::get('/crew/positions/list', [\App\Http\Controllers\Crew\CrewPositionController::class, 'getPositionList'])
+    ->name('crew-positions-list');
 Route::get('/crew/positions/{position}/show', [\App\Http\Controllers\Crew\CrewPositionController::class, 'getPositionData']);
-Route::post('/crew/positions/{position}', [\App\Http\Controllers\Crew\CrewPositionController::class, 'applyFor'])
+Route::post('/crew/positions/{position}', [\App\Http\Controllers\Crew\CrewPositionController::class, 'store'])
     ->name('crew-position.store');
 Route::delete('/crew/positions/{position}/resume', [\App\Http\Controllers\Crew\CrewPositionController::class, 'removeResume']);
 Route::get('/crew/positions/{position}/reel', [\App\Http\Controllers\Crew\CrewPositionController::class, 'removeReel']);

@@ -6,11 +6,11 @@ use App\Models\Position;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
-use Illuminate\Support\Facades\Storage;
 
-class CrewDepartmentPositionTest extends TestCase
+class CrewDepartmentPositionFeatureTest extends TestCase
 {
     use RefreshDatabase,
         SeedDatabaseAfterRefresh,
@@ -22,9 +22,6 @@ class CrewDepartmentPositionTest extends TestCase
      */
     public function apply_for()
     {
-        // given
-        // $this->withoutExceptionHandling();
-
         Storage::fake('s3');
         $crew     = $this->createCrew();
         $position = factory(Position::class)->create();
@@ -40,7 +37,7 @@ class CrewDepartmentPositionTest extends TestCase
 
         $response = $this->actingAs($crew)
             ->postJson(route('crew-position.store', $position), $data);
-            
+
         $response->assertSuccessful();
 
         $this->assertDatabaseHas('crew_position', [
