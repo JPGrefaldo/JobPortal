@@ -22,6 +22,8 @@ export const PROJECT_PENDING_COUNT      = 'PENDING_COUNT';
 export const PROJECTS                   = 'PROJECTS';
 export const PROJECT_TYPES              = 'PROJECT_TYPES';
 
+export const CREW_POSITION_LIST         = 'CREW_POSITION_LIST';
+
 export const SELECTED_POSITION          = 'SELECTED_POSITION';
 
 export const SITE                       = 'SITE';

@@ -10,6 +10,7 @@ export const state = {
     sites: [],
     existingCrewPositions: [],
     crewPositionInfo: [],
+    crewPositionList: [],
 };
 
 export const getters = {
@@ -47,7 +48,11 @@ export const getters = {
 
     crewPositionInfo(state) {
         return state.crewPositionInfo;
-    }
+    },
+
+    crewPositionList(state) {
+        return state.crewPositionList;
+    },
 };
 
 export const mutations = {
@@ -85,7 +90,11 @@ export const mutations = {
 
     [types.CREW_POSITION_INFO](state, payload) {
         state.crewPositionInfo = payload;
-    }
+    },
+
+    [types.CREW_POSITION_LIST](state, payload) {
+        state.crewPositionList = payload;
+    },
 };
 
 export const actions = {
@@ -151,5 +160,13 @@ export const actions = {
         .then(response => {
             window.location = '/crew/profile/edit';
         })
-    }
+    },
+
+    checkPositionIfExist(context) {
+        axios
+            .get('/crew/positions/list')
+            .then(response => {
+                context.commit(types.CREW_POSITION_LIST, response.data);
+            });
+    },
 };

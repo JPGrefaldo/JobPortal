@@ -131,6 +131,7 @@
 
 <script>
 import { Form, HasError, AlertError } from 'vform';
+import { mapGetters } from 'vuex';
 import InputErrors from './_partials/InputErrors';
 import objectToFormData from 'object-to-formdata';
 
@@ -162,14 +163,22 @@ export default {
             }),
         };
     },
+
+    computed: {
+        ...mapGetters({
+            crewPositionList: 'crew/crewPositionList',
+            crewPositionData: 'crew/crewPositionData',
+        })
+    },
+
     methods: {
-        toggleSelect: function(){
-            this.selected = !this.selected
-            this.filled   = !this.filled
+        toggleSelect: function() {
+            this.selected = !this.selected;
+            this.filled   = !this.filled;
             return false;
         },
 
-        selectFile: function(e){
+        selectFile: function(e) {
             this.form[e.target.name] = e.target.files[0]
             e.target.value = ''
         },
@@ -179,20 +188,20 @@ export default {
         },
 
         saveCrewPosition: function() {
-            this.form.submit('post','/crew/positions/' + this.position.id,{
-              transformRequest: [function (data, headers) {
-                return objectToFormData(data)
-              }]
+            this.form.submit('post','/crew/positions/' + this.position.id, {
+                transformRequest: [function (data, headers) {
+                    return objectToFormData(data)
+                }]
             })
             .then(({ data }) => {
-                if(data === 'success'){
+                if (data === 'success') {
                     this.filled = true;
                     this.getPositionData();
                 }
             });
         },
 
-        fillData: function(data){   
+        fillData: function(data) {   
             this.form = new Form({
                 id               : data.id,
                 bio              : data.details,
@@ -218,15 +227,11 @@ export default {
         },
 
         checkPositionIfExist: function() {
-            axios
-                .get('/crew/positions/list')
-                .then(response => {
-                    if (response.data.includes(this.position.id)) {
-                        this.position_exist = true;
-                        this.selected       = true;
-                        this.getPositionData();
-                    }
-                })
+            if (this.crewPositionList.includes(this.position.id)) {
+                this.position_exist = true;
+                this.selected       = true;
+                this.getPositionData();
+            }
         },
 
         removeResume: function(positionId){
@@ -254,9 +259,8 @@ export default {
         }
     },
     mounted() {
-         this.$nextTick(function () {
-            this.checkPositionIfExist();
-        });
+        this.$store.dispatch('crew/checkPositionIfExist');
+        setTimeout(() => this.checkPositionIfExist(), 2000);
     }
 };
 </script>
