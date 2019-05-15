@@ -164,7 +164,8 @@ export default {
     },
     methods: {
         toggleSelect: function(){
-            this.selected = ! this.selected
+            this.selected = !this.selected
+            this.filled   = !this.filled
             return false;
         },
 
@@ -212,7 +213,6 @@ export default {
                     this.fillData(response.data)
                     if (response.data.gear != null) {
                         this.has_gear = true;
-                        console.log(response.data)
                     }
                 })
         },
@@ -223,6 +223,7 @@ export default {
                 .then(response => {
                     if (response.data.includes(this.position.id)) {
                         this.position_exist = true;
+                        this.selected       = true;
                         this.getPositionData();
                     }
                 })
