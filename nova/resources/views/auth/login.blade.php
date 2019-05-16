@@ -37,7 +37,7 @@
 
     <div class="flex mb-6">
         <label class="flex items-center block text-xl font-bold">
-            <input class="" type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}>
+            <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}>
             <span class="text-base ml-2">{{ __('Remember Me') }}</span>
         </label>
 

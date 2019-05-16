@@ -10,7 +10,7 @@ use App\Http\Requests\ProducerStoreMessageRequest;
 use App\Models\Message;
 use App\Models\Project;
 
-class MessagesController extends Controller
+class MessageController extends Controller
 {
     public function store(ProducerStoreMessageRequest $request, Project $project)
     {

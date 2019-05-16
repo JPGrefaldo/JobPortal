@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\API;
 
 use App\Actions\Submissions\CreateSubmission;
+use App\Actions\Submissions\SetSubmissionStatus;
 use App\Http\Controllers\Controller;
 use App\Models\ProjectJob;
 use App\Models\Submission;
-use Carbon\Carbon;
 use Illuminate\Http\Response;
 
-class SubmissionsController extends Controller
+class SubmissionController extends Controller
 {
     public function index(ProjectJob $job)
     {
@@ -18,6 +18,24 @@ class SubmissionsController extends Controller
                 'message'       => 'Sucessfully fetched job\'s submissions',
                 'job'           => $job,
                 'submissions'   => $job->submissions
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    public function fetchByApprovedDate(ProjectJob $projectJob)
+    {
+        $submissions = $projectJob->submissions()
+                                ->whereNotNull('approved_at')
+                                ->with(['crew' => function ($q) {
+                                    $q->with('user');
+                                }])
+                                ->get();
+
+        return response()->json(
+            [
+                'message'      => 'Sucessfully fetched job\'s submissions',
+                'submissions'   => $submissions
             ],
             Response::HTTP_OK
         );
@@ -40,12 +58,7 @@ class SubmissionsController extends Controller
 
     public function approve(Submission $submission)
     {
-        if (! empty($submission->rejected_at)) {
-            $submission->rejected_at = null;
-        }
-
-        $submission->approved_at = Carbon::now();
-        $submission->save();
+        $submission = app(SetSubmissionStatus::class)->execute($submission, 'rejected_at', 'approved_at');
 
         return response()->json(
             [
@@ -58,12 +71,7 @@ class SubmissionsController extends Controller
 
     public function reject(Submission $submission)
     {
-        if (! empty($submission->approved_at)) {
-            $submission->approved_at = null;
-        }
-
-        $submission->rejected_at = Carbon::now();
-        $submission->save();
+        $submission = app(SetSubmissionStatus::class)->execute($submission, 'approved_at', 'rejected_at');
 
         return response()->json(
             [
@@ -89,6 +97,20 @@ class SubmissionsController extends Controller
         return response()->json(
             [
                 'message'    => 'Submission is successfully restored',
+                'submission' => $submission
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    public function swap(Submission $submissionToReject, Submission $submissionToApprove)
+    {
+        app(SetSubmissionStatus::class)->execute($submissionToReject, 'approved_at', 'rejected_at');
+        $submission = app(SetSubmissionStatus::class)->execute($submissionToApprove, 'rejected_at', 'approved_at');
+
+        return response()->json(
+            [
+                'message'    => 'Submission successfully swapped.',
                 'submission' => $submission
             ],
             Response::HTTP_OK

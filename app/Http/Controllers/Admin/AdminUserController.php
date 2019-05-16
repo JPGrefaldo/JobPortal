@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class AdminUsersController extends Controller
+class AdminUserController extends Controller
 {
     /**
      * @param Request $request

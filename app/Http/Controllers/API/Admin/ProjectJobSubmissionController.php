@@ -9,7 +9,7 @@ use App\Models\ProjectJob;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class ProjectJobsSubmissionsController extends Controller
+class ProjectJobSubmissionController extends Controller
 {
     /**
      * @param Request $request

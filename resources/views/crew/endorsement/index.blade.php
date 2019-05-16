@@ -1,7 +1,6 @@
-@extends('layouts.default_layout')
+@extends('layouts.page-1-col')
 
-@section('content')
-    <div class="container">
+@section('page-content')
         @include('_parts.pages.page-title', [
             'pageTitle' => 'Endorsements',
         ])
@@ -23,6 +22,5 @@
                 @endif
             </div>
         </div>
-    </div>
 
 @endsection
