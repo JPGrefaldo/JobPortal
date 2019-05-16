@@ -131,6 +131,7 @@
 
 <script>
 import { Form, HasError, AlertError } from 'vform';
+import { mapGetters } from 'vuex';
 import InputErrors from './_partials/InputErrors';
 import objectToFormData from 'object-to-formdata';
 
@@ -144,30 +145,40 @@ export default {
     },
     data() {
         return {
-            has_gear: false,
-            selected: false,
-            filled: false,
-            positionData: {},
-            positionData: [],
-            reel: null,
-            form: new Form({
-                bio: '',
+            has_gear      : false,
+            selected      : false,
+            filled        : false,
+            positionData  : {},
+            positionData  : [],
+            position_exist: false,
+            reel          : null,
+            form          : new Form({
+                bio              : '',
                 union_description: '',
-                resume: null,
-                reel_link: '',
-                reel_file: null,
-                gear: '',
-                position: this.position.id,
+                resume           : null,
+                reel_link        : '',
+                reel_file        : null,
+                gear             : '',
+                position         : this.position.id,
             }),
         };
     },
+
+    computed: {
+        ...mapGetters({
+            crewPositionList: 'crew/crewPositionList',
+            crewPositionData: 'crew/crewPositionData',
+        })
+    },
+
     methods: {
-        toggleSelect: function(){
-            this.selected = ! this.selected
+        toggleSelect: function() {
+            this.selected = !this.selected;
+            this.filled   = !this.filled;
             return false;
         },
 
-        selectFile: function(e){
+        selectFile: function(e) {
             this.form[e.target.name] = e.target.files[0]
             e.target.value = ''
         },
@@ -177,40 +188,50 @@ export default {
         },
 
         saveCrewPosition: function() {
-            this.form.submit('post','/crew/positions/' + this.position.id,{
-              transformRequest: [function (data, headers) {
-                return objectToFormData(data)
-              }]
+            this.form.submit('post','/crew/positions/' + this.position.id, {
+                transformRequest: [function (data, headers) {
+                    return objectToFormData(data)
+                }]
             })
             .then(({ data }) => {
-                if(data === 'success'){
+                if (data === 'success') {
                     this.filled = true;
                     this.getPositionData();
                 }
             });
         },
 
-        fillData: function(data){
-            
+        fillData: function(data) {   
             this.form = new Form({
-                id: data.id,
-                bio: data.details,
-                union_description: data.union_description ? data.union_description : '',
-                resume: data.resume ? data.resume : null,
-                reel: data.reel ? data.reel : false ,
-                gear: data.gear ? data.gear.description : '',
+                id               : data.id,
+                bio              : data.details,
+                union_description: data.union_description ? data.union_description: '',
+                resume           : data.resume ? data.resume : null,
+                reel             : data.reel ? data.reel : false,
+                gear             : data.gear ? data.gear.description : '',
             });
 
             this.reel = data.reel ? data.reel.path : null;
         },
 
-        getPositionData: function(){
+        getPositionData: function() {
             axios
                 .get(`/crew/positions/${this.position.id}/show`)
                 .then(response => {
                     this.filled = true
                     this.fillData(response.data)
+                    if (response.data.gear != null) {
+                        this.has_gear = true;
+                    }
                 })
+        },
+
+        checkPositionIfExist: function() {
+            if (this.crewPositionList.includes(this.position.id)) {
+                this.position_exist = true;
+                this.selected       = true;
+                this.getPositionData();
+            }
         },
 
         removeResume: function(positionId){
@@ -237,10 +258,9 @@ export default {
             this.form.reel_file = null
         }
     },
-    mounted(){
-         this.$nextTick(function () {
-                this.getPositionData();
-            });
+    mounted() {
+        this.$store.dispatch('crew/checkPositionIfExist');
+        setTimeout(() => this.checkPositionIfExist(), 2000);
     }
 };
 </script>

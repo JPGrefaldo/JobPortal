@@ -8,7 +8,7 @@ use App\Models\ProjectJob;
 use App\Models\ProjectThread;
 use App\Models\ProjectType;
 use App\Models\RemoteProject;
-use Cmgmyr\Messenger\Models\Thread;
+use App\Models\Thread;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;

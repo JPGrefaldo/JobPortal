@@ -7,7 +7,7 @@ use App\Models\EmailVerificationCode;
 use App\Models\Site;
 use App\Models\UserBanned;
 use App\Models\UserNotificationSetting;
-use App\Models\UserSites;
+use App\Models\UserSite;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
@@ -32,7 +32,7 @@ class UserTest extends TestCase
     public function sites()
     {
         $site = $this->getCurrentSite();
-        UserSites::create([
+        UserSite::create([
             'user_id' => $this->user->id,
             'site_id' => $site->id,
         ]);

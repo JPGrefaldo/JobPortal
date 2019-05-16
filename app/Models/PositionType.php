@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class PositionTypes extends Model
+class PositionType extends Model
 {
     /**
      * The protected attributes

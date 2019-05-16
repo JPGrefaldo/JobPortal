@@ -39,5 +39,13 @@ export const actions = {
 
     approve(context, id) {
         axios.post(`/api/producer/projects/approve/submissions/${id}`)
+    },
+
+    reject(context, id) {
+        axios.post(`/api/producer/projects/reject/submissions/${id}`)
+    },
+
+    restore(context, id) {
+        axios.post(`/api/producer/projects/restore/submissions/${id}`)
     }
 }

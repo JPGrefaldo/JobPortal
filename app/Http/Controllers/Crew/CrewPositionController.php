@@ -15,9 +15,13 @@ class CrewPositionController extends Controller
      * @param \App\Http\Requests\StoreCrewPositionRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function applyFor(Position $position, StoreCrewPositionRequest $request)
+    public function store(Position $position, StoreCrewPositionRequest $request)
     {
         $crew = auth()->user()->crew;
+
+        $request->request->add([
+            'method' => 'post',
+        ]);
 
         $data = $request->validated();
 
@@ -44,6 +48,16 @@ class CrewPositionController extends Controller
             ])->firstOrFail();
 
         return $crewPosition;
+    }
+
+    /**
+     * @return array
+     */
+    public function getPositionList()
+    {
+        $crew = auth()->user()->crew;
+
+        return $crew->crewPositions->pluck('position_id');
     }
 
     /**

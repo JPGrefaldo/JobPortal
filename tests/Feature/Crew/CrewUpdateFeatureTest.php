@@ -35,9 +35,6 @@ class CrewUpdateFeatureTest extends TestCase
      */
     public function update()
     {
-        // given
-        // $this->withoutExceptionHandling();
-
         $data = $this->getUpdateData();
 
         // when
@@ -101,7 +98,6 @@ class CrewUpdateFeatureTest extends TestCase
         // then
         $response->assertRedirect(route('crew.profile.create'));
     }
-
 
     /**
      * @test

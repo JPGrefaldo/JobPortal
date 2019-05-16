@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\User;
-use Cmgmyr\Messenger\Models\Thread;
+use App\Models\Thread;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
@@ -19,11 +19,11 @@ class ThreadFeatureTest extends TestCase
     public function search_participating_user_in_current_thread()
     {
         $response = $this->search('J');
-        
+
         $response->assertJsonFragment([
             'name' => 'John Doe',
         ]);
-     
+
         $response->assertJsonFragment([
             'name' => 'Jean Grey',
         ]);
@@ -54,7 +54,7 @@ class ThreadFeatureTest extends TestCase
         $response->assertJsonFragment([
             'name' => 'John Doe',
         ]);
-     
+
         $response = $this->search('JeAn');
         $response->assertJsonFragment([
             'name' => 'Jean Grey',
@@ -99,7 +99,7 @@ class ThreadFeatureTest extends TestCase
             'message' => 'No results can be found',
         ]);
     }
-    
+
 
     private function search($keyword, $currentUser = null)
     {
@@ -138,7 +138,7 @@ class ThreadFeatureTest extends TestCase
         $participant2 = factory(User::class)->create([
             'nickname' => 'Jean Grey',
         ]);
-        
+
         $thread->addParticipant([
             $currentUser->id,
             $participant1->id,
