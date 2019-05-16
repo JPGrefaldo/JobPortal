@@ -1,17 +1,15 @@
 <?php
 
+use App\Http\Controllers\Api\Admin\FlaggedMessageController;
 use App\Http\Controllers\API\Admin\ProjectJobSubmissionController;
 use App\Http\Controllers\API\Crew\DepartmentController;
 use App\Http\Controllers\API\Crew\PositionController;
 use App\Http\Controllers\API\Crew\ProjectController as CrewProjectController;
 use App\Http\Controllers\API\Crew\SiteController;
 use App\Http\Controllers\API\ParticipantController;
-use App\Http\Controllers\API\Producer\MessageTemplateController;
 use App\Http\Controllers\API\Producer\ProjectController;
 use App\Http\Controllers\API\Producer\ProjectJobController;
-use App\Http\Controllers\API\SubmissionController;
 use App\Http\Controllers\API\UserController;
-use App\Http\Controllers\Api\Admin\FlaggedMessageController;
 use App\Http\Controllers\Crew\ThreadController as CrewThreadController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\Producer\ThreadController;
@@ -83,7 +81,7 @@ Route::middleware('auth:api')->group(function () {
             Route::get('submissions/{job}', [
                 ProjectJobSubmissionController::class,
                 'index'
-            ])->middleware('role:Producer')->name('project.job.submissions.index');
+            ])->name('project.job.submissions.index');
 
             Route::get('/', [
                 ProjectController::class,
@@ -130,33 +128,42 @@ Route::middleware('auth:api')->group(function () {
                     ProjectJobController::class,
                     'destroy',
                 ])->name('producer.project.jobs.destroy');
+
+                Route::get('/{projectJob}/submissions/all-approved', [
+                    \App\Http\Controllers\API\SubmissionController::class,
+                    'fetchByApprovedDate'
+                ])->name('fetch.submissions.by.approved');
             });
 
             Route::post('/submissions/{submission}/approve', [
                 \App\Http\Controllers\API\SubmissionController::class,
                 'approve'
-            ])->name('producer.projects.submissions.approve');
+            ])->name('producer.projects.approve.submissions');
+
+            Route::post('swap/submissions/{submissionToReject}/{submissionToApprove}', [
+                \App\Http\Controllers\API\SubmissionController::class,
+                'swap'
+            ])->name('producer.projects.swap.submissions');
+            Route::post('/submissions/{submission}/reject', [
+                \App\Http\Controllers\API\SubmissionController::class,
+                'reject'
+            ])->name('producer.projects.submissions.reject');
+
+            Route::post('/submissions/{submission}/restore', [
+                \App\Http\Controllers\API\SubmissionController::class,
+                'restore'
+            ])->name('producer.projects.submissions.restore');
+
+            Route::get('/pending', [
+                \App\Http\Controllers\API\Producer\ProjectController::class,
+                'pending',
+            ])->name('producer.projects.pending');
+
+            Route::get('/type', [
+                \App\Http\Controllers\API\Producer\ProjectTypes::class,
+                'index',
+            ])->name('producer.project.type');
         });
-
-        Route::post('/submissions/{submission}/reject', [
-            \App\Http\Controllers\API\SubmissionController::class,
-            'reject'
-        ])->name('producer.projects.submissions.reject');
-
-        Route::post('/submissions/{submission}/restore', [
-            \App\Http\Controllers\API\SubmissionController::class,
-            'restore'
-        ])->name('producer.projects.submissions.restore');
-
-        Route::get('/pending', [
-            \App\Http\Controllers\API\Producer\ProjectController::class,
-            'pending',
-        ])->name('producer.projects.pending');
-
-        Route::get('/type', [
-            \App\Http\Controllers\API\Producer\ProjectTypes::class,
-            'index',
-        ])->name('producer.project.type');
 
         Route::prefix('messages')->group(function () {
             Route::prefix('templates')->group(function () {

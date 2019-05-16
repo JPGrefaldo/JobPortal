@@ -113,9 +113,9 @@
                 ******************************************-->
                 <div class="w-full float-left py-6 md:py-lg grid-cards">
                     <div v-for="submission in submissions" :key="submission.id">
-                        <div class="bg-white rounded border-grey-lighter shadow-md w-full flex flex-col justify-between"
+                        <div class="bg-white rounded border-grey-lighter shadow-md w-full flex flex-col justify-between" 
                              :class="{'overlay': isRejected(submission)}">
-
+                             
                             <div class="p-6 relative">
                                 <span class="text-yellow h4 mb-2 w-full absolute text-xs pin-top-left">
                                     <i class="fas fa-star mr-1"></i>
@@ -148,7 +148,7 @@
                                         </li>
                                     </ul>
                                 </div>
-
+                                
                                 <div class="text-center">
                                     <div class="pb-4">
                                         <h3 class="mb-1">{{ submission.crew.user.first_name }} {{ submission.crew.user.last_name }}</h3>
@@ -174,7 +174,7 @@
                                         </li>
                                         <li class="my-2" v-if="submission.crew.submission_count > 1">
                                             <label class="flex text-center text-grey">
-                                                {{ submission.crew.submission_count }} positions applied on this project
+                                                {{ submission.crew.submission_count }} positions applied on this project 
                                             </label>
                                         </li>
 
@@ -193,6 +193,11 @@
                                     <div class="w-1/3 cursor-pointer text-xs px-4 py-3 h4 text-grey" @click.stop="reject(submission.id)">
                                         no
                                     </div>
+                                </div>
+                                <div v-if="isRejected(submission)" class="justify-center text-center">
+                                    <a href="#" class="w-full px-4 py-3 h4 text-white" @click.stop="swap(job.id, submission)">
+                                        <i class="fa fa-exchange-alt"></i>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -219,14 +224,16 @@
         },
 
         created: function() {
+            this.$store.dispatch('submission/fetchAllApproved', this.job.id)
             this.$store.dispatch('project/fetch')
             this.$store.dispatch('project/fetchAllApprovedCount')
-            this.$store.dispatch('project/fetchAllPendingCount')
+            // this.$store.dispatch('project/fetchAllPendingCount')
         },
 
         computed: {
             ...mapGetters({
                 'projects': 'project/list',
+                'approvedSubmissions': 'submission/approvedSubmissions',
             })
         },
 
@@ -246,6 +253,38 @@
                     .then(() => location.reload())
             },
 
+            swap: function(job, submissionToApprove) {
+                var content = '<div>'
+                for (const submission of this.approvedSubmissions) {
+                    content +=`
+                        <input id="submission-to-reject" type="radio" value="${submission.id}" />
+                        <label>
+                            ${submission.crew.user.first_name} ${submission.crew.user.last_name}
+                        </label>
+                    `
+                }
+                content += '</div>'
+
+                this.$swal({
+                    title: `Swap ${submissionToApprove.crew.user.first_name} ${submissionToApprove.crew.user.last_name} with`,
+                    html: content,
+                    showCloseButton: true,
+                    confirmButtonText: '<i class="fa fa-exchange-alt"></i>',
+                })
+                .then(result => {
+                    if (result.value) {
+                        const content = this.$swal.getContent()
+                        const $ = content.querySelector.bind(content)
+                        const submissionToReject = $('input[id=submission-to-reject]:checked').value
+
+                        const submissions = {toReject: parseInt(submissionToReject, 10), toApprove: submissionToApprove.id}
+                        this.$store.dispatch('submission/swap', submissions)
+
+                        location.reload()
+                    }
+                })
+            },
+            
             isApproved: function(submission) {
                  return submission.approved_at !== null
             },
