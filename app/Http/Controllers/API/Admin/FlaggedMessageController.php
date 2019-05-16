@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\FlagMessageResource;
 use App\Models\PendingFlagMessage;
 
-class FlagMessageController extends Controller
+class FlaggedMessageController extends Controller
 {
     public function index(PendingFlagMessage $pendingFlagMessages)
     {
