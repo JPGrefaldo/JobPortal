@@ -119,27 +119,27 @@ Route::middleware('auth:api')->group(function () {
                 \App\Http\Controllers\API\SubmissionsController::class,
                 'approve'
             ])->name('producer.projects.submissions.approve');
+
+            Route::post('/submissions/{submission}/reject', [
+                \App\Http\Controllers\API\SubmissionsController::class,
+                'reject'
+            ])->name('producer.projects.submissions.reject');
+    
+            Route::post('/submissions/{submission}/restore', [
+                \App\Http\Controllers\API\SubmissionsController::class,
+                'restore'
+            ])->name('producer.projects.submissions.restore');
+
+            Route::get('/pending', [
+                \App\Http\Controllers\API\Producer\ProjectsController::class,
+                'pending',
+            ])->name('producer.projects.pending');
+    
+            Route::get('/type', [
+                \App\Http\Controllers\API\Producer\ProjectTypes::class,
+                'index',
+            ])->name('producer.project.type');
         });
-
-        Route::post('/submissions/{submission}/reject', [
-            \App\Http\Controllers\API\SubmissionsController::class,
-            'reject'
-        ])->name('producer.projects.submissions.reject');
-
-        Route::post('/submissions/{submission}/restore', [
-            \App\Http\Controllers\API\SubmissionsController::class,
-            'restore'
-        ])->name('producer.projects.submissions.restore');
-
-        Route::get('/pending', [
-            \App\Http\Controllers\API\Producer\ProjectsController::class,
-            'pending',
-        ])->name('producer.projects.pending');
-
-        Route::get('/type', [
-            \App\Http\Controllers\API\Producer\ProjectTypes::class,
-            'index',
-        ])->name('producer.project.type');
 
         Route::prefix('messages')->group(function () {
             Route::prefix('templates')->group(function () {
@@ -154,16 +154,6 @@ Route::middleware('auth:api')->group(function () {
                 ])->name('producer.messages.templates');
             });
         });
-
-        Route::get('/pending', [
-            \App\Http\Controllers\API\Producer\ProjectsController::class,
-            'pending',
-        ])->name('producer.projects.pending');
-
-        Route::get('/type', [
-            \App\Http\Controllers\API\Producer\ProjectTypes::class,
-            'index',
-        ])->name('producer.project.type');
     });
 
     Route::get('/admin/flag-messages', [
