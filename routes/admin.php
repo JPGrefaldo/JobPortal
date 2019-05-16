@@ -1,41 +1,48 @@
 <?php
 
-Route::put('/admin/users/ban/{user}', [\App\Http\Controllers\Admin\AdminUserController::class, 'updateBan'])
+use App\Http\Controllers\Admin\AdminUserController;
+use App\Http\Controllers\Admin\DepartmentController;
+use App\Http\Controllers\Admin\PositionController;
+use App\Http\Controllers\Admin\ProjectController;
+use App\Http\Controllers\Admin\SiteController;
+use App\Http\Controllers\PendingFlagMessageController;
+
+Route::put('/admin/users/ban/{user}', [AdminUserController::class, 'updateBan'])
     ->name('admin.users.ban');
 
 Route::prefix('/admin/sites')->group(function () {
-    Route::get('/', [\App\Http\Controllers\Admin\SiteController::class, 'index'])
+    Route::get('/', [SiteController::class, 'index'])
         ->name('admin.sites');
 });
 
 Route::prefix('/admin/departments')->group(function () {
-    Route::get('/', [\App\Http\Controllers\Admin\DepartmentController::class, 'index'])
+    Route::get('/', [DepartmentController::class, 'index'])
         ->name('admin.departments');
-    Route::post('/', [\App\Http\Controllers\Admin\DepartmentController::class, 'store']);
-    Route::put('/{department}', [\App\Http\Controllers\Admin\DepartmentController::class, 'update'])
+    Route::post('/', [DepartmentController::class, 'store']);
+    Route::put('/{department}', [DepartmentController::class, 'update'])
         ->name('admin.departments.update');
 });
 
 Route::prefix('/admin/positions')->group(function () {
-    Route::get('/', [\App\Http\Controllers\Admin\PositionController::class, 'index'])
+    Route::get('/', [PositionController::class, 'index'])
         ->name('admin.positions');
-    Route::post('/', [\App\Http\Controllers\Admin\PositionController::class, 'store']);
-    Route::put('/{position}', [\App\Http\Controllers\Admin\PositionController::class, 'update'])
+    Route::post('/', [PositionController::class, 'store']);
+    Route::put('/{position}', [PositionController::class, 'update'])
         ->name('admin.positions.update');
 });
 
 Route::prefix('/admin/projects')->group(function () {
-    Route::get('/', [\App\Http\Controllers\Admin\ProjectController::class, 'index'])
+    Route::get('/', [ProjectController::class, 'index'])
         ->name('admin.projects');
-    Route::put('/{project}/approve', [\App\Http\Controllers\Admin\ProjectController::class, 'approve'])
+    Route::put('/{project}/approve', [ProjectController::class, 'approve'])
         ->name('admin.projects.approve');
-    Route::put('/{project}/unapprove', [\App\Http\Controllers\Admin\ProjectController::class, 'unapprove'])
+    Route::put('/{project}/unapprove', [ProjectController::class, 'unapprove'])
         ->name('admin.projects.unapprove');
-    Route::put('/{project}', [\App\Http\Controllers\Admin\ProjectController::class, 'update'])
+    Route::put('/{project}', [ProjectController::class, 'update'])
         ->name('admin.projects.update');
-    Route::get('/pending', [\App\Http\Controllers\Admin\ProjectController::class, 'unApprovedProjects'])
+    Route::get('/pending', [ProjectController::class, 'unApprovedProjects'])
         ->name('admin.pending-projects');
 });
 
-Route::get('/admin/flag-messages', [\App\Http\Controllers\PendingFlagMessageController::class, 'index'])
+Route::get('/admin/flag-messages', [PendingFlagMessageController::class, 'index'])
     ->middleware('role:Admin')->name('admin.messages.flagged.index');
