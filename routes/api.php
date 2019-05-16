@@ -116,23 +116,23 @@ Route::middleware('auth:api')->group(function () {
             });
 
             Route::post('/submissions/{submission}/approve', [
-                \App\Http\Controllers\API\SubmissionsController::class,
+                \App\Http\Controllers\API\SubmissionController::class,
                 'approve'
             ])->name('producer.projects.submissions.approve');
         });
 
         Route::post('/submissions/{submission}/reject', [
-            \App\Http\Controllers\API\SubmissionsController::class,
+            \App\Http\Controllers\API\SubmissionController::class,
             'reject'
         ])->name('producer.projects.submissions.reject');
 
         Route::post('/submissions/{submission}/restore', [
-            \App\Http\Controllers\API\SubmissionsController::class,
+            \App\Http\Controllers\API\SubmissionController::class,
             'restore'
         ])->name('producer.projects.submissions.restore');
 
         Route::get('/pending', [
-            \App\Http\Controllers\API\Producer\ProjectsController::class,
+            \App\Http\Controllers\API\Producer\ProjectController::class,
             'pending',
         ])->name('producer.projects.pending');
 
@@ -144,12 +144,12 @@ Route::middleware('auth:api')->group(function () {
         Route::prefix('messages')->group(function () {
             Route::prefix('templates')->group(function () {
                 Route::get('/', [
-                    \App\Http\Controllers\API\Producer\MessageTemplatesController::class,
+                    \App\Http\Controllers\API\Producer\MessageTemplateController::class,
                     'index'
                 ])->name('producer.messages.templates');
 
                 Route::post('/', [
-                    \App\Http\Controllers\API\Producer\MessageTemplatesController::class,
+                    \App\Http\Controllers\API\Producer\MessageTemplateController::class,
                     'store'
                 ])->name('producer.messages.templates');
             });
