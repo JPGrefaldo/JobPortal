@@ -11,7 +11,7 @@ use App\Http\Controllers\API\Producer\ProjectController;
 use App\Http\Controllers\API\Producer\ProjectJobController;
 use App\Http\Controllers\API\SubmissionController;
 use App\Http\Controllers\API\UserController;
-use App\Http\Controllers\Api\Admin\FlagMessageController;
+use App\Http\Controllers\Api\Admin\FlaggedMessageController;
 use App\Http\Controllers\Crew\ThreadController as CrewThreadController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\Producer\ThreadController;
@@ -184,7 +184,7 @@ Route::middleware('auth:api')->group(function () {
     });
 
     Route::get('/admin/flag-messages', [
-        \App\Http\Controllers\Api\Admin\FlaggedMessageController::class,
+        FlaggedMessageController::class,
         'index'
     ])->middleware('role:Admin')->name('admin.messages.flagged');
 
