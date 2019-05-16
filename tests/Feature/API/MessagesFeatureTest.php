@@ -4,10 +4,10 @@ namespace Tests\Feature\API;
 
 use App\Http\Resources\MessageResource;
 use App\Models\Crew;
+use App\Models\Thread;
 use App\Models\User;
 use Cmgmyr\Messenger\Models\Message;
 use Cmgmyr\Messenger\Models\Participant;
-use Cmgmyr\Messenger\Models\Thread;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
@@ -24,7 +24,6 @@ class MessagesFeatureTest extends TestCase
     {
         // given
         $user = $this->createCrew();
-        $crew = $user->crew;
         $thread = factory(Thread::class)->create();
 
         factory(Participant::class)->create([

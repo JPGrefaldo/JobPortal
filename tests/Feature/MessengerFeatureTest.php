@@ -3,7 +3,7 @@
 namespace Tests\Unit\Notifications;
 
 use App\Models\Role;
-use Cmgmyr\Messenger\Models\Thread;
+use App\Models\Thread;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
@@ -86,7 +86,7 @@ class MessengerFeatureTest extends TestCase
 
         $response = $this->actingAs($crew)
             ->postJson(route('messages.store', $data));
-        
+
         $response->assertJson([
             'message' => 'You are not allowed to message the producer',
         ]);

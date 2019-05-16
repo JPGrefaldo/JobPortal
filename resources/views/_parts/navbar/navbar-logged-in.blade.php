@@ -57,12 +57,8 @@
                 <div class="relative flex justify-center items-center p-1 rounded-lg hover:bg-grey-lighter">
                     <span class="mr-2 inline-block font-semibold text-blue-dark text-sm">{{ Auth::user()->first_name }}</span>
 
-                    @if (isset(Auth::user()->crew) && !empty(Auth::user()->crew->photo_url))
                         <span class="w-10 h-10 bg-cover rounded-full inline-block"
-                              style="background-image: url('{{ Auth::user()->crew->photo_url }}')"></span>
-                    @else
-                        <span class="w-10 h-10 bg-cover rounded-full inline-block background-missing-avatar"></span>
-                    @endif
+                              style="background-image: url('{{ Auth::user()->avatar }}')"></span>
 
                 </div>
                 <div class="dropdown shadow-md bg-white absolute py-3 font-body">

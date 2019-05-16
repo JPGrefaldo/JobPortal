@@ -209,6 +209,20 @@ class User extends Authenticatable implements JWTSubject
     /**
      * @return string
      */
+    public function getAvatarAttribute()
+    {
+        if ($this->hasRole(\App\Models\Role::CREW)) {
+            if (isset($this->crew->photo_path) && ! empty($this->crew->photo_path)) {
+                return $this->crew->photo_url;
+            }
+        }
+
+        return \Avatar::create($this->full_name)->toBase64();
+    }
+
+    /**
+     * @return string
+     */
     public function getRouteKeyName()
     {
         return 'hash_id';
