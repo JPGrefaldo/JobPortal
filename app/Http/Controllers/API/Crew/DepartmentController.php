@@ -3,16 +3,16 @@
 namespace App\Http\Controllers\API\Crew;
 
 use App\Http\Controllers\Controller;
-use App\Models\Site;
+use App\Models\Department;
 
-class SitesController extends Controller
+class DepartmentController extends Controller
 {
     public function index()
     {
-        $sites = Site::all();
-
+        $departments = Department::all();
+        
         return response()->json([
-            'sites' => $sites,
+            'departments' => $departments,
         ]);
     }
 }

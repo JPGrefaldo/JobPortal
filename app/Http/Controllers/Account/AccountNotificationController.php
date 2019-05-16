@@ -8,7 +8,7 @@ use App\Http\Requests\Account\AccountNotificationsRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class AccountNotificationsController extends Controller
+class AccountNotificationController extends Controller
 {
     /**
      * Display a listing of the resource.

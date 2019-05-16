@@ -16,7 +16,7 @@ class SubmissionFeatureTest extends TestCase
 
     /**
       * @test
-      * @covers \App\Http\Controllers\API\SubmissionsController::index
+      * @covers \App\Http\Controllers\API\SubmissionController::index
       */
     public function can_fetch_job_and_all_submissions()
     {
@@ -54,7 +54,7 @@ class SubmissionFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\API\SubmissionsController::store
+     * @covers \App\Http\Controllers\API\SubmissionController::store
      */
     public function can_store_submissions()
     {
@@ -91,7 +91,7 @@ class SubmissionFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\API\SubmissionsController::approve
+     * @covers \App\Http\Controllers\API\SubmissionController::approve
      */
     public function can_approve_submissions()
     {
@@ -153,7 +153,7 @@ class SubmissionFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\API\SubmissionsController::index
+     * @covers \App\Http\Controllers\API\SubmissionController::index
      */
     public function cannot_fetch_submmissions_as_crew()
     {
@@ -171,7 +171,7 @@ class SubmissionFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\API\SubmissionsController::store
+     * @covers \App\Http\Controllers\API\SubmissionController::store
      */
     public function must_be_crew_to_store_submissions()
     {
