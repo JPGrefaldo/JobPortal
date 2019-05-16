@@ -91,7 +91,7 @@ class SubmissionFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\API\SubmissionsController::approve
+     * @covers \App\Http\Controllers\API\SubmissionController::approve
      */
     public function can_approve_submissions()
     {
@@ -153,7 +153,7 @@ class SubmissionFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\API\SubmissionsController::index
+     * @covers \App\Http\Controllers\API\SubmissionController::index
      */
     public function cannot_fetch_submmissions_as_crew()
     {

@@ -184,7 +184,7 @@ Route::middleware('auth:api')->group(function () {
     });
 
     Route::get('/admin/flag-messages', [
-        FlagMessageController::class,
+        \App\Http\Controllers\Api\Admin\FlaggedMessageController::class,
         'index'
     ])->middleware('role:Admin')->name('admin.messages.flagged');
 
