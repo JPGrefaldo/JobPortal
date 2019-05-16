@@ -5,7 +5,7 @@
             <span class="text-blue-dark pt-6 pb-1 border-b-2 border-blue-dark text-sm font-bold font-header"/>{{ config('app.name') }}</span>
         </a>
     </div>
-    <ul class="list-reset hidden md:flex items-center">
+    <ul class="hidden md:flex items-center">
         <li class="{{ Route::is('producer.projects') ? 'border-b-2 border-red border-solid' : '' }}">
             <a class="block py-6 px-4 tracking-wide block font-bold leading-none uppercase text-sm text-blue-dark hover:text-green"
                href="/producer/projects">my projects</a>
@@ -31,7 +31,7 @@
                 <span class="h-1 w-1 bg-red absolute rounded"></span>
             </div>
             <div class="dropdown shadow-md bg-white absolute py-3 font-body">
-                <ul class="list-reset text-left">
+                <ul class="text-left">
                     <li class="py-2 px-4">
                         <a href="/my-profile/{{ Auth::user()->id }}" class="block text-blue-dark hover:text-green">View
                             profile</a>
@@ -62,7 +62,7 @@
 
                 </div>
                 <div class="dropdown shadow-md bg-white absolute py-3 font-body">
-                    <ul class="list-reset text-left">
+                    <ul class="text-left">
                         @if(! Route::is('crew.profile.index'))
                             <li class="py-2 px-4">
                                 <a href="{{ route('crew.profile.index') }}" class="block text-blue-dark hover:text-green">View
@@ -99,7 +99,7 @@
 <a href="#" class="btn-nav md:hidden">
     <div class="icon"></div>
 </a>
-<nav class="nav-mobile bg-black fixed z-50 text-white w-full h-full pin-t pin-l">
+<nav class="nav-mobile bg-black fixed z-50 text-white w-full h-full top-0 left-0">
     <div class="p-3">
         <img src="/images/logos/logo-long-white.svg" class="w-32" alt="crew calls"/>
     </div>
@@ -112,7 +112,7 @@
             ></span>
             <span class="ml-2 inline-block font-semibold text-white text-sm">{{ auth()->user()->full_name }}</span>
         </div>
-        <ul class="list-reset text-left text-sm">
+        <ul class="text-left text-sm">
             @if(! Route::is('crew.profile.index'))
                 <li class="py-1 px-4">
                     <a href="{{ route('crew.profile.index') }}" class="block text-white">View profile</a>
@@ -135,7 +135,7 @@
         </ul>
     </div>
     <div class="py-6 px-3 border-t border-grey-dark">
-        <ul class="list-reset">
+        <ul>
             <li class="py-2">
                 <a class="block py-1 px-4 font-header tracking-wide block font-bold leading-none uppercase text-sm text-white hover:text-green"
                    href="#">my projects</a>
@@ -155,7 +155,7 @@
         </ul>
     </div>
     <div class="py-6 px-3 border-t border-grey-dark">
-        <ul class="list-reset">
+        <ul>
             <li class="py-2">
                 <a class="block py-1 px-4 font-header tracking-wide block font-bold leading-none uppercase text-sm text-white hover:text-green"
                    href="#">Questions? <span class="text-green">Contact us</span>.</a>

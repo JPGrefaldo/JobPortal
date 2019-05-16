@@ -77,7 +77,7 @@
                                     <span class="badge bg-white">5</span>
                                 </a>
                             </li>
-                            <li class="">
+                            <li>
                                 <a class="block py-4 tracking-wide block font-bold leading-none uppercase text-sm text-blue-dark hover:text-green" href="#">seen
                                     <span class="badge bg-white">5</span>
                                 </a>
@@ -98,7 +98,7 @@
                                     <span class="badge bg-white">5</span>
                                 </a>
                             </li>
-                            <li class="">
+                            <li>
                                 <a class="block py-4 tracking-wide block font-bold leading-none uppercase text-sm text-blue-dark hover:text-green" href="#">Marked
                                     <span class="font-thin">"maybe"</span>
                                     <span class="badge bg-white">5</span>

@@ -11,7 +11,7 @@
             </div>
 
             <aside class="w-1/4 float-left pr-4">
-                <ul class="list-reset font-header text-left py-6">
+                <ul class="font-header text-left py-6">
                     <li class="block py-4">
                         <a href="#" class="border-b-2 border-red text-blue-dark font-semibold py-2 hover:text-green">All projects <div class="badge bg-white ml-2">12</div></a>
                     </li>
@@ -31,7 +31,7 @@
                         <span class="btn-play w-10 h-10"></span>
                     </a>
                 </div>
-                <div class="">
+                <div>
                     <h4 class="text-grey leading-loose">Need help?<br> <a href="#" class="text-green">Contact support</a></h4>
                 </div>
             </aside>

@@ -30,7 +30,7 @@
                     @else
                         <img src="http://i.pravatar.cc/300" class="rounded" alt=""/>
                     @endif
-                    <ul class="list-reset py-4">
+                    <ul class="py-4">
                         <li class="py-1">
                             @if (isset($imdb->url))
                                 <a href="http:\\imdb.com\{{ $imdb->url }}" class="flex items-center" target="_blank">
