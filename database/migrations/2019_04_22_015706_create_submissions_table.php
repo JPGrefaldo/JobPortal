@@ -18,7 +18,9 @@ class CreateSubmissionsTable extends Migration
             $table->unsignedInteger('crew_id');
             $table->unsignedInteger('project_id');
             $table->unsignedInteger('project_job_id');
-            $table->timestamp('approve_at')
+            $table->timestamp('approved_at')
+                ->nullable();
+            $table->timestamp('rejected_at')
                 ->nullable();
             $table->timestamps();
 

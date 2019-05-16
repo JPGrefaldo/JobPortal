@@ -12,7 +12,7 @@
         </li>
         <li class="{{ Route::is('findProject') ? 'border-b-2 border-red border-solid' : '' }}">
             <a class="block py-6 px-4 tracking-wide font-bold leading-none uppercase text-sm text-blue-dark hover:text-green"
-               href="#">find projects</a>
+               href="{{route('projects.current-projects')}}">find projects</a>
         </li>
         <li class="{{ Route::is('messages') ? 'border-b-2 border-red border-solid' : '' }}">
             <a href="{{ route('messages') }}"
@@ -57,12 +57,8 @@
                 <div class="relative flex justify-center items-center p-1 rounded-lg hover:bg-grey-lighter">
                     <span class="mr-2 inline-block font-semibold text-blue-dark text-sm">{{ Auth::user()->first_name }}</span>
 
-                    @if (isset(Auth::user()->crew) && !empty(Auth::user()->crew->photo_url))
                         <span class="w-10 h-10 bg-cover rounded-full inline-block"
-                              style="background-image: url('{{ Auth::user()->crew->photo_url }}')"></span>
-                    @else
-                        <span class="w-10 h-10 bg-cover rounded-full inline-block background-missing-avatar"></span>
-                    @endif
+                              style="background-image: url('{{ Auth::user()->avatar }}')"></span>
 
                 </div>
                 <div class="dropdown shadow-md bg-white absolute py-3 font-body">
@@ -73,9 +69,9 @@
                                     profile</a>
                             </li>
                         @endif
-                        @if(! Route::is('crew.profile.create'))
+                        @if(! Route::is('crew.profile.edit'))
                             <li class="py-2 px-4">
-                                <a href="{{ route('crew.profile.create') }}" class="block text-blue-dark hover:text-green">Edit
+                                <a href="{{ route('crew.profile.edit') }}" class="block text-blue-dark hover:text-green">Edit
                                     profile</a>
                             </li>
                         @endif
@@ -122,9 +118,9 @@
                     <a href="{{ route('crew.profile.index') }}" class="block text-white">View profile</a>
                 </li>
             @endif
-            @if(! Route::is('crew.profile.create'))
+            @if(! Route::is('crew.profile.edit'))
                 <li class="py-1 px-4">
-                    <a href="{{ route('crew.profile.create') }}" class="block text-white">Edit profile</a>
+                    <a href="{{ route('crew.profile.edit') }}" class="block text-white">Edit profile</a>
                 </li>
             @endif
             <li class="py-1 px-4">

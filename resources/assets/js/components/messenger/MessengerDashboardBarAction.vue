@@ -12,6 +12,16 @@
             </button>
         </div>
         <div class="w-4/5 bg-grey-light flex justify-between items-center p-3">
+            <label class="checkbox-control">
+                Save
+                <input
+                    name="Post add on these websites"
+                    type="checkbox"
+                    value="all"
+                    v-model="saveTemplate"
+                />
+                <div class="control-indicator"></div>
+            </label>
             <input
                 v-model="message"
                 type="text"
@@ -35,6 +45,7 @@ export default {
     data() {
         return {
             message: null,
+            saveTemplate: false
         };
     },
 
@@ -61,7 +72,9 @@ export default {
         },
 
         sendMessage() {
-            this.showSaveAsMacro(this.message)
+            if (this.saveTemplate) {
+                this.saveMessageTemplate(this.message)
+            }
 
             let params = {
                 message: this.message,
@@ -70,25 +83,12 @@ export default {
             this.$store.dispatch('message/send', params);
         },
 
-        showSaveAsMacro(message) {
-            this.$swal({
-                title: 'Do you want to save this message?',
-                text: "You can use it later when you send another message",
-                type: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, save it!',
-            })
-            .then(res => {
-                if (res.value) {
-                    this.$store
-                        .dispatch('message/save', {message})
-                        .then(response => {
-                            this.displaySuccess(response)
-                        })
-                }
-            });
+        saveMessageTemplate(message) {
+            this.$store
+                .dispatch('message/save', {message})
+                .then(response => {
+                    this.displaySuccess(response)
+                })
         }
     },
 };

@@ -33,7 +33,7 @@ class CreateCrewRequest extends FormRequest
     public function rules()
     {
         return [
-            'bio'                          => 'required|nullable|string',
+            'bio'                          => 'nullable|string',
             'photo'                        => 'nullable|image',
             'resume'                       => 'nullable|file|mimes:pdf,doc,docx',
             'reel_link'                    => ['nullable', 'string', new Reel()],
@@ -47,16 +47,6 @@ class CreateCrewRequest extends FormRequest
             'socials.vimeo.url'            => ['nullable', new Vimeo],
             'socials.instagram.url'        => ['nullable', new Instagram],
             'socials.personal_website.url' => ['nullable', new TLDR],
-        ];
-    }
-
-    /**
-     * @return array
-     *
-     */
-    public function attributes()
-    {
-        return [
         ];
     }
 }

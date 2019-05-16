@@ -118,7 +118,7 @@ class ProjectController extends Controller
 
         return response()->json(
             [
-                'message'  => 'Succesfully fetched all projects.',
+                'message'  => 'Successfully fetched all projects.',
                 'projects' => $projects,
             ],
             Response::HTTP_OK

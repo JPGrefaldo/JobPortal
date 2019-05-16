@@ -37,6 +37,7 @@ class CreateUsersTable extends Migration
             $table->index('status');
             $table->index('confirmed');
             $table->index('email');
+            $table->index('hash_id');
         });
     }
 

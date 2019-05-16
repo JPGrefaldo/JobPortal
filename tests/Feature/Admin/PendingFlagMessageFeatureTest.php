@@ -45,7 +45,7 @@ class PendingFlagMessageFeatureTest extends TestCase
      */
     public function admin_can_see_pending_flag_messages()
     {
-        $pendingFlagMessage = factory(\App\Models\PendingFlagMessage::class)->create(
+        $pendingFlagMessage = factory(PendingFlagMessage::class)->create(
             $this->getPendingFlaggedMessage()
         );
 

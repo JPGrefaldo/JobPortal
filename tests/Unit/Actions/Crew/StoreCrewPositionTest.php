@@ -30,7 +30,7 @@ class StoreCrewPositionTest extends TestCase
             'position_id'       => $position->id,
             'bio'               => 'This is the bio',
             'gear'              => 'This is the gear',
-            'reel_link'         => 'www.this-is-my-link.com',
+            'reel_link'         => 'https://www.youtube.com/embed/G8S81CEBdNs',
             'union_description' => 'This is the union description',
         ];
 
@@ -55,7 +55,7 @@ class StoreCrewPositionTest extends TestCase
 
         $this->assertDatabaseHas('crew_reels', [
             'crew_id'           => $crew->id,
-            'path'              => 'www.this-is-my-link.com',
+            'path'              => $data['reel_link'],
             'general'           => false,
             'crew_position_id'  => $crewPosition->id,
         ]);

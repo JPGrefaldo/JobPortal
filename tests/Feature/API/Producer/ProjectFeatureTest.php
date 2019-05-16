@@ -38,7 +38,7 @@ class ProjectFeatureTest extends TestCase
 
         $response = $this->actingAs($user, 'api')
             ->get(route('producer.projects.index'))
-            ->assertSee('Succesfully fetched all projects.')
+            ->assertSee('Successfully fetched all projects.')
             ->assertSuccessful();
 
         $response->assertJsonCount(2);
@@ -75,7 +75,7 @@ class ProjectFeatureTest extends TestCase
 
         $response = $this->actingAs($user, 'api')
             ->get(route('producer.projects.pending'))
-            ->assertSee('Succesfully fetched all pending projects.')
+            ->assertSee('Successfully fetched all pending projects.')
             ->assertSuccessful();
 
         $response->assertJsonCount(2);
@@ -112,8 +112,8 @@ class ProjectFeatureTest extends TestCase
         ]);
 
         $response = $this->actingAs($user, 'api')
-            ->get('/api/producer/projects/pending?count=true')
-            ->assertSee('Succesfully fetched all pending projects count.')
+            ->get(route('producer.projects.pending', ['count' => true]))
+            ->assertSee('Successfully fetched all pending projects count.')
             ->assertSuccessful();
 
         $response->assertJsonCount(2);
@@ -146,7 +146,7 @@ class ProjectFeatureTest extends TestCase
 
         $response = $this->actingAs($user, 'api')
             ->get(route('producer.projects.approved'))
-            ->assertSee('Succesfully fetched all approved projects.')
+            ->assertSee('Successfully fetched all approved projects.')
             ->assertSuccessful();
 
         $response->assertJsonCount(2);
@@ -182,8 +182,8 @@ class ProjectFeatureTest extends TestCase
         ]);
 
         $response = $this->actingAs($user, 'api')
-            ->get('/api/producer/projects/approved?count=true')
-            ->assertSee('Succesfully fetched all approved projects count.')
+            ->get(route('producer.projects.approved', ['count' => true]))
+            ->assertSee('Successfully fetched all approved projects count.')
             ->assertSuccessful();
 
         $response->assertJsonCount(2);
@@ -444,7 +444,7 @@ class ProjectFeatureTest extends TestCase
 
         $response = $this->actingAs($user, 'api')
             ->get(route('producer.projects.index'))
-            ->assertSee('Succesfully fetched all projects.')
+            ->assertSee('Successfully fetched all projects.')
             ->assertSuccessful();
 
         $jobs = $project->jobs()->with('position')->get()->toArray();

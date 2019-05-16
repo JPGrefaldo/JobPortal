@@ -2934,6 +2934,36 @@ file-type@^10.7.0:
   resolved "https://registry.yarnpkg.com/file-type/-/file-type-10.11.0.tgz#2961d09e4675b9fb9a3ee6b69e9cd23f43fd1890"
   integrity sha512-uzk64HRpUZyTGZtVuvrjP0FYxzQrBf4rojot6J65YMEbwBLB0CWm0CLojVpwpmFmxcE/lkvYICgfcGozbBq6rw==
 
+filepond-plugin-file-validate-type@^1.2.4:
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/filepond-plugin-file-validate-type/-/filepond-plugin-file-validate-type-1.2.4.tgz#ce7f5f469dbc7ce0da12fdef7b0f24e4c263c410"
+  integrity sha512-K1qD8mfahJoz2zRlWWvYoHuy4k/8tHggsoGbm/blpTp63OyahOdJBzMN3VK7USYn5OZ58uOFdMTMyi8ibFpW/Q==
+
+filepond-plugin-image-crop@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/filepond-plugin-image-crop/-/filepond-plugin-image-crop-2.0.3.tgz#4be354a10a85d86946abc9ce738c6bda44e21a8c"
+  integrity sha512-+XV09yBoMHwNgww75zgMmA8imckNiOCvtAYTgtDE5sMcZ/lWTrK339SxwuLLxqV66tFAWO8pAL/nrYKKY1Ixpw==
+
+filepond-plugin-image-preview@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/filepond-plugin-image-preview/-/filepond-plugin-image-preview-4.1.1.tgz#7294332e9e9ee9592b0ccd96da4eb90b8ca683ec"
+  integrity sha512-cQZPWJ0iltLTmJ5iKCEBX6DShk9GDjpUhKjByaw7QuzAa3RnoU0E7K/W0Zod1+ZLch+tbNZ6ySBEjm9RrNy+6Q==
+
+filepond-plugin-image-resize@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/filepond-plugin-image-resize/-/filepond-plugin-image-resize-2.0.4.tgz#1f1c77ec692f37d789a9a5600920dd9fc5f26015"
+  integrity sha512-4qDB6cGqO/9sxAHnmlI5iJ1sXWgqzusKeTFCLEEba9JiX6eaY+w5BQjkO5zrhF7OuYAvqFAziunIhkZet6BpiQ==
+
+filepond-plugin-image-transform@^3.2.4:
+  version "3.2.4"
+  resolved "https://registry.yarnpkg.com/filepond-plugin-image-transform/-/filepond-plugin-image-transform-3.2.4.tgz#92d48f02eb9b0990d11359475b89348bafb6f797"
+  integrity sha512-ycGbaGdMaAkLu26A/9AYqLqQ9wsqSwJ3EwJQ/wVQ/cwW28Drw3EjSDR04qSnTWHWGDli0303K/+BsRXsg3UJLg==
+
+filepond@^4.4.6:
+  version "4.4.6"
+  resolved "https://registry.yarnpkg.com/filepond/-/filepond-4.4.6.tgz#92c7367cc713a4e5270a58791c4727dda70c6360"
+  integrity sha512-XqCCi+UvHbbWYnj3wtsFBpHYUe2l3kHcSdYpYzz7iuie4UQ2af/rykiqbesNTGi3CYke2glKygwLeNrlTsU/tA==
+
 fill-range@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/fill-range/-/fill-range-4.0.0.tgz#d544811d428f98eb06a63dc402d2403c328c38f7"
@@ -4857,6 +4887,11 @@ object-path@^0.9.0, object-path@^0.9.2:
   version "0.9.2"
   resolved "https://registry.yarnpkg.com/object-path/-/object-path-0.9.2.tgz#0fd9a74fc5fad1ae3968b586bda5c632bd6c05a5"
   integrity sha1-D9mnT8X60a45aLWGvaXGMr1sBaU=
+
+object-to-formdata@^1.6.4:
+  version "1.6.4"
+  resolved "https://registry.yarnpkg.com/object-to-formdata/-/object-to-formdata-1.6.4.tgz#ee2c3693ae6829ce8847f77eff7a3d8289c843e1"
+  integrity sha512-1XZmRyR6yBhDxogp+9Vi00FFDtCah8x8FGc98lgvBzZlGeQGxj00pKmWHtzl7vrSpqPx5zXVb/XbiP5ZS2karg==
 
 object-visit@^1.0.0:
   version "1.0.1"
@@ -7241,6 +7276,11 @@ vue-datepicker-ui@^0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/vue-datepicker-ui/-/vue-datepicker-ui-0.1.2.tgz#afe9e163c9bf6e4f834392cd2c9ba3a1bbfe7f91"
   integrity sha512-VRD3B6VlwD9bQarcq9W50Jaj1wwy3KF2MFCTBjN2BcFY/2+h+6MMDyzM2xUx+E63R2L1Z+P2HN0F/wNpR1Djzg==
+
+vue-filepond@^5.1.1:
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/vue-filepond/-/vue-filepond-5.1.1.tgz#ad356025d0badac40a747a5477d61e391f01d0de"
+  integrity sha512-mQ+V9lpqZFz7SMJNODwuT+NMeXaBUyKI823Ekei1r1prY/qdh5TqJs/OM8Ub5PJUnck7Pk6jr7NeI3V33Jcphw==
 
 vue-hot-reload-api@^2.3.0:
   version "2.3.3"

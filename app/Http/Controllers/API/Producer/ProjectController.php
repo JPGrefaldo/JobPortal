@@ -11,8 +11,8 @@ use App\Http\Requests\Producer\CreateProjectRequest;
 use App\Models\Project;
 use App\Models\Site;
 use App\Utils\UrlUtils;
-use Illuminate\Http\Response;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class ProjectController extends Controller
 {
@@ -22,10 +22,10 @@ class ProjectController extends Controller
 
         return response()->json(
             [
-                'message'   => 'Succesfully fetched all projects.',
+                'message'   => 'Successfully fetched all projects.',
                 'projects'  => $projects->load([
-                    'remotes', 
-                    'jobs'  => function($query) {
+                    'remotes',
+                    'jobs'  => function ($query) {
                         $query->with('position', 'pay_type');
                     },
                 ]),
@@ -100,7 +100,7 @@ class ProjectController extends Controller
         if ($request->query('count')) {
             return response()->json(
                 [
-                    'message'   => 'Succesfully fetched all pending projects count.',
+                    'message'   => 'Successfully fetched all pending projects count.',
                     'count'     => Project::getPending()->count(),
                 ],
                 Response::HTTP_OK
@@ -109,13 +109,13 @@ class ProjectController extends Controller
 
         return response()->json(
             [
-                'message'   => 'Succesfully fetched all pending projects.',
+                'message'   => 'Successfully fetched all pending projects.',
                 'projects'  => Project::getPending()->load(
                     [
                         'remotes',
-                        'jobs' => function($query) {
+                        'jobs' => function ($query) {
                             $query->with('position', 'pay_type');
-                        } 
+                        },
                     ]
                 ),
             ],
@@ -128,8 +128,8 @@ class ProjectController extends Controller
         if ($request->query('count')) {
             return response()->json(
                 [
-                    'message'   => 'Succesfully fetched all approved projects count.',
-                    'count' => Project::getApproved()->count(),
+                    'message'   => 'Successfully fetched all approved projects count.',
+                    'count'     => Project::getApproved()->count(),
                 ],
                 Response::HTTP_OK
             );
@@ -137,13 +137,13 @@ class ProjectController extends Controller
 
         return response()->json(
             [
-                'message'   => 'Succesfully fetched all approved projects.',
+                'message'   => 'Successfully fetched all approved projects.',
                 'projects'  => Project::getApproved()->load(
                     [
                         'remotes',
-                        'jobs' => function($query) {
+                        'jobs' => function ($query) {
                             $query->with('position', 'pay_type');
-                        } 
+                        },
                     ]
                 ),
             ],

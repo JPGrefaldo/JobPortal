@@ -10,7 +10,7 @@
             @include('crew.profile.parts.profile-complete-indicator')
 
             <div class="md:w-3/4 float-left">
-                <form action="{{ route('crew.profile.create') }}" method="post" enctype="multipart/form-data">
+                <form action="{{ route('crew.profile.store') }}" method="post" enctype="multipart/form-data">
                     <div class="card mb-8">
                         <div class="w-full mb-6">
                             <h3 class="text-blue-dark font-semibold text-md md:text-lg mb-1 font-header">{{ $user->nickname_or_full_name }}</h3>
@@ -47,8 +47,7 @@
                                     <h3 class="text-md font-header mb-2 md:mb-0">Profile Photo</h3>
                                 </div>
                                 <div class="md:w-2/3">
-                                    <label for="photo-file" class="btn-outline text-green inline-block" >Upload file</label>
-                                    <input type="file" name="photo" id="photo-file" class="hidden">
+                                    <file-pond></file-pond>
                                 </div>
                             </div>
                         </div>
@@ -130,11 +129,9 @@
                     <h4 class='text-grey'>WORK POSITIONS</h4>
                 </div>
 
-                <cca-department-component :departments="{{ $departments }}" />
-
+                <cca-department-component :departments="{{ $departments }}"/>
             </div>
         </div>
     </main>
 
 @endsection
-

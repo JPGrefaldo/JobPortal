@@ -1,6 +1,6 @@
 <template>
     <loading-view :loading="loading">
-        <heading class="mb-3">{{ __('Update') }} {{ relatedResourceLabel }}</heading>
+        <heading class="mb-3">{{ __('Update', { resource: relatedResourceLabel }) }}</heading>
 
         <card class="overflow-hidden">
             <form v-if="field" @submit.prevent="updateAttachedResource" autocomplete="off">
@@ -18,9 +18,9 @@
                             :label="'display'"
                             :selected="selectedResourceId"
                         >
-                            <option value="" disabled selected
-                                >{{ __('Choose') }} {{ field.name }}</option
-                            >
+                            <option value="" disabled selected>{{
+                                __('Choose :field', { field: field.name })
+                            }}</option>
                         </select-control>
                     </template>
                 </default-field>
@@ -43,8 +43,15 @@
 
                 <!-- Attach Button -->
                 <div class="bg-30 flex px-8 py-4">
+                    <a
+                        @click="$router.back()"
+                        class="btn btn-default btn-link dim cursor-pointer text-80 ml-auto mr-6"
+                    >
+                        {{ __('Cancel') }}
+                    </a>
+
                     <progress-button
-                        class="ml-auto mr-3"
+                        class="mr-3"
                         dusk="update-and-continue-editing-button"
                         @click.native="updateAndContinueEditing"
                         :disabled="isWorking"
@@ -59,7 +66,7 @@
                         :disabled="isWorking"
                         :processing="submittedViaUpdateAttachedResource"
                     >
-                        {{ __('Update') }} {{ relatedResourceLabel }}
+                        {{ __('Update', { resource: relatedResourceLabel }) }}
                     </progress-button>
                 </div>
             </form>

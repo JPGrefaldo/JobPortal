@@ -7,9 +7,8 @@ use App\Actions\Admin\MessageCrew;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Producer\Message\UpdateRequest;
 use App\Http\Requests\ProducerStoreMessageRequest;
+use App\Models\Message;
 use App\Models\Project;
-use Cmgmyr\Messenger\Models\Message;
-use Illuminate\Support\Facades\Auth;
 
 class MessageController extends Controller
 {

@@ -21,17 +21,27 @@ class StoreCrewResume
             Storage::disk('s3')->delete($crewResume->path);
         }
 
-        $resumePath = $data['resume']->store(
+        $values['path'] = $data['resume']->store(
             $crew->user->hash_id . '/resumes',
             's3',
             'public'
         );
 
-        $crew->resumes()->updateOrCreate([
+        $attributes = [
             'general' => true,
-        ], [
-            'path'    => $resumePath,
-            'general' => true,
-        ]);
+        ];
+
+        $values['general'] = true;
+
+        if (isset($data['crew_position_id'])) {
+            $attributes = [
+                'crew_position_id' => $data['crew_position_id'],
+            ];
+
+            $values['crew_position_id'] = $data['crew_position_id'];
+            $values['general']          = false;
+        }
+
+        $crew->resumes()->updateOrCreate($attributes, $values);
     }
 }

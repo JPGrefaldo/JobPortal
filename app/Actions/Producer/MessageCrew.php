@@ -3,8 +3,9 @@
 namespace App\Actions\Admin;
 
 use App\Models\Project;
+use App\Models\ProjectThread;
+use App\Models\Thread;
 use App\Models\User;
-use Cmgmyr\Messenger\Models\Thread;
 
 class MessageCrew
 {
@@ -15,41 +16,31 @@ class MessageCrew
      */
     public function execute($data, Project $project, User $user): void
     {
+        $message    = $data['message'];
         $recipients = User::whereIn('hash_id', $data['recipients'])->get();
 
         foreach ($recipients as $recipient) {
-            $thread = $this->getThread($project, $recipient);
+            $thread = Thread::getByProjectAndParticipant($project, $recipient);
 
-            if ($thread === null) {
+            if (empty($thread)) {
                 $thread = Thread::create([
-                    'subject' => $recipient->fullName,
+                    'subject' => $user->fullName
                 ]);
-                $project->threads()->attach($thread);
-                $thread->addParticipant([$user->id, $recipient->id]);
+
+                ProjectThread::create([
+                    'project_id' => $project->id,
+                    'thread_id'  => $thread->id
+                ]);
             }
 
-            $thread->messages()->create([
-                'user_id' => $user->id,
-                'body'    => $data['message'],
-            ]);
+            $thread->messages()->create(
+                [
+                    'user_id'   => $user->id,
+                    'body'      => $message
+                ]
+        );
 
-            // TODO: queue send emails
+            $thread->addParticipant($recipient->id);
         }
-    }
-
-    /**
-     * @param $project
-     * @param $participant
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|object|null
-     */
-    public function getThread($project, $participant)
-    {
-        return Thread::query()
-            ->join('project_thread', 'threads.id', 'project_thread.thread_id')
-            ->join('projects', 'project_thread.project_id', 'projects.id')
-            ->join('participants', 'threads.id', 'participants.thread_id')
-            ->where('projects.id', $project->id)
-            ->where('participants.user_id', $participant->id)
-            ->first();
     }
 }

@@ -4,8 +4,8 @@ namespace Tests\Unit\Actions\Messenger;
 
 use App\Actions\Messenger\FetchNewMessages;
 use App\Models\Message;
+use App\Models\Thread;
 use Carbon\Carbon;
-use Cmgmyr\Messenger\Models\Thread;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
@@ -22,7 +22,7 @@ class FetchNewMessagesTest extends TestCase
     {
         // Given and When please refer to seedThreadAndMessages()
         $threads = $this->seedThreadAndMessages();
-        
+
         // Then we map through the thread's message(s)
         $threads->map(function ($thread) {
             // And then assert if the thread's message was
@@ -50,7 +50,7 @@ class FetchNewMessagesTest extends TestCase
                 ->each(function ($message) {
                     // And then get the thread's subject
                     $thread = Thread::where('id', $message->thread_id)->pluck('subject');
-                                        
+
                     // And then add the thread subject to the messages
                     $message['thread'] = $thread[0];
 
@@ -60,9 +60,9 @@ class FetchNewMessagesTest extends TestCase
         })
             ->flatMap(function ($emailFormat) {
 
-                    // Then we assert if we succesfully added the thread subject to the messages
+                    // Then we assert if we Successfully added the thread subject to the messages
                 $this->assertEquals('Thread Test Subject', $emailFormat->thread);
-                    
+
                 // And assert if the email format is what we expected to be
                 $this->assertArrayHas(
                     [
@@ -100,10 +100,10 @@ class FetchNewMessagesTest extends TestCase
         ];
 
         $crew->messages()->create($replyFromCrew);
-        
+
         // Then get all new thread with new messages
         $threads = app(FetchNewMessages::class)->execute($producer);
-        
+
         // Then return the threads with their messages
         return $threads;
     }
@@ -125,7 +125,7 @@ class FetchNewMessagesTest extends TestCase
 
         // Given the scheduled notification is fired
         // and we map through all the users
-        
+
         // Then we map through the user's thread with new message
         $producer->threadsWithNewMessages()
             ->flatMap(function ($thread) use ($time, $producer) {
@@ -179,7 +179,7 @@ class FetchNewMessagesTest extends TestCase
         ];
 
         $producer->messages()->create($message);
-        
+
         // And given we have two replies from the crew
         // a new one and old reply which is posted 31 mins. ago
         $replyFromCrew = [

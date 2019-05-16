@@ -156,3 +156,8 @@ Route::get('upload_test', function () {
     Storage::disk('s3')->put($name, (\Faker\Factory::create())->paragraph);
     dump(config('filesystems.disks.s3.url') . '/' . config('filesystems.disks.s3.bucket') . '/' . $name);
 });
+
+Route::post(
+    'stripe/webhook',
+    '\Laravel\Cashier\Http\Controllers\WebhookController@handleWebhook'
+);

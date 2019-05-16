@@ -27,12 +27,20 @@
         "vue-template-compiler": "^2.6.6"
     },
     "dependencies": {
+        "filepond": "^4.4.6",
+        "filepond-plugin-file-validate-type": "^1.2.4",
+        "filepond-plugin-image-crop": "^2.0.3",
+        "filepond-plugin-image-preview": "^4.1.1",
+        "filepond-plugin-image-resize": "^2.0.4",
+        "filepond-plugin-image-transform": "^3.2.4",
+        "object-to-formdata": "^1.6.4",
         "slick-carousel": "^1.8.1",
         "tooltipster": "^4.2.6",
         "v-tooltip": "^2.0.0-rc.33",
         "vee-validate": "^2.2.0",
         "vform": "^1.0.0",
         "vue-datepicker-ui": "^0.1.2",
+        "vue-filepond": "^5.1.1",
         "vue-sweetalert2": "^1.6.4",
         "vuex": "^3.0.1"
     }
