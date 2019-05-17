@@ -75,6 +75,12 @@ class FakeMessages extends Command
             'body' => 'This is a test message',
         ]);
 
+        Message::create([
+            'thread_id' => $thread->id,
+            'user_id' => $receiver->id,
+            'body' => 'This is a Reply message',
+        ]);
+
         // Sender
         Participant::create([
             'thread_id' => $thread->id,
