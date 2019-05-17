@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Cmgmyr\Messenger\Models\Participant as Model;
+use Cmgmyr\Messenger\Models\Participant as VendorParticipant;
 
-class Participant extends Model
+class Participant extends VendorParticipant
 {
     //
 }
