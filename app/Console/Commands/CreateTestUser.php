@@ -10,6 +10,7 @@ use App\Models\Site;
 use App\Models\User;
 use App\Utils\UrlUtils;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Hash;
 
 class CreateTestUser extends Command
 {
@@ -63,12 +64,9 @@ class CreateTestUser extends Command
             return;
         }
 
-        $user = app(CreateUser::class)->execute([
-            'first_name' => 'Test',
-            'last_name'  => 'User',
-            'nickname'   => 'The User',
+        $user = factory(User::class)->create([
             'email'      => $email,
-            'password'   => 'test123',
+            'password'   => Hash::make('test123'),
             'phone'      => '555-555-5555',
         ]);
 
