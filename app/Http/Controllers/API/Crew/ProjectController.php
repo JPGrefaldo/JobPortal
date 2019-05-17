@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API\Crew;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProjectResource;
 
-class ProjectsController extends Controller
+class ProjectController extends Controller
 {
     public function index()
     {

@@ -12,7 +12,7 @@
                     <span class="btn-toggle float-right"></span>
                 </div>
                 <div class="menu w-full shadow-md bg-white absolute py-3 font-body border text-sm border-grey-light">
-                    <ul class="list-reset text-left">
+                    <ul class="text-left">
                         <li class="py-2 px-4">
                             <a class="block text-blue-dark hover:text-green" href="#">View profile</a>
                         </li>
@@ -25,7 +25,7 @@
                     </ul>
                 </div>
             </div>
-            <ul class="hidden md:block list-reset font-header text-right px-md py-6">
+            <ul class="hidden md:block font-header text-right px-md py-6">
                 <li class="block py-4">
                     <a class="text-blue-dark font-semibold py-2 hover:text-green" href="#">Active projects</a>
                 </li>
@@ -46,7 +46,7 @@
         </div>
 
         <aside class="hidden md:block w-1/4 float-left pr-4">
-            <ul class="list-reset font-header text-left py-6">
+            <ul class="font-header text-left py-6">
                 <li class="block py-4">
                     <a :class="{'border-b-2 border-red ': activeTab == 'all'}" class="text-blue-dark font-semibold py-2 hover:text-green" href="#" @click.stop="loadProjects('all')">
                         All projects
@@ -79,7 +79,7 @@
                     <span class="btn-play w-10 h-10"></span>
                 </a>
             </div>
-            <div class="">
+            <div>
                 <h4 class="text-grey leading-loose">Need help?
                     <br>
                     <a class="text-green" href="#">Contact support</a>
@@ -94,7 +94,7 @@
 
     export default {
         props: ['projects'],
-        
+
         data() {
             return {
                 activeTab: 'all'
@@ -107,7 +107,7 @@
                 projectPendingCount: 'project/pendingCount'
             })
         },
-        
+
         methods: {
             loadProjects: function (type) {
                 this.activeTab = type

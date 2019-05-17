@@ -68,7 +68,7 @@
                 <span class="btn-toggle float-right"></span>
             </div>
             <div class="menu w-full shadow-md bg-white absolute py-3 font-body border text-sm border-grey-light">
-                <ul class="list-reset text-left">
+                <ul class="text-left">
                     <li class="py-2 px-4">
                         <a href="#" class="block text-blue-dark hover:text-green">View profile</a>
                     </li>
@@ -81,7 +81,7 @@
                 </ul>
             </div>
         </div>
-        <ul class="hidden md:block list-reset font-header text-right px-md py-6">
+        <ul class="hidden md:block font-header text-right px-md py-6">
             <li class="block py-4">
                 <a href="#" class="text-blue-dark font-semibold py-2 hover:text-green">Subscription</a>
             </li>
@@ -101,14 +101,14 @@
     </div>
     <div class="hidden md:flex justify-between border-b-2 border-grey-light">
         <div>
-            <ul class="list-reset flex items-center">
+            <ul class="flex items-center">
                 <li class="mr-4">
                     <a class="border-b-2 border-red block py-4 tracking-wide block font-bold leading-none uppercase text-sm text-blue-dark hover:text-green"
                         href="#">unseen
                         <span class="badge bg-white">5</span>
                     </a>
                 </li>
-                <li class="">
+                <li>
                     <a class="block py-4 tracking-wide block font-bold leading-none uppercase text-sm text-blue-dark hover:text-green" href="#">seen
                         <span class="badge bg-white">5</span>
                     </a>
@@ -116,7 +116,7 @@
             </ul>
         </div>
         <div>
-            <ul class="list-reset flex items-center">
+            <ul class="flex items-center">
                 <li class="mr-4">
                     <a class="block py-4 tracking-wide block font-bold leading-none uppercase text-sm text-blue-dark hover:text-green" href="#">Marked
                         <span class="font-thin">"Yes"</span>
@@ -129,7 +129,7 @@
                         <span class="badge bg-white">5</span>
                     </a>
                 </li>
-                <li class="">
+                <li>
                     <a class="block py-4 tracking-wide block font-bold leading-none uppercase text-sm text-blue-dark hover:text-green" href="#">Marked
                         <span class="font-thin">"maybe"</span>
                         <span class="badge bg-white">5</span>
@@ -148,7 +148,7 @@
                 <a href="#" class="btn-more absolute pin-top-right"></a>
                 <div class="rounded-full w-48 h-48 m-auto mt-3" style="background: url(images/thumb.jpg) no-repeat center; background-size: cover"></div>
                 <div class="py-2 w-full float-left -mt-6">
-                    <ul class="list-reset text-center flex justify-center">
+                    <ul class="text-center flex justify-center">
                         <li class="w-8 h-8 bg-yellow-imdb rounded-full responsive p-1 inline-block -mr-2">
                             <a href="#">
                                 <img src="images/imdb.svg" alt="imdb">
@@ -171,7 +171,7 @@
                 </div>
 
                 <div class="border-t border-grey-light pt-3 mt-6 block">
-                    <ul class="list-reset">
+                    <ul>
                         <li class="my-2">
                             <a href="#" class="flex items-center">
                                 <div class="relative w-6 h-6 bg-green rounded-full mr-2">
@@ -210,7 +210,7 @@
                 <a href="#" class="btn-more absolute pin-top-right"></a>
                 <div class="rounded-full w-48 h-48 m-auto mt-3" style="background: url(images/thumb.jpg) no-repeat center; background-size: cover"></div>
                 <div class="py-2 w-full float-left -mt-6">
-                    <ul class="list-reset text-center flex justify-center">
+                    <ul class="text-center flex justify-center">
                         <li class="w-8 h-8 bg-yellow-imdb rounded-full responsive p-1 inline-block -mr-2">
                             <a href="#">
                                 <img src="images/imdb.svg" alt="imdb">
@@ -233,7 +233,7 @@
                 </div>
 
                 <div class="border-t border-grey-light pt-3 mt-6 block">
-                    <ul class="list-reset">
+                    <ul>
                         <li class="my-2">
                             <a href="#" class="flex items-center">
                                 <div class="relative w-6 h-6 bg-green rounded-full mr-2">
@@ -270,7 +270,7 @@
                 <a href="#" class="btn-more absolute pin-top-right"></a>
                 <div class="rounded-full w-48 h-48 m-auto mt-3" style="background: url(images/thumb.jpg) no-repeat center; background-size: cover"></div>
                 <div class="py-2 w-full float-left -mt-6">
-                    <ul class="list-reset text-center flex justify-center">
+                    <ul class="text-center flex justify-center">
                         <li class="w-8 h-8 bg-yellow-imdb rounded-full responsive p-1 inline-block -mr-2">
                             <a href="#">
                                 <img src="images/imdb.svg" alt="imdb">
@@ -293,7 +293,7 @@
                 </div>
 
                 <div class="border-t border-grey-light pt-3 mt-6 block">
-                    <ul class="list-reset">
+                    <ul>
                         <li class="my-2">
                             <a href="#" class="flex items-center">
                                 <div class="relative w-6 h-6 bg-green rounded-full mr-2">
@@ -330,7 +330,7 @@
                 <a href="#" class="btn-more absolute pin-top-right"></a>
                 <div class="rounded-full w-48 h-48 m-auto mt-3" style="background: url(images/thumb.jpg) no-repeat center; background-size: cover"></div>
                 <div class="py-2 w-full float-left -mt-6">
-                    <ul class="list-reset text-center flex justify-center">
+                    <ul class="text-center flex justify-center">
                         <li class="w-8 h-8 bg-yellow-imdb rounded-full responsive p-1 inline-block -mr-2">
                             <a href="#">
                                 <img src="images/imdb.svg" alt="imdb">
@@ -353,7 +353,7 @@
                 </div>
 
                 <div class="border-t border-grey-light pt-3 mt-6 block">
-                    <ul class="list-reset">
+                    <ul>
                         <li class="my-2">
                             <a href="#" class="flex items-center">
                                 <div class="relative w-6 h-6 bg-green rounded-full mr-2">
@@ -390,7 +390,7 @@
                 <a href="#" class="btn-more absolute pin-top-right"></a>
                 <div class="rounded-full w-48 h-48 m-auto mt-3" style="background: url(images/thumb.jpg) no-repeat center; background-size: cover"></div>
                 <div class="py-2 w-full float-left -mt-6">
-                    <ul class="list-reset text-center flex justify-center">
+                    <ul class="text-center flex justify-center">
                         <li class="w-8 h-8 bg-yellow-imdb rounded-full responsive p-1 inline-block -mr-2">
                             <a href="#">
                                 <img src="images/imdb.svg" alt="imdb">
@@ -413,7 +413,7 @@
                 </div>
 
                 <div class="border-t border-grey-light pt-3 mt-6 block">
-                    <ul class="list-reset">
+                    <ul>
                         <li class="my-2">
                             <a href="#" class="flex items-center">
                                 <div class="relative w-6 h-6 bg-green rounded-full mr-2">

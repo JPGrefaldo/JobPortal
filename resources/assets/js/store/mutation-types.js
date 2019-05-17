@@ -34,6 +34,7 @@ export const CREW_POSITION_INFO         = 'CREW_POSITION_INFO';
 
 export const SUBMISSION                 = 'SUBMISSION';
 export const SUBMISSIONS                = 'SUBMISSIONS';
+export const APPROVED_SUBMISSIONS       = 'APPROVED_SUBMISSIONS';
 
 export const THREAD                     = 'THREAD';
 export const THREADS                    = 'THREADS';
