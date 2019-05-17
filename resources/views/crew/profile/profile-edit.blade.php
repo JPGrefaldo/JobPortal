@@ -7,7 +7,7 @@
     @include('crew.profile.parts.profile-complete-indicator')
 
     <div class="md:w-3/4 float-left">
-        <form action="{{ route('crew.profile.store') }}" method="post" enctype="multipart/form-data">
+        <form action="{{ route('crew.profile.update') }}" method="post" enctype="multipart/form-data">
             <div class="card mb-8">
                 <div class="w-full mb-6">
                     <h3 class="text-blue-dark font-semibold text-md md:text-lg mb-1 font-header">{{ $user->nickname_or_full_name }}</h3>
