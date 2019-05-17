@@ -174,7 +174,6 @@ export default {
     methods: {
         toggleSelect: function() {
             this.selected = !this.selected;
-            this.filled   = !this.filled;
             return false;
         },
 
@@ -229,7 +228,6 @@ export default {
         checkPositionIfExist: function() {
             if (this.crewPositionList.includes(this.position.id)) {
                 this.position_exist = true;
-                this.selected       = true;
                 this.getPositionData();
             }
         },
