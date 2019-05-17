@@ -12,6 +12,7 @@ class StoreCrewPosition
      * @param \App\Models\Crew $crew
      * @param \App\Models\Position $position
      * @param array $data
+     * @throws \Exception
      */
     public function execute(Crew $crew, Position $position, array $data): void
     {

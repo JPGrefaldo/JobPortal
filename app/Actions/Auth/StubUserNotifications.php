@@ -12,7 +12,7 @@ class StubUserNotifications
     /**
      * @param User $user
      * @param array $data
-     * @return UserNotificationSetting|\Illuminate\Database\Eloquent\Model
+     * @return UserNotificationSetting
      */
     public function execute(User $user, array $data)
     {
