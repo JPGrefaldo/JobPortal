@@ -107,7 +107,7 @@ class Project extends Model
             [
                 'approved_at'   => null,
                 'unapproved_at' => Carbon::now(),
-                'status'        => static::UNAPPROVED
+                'status'        => static::UNAPPROVED,
             ]
         );
     }

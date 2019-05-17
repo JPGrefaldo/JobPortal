@@ -22,7 +22,7 @@ class Crew extends Model
         'user_id'           => 'integer',
         'bio'               => 'string',
         'photo'             => 'string',
-        'submission_count'  => 'integer'
+        'submission_count'  => 'integer',
     ];
 
     /**

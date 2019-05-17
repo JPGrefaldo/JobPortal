@@ -7,10 +7,10 @@ use App\Http\Controllers\API\Crew\PositionController;
 use App\Http\Controllers\API\Crew\ProjectController as CrewProjectController;
 use App\Http\Controllers\API\Crew\SiteController;
 use App\Http\Controllers\API\ParticipantController;
+use App\Http\Controllers\API\Producer\MessageTemplateController;
 use App\Http\Controllers\API\Producer\ProjectController;
 use App\Http\Controllers\API\Producer\ProjectJobController;
 use App\Http\Controllers\API\Producer\ProjectTypes;
-use App\Http\Controllers\API\Producer\MessageTemplateController;
 use App\Http\Controllers\API\SubmissionController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\Crew\ThreadController as CrewThreadController;
@@ -83,7 +83,7 @@ Route::middleware('auth:api')->group(function () {
         Route::prefix('projects')->group(function () {
             Route::get('submissions/{job}', [
                 ProjectJobSubmissionController::class,
-                'index'
+                'index',
             ])->name('project.job.submissions.index');
 
             Route::get('/', [
@@ -134,27 +134,27 @@ Route::middleware('auth:api')->group(function () {
 
                 Route::get('/{projectJob}/submissions/all-approved', [
                     SubmissionController::class,
-                    'fetchByApprovedDate'
+                    'fetchByApprovedDate',
                 ])->name('fetch.submissions.by.approved');
             });
 
             Route::post('/submissions/{submission}/approve', [
                 SubmissionController::class,
-                'approve'
+                'approve',
             ])->name('producer.projects.approve.submissions');
 
             Route::post('swap/submissions/{submissionToReject}/{submissionToApprove}', [
                 SubmissionController::class,
-                'swap'
+                'swap',
             ])->name('producer.projects.swap.submissions');
             Route::post('/submissions/{submission}/reject', [
                 SubmissionController::class,
-                'reject'
+                'reject',
             ])->name('producer.projects.submissions.reject');
 
             Route::post('/submissions/{submission}/restore', [
                 SubmissionController::class,
-                'restore'
+                'restore',
             ])->name('producer.projects.submissions.restore');
 
             Route::get('/pending', [
@@ -172,12 +172,12 @@ Route::middleware('auth:api')->group(function () {
             Route::prefix('templates')->group(function () {
                 Route::get('/', [
                     MessageTemplateController::class,
-                    'index'
+                    'index',
                 ])->name('producer.messages.templates');
 
                 Route::post('/', [
                     MessageTemplateController::class,
-                    'store'
+                    'store',
                 ])->name('producer.messages.templates');
             });
         });
@@ -195,18 +195,18 @@ Route::middleware('auth:api')->group(function () {
 
     Route::get('/admin/flag-messages', [
         FlaggedMessageController::class,
-        'index'
+        'index',
     ])->middleware('role:Admin')->name('admin.messages.flagged');
 
     Route::prefix('submissions')->group(function () {
         Route::get('/{job}', [
             ProjectJobSubmissionController::class,
-            'index'
+            'index',
         ])->middleware('role:Admin')->name('admin.project.job.submissions.index');
 
         Route::post('/{job}', [
             ProjectJobSubmissionController::class,
-            'store'
+            'store',
         ])->middleware('role:Crew')->name('project.job.submissions.store');
     });
 });

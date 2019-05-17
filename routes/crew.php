@@ -8,7 +8,6 @@ use App\Http\Controllers\Crew\Endorsements\EndorsementRequestController;
 use App\Http\Controllers\Crew\MessageController;
 use App\Http\Controllers\Crew\ProjectJobController;
 
-   
 Route::get('crew/endorsement', [EndorsementPositionController::class, 'index'])
     ->name('crew.endorsement.index');
 
@@ -25,7 +24,7 @@ Route::delete('crew/endorsement/positions/request/{endorsementRequest}', [Endors
     ->name('crew.endorsement.request.destroy');
   
 Route::get('crew/projects/job/{projectJob}', [ProjectJobController::class, 'show'])
-    ->name('crew.project.job');
+      ->name('crew.project.job');
 
 // TODO: defer to common route for both crew and admin
 Route::post('/crew/messages', [MessageController::class, 'store'])

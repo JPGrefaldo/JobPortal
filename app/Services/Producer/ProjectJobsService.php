@@ -2,8 +2,8 @@
 
 namespace App\Services\Producer;
 
-use Illuminate\Support\Arr;
 use App\Models\ProjectJob;
+use Illuminate\Support\Arr;
 
 class ProjectJobsService
 {

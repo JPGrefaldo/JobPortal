@@ -2,10 +2,10 @@
 
 namespace App\Actions\Auth;
 
-use Illuminate\Support\Arr;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\UserNotificationSetting;
+use Illuminate\Support\Arr;
 
 class StubUserNotifications
 {

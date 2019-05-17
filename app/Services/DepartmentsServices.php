@@ -2,10 +2,10 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 use App\Models\Department;
 use App\Utils\StrUtils;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 class DepartmentsServices
 {

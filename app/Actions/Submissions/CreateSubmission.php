@@ -11,7 +11,7 @@ class CreateSubmission
     {
         $job->submissions()->create([
             'crew_id'     => $crew->id,
-            'project_id'  => $job->project_id
+            'project_id'  => $job->project_id,
         ]);
 
         return $job;

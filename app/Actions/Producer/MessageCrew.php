@@ -24,19 +24,19 @@ class MessageCrew
 
             if (empty($thread)) {
                 $thread = Thread::create([
-                    'subject' => $user->fullName
+                    'subject' => $user->fullName,
                 ]);
 
                 ProjectThread::create([
                     'project_id' => $project->id,
-                    'thread_id'  => $thread->id
+                    'thread_id'  => $thread->id,
                 ]);
             }
 
             $thread->messages()->create(
                 [
                     'user_id'   => $user->id,
-                    'body'      => $message
+                    'body'      => $message,
                 ]
         );
 

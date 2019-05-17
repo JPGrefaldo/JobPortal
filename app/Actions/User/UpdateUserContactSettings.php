@@ -2,9 +2,9 @@
 
 namespace App\Actions\User;
 
-use Illuminate\Support\Arr;
 use App\Models\User;
 use App\Utils\StrUtils;
+use Illuminate\Support\Arr;
 
 class UpdateUserContactSettings
 {

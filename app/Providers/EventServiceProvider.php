@@ -7,8 +7,8 @@ use App\Models\Manager;
 use App\Models\Project;
 use App\Models\ProjectJob;
 use App\Observers\ManagerObserver;
-use App\Observers\ProjectObserver;
 use App\Observers\ProjectJobObserver;
+use App\Observers\ProjectObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 

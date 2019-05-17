@@ -10,12 +10,12 @@ class FetchSubmissions
     public function execute(ProjectJob $job): Collection
     {
         $submissions = $job->submissions()
-                            ->with(['crew' => function($q){
+            ->with(['crew' => function ($q) {
                                 $q->with('user');
                             }])
-                            ->orderByDesc('approved_at')
-                            ->orderBy('rejected_at')
-                            ->get();
+            ->orderByDesc('approved_at')
+            ->orderBy('rejected_at')
+            ->get();
         return $submissions;
     }
 }

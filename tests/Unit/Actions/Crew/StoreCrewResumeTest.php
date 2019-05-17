@@ -2,13 +2,11 @@
 
 namespace Tests\Unit\Actions\Crew;
 
-use Illuminate\Support\Arr;
 use App\Actions\Crew\StoreCrewResume;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Tests\Support\CreatesCrewModel;
-use Tests\Support\Data\SocialLinkTypeID;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 
