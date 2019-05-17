@@ -176,9 +176,9 @@ class Crew extends Model
         return $this->belongsToMany(Project::class);
     }
 
-     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
+    /**
+    * @return \Illuminate\Database\Eloquent\Relations\HasMany
+    */
     public function submissions()
     {
         return $this->hasMany(Submission::class);

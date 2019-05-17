@@ -30,6 +30,10 @@
         <li class="is-checked">GENERAL WORK REEL</li>
     @endif
 
+    @if (! $user->crew->positions->count() > 0)
         <li>WORK POSITIONS</li>
+    @else
+        <li class="is-checked">WORK POSITIONS</li>
+    @endif
     </ul>
 </div>
