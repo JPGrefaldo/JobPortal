@@ -2,6 +2,8 @@
 
 namespace App\Actions\Messenger;
 
+use App\Models\Thread;
+use App\Models\User;
 use Cmgmyr\Messenger\Models\Message;
 
 class CreateMessage
@@ -12,11 +14,10 @@ class CreateMessage
      * @param string $body
      * @return \Cmgmyr\Messenger\Models\Message
      */
-    public function execute($thread_id, $user_id, $body): Message
+    public function execute(Thread $thread, User $user, $body): Message
     {
-        return Message::create([
-            'thread_id' => $thread_id,
-            'user_id'   => $user_id,
+        return $user->messages()->create([
+            'thread_id' => $thread->id,
             'body'      => $body,
         ]);
     }

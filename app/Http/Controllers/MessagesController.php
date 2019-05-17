@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Actions\Messenger\CreateMessage;
 use App\Http\Resources\MessageResource;
 use App\Models\Role;
-use Cmgmyr\Messenger\Models\Thread;
+use App\Models\Thread;
 use Illuminate\Http\Request;
 
 class MessagesController extends Controller
@@ -17,12 +17,6 @@ class MessagesController extends Controller
      */
     public function index(Thread $thread)
     {
-        $user = auth()->user();
-
-        if (! $thread->hasParticipant($user->id)) {
-            return abort(403);
-        }
-
         $messages = $thread->messages()->with('user')->where('flagged_at', null)->get();
 
         return MessageResource::collection($messages);
@@ -47,7 +41,7 @@ class MessagesController extends Controller
         $thread = Thread::findOrFail($request->thread);
         $body = $request->message;
         
-        $message = app(CreateMessage::class)->execute($thread->id, $sender->id, $body);
+        $message = app(CreateMessage::class)->execute($thread, $sender, $body);
         
         return response()->json(compact('message'));
     }
