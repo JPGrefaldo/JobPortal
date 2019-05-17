@@ -188,17 +188,40 @@ export default {
         },
 
         saveCrewPosition: function() {
-            this.form.submit('post','/crew/positions/' + this.position.id, {
-                transformRequest: [function (data, headers) {
-                    return objectToFormData(data)
-                }]
-            })
-            .then(({ data }) => {
-                if (data === 'success') {
-                    this.filled = true;
-                    this.getPositionData();
+            const config = {
+                headers: {
+                    'content-type': 'multipart/form-data'
                 }
-            });
+            }
+
+            let formData = new FormData();
+            
+            formData.append('bio', this.form.bio);
+            formData.append('union_description', this.form.union_description);
+            formData.append('resume', this.form.resume);
+            formData.append('reel_link', this.form.reel_link);
+            formData.append('gear', this.form.gear);
+            formData.append('position', this.form.position);
+
+            if (this.position_exist) {
+                axios
+                .post('/crew/positions/' + this.position.id + '/update', formData, config)
+                .then(({ data }) => {
+                    if (data === 'success') {
+                        this.filled = true;
+                        this.getPositionData();
+                    }
+                });
+            } else {
+                axios
+                .post('/crew/positions/' + this.position.id, formData, config)
+                .then(({ data }) => {
+                    if (data === 'success') {
+                        this.filled = true;
+                        this.getPositionData();
+                    }
+                });
+            }
         },
 
         fillData: function(data) {   
@@ -260,7 +283,7 @@ export default {
     },
     mounted() {
         this.$store.dispatch('crew/checkPositionIfExist');
-        setTimeout(() => this.checkPositionIfExist(), 2000);
+        setTimeout(() => this.checkPositionIfExist(), 1000);
     }
 };
 </script>
