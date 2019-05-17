@@ -12,7 +12,7 @@ class AdminUsersFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Admin\AdminUsersController::updateBan
+     * @covers \App\Http\Controllers\Admin\AdminUserController::updateBan
      */
     public function ban()
     {
@@ -42,7 +42,7 @@ class AdminUsersFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Admin\AdminUsersController::updateBan
+     * @covers \App\Http\Controllers\Admin\AdminUserController::updateBan
      */
     public function ban_user_not_exist()
     {
@@ -59,7 +59,7 @@ class AdminUsersFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Admin\AdminUsersController::updateBan
+     * @covers \App\Http\Controllers\Admin\AdminUserController::updateBan
      */
     public function ban_invalid_data()
     {
@@ -79,7 +79,7 @@ class AdminUsersFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Admin\AdminUsersController::updateBan
+     * @covers \App\Http\Controllers\Admin\AdminUserController::updateBan
      */
     public function ban_unauthorized()
     {

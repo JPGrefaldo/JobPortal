@@ -176,7 +176,7 @@
                             />
                         </span>
                         <button
-                                class="flex-no-shrink p-2 ml-4 mr-2 border-2 rounded bg-blue hover:bg-blue-dark text-white"
+                                class="flex-shrink-0 p-2 ml-4 mr-2 border-2 rounded bg-blue hover:bg-blue-dark text-white"
                                 @click="addDate"
                         >
                             Add

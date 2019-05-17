@@ -14,7 +14,7 @@ class MessageTemplateFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\API\Producer\MessageTemplatesController::index
+     * @covers \App\Http\Controllers\API\Producer\MessageTemplateController::index
      */
     public function can_fetch_message_templates()
     {
@@ -34,7 +34,7 @@ class MessageTemplateFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\API\Producer\MessageTemplatesController::store
+     * @covers \App\Http\Controllers\API\Producer\MessageTemplateController::store
      */
     public function can_create_message_templates()
     {
@@ -53,7 +53,7 @@ class MessageTemplateFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\API\Producer\MessageTemplatesController::store
+     * @covers \App\Http\Controllers\API\Producer\MessageTemplateController::store
      */
     public function cannot_create_the_unauthorized_role()
     {
@@ -71,7 +71,7 @@ class MessageTemplateFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\API\Producer\MessageTemplatesController::store
+     * @covers \App\Http\Controllers\API\Producer\MessageTemplateController::store
      */
     public function cannot_create_a_template_when_message_field_is_empty()
     {
@@ -91,7 +91,7 @@ class MessageTemplateFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\API\Producer\MessageTemplatesController::store
+     * @covers \App\Http\Controllers\API\Producer\MessageTemplateController::store
      */
     public function cannot_create_a_message_template_when_data_is_invalid()
     {

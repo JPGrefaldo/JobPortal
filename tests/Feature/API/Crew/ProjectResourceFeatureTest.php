@@ -15,7 +15,7 @@ class ProjectResourceFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Crew\ProjectsController::index
+     * @covers \App\Http\Controllers\Crew\ProjectController::index
      */
     public function index()
     {

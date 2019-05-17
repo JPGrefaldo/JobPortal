@@ -9,7 +9,7 @@ use App\Http\Requests\Producer\CreateProjectJobRequest;
 use App\Models\ProjectJob;
 use Illuminate\Http\Response;
 
-class ProjectJobsController extends Controller
+class ProjectJobController extends Controller
 {
     public function index()
     {
