@@ -1,0 +1,89 @@
+<?php
+
+namespace Tests\Unit\Actions\Messenger;
+
+use App\Actions\Messenger\FetchNewMessagesForNotification;
+use App\Models\Message;
+use App\Models\Thread;
+use Carbon\Carbon;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Support\SeedDatabaseAfterRefresh;
+use Tests\TestCase;
+
+class FetchNewMessagesForNotificationTest extends TestCase
+{
+    use RefreshDatabase, SeedDatabaseAfterRefresh;
+
+    /**
+     * @test
+     * @covers App\Actions\Messenger\FetchNewMessages::dataFormat
+     */
+    public function get_thread_messages_that_are_added_less_than_30_minutes_ago()
+    {
+        $crew     = $this->createCrew();
+        $producer = $this->createProducer();
+
+        $this->seedThreadMessagesAndReplies($crew, $producer);
+
+        $threads = app(FetchNewMessagesForNotification::class)->execute($producer);
+
+        $threads->map(function($thread) {
+            $thread->messages->map(function($message) {
+                $this->assertArrayHas(
+                    [
+                        'thread_id' => 1,
+                        'user_id'   => 1,
+                        'body'      => 'Test Reply Message',
+                    ],
+                    $message->toArray()
+                );
+
+                $time = Carbon::now()->subMinutes(30)->toDateTimeString();
+                $this->assertLessThan($message['created_at'], $time);
+            });
+        });
+    }
+
+    private function seedThreadMessagesAndReplies($crew, $producer)
+    {
+        // Given we have a thread
+        $thread = factory(Thread::class)->create([
+            'subject' => 'Thread Test Subject',
+        ]);
+
+        // And the thread owner is the producer
+        $thread->addParticipant(
+            [
+                'user_id' => $producer->id,
+            ]
+        );
+
+        // And given the producer has posted a message
+        // on his thread
+        $message = [
+            'thread_id' => $thread->id,
+            'user_id'   => $producer->id,
+            'body'      => 'Test Message',
+        ];
+
+        $producer->messages()->create($message);
+
+        // And given we have two replies from the crew
+        // a new one and old reply which is posted 31 mins. ago
+        $replyFromCrew = [
+            'thread_id' => $thread->id,
+            'user_id'   => $crew->id,
+            'body'      => 'Test Reply Message',
+        ];
+
+        $oldReplyFromCrew = [
+            'thread_id'  => $thread->id,
+            'user_id'    => $crew->id,
+            'body'       => 'Test Old Reply Message',
+            'created_at' => Carbon::now()->subMinutes(31),
+        ];
+
+        $crew->messages()->create($replyFromCrew);
+        Message::create($oldReplyFromCrew);
+    }
+}
