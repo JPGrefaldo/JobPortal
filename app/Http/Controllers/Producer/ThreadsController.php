@@ -8,9 +8,12 @@ use App\Models\Project;
 
 class ThreadsController extends Controller
 {
-    // TODO: check ownership of project
     public function index(Project $project)
     {
-        return ThreadResource::collection($project->threads);
+        $threads = $project->threads()
+                            ->latest('updated_at')
+                            ->get();
+
+        return ThreadResource::collection($threads);
     }
 }
