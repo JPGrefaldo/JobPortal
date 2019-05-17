@@ -14,7 +14,7 @@ class MessengerFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers App\Http\Controllers\MessagesController::store
+     * @covers App\Http\Controllers\MessageController::store
      */
     public function admin_is_not_allowed_to_participate_in_the_threads()
     {
@@ -54,7 +54,7 @@ class MessengerFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers App\Http\Controllers\MessagesController::store
+     * @covers App\Http\Controllers\MessageController::store
      */
     public function crew_are_not_allowed_to_initiate_a_message_with_the_producer()
     {
@@ -94,7 +94,7 @@ class MessengerFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers App\Http\Controllers\MessagesController::store
+     * @covers App\Http\Controllers\MessageController::store
      */
     public function store_message()
     {

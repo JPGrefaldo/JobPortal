@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Thread;
 use Illuminate\Http\Request;
 
-class ParticipantsController extends Controller
+class ParticipantController extends Controller
 {
     public function search(Thread $thread, Request $request)
     {

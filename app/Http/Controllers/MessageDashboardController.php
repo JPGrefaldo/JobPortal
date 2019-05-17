@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-class MessagesDashboardController extends Controller
+class MessageDashboardController extends Controller
 {
     public function index()
     {

@@ -1,5 +1,27 @@
 <?php
 
+use App\Http\Controllers\Account\AccountChangeController;
+use App\Http\Controllers\Account\AccountCloseController;
+use App\Http\Controllers\Account\AccountContactController;
+use App\Http\Controllers\Account\AccountManagerController;
+use App\Http\Controllers\Account\AccountNameController;
+use App\Http\Controllers\Account\AccountNotificationController;
+use App\Http\Controllers\Account\AccountPasswordController;
+use App\Http\Controllers\Account\AccountSubscriptionController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Auth\UserSignupController;
+use App\Http\Controllers\Crew\CrewProfileController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\IndexController;
+use App\Http\Controllers\Manager\ManagerConfirmationController;
+use App\Http\Controllers\PendingFlagMessageController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\StaticPageController;
+use App\Http\Controllers\User\UserSettingsController;
+use App\Http\Controllers\VerifyEmailController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,48 +36,48 @@
 | * Multiple, Route::middleware(AuthorizeRoles::parameterize(Role::CREW, Role::PRODUCER))
 */
 
-Route::get('/', [\App\Http\Controllers\IndexController::class, 'index'])
+Route::get('/', [IndexController::class, 'index'])
     ->name('home');
 
-Route::get('login', [\App\Http\Controllers\Auth\LoginController::class, 'showLoginForm'])
+Route::get('login', [LoginController::class, 'showLoginForm'])
     ->name('login');
-Route::post('login', [\App\Http\Controllers\Auth\LoginController::class, 'login'])
+Route::post('login', [LoginController::class, 'login'])
     ->name('login.post');
 
-Route::post('logout', [\App\Http\Controllers\Auth\LoginController::class, 'logout'])
+Route::post('logout', [LoginController::class, 'logout'])
     ->name('logout');
 
-Route::get('signup', [\App\Http\Controllers\Auth\UserSignupController::class, 'show'])
+Route::get('signup', [UserSignupController::class, 'show'])
     ->name('signup');
-Route::post('signup', [\App\Http\Controllers\Auth\UserSignupController::class, 'signup']);
+Route::post('signup', [UserSignupController::class, 'signup']);
 
-Route::get('password/reset', [\App\Http\Controllers\Auth\ForgotPasswordController::class, 'showLinkRequestForm'])
+Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])
     ->name('password.request');
-Route::post('password/email', [\App\Http\Controllers\Auth\ForgotPasswordController::class, 'sendResetLinkEmail'])
+Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])
     ->name('password.email');
-Route::get('password/reset/{token}', [\App\Http\Controllers\Auth\ResetPasswordController::class, 'showResetForm'])
+Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])
     ->name('password.reset');
-Route::post('password/reset', [\App\Http\Controllers\Auth\ResetPasswordController::class, 'reset']);
+Route::post('password/reset', [ResetPasswordController::class, 'reset']);
 
-Route::get('verify/email/{code}', [\App\Http\Controllers\VerifyEmailController::class, 'verify'])
+Route::get('verify/email/{code}', [VerifyEmailController::class, 'verify'])
     ->name('verify.email');
 
-Route::get('confirm/{user}/{subordinate}', [\App\Http\Controllers\Manager\ManagerConfirmationController::class, 'index'])
+Route::get('confirm/{user}/{subordinate}', [ManagerConfirmationController::class, 'index'])
     ->name('manager.confirm');
 
-Route::get('terms-and-conditions', [\App\Http\Controllers\StaticPageController::class, 'showTermsAndConditions'])
+Route::get('terms-and-conditions', [StaticPageController::class, 'showTermsAndConditions'])
     ->name('termsandconditions');
 
-Route::get('about', [\App\Http\Controllers\StaticPageController::class, 'showAbout'])
+Route::get('about', [StaticPageController::class, 'showAbout'])
     ->name('about');
 
-Route::get('about/producers', [\App\Http\Controllers\StaticPageController::class, 'showAboutProducers'])
+Route::get('about/producers', [StaticPageController::class, 'showAboutProducers'])
     ->name('about.producers');
 
-Route::get('about/crew', [\App\Http\Controllers\StaticPageController::class, 'showAboutCrew'])
+Route::get('about/crew', [StaticPageController::class, 'showAboutCrew'])
     ->name('about.crew');
 
-Route::get('current-projects', [\App\Http\Controllers\ProjectController::class, 'showCurrentProjects'])
+Route::get('current-projects', [ProjectController::class, 'showCurrentProjects'])
     ->name('projects.current-projects');
 /*
 |--------------------------------------------------------------------------
@@ -66,61 +88,61 @@ Route::get('current-projects', [\App\Http\Controllers\ProjectController::class, 
 |
 */
 Route::middleware('auth')->group(function () {
-    Route::get('dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])
+    Route::get('dashboard', [DashboardController::class, 'index'])
         ->name('dashboard');
 
-    Route::get('/messages', ['as' => 'messages', 'uses' => 'MessagesDashboardController@index']);
+    Route::get('/messages', ['as' => 'messages', 'uses' => 'MessageDashboardController@index']);
 
     Route::prefix('account')->group(function () {
-        Route::get('name', [\App\Http\Controllers\Account\AccountNameController::class, 'index'])
+        Route::get('name', [AccountNameController::class, 'index'])
             ->name('account.name');
-        Route::post('name', [\App\Http\Controllers\Account\AccountNameController::class, 'store']);
+        Route::post('name', [AccountNameController::class, 'store']);
 
-        Route::get('contact', [\App\Http\Controllers\Account\AccountContactController::class, 'index'])
+        Route::get('contact', [AccountContactController::class, 'index'])
             ->name('account.contact');
-        Route::post('contact', [\App\Http\Controllers\Account\AccountContactController::class, 'store']);
+        Route::post('contact', [AccountContactController::class, 'store']);
 
-        Route::get('subscription', [\App\Http\Controllers\Account\AccountSubscriptionController::class, 'index'])
+        Route::get('subscription', [AccountSubscriptionController::class, 'index'])
             ->name('account.subscription');
-        Route::post('subscription', [\App\Http\Controllers\Account\AccountSubscriptionController::class, 'store']);
+        Route::post('subscription', [AccountSubscriptionController::class, 'store']);
 
-        Route::get('password', [\App\Http\Controllers\Account\AccountPasswordController::class, 'index'])
+        Route::get('password', [AccountPasswordController::class, 'index'])
             ->name('account.password');
-        Route::post('password', [\App\Http\Controllers\Account\AccountPasswordController::class, 'store']);
+        Route::post('password', [AccountPasswordController::class, 'store']);
 
-        Route::get('manager', [\App\Http\Controllers\Account\AccountManagerController::class, 'index'])
+        Route::get('manager', [AccountManagerController::class, 'index'])
             ->name('account.manager');
-        Route::post('manager', [\App\Http\Controllers\Account\AccountManagerController::class, 'store']);
-        Route::delete('manager/{manager}/remove', [\App\Http\Controllers\Account\AccountManagerController::class, 'destroy'])
+        Route::post('manager', [AccountManagerController::class, 'store']);
+        Route::delete('manager/{manager}/remove', [AccountManagerController::class, 'destroy'])
             ->name('manager.remove');
-        Route::get('manager/{manager}/resend-confirmation', [\App\Http\Controllers\Manager\ManagerConfirmationController::class, 'resend'])
+        Route::get('manager/{manager}/resend-confirmation', [ManagerConfirmationController::class, 'resend'])
             ->name('manager.resend-confirmation');
 
-        Route::get('notifications', [\App\Http\Controllers\Account\AccountNotificationsController::class, 'index'])
+        Route::get('notifications', [AccountNotificationController::class, 'index'])
             ->name('account.notifications');
-        Route::post('notifications', [\App\Http\Controllers\Account\AccountNotificationsController::class, 'store']);
+        Route::post('notifications', [AccountNotificationController::class, 'store']);
 
-        Route::get('close', [\App\Http\Controllers\Account\AccountCloseController::class, 'index'])
+        Route::get('close', [AccountCloseController::class, 'index'])
             ->name('account.close');
-        Route::put('close', [\App\Http\Controllers\Account\AccountCloseController::class, 'destroy']);
+        Route::put('close', [AccountCloseController::class, 'destroy']);
 
-        Route::put('settings/name', [\App\Http\Controllers\User\UserSettingsController::class, 'updateName']);
-        Route::put('settings/notifications', [\App\Http\Controllers\User\UserSettingsController::class, 'updateNotifications']);
-        Route::put('settings/password', [\App\Http\Controllers\User\UserSettingsController::class, 'updatePassword']);
+        Route::put('settings/name', [UserSettingsController::class, 'updateName']);
+        Route::put('settings/notifications', [UserSettingsController::class, 'updateNotifications']);
+        Route::put('settings/password', [UserSettingsController::class, 'updatePassword']);
 
-        Route::get('change/crew', [\App\Http\Controllers\Account\AccountChangeController::class, 'crew'])
+        Route::get('change/crew', [AccountChangeController::class, 'crew'])
             ->name('account.change-to.crew')
             ->middleware('role:Producer');
 
-        Route::get('change/producer', [\App\Http\Controllers\Account\AccountChangeController::class, 'producer'])
+        Route::get('change/producer', [AccountChangeController::class, 'producer'])
             ->name('account.change-to.producer')
             ->middleware('role:Crew');
     });
 
-    Route::post('/pending-flag-messages', [\App\Http\Controllers\PendingFlagMessageController::class, 'store'])
+    Route::post('/pending-flag-messages', [PendingFlagMessageController::class, 'store'])
         ->name('pending-flag-messages.store');
 
-    Route::put('/pending-flag-messages/{pendingFlagMessage}', [\App\Http\Controllers\PendingFlagMessageController::class, 'update'])
+    Route::put('/pending-flag-messages/{pendingFlagMessage}', [PendingFlagMessageController::class, 'update'])
         ->name('pending-flag-messages.update');
 
     Route::middleware('role:Admin')
@@ -136,11 +158,11 @@ Route::middleware('auth')->group(function () {
         ->group(base_path('routes/producer.php'));
 
     Route::get('projects/{project}/jobs/{job}/submissions', [
-        \App\Http\Controllers\SubmissionsController::class,
+        \App\Http\Controllers\SubmissionController::class,
         'show',
     ])->middleware('role:Admin|Producer')->name('project.job.submissions.show');
 
-    Route::get('/users/{user}/crew/profile', [\App\Http\Controllers\Crew\CrewProfileController::class, 'show'])->name('crew.profile.show');
+    Route::get('/users/{user}/crew/profile', [CrewProfileController::class, 'show'])->name('crew.profile.show');
 });
 
 Route::prefix('theme')->group(function () {

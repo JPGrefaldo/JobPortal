@@ -10,7 +10,7 @@ use App\Models\Thread;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class MessagesController extends Controller
+class MessageController extends Controller
 {
     protected $userIsParticipant = false;
     /**

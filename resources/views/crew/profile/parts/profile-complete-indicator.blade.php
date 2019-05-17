@@ -4,7 +4,7 @@
     <div class="text-center pt-8 pb-4">
         <img src="/images/donut.svg" alt="" />
     </div>
-    <ul class="list-reset list-check">
+    <ul class="list-check">
     @if (! isset($user->crew->bio))
         <li>BIO</li>
      @else
@@ -16,7 +16,7 @@
      @else
         <li class="is-checked">SOCIAL MEDIA PROFILES</li>
     @endif
-    
+
 
     @if (! $user->crew->hasGeneralResume())
         <li>GENERAL WORK RESUME</li>

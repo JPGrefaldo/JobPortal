@@ -1,6 +1,6 @@
-@extends('layouts.default_layout')
+@extends('layouts.page-1-col')
 
-@section('content')
+@section('page-content')
     @component('static-pages._parts.card')
         @slot('cardTitle')
             Terms and Conditions

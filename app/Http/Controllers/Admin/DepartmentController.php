@@ -7,7 +7,7 @@ use App\Http\Requests\Admin\DepartmentsRequest;
 use App\Models\Department;
 use App\Services\DepartmentsServices;
 
-class DepartmentsController extends Controller
+class DepartmentController extends Controller
 {
     public function index()
     {

@@ -16,7 +16,7 @@ class CrewMessagingFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Producer\MessagesController::store
+     * @covers \App\Http\Controllers\Producer\MessageController::store
      */
     public function can_send_a_message()
     {
@@ -65,7 +65,7 @@ class CrewMessagingFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Producer\MessagesController::store
+     * @covers \App\Http\Controllers\Producer\MessageController::store
      */
     public function producer_must_own_project()
     {
@@ -79,7 +79,7 @@ class CrewMessagingFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Producer\MessagesController::store
+     * @covers \App\Http\Controllers\Producer\MessageController::store
      */
     public function cant_send_message_if_required_fields_are_empty()
     {
@@ -111,7 +111,7 @@ class CrewMessagingFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Producer\MessagesController::store
+     * @covers \App\Http\Controllers\Producer\MessageController::store
      */
     public function cant_send_message_to_crews_who_has_not_applied()
     {
@@ -143,7 +143,7 @@ class CrewMessagingFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Producer\MessagesController::store
+     * @covers \App\Http\Controllers\Producer\MessageController::store
      */
     public function crew_should_receive_the_message_individually()
     {

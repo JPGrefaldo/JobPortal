@@ -7,7 +7,7 @@ use App\Actions\Submissions\FetchSubmissions;
 use App\Models\Project;
 use App\Models\ProjectJob;
 
-class SubmissionsController extends Controller
+class SubmissionController extends Controller
 {
     public function show(Project $project, ProjectJob $job)
     {
