@@ -142,6 +142,11 @@ Route::middleware('auth:api')->group(function () {
         ])->name('producer.project.type');
 
         Route::prefix('messages')->group(function () {
+            Route::post('/', [
+                \App\Http\ControllersMessagesController::class,
+                'store'
+            ])->name('producer.send.message');
+
             Route::prefix('templates')->group(function () {
                 Route::get('/', [
                     \App\Http\Controllers\API\Producer\MessageTemplatesController::class,
