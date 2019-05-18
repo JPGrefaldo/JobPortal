@@ -11,7 +11,6 @@ use Illuminate\Http\Response;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 
-
 class SubmissionFeatureTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
@@ -184,8 +183,8 @@ class SubmissionFeatureTest extends TestCase
 
         $this->actingAs($producer, 'api')
             ->postJson(route(
-            'producer.projects.submissions.reject',
-            ['job' => $projectJob]
+                'producer.projects.submissions.reject',
+                ['job' => $projectJob]
         ))
             ->assertSee('Submission is successfully rejected')
             ->assertStatus(Response::HTTP_OK);
@@ -243,8 +242,8 @@ class SubmissionFeatureTest extends TestCase
 
         $this->actingAs($producer, 'api')
             ->postJson(route(
-            'producer.projects.swap.submissions',
-            $data
+                'producer.projects.swap.submissions',
+                $data
         ))
             ->assertSee('Submission successfully swapped.')
             ->assertStatus(Response::HTTP_OK);
