@@ -196,6 +196,32 @@ class UserTest extends TestCase
         $this->assertEquals($this->user->full_name, $this->user->NicknameOrFullName);
     }
 
+    /**
+     * @test
+     * @covers \App\Models\User::getNameAttribute
+     */
+    public function getNameAttribute_with_nickname()
+    {
+        $this->user->update([
+            'nickname' => 'The Rock',
+        ]);
+
+        $this->assertEquals('The Rock', $this->user->name);
+    }
+
+    /**
+     * @test
+     * @covers \App\Models\User::getNameAttribute
+     */
+    public function getNameAttribute_without_nickname()
+    {
+        $this->user->update([
+            'nickname' => '',
+        ]);
+
+        $this->assertEquals($this->user->full_name, $this->user->name);
+    }
+
     // TODO: scope are crew
 
     // TODO: scope are producer
