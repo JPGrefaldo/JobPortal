@@ -41,7 +41,7 @@
                 <div class="border-t-2 border-grey-lighter mt-6 py-4">
                     <div class="md:flex">
                         <div class="md:w-1/3 pr-8">
-                            <h3 class="text-md font-header mb-2 md:mb-0">Profile Photo</h3>
+                            <h3 class="section-title mb-2 md:mb-0">Profile Photo</h3>
                         </div>
                         <div class="md:w-2/3">
                             <file-pond></file-pond>
@@ -52,7 +52,7 @@
                 <div class="border-t-2 border-grey-lighter py-4">
                     <div class="md:flex">
                         <div class="md:w-1/3 pr-8">
-                            <h3 class="text-md font-header mb-2 md:mb-0">General resume</h3>
+                            <h3 class="section-title mb-2 md:mb-0">General resume</h3>
                         </div>
                         <div class="md:w-2/3">
                             <label for="resume" class="btn-outline text-green inline-block" >Upload file</label>
@@ -68,7 +68,7 @@
                 <div class="border-t-2 border-grey-lighter py-4">
                     <div class="md:flex">
                         <div class="md:w-1/3 pr-8">
-                            <h3 class="text-md font-header mt-2 mb-2 md:mb-0">General reel</h3>
+                            <h3 class="section-title mt-2 mb-2 md:mb-0">General reel</h3>
                         </div>
                         <div class="md:w-2/3">
                             <label for="reel_file" class="btn-outline text-green inline-block" >Upload file</label>
@@ -90,7 +90,7 @@
                 <div class="border-t-2 border-grey-lighter py-4">
                     <div class="md:flex">
                         <div class="md:w-1/3 pr-8">
-                            <h3 class="text-md font-header mt-2 mb-4 md:mb-2">Social profiles</h3>
+                            <h3 class="section-title mt-2 mb-4 md:mb-2">Social profiles</h3>
                         </div>
                         <div class="md:w-2/3">
                            @if($socialLinkTypes)
@@ -123,7 +123,7 @@
         </form>
 
         <div class="py-4">
-            <h4 class='text-grey'>WORK POSITIONS</h4>
+            <h4 class="card-title">WORK POSITIONS</h4>
         </div>
 
         <cca-department-component :departments="{{ $departments }}"/>

@@ -2,12 +2,12 @@
     <div>
         <div class="py-2">
             <label v-if="!selected" class="checkbox-control" @click.stop.prevent="toggleSelect">
-                <h3 class="text-md" v-text="position.name"></h3>
+                <h3 class="position-title" v-text="position.name"></h3>
                 <input type="checkbox" v-model="filled"/>
                 <div class="control-indicator"></div>
             </label>
             <label v-else class="checkbox-control" @click.stop.prevent="toggleSelect">
-                <h3 class="text-md" v-text="position.name"></h3>
+                <h3 class="position-title" v-text="position.name"></h3>
             </label>
         </div>
         <div v-if="selected">

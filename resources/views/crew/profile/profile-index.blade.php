@@ -38,8 +38,8 @@
                 </ul>
             </div>
             <div class="md:w-3/4">
-                <h3 class="text-blue-dark font-semibold text-lg mb-1 font-header">{{ Auth::user()->name }}</h3>
-                <span class="text-grey font-semibold font-header">{{ Auth::user()->position }}</span>
+                <h3 class="text-blue-dark font-semibold text-lg mb-1">{{ Auth::user()->name }}</h3>
+                <span class="text-grey font-semibold">{{ Auth::user()->position }}</span>
                 <div class="bg-grey-lighter p-6 rounded my-8">
                    <p>
                     @if (isset($user->crew))
@@ -99,20 +99,20 @@
         <div class="py-4">
             <a href='{{ route('crew.profile.edit') }}' class="text-grey text-sm float-right">
                 <i class="fas fa-pencil-alt mr-2"></i>Edit section</a>
-            <h4 class='text-grey'>WORK POSITIONS</h4>
+            <h4 class="card-title">WORK POSITIONS</h4>
         </div>
         @foreach($crewPositions as $crewPosition)
             @if($user->crew->hasPosition($crewPositions[0]))
                 <div class="card mb-6">
                     <div class="pb-6">
                         <span class="btn-toggle float-right"></span>
-                        <h3 class="text-blue-dark font-semibold text-lg mb-1 font-header">{{ $crewPosition->department->name }}
+                        <h3 class="text-blue-dark font-semibold text-lg mb-1">{{ $crewPosition->department->name }}
                             <span class="font-thin"> – {{ $crewPosition->name }}</span>
                         </h3>
                     </div>
                     <div class="md:flex">
                         <div class="md:w-1/4 pr-8 mb-2 md:mb-0">
-                            <h3 class="text-md text-grey font-header">Position bio</h3>
+                            <h3 class="section-title">Position bio</h3>
                         </div>
                         <div class="md:w-3/4">
                             <div class="bg-grey-lighter p-6 rounded mb-8 ">
@@ -135,7 +135,7 @@
                     <div class="border-t-2 border-grey-lighter mt-4 pt-6 pb-4">
                         <div class="md:flex">
                             <div class="md:w-1/4 md:pr-8 mb-2 md:mb-0">
-                                <h3 class="text-md text-grey font-header">Gear</h3>
+                                <h3 class="section-title">Gear</h3>
                             </div>
                             <div class="md:w-3/4">
                                 <div class="bg-grey-lighter p-6 rounded">
@@ -151,7 +151,7 @@
         @endforeach
         {{--<div class="card mb-6">--}}
             {{--<div class="md:flex justify-between">--}}
-                {{--<h3 class="text-blue-dark font-semibold text-lg font-header mb-2 md:mb-0">Sound</h3>--}}
+                {{--<h3 class="text-blue-dark font-semibold text-lg mb-2 md:mb-0">Sound</h3>--}}
                 {{--<a href="#" class="btn-green-outline">ADD POSITION</a>--}}
             {{--</div>--}}
         {{--</div>--}}
