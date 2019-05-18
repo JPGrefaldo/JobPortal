@@ -25,15 +25,15 @@ class StoreCrewPosition
 
         $crewPosition = CrewPosition::byCrewAndPosition($crew, $position)->first();
 
+        $data['crew_position_id'] = $crewPosition->id;
+
         $crew->gears()->updateOrCreate(
             ['crew_position_id' => $crewPosition->id],
             ['description' => $data['gear'],]
         );
 
-        $data['crew_position_id'] =  $crewPosition->id;
-
+        app(StoreCrewGear::class)->execute($crew, $data);
         app(StoreCrewResume::class)->execute($crew, $data);
-
         app(StoreCrewReel::class)->execute($crew, $data);
     }
 }

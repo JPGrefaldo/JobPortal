@@ -48,6 +48,23 @@ class CrewPositionController extends Controller
 
     /**
      * @param \App\Models\Position $position
+     * @return string
+     */
+    public function destroy(Position $position)
+    {
+        $crew = auth()->user()->crew;
+
+        $crewPosition = $crew->crewPositions()->where('position_id', $position->id)->first();
+
+        $this->removeResume($crewPosition);
+        $this->removeReel($crewPosition);
+        $this->removeGear($crewPosition);
+
+        return $crew->crewPositions()->where('position_id', $position->id)->delete() ? 'success' : 'failed';
+    }
+
+    /**
+     * @param \App\Models\Position $position
      * @return \App\Models\CrewPosition|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model
      */
     public function getPositionData(Position $position)
@@ -75,23 +92,32 @@ class CrewPositionController extends Controller
     }
 
     /**
-     * @param \App\Models\CrewPosition $position
+     * @param \App\Models\CrewPosition $crewPosition
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */
-    public function removeResume(CrewPosition $position)
+    public function removeResume(CrewPosition $crewPosition)
     {
         return response()->json([
-            'message' => $position->resume->delete() ? 'success' : 'failed',
+            'message' => $crewPosition->resume->delete() ? 'success' : 'failed',
         ]);
     }
 
     /**
-     * @param \App\Models\CrewPosition $position
+     * @param \App\Models\CrewPosition $crewPosition
      * @return string
      */
-    public function removeReel(CrewPosition $position)
+    public function removeReel(CrewPosition $crewPosition)
     {
-        return $position->reel()->delete() ? 'success' : 'failed';
+        return $crewPosition->reel()->delete() ? 'success' : 'failed';
+    }
+
+    /**
+     * @param \App\Models\CrewPosition $crewPosition
+     * @return string
+     */
+    public function removeGear(CrewPosition $crewPosition)
+    {
+        return $crewPosition->gear()->delete() ? 'success' : 'failed';
     }
 }
