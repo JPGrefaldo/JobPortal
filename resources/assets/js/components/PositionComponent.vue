@@ -40,9 +40,9 @@
                             <h3 class="text-md font-header mb-2 md:mb-0">Resume</h3>
                         </div>
                         <div class="md:w-2/3">
-                            <label :for="'resume' + position.id" 
+                            <label :for="'resume' + position.id"
                                 class="btn-outline text-white inline-block cursor-pointer bg-green">{{form.resume ? "change" : "upload"}} file</label>
-                            <input type="file" :id="'resume' + position.id" @change="selectFile" name="resume" class="hidden"/> 
+                            <input type="file" :id="'resume' + position.id" @change="selectFile" name="resume" class="hidden"/>
                             <button v-if="form.resume" @click="removeResume(form.id)" class="btn-outline text-green inline-block cursor-pointer">Remove</button>
                             <div v-if="form.resume" class="w-full pt-2">
                                 <i class="fas fa-file-pdf"></i>
@@ -201,7 +201,7 @@ export default {
             }
 
             let formData = new FormData();
-            
+
             formData.append('bio', this.form.bio);
             formData.append('union_description', this.form.union_description);
             formData.append('resume', this.form.resume);
@@ -231,6 +231,10 @@ export default {
         },
 
         onClickLeavePosition: function() {
+            this.leavePosition();
+        },
+
+        leavePosition: function() {
             axios
                 .delete(`/crew/positions/${this.position.id}/delete`)
                 .then(({data}) => {
@@ -242,7 +246,7 @@ export default {
                         this.form.gear_photos       = null;
                         this.form.reel_file         = null;
                         this.form.gear              = '';
-                        
+
                         this.position_exist         = false;
                         this.filled                 = false;
                         this.selected               = false;
@@ -250,7 +254,7 @@ export default {
             })
         },
 
-        fillData: function(data) {   
+        fillData: function(data) {
             this.form = new Form({
                 id               : data.id,
                 bio              : data.details,
