@@ -20,7 +20,7 @@
         <div v-if="typeof participants == 'string'">
             <p>{{ participants }}</p>
         </div>
-        <ul class="list-reset" v-if="participants">
+        <ul v-if="participants">
             <li v-for="user in participants" :key="user.id">{{ user.name }}</li>
         </ul>
     </div>

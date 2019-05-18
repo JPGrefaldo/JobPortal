@@ -4,8 +4,8 @@ namespace Tests\Feature\Producer\Messages;
 
 use App\Models\Crew;
 use App\Models\Project;
+use App\Models\Thread;
 use Cmgmyr\Messenger\Models\Message;
-use Cmgmyr\Messenger\Models\Thread;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
@@ -17,7 +17,7 @@ class UpdateFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Producer\MessagesController::update
+     * @covers \App\Http\Controllers\Producer\MessageController::update
      */
     public function producer_can_flag_a_message()
     {

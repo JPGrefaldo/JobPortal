@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\PositionTypes;
+use App\Models\PositionType;
 use Illuminate\Database\Seeder;
 
 class PositionTypeTableSeeder extends Seeder
@@ -12,16 +12,16 @@ class PositionTypeTableSeeder extends Seeder
      */
     public function run()
     {
-        PositionTypes::create([
+        PositionType::create([
             'name' => 'Above the Line',
         ]);
-        PositionTypes::create([
+        PositionType::create([
             'name' => 'Pre-Production',
         ]);
-        PositionTypes::create([
+        PositionType::create([
             'name' => 'On-Set Positions',
         ]);
-        PositionTypes::create([
+        PositionType::create([
             'name' => 'Post-Production',
         ]);
 

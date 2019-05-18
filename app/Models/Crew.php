@@ -22,13 +22,13 @@ class Crew extends Model
         'user_id'           => 'integer',
         'bio'               => 'string',
         'photo'             => 'string',
-        'submission_count'  => 'integer'
+        'submission_count'  => 'integer',
     ];
 
     /**
      * Users many to many relationship
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user()
     {
@@ -176,9 +176,9 @@ class Crew extends Model
         return $this->belongsToMany(Project::class);
     }
 
-     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
+    /**
+    * @return \Illuminate\Database\Eloquent\Relations\HasMany
+    */
     public function submissions()
     {
         return $this->hasMany(Submission::class);

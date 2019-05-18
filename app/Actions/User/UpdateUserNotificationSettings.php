@@ -2,8 +2,8 @@
 
 namespace App\Actions\User;
 
-use Illuminate\Support\Arr;
 use App\Models\User;
+use Illuminate\Support\Arr;
 
 class UpdateUserNotificationSettings
 {

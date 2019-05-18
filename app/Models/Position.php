@@ -47,7 +47,7 @@ class Position extends Model
      */
     public function type()
     {
-        return $this->belongsTo(PositionTypes::class);
+        return $this->belongsTo(PositionType::class);
     }
 
     /**

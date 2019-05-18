@@ -18,7 +18,7 @@ class SubmissionFeatureTest extends TestCase
 
     /**
       * @test
-      * @covers \App\Http\Controllers\API\SubmissionsController::index
+      * @covers \App\Http\Controllers\API\SubmissionController::index
       */
     public function can_fetch_job_and_all_submissions()
     {
@@ -44,7 +44,7 @@ class SubmissionFeatureTest extends TestCase
             ->get(
                 route(
                     'project.job.submissions.index',
-                    ['job' => $projectJob->id]
+                    ['job' => $projectJob]
                 )
             )
             ->assertSee('Sucessfully fetched job\'s submissions')
@@ -58,53 +58,53 @@ class SubmissionFeatureTest extends TestCase
       * @test
       * @covers \App\Http\Controllers\API\SubmissionsController::index
       */
-      public function can_fetch_all_approved_submissions()
-      {
-          $producer = $this->createProducer();
-  
-          $project  = factory(Project::class)->create([
-              'user_id' => $producer->id,
-          ]);
-  
-          $projectJob = factory(ProjectJob::class)->create([
-              'project_id' => $project->id,
-          ]);
-  
-          $crew = $this->createCrew();
-          $crew2 = $this->createCrew();
-  
-          factory(Submission::class)->create([
-              'crew_id'         => $crew->id,
-              'project_id'      => $project->id,
-              'project_job_id'  => $projectJob->id,
-              'approved_at'     => Carbon::now()
-          ]);
+    public function can_fetch_all_approved_submissions()
+    {
+        $producer = $this->createProducer();
 
-          factory(Submission::class)->create([
+        $project  = factory(Project::class)->create([
+            'user_id' => $producer->id,
+        ]);
+
+        $projectJob = factory(ProjectJob::class)->create([
+            'project_id' => $project->id,
+        ]);
+
+        $crew = $this->createCrew();
+        $crew2 = $this->createCrew();
+
+        factory(Submission::class)->create([
+            'crew_id'         => $crew->id,
+            'project_id'      => $project->id,
+            'project_job_id'  => $projectJob->id,
+            'approved_at'     => Carbon::now(),
+        ]);
+
+        factory(Submission::class)->create([
             'crew_id'         => $crew2->id,
             'project_id'      => $project->id,
             'project_job_id'  => $projectJob->id,
-            'approved_at'     => Carbon::now()
+            'approved_at'     => Carbon::now(),
         ]);
-  
-          $response = $this->actingAs($producer, 'api')
-              ->get(
-                  route(
-                      'fetch.submissions.by.approved',
-                      ['job' => $projectJob->id]
-                  )
-              )
-              ->assertSee('Sucessfully fetched job\'s submissions')
-              ->assertSuccessful();
-  
-          $response->assertJsonFragment($projectJob->submissions->toArray());
-      }
+
+        $response = $this->actingAs($producer, 'api')
+            ->get(
+                route(
+                    'fetch.submissions.by.approved',
+                    ['job' => $projectJob]
+                )
+            )
+            ->assertSee('Sucessfully fetched job\'s submissions')
+            ->assertSuccessful();
+
+        $response->assertJsonFragment($projectJob->submissions->first()->toArray());
+    }
 
     /**
      * @test
-     * @covers \App\Http\Controllers\API\SubmissionsController::store
+     * @covers \App\Http\Controllers\API\SubmissionController::store
      */
-    public function can_create_submissions()
+    public function can_store_submissions()
     {
         $crew     = $this->createCrew();
         $producer = $this->createProducer();
@@ -116,7 +116,7 @@ class SubmissionFeatureTest extends TestCase
         $projectJob = factory(ProjectJob::class)->create([
             'project_id' => $project->id,
         ]);
-        
+
         $data = [
             'crew_id'         => $crew->id,
             'project_id'      => $project->id,
@@ -126,8 +126,8 @@ class SubmissionFeatureTest extends TestCase
         $response = $this->actingAs($crew, 'api')
             ->postJson(
                 route(
-                    'project.job.submissions.create',
-                    ['job' => $projectJob->id]
+                    'project.job.submissions.store',
+                    ['job' => $projectJob]
                 ),
                 $data
             )
@@ -139,7 +139,7 @@ class SubmissionFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\API\SubmissionsController::approve
+     * @covers \App\Http\Controllers\API\SubmissionController::approve
      */
     public function can_approve_submissions()
     {
@@ -166,8 +166,8 @@ class SubmissionFeatureTest extends TestCase
 
         $this->actingAs($producer, 'api')
             ->postJson(route(
-                'producer.projects.reject.submissions',
-                ['job' => $projectJob->id]
+                'producer.projects.submissions.reject',
+                ['job' => $projectJob]
             ))
             ->assertSee('Submission is successfully rejected')
             ->assertStatus(Response::HTTP_OK);
@@ -183,17 +183,17 @@ class SubmissionFeatureTest extends TestCase
         $projectJob = $this->createSubmission($producer);
 
         $this->actingAs($producer, 'api')
-        ->postJson(route(
-            'producer.projects.reject.submissions',
-            ['job' => $projectJob->id]
+            ->postJson(route(
+            'producer.projects.submissions.reject',
+            ['job' => $projectJob]
         ))
-        ->assertSee('Submission is successfully rejected')
-        ->assertStatus(Response::HTTP_OK);
+            ->assertSee('Submission is successfully rejected')
+            ->assertStatus(Response::HTTP_OK);
 
         $this->actingAs($producer, 'api')
             ->postJson(route(
-                'producer.projects.restore.submissions',
-                ['job' => $projectJob->id]
+                'producer.projects.submissions.restore',
+                ['job' => $projectJob]
             ))
             ->assertSee('Submission is successfully restored')
             ->assertStatus(Response::HTTP_OK);
@@ -201,7 +201,7 @@ class SubmissionFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\API\SubmissionsController::restore
+     * @covers \App\Http\Controllers\API\SubmissionsController::swap
      */
     public function can_swap_submissions()
     {
@@ -221,7 +221,7 @@ class SubmissionFeatureTest extends TestCase
             'crew_id'         => $crew->id,
             'project_id'      => $project->id,
             'project_job_id'  => $projectJob->id,
-            'approved_at'     => Carbon::now()
+            'approved_at'     => Carbon::now(),
         ]);
 
         $crew2 = $this->createCrew();
@@ -230,35 +230,34 @@ class SubmissionFeatureTest extends TestCase
             'crew_id'         => $crew2->id,
             'project_id'      => $project->id,
             'project_job_id'  => $projectJob->id,
-            'rejected_at'     => Carbon::now()
+            'rejected_at'     => Carbon::now(),
         ]);
 
         $data = [
             'submissionToReject'    => $submissionToReject->id,
-            'submissionToApprove'   => $submissionToApprove->id
+            'submissionToApprove'   => $submissionToApprove->id,
         ];
 
         $this->assertNotEquals(null, $submissionToReject->approved_at);
         $this->assertNotEquals(null, $submissionToApprove->rejected_at);
 
         $this->actingAs($producer, 'api')
-        ->postJson(route(
+            ->postJson(route(
             'producer.projects.swap.submissions',
             $data
         ))
-        ->assertSee('Submission is successfully swapped')
-        ->assertStatus(Response::HTTP_OK);
+            ->assertSee('Submission successfully swapped.')
+            ->assertStatus(Response::HTTP_OK);
 
         $this->assertEquals(null, $submissionToReject->fresh()->approved_at);
         $this->assertEquals(null, $submissionToApprove->fresh()->rejected_at);
     }
-    
 
     /**
      * @test
-     * @covers \App\Http\Controllers\API\SubmissionsController::index
+     * @covers \App\Http\Controllers\API\SubmissionController::index
      */
-    public function cannot_fetch_submmissions_the_crew_role()
+    public function cannot_fetch_submmissions_as_crew()
     {
         $crew       = $this->createCrew();
         $projectJob = $this->createProjectAndJob();
@@ -266,7 +265,7 @@ class SubmissionFeatureTest extends TestCase
         $this->actingAs($crew, 'api')
             ->get(route(
                 'project.job.submissions.index',
-                ['job' => $projectJob->id]
+                ['job' => $projectJob]
             ))
             ->assertSee('User does not have the right roles.')
             ->assertForbidden();
@@ -274,9 +273,9 @@ class SubmissionFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\API\SubmissionsController::store
+     * @covers \App\Http\Controllers\API\SubmissionController::store
      */
-    public function cannot_create_submissions_the_non_crew_role()
+    public function must_be_crew_to_store_submissions()
     {
         $user       = $this->createUser();
         $projectJob = $this->createProjectAndJob();
@@ -285,8 +284,8 @@ class SubmissionFeatureTest extends TestCase
         $this->actingAs($user, 'api')
             ->postJson(
                 route(
-                    'project.job.submissions.create',
-                    ['job' => $projectJob->id]
+                    'project.job.submissions.store',
+                    ['job' => $projectJob]
                 ),
                 $data
             )
@@ -322,11 +321,11 @@ class SubmissionFeatureTest extends TestCase
         $producer   = $this->createProducer();
         $projectJob = $this->createSubmission($producer);
         $user       = $this->createUser();
-        
+
         $this->actingAs($user, 'api')
             ->postJson(route(
-                'producer.projects.reject.submissions',
-                ['job' => $projectJob->id]
+                'producer.projects.submissions.reject',
+                ['job' => $projectJob]
             ))
             ->assertSee('User does not have the right roles.')
             ->assertForbidden();
@@ -341,10 +340,10 @@ class SubmissionFeatureTest extends TestCase
         $producer   = $this->createProducer();
         $projectJob = $this->createSubmission($producer);
         $user       = $this->createUser();
-        
+
         $this->actingAs($user, 'api')
             ->postJson(route(
-                'producer.projects.restore.submissions',
+                'producer.projects.submissions.restore',
                 ['job' => $projectJob->id]
             ))
             ->assertSee('User does not have the right roles.')

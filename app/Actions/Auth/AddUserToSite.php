@@ -4,18 +4,18 @@ namespace App\Actions\Auth;
 
 use App\Models\Site;
 use App\Models\User;
-use App\Models\UserSites;
+use App\Models\UserSite;
 
 class AddUserToSite
 {
     /**
      * @param User $user
      * @param Site $site
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return \App\Models\UserSite
      */
     public function execute(User $user, Site $site)
     {
-        return UserSites::firstOrCreate([
+        return UserSite::firstOrCreate([
             'user_id' => $user->id,
             'site_id' => $site->id,
         ]);

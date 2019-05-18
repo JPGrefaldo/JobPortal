@@ -3,7 +3,7 @@
 namespace Tests\Unit\Notifications;
 
 use App\Models\Role;
-use Cmgmyr\Messenger\Models\Thread;
+use App\Models\Thread;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
@@ -14,7 +14,7 @@ class MessengerFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers App\Http\Controllers\MessagesController::store
+     * @covers App\Http\Controllers\MessageController::store
      */
     public function admin_is_not_allowed_to_participate_in_the_threads()
     {
@@ -54,7 +54,7 @@ class MessengerFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers App\Http\Controllers\MessagesController::store
+     * @covers App\Http\Controllers\MessageController::store
      */
     public function crew_are_not_allowed_to_initiate_a_message_with_the_producer()
     {
@@ -86,7 +86,7 @@ class MessengerFeatureTest extends TestCase
 
         $response = $this->actingAs($crew)
             ->postJson(route('messages.store', $data));
-        
+
         $response->assertJson([
             'message' => 'You are not allowed to message the producer',
         ]);
@@ -94,7 +94,7 @@ class MessengerFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers App\Http\Controllers\MessagesController::store
+     * @covers App\Http\Controllers\MessageController::store
      */
     public function store_message()
     {

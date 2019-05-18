@@ -7,21 +7,21 @@
         </video>
         <div class="img-overlay"></div>
         <div class="img-overlay-multiply"></div>
-        <nav class="absolute z-20 pin-t pin-l float-left w-full px-3 md:px-6">
+        <nav class="absolute z-20 top-0 left-0 float-left w-full px-3 md:px-6">
             <div class="img-overlay darker"></div>
             <div class="py-2 md:flex justify-between items-center">
                 <div class="w-32 md:w-64 py-1 md:py-0 relative z-10 flex items-center">
                     <img src="/images/logos/logo-white-2.svg" alt="crew calls" class="mr-2">
                     <span class="text-white pt-6 pb-1 border-b-2 border-white text-md font-bold font-header">{{ config('app.name') }}</span>
                 </div>
-                <ul class="list-reset hidden lg:flex items-center relative z-10">
+                <ul class="hidden lg:flex items-center relative z-10">
                         <li>
                             <a class="block py-6 px-4 font-header tracking-wide block font-bold leading-none uppercase text-sm text-white hover:text-green"
                                 href="/my-projects/post">post a project</a>
                         </li>
                         <li>
                             <a class="block py-6 px-4 font-header tracking-wide font-bold leading-none uppercase text-sm text-white hover:text-green"
-                                href="#">find a project</a>
+                                href="{{route('projects.current-projects')}}">find a project</a>
                         </li>
                         <li>
                             <a class="block py-6 px-4 font-header tracking-wide font-bold leading-none uppercase text-sm text-white hover:text-green"
@@ -30,7 +30,7 @@
                     </ul>
                     <div id="nav-container" class="w-64 hidden lg:block relative z-10">
 
-                        <ul class="list-reset flex items-center">
+                        <ul class="flex items-center">
                             @guest
                             <li>
                                 <a class="block py-4 px-8 font-header font-bold leading-none uppercase text-sm text-white hover:text-green" href="{{ route('login') }}">SIGN IN</a>
@@ -79,9 +79,9 @@
     <!-- Partners Section
     ******************************************-->
     <section class="pt-sm p-3 pb-md md:pb-lg float-left w-full bg-white relative z-10" id="content">
-        <div class="container text-center">
+        <div class="text-center">
             <h4 class="text-grey mb-6">OUR SOFTWARE HAS HELPED STAFF PROJECTS FOR...</h4>
-            <ul class="list-reset list-logos">
+            <ul class="list-logos">
                 <li class="inline-block mx-3 align-middle">
                     <img src="images/corp-logos/hbo.png" alt="hbo" />
                 </li>
@@ -107,47 +107,47 @@
     <!-- Intro Section
     ******************************************-->
     <section class="w-full float-left pt-sm md:pb-lg">
-        <div class="container px-l pb-md">
+        <div class="px-l pb-md">
             <div class="md:flex flex-wrap md:px-lg">
                  <h2 class="md:hidden text-center text-lg pb-3">Post or submit <br> to projects needing…</h2>
                 <div class="hidden md:block square rounded-lg">
-                    <div class="block absolute pin-t pin-l h-full w-full flex items-center">
+                    <div class="block absolute top-0 left-0 h-full w-full flex items-center">
                         <h2 class="text-center md:text-right md:pr-8 text-lg md:text-xl md:-ml-8">Post or submit <br> to projects needing…</h2>
                     </div>
                 </div>
                 <div class="square rounded-lg hover:shadow-lg" style="background: url(images/th6.jpg) no-repeat center; background-size: cover;">
-                    <a href="#" class="block absolute pin-t pin-l h-full w-full">
-                        <span class="text-white font-bold text-md font-header p-6 absolute pin-b pin-l w-full">Production Crew</span>
+                    <a href="#" class="block absolute top-0 left-0 h-full w-full">
+                        <span class="text-white font-bold text-md font-header p-6 absolute bottom-0 left-0 w-full">Production Crew</span>
                     </a>
                 </div>
                 <div class="square rounded-lg hover:shadow-lg" style="background: url(images/th5.jpg) no-repeat center; background-size: cover;">
-                    <a href="#" class="block absolute pin-t pin-l h-full w-full">
-                        <span class="text-white font-bold text-md font-header p-6 absolute pin-b pin-l w-full">Camera Crew</span>
+                    <a href="#" class="block absolute top-0 left-0 h-full w-full">
+                        <span class="text-white font-bold text-md font-header p-6 absolute bottom-0 left-0 w-full">Camera Crew</span>
                     </a>
                 </div>
                 <div class="square rounded-lg hover:shadow-lg" style="background: url(images/th7.jpg) no-repeat center; background-size: cover;">
-                    <a href="#" class="block absolute pin-t pin-l h-full w-full">
-                        <span class="text-white font-bold text-md font-header p-6 absolute pin-b pin-l w-full">Sound Crew</span>
+                    <a href="#" class="block absolute top-0 left-0 h-full w-full">
+                        <span class="text-white font-bold text-md font-header p-6 absolute bottom-0 left-0 w-full">Sound Crew</span>
                     </a>
                 </div>
                 <div class="square rounded-lg hover:shadow-lg" style="background: url(images/th1.jpg) no-repeat center; background-size: cover;">
-                    <a href="#" class="block absolute pin-t pin-l h-full w-full">
-                        <span class="text-white font-bold text-md font-header p-6 absolute pin-b pin-l w-full">Wardrobe</span>
+                    <a href="#" class="block absolute top-0 left-0 h-full w-full">
+                        <span class="text-white font-bold text-md font-header p-6 absolute bottom-0 left-0 w-full">Wardrobe</span>
                     </a>
                 </div>
                 <div class="square rounded-lg hover:shadow-lg" style="background: url(images/th4.jpg) no-repeat center; background-size: cover;">
-                    <a href="#" class="block absolute pin-t pin-l h-full w-full">
-                        <span class="text-white font-bold text-md font-header p-6 absolute pin-b pin-l w-full">Makeup & Hair</span>
+                    <a href="#" class="block absolute top-0 left-0 h-full w-full">
+                        <span class="text-white font-bold text-md font-header p-6 absolute bottom-0 left-0 w-full">Makeup & Hair</span>
                     </a>
                 </div>
                 <div class="square rounded-lg hover:shadow-lg" style="background: url(images/th3.jpg) no-repeat center; background-size: cover;">
-                    <a href="#" class="block absolute pin-t pin-l h-full w-full">
-                        <span class="text-white font-bold text-md font-header p-6 absolute pin-b pin-l w-full">Lights</span>
+                    <a href="#" class="block absolute top-0 left-0 h-full w-full">
+                        <span class="text-white font-bold text-md font-header p-6 absolute bottom-0 left-0 w-full">Lights</span>
                     </a>
                 </div>
                 <div class="square rounded-lg hover:shadow-lg" style="background: url(images/th2.jpg) no-repeat center; background-size: cover;">
-                    <a href="#" class="block absolute pin-t pin-l h-full w-full">
-                        <span class="text-white font-bold text-md font-header p-6 absolute pin-b pin-l w-full">... and more</span>
+                    <a href="#" class="block absolute top-0 left-0 h-full w-full">
+                        <span class="text-white font-bold text-md font-header p-6 absolute bottom-0 left-0 w-full">... and more</span>
                     </a>
                 </div>
 
@@ -159,7 +159,7 @@
     <!-- Banner Section
     ******************************************-->
     <section class="py-3 md:py-md w-full float-left overflow-hidden circle p-3">
-        <div class="container flex">
+        <div class="flex">
             <img src="images/logos/logo-cc.svg" alt="" class="mb-1 mr-3 md:mr-8 block" />
             <span class="text-white text-sm md:text-lg font-header md:leading-normal opacity-75">Part of the Casting Calls America software network, a bonded talent listing software provider accredited by the
                 Better Business Bureau.</span>
@@ -169,7 +169,7 @@
     <!-- Matching Section
     ******************************************-->
     <section class="py-md md:py-lg bg-white w-full float-left" style="background: url(images/cards-bk.png) no-repeat center bottom; background-size: contain;">
-        <div class="container text-center p-3 md:pt-md">
+        <div class="text-center p-3 md:pt-md">
             <h2 class="text-lg md:text-2xl pb-6 max-w-md m-auto">Powerful and smart profile matching engine</h2>
             <span class="md:text-md max-w-md m-auto inline-block leading-normal text-blue-dark">Our cutting edge submission management software connect producers to crew, and crew to local projects needing
                 their skills.
@@ -186,14 +186,14 @@
     <section class="w-full p-3 pt-md md:pt-lg float-left relative has-deco-bottom" style="background: url(images/cover3.jpg) no-repeat center; background-size: cover;">
         <div class="img-overlay darker"></div>
         <div class="img-overlay-multiply darker"></div>
-        <div class="container relative z-10">
+        <div class="relative z-10">
             <h2 class="text-center text-white text-xl md:text-2xl md:py-md max-w-md m-auto">A platform created for your specific needs</h2>
             <div class="md:flex pt-md fade-up">
                 <div class="w-full md:w-1/2 md:pr-6">
                     <div class="bg-blue rounded-lg shadow-md text-center p-6 mb-3 md:mb-0 md:p-md shadow-lg">
                         <h3 class="text-white text-lg md:text-xl">Producers and directors</h3>
                         <p class="text-white py-3 md:py-6 md:text-md opacity-50">Post your listings to have quick and easy access to the best regional crews</p>
-                        <ul class="text-white list-reset list-check2 mb-2">
+                        <ul class="text-white list-check2 mb-2">
                             <li class="py-2">Find the right matches, effortlessly</li>
                             <li class="py-2">Post rush calls</li>
                             <li class="py-2">Manage all your projects from one online dashbaord</li>
@@ -206,7 +206,7 @@
                     <div class="bg-green rounded-lg shadow-md text-center p-6 md:p-md shadow-lg">
                         <h3 class="text-white md:text-lg md:text-xl">Crews and staff</h3>
                         <p class="text-white py-3 md:py-6 text-md opacity-75">Post your listings to have quick and easy access to the best regional crews</p>
-                        <ul class="text-white list-reset list-check2 mb-2">
+                        <ul class="text-white list-check2 mb-2">
                             <li class="py-2">Find the right matches, effortlessly</li>
                             <li class="py-2">Post rush calls</li>
                             <li class="py-2">Manage all your projects from one online dashbaord</li>
@@ -222,13 +222,13 @@
     <!-- Device Section
     ******************************************-->
     <section class="bg-grey-lighter py-sm md:py-lg relative w-full overflow-hidden md:overflow-visible float-left">
-        <div class="container md:flex px-6 py-md">
+        <div class="md:flex px-6 py-md">
             <div class="md:w-1/2">
                 <h2 class="text-lg md:text-2xl">Detailed user profiles,
                     <br> accessible from any device</h2>
                 <div class="py-6 md:py-md md:flex">
                     <div class="md:w-1/2 pr-8">
-                        <ul class="list-reset font-header font-bold">
+                        <ul class="font-header font-bold">
                             <li class="py-2">
                                 <i class="far fa-file-alt text-green text-center w-8 mr-2 text-lg"></i>Work history</li>
                             <li class="py-2">
@@ -239,7 +239,7 @@
                         </ul>
                     </div>
                     <div class="md:w-1/2">
-                        <ul class="list-reset font-header font-bold">
+                        <ul class="font-header font-bold">
                             <li class="py-2">
                                 <i class="far fa-user text-green mr-2 text-lg text-center w-8"></i>Detailed bios</li>
                             <li class="py-2">
@@ -270,7 +270,7 @@
     <section class="w-full float-left py-md md:py-lg bg-wheel-left relative">
         <img src="images/light.png" class="light-1" alt="" />
         <img src="images/light2.png" class="light-2" alt="" />
-        <div class="container relative">
+        <div class="relative">
             <div class="text-center">
                 <div class="text-center md:rounded-full md:border md:border-grey-light m-auto md:shadow md:overflow-hidden inline-block md:bg-white">
                     <div class="rounded-full uppercase cursor-pointer tracking-wide inline-block md:float-left text-blue-dark bg-grey-lighter font-bold font-header text-sm py-3 px-6 md:border-r border-grey-light">HEAR FROM PRODUCERS</div>
@@ -283,7 +283,7 @@
                     <div class="bg-white p-6 shadow-md border border-grey-light rounded">
                         <div class="rounded-full w-32 h-32 m-auto" style="background: url(images/thumb.jpg) no-repeat center; background-size: cover"></div>
                         <div class="py-2 w-full float-left -mt-6">
-                            <ul class="list-reset text-center">
+                            <ul class="text-center">
                                 <li class="w-8 h-8 bg-yellow-imdb rounded-full responsive p-1 inline-block -mr-2">
                                     <a href="#">
                                         <img src="images/imdb.svg" alt="imdb">
@@ -311,7 +311,7 @@
                     <div class="bg-white p-6 shadow-md border border-grey-light rounded">
                         <div class="rounded-full w-32 h-32 m-auto" style="background: url(images/thumb.jpg) no-repeat center; background-size: cover"></div>
                         <div class="py-2 w-full float-left -mt-6">
-                            <ul class="list-reset text-center">
+                            <ul class="text-center">
                                 <li class="w-8 h-8 bg-yellow-imdb rounded-full responsive p-1 inline-block -mr-2">
                                     <a href="#">
                                         <img src="images/imdb.svg" alt="imdb">
@@ -339,7 +339,7 @@
                     <div class="bg-white p-6 shadow-md border border-grey-light rounded">
                         <div class="rounded-full w-32 h-32 m-auto" style="background: url(images/thumb.jpg) no-repeat center; background-size: cover"></div>
                         <div class="py-2 w-full float-left -mt-6">
-                            <ul class="list-reset text-center">
+                            <ul class="text-center">
                                 <li class="w-8 h-8 bg-yellow-imdb rounded-full responsive p-1 inline-block -mr-2">
                                     <a href="#">
                                         <img src="images/imdb.svg" alt="imdb">
@@ -366,7 +366,7 @@
                     <div class="bg-white p-6 shadow-md border border-grey-light rounded">
                         <div class="rounded-full w-32 h-32 m-auto" style="background: url(images/thumb.jpg) no-repeat center; background-size: cover"></div>
                         <div class="py-2 w-full float-left -mt-6">
-                            <ul class="list-reset text-center">
+                            <ul class="text-center">
                                 <li class="w-8 h-8 bg-yellow-imdb rounded-full responsive p-1 inline-block -mr-2">
                                     <a href="#">
                                         <img src="images/imdb.svg" alt="imdb">
@@ -399,7 +399,7 @@
     <section class="w-full py-lg float-left relative" style="background: url(images/cover2.jpg) no-repeat center; background-size: cover;">
         <div class="img-overlay darker"></div>
         <div class="img-overlay-multiply darker"></div>
-        <div class="container p-sm md:py-md text-center relative z-10">
+        <div class="p-sm md:py-md text-center relative z-10">
             <h2 class="text-white text-lg md:text-2xl">Let’s get started.</h2>
             <div class="py-6 md:py-md w-full block">
                 <a href="#" class="btn-white mb-2 md:mb-0 mr-2">FIND CREW</a>
@@ -417,7 +417,7 @@
     <!-- Mobile nav Section
     ******************************************-->
     <a href="#" class="btn-nav lg:hidden"><div class="icon"></div></a>
-    <nav class="nav-mobile bg-black fixed z-50 text-white w-full h-full pin-t pin-l">
+    <nav class="nav-mobile bg-black fixed z-50 text-white w-full h-full top-0 left-0">
         <div class="p-3">
             <div class="w-32 md:w-64 py-1 md:py-0 relative z-10 flex items-center">
                 <img src="/images/logos/logo-white-2.svg" alt="crew calls" class="mr-2">
@@ -425,7 +425,7 @@
             </div>
         </div>
         <div class="py-6 px-3 border-t border-grey-dark">
-            <ul class="list-reset">
+            <ul>
                 <li class="py-2">
                     <a class="block py-1 px-4 font-header tracking-wide block font-bold leading-none uppercase text-sm text-white hover:text-green"
                         href="#">post a project</a>
@@ -441,7 +441,7 @@
             </ul>
         </div>
         <div class="py-6 px-3 border-t border-grey-dark">
-            <ul class="list-reset">
+            <ul>
                 <li class="py-2">
                     <a class="block py-1 px-4 font-header tracking-wide block font-bold leading-none uppercase text-sm text-white hover:text-green"
                         href="sign-in.php">SIGN in</a>

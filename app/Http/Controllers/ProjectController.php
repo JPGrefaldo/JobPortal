@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Crew;
+use App\Models\Project;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
 {
@@ -28,7 +28,9 @@ class ProjectController extends Controller
 
     public function showCurrentProjects()
     {
-        return view('projects.current-projects');
+        $projects = Project::has('jobs')->with(['jobs', 'jobs.position', 'jobs.pay_type'])->get();
+
+        return view('projects.current-projects', compact('projects'));
     }
 
     /**

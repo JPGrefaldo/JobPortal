@@ -71,7 +71,7 @@ export default {
 
     computed: {
         ...mapGetters({
-            departments: 'crew/departments',
+            departments: 'crew/department',
             positions: 'crew/positions',
             job: 'project/job',
             project: 'project/project',

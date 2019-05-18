@@ -82,7 +82,7 @@ class PendingFlagMessageController extends Controller
                 app(DisapproveFlagMessage::class)->execute($pendingFlagMessage);
 
                 return response()->json([
-                    'message' => 'Pending flag message disapproved'
+                    'message' => 'Pending flag message disapproved',
                 ]);
                 break;
 
@@ -90,7 +90,7 @@ class PendingFlagMessageController extends Controller
                 app(ApproveFlagMessage::class)->execute($pendingFlagMessage);
 
                 return response()->json([
-                    'message' => 'Pending flag message approved'
+                    'message' => 'Pending flag message approved',
                 ]);
                 break;
         }

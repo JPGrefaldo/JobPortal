@@ -1,4 +1,4 @@
-<ul class="list-reset list-check">
+<ul class="list-check">
     @if (! isset($biography->bio))
         <li>BIO</li>
      @else

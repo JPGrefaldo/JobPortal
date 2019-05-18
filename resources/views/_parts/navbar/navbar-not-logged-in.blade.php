@@ -6,14 +6,14 @@
             <span class="text-blue-dark pt-6 pb-1 border-b-2 border-blue-dark text-sm font-bold font-header"/>{{ config('app.name') }}</span>
         </a>
     </div>
-    <ul class="list-reset hidden lg:flex items-center">
+    <ul class="hidden lg:flex items-center">
         <li class="{{ Route::is('producer.projects.create') ? 'border-b-2 border-red border-solid' : '' }}">
             <a class="block py-6 px-4 font-header tracking-wide block font-bold leading-none uppercase text-sm text-blue-dark hover:text-green"
                 href="#">post a project</a>
         </li>
         <li class="{{ Route::is('findProject') ? 'border-b-2 border-red border-solid' : '' }}">
             <a class="block py-6 px-4 font-header tracking-wide font-bold leading-none uppercase text-sm text-blue-dark hover:text-green"
-                href="#">find a project</a>
+                href="{{route('projects.current-projects')}}">find a project</a>
         </li>
         <li class="{{ Route::is('about') ? 'border-b-2 border-red border-solid' : '' }}">
             <a class="block py-6 px-4 font-header tracking-wide font-bold leading-none uppercase text-sm text-blue-dark hover:text-green"
@@ -21,7 +21,7 @@
         </li>
     </ul>
     <div class="hidden lg:block w-64">
-        <ul class="list-reset flex items-center">
+        <ul class="flex items-center">
             <li>
                 <a class="block py-4 px-8 font-header font-bold leading-none uppercase text-sm text-blue-dark hover:text-green" href="{{ route('login') }}">SIGN IN</a>
             </li>
@@ -36,12 +36,12 @@
 <!-- Mobile nav Section
     ******************************************-->
     <a href="#" class="btn-nav lg:hidden"><div class="icon"></div></a>
-    <nav class="nav-mobile bg-black fixed z-50 text-white w-full h-full pin-t pin-l">
+    <nav class="nav-mobile bg-black fixed z-50 text-white w-full h-full top-0 left-0">
         <div class="p-3">
             <img src="/images/logos/logo-long-white.svg" class="w-32" alt="crew calls" />
         </div>
         <div class="py-6 px-3 border-t border-grey-dark">
-            <ul class="list-reset">
+            <ul>
                 <li class="py-2">
                     <a class="block py-1 px-4 font-header tracking-wide block font-bold leading-none uppercase text-sm text-white hover:text-green"
                         href="#">post a project</a>
@@ -57,7 +57,7 @@
             </ul>
         </div>
         <div class="py-6 px-3 border-t border-grey-dark">
-            <ul class="list-reset">
+            <ul>
                 <li class="py-2">
                     <a class="block py-1 px-4 font-header tracking-wide block font-bold leading-none uppercase text-sm text-white hover:text-green"
                         href="sign-in.php">SIGN in</a>

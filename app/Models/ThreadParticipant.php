@@ -3,10 +3,9 @@
 namespace App\Models;
 
 use App\User;
-use Cmgmyr\Messenger\Models\Participant;
-use Cmgmyr\Messenger\Models\Thread;
+use Cmgmyr\Messenger\Models\Participant as VendorParticipant;
 
-class ThreadParticipant extends Participant
+class ThreadParticipant extends VendorParticipant
 {
     public function __construct()
     {

@@ -12,7 +12,6 @@ class StoreCrewReel
     /**
      * @param \App\Models\Crew $crew
      * @param array $data
-     * @param bool $general
      * @throws \Exception
      */
     public function execute(Crew $crew, array $data): void

@@ -2,17 +2,17 @@
 
 namespace App\Actions\Auth;
 
-use Illuminate\Support\Arr;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\UserNotificationSetting;
+use Illuminate\Support\Arr;
 
 class StubUserNotifications
 {
     /**
      * @param User $user
      * @param array $data
-     * @return UserNotificationSetting|\Illuminate\Database\Eloquent\Model
+     * @return UserNotificationSetting
      */
     public function execute(User $user, array $data)
     {

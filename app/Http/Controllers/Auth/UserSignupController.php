@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Illuminate\Support\Arr;
 use App\Actions\Auth\AddUserToSite;
 use App\Actions\Auth\CreateUserEmailVerificationCode;
 use App\Actions\Auth\StubUserNotifications;
@@ -14,6 +13,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UserSignupRequest;
 use App\Models\Role;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Arr;
 
 class UserSignupController extends Controller
 {

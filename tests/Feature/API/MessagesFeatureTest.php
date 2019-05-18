@@ -4,10 +4,10 @@ namespace Tests\Feature\API;
 
 use App\Http\Resources\MessageResource;
 use App\Models\Crew;
+use App\Models\Thread;
 use App\Models\User;
 use Cmgmyr\Messenger\Models\Message;
 use Cmgmyr\Messenger\Models\Participant;
-use Cmgmyr\Messenger\Models\Thread;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
@@ -18,13 +18,12 @@ class MessagesFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers App\Http\Controllers\MessagesController::index
+     * @covers App\Http\Controllers\MessageController::index
      */
     public function indexAsCrew()
     {
         // given
         $user = $this->createCrew();
-        $crew = $user->crew;
         $thread = factory(Thread::class)->create();
 
         factory(Participant::class)->create([
@@ -61,7 +60,7 @@ class MessagesFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers App\Http\Controllers\MessagesController::index
+     * @covers App\Http\Controllers\MessageController::index
      */
     public function indexAsProducer()
     {

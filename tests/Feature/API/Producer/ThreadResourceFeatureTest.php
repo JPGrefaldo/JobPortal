@@ -5,7 +5,7 @@ namespace Tests\Feature\API\Producer;
 use App\Http\Resources\ThreadResource;
 use App\Models\Project;
 use App\Models\ProjectThread;
-use Cmgmyr\Messenger\Models\Thread;
+use App\Models\Thread;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
@@ -16,10 +16,11 @@ class ThreadResourceFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Crew\ThreadsController::index
+     * @covers \App\Http\Controllers\Crew\ThreadController::index
      */
     public function index()
     {
+        $this->withoutExceptionHandling();
         // given
         $user = $this->createProducer();
         $project = factory(Project::class)->create([

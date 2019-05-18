@@ -2,7 +2,7 @@
     <main class="float-left w-full py-md md:py-lg px-3">
         <div class="container">
             <project-side-nav :projects="projects"></project-side-nav>
-            
+
             <!-- Content Section
             ******************************************-->
             <div class="md:w-3/4 float-left">
@@ -77,7 +77,7 @@
                                     <span class="badge bg-white">5</span>
                                 </a>
                             </li>
-                            <li class="">
+                            <li>
                                 <a class="block py-4 tracking-wide block font-bold leading-none uppercase text-sm text-blue-dark hover:text-green" href="#">seen
                                     <span class="badge bg-white">5</span>
                                 </a>
@@ -98,7 +98,7 @@
                                     <span class="badge bg-white">5</span>
                                 </a>
                             </li>
-                            <li class="">
+                            <li>
                                 <a class="block py-4 tracking-wide block font-bold leading-none uppercase text-sm text-blue-dark hover:text-green" href="#">Marked
                                     <span class="font-thin">"maybe"</span>
                                     <span class="badge bg-white">5</span>
@@ -151,14 +151,16 @@
         },
 
         created: function() {
+            this.$store.dispatch('submission/fetchAllApproved', this.job.id)
             this.$store.dispatch('project/fetch')
             this.$store.dispatch('project/fetchAllApprovedCount')
-            this.$store.dispatch('project/fetchAllPendingCount')
+            // this.$store.dispatch('project/fetchAllPendingCount')
         },
 
         computed: {
             ...mapGetters({
                 'projects': 'project/list',
+                'approvedSubmissions': 'submission/approvedSubmissions',
             })
         },
 

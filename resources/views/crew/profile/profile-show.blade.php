@@ -1,12 +1,12 @@
 @extends('layouts.default_layout')
 
 @section('content')
-    <div class="container">
+    <div class="xl:w-1/2">
         <div class="w-full py-md md:py-lg px-3">
             <div class="card float-left md:flex mb-8 w-full">
                 <div class="md:w-1/4 md:pr-8 text-center">
                     <img src="images/thumb.jpg" class="rounded" alt="" />
-                    <ul class="list-reset py-4">
+                    <ul class="py-4">
                         <li class="py-1">
                             <a href="#" class="flex items-center">
                                 <div class="p-1 rounded bg-yellow-imdb w-8 h-8"><img src="images/imdb.svg" alt=""
@@ -25,15 +25,11 @@
                 <div class="md:w-3/4">
                     <div class="w-full flex flex-row items-center justify-center">
                         <div class="md:w-1/4 md:pr-8">
-                            @if (isset($user->crew->photo_path) && !empty($user->crew->photo_path))
                                 <div class="flex h-none bg-grey-light items-center justify-center text-center border border-grey-light w-full pb-full rounded relative"
-                                    style="background: url('{{ $user->crew->photo_url }}'); background-size: cover;">
+                                    style="background: url('{{ $user->avatar }}'); background-size: cover;">
                                 </div>
-                            @else
-                                <img src="{{ Avatar::create( $user->first_name .' '. $user->last_name )->toBase64() }}" />
-                            @endif
                         </div>
-                        <div class="">
+                        <div>
                             <h3 class="text-blue-dark font-semibold text-lg mb-1 font-header">
                                 {{ $user->first_name }} {{ $user->last_name }}
                             </h3>
