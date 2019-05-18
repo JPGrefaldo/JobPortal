@@ -14,7 +14,7 @@ class DepartmentsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Admin\DepartmentsController::index
+     * @covers \App\Http\Controllers\Admin\DepartmentController::index
      */
     public function index()
     {
@@ -29,7 +29,7 @@ class DepartmentsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Admin\DepartmentsController::store
+     * @covers \App\Http\Controllers\Admin\DepartmentController::store
      */
     public function create()
     {
@@ -52,7 +52,7 @@ class DepartmentsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Admin\DepartmentsController::store
+     * @covers \App\Http\Controllers\Admin\DepartmentController::store
      */
     public function create_no_description()
     {
@@ -75,7 +75,7 @@ class DepartmentsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Admin\DepartmentsController::store
+     * @covers \App\Http\Controllers\Admin\DepartmentController::store
      */
     public function create_formatted_name()
     {
@@ -99,7 +99,7 @@ class DepartmentsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Admin\DepartmentsController::store
+     * @covers \App\Http\Controllers\Admin\DepartmentController::store
      */
     public function create_invalid_data()
     {
@@ -119,7 +119,7 @@ class DepartmentsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Admin\DepartmentsController::store
+     * @covers \App\Http\Controllers\Admin\DepartmentController::store
      */
     public function create_duplicate_name()
     {
@@ -141,7 +141,7 @@ class DepartmentsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Admin\DepartmentsController::update
+     * @covers \App\Http\Controllers\Admin\DepartmentController::update
      */
     public function update()
     {
@@ -169,7 +169,7 @@ class DepartmentsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Admin\DepartmentsController::update
+     * @covers \App\Http\Controllers\Admin\DepartmentController::update
      */
     public function update_no_description()
     {
@@ -197,7 +197,7 @@ class DepartmentsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Admin\DepartmentsController::update
+     * @covers \App\Http\Controllers\Admin\DepartmentController::update
      */
     public function update_formatted_name()
     {
@@ -225,7 +225,7 @@ class DepartmentsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Admin\DepartmentsController::update
+     * @covers \App\Http\Controllers\Admin\DepartmentController::update
      */
     public function update_same()
     {
@@ -253,7 +253,7 @@ class DepartmentsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Admin\DepartmentsController::update
+     * @covers \App\Http\Controllers\Admin\DepartmentController::update
      */
     public function update_invalid_data()
     {
@@ -274,7 +274,7 @@ class DepartmentsFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Admin\DepartmentsController::update
+     * @covers \App\Http\Controllers\Admin\DepartmentController::update
      */
     public function update_duplicate_name()
     {

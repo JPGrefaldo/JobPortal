@@ -6,10 +6,8 @@ use App\Actions\Crew\StoreCrewReel;
 use App\Models\CrewReel;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 use Tests\Support\CreatesCrewModel;
-use Tests\Support\Data\SocialLinkTypeID;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 
@@ -152,7 +150,6 @@ class StoreCrewReelTest extends TestCase
      */
     public function reel_file_can_be_updated_to_reel_file()
     {
-
         $reelPath = $this->models['user']->hash_id . '/reels/reel.mp4';
         Storage::disk('s3')->put($reelPath, 'some non-jpg content');
         Storage::disk('s3')->assertExists($reelPath);

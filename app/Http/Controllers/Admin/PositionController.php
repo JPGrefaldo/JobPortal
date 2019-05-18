@@ -8,7 +8,7 @@ use App\Models\Position;
 use App\Services\PositionsServices;
 use Illuminate\Http\Request;
 
-class PositionsController extends Controller
+class PositionController extends Controller
 {
     public function index()
     {

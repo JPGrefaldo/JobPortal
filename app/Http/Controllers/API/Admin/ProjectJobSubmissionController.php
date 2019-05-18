@@ -9,7 +9,7 @@ use App\Models\ProjectJob;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class ProjectJobsSubmissionsController extends Controller
+class ProjectJobSubmissionController extends Controller
 {
     /**
      * @param Request $request
@@ -22,7 +22,7 @@ class ProjectJobsSubmissionsController extends Controller
                 'message'    => 'Sucessfully fetched job\'s submissions',
                 'projectJob' => ProjectJob::find($request->job)
                     ->with('submissions')
-                    ->get()
+                    ->get(),
             ],
             Response::HTTP_OK
         );
@@ -41,7 +41,7 @@ class ProjectJobsSubmissionsController extends Controller
                 'message'    => 'Submission successfully added',
                 'projectJob' => ProjectJob::find($data->project_job_id)
                     ->with('submissions')
-                    ->get()
+                    ->get(),
             ],
             Response::HTTP_CREATED
         );

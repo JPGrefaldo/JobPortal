@@ -12,7 +12,7 @@ use App\Models\Site;
 use App\Services\Producer\ProjectsServices;
 use App\Utils\UrlUtils;
 
-class ProjectsController extends Controller
+class ProjectController extends Controller
 {
     public function index()
     {

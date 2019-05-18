@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\Crew;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\ProjectJob;
 
-class ProjectJobsController extends Controller
+class ProjectJobController extends Controller
 {
     public function show(ProjectJob $projectJob)
     {

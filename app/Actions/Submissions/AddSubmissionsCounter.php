@@ -7,13 +7,18 @@ use Illuminate\Database\Eloquent\Collection;
 
 class AddSubmissionsCounter
 {
+    /**
+     * @param \App\Models\Project $project
+     * @param \Illuminate\Database\Eloquent\Collection $submissions
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
     public function execute(Project $project, Collection $submissions): Collection
     {
-        $submissions->map(function($submission) use($project){
+        $submissions->map(function ($submission) use ($project) {
             $submission_count = $submission->where(
                 [
                     'crew_id'    => $submission->crew_id,
-                    'project_id' => $project->id
+                    'project_id' => $project->id,
                 ]
             )->count();
 

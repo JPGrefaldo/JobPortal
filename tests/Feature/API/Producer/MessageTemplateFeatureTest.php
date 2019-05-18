@@ -2,11 +2,11 @@
 
 namespace Tests\Feature\API\Producer;
 
+use App\Models\MessageTemplate;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Response;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
-use App\Models\MessageTemplate;
-use Illuminate\Http\Response;
 
 class MessageTemplateFeatureTest extends TestCase
 {
@@ -14,7 +14,7 @@ class MessageTemplateFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\API\Producer\MessageTemplatesController::index
+     * @covers \App\Http\Controllers\API\Producer\MessageTemplateController::index
      */
     public function can_fetch_message_templates()
     {
@@ -23,7 +23,7 @@ class MessageTemplateFeatureTest extends TestCase
         $user = $this->createProducer();
 
         factory(MessageTemplate::class, 5)->create([
-            'user_id' => $user->id
+            'user_id' => $user->id,
         ]);
 
         $this->actingAs($user, 'api')
@@ -34,7 +34,7 @@ class MessageTemplateFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\API\Producer\MessageTemplatesController::store
+     * @covers \App\Http\Controllers\API\Producer\MessageTemplateController::store
      */
     public function can_create_message_templates()
     {
@@ -53,7 +53,7 @@ class MessageTemplateFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\API\Producer\MessageTemplatesController::store
+     * @covers \App\Http\Controllers\API\Producer\MessageTemplateController::store
      */
     public function cannot_create_the_unauthorized_role()
     {
@@ -71,7 +71,7 @@ class MessageTemplateFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\API\Producer\MessageTemplatesController::store
+     * @covers \App\Http\Controllers\API\Producer\MessageTemplateController::store
      */
     public function cannot_create_a_template_when_message_field_is_empty()
     {
@@ -91,7 +91,7 @@ class MessageTemplateFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\API\Producer\MessageTemplatesController::store
+     * @covers \App\Http\Controllers\API\Producer\MessageTemplateController::store
      */
     public function cannot_create_a_message_template_when_data_is_invalid()
     {

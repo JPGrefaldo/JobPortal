@@ -79,7 +79,7 @@ class CrewDepartmentPositionFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($crew)
-           ->postJson(route('crew-position.store', $position), $data);
+            ->postJson(route('crew-position.store', $position), $data);
 
         $response->assertJsonValidationErrors('resume');
 

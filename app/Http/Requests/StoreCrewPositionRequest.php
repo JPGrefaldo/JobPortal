@@ -2,11 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Position;
 use App\Rules\Reel;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
-use App\Models\Position;
 
 class StoreCrewPositionRequest extends FormRequest
 {

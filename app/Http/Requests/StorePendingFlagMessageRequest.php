@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use Cmgmyr\Messenger\Models\Message;
+use App\Models\Message;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StorePendingFlagMessageRequest extends FormRequest

@@ -9,7 +9,6 @@ use App\Models\CrewPositionEndorsementScore;
 use App\Models\Endorsement;
 use App\Models\EndorsementEndorser;
 use App\Models\EndorsementRequest;
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;

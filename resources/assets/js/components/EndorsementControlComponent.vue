@@ -4,7 +4,7 @@
             <div class="mr-2 pr-2 border-r-2">
                 <a href="#" @click.prevent="deleteEndorsement(endorsement, index)">Delete</a>
             </div>
-            <div class="">{{ endorsement.request.endorser.email }}</div>
+            <div>{{ endorsement.request.endorser.email }}</div>
         </div>
     </div>
 </template>
