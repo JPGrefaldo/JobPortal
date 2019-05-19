@@ -42,6 +42,7 @@ class Kernel extends HttpKernel
         'api' => [
             \Barryvdh\Cors\HandleCors::class,
             \App\Http\Middleware\EncryptCookies::class,
+            \App\Http\Middleware\RefreshToken::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\StartSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
