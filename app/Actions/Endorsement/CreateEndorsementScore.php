@@ -6,7 +6,6 @@ use App\Models\CrewEndorsementScoreSweetener;
 use App\Models\CrewPosition;
 use App\Models\CrewPositionEndorsementScore;
 use App\Models\Endorsement;
-use Cache;
 
 class CreateEndorsementScore
 {

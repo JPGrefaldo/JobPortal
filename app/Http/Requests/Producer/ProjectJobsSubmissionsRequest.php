@@ -25,7 +25,7 @@ class ProjectJobsSubmissionsRequest extends FormRequest
     {
         return [
             'project_job_id' => 'required|exists:project_jobs,id',
-            'crew_id'        => 'required|exists:crews,id'
+            'crew_id'        => 'required|exists:crews,id',
         ];
     }
 }

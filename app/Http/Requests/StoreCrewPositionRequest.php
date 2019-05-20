@@ -2,11 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Position;
 use App\Rules\Reel;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
-use App\Models\Position;
 
 class StoreCrewPositionRequest extends FormRequest
 {
@@ -49,6 +49,7 @@ class StoreCrewPositionRequest extends FormRequest
             'gear'              => 'nullable|string|max:50|min:8',
             'union_description' => $union_rule,
             'gear'              => $gear_rule,
+            'gear_photos'       => 'nullable|image|mimes:jpeg,png',
             'union_description' => 'nullable|string|max:50|min:8',
         ];
     }

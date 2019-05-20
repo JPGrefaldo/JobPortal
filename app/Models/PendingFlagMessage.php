@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Cmgmyr\Messenger\Models\Message;
 use Illuminate\Database\Eloquent\Model;
 
 class PendingFlagMessage extends Model
@@ -53,9 +52,9 @@ class PendingFlagMessage extends Model
     {
         return $this->update(
             [
-                'approved_at'   => null,
+                'approved_at'    => null,
                 'disapproved_at' => Carbon::now(),
-                'status'        => static::UNAPPROVED
+                'status'         => static::UNAPPROVED,
             ]
         );
     }

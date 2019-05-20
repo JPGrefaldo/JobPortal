@@ -9,6 +9,9 @@ use Carbon\Carbon;
 
 class SendRushCallEmail
 {
+    /**
+     * @param \App\Models\ProjectJob $projectJob
+     */
     public function execute(ProjectJob $projectJob)
     {
         if ($projectJob->rush_call) {
@@ -27,6 +30,10 @@ class SendRushCallEmail
         }
     }
 
+    /**
+     * @param \App\Models\ProjectJob $projectJob
+     * @return array
+     */
     private function format(ProjectJob $projectJob): array
     {
         return [

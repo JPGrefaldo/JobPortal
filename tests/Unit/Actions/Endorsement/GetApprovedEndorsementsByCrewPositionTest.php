@@ -5,7 +5,6 @@ use App\Models\CrewPosition;
 use App\Models\Endorsement;
 use App\Models\EndorsementEndorser;
 use App\Models\EndorsementRequest;
-use App\Models\Position;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;

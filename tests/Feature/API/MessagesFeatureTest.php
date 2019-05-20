@@ -20,7 +20,7 @@ class MessagesFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers App\Http\Controllers\MessagesController::index
+     * @covers App\Http\Controllers\MessageController::index
      */
     public function indexAsCrew()
     {
@@ -63,7 +63,7 @@ class MessagesFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers App\Http\Controllers\MessagesController::index
+     * @covers App\Http\Controllers\MessageController::index
      */
     public function indexAsProducer()
     {

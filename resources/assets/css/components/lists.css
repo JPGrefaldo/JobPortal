@@ -5,7 +5,7 @@
 
 .list-check li::before {
     content: "";
-    @apply .border .rounded-full .w-6 .h-6 .border-grey-light .absolute .pin-l .pin-t .mt-2;
+    @apply .border .rounded-full .w-6 .h-6 .border-grey-light .absolute .left-0 .top-0 .mt-2;
 }
 
 .list-check li.is-checked {

@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
 use App\Models\Thread;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
@@ -14,7 +14,7 @@ class ThreadFeatureTest extends TestCase
 
     /**
     * @test
-    * @covers App\Http\Controllers\API\ParticipantsController::search
+    * @covers App\Http\Controllers\API\ParticipantController::search
     */
     public function search_participating_user_in_current_thread()
     {
@@ -31,7 +31,7 @@ class ThreadFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers App\Http\Controllers\API\ParticipantsController::search
+     * @covers App\Http\Controllers\API\ParticipantController::search
      */
     public function current_user_should_not_be_included_in_search_result()
     {
@@ -46,7 +46,7 @@ class ThreadFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers App\Http\Controllers\API\ParticipantsController::search
+     * @covers App\Http\Controllers\API\ParticipantController::search
      */
     public function search_will_accept_any_input_format()
     {
@@ -63,7 +63,7 @@ class ThreadFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers App\Http\Controllers\API\ParticipantsController::search
+     * @covers App\Http\Controllers\API\ParticipantController::search
      */
     public function search_keyword_should_not_be_empty()
     {
@@ -76,7 +76,7 @@ class ThreadFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers App\Http\Controllers\API\ParticipantsController::search
+     * @covers App\Http\Controllers\API\ParticipantController::search
      */
     public function search_keywords_should_not_contain_numbers()
     {
@@ -89,7 +89,7 @@ class ThreadFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers App\Http\Controllers\API\ParticipantsController::search
+     * @covers App\Http\Controllers\API\ParticipantController::search
      */
     public function show_search_info_when_no_results_found()
     {

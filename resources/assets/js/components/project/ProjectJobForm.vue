@@ -13,19 +13,19 @@
         <div class="md:flex py-2">
             <div class="md:w-1/3 pr-8">
                 <span class="font-bold font-header text-blue-dark mt-4 block md:text-right mb-3"
-                    >Equipment provided</span
+                    >Gear provided</span
                 >
                 <small
                     class="block md:text-right text-red"
-                    v-show="errors.has('Equipment Provided')"
-                    >{{ errors.first('Equipment Provided') }}</small
+                    v-show="errors.has('Gear Provided')"
+                    >{{ errors.first('Gear Provided') }}</small
                 >
             </div>
             <div class="md:w-2/3">
                 <textarea
                     class="w-full form-control h-24"
-                    name="Equipment Provided"
-                    placeholder="Equipment provided by production"
+                    name="Gear Provided"
+                    placeholder="Gear provided by production"
                     v-model="form.gear_provided"
                     v-validate="'required|min:3'"
                 ></textarea>
@@ -34,19 +34,19 @@
         <div class="md:flex py-2">
             <div class="md:w-1/3 pr-8">
                 <span class="font-bold font-header text-blue-dark mt-4 block md:text-right mb-3"
-                    >Equipment needed</span
+                    >Gear needed</span
                 >
                 <small
                     class="block md:text-right text-red"
-                    v-show="errors.has('Equipment Needed')"
-                    >{{ errors.first('Equipment Needed') }}</small
+                    v-show="errors.has('Gear Needed')"
+                    >{{ errors.first('Gear Needed') }}</small
                 >
             </div>
             <div class="md:w-2/3">
                 <textarea
                     class="w-full form-control h-24"
-                    name="Equipment Needed"
-                    placeholder="Equipment needed from operator/crew"
+                    name="Gear Needed"
+                    placeholder="Gear needed from operator/crew"
                     v-model="form.gear_needed"
                     v-validate="'required|min:3'"
                 ></textarea>
@@ -176,7 +176,7 @@
                             />
                         </span>
                         <button
-                                class="flex-no-shrink p-2 ml-4 mr-2 border-2 rounded bg-blue hover:bg-blue-dark text-white"
+                                class="flex-shrink-0 p-2 ml-4 mr-2 border-2 rounded bg-blue hover:bg-blue-dark text-white"
                                 @click="addDate"
                         >
                             Add

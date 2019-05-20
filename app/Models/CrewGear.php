@@ -16,6 +16,13 @@ class CrewGear extends Model
     /**
      * @var array
      */
+    protected $appends = [
+        'file_link',
+    ];
+
+    /**
+     * @var array
+     */
     protected $casts = [
         'id'               => 'integer',
         'crew_id'          => 'integer',
@@ -37,5 +44,13 @@ class CrewGear extends Model
     public function setDescriptionAttribute($value)
     {
         $this->attributes['description'] = (is_null($value) ? '' : $value);
+    }
+
+    /**
+     * @return string
+     */
+    public function getFileLinkAttribute()
+    {
+        return config('filesystems.disks.s3.url') . '/' . $this->path;
     }
 }

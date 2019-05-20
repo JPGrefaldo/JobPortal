@@ -299,7 +299,7 @@ class UserAccountFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Account\AccountNotificationsController::store
+     * @covers \App\Http\Controllers\Account\AccountNotificationController::store
      */
     public function update_notifications()
     {

@@ -3,7 +3,7 @@
         <div v-for="(tag, index) in value" v-bind:key="index" class="px-4 py-3 rounded relative" role="alert">
             <span class="block sm:inline">{{index+1}}. {{tag}}</span>
 
-            <span class="absolute pin-t pin-b pin-r px-4 py-3">
+            <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
             <svg class="fill-current h-6 w-6"
                  role="button" xmlns="http://www.w3.org/2000/svg"
                  viewBox="0 0 20 20"

@@ -4,10 +4,10 @@ namespace App\Http\Controllers\API;
 
 use App\Actions\Messenger\SearchParticipants;
 use App\Http\Controllers\Controller;
-use Cmgmyr\Messenger\Models\Thread;
+use App\Models\Thread;
 use Illuminate\Http\Request;
 
-class ParticipantsController extends Controller
+class ParticipantController extends Controller
 {
     public function search(Thread $thread, Request $request)
     {
@@ -24,7 +24,7 @@ class ParticipantsController extends Controller
                 'message' => 'Keyword should only be a string',
             ]);
         }
-    
+
         $result = app(SearchParticipants::class)->execute($thread, $keyword);
 
         if (count($result) == 0) {

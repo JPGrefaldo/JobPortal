@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Producer\Message\MessageTemplateRequest;
 use Illuminate\Http\Response;
 
-class MessageTemplatesController extends Controller
+class MessageTemplateController extends Controller
 {
     public function index()
     {
@@ -16,7 +16,7 @@ class MessageTemplatesController extends Controller
         return response()->json(
             [
                 'message'  => "Sucessfully fetched all message templates",
-                'messages' => $messages
+                'messages' => $messages,
             ],
             Response::HTTP_OK
         );
@@ -26,13 +26,13 @@ class MessageTemplatesController extends Controller
     {
         $user = auth()->user();
         $message = $user->messageTemplates()->create([
-            'message' => $request->message
+            'message' => $request->message,
         ]);
 
         return response()->json(
             [
                 'message'  => "Sucessfully save message template",
-                'messages' => $message
+                'messages' => $message,
             ],
             Response::HTTP_CREATED
         );

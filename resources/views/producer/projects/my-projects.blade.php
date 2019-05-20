@@ -1,5 +1,5 @@
-@extends('layouts.default_layout')
+@extends('layouts.page-1-col')
 
-@section('content')
+@section('page-content')
     <cca-producer-my-projects />
 @endsection

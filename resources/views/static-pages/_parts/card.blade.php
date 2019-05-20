@@ -1,5 +1,5 @@
-<div class="container max-w-xl flex justify-center items-center">
-        <div class="bg-white shadow-md rounded">
+<div class="w-full flex justify-center items-center">
+        <div class="bg-white shadow-md rounded xl:w-1/2">
             <div class="p-8">
                 {{ $cardTitle }}
                 <div class="py-2">

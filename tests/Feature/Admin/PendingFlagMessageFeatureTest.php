@@ -41,7 +41,7 @@ class PendingFlagMessageFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Api\Admin\FlagMessagesController::index
+     * @covers \App\Http\Controllers\Api\Admin\FlagMessageController::index
      */
     public function admin_can_see_pending_flag_messages()
     {
@@ -70,8 +70,8 @@ class PendingFlagMessageFeatureTest extends TestCase
                     "thread"         => $pendingFlagMessage->message->thread->subject,
                     "approved_at"    => null,
                     "disapproved_at" => null,
-                ]
-            ]
+                ],
+            ],
         ]);
     }
 
@@ -79,7 +79,7 @@ class PendingFlagMessageFeatureTest extends TestCase
      * @test
      *
      * @covers \App\Http\Controllers\PendingFlagMessageController::index
-     * @covers \App\Http\Controllers\Api\Admin\FlagMessagesController::index
+     * @covers \App\Http\Controllers\Api\Admin\FlagMessageController::index
      */
     public function crew_is_not_allowed_to_see_flagged_messages()
     {
@@ -98,7 +98,7 @@ class PendingFlagMessageFeatureTest extends TestCase
      * @test
      *
      * @covers \App\Http\Controllers\PendingFlagMessageController::index
-     * @covers \App\Http\Controllers\Api\Admin\FlagMessagesController::index
+     * @covers \App\Http\Controllers\Api\Admin\FlagMessageController::index
      */
     public function producer_is_not_allowed_to_see_flagged_messages()
     {
@@ -125,7 +125,7 @@ class PendingFlagMessageFeatureTest extends TestCase
 
         $this->actingAs($this->createAdmin())
             ->put(route('pending-flag-messages.update', $pendingFlagMessage), [
-                'action' => 'approve'
+                'action' => 'approve',
             ])
             ->assertSee('Pending flag message approved')
             ->assertOk();
@@ -146,7 +146,7 @@ class PendingFlagMessageFeatureTest extends TestCase
 
         $this->actingAs($this->createAdmin())
             ->put(route('pending-flag-messages.update', $pendingFlagMessage), [
-                'action' => 'disapprove'
+                'action' => 'disapprove',
             ])
             ->assertSee('Pending flag message disapproved')
             ->assertOk();
