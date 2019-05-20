@@ -33,6 +33,17 @@ use App\Models\ProjectType;
 */
 
 Route::middleware('auth:api')->group(function () {
+
+    Route::get('/admin/flag-messages', [
+        FlaggedMessageController::class,
+        'index',
+    ])->middleware('role:Admin')->name('admin.messages.flagged');
+
+    Route::get('submissions/{job}', [
+        ProjectJobSubmissionController::class,
+        'index',
+    ])->middleware('role:Admin')->name('admin.project.job.submissions.index');
+
     Route::get('/user', [
         UserController::class,
         'show',
@@ -58,6 +69,15 @@ Route::middleware('auth:api')->group(function () {
         'index',
     ])->name('crew.sites.index');
 
+    Route::get('/crew/projects/{project}/threads', [
+        CrewThreadController::class,
+        'index',
+    ])->name('crew.threads.index');
+
+    Route::post('submissions/{job}', [
+        ProjectJobSubmissionController::class,
+        'store',
+    ])->middleware('role:Crew')->name('project.job.submissions.store');
 
     Route::get('/threads/{thread}/messages', [
         MessageController::class,
@@ -73,11 +93,6 @@ Route::middleware('auth:api')->group(function () {
         ParticipantController::class,
         'search',
     ])->middleware('role:Producer|Crew')->name('threads.search.participants');
-
-    Route::get('/crew/projects/{project}/threads', [
-        CrewThreadController::class,
-        'index',
-    ])->name('crew.threads.index');
 
     Route::prefix('producer')->middleware('role:Producer')->group(function () {
         
@@ -186,19 +201,4 @@ Route::middleware('auth:api')->group(function () {
             'index',
         ])->name('producer.project.type');
     });
-
-    Route::get('/admin/flag-messages', [
-        FlaggedMessageController::class,
-        'index',
-    ])->middleware('role:Admin')->name('admin.messages.flagged');
-
-    Route::get('submissions/{job}', [
-        ProjectJobSubmissionController::class,
-        'index',
-    ])->middleware('role:Admin')->name('admin.project.job.submissions.index');
-
-    Route::post('submissions/{job}', [
-        ProjectJobSubmissionController::class,
-        'store',
-    ])->middleware('role:Crew')->name('project.job.submissions.store');
 });
