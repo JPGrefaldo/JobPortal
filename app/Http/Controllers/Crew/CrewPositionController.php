@@ -7,6 +7,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCrewPositionRequest;
 use App\Models\CrewPosition;
 use App\Models\Position;
+use App\Actions\Crew\DeleteCrewPositionResume;
+use App\Actions\Crew\DeleteCrewPositionReel;
+use App\Actions\Crew\DeleteCrewPositionGear;
 
 class CrewPositionController extends Controller
 {
@@ -54,11 +57,9 @@ class CrewPositionController extends Controller
     {
         $crew = auth()->user()->crew;
 
-        $crewPosition = $crew->crewPositions()->where('position_id', $position->id)->first();
-
-        $this->removeResume($crewPosition);
-        $this->removeReel($crewPosition);
-        $this->removeGear($crewPosition);
+        app(DeleteCrewPositionResume::class)->execute($crew, $position);
+        app(DeleteCrewPositionReel::class)->execute($crew, $position);
+        app(DeleteCrewPositionGear::class)->execute($crew, $position);
 
         return $crew->crewPositions()->where('position_id', $position->id)->delete() ? 'success' : 'failed';
     }
@@ -102,6 +103,9 @@ class CrewPositionController extends Controller
 
         $crewPosition = CrewPosition::byCrewAndPosition($crew, $position)->first();
 
+        if ($crewPosition->resume == null)
+            return;
+
         return response()->json([
             'message' => $crewPosition->resume->delete() ? 'success' : 'failed',
         ]);
@@ -117,6 +121,9 @@ class CrewPositionController extends Controller
 
         $crewPosition = CrewPosition::byCrewAndPosition($crew, $position)->first();
 
+        if ($crewPosition->reel == null)
+            return;
+
         return response()->json([
             'message' => $crewPosition->reel()->delete() ? 'success' : 'failed',
         ]);
@@ -131,6 +138,9 @@ class CrewPositionController extends Controller
         $crew = auth()->user()->crew;
 
         $crewPosition = CrewPosition::byCrewAndPosition($crew, $position)->first();
+
+        if ($crewPosition == null)
+            return;
 
         return response()->json([
             'message' => $crewPosition->gear()->delete() ? 'success' : 'failed',

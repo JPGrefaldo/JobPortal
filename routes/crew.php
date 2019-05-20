@@ -51,7 +51,9 @@ Route::post('/crew/positions/{position}', [CrewPositionController::class, 'store
     ->name('crew-position.store');
 Route::post('/crew/positions/{position}/update', [CrewPositionController::class, 'update'])
     ->name('crew-position.update');
-Route::delete('/crew/positions/{position}/resume', [CrewPositionController::class, 'removeResume']);
+Route::delete('/crew/positions/{position}/resume', [CrewPositionController::class, 'removeResume'])
+    ->name('crew-position.delete-resume');
+Route::get('/crew/positions/{position}/reel', [CrewPositionController::class, 'removeReel'])
+    ->name('crew-position.delete-reel');
 Route::delete('/crew/positions/{position}/delete', [CrewPositionController::class, 'destroy'])
     ->name('crew-position.delete');
-Route::get('/crew/positions/{position}/reel', [CrewPositionController::class, 'removeReel']);
