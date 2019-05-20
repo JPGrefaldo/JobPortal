@@ -10,6 +10,7 @@ use App\Models\Project;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use App\Models\ProjectThread;
+use App\Models\Role;
 
 class FakeMessages extends Command
 {
@@ -19,8 +20,8 @@ class FakeMessages extends Command
      * @var string
      */
     protected $signature = 'fake:messages 
-                                         {--sender=1   : USER ID - with a producer role that can be login to show the receiver message}
-                                         {--receiver=2 : USER ID - With a crew role that can be login to show the sender message}';
+                                         {--sender=   : USER ID - with a producer role that can be login to show the receiver message}
+                                         {--receiver= : USER ID - With a crew role that can be login to show the sender message}';
 
     /**
      * The console command description.
@@ -49,12 +50,24 @@ class FakeMessages extends Command
     {
         $user = $this->options();
 
-        if (empty($user['sender']) && empty($user['receiver'])) {
-            $this->info('--sender & --receiver should always be include with user\'s id');
+        if (empty($user['sender']) || empty($user['receiver'])) {
+            $this->info('Creating new 2 users with a producer and crew role respectively');
+            $sender   = $this->createUser();
+            $receiver = $this->createUser('crew');
+        } else {
+            $sender   = User::find($user['sender']);
+            $receiver = User::find($user['receiver']);
         }
 
-        $sender   = User::find($user['sender']);
-        $receiver = User::find($user['receiver']);
+        if(! $sender->hasRole(Role::PRODUCER)) {
+            $this->error("The sender's role is {$sender->getRoleNames()}, not a Producer");
+            return;
+        }
+
+        if(! $receiver->hasRole(Role::CREW)) {
+            $this->error("The receiver's role is {$receiver->getRoleNames()}, not a Crew");
+            return;
+        }
 
         $project = factory(Project::class)->create([
             'user_id' => $sender->id,
@@ -92,5 +105,12 @@ class FakeMessages extends Command
         $thread->addParticipant($receiver->id);
 
         $this->info('Done seeding message!');
+    }
+
+    private function createUser($role='producer')
+    {
+        $user = factory(User::class)->create();
+        $role === 'producer' ? $user->assignRole(Role::PRODUCER):$user->assignRole(Role::CREW);
+        return $user;
     }
 }
