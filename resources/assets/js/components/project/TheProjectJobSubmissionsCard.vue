@@ -96,10 +96,6 @@
     export default {
         props: ['job', 'submission'],
 
-         created: function() {
-            this.$store.dispatch('submission/fetchAllApproved', this.job.id)
-        },
-
         computed: {
             ...mapGetters({
                 'approvedSubmissions': 'submission/approvedSubmissions',
