@@ -60,7 +60,7 @@ class CrewPositionController extends Controller
         $this->removeReel($crewPosition);
         $this->removeGear($crewPosition);
 
-        return $crew->crewPositions()->where('position_id', $position->id)->delete() ? 'success' : 'failed';
+        return $crewPosition->delete() ? 'success' : 'failed';
     }
 
     /**
