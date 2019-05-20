@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Actions\Submissions\CreateSubmission;
+use App\Actions\Submissions\StoreSubmission;
 use App\Actions\Submissions\SetSubmissionStatus;
 use App\Http\Controllers\Controller;
 use App\Models\ProjectJob;
@@ -45,7 +45,7 @@ class SubmissionController extends Controller
     {
         $crew = auth()->user()->crew;
 
-        $job = app(CreateSubmission::class)->execute($crew, $job);
+        $job = app(StoreSubmission::class)->execute($crew, $job);
 
         return response()->json(
             [

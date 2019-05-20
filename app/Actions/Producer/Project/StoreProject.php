@@ -5,7 +5,7 @@ namespace App\Actions\Producer\Project;
 use App\Http\Requests\Producer\CreateProjectRequest;
 use App\Models\Project;
 
-class CreateProject
+class StoreProject
 {
     /**
      * @param int $user
