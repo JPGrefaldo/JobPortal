@@ -20,20 +20,14 @@ class MessageController extends Controller
      */
     public function index(Thread $thread)
     {   
-        $authUser = auth()->user();
+        $user = auth()->user();
         $messages = $thread->messages()->with('user')->where('flagged_at', null)->get();
 
-        $messages->map(function($message) use($authUser) {
-            if ($message->user->id === $authUser->id) {
-                $this->userIsParticipant = true;
-            } 
-        });
-
-        if ($this->userIsParticipant) {
-            return MessageResource::collection($messages);
+        if (! $thread->hasParticipant($user->id)) {
+            return response()->json([], Response::HTTP_FORBIDDEN);
         }
 
-        return response()->json([], Response::HTTP_FORBIDDEN);
+        return MessageResource::collection($messages);
     }
 
     /**
@@ -51,31 +45,19 @@ class MessageController extends Controller
         if (empty($thread)) {
             if ($user->hasRole(Role::CREW)) {
                 return response()->json([
-                    'message' => 'You are not allowed to message the producer',
+                    'message' => 'You are not allowed to initiate a conversation with any producer.',
                 ]);
             }
 
-            $thread = $user->project()->threads()->save([
-                'subject' => $request->subject
-            ]);
-
-            ProjectThread::create([
-                'project_id' => $user->project->id,
-                'thread_id'  => $thread->id
-            ]);
-
-            //threads table
-            $thread->create([
-                'subject' => $request->subject
-            ]);
-
-            $thread->addParticipant($request->participant);
+            $thread = app(CreateThread::class)->execute($user, $request);
         }
+  
+        $message = app(CreateMessage::class)->execute($thread, $user, $request->message);
         
-        $body = $request->message;
-        
-        $message = app(CreateMessage::class)->execute($thread, $user, $body);
-        
-        return response()->json(compact('message'));
+        return response()->json([
+                'message' => compact('message')
+            ], 
+            Response::HTTP_CREATED
+        );
     }
 }
