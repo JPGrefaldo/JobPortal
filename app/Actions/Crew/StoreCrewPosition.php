@@ -25,10 +25,18 @@ class StoreCrewPosition
 
         $crewPosition = CrewPosition::byCrewAndPosition($crew, $position)->first();
 
-        $data['crew_position_id'] = $crewPosition->id;
+        if ($crewPosition->trashed()) {
+            $crewPosition->restore();
+        }
+
+        if ($crewPosition != null) {
+            $data['crew_position_id'] = $crewPosition->id;
+        } else {
+            $data['crew_position_id'] = null;
+        }
 
         $crew->gears()->updateOrCreate(
-            ['crew_position_id' => $crewPosition->id],
+            ['crew_position_id' => $data['crew_position_id'],],
             ['description' => $data['gear'],]
         );
 

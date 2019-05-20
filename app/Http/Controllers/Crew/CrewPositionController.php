@@ -96,8 +96,12 @@ class CrewPositionController extends Controller
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */
-    public function removeResume(CrewPosition $crewPosition)
+    public function removeResume(Position $position)
     {
+        $crew = auth()->user()->crew;
+
+        $crewPosition = CrewPosition::byCrewAndPosition($crew, $position)->first();
+
         return response()->json([
             'message' => $crewPosition->resume->delete() ? 'success' : 'failed',
         ]);
@@ -107,17 +111,29 @@ class CrewPositionController extends Controller
      * @param \App\Models\CrewPosition $crewPosition
      * @return string
      */
-    public function removeReel(CrewPosition $crewPosition)
+    public function removeReel(Position $position)
     {
-        return $crewPosition->reel()->delete() ? 'success' : 'failed';
+        $crew = auth()->user()->crew;
+
+        $crewPosition = CrewPosition::byCrewAndPosition($crew, $position)->first();
+
+        return response()->json([
+            'message' => $crewPosition->reel()->delete() ? 'success' : 'failed',
+        ]);
     }
 
     /**
      * @param \App\Models\CrewPosition $crewPosition
      * @return string
      */
-    public function removeGear(CrewPosition $crewPosition)
+    public function removeGear(Position $position)
     {
-        return $crewPosition->gear()->delete() ? 'success' : 'failed';
+        $crew = auth()->user()->crew;
+
+        $crewPosition = CrewPosition::byCrewAndPosition($crew, $position)->first();
+
+        return response()->json([
+            'message' => $crewPosition->gear()->delete() ? 'success' : 'failed',
+        ]);
     }
 }
