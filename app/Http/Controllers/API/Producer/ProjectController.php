@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\API\Producer;
 
-use App\Actions\Producer\Project\CreateProject;
+use App\Actions\Producer\Project\StoreProject;
 use App\Actions\Producer\Project\CreateRemoteProject;
 use App\Actions\Producer\Project\UpdateProject;
 use App\Actions\Producer\Project\UpdateRemoteProject;
@@ -39,7 +39,7 @@ class ProjectController extends Controller
         $user = auth()->user()->id;
         $site_id = $this->getHostSiteID();
 
-        $project = app(CreateProject::class)->execute($user, $site_id, $request);
+        $project = app(StoreProject::class)->execute($user, $site_id, $request);
 
         if (! isset($project->id)) {
             return response()->json(
