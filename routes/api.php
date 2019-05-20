@@ -7,8 +7,10 @@ use App\Http\Controllers\API\Crew\PositionController;
 use App\Http\Controllers\API\Crew\ProjectController as CrewProjectController;
 use App\Http\Controllers\API\Crew\SiteController;
 use App\Http\Controllers\API\ParticipantController;
+use App\Http\Controllers\API\Producer\MessageTemplateController;
 use App\Http\Controllers\API\Producer\ProjectController;
 use App\Http\Controllers\API\Producer\ProjectJobController;
+use App\Http\Controllers\API\SubmissionController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\Crew\ThreadController as CrewThreadController;
 use App\Http\Controllers\MessageController;
@@ -130,55 +132,55 @@ Route::middleware('auth:api')->group(function () {
                 ])->name('producer.project.jobs.destroy');
 
                 Route::get('/{projectJob}/submissions/all-approved', [
-                    \App\Http\Controllers\API\SubmissionController::class,
+                    SubmissionController::class,
                     'fetchByApprovedDate'
                 ])->name('fetch.submissions.by.approved');
             });
 
             Route::post('/submissions/{submission}/approve', [
-                \App\Http\Controllers\API\SubmissionController::class,
+                SubmissionController::class,
                 'approve'
             ])->name('producer.projects.approve.submissions');
 
             Route::post('swap/submissions/{submissionToReject}/{submissionToApprove}', [
-                \App\Http\Controllers\API\SubmissionController::class,
+                SubmissionController::class,
                 'swap'
             ])->name('producer.projects.swap.submissions');
             Route::post('/submissions/{submission}/reject', [
-                \App\Http\Controllers\API\SubmissionController::class,
+                SubmissionController::class,
                 'reject'
             ])->name('producer.projects.submissions.reject');
 
             Route::post('/submissions/{submission}/restore', [
-                \App\Http\Controllers\API\SubmissionController::class,
+                SubmissionController::class,
                 'restore'
             ])->name('producer.projects.submissions.restore');
 
             Route::get('/pending', [
-                \App\Http\Controllers\API\Producer\ProjectController::class,
+                Producer\ProjectController::class,
                 'pending',
             ])->name('producer.projects.pending');
 
             Route::get('/type', [
-                \App\Http\Controllers\API\Producer\ProjectTypes::class,
+                Producer\ProjectTypes::class,
                 'index',
             ])->name('producer.project.type');
         });
 
         Route::prefix('messages')->group(function () {
             Route::post('/', [
-                \App\Http\ControllersMessagesController::class,
+                MessagesController::class,
                 'store'
             ])->name('producer.send.message');
 
             Route::prefix('templates')->group(function () {
                 Route::get('/', [
-                    \App\Http\Controllers\API\Producer\MessageTemplateController::class,
+                    MessageTemplateController::class,
                     'index'
                 ])->name('producer.messages.templates');
 
                 Route::post('/', [
-                    \App\Http\Controllers\API\Producer\MessageTemplateController::class,
+                    MessageTemplateController::class,
                     'store'
                 ])->name('producer.messages.templates');
             });
