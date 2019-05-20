@@ -2,11 +2,11 @@
 
 namespace Tests\Feature\API\Producer;
 
+use App\Models\MessageTemplate;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Response;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
-use App\Models\MessageTemplate;
-use Illuminate\Http\Response;
 
 class MessageTemplateFeatureTest extends TestCase
 {
@@ -23,7 +23,7 @@ class MessageTemplateFeatureTest extends TestCase
         $user = $this->createProducer();
 
         factory(MessageTemplate::class, 5)->create([
-            'user_id' => $user->id
+            'user_id' => $user->id,
         ]);
 
         $this->actingAs($user, 'api')

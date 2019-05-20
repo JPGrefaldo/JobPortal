@@ -2,9 +2,9 @@
 
 namespace App\Actions\Producer\Project;
 
-use Illuminate\Support\Arr;
 use App\Http\Requests\Producer\CreateProjectJobRequest;
 use App\Models\ProjectJob;
+use Illuminate\Support\Arr;
 
 class StubProjectJob
 {

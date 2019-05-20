@@ -5,7 +5,21 @@ let colors = {
     'black': '#141236',
 
     'grey-dark': '#727477',
+    'grey-dark-100': '#646668',
+    'grey-dark-200': '#565759',
+    'grey-dark-300': '#47484A',
+    'grey-dark-400': '#393A3B',
+    'grey-dark-500': '#2B2B2D',
+    'grey-dark-600': '#1C1D1E',
+
+
     'grey': '#BEC5C4',
+    'grey-100': '#A6ACAC',
+    'grey-200': '#8F9493',
+    'grey-300': '#777B7B',
+    'grey-400': '#474A4A',
+    'grey-500': '#303131',
+
     'grey-light': '#f0f0f0',
     'grey-lighter': '#F8F9F9',
     'grey-lightest': '#FCFDFD',

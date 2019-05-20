@@ -114,7 +114,7 @@
                 </div>
             </div>
             <div class="py-4">
-                <h4 class='text-grey'>WORK POSITIONS</h4>
+                <h4 class="card-title">WORK POSITIONS</h4>
             </div>
             @foreach($crewPositions as $crewPosition)
                 @if($user->crew->hasPosition($crewPositions[0]))
@@ -128,7 +128,7 @@
                         </div>
                         <div class="md:flex">
                             <div class="md:w-1/4 pr-8 mb-2 md:mb-0">
-                                <h3 class="text-md text-grey font-header">Position bio</h3>
+                                <h3 class="section-title">Position bio</h3>
                             </div>
                             <div class="md:w-3/4">
                                 <div class="bg-grey-lighter p-6 rounded mb-8">
@@ -156,7 +156,7 @@
                         <div class="border-t-2 border-grey-lighter mt-4 pt-6 pb-4">
                             <div class="md:flex">
                                 <div class="md:w-1/4 md:pr-8 mb-2 md:mb-0">
-                                    <h3 class="text-md text-grey font-header">Gear</h3>
+                                    <h3 class="section-title">Gear</h3>
                                 </div>
                                 <div class="md:w-3/4">
                                     <div class="bg-grey-lighter p-6 rounded">

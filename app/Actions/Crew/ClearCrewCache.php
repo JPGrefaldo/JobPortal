@@ -2,7 +2,6 @@
 
 namespace App\Actions\Crew;
 
-
 use App\Models\Crew;
 
 class ClearCrewCache
@@ -12,6 +11,5 @@ class ClearCrewCache
      */
     public function execute(Crew $crew): void
     {
-
     }
 }

@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use Cmgmyr\Messenger\Models\Thread;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -108,7 +107,7 @@ class Project extends Model
             [
                 'approved_at'   => null,
                 'unapproved_at' => Carbon::now(),
-                'status'        => static::UNAPPROVED
+                'status'        => static::UNAPPROVED,
             ]
         );
     }
@@ -135,5 +134,4 @@ class Project extends Model
     {
         return $this->where('status', 1)->get();
     }
-
 }

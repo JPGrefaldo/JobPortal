@@ -22,7 +22,7 @@ class ProjectJobSubmissionController extends Controller
                 'message'    => 'Sucessfully fetched job\'s submissions',
                 'projectJob' => ProjectJob::find($request->job)
                     ->with('submissions')
-                    ->get()
+                    ->get(),
             ],
             Response::HTTP_OK
         );
@@ -41,7 +41,7 @@ class ProjectJobSubmissionController extends Controller
                 'message'    => 'Submission successfully added',
                 'projectJob' => ProjectJob::find($data->project_job_id)
                     ->with('submissions')
-                    ->get()
+                    ->get(),
             ],
             Response::HTTP_CREATED
         );

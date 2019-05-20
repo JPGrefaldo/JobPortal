@@ -2,9 +2,9 @@
 
 namespace App\Services;
 
+use App\Models\Position;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use App\Models\Position;
 
 class PositionsServices
 {

@@ -25,3 +25,15 @@ h4,
 .h4 {
     @apply .uppercase .text-sm .font-bold .tracking-wide .font-header;
 }
+
+h3.section-title {
+    @apply .text-md .text-grey-200 .font-semibold;
+}
+
+h3.position-title {
+    @apply .text-md .text-grey-200 .font-semibold;
+}
+
+h4.card-title {
+    @apply .text-md .text-grey-100 .font-semibold;
+}
