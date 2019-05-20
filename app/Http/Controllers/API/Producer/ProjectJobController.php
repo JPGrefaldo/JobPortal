@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\API\Producer;
 
-use App\Actions\Producer\Project\CreateProjectJob;
+use App\Actions\Producer\Project\StoreProjectJob;
 use App\Actions\Producer\Project\UpdateProjectJob;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Producer\CreateProjectJobRequest;
@@ -24,7 +24,7 @@ class ProjectJobController extends Controller
 
     public function store(CreateProjectJobRequest $request)
     {
-        $job = app(CreateProjectJob::class)->execute($request);
+        $job = app(StoreProjectJob::class)->execute($request);
 
         return response()->json(
             [

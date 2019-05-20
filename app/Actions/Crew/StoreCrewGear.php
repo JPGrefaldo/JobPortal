@@ -4,7 +4,6 @@ namespace App\Actions\Crew;
 
 use App\Models\Crew;
 use Illuminate\Support\Facades\Storage;
-use App\Models\CrewPosition;
 
 class StoreCrewGear
 {

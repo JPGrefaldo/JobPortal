@@ -21,8 +21,10 @@ class SiteFeatureTest extends TestCase
         $admin = $this->createAdmin();
         $sites = Site::all();
 
-        $response = $this->actingAs($admin)->getJson(route('admin.sites'));
+        $response = $this->actingAs($admin, 'api')->getJson(route('sites.index'));
 
-        $response->assertJson($sites->toArray());
+        $response->assertJsonFragment([
+            'sites' => $sites->toArray()
+        ]);
     }
 }
