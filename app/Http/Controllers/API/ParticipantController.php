@@ -24,7 +24,7 @@ class ParticipantController extends Controller
                 'message' => 'Keyword should only be a string',
             ]);
         }
-    
+
         $result = app(SearchParticipants::class)->execute($thread, $keyword);
 
         if (count($result) == 0) {

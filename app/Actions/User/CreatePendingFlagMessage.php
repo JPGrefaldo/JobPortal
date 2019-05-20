@@ -4,9 +4,9 @@ namespace App\Actions\User;
 
 use App\Mail\PendingMessageFlagged;
 use App\Models\PendingFlagMessage;
+use Carbon\Carbon;
 use Cmgmyr\Messenger\Models\Message;
 use Illuminate\Support\Facades\Mail;
-use Carbon\Carbon;
 
 class CreatePendingFlagMessage
 {
@@ -18,7 +18,7 @@ class CreatePendingFlagMessage
         $message = Message::find($data['message_id']);
 
         $message->update([
-            'flagged_at' => Carbon::now()
+            'flagged_at' => Carbon::now(),
         ]);
 
         PendingFlagMessage::create([

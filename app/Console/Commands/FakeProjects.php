@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-
 use App\Models\PayType;
 use App\Models\Position;
 use App\Models\Project;

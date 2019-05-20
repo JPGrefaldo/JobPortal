@@ -12,6 +12,7 @@ class StoreCrewPosition
      * @param \App\Models\Crew $crew
      * @param \App\Models\Position $position
      * @param array $data
+     * @throws \Exception
      */
     public function execute(Crew $crew, Position $position, array $data): void
     {
@@ -24,15 +25,15 @@ class StoreCrewPosition
 
         $crewPosition = CrewPosition::byCrewAndPosition($crew, $position)->first();
 
-        $crew->gears()->create([
-            'description'      => $data['gear'],
-            'crew_position_id' => $crewPosition->id,
-        ]);
+        $data['crew_position_id'] = $crewPosition->id;
 
-        $data['crew_position_id'] =  $crewPosition->id;
+        $crew->gears()->updateOrCreate(
+            ['crew_position_id' => $crewPosition->id],
+            ['description' => $data['gear'],]
+        );
 
+        app(StoreCrewGear::class)->execute($crew, $data);
         app(StoreCrewResume::class)->execute($crew, $data);
-
         app(StoreCrewReel::class)->execute($crew, $data);
     }
 }

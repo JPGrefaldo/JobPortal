@@ -5,9 +5,9 @@ namespace Tests\Feature\Crew;
 use App\Models\Position;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
-use Illuminate\Support\Facades\Storage;
 
 class StoreCrewPositionFeatureTest extends TestCase
 {

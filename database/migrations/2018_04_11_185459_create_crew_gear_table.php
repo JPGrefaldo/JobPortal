@@ -17,6 +17,8 @@ class CreateCrewGearTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('crew_id');
             $table->text('description');
+            $table->string('path')
+                ->nullable();
             $table->unsignedInteger('crew_position_id')
                 ->nullable()
                 ->default(null);

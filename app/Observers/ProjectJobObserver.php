@@ -2,8 +2,8 @@
 
 namespace App\Observers;
 
-use App\Models\ProjectJob;
 use App\Actions\Mail\SendRushCallEmail;
+use App\Models\ProjectJob;
 
 class ProjectJobObserver
 {

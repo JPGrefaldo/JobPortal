@@ -46,10 +46,11 @@ class CrewDepartmentPositionFeatureTest extends TestCase
             'union_description' => $data['union_description'],
         ]);
 
+        // Somehow this part isn't working
         $this->assertDatabaseHas('crew_gears', [
             'crew_id'     => $crew->id,
             'description' => $data['gear'],
-        ]);
+        ]); 
 
         $this->assertDatabaseHas('crew_reels', [
             'crew_id' => $crew->id,
@@ -79,7 +80,7 @@ class CrewDepartmentPositionFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($crew)
-           ->postJson(route('crew-position.store', $position), $data);
+            ->postJson(route('crew-position.store', $position), $data);
 
         $response->assertJsonValidationErrors('resume');
 

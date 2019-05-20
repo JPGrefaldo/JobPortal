@@ -76,14 +76,14 @@ class SubmissionFeatureTest extends TestCase
             'crew_id'         => $crew->id,
             'project_id'      => $project->id,
             'project_job_id'  => $projectJob->id,
-            'approved_at'     => Carbon::now()
+            'approved_at'     => Carbon::now(),
         ]);
 
         factory(Submission::class)->create([
             'crew_id'         => $crew2->id,
             'project_id'      => $project->id,
             'project_job_id'  => $projectJob->id,
-            'approved_at'     => Carbon::now()
+            'approved_at'     => Carbon::now(),
         ]);
 
         $response = $this->actingAs($producer, 'api')
@@ -182,12 +182,12 @@ class SubmissionFeatureTest extends TestCase
         $projectJob = $this->createSubmission($producer);
 
         $this->actingAs($producer, 'api')
-        ->postJson(route(
+            ->postJson(route(
             'producer.projects.submissions.reject',
             ['job' => $projectJob]
         ))
-        ->assertSee('Submission is successfully rejected')
-        ->assertStatus(Response::HTTP_OK);
+            ->assertSee('Submission is successfully rejected')
+            ->assertStatus(Response::HTTP_OK);
 
         $this->actingAs($producer, 'api')
             ->postJson(route(
@@ -221,7 +221,7 @@ class SubmissionFeatureTest extends TestCase
             'crew_id'         => $crew->id,
             'project_id'      => $project->id,
             'project_job_id'  => $projectJob->id,
-            'approved_at'     => Carbon::now()
+            'approved_at'     => Carbon::now(),
         ]);
 
         $crew2 = $this->createCrew();
@@ -230,24 +230,24 @@ class SubmissionFeatureTest extends TestCase
             'crew_id'         => $crew2->id,
             'project_id'      => $project->id,
             'project_job_id'  => $projectJob->id,
-            'rejected_at'     => Carbon::now()
+            'rejected_at'     => Carbon::now(),
         ]);
 
         $data = [
             'submissionToReject'    => $submissionToReject->id,
-            'submissionToApprove'   => $submissionToApprove->id
+            'submissionToApprove'   => $submissionToApprove->id,
         ];
 
         $this->assertNotEquals(null, $submissionToReject->approved_at);
         $this->assertNotEquals(null, $submissionToApprove->rejected_at);
 
         $this->actingAs($producer, 'api')
-        ->postJson(route(
+            ->postJson(route(
             'producer.projects.swap.submissions',
             $data
         ))
-        ->assertSee('Submission successfully swapped.')
-        ->assertStatus(Response::HTTP_OK);
+            ->assertSee('Submission successfully swapped.')
+            ->assertStatus(Response::HTTP_OK);
 
         $this->assertEquals(null, $submissionToReject->fresh()->approved_at);
         $this->assertEquals(null, $submissionToApprove->fresh()->rejected_at);
