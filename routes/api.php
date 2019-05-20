@@ -198,15 +198,13 @@ Route::middleware('auth:api')->group(function () {
         'index',
     ])->middleware('role:Admin')->name('admin.messages.flagged');
 
-    Route::prefix('submissions')->group(function () {
-        Route::get('/{job}', [
-            ProjectJobSubmissionController::class,
-            'index',
-        ])->middleware('role:Admin')->name('admin.project.job.submissions.index');
+    Route::get('submissions/{job}', [
+        ProjectJobSubmissionController::class,
+        'index',
+    ])->middleware('role:Admin')->name('admin.project.job.submissions.index');
 
-        Route::post('/{job}', [
-            ProjectJobSubmissionController::class,
-            'store',
-        ])->middleware('role:Crew')->name('project.job.submissions.store');
-    });
+    Route::post('submissions/{job}', [
+        ProjectJobSubmissionController::class,
+        'store',
+    ])->middleware('role:Crew')->name('project.job.submissions.store');
 });
