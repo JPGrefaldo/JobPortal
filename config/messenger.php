@@ -4,7 +4,7 @@ return [
 
     // 'user_model' => App\Models\User::class,
 
-    'message_model' => Cmgmyr\Messenger\Models\Message::class,
+    'message_model' => App\Models\Message::class,
 
     'participant_model' => Cmgmyr\Messenger\Models\Participant::class,
 
