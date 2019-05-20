@@ -2,18 +2,17 @@
 
 namespace Tests\Feature\Crew;
 
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\Models\Position;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 use Tests\Support\SeedDatabaseAfterRefresh;
-use Illuminate\Support\Arr;
-use Illuminate\Http\UploadedFile;
-use App\Models\Position;
+use Tests\TestCase;
 
 class CrewPositionFeatureTest extends TestCase
 {
-    use RefreshDatabase, SeedDatabaseAfterRefresh, WithFaker;
+    use RefreshDatabase, SeedDatabaseAfterRefresh;
 
     public function setUp(): void
     {
@@ -30,9 +29,10 @@ class CrewPositionFeatureTest extends TestCase
     public function store()
     {
         $data = $this->getStoreData();
+        $position = factory(Position::class)->create();
 
         $this->actingAs($this->user)
-            ->post(route('crew-position.store', 1), $data)
+            ->post(route('crew-position.store', $position), $data)
             ->assertSuccessful();
     }
 
@@ -41,6 +41,7 @@ class CrewPositionFeatureTest extends TestCase
      */
     public function crew_position_bio_is_required()
     {
+        $position = factory(Position::class)->create();
         $data1 = $this->getStoreData([
             'bio' => '',
         ]);
@@ -50,11 +51,11 @@ class CrewPositionFeatureTest extends TestCase
         ]);
 
         $this->actingAs($this->user)
-            ->post(route('crew-position.store', 1), $data1)
+            ->post(route('crew-position.store', $position), $data1)
             ->assertSessionHasErrors('bio');
 
         $this->actingAs($this->user)
-            ->post(route('crew-position.store', 1), $data2)
+            ->post(route('crew-position.store', $position), $data2)
             ->assertSessionHasErrors('bio');
     }
 
@@ -63,6 +64,7 @@ class CrewPositionFeatureTest extends TestCase
      */
     public function crew_position_resume_is_valid_and_required()
     {
+        $position = factory(Position::class)->create();
         $data1 = $this->getStoreData([
             'resume' => null,
         ]);
@@ -72,11 +74,11 @@ class CrewPositionFeatureTest extends TestCase
         ]);
 
         $this->actingAs($this->user)
-            ->post(route('crew-position.store', 1), $data1)
+            ->post(route('crew-position.store', $position), $data1)
             ->assertSessionHasErrors('resume');
 
         $this->actingAs($this->user)
-            ->post(route('crew-position.store', 1), $data2)
+            ->post(route('crew-position.store', $position), $data2)
             ->assertSessionHasErrors('resume');
     }
 
@@ -85,12 +87,13 @@ class CrewPositionFeatureTest extends TestCase
      */
     public function crew_position_reel_link_is_valid()
     {
+        $position = factory(Position::class)->create();
         $data = $this->getStoreData([
             'reel_link' => 'https://www.inavlid.com/invalid-link',
         ]);
 
         $this->actingAs($this->user)
-            ->post(route('crew-position.store', 1), $data)
+            ->post(route('crew-position.store', $position), $data)
             ->assertSessionHasErrors('reel_link');
     }
 
@@ -99,12 +102,13 @@ class CrewPositionFeatureTest extends TestCase
      */
     public function crew_position_gear_photo_must_be_an_image()
     {
+        $position = factory(Position::class)->create();
         $data = $this->getStoreData([
             'gear_photos' => UploadedFile::fake()->create('file.pdf'),
         ]);
 
         $this->actingAs($this->user)
-            ->post(route('crew-position.store', 1), $data)
+            ->post(route('crew-position.store', $position), $data)
             ->assertSessionHasErrors('gear_photos');
     }
 
@@ -122,7 +126,7 @@ class CrewPositionFeatureTest extends TestCase
         ]);
 
         $this->actingAs($this->user)
-            ->post(route('crew-position.store', $position->id), $data)
+            ->post(route('crew-position.store', $position), $data)
             ->assertSessionHasErrors('union_description');
     }
 
@@ -140,7 +144,7 @@ class CrewPositionFeatureTest extends TestCase
         ]);
 
         $this->actingAs($this->user)
-            ->post(route('crew-position.store', $position->id), $data)
+            ->post(route('crew-position.store', $position), $data)
             ->assertSessionHasErrors('gear');
     }
 
@@ -211,11 +215,8 @@ class CrewPositionFeatureTest extends TestCase
     }
 
     public function getStoreData($customData = [])
-    { 
-        $position = factory(Position::class)->create();
-
+    {
         $data = [
-            'position_id'       => $position->id,
             'resume'            => UploadedFile::fake()->create('resume.pdf'),
             'bio'               => 'This is the bio',
             'gear'              => 'This is the gear',
@@ -226,12 +227,12 @@ class CrewPositionFeatureTest extends TestCase
         return $this->customizeData($data, $customData);
     }
 
-     /**
-     * @param $data
-     * @param $customData
-     *
-     * @return mixed
-     */
+    /**
+    * @param $data
+    * @param $customData
+    *
+    * @return mixed
+    */
     protected function customizeData($data, $customData)
     {
         foreach ($customData as $key => $value) {
