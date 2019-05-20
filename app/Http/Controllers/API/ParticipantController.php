@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Actions\Messenger\SearchParticipants;
 use App\Http\Controllers\Controller;
-use Cmgmyr\Messenger\Models\Thread;
+use App\Models\Thread;
 use Illuminate\Http\Request;
 
 class ParticipantController extends Controller

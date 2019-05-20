@@ -4,7 +4,7 @@ namespace App\Actions\Messenger;
 
 use App\Models\Thread;
 use App\Models\User;
-use Cmgmyr\Messenger\Models\Message;
+use App\Models\Message;
 
 class CreateMessage
 {
