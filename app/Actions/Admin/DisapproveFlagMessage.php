@@ -4,7 +4,6 @@ namespace App\Actions\Admin;
 
 use App\Models\PendingFlagMessage;
 use Illuminate\Support\Carbon;
-use App\Models\Message;
 
 class DisapproveFlagMessage
 {

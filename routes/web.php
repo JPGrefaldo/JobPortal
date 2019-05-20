@@ -165,9 +165,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/users/{user}/crew/profile', [CrewProfileController::class, 'show'])->name('crew.profile.show');
 });
 
-Route::prefix('theme')->group(function () {
-    Route::view('/', 'theme.index');
-});
+Route::view('/theme', 'theme.index');
 
 Route::get('test', function () {
     Log::info('asd');

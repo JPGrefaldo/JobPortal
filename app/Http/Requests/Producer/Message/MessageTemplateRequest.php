@@ -24,7 +24,7 @@ class MessageTemplateRequest extends FormRequest
     public function rules()
     {
         return [
-            'message' => 'required|string|min:6'
+            'message' => 'required|string|min:6',
         ];
     }
 }

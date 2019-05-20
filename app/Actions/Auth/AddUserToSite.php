@@ -11,7 +11,7 @@ class AddUserToSite
     /**
      * @param User $user
      * @param Site $site
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return \App\Models\UserSite
      */
     public function execute(User $user, Site $site)
     {

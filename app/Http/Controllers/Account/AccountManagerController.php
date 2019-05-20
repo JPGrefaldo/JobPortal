@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Account;
 
-use App\Actions\Manager\CreateManager;
+use App\Actions\Manager\StoreManager;
 use App\Actions\Manager\DeleteManager;
 use App\Actions\Manager\UpdateManager;
 use App\Actions\User\IsUserRegistered;
@@ -63,7 +63,7 @@ class AccountManagerController extends Controller
             return back();
         }
 
-        app(CreateManager::class)->execute($manager->id, $user->id);
+        app(StoreManager::class)->execute($manager->id, $user->id);
 
         return back();
     }

@@ -69,12 +69,12 @@ class FakeSubmissions extends Command
             }
         }
 
-        $projectJobs = $options['multiple'] 
-                     ? $this->createProjectJob($project, 3) 
+        $projectJobs = $options['multiple']
+                     ? $this->createProjectJob($project, 3)
                      : $this->createProjectJob($project);
 
         $users->map(function ($user) use ($options, $project, $projectJobs) {
-            $projectJobs->map(function($job) use($user, $project){
+            $projectJobs->map(function ($job) use ($user, $project) {
                 $this->createSubmission($user, $project, $job);
             });
         });

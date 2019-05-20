@@ -2,8 +2,6 @@
 
 namespace Tests\Unit\Models;
 
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Arr;
 use App\Models\Crew;
 use App\Models\CrewGear;
 use App\Models\CrewPosition;
@@ -14,6 +12,8 @@ use App\Models\Position;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Arr;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 

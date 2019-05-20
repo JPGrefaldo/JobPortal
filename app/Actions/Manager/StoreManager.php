@@ -4,7 +4,7 @@ namespace App\Actions\Manager;
 
 use App\Models\Manager;
 
-class CreateManager
+class StoreManager
 {
     /**
      * @param string $managerId

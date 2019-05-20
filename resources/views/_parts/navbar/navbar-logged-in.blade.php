@@ -110,7 +110,7 @@
                   style="background-image: url(images/thumb.jpg)"
                 @endif
             ></span>
-            <span class="ml-2 inline-block font-semibold text-white text-sm">{{ auth()->user()->full_name }}</span>
+            <span class="ml-2 inline-block font-semibold text-white text-sm">{{ auth()->user()->name }}</span>
         </div>
         <ul class="text-left text-sm">
             @if(! Route::is('crew.profile.index'))

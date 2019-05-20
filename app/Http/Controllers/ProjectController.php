@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Crew;
+use App\Models\Project;
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Models\Project;
 
 class ProjectController extends Controller
 {

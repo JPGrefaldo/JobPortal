@@ -5,10 +5,13 @@ use App\Http\Controllers\API\Admin\ProjectJobSubmissionController;
 use App\Http\Controllers\API\Crew\DepartmentController;
 use App\Http\Controllers\API\Crew\PositionController;
 use App\Http\Controllers\API\Crew\ProjectController as CrewProjectController;
-use App\Http\Controllers\API\Crew\SiteController;
+use App\Http\Controllers\API\SiteController;
 use App\Http\Controllers\API\ParticipantController;
+use App\Http\Controllers\API\Producer\MessageTemplateController;
 use App\Http\Controllers\API\Producer\ProjectController;
 use App\Http\Controllers\API\Producer\ProjectJobController;
+use App\Http\Controllers\API\Producer\ProjectTypes;
+use App\Http\Controllers\API\SubmissionController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\Crew\ThreadController as CrewThreadController;
 use App\Http\Controllers\MessageController;
@@ -50,10 +53,10 @@ Route::middleware('auth:api')->group(function () {
         'index',
     ])->name('crew.positions.index');
 
-    Route::get('/crew/sites', [
+    Route::get('/sites', [
         SiteController::class,
         'index',
-    ])->name('crew.sites.index');
+    ])->name('sites.index');
 
 
     Route::get('/threads/{thread}/messages', [
@@ -80,7 +83,7 @@ Route::middleware('auth:api')->group(function () {
         Route::prefix('projects')->group(function () {
             Route::get('submissions/{job}', [
                 ProjectJobSubmissionController::class,
-                'index'
+                'index',
             ])->name('project.job.submissions.index');
 
             Route::get('/', [
@@ -130,37 +133,37 @@ Route::middleware('auth:api')->group(function () {
                 ])->name('producer.project.jobs.destroy');
 
                 Route::get('/{projectJob}/submissions/all-approved', [
-                    \App\Http\Controllers\API\SubmissionController::class,
-                    'fetchByApprovedDate'
+                    SubmissionController::class,
+                    'fetchByApprovedDate',
                 ])->name('fetch.submissions.by.approved');
             });
 
             Route::post('/submissions/{submission}/approve', [
-                \App\Http\Controllers\API\SubmissionController::class,
-                'approve'
+                SubmissionController::class,
+                'approve',
             ])->name('producer.projects.approve.submissions');
 
             Route::post('swap/submissions/{submissionToReject}/{submissionToApprove}', [
-                \App\Http\Controllers\API\SubmissionController::class,
-                'swap'
+                SubmissionController::class,
+                'swap',
             ])->name('producer.projects.swap.submissions');
             Route::post('/submissions/{submission}/reject', [
-                \App\Http\Controllers\API\SubmissionController::class,
-                'reject'
+                SubmissionController::class,
+                'reject',
             ])->name('producer.projects.submissions.reject');
 
             Route::post('/submissions/{submission}/restore', [
-                \App\Http\Controllers\API\SubmissionController::class,
-                'restore'
+                SubmissionController::class,
+                'restore',
             ])->name('producer.projects.submissions.restore');
 
             Route::get('/pending', [
-                \App\Http\Controllers\API\Producer\ProjectController::class,
+                ProjectController::class,
                 'pending',
             ])->name('producer.projects.pending');
 
             Route::get('/type', [
-                \App\Http\Controllers\API\Producer\ProjectTypes::class,
+                ProjectTypes::class,
                 'index',
             ])->name('producer.project.type');
         });
@@ -168,13 +171,13 @@ Route::middleware('auth:api')->group(function () {
         Route::prefix('messages')->group(function () {
             Route::prefix('templates')->group(function () {
                 Route::get('/', [
-                    \App\Http\Controllers\API\Producer\MessageTemplateController::class,
-                    'index'
+                    MessageTemplateController::class,
+                    'index',
                 ])->name('producer.messages.templates');
 
                 Route::post('/', [
-                    \App\Http\Controllers\API\Producer\MessageTemplateController::class,
-                    'store'
+                    MessageTemplateController::class,
+                    'store',
                 ])->name('producer.messages.templates');
             });
         });
@@ -192,18 +195,18 @@ Route::middleware('auth:api')->group(function () {
 
     Route::get('/admin/flag-messages', [
         FlaggedMessageController::class,
-        'index'
+        'index',
     ])->middleware('role:Admin')->name('admin.messages.flagged');
 
     Route::prefix('submissions')->group(function () {
         Route::get('/{job}', [
             ProjectJobSubmissionController::class,
-            'index'
+            'index',
         ])->middleware('role:Admin')->name('admin.project.job.submissions.index');
 
         Route::post('/{job}', [
             ProjectJobSubmissionController::class,
-            'store'
+            'store',
         ])->middleware('role:Crew')->name('project.job.submissions.store');
     });
 });

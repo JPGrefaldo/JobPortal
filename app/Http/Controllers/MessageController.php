@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\Messenger\CreateMessage;
+use App\Actions\Messenger\StoreMessage;
 use App\Http\Resources\MessageResource;
 use App\Models\Role;
 use Cmgmyr\Messenger\Models\Thread;
@@ -47,7 +47,7 @@ class MessageController extends Controller
         $thread = Thread::findOrFail($request->thread);
         $body = $request->message;
         
-        $message = app(CreateMessage::class)->execute($thread->id, $sender->id, $body);
+        $message = app(StoreMessage::class)->execute($thread->id, $sender->id, $body);
         
         return response()->json(compact('message'));
     }

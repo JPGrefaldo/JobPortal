@@ -4,7 +4,7 @@ namespace App\Actions\Messenger;
 
 use Cmgmyr\Messenger\Models\Message;
 
-class CreateMessage
+class StoreMessage
 {
     /**
      * @param $thread_id

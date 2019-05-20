@@ -21,6 +21,4 @@ class CrewPositionEndorsementScore extends Model
         'crew_position_id'  => 'integer',
         'score'             => 'integer',
     ];
-
-
 }
