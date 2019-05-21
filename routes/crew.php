@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SubmissionController;
 use App\Http\Controllers\Crew\CrewPositionController;
 use App\Http\Controllers\Crew\CrewProfileController;
 use App\Http\Controllers\Crew\Endorsements\EndorsementEndorsedController;
@@ -22,20 +23,19 @@ Route::get('crew/endorsement/positions/endorsed/{position}', [EndorsementEndorse
 
 Route::delete('crew/endorsement/positions/request/{endorsementRequest}', [EndorsementRequestController::class, 'destroy'])
     ->name('crew.endorsement.request.destroy');
-  
+
 Route::get('crew/projects/job/{projectJob}', [ProjectJobController::class, 'show'])
       ->name('crew.project.job');
 Route::get('crew/projects/job/{projectJob}', [ProjectJobController::class, 'show'])
     ->name('crew.project.job');
-Route::get('crew/projects/submitted/job/{projectJob}', [ProjectJobsController::class, 'checkSubmission'])
-    ->name('crew.job.check-submission');
-Route::post('crew/projects/job/{job}/apply', [CrewPositionController::class, 'applyJob'])
-    ->name('crew.job.apply');
+Route::get('crew/projects/submitted/jobs/{job}', [ProjectJobController::class, 'checkSubmission'])
+    ->name('crew.jobs.show');
+Route::post('crew/jobs/{job}/apply', [SubmissionController::class, 'applyJob'])
+    ->name('crew.jobs.store');
 
 // TODO: defer to common route for both crew and admin
 Route::post('/crew/messages', [MessageController::class, 'store'])
     ->name('crew.messages.store');
-
 
 Route::get('/crew/profile', [CrewProfileController::class, 'index'])
     ->name('crew.profile.index');

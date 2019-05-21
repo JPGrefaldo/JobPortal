@@ -30,7 +30,7 @@ export default {
     methods: {
       checkSubmission: function(){
         axios
-          .get(`crew/projects/submitted/job/${this.job.id}`)
+          .get(`crew/projects/submitted/jobs/${this.job.id}`)
           .then(({data}) => {
               if(data){
                   this.applied = true
@@ -40,7 +40,7 @@ export default {
 
       applyJob: function(jobId){
         axios
-          .post(`/crew/job/${jobId}/apply`)
+          .post(`/crew/jobs/${jobId}/apply`)
           .then(({data}) => {
               if(data.message == 'success'){
                   this.applied = true
@@ -50,7 +50,7 @@ export default {
               this.displayError("Please sign-in")
             }
 
-            if(error.response.status == 403){
+            if(error.response.status == 400){
                 this.displayError("Please upload a general resume")
             }
          })

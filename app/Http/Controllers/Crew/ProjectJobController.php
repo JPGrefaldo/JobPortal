@@ -13,13 +13,13 @@ class ProjectJobController extends Controller
         return $projectJob;
     }
 
-    public function checkSubmission(ProjectJob $projectJob)
+    public function checkSubmission(ProjectJob $job)
     {
         $crew = auth()->user()->crew;
 
         return $crew->submissions->firstOrFail([
-            'project_id'     => $projectJob->project_id,
-            'project_job_id' => $projectJob->id,
+            'project_id'     => $job->project_id,
+            'project_job_id' => $job->id,
         ]);
     }
 }

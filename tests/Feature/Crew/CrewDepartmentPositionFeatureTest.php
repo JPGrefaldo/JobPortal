@@ -63,7 +63,7 @@ class CrewDepartmentPositionFeatureTest extends TestCase
      * @test
      * @covers \App\Http\Controllers\Crew\CrewPositionController::applJob
     */
-    public function cannot_apply_job_without_general_resume()
+    public function cannot_apply_to_job_without_general_resume()
     {
         // $this->withoutExceptionHandling();
 
@@ -71,9 +71,9 @@ class CrewDepartmentPositionFeatureTest extends TestCase
         $job      = factory(ProjectJob::class)->create();
 
         $response = $this->actingAs($crew)
-           ->postJson(route('crew.job.apply', $job->id));
+           ->postJson(route('crew.jobs.store', $job->id));
 
-        $response->assertStatus(403)
+        $response->assertStatus(400)
             ->assertSee('Please upload General Resume');
 
         $this->assertDatabaseMissing('submissions', [
@@ -85,7 +85,7 @@ class CrewDepartmentPositionFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Crew\CrewPositionController::applJob
+     * @covers \App\Http\Controllers\Crew\CrewPositionController::applyJob
     */
     public function applyJob()
     {
@@ -97,7 +97,7 @@ class CrewDepartmentPositionFeatureTest extends TestCase
         factory(CrewResume::class)->create(['crew_id' => $crew->id]);
 
         $response = $this->actingAs($crew)
-            ->postJson(route('crew.job.apply', $job->id));
+            ->postJson(route('crew.jobs.store', $job->id));
 
         $response->assertStatus(200)
             ->assertJson([

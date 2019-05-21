@@ -117,24 +117,4 @@ class CrewPositionController extends Controller
     {
         return $crewPosition->gear()->delete() ? 'success' : 'failed';
     }
-
-    public function applyJob(ProjectJob $job)
-    {
-        $crew = auth()->user()->crew;
-
-        abort_unless($crew->hasGeneralResume(), 403, 'Please upload General Resume');
-
-        $submission = $crew->submissions()->firstOrCreate([
-            'project_id'     => $job->project_id,
-            'project_job_id' => $job->id,
-        ], [
-            'project_id'     => $job->project_id,
-            'project_job_id' => $job->id,
-        ]);
-
-        return response()->json([
-            'submission'     => $submission,
-            'message'        => 'success',
-        ]);
-    }
 }
