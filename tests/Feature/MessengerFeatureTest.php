@@ -7,6 +7,8 @@ use App\Models\Thread;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
+use App\Models\Project;
+use Carbon\Carbon;
 
 class MessengerFeatureTest extends TestCase
 {
@@ -14,104 +16,159 @@ class MessengerFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers App\Http\Controllers\MessageController::store
+     * @covers App\Http\Controllers\API\MessageController::store
+     */
+    public function can_store_a_message()
+    {
+        $this->withoutExceptionHandling();
+
+        $producer  = $this->createProducer();
+        $recepient = $this->createCrew();
+
+        $project = factory(Project::class)->create([
+            'user_id' => $producer->id
+        ]);
+
+        $data = [
+            'subject'   => 'Some subject',
+            'message'   => 'Some message',
+            'recepients'=>  [$recepient->id]
+        ];
+
+        $response = $this->actingAs($producer, 'api')
+            ->postJson(
+                route(
+                    'messenger.project.messages.store', 
+                    ['project' => $project->id]
+                ), 
+                $data
+            );
+
+        $response->assertJsonFragment(['body'    => 'Some message']);
+        $response->assertJsonFragment(['subject' => 'Some subject']);
+    }
+
+    /**
+     * @test
+     * @covers App\Http\Controllers\API\MessageController::update
+     */
+    public function can_reply_a_message()
+    {
+        $this->withoutExceptionHandling();
+
+        $producer   = $this->createProducer();
+        $recepient  = $this->createCrew();
+
+        $project    = factory(Project::class)->create([
+            'user_id' => $producer->id
+        ]);
+
+        $data = [
+            'subject'   => 'Some subject',
+            'message'   => 'Some message',
+            'recepients'=>  [$recepient->id]
+        ];
+
+        $this->actingAs($producer, 'api')
+            ->postJson(
+                route(
+                    'messenger.project.messages.store', 
+                    ['project' => $project->id]
+                ), 
+                $data
+            );
+
+        $thread = Thread::find(1);
+
+        $data = [
+            'message'   => 'Some Reply message',
+            'recepients'=>  [$producer->id]
+        ];
+
+        $response = $this->actingAs($producer, 'api')
+            ->putJson(
+                route(
+                    'messenger.threads.messages.update', 
+                    ['thread' => $thread->id]
+                ), 
+                $data
+            );
+
+        $response->assertJsonFragment([
+            'thread_id' => $thread->id,
+            'user_id'   => $producer->id,
+            'body'      => 'Some Reply message',
+        ]);
+    }
+
+    /**
+     * @test
+     * @covers App\Http\Controllers\API\MessageController::store
      */
     public function admin_is_not_allowed_to_participate_in_the_threads()
     {
-        $admin = $this->createAdmin();
-
-        $thread = factory(Thread::class)->create([
+        $data    = [];
+        $admin   = $this->createAdmin();
+        $project = factory(Project::class)->create();
+        $thread  = $project->threads()->create([
             'subject' => 'Thread Test Subject',
         ]);
 
-        $thread->addParticipant(
-            [
-                'user_id' => $admin->id,
-            ]
-        );
+        $response = $this->actingAs($admin, 'api')
+            ->postJson(
+                route(
+                    'messenger.project.messages.store', 
+                    ['project' => $project->id]
+                ), 
+                $data
+            );
+        
+        $response->assertJson([
+            'message' => 'User does not have the right roles.',
+        ]);
 
-        $this->assertTrue($admin->hasRole(Role::ADMIN));
-
-        $this->actingAs($admin, 'api')
-            ->get(route(
-                'messages.index',
-                [
-                    'thread' => $thread->id,
-                ]
-            ));
-
-        $response = $this->actingAs($admin)
-            ->postJson(route('messages.store', [
-                'thread'  => $thread->id,
-                'sender'  => $admin->id,
-                'message' => 'Test Message',
-            ]));
+        $response = $this->actingAs($admin, 'api')
+            ->putJson(
+                route(
+                    'messenger.threads.messages.update', 
+                    ['thread' => $thread->id]
+                ), 
+                $data
+            );
 
         $response->assertJson([
             'message' => 'User does not have the right roles.',
         ]);
+
+        $this->assertTrue($admin->hasRole(Role::ADMIN));
     }
 
     /**
      * @test
-     * @covers App\Http\Controllers\MessageController::store
+     * @covers App\Http\Controllers\API\MessageController::store
      */
     public function crew_are_not_allowed_to_initiate_a_message_with_the_producer()
     {
-        $crew = $this->createCrew();
-
+        $crew    = $this->createCrew();
+        $project = factory(Project::class)->create();
+        
         $data = [
-            'sender'  => $crew->id,
-            'message' => 'Test Message',
+            'subject'   => 'Some subject',
+            'message'   => 'Some message',
+            'recepients'=>  [2,3]
         ];
 
         $response = $this->actingAs($crew, 'api')
-            ->postJson(route('messages.store', $data));
+            ->postJson(
+                route(
+                    'messenger.project.messages.store', 
+                    ['project' => $project->id]
+                ), 
+                $data
+            );
 
         $response->assertJson([
             'message' => 'You are not allowed to initiate a conversation with any producer.',
-        ]);
-    }
-
-    /**
-     * @test
-     * @covers App\Http\Controllers\MessageController::store
-     */
-    public function store_message()
-    {
-        $user = $this->createProducer();
-
-        $thread = factory(Thread::class)->create([
-            'subject' => 'Thread Test Subject',
-        ]);
-
-        $thread->addParticipant(
-            [
-                'user_id' => $user->id,
-            ]
-        );
-
-        $message = [
-            'thread'  => $thread->id,
-            'sender'  => $user->id,
-            'message' => 'Test Message',
-        ];
-
-        $this->actingAs($user, 'api')
-            ->get(route(
-                'messages.index',
-                [
-                    'thread' => $thread->id,
-                ]
-            ));
-
-        $response = $this->actingAs($user)
-            ->postJson(route('messages.store', $message));
-
-        $response->assertJsonFragment([
-            'thread_id' => $thread->id,
-            'user_id'   => $user->id,
-            'body'      => 'Test Message',
         ]);
     }
 }
