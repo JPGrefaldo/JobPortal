@@ -30,7 +30,7 @@ export default {
     methods: {
       checkSubmission: function(){
         axios
-          .get(`crew/projects/submitted/jobs/${this.job.id}`)
+          .get(`crew/jobs/${this.job.id}`)
           .then(({data}) => {
               if(data.submitted){
                   this.applied = true
@@ -40,7 +40,7 @@ export default {
 
       applyJob: function(jobId){
         axios
-          .post(`/crew/jobs/${jobId}/apply`)
+          .post(`/crew/jobs/${jobId}`)
           .then(({data}) => {
               if(data.message == 'success'){
                   this.applied = true

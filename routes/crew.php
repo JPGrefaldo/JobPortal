@@ -26,9 +26,9 @@ Route::delete('crew/endorsement/positions/request/{endorsementRequest}', [Endors
 
 Route::get('crew/projects/job/{projectJob}', [ProjectJobController::class, 'show'])
       ->name('crew.project.job');
-Route::get('crew/projects/submitted/jobs/{job}', [SubmissionController::class, 'checkSubmission'])
+Route::get('crew/jobs/{job}', [SubmissionController::class, 'checkSubmission'])
     ->name('crew.jobs.show');
-Route::post('crew/jobs/{job}/apply', [SubmissionController::class, 'applyJob'])
+Route::post('crew/jobs/{job}', [SubmissionController::class, 'store'])
     ->name('crew.jobs.store');
 
 // TODO: defer to common route for both crew and admin
