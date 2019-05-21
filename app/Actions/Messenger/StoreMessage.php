@@ -2,9 +2,9 @@
 
 namespace App\Actions\Messenger;
 
+use App\Models\Message;
 use App\Models\Thread;
 use App\Models\User;
-use App\Models\Message;
 
 class StoreMessage
 {

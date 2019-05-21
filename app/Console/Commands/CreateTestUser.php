@@ -4,7 +4,6 @@ namespace App\Console\Commands;
 
 use App\Actions\Auth\AddUserToSite;
 use App\Actions\Crew\StubCrew;
-use App\Actions\User\CreateUser;
 use App\Models\Role;
 use App\Models\Site;
 use App\Models\User;

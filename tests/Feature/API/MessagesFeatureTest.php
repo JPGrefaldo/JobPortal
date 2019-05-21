@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\API;
 
-use App\Actions\Messenger\FetchNewMessages;
 use App\Http\Resources\MessageResource;
 use App\Models\Crew;
 use App\Models\Thread;
@@ -12,7 +11,6 @@ use Cmgmyr\Messenger\Models\Participant;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
-
 
 class MessagesFeatureTest extends TestCase
 {

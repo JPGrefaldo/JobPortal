@@ -2,10 +2,8 @@
 
 namespace App\Actions\Messenger;
 
-use Carbon\Carbon;
-use Cmgmyr\Messenger\Models\Message;
-use Cmgmyr\Messenger\Models\Thread;
 use App\Models\User;
+use Cmgmyr\Messenger\Models\Message;
 
 class FetchNewMessages
 {
