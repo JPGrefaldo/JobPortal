@@ -208,6 +208,7 @@ export default {
             formData.append('bio', this.form.bio);
             formData.append('union_description', this.form.union_description);
             formData.append('resume', this.form.resume);
+            formData.append('gear_photos', this.form.gear_photos);
             formData.append('reel_link', this.form.reel_link);
             formData.append('gear', this.form.gear);
             formData.append('position', this.form.position);

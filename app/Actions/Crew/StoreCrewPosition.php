@@ -36,8 +36,8 @@ class StoreCrewPosition
         }
 
         $crew->gears()->updateOrCreate(
-            ['crew_position_id' => $crewPosition->id],
-            ['description' => $data['gear']]            
+            ['crew_position_id' => $data['crew_position_id'],],
+            ['description' => $data['gear'],]
         );
 
         app(StoreCrewGear::class)->execute($crew, $data);
