@@ -38,10 +38,7 @@ class RefreshToken
                 ]);
             }
         } catch (JWTException $e) {
-            return response()->json([
-                'code'     => 101,
-                'response' => null
-            ]);
+            return  $next($request);
         }
 
         Auth::login($user, false);
