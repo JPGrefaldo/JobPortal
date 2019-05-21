@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Actions\Submissions\CreateSubmission;
+use App\Actions\Submissions\StoreSubmission;
 use App\Actions\Submissions\SetSubmissionStatus;
 use App\Http\Controllers\Controller;
 use App\Models\ProjectJob;
@@ -17,7 +17,7 @@ class SubmissionController extends Controller
             [
                 'message'       => 'Sucessfully fetched job\'s submissions',
                 'job'           => $job,
-                'submissions'   => $job->submissions
+                'submissions'   => $job->submissions,
             ],
             Response::HTTP_OK
         );
@@ -26,16 +26,16 @@ class SubmissionController extends Controller
     public function fetchByApprovedDate(ProjectJob $projectJob)
     {
         $submissions = $projectJob->submissions()
-                                ->whereNotNull('approved_at')
-                                ->with(['crew' => function ($q) {
+            ->whereNotNull('approved_at')
+            ->with(['crew' => function ($q) {
                                     $q->with('user');
                                 }])
-                                ->get();
+            ->get();
 
         return response()->json(
             [
-                'message'      => 'Sucessfully fetched job\'s submissions',
-                'submissions'   => $submissions
+                'message'       => 'Sucessfully fetched job\'s submissions',
+                'submissions'   => $submissions,
             ],
             Response::HTTP_OK
         );
@@ -45,12 +45,12 @@ class SubmissionController extends Controller
     {
         $crew = auth()->user()->crew;
 
-        $job = app(CreateSubmission::class)->execute($crew, $job);
+        $job = app(StoreSubmission::class)->execute($crew, $job);
 
         return response()->json(
             [
                 'message'       => 'Submission successfully added',
-                'submissions'   => $job->submissions
+                'submissions'   => $job->submissions,
             ],
             Response::HTTP_CREATED
         );
@@ -63,7 +63,7 @@ class SubmissionController extends Controller
         return response()->json(
             [
                 'message'    => 'Submission is successfully approved',
-                'submission' => $submission
+                'submission' => $submission,
             ],
             Response::HTTP_OK
         );
@@ -76,7 +76,7 @@ class SubmissionController extends Controller
         return response()->json(
             [
                 'message'    => 'Submission is successfully rejected',
-                'submission' => $submission
+                'submission' => $submission,
             ],
             Response::HTTP_OK
         );
@@ -97,7 +97,7 @@ class SubmissionController extends Controller
         return response()->json(
             [
                 'message'    => 'Submission is successfully restored',
-                'submission' => $submission
+                'submission' => $submission,
             ],
             Response::HTTP_OK
         );
@@ -111,7 +111,7 @@ class SubmissionController extends Controller
         return response()->json(
             [
                 'message'    => 'Submission successfully swapped.',
-                'submission' => $submission
+                'submission' => $submission,
             ],
             Response::HTTP_OK
         );

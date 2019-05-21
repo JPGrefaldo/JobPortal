@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Cmgmyr\Messenger\Models\Thread;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class ProjectThread extends Pivot

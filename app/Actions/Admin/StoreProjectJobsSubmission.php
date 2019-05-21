@@ -9,7 +9,7 @@ class StoreProjectJobsSubmission
 {
     /**
      * @param \App\Http\Requests\Producer\ProjectJobsSubmissionsRequest $request
-     * @return \App\Models\ProjectJob
+     * @return \App\Models\Submission
      */
     public function execute(ProjectJobsSubmissionsRequest $request): Submission
     {

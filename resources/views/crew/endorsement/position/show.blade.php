@@ -34,7 +34,7 @@
             <div class="md:w-3/4 less-than-large-padding-rl-1 -md:w-full">
                 <create-endorsement-request-form
                     position="{{ $position->name }}"
-                    full_name="{{ $user->full_name }}"
+                    full_name="{{ $user->name }}"
                     url="{{ route('crew.endorsement.position.store', [$position->id]) }}"
                 ></create-endorsement-request-form>
 

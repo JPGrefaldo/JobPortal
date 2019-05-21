@@ -178,5 +178,4 @@ class FakeProjectsTest extends TestCase
 
         $this->assertEmpty(ProjectJob::count());
     }
-
 }

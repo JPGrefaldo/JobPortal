@@ -8,10 +8,11 @@ use App\Models\CrewPosition;
 use App\Models\Position;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Tests\Support\SeedDatabaseAfterRefresh;
 
 class StoreCrewPositionTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, SeedDatabaseAfterRefresh;
 
     /**
      * @test

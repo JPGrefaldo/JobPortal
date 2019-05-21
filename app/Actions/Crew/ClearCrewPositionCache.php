@@ -2,9 +2,7 @@
 
 namespace App\Actions\Crew;
 
-
 use App\Models\CrewPosition;
-use Cache;
 
 class ClearCrewPositionCache
 {

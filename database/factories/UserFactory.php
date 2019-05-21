@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Support\Str;
 use App\Faker\PhoneProvider;
 use App\Models\User;
 use App\Utils\StrUtils;
 use Faker\Generator as Faker;
+use Illuminate\Support\Str;
 
 /** @var $factory \Illuminate\Database\Eloquent\Factory */
 

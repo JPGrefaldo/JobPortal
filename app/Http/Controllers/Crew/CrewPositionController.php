@@ -19,9 +19,23 @@ class CrewPositionController extends Controller
     {
         $crew = auth()->user()->crew;
 
-        $request->request->add([
-            'method' => 'post',
+        $data = $request->validated();
+
+        app(StoreCrewPosition::class)->execute($crew, $position, $data);
+
+        return response()->json([
+            'message' => 'success',
         ]);
+    }
+
+    /**
+     * @param \App\Models\Position $position
+     * @param \App\Http\Requests\StoreCrewPositionRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(Position $position, StoreCrewPositionRequest $request)
+    {
+        $crew = auth()->user()->crew;
 
         $data = $request->validated();
 
@@ -30,6 +44,23 @@ class CrewPositionController extends Controller
         return response()->json([
             'message' => 'success',
         ]);
+    }
+
+    /**
+     * @param \App\Models\Position $position
+     * @return string
+     */
+    public function destroy(Position $position)
+    {
+        $crew = auth()->user()->crew;
+
+        $crewPosition = $crew->crewPositions()->where('position_id', $position->id)->first();
+
+        $this->removeResume($crewPosition);
+        $this->removeReel($crewPosition);
+        $this->removeGear($crewPosition);
+
+        return $crewPosition->delete() ? 'success' : 'failed';
     }
 
     /**
@@ -61,23 +92,32 @@ class CrewPositionController extends Controller
     }
 
     /**
-     * @param \App\Models\CrewPosition $position
+     * @param \App\Models\CrewPosition $crewPosition
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */
-    public function removeResume(CrewPosition $position)
+    public function removeResume(CrewPosition $crewPosition)
     {
         return response()->json([
-            'message' => $position->resume->delete() ? 'success' : 'failed',
+            'message' => $crewPosition->resume->delete() ? 'success' : 'failed',
         ]);
     }
 
     /**
-     * @param \App\Models\CrewPosition $position
+     * @param \App\Models\CrewPosition $crewPosition
      * @return string
      */
-    public function removeReel(CrewPosition $position)
+    public function removeReel(CrewPosition $crewPosition)
     {
-        return $position->reel()->delete() ? 'success' : 'failed';
+        return $crewPosition->reel()->delete() ? 'success' : 'failed';
+    }
+
+    /**
+     * @param \App\Models\CrewPosition $crewPosition
+     * @return string
+     */
+    public function removeGear(CrewPosition $crewPosition)
+    {
+        return $crewPosition->gear()->delete() ? 'success' : 'failed';
     }
 }

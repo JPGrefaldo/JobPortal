@@ -20,15 +20,6 @@ class User extends Authenticatable implements JWTSubject
         HasRoles,
         Billable;
 
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::created(function ($user) {
-            $user->hash_id = Hashids::encode($user->id);
-            $user->save();
-        });
-    }
     /**
      * The protected attributes
      *
@@ -60,6 +51,25 @@ class User extends Authenticatable implements JWTSubject
         'status'     => 'integer',
         'confirmed'  => 'boolean',
     ];
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'name',
+    ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($user) {
+            $user->hash_id = Hashids::encode($user->id);
+            $user->save();
+        });
+    }
 
     /**
      * sites many to many relationship
@@ -204,6 +214,14 @@ class User extends Authenticatable implements JWTSubject
         return (isset($this->nickname) && $this->nickname) ?
                 $this->nickname :
                 $this->full_name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNameAttribute()
+    {
+        return $this->nickname_or_full_name;
     }
 
     /**

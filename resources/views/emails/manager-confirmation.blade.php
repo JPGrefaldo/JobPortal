@@ -1,7 +1,7 @@
 @component('mail::message')
 # Hello {{$manager->first_name}},
 <br>
-{{$subordinate->full_name}} added you as manager.
+{{ $subordinate->name }} added you as manager.
 
 @component('mail::button', [
     'url' => route('manager.confirm', [

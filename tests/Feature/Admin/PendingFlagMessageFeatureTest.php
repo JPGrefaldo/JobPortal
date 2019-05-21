@@ -70,8 +70,8 @@ class PendingFlagMessageFeatureTest extends TestCase
                     "thread"         => $pendingFlagMessage->message->thread->subject,
                     "approved_at"    => null,
                     "disapproved_at" => null,
-                ]
-            ]
+                ],
+            ],
         ]);
     }
 
@@ -125,7 +125,7 @@ class PendingFlagMessageFeatureTest extends TestCase
 
         $this->actingAs($this->createAdmin())
             ->put(route('pending-flag-messages.update', $pendingFlagMessage), [
-                'action' => 'approve'
+                'action' => 'approve',
             ])
             ->assertSee('Pending flag message approved')
             ->assertOk();
@@ -146,7 +146,7 @@ class PendingFlagMessageFeatureTest extends TestCase
 
         $this->actingAs($this->createAdmin())
             ->put(route('pending-flag-messages.update', $pendingFlagMessage), [
-                'action' => 'disapprove'
+                'action' => 'disapprove',
             ])
             ->assertSee('Pending flag message disapproved')
             ->assertOk();

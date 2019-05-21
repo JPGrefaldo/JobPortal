@@ -69,9 +69,14 @@ export default {
         'project-job-form': ProjectJobForm,
     },
 
+    created: function() {
+        this.$store.dispatch('crew/fetchByDepartments');
+        this.$store.dispatch('crew/fetchByPositions');
+    },
+
     computed: {
         ...mapGetters({
-            departments: 'crew/department',
+            departments: 'crew/departments',
             positions: 'crew/positions',
             job: 'project/job',
             project: 'project/project',
@@ -112,11 +117,6 @@ export default {
             this.position   = '',
             this.$store.commit('project/JOB', { persons_needed: 1 });
         }
-    },
-
-    mounted: function() {
-        this.$store.dispatch('crew/fetchByDepartments');
-        this.$store.dispatch('crew/fetchByPositions');
-    },
+    }
 };
 </script>

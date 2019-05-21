@@ -1,10 +1,13 @@
 <template>
     <div>
         <div class="py-2">
-            <label class="checkbox-control" @click.stop.prevent="toggleSelect">
-                <h3 class="text-md" v-text="position.name"></h3>
+            <label v-if="!selected" class="checkbox-control" @click.stop.prevent="toggleSelect">
+                <h3 class="position-title" v-text="position.name"></h3>
                 <input type="checkbox" v-model="filled"/>
                 <div class="control-indicator"></div>
+            </label>
+            <label v-else class="checkbox-control" @click.stop.prevent="toggleSelect">
+                <h3 class="position-title" v-text="position.name"></h3>
             </label>
         </div>
         <div v-if="selected">
@@ -37,9 +40,9 @@
                             <h3 class="text-md font-header mb-2 md:mb-0">Resume</h3>
                         </div>
                         <div class="md:w-2/3">
-                            <label :for="'resume' + position.id" 
+                            <label :for="'resume' + position.id"
                                 class="btn-outline text-white inline-block cursor-pointer bg-green">{{form.resume ? "change" : "upload"}} file</label>
-                            <input type="file" :id="'resume' + position.id" @change="selectFile" name="resume" class="hidden"/> 
+                            <input type="file" :id="'resume' + position.id" @change="selectFile" name="resume" class="hidden"/>
                             <button v-if="form.resume" @click="removeResume(form.id)" class="btn-outline text-green inline-block cursor-pointer">Remove</button>
                             <div v-if="form.resume" class="w-full pt-2">
                                 <i class="fas fa-file-pdf"></i>
@@ -86,6 +89,9 @@
                         </div>
                         <div class="md:w-2/3">
                             <div class="display">
+                                <label :for="'gear_photos' + position.id" class="btn-outline text-white inline-block bg-green" :class="{ 'input__error': form.errors.has('gear_photos') }">Upload gear photos</label>
+                                <input type="file" :id="'gear_photos' + position.id" @change="selectFile" name="gear_photos" class="hidden" />
+                                <button v-if="form.gear_photos" class="btn-outline text-green inline-block cursor-pointer">Remove</button>
                                 <label class="label toggle">
                                     <input
                                         type="checkbox"
@@ -122,7 +128,7 @@
                 </div>
             </div>
             <div class="pt-8 pb-4 text-right border-t-2 border-grey-lighter">
-                <button class="text-grey bold mr-4 hover:text-green focus:outline-none" @click="selected = false">Cancel</button>
+                <button class="text-grey bold mr-4 hover:text-green focus:outline-none" @click="onClickLeavePosition()">Leave position</button>
                 <button class="btn-green focus:outline-none" @click="onClickSave">SAVE CHANGES</button>
             </div>
         </div>
@@ -157,6 +163,7 @@ export default {
                 union_description: '',
                 resume           : null,
                 reel_link        : '',
+                gear_photos      : null,
                 reel_file        : null,
                 gear             : '',
                 position         : this.position.id,
@@ -174,13 +181,12 @@ export default {
     methods: {
         toggleSelect: function() {
             this.selected = !this.selected;
-            this.filled   = !this.filled;
             return false;
         },
 
         selectFile: function(e) {
-            this.form[e.target.name] = e.target.files[0]
-            e.target.value = ''
+            this.form[e.target.name] = e.target.files[0];
+            e.target.value = '';
         },
 
         onClickSave: function() {
@@ -188,25 +194,73 @@ export default {
         },
 
         saveCrewPosition: function() {
-            this.form.submit('post','/crew/positions/' + this.position.id, {
-                transformRequest: [function (data, headers) {
-                    return objectToFormData(data)
-                }]
-            })
-            .then(({ data }) => {
-                if (data === 'success') {
-                    this.filled = true;
-                    this.getPositionData();
+            const config = {
+                headers: {
+                    'content-type': 'multipart/form-data'
                 }
-            });
+            }
+
+            let formData = new FormData();
+
+            formData.append('bio', this.form.bio);
+            formData.append('union_description', this.form.union_description);
+            formData.append('resume', this.form.resume);
+            formData.append('reel_link', this.form.reel_link);
+            formData.append('gear', this.form.gear);
+            formData.append('position', this.form.position);
+
+            if (this.position_exist) {
+                axios
+                .post('/crew/positions/' + this.position.id + '/update', formData, config)
+                .then(({ data }) => {
+                    if (data === 'success') {
+                        this.filled = true;
+                        this.getPositionData();
+                    }
+                });
+            } else {
+                axios
+                .post('/crew/positions/' + this.position.id, formData, config)
+                .then(({ data }) => {
+                    if (data === 'success') {
+                        this.filled = true;
+                        this.getPositionData();
+                    }
+                });
+            }
         },
 
-        fillData: function(data) {   
+        onClickLeavePosition: function() {
+            this.leavePosition();
+        },
+
+        leavePosition: function() {
+            axios
+                .delete(`/crew/positions/${this.position.id}/delete`)
+                .then(({data}) => {
+                    if(data == 'success'){
+                        this.form.bio               = '';
+                        this.form.union_description = '';
+                        this.form.resume            = null;
+                        this.form.reel_link         = '';
+                        this.form.gear_photos       = null;
+                        this.form.reel_file         = null;
+                        this.form.gear              = '';
+
+                        this.position_exist         = false;
+                        this.filled                 = false;
+                        this.selected               = false;
+                    }
+            })
+        },
+
+        fillData: function(data) {
             this.form = new Form({
                 id               : data.id,
                 bio              : data.details,
                 union_description: data.union_description ? data.union_description: '',
                 resume           : data.resume ? data.resume : null,
+                gear_photos      : data.gear_photos ? data.gear_photos : null,
                 reel             : data.reel ? data.reel : false,
                 gear             : data.gear ? data.gear.description : '',
             });
@@ -229,7 +283,6 @@ export default {
         checkPositionIfExist: function() {
             if (this.crewPositionList.includes(this.position.id)) {
                 this.position_exist = true;
-                this.selected       = true;
                 this.getPositionData();
             }
         },
@@ -260,7 +313,7 @@ export default {
     },
     mounted() {
         this.$store.dispatch('crew/checkPositionIfExist');
-        setTimeout(() => this.checkPositionIfExist(), 2000);
+        setTimeout(() => this.checkPositionIfExist(), 1000);
     }
 };
 </script>

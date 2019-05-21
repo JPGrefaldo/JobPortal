@@ -23,26 +23,26 @@ class SubmissionFeatureTest extends TestCase
         $producer = $this->createProducer();
 
         $project  = factory(Project::class)->create([
-            'user_id' => $producer->id
+            'user_id' => $producer->id,
         ]);
 
         $projectJob = factory(ProjectJob::class)->create([
-            'project_id' => $project->id
+            'project_id' => $project->id,
         ]);
         
         factory(Submission::class)->create([
             'crew_id'         => $crew->id,
             'project_id'      => $project->id,
-            'project_job_id'  => $projectJob->id
+            'project_job_id'  => $projectJob->id,
         ]);
 
         $response = $this->actingAs($producer)
             ->get(
                 route(
                     'project.job.submissions.show',
-                    [   
+                    [
                         'project' => $project->id,
-                        'job'     => $projectJob->id
+                        'job'     => $projectJob->id,
                     ]
                 )
             )
@@ -60,32 +60,34 @@ class SubmissionFeatureTest extends TestCase
         $producer = $this->createProducer();
 
         $project  = factory(Project::class)->create([
-            'user_id' => $producer->id
+            'user_id' => $producer->id,
         ]);
 
         $projectJobs = factory(ProjectJob::class, 3)->create([
-            'project_id' => $project->id
+            'project_id' => $project->id,
         ]);
 
         $crew = $this->createCrew();
 
-        $projectJobs->map(function($projectJob) use($crew, $project) {
+        $projectJobs->map(function ($projectJob) use ($crew, $project) {
             factory(Submission::class)->create([
                 'crew_id'         => $crew->id,
                 'project_id'      => $project->id,
-                'project_job_id'  => $projectJob->id
+                'project_job_id'  => $projectJob->id,
             ]);
         });
 
-        $projectJobs->map(function($job) use($project) {
+        $projectJobs->map(function ($job) use ($project) {
             $submissions = $job->submissions()->get();
 
-            $submissions->map(function($submission) use($project){
-                $this->assertEquals(3, Submission::where(
-                        [
-                            'crew_id'    => $submission->crew_id,
-                            'project_id' => $project->id
-                        ]
+            $submissions->map(function ($submission) use ($project) {
+                $this->assertEquals(
+                    3,
+                    Submission::where(
+                    [
+                        'crew_id'    => $submission->crew_id,
+                        'project_id' => $project->id,
+                    ]
                     )->count()
                 );
             });

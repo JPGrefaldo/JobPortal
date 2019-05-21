@@ -7,10 +7,10 @@
     @include('crew.profile.parts.profile-complete-indicator')
 
     <div class="md:w-3/4 float-left">
-        <form action="{{ route('crew.profile.store') }}" method="post" enctype="multipart/form-data">
+        <form action="{{ route('crew.profile.update') }}" method="post" enctype="multipart/form-data">
             <div class="card mb-8">
                 <div class="w-full mb-6">
-                    <h3 class="text-blue-dark font-semibold text-md md:text-lg mb-1 font-header">{{ $user->nickname_or_full_name }}</h3>
+                    <h3 class="text-blue-dark font-semibold text-md md:text-lg mb-1 font-header">{{ $user->name }}</h3>
                 </div>
 
                 <div class="md:flex">
@@ -41,7 +41,7 @@
                 <div class="border-t-2 border-grey-lighter mt-6 py-4">
                     <div class="md:flex">
                         <div class="md:w-1/3 pr-8">
-                            <h3 class="text-md font-header mb-2 md:mb-0">Profile Photo</h3>
+                            <h3 class="section-title mb-2 md:mb-0">Profile Photo</h3>
                         </div>
                         <div class="md:w-2/3">
                             <file-pond></file-pond>
@@ -52,7 +52,7 @@
                 <div class="border-t-2 border-grey-lighter py-4">
                     <div class="md:flex">
                         <div class="md:w-1/3 pr-8">
-                            <h3 class="text-md font-header mb-2 md:mb-0">General resume</h3>
+                            <h3 class="section-title mb-2 md:mb-0">General resume</h3>
                         </div>
                         <div class="md:w-2/3">
                             <label for="resume" class="btn-outline text-green inline-block" >Upload file</label>
@@ -68,7 +68,7 @@
                 <div class="border-t-2 border-grey-lighter py-4">
                     <div class="md:flex">
                         <div class="md:w-1/3 pr-8">
-                            <h3 class="text-md font-header mt-2 mb-2 md:mb-0">General reel</h3>
+                            <h3 class="section-title mt-2 mb-2 md:mb-0">General reel</h3>
                         </div>
                         <div class="md:w-2/3">
                             <label for="reel_file" class="btn-outline text-green inline-block" >Upload file</label>
@@ -90,7 +90,7 @@
                 <div class="border-t-2 border-grey-lighter py-4">
                     <div class="md:flex">
                         <div class="md:w-1/3 pr-8">
-                            <h3 class="text-md font-header mt-2 mb-4 md:mb-2">Social profiles</h3>
+                            <h3 class="section-title mt-2 mb-4 md:mb-2">Social profiles</h3>
                         </div>
                         <div class="md:w-2/3">
                            @if($socialLinkTypes)
@@ -123,7 +123,7 @@
         </form>
 
         <div class="py-4">
-            <h4 class='text-grey'>WORK POSITIONS</h4>
+            <h4 class="card-title">WORK POSITIONS</h4>
         </div>
 
         <cca-department-component :departments="{{ $departments }}"/>

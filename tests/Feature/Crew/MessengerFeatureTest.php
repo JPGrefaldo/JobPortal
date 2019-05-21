@@ -33,42 +33,4 @@ class MessengerFeatureTest extends TestCase
 
         $response->assertSee('Producer messaged successfully.');
     }
-
-    /**
-     * @test
-     * @covers
-     */
-    public function crew_cannot_initiate()
-    {
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
-        // given
-        // crew
-
-        // when
-        // crew tries to create a message thread
-
-        // then
-        // crew is forbidden
-    }
-
-    /**
-     * @test
-     * @covers
-     */
-    public function crew_gets_an_email_when_messaged()
-    {
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
-        // given
-        // crew
-
-        // when
-        // crew is messaged
-
-        // then
-        // crew gets the email
-    }
 }
