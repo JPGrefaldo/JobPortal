@@ -13,6 +13,10 @@ class StoreCrewGear
      */
     public function execute(Crew $crew, array $data): void
     {
+        if (! isset($data['gear_photos']) || empty($data['gear_photos'])) {
+            return;
+        }
+
         if ($crewGear = $crew->gears()->where('crew_position_id', $data['crew_position_id'])->first()) {
             Storage::disk('s3')->delete($crewGear->path);
         }
@@ -23,12 +27,8 @@ class StoreCrewGear
             'public'
         );
 
-        $crew->gears()->updateOrCreate(
-            ['crew_position_id' => $data['crew_position_id'],],
-            [
-                'description' => $data['gear'],
-                'path'        => $path,
-            ]
-        );
+        $crew->gears()->update([
+            'path'        => $path,
+        ]);
     }
 }
