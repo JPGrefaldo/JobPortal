@@ -11,8 +11,19 @@ class StoreCrewGear
      * @param \App\Models\Crew $crew
      * @param array $data
      */
-    public function execute(Crew $crew, array $data): void
+    public function execute(Crew $crew, $crewPosition, array $data): void
     {
+        if ($crewPosition != null) {
+            $data['crew_position_id'] = $crewPosition->id;
+        } else {
+            $data['crew_position_id'] = null;
+        }
+
+        $crew->gears()->updateOrCreate(
+            ['crew_position_id' => $data['crew_position_id'],],
+            ['description' => $data['gear'],]
+        );
+
         if (! isset($data['gear_photos']) || empty($data['gear_photos'])) {
             return;
         }

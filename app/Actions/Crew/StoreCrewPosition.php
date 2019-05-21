@@ -29,18 +29,7 @@ class StoreCrewPosition
             $crewPosition->restore();
         }
 
-        if ($crewPosition != null) {
-            $data['crew_position_id'] = $crewPosition->id;
-        } else {
-            $data['crew_position_id'] = null;
-        }
-
-        $crew->gears()->updateOrCreate(
-            ['crew_position_id' => $data['crew_position_id'],],
-            ['description' => $data['gear'],]
-        );
-
-        app(StoreCrewGear::class)->execute($crew, $data);
+        app(StoreCrewGear::class)->execute($crew, $crewPosition, $data);
         app(StoreCrewResume::class)->execute($crew, $data);
         app(StoreCrewReel::class)->execute($crew, $data);
     }
