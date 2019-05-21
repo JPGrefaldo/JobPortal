@@ -6,6 +6,8 @@ use App\Models\Project;
 use App\Models\ProjectThread;
 use App\Models\Thread;
 use App\Models\User;
+use App\Actions\Messenger\StoreThread;
+use App\Actions\Messenger\StoreParticipants;
 
 class MessageCrew
 {
@@ -14,33 +16,20 @@ class MessageCrew
      * @param \App\Models\Project $project
      * @param \App\Models\User $user
      */
-    public function execute($data, Project $project, User $user): void
+    public function execute(Project $project, User $user, Request $request): void
     {
-        $message    = $data['message'];
-        $recipients = User::whereIn('hash_id', $data['recipients'])->get();
+        $message    = $request->message;
+        $recipients = User::whereIn('hash_id', $request->recipients)->get();
 
         foreach ($recipients as $recipient) {
             $thread = Thread::getByProjectAndParticipant($project, $recipient);
 
             if (empty($thread)) {
-                $thread = Thread::create([
-                    'subject' => $user->fullName,
-                ]);
-
-                ProjectThread::create([
-                    'project_id' => $project->id,
-                    'thread_id'  => $thread->id,
-                ]);
+                $thread = app(StoreThread::class)->execute($user, $request->subject);
             }
-
-            $thread->messages()->create(
-                [
-                    'user_id'   => $user->id,
-                    'body'      => $message,
-                ]
-        );
-
-            $thread->addParticipant($recipient->id);
+            
+            app(StoreParticipants::class)->execute($thread, $user, $recipient);
+            app(StoreMessage::class)->execute($thread, $user, $message);
         }
     }
 }
