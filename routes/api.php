@@ -5,6 +5,7 @@ use App\Http\Controllers\API\Admin\ProjectJobSubmissionController;
 use App\Http\Controllers\API\Crew\DepartmentController;
 use App\Http\Controllers\API\Crew\PositionController;
 use App\Http\Controllers\API\Crew\ProjectController as CrewProjectController;
+use App\Http\Controllers\API\MessageController;
 use App\Http\Controllers\API\SiteController;
 use App\Http\Controllers\API\ParticipantController;
 use App\Http\Controllers\API\Producer\MessageTemplateController;
@@ -14,7 +15,6 @@ use App\Http\Controllers\API\Producer\ProjectTypes;
 use App\Http\Controllers\API\SubmissionController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\Crew\ThreadController as CrewThreadController;
-use App\Http\Controllers\MessageController;
 use App\Http\Controllers\Producer\ThreadController;
 use App\Models\ProjectType;
 
@@ -58,21 +58,31 @@ Route::middleware('auth:api')->group(function () {
         'index',
     ])->name('sites.index');
 
+    Route::prefix('messenger')->middleware('role:Producer|Crew')->group(function() {
+        Route::prefix('project')->group(function() {
+            Route::post('{project}/messages', [
+                MessageController::class,
+                'store',
+            ])->name('messenger.project.messages.store');
+        });
 
-    Route::get('/threads/{thread}/messages', [
-        MessageController::class,
-        'index',
-    ])->middleware('role:Producer|Crew')->name('messages.index');
+        Route::prefix('threads')->group(function() {
+            Route::get('{thread}/messages', [
+                MessageController::class,
+                'index',
+            ])->name('messenger.threads.messages.index');
 
-    Route::post('/threads/{thread}/messages', [
-        MessageController::class,
-        'store',
-    ])->middleware('role:Producer|Crew')->name('messages.store');
+            Route::put('{thread}/messages', [
+                MessageController::class,
+                'update',
+            ])->name('messenger.threads.messages.update');
 
-    Route::post('/threads/{thread}/participants', [
-        ParticipantController::class,
-        'search',
-    ])->middleware('role:Producer|Crew')->name('threads.search.participants');
+            Route::post('{thread}/participants', [
+                ParticipantController::class,
+                'search',
+            ])->name('messenger.threads.search.participants');
+        });
+    });
 
     Route::get('/crew/projects/{project}/threads', [
         CrewThreadController::class,
@@ -169,10 +179,10 @@ Route::middleware('auth:api')->group(function () {
         });
 
         Route::prefix('messages')->group(function () {
-            Route::post('/', [
+            Route::get('/', [
                 MessagesController::class,
-                'store'
-            ])->name('producer.send.message');
+                'index'
+            ])->name('producer.messages');
 
             Route::prefix('templates')->group(function () {
                 Route::get('/', [
