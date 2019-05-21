@@ -3,9 +3,8 @@
 namespace App\Actions\Messenger;
 
 use App\Models\User;
-use Cmgmyr\Messenger\Models\Message;
 
-class FetchNewMessages
+class FetchThreadsWithNewMessages
 {
     /**
      * @param User $user

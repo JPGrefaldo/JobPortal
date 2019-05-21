@@ -4,8 +4,10 @@ namespace Tests\Feature\API;
 
 use App\Http\Resources\MessageResource;
 use App\Models\Crew;
+use App\Models\Project;
 use App\Models\Thread;
 use App\Models\User;
+use Carbon\Carbon;
 use Cmgmyr\Messenger\Models\Message;
 use Cmgmyr\Messenger\Models\Participant;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -108,7 +110,7 @@ class MessagesFeatureTest extends TestCase
     {
         // given
         $user   = $this->createCrew();
-        $thread = $this->seedThreadAndMessages();
+        $thread = $this->seedConversation();
 
         // when
         $response = $this->actingAs($user, 'api')
@@ -126,7 +128,7 @@ class MessagesFeatureTest extends TestCase
     {
         // given
         $user = $this->createProducer();
-        $thread = $this->seedThreadAndMessages();
+        $thread = $this->seedConversation();
 
         // when
         $response = $this->actingAs($user, 'api')
@@ -136,27 +138,35 @@ class MessagesFeatureTest extends TestCase
         $response->assertForbidden();
     }
 
-    private function seedThreadAndMessages()
+    private function seedConversation()
     {
         $crew     = $this->createCrew();
         $producer = $this->createProducer();
 
+        $project = factory(Project::class)->create([
+            'user_id' => $producer->id,
+        ]);
+
         // Given we have a thread
-        $thread = factory(Thread::class)->create([
+        $thread = $project->threads()->create([
             'subject' => 'Thread Test Subject',
         ]);
 
-        // And participants
-        $thread->addParticipant([$crew->id, $producer->id]);
+        // Sender
+        Participant::create([
+            'thread_id' => $thread->id,
+            'user_id'   => $producer->id,
+            'last_read' => new Carbon(),
+        ]);
+
+        // Participant
+        $thread->addParticipant($crew->id);
 
         // And when a new reply in the thread is added (message)
-        $replyFromCrew = [
+        $crew->messages()->create([
             'thread_id' => $thread->id,
-            'user_id'   => $crew->id,
             'body'      => 'Test Reply Message',
-        ];
-
-        $crew->messages()->create($replyFromCrew);
+        ]);
 
         return $thread;
     }
