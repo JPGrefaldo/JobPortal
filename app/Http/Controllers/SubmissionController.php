@@ -25,17 +25,24 @@ class SubmissionController extends Controller
 
         abort_unless($crew->hasGeneralResume(), 400, 'Please upload General Resume');
 
-        $submission = $crew->submissions()->firstOrCreate([
-            'project_id'     => $job->project_id,
-            'project_job_id' => $job->id,
-        ], [
+        $submission = $crew->submissions()->create([
             'project_id'     => $job->project_id,
             'project_job_id' => $job->id,
         ]);
 
         return response()->json([
-            'submission'     => $submission,
             'message'        => 'success',
+        ]);
+    }
+
+    public function checkSubmission(ProjectJob $job)
+    {
+        $crew = auth()->user()->crew;
+
+        abort_unless($crew->hasAppliedTo($job), 404);
+        
+        return response()->json([
+            'submitted' => 'true',
         ]);
     }
 }

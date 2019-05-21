@@ -26,9 +26,7 @@ Route::delete('crew/endorsement/positions/request/{endorsementRequest}', [Endors
 
 Route::get('crew/projects/job/{projectJob}', [ProjectJobController::class, 'show'])
       ->name('crew.project.job');
-Route::get('crew/projects/job/{projectJob}', [ProjectJobController::class, 'show'])
-    ->name('crew.project.job');
-Route::get('crew/projects/submitted/jobs/{job}', [ProjectJobController::class, 'checkSubmission'])
+Route::get('crew/projects/submitted/jobs/{job}', [SubmissionController::class, 'checkSubmission'])
     ->name('crew.jobs.show');
 Route::post('crew/jobs/{job}/apply', [SubmissionController::class, 'applyJob'])
     ->name('crew.jobs.store');

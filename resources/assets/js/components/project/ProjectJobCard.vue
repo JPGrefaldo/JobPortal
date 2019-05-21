@@ -32,7 +32,7 @@ export default {
         axios
           .get(`crew/projects/submitted/jobs/${this.job.id}`)
           .then(({data}) => {
-              if(data){
+              if(data.submitted){
                   this.applied = true
               }
            });

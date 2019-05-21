@@ -12,14 +12,4 @@ class ProjectJobController extends Controller
         //TODO: View for showing the job
         return $projectJob;
     }
-
-    public function checkSubmission(ProjectJob $job)
-    {
-        $crew = auth()->user()->crew;
-
-        return $crew->submissions->firstOrFail([
-            'project_id'     => $job->project_id,
-            'project_job_id' => $job->id,
-        ]);
-    }
 }
