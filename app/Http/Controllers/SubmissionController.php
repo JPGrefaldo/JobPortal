@@ -18,4 +18,31 @@ class SubmissionController extends Controller
 
         return view('projects.submissions', compact('project', 'job', 'submissions'));
     }
+
+    public function store(ProjectJob $job)
+    {
+        $crew = auth()->user()->crew;
+
+        abort_unless($crew->hasGeneralResume(), 400, 'Please upload General Resume');
+
+        $crew->submissions()->create([
+            'project_id'     => $job->project_id,
+            'project_job_id' => $job->id,
+        ]);
+
+        return response()->json([
+            'message'        => 'success',
+        ]);
+    }
+
+    public function checkSubmission(ProjectJob $job)
+    {
+        $crew = auth()->user()->crew;
+
+        abort_unless($crew->hasAppliedTo($job), 404);
+
+        return response()->json([
+            'submitted' => 'true',
+        ]);
+    }
 }

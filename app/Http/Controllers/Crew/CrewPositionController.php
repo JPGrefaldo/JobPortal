@@ -78,11 +78,7 @@ class CrewPositionController extends Controller
         $crew = auth()->user()->crew;
 
         $crewPosition = CrewPosition::byCrewAndPosition($crew, $position)
-            ->with([
-                'resume',
-                'gear',
-                'reel',
-            ])->firstOrFail();
+            ->with(['resume', 'gear', 'reel'])->firstOrFail();
 
         return $crewPosition;
     }

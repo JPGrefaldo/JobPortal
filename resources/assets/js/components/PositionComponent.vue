@@ -1,14 +1,12 @@
 <template>
     <div>
-        <div class="py-2">
-            <label v-if="!selected" class="checkbox-control" @click.stop.prevent="toggleSelect">
+        <div class="flex justify-between w-full items-center py-2" @click.stop.prevent="toggleSelect">
+            <label class="checkbox-control">
                 <h3 class="position-title" v-text="position.name"></h3>
                 <input type="checkbox" v-model="filled"/>
                 <div class="control-indicator"></div>
             </label>
-            <label v-else class="checkbox-control" @click.stop.prevent="toggleSelect">
-                <h3 class="position-title" v-text="position.name"></h3>
-            </label>
+            <a href="#" class="text-grey no-underline">Edit</a>
         </div>
         <div v-if="selected">
             <div class="p-2 md:p-4 border-t-2 border-grey-lighter bg-white">
