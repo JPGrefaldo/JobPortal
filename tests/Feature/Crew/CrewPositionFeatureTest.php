@@ -160,15 +160,12 @@ class CrewPositionFeatureTest extends TestCase
         $this->actingAs($this->user)
             ->post(route('crew-position.store', $position->id), $data)
             ->assertSuccessful()
-            ->assertJsonFragment([
+            ->assertJson([
                 'message' => 'success',
             ]);
 
         $this->delete(route('crew-position.delete-resume', $position->id))
-            ->assertSuccessful()
-            ->assertJsonFragment([
-                'message' => 'success',
-            ]);
+            ->assertSuccessful();
     }
 
     /**
@@ -188,10 +185,7 @@ class CrewPositionFeatureTest extends TestCase
             ]);
 
         $this->get(route('crew-position.delete-reel', $position->id))
-            ->assertSuccessful()
-            ->assertJsonFragment([
-                'message' => 'success',
-            ]);
+            ->assertSuccessful();
     }
 
     /**

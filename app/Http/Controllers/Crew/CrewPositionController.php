@@ -43,6 +43,10 @@ class CrewPositionController extends Controller
 
         $data = $request->validated();
 
+        $crewPosition = CrewPosition::byCrewAndPosition($crew, $position)->first();
+
+        $data['crew_position_id'] = $crewPosition->id;
+
         app(StoreCrewPosition::class)->execute($crew, $position, $data);
 
         return response()->json([

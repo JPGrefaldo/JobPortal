@@ -29,6 +29,8 @@ class StoreCrewPosition
             $crewPosition->restore();
         }
 
+        $data['crew_position_id'] = $crewPosition->id;
+
         app(StoreCrewGear::class)->execute($crew, $crewPosition, $data);
         app(StoreCrewResume::class)->execute($crew, $data);
         app(StoreCrewReel::class)->execute($crew, $data);
