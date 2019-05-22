@@ -40,7 +40,7 @@ class SubmissionController extends Controller
         $crew = auth()->user()->crew;
 
         abort_unless($crew->hasAppliedTo($job), 404);
-        
+
         return response()->json([
             'submitted' => 'true',
         ]);

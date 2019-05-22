@@ -8,7 +8,6 @@ use App\Models\ProjectJob;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 
@@ -30,7 +29,7 @@ class CrewSubmissionFeatureTest extends TestCase
         $job      = factory(ProjectJob::class)->create();
 
         $response = $this->actingAs($crew)
-           ->postJson(route('crew.jobs.store', $job));
+            ->postJson(route('crew.jobs.store', $job));
 
         $response->assertStatus(400)
             ->assertSee('Please upload General Resume');

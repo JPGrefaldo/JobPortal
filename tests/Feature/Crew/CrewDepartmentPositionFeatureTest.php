@@ -2,9 +2,7 @@
 
 namespace Tests\Feature\Crews;
 
-use App\Models\CrewResume;
 use App\Models\Position;
-use App\Models\ProjectJob;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
