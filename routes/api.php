@@ -5,19 +5,18 @@ use App\Http\Controllers\API\Admin\ProjectJobSubmissionController;
 use App\Http\Controllers\API\Crew\DepartmentController;
 use App\Http\Controllers\API\Crew\PositionController;
 use App\Http\Controllers\API\Crew\ProjectController as CrewProjectController;
-use App\Http\Controllers\API\SiteController;
 use App\Http\Controllers\API\ParticipantController;
 use App\Http\Controllers\API\Producer\MessageTemplateController;
 use App\Http\Controllers\API\Producer\ProjectController;
 use App\Http\Controllers\API\Producer\ProjectJobController;
 use App\Http\Controllers\API\Producer\ProjectTypes;
+use App\Http\Controllers\API\SiteController;
 use App\Http\Controllers\API\SubmissionController;
 use App\Http\Controllers\API\UserController;
-use App\Http\Controllers\Crew\CrewProfileController;
 use App\Http\Controllers\Crew\CrewPositionController;
+use App\Http\Controllers\Crew\Endorsements\EndorsementEndorsedController;
 use App\Http\Controllers\Crew\Endorsements\EndorsementPositionController;
 use App\Http\Controllers\Crew\Endorsements\EndorsementRequestController;
-use App\Http\Controllers\Crew\Endorsements\EndorsementEndorsedController;
 use App\Http\Controllers\Crew\ThreadController as CrewThreadController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\Producer\MessageController as ProducerMessageController;
@@ -79,7 +78,6 @@ Route::put('/messages/producer/projects/{project}/messages/{message}', [
 ])->name('producer.messages.update');
 
 Route::middleware('auth:api')->group(function () {
-
     Route::get('/admin/flag-messages', [
         FlaggedMessageController::class,
         'index',
@@ -141,7 +139,6 @@ Route::middleware('auth:api')->group(function () {
     ])->middleware('role:Producer|Crew')->name('threads.search.participants');
 
     Route::prefix('producer')->middleware('role:Producer')->group(function () {
-        
         Route::get('/projects/submissions/{job}', [
             ProjectJobSubmissionController::class,
             'index',
@@ -225,7 +222,7 @@ Route::middleware('auth:api')->group(function () {
             ProjectTypes::class,
             'index',
         ])->name('producer.project.type');
-        
+
 
         Route::get('/messages/templates', [
             MessageTemplateController::class,

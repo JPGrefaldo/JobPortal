@@ -93,7 +93,7 @@ Route::middleware('auth')->group(function () {
     Route::middleware('role:Admin')
         ->namespace('App\Http\Controllers\Admin')
         ->group(base_path('routes/admin.php'));
-        
+
     Route::get('projects/{project}/jobs/{job}/submissions', [
         SubmissionController::class,
         'show',

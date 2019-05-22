@@ -2,8 +2,6 @@
 
 use App\Http\Controllers\Crew\CrewPositionController;
 use App\Http\Controllers\Crew\CrewProfileController;
-use App\Http\Controllers\Crew\Endorsements\EndorsementEndorsedController;
-use App\Http\Controllers\Crew\Endorsements\EndorsementRequestController;
 use App\Http\Controllers\Crew\MessageController;
 use App\Http\Controllers\Crew\ProjectJobController;
 use App\Http\Controllers\SubmissionController;
