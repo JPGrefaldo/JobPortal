@@ -81,6 +81,11 @@ class Crew extends Model
         return $this->resumes()->whereGeneral(true)->count() > 0;
     }
 
+    public function hasAppliedTo($job): bool
+    {
+        return $this->submissions()->where('project_job_id', $job->id)->count() > 0;
+    }
+
     /**
      * @return string
      */
