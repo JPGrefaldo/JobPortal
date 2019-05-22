@@ -4,6 +4,7 @@ namespace App\Actions\Crew;
 
 use App\Models\Crew;
 use App\Models\Position;
+use App\Models\CrewPosition;
 
 class DeleteCrewPosition
 {
@@ -14,6 +15,6 @@ class DeleteCrewPosition
      */
     public function execute(Crew $crew, Position $position)
     {
-        return $crew->crewPositions()->where('position_id', $position->id)->delete() ? 'success' : 'failed'; 
+        return CrewPosition::byCrewAndPosition($crew, $position)->delete() ? 'success' : 'failed';
     }
 }

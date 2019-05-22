@@ -151,46 +151,6 @@ class CrewPositionFeatureTest extends TestCase
     /**
      * @test
      */
-    public function crew_can_delete_resume()
-    {
-        $position = factory(Position::class)->create();
-
-        $data = $this->getStoreData();
-
-        $this->actingAs($this->user)
-            ->post(route('crew-position.store', $position->id), $data)
-            ->assertSuccessful()
-            ->assertJson([
-                'message' => 'success',
-            ]);
-
-        $this->delete(route('crew-position.delete-resume', $position->id))
-            ->assertSuccessful();
-    }
-
-    /**
-     * @test
-     */
-    public function crew_can_delete_reel()
-    {
-        $position = factory(Position::class)->create();
-
-        $data = $this->getStoreData();
-
-        $this->actingAs($this->user)
-            ->post(route('crew-position.store', $position->id), $data)
-            ->assertSuccessful()
-            ->assertJsonFragment([
-                'message' => 'success',
-            ]);
-
-        $this->get(route('crew-position.delete-reel', $position->id))
-            ->assertSuccessful();
-    }
-
-    /**
-     * @test
-     */
     public function crew_can_leave_position()
     {
         $position = factory(Position::class)->create();
