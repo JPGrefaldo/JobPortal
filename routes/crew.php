@@ -8,6 +8,8 @@ use App\Http\Controllers\Crew\Endorsements\EndorsementRequestController;
 use App\Http\Controllers\Crew\MessageController;
 use App\Http\Controllers\Crew\ProjectJobController;
 use App\Http\Controllers\SubmissionController;
+use App\Http\Controllers\Crew\CrewPositionResumeController;
+use App\Http\Controllers\Crew\CrewPositionReelController;
 
 Route::get('crew/endorsement', [EndorsementPositionController::class, 'index'])
     ->name('crew.endorsement.index');
@@ -55,9 +57,11 @@ Route::post('/crew/positions/{position}', [CrewPositionController::class, 'store
     ->name('crew-position.store');
 Route::post('/crew/positions/{position}/update', [CrewPositionController::class, 'update'])
     ->name('crew-position.update');
-Route::delete('/crew/positions/{position}/resume', [CrewPositionController::class, 'removeResume'])
+Route::delete('/crew/positions/{position}/resume', [CrewPositionResumeController::class, 'destroy'])
     ->name('crew-position.delete-resume');
-Route::get('/crew/positions/{position}/reel', [CrewPositionController::class, 'removeReel'])
+Route::delete('/crew/positions/{position}/reel', [CrewPositionReelController::class, 'destroy'])
     ->name('crew-position.delete-reel');
-Route::delete('/crew/positions/{position}/delete', [CrewPositionController::class, 'destroy'])
+Route::delete('/crew/positions/{position}/gear', [CrewPositionReelController::class, 'destroy'])
+    ->name('crew-position.delete-gear');
+Route::delete('/crew/positions/{position}', [CrewPositionController::class, 'destroy'])
     ->name('crew-position.delete');

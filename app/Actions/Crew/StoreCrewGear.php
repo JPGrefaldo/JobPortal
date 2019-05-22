@@ -39,7 +39,7 @@ class StoreCrewGear
         );
 
         $crew->gears()->update([
-            'path'        => $path,
+            'path' => $path,
         ]);
     }
 }

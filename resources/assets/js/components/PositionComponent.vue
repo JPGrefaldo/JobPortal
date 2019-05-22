@@ -246,7 +246,7 @@ export default {
 
         leavePosition: function() {
             axios
-                .delete(`/crew/positions/${this.position.id}/delete`)
+                .delete(`/crew/positions/${this.position.id}`)
                 .then(({data}) => {
                     if(data == 'success'){
                         this.form.bio               = '';
@@ -320,7 +320,7 @@ export default {
 
         removeReel: function(positionId){
             axios
-                .get(`/crew/positions/${positionId}/reel`)
+                .delete(`/crew/positions/${positionId}/reel`)
                 .then(data => {
                     if(data.data.message == 'success'){
                         this.getPositionData();

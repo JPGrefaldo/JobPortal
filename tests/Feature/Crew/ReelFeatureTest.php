@@ -44,7 +44,7 @@ class ReelFeatureTest extends TestCase
                 'message' => 'success',
             ]);
 
-        $this->get(route('crew-position.delete-reel', $position->id))
+        $this->delete(route('crew-position.delete-reel', $position->id))
             ->assertSuccessful();
     }
 }

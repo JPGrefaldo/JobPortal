@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Crew;
 
+use App\Actions\Crew\DeleteCrewPosition;
+use App\Actions\Crew\DeleteCrewPositionGear;
+use App\Actions\Crew\DeleteCrewPositionResume;
+use App\Actions\Crew\DeleteCrewPositionReel;
 use App\Actions\Crew\StoreCrewPosition;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCrewPositionRequest;
 use App\Models\CrewPosition;
 use App\Models\Position;
-use App\Actions\Crew\DeleteCrewPositionResume;
-use App\Actions\Crew\DeleteCrewPositionReel;
-use App\Actions\Crew\DeleteCrewPositionGear;
-use App\Actions\Crew\DeleteCrewPosition;
 
 class CrewPositionController extends Controller
 {
@@ -91,29 +91,6 @@ class CrewPositionController extends Controller
         $crew = auth()->user()->crew;
 
         return $crew->crewPositions->pluck('position_id');
-    }
-
-    /**
-     * @param \App\Models\CrewPosition $crewPosition
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
-     */
-    public function removeResume(Position $position)
-    {
-        $crew = auth()->user()->crew;
-
-        return app(DeleteCrewPositionResume::class)->execute($crew, $position);
-    }
-
-    /**
-     * @param \App\Models\CrewPosition $crewPosition
-     * @return string
-     */
-    public function removeReel(Position $position)
-    {
-        $crew = auth()->user()->crew;
-
-        return app(DeleteCrewPositionReel::class)->execute($crew, $position);
     }
 
     /**
