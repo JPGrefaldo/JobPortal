@@ -5,7 +5,7 @@ use App\Http\Controllers\API\Admin\ProjectJobSubmissionController;
 use App\Http\Controllers\API\Crew\DepartmentController;
 use App\Http\Controllers\API\Crew\PositionController;
 use App\Http\Controllers\API\Crew\ProjectController as CrewProjectController;
-use App\Http\Controllers\API\Crew\SiteController;
+use App\Http\Controllers\API\SiteController;
 use App\Http\Controllers\API\ParticipantController;
 use App\Http\Controllers\API\Producer\MessageTemplateController;
 use App\Http\Controllers\API\Producer\ProjectController;
@@ -110,10 +110,10 @@ Route::middleware('auth:api')->group(function () {
         'index',
     ])->name('crew.positions.index');
 
-    Route::get('/crew/sites', [
+    Route::get('/sites', [
         SiteController::class,
         'index',
-    ])->name('crew.sites.index');
+    ])->name('sites.index');
 
     Route::get('/crew/projects/{project}/threads', [
         CrewThreadController::class,

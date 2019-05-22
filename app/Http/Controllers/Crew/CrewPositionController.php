@@ -60,7 +60,7 @@ class CrewPositionController extends Controller
         $this->removeReel($crewPosition);
         $this->removeGear($crewPosition);
 
-        return $crew->crewPositions()->where('position_id', $position->id)->delete() ? 'success' : 'failed';
+        return $crewPosition->delete() ? 'success' : 'failed';
     }
 
     /**
@@ -72,11 +72,7 @@ class CrewPositionController extends Controller
         $crew = auth()->user()->crew;
 
         $crewPosition = CrewPosition::byCrewAndPosition($crew, $position)
-            ->with([
-                'resume',
-                'gear',
-                'reel',
-            ])->firstOrFail();
+            ->with(['resume', 'gear', 'reel'])->firstOrFail();
 
         return $crewPosition;
     }

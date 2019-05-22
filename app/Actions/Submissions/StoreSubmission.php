@@ -5,7 +5,7 @@ namespace App\Actions\Submissions;
 use App\Models\Crew;
 use App\Models\ProjectJob;
 
-class CreateSubmission
+class StoreSubmission
 {
     /**
      * @param \App\Models\Crew $crew
