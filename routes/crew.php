@@ -55,7 +55,7 @@ Route::get('/crew/positions/list', [CrewPositionController::class, 'getPositionL
 Route::get('/crew/positions/{position}/show', [CrewPositionController::class, 'getPositionData']);
 Route::post('/crew/positions/{position}', [CrewPositionController::class, 'store'])
     ->name('crew-position.store');
-Route::post('/crew/positions/{position}/update', [CrewPositionController::class, 'update'])
+Route::put('/crew/positions/{position}', [CrewPositionController::class, 'update'])
     ->name('crew-position.update');
 Route::delete('/crew/positions/{position}/resume', [CrewPositionResumeController::class, 'destroy'])
     ->name('crew-position.delete-resume');
