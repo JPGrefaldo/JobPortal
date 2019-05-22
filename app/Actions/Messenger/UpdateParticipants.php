@@ -5,11 +5,10 @@ namespace App\Actions\Messenger;
 use App\Models\Thread;
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 
 class UpdateParticipants
 {
-    public function execute(Thread $thread, User $user, $participants)
+    public function execute(Thread $thread, User $user, $recipient)
     {
         $thread->activateAllParticipants();
 
@@ -21,7 +20,7 @@ class UpdateParticipants
         $participant->save();
         
         // Participant
-        $thread->addParticipant($participants);
+        $thread->addParticipant($recipient);
 
         return $thread;
     }

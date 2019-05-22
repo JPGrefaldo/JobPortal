@@ -8,15 +8,15 @@ use Carbon\Carbon;
 
 class StoreParticipants
 {
-    public function execute(Thread $thread, $recepients)
+    public function execute(Thread $thread, User $user, $recipient)
     {
         // Sender
         $thread->participants()->create([
-            'user_id'   => 2,
+            'user_id'   => $user->id,
             'last_read' => new Carbon(),
         ]);
         
-        // Participant(s)
-        $thread->addParticipant($recepients);
+        // Participant
+        $thread->addParticipant($recipient);
     }
 }
