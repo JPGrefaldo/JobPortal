@@ -17,8 +17,9 @@ class DeleteCrewPositionReel
     {
         $crewPosition = CrewPosition::byCrewAndPosition($crew, $position)->first();
 
-        if ($crewPosition->reel == null)
+        if ($crewPosition->reel == null) {
             return;
+        }
 
         return response()->json([
             'message' => $crewPosition->reel->delete() ? 'success' : 'failed',

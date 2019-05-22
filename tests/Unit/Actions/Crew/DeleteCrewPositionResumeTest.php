@@ -2,15 +2,15 @@
 
 namespace Tests\Unit\Actions\Crew;
 
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\Support\SeedDatabaseAfterRefresh;
-use App\Models\Crew;
-use App\Models\Position;
-use App\Actions\Crew\StoreCrewPosition;
-use Illuminate\Http\UploadedFile;
 use App\Actions\Crew\DeleteCrewPositionResume;
+use App\Actions\Crew\StoreCrewPosition;
+use App\Models\Crew;
 use App\Models\CrewPosition;
+use App\Models\Position;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Tests\Support\SeedDatabaseAfterRefresh;
+use Tests\TestCase;
 
 class DeleteCrewPositionResumeTest extends TestCase
 {

@@ -2,12 +2,12 @@
 
 namespace Tests\Feature\Crew;
 
-use Tests\TestCase;
+use App\Models\Position;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Tests\Support\SeedDatabaseAfterRefresh;
-use App\Models\Position;
-use Illuminate\Http\UploadedFile;
+use Tests\TestCase;
 
 class ReelFeatureTest extends TestCase
 {

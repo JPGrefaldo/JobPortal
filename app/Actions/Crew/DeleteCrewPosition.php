@@ -3,8 +3,8 @@
 namespace App\Actions\Crew;
 
 use App\Models\Crew;
-use App\Models\Position;
 use App\Models\CrewPosition;
+use App\Models\Position;
 
 class DeleteCrewPosition
 {

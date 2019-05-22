@@ -17,8 +17,9 @@ class DeleteCrewPositionResume
     {
         $crewPosition = CrewPosition::byCrewAndPosition($crew, $position)->first();
 
-        if ($crewPosition->resume == null)
+        if ($crewPosition->resume == null) {
             return;
+        }
 
         return response()->json([
             'message' => $crewPosition->resume->delete() ? 'success' : 'failed',

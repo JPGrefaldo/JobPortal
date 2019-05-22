@@ -17,8 +17,9 @@ class DeleteCrewPositionGear
     {
         $crewPosition = CrewPosition::byCrewAndPosition($crew, $position)->first();
 
-        if ($crewPosition->gear == null)
+        if ($crewPosition->gear == null) {
             return;
+        }
 
         return response()->json([
             'message' => $crewPosition->gear->delete() ? 'success' : 'failed',
