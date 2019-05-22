@@ -158,13 +158,13 @@ class CrewPositionFeatureTest extends TestCase
         $data = $this->getStoreData();
 
         $this->actingAs($this->user)
-            ->post(route('crew-position.store', $position->id), $data)
+            ->post(route('crew-position.store', $position), $data)
             ->assertSuccessful()
             ->assertJsonFragment([
                 'message' => 'success',
             ]);
 
-        $this->delete(route('crew-position.delete', $position->id))
+        $this->delete(route('crew-position.delete', $position))
             ->assertSuccessful();
     }
 

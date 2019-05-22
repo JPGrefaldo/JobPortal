@@ -38,13 +38,13 @@ class ReelFeatureTest extends TestCase
         ];
 
         $this->actingAs($this->user)
-            ->post(route('crew-position.store', $position->id), $data)
+            ->post(route('crew-position.store', $position), $data)
             ->assertSuccessful()
             ->assertJsonFragment([
                 'message' => 'success',
             ]);
 
-        $this->delete(route('crew-position.delete-reel', $position->id))
+        $this->delete(route('crew-position.delete-reel', $position))
             ->assertSuccessful();
     }
 }

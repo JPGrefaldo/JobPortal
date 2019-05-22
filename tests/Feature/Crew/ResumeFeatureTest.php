@@ -38,13 +38,13 @@ class ResumeFeatureTest extends TestCase
         ];
 
         $this->actingAs($this->user)
-            ->post(route('crew-position.store', $position->id), $data)
+            ->post(route('crew-position.store', $position), $data)
             ->assertSuccessful()
             ->assertJson([
                 'message' => 'success',
             ]);
 
-        $this->delete(route('crew-position.delete-resume', $position->id))
+        $this->delete(route('crew-position.delete-resume', $position))
             ->assertSuccessful();
     }
 }
