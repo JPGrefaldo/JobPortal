@@ -20,29 +20,8 @@ class MessengerFeatureTest extends TestCase
      */
     public function can_store_a_message()
     {
-        $this->withoutExceptionHandling();
-
         $producer  = $this->createProducer();
-        $recepient = $this->createCrew();
-
-        $project = factory(Project::class)->create([
-            'user_id' => $producer->id
-        ]);
-
-        $data = [
-            'subject'   => 'Some subject',
-            'message'   => 'Some message',
-            'recepients'=>  [$recepient->id]
-        ];
-
-        $response = $this->actingAs($producer, 'api')
-            ->postJson(
-                route(
-                    'messenger.project.messages.store', 
-                    ['project' => $project->id]
-                ), 
-                $data
-            );
+        $response  = $this->mockStoreMessage($producer);
 
         $response->assertJsonFragment(['body'    => 'Some message']);
         $response->assertJsonFragment(['subject' => 'Some subject']);
@@ -54,35 +33,13 @@ class MessengerFeatureTest extends TestCase
      */
     public function can_reply_a_message()
     {
-        $this->withoutExceptionHandling();
-
-        $producer   = $this->createProducer();
-        $recepient  = $this->createCrew();
-
-        $project    = factory(Project::class)->create([
-            'user_id' => $producer->id
-        ]);
-
-        $data = [
-            'subject'   => 'Some subject',
-            'message'   => 'Some message',
-            'recepients'=>  [$recepient->id]
-        ];
-
-        $this->actingAs($producer, 'api')
-            ->postJson(
-                route(
-                    'messenger.project.messages.store', 
-                    ['project' => $project->id]
-                ), 
-                $data
-            );
-
-        $thread = Thread::find(1);
+        $producer  = $this->createProducer();
+        $response  = $this->mockStoreMessage($producer);
+        $thread    = Thread::find(1);
 
         $data = [
             'message'   => 'Some Reply message',
-            'recepients'=>  [$producer->id]
+            'recipient'=>  $producer->id
         ];
 
         $response = $this->actingAs($producer, 'api')
@@ -155,7 +112,7 @@ class MessengerFeatureTest extends TestCase
         $data = [
             'subject'   => 'Some subject',
             'message'   => 'Some message',
-            'recepients'=>  [2,3]
+            'recepient'=>  [2,3]
         ];
 
         $response = $this->actingAs($crew, 'api')
@@ -170,5 +127,24 @@ class MessengerFeatureTest extends TestCase
         $response->assertJson([
             'message' => 'You are not allowed to initiate a conversation with any producer.',
         ]);
+    }
+
+    private function mockStoreMessage($producer)
+    {
+        $recipient  = $this->createCrew();
+
+        $project    = factory(Project::class)->create([
+            'user_id' => $producer->id
+        ]);
+
+        $data = [
+            'subject'   => 'Some subject',
+            'message'   => 'Some message',
+            'recipient'=>  $recipient->id
+        ];
+
+        $response = $this->actingAs($producer, 'api')
+                        ->postJson(route('messenger.project.messages.store', $project), $data);
+        return $response;
     }
 }

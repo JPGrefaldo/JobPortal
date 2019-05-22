@@ -4,12 +4,12 @@ namespace Tests\Feature\API;
 
 use App\Http\Resources\MessageResource;
 use App\Models\Crew;
+use App\Models\Message;
+use App\Models\Participant;
 use App\Models\Project;
 use App\Models\Thread;
 use App\Models\User;
 use Carbon\Carbon;
-use Cmgmyr\Messenger\Models\Message;
-use Cmgmyr\Messenger\Models\Participant;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
@@ -24,7 +24,6 @@ class MessagesFeatureTest extends TestCase
      */
     public function indexAsCrew()
     {
-        $this->withoutExceptionHandling();
         // given
         $user = $this->createCrew();
         $thread = factory(Thread::class)->create();
@@ -47,7 +46,7 @@ class MessagesFeatureTest extends TestCase
 
         // when
         $response = $this->actingAs($user, 'api')
-            ->getJson(route('messages.index', $thread));
+            ->getJson(route('messenger.threads.messages.index', $thread));
 
         // then
         $response->assertSuccessful();
@@ -88,7 +87,7 @@ class MessagesFeatureTest extends TestCase
 
         // when
         $response = $this->actingAs($user, 'api')
-            ->getJson(route('messages.index', $thread));
+            ->getJson(route('messenger.threads.messages.index', $thread));
 
         // then
         $response->assertSuccessful();
@@ -114,7 +113,7 @@ class MessagesFeatureTest extends TestCase
 
         // when
         $response = $this->actingAs($user, 'api')
-            ->getJson(route('messages.index', $thread));
+            ->getJson(route('messenger.threads.messages.index', $thread));
 
         // then
         $response->assertForbidden();
@@ -132,7 +131,7 @@ class MessagesFeatureTest extends TestCase
 
         // when
         $response = $this->actingAs($user, 'api')
-            ->getJson(route('messages.index', $thread));
+            ->getJson(route('messenger.threads.messages.index', $thread));
 
         // then
         $response->assertForbidden();
