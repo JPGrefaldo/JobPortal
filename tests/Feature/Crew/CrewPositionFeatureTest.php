@@ -148,6 +148,26 @@ class CrewPositionFeatureTest extends TestCase
             ->assertSessionHasErrors('gear');
     }
 
+    /**
+     * @test
+     */
+    public function crew_can_leave_position()
+    {
+        $position = factory(Position::class)->create();
+
+        $data = $this->getStoreData();
+
+        $this->actingAs($this->user)
+            ->post(route('crew-position.store', $position->id), $data)
+            ->assertSuccessful()
+            ->assertJsonFragment([
+                'message' => 'success',
+            ]);
+
+        $this->delete(route('crew-position.delete', $position->id))
+            ->assertSuccessful();
+    }
+
     public function getStoreData($customData = [])
     {
         $data = [

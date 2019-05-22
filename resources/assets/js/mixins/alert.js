@@ -27,5 +27,13 @@ export default {
                 confirmButtonText: 'Yes, delete it!',
             });
         },
+
+        displayCustomMessage: function(title, message) {
+            return this.$swal({
+                title: title,
+                text: message,
+                type: 'success',
+            })
+        }
     },
 };
