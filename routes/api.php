@@ -14,8 +14,10 @@ use App\Http\Controllers\API\Producer\ProjectTypes;
 use App\Http\Controllers\API\SubmissionController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\Crew\CrewProfileController;
+use App\Http\Controllers\Crew\CrewPositionController;
 use App\Http\Controllers\Crew\Endorsements\EndorsementPositionController;
 use App\Http\Controllers\Crew\Endorsements\EndorsementRequestController;
+use App\Http\Controllers\Crew\Endorsements\EndorsementEndorsedController;
 use App\Http\Controllers\Crew\ThreadController as CrewThreadController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\Producer\MessageController as ProducerMessageController;
@@ -39,6 +41,19 @@ use App\Models\ProjectType;
 */
 Route::post('crew/endorsement/positions/{position}', [EndorsementPositionController::class, 'store'])
     ->name('crew.endorsement.position.store');
+
+// TODO: Delete?
+Route::get('crew/endorsement/positions/endorsed/{position}', [EndorsementEndorsedController::class, 'index'])
+    ->name('crew.endorsement.endorsed');
+
+Route::delete('crew/endorsement/positions/request/{endorsementRequest}', [EndorsementRequestController::class, 'destroy'])
+    ->name('crew.endorsement.request.destroy');
+
+Route::post('/crew/positions/{position}', [CrewPositionController::class, 'store'])
+    ->name('crew-position.store');
+Route::delete('/crew/positions/{position}/resume', [CrewPositionController::class, 'removeResume']);
+Route::delete('/crew/positions/{position}/delete', [CrewPositionController::class, 'destroy'])
+    ->name('crew-position.delete');
 
 Route::get('/producer/projects', [ProducerProjectController::class, 'index'])
     ->name('producer.projects');
