@@ -3,8 +3,8 @@
 namespace Tests\Feature;
 
 use App\Models\Thread;
-use Cmgmyr\Messenger\Models\Message;
-use Cmgmyr\Messenger\Models\Participant;
+use App\Models\Message;
+use App\Models\Participant;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;

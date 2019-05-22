@@ -3,7 +3,7 @@
 namespace Tests\Unit\Models;
 
 use App\Models\PendingFlagMessage;
-use Cmgmyr\Messenger\Models\Message;
+use App\Models\Message;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

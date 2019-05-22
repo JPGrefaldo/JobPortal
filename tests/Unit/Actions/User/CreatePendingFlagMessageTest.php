@@ -4,7 +4,7 @@ namespace Tests\Actions\User;
 
 use App\Actions\User\CreatePendingFlagMessage;
 use App\Mail\PendingMessageFlagged;
-use Cmgmyr\Messenger\Models\Message;
+use App\Models\Message;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
