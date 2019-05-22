@@ -13,6 +13,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\UserSignupController;
 use App\Http\Controllers\Crew\CrewProfileController;
+use App\Http\Controllers\Crew\Endorsements\EndorsementPositionController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\Manager\ManagerConfirmationController;
@@ -162,6 +163,18 @@ Route::middleware('auth')->group(function () {
 
     Route::put('/pending-flag-messages/{pendingFlagMessage}', [PendingFlagMessageController::class, 'update'])
         ->name('pending-flag-messages.update');
+
+    Route::get('crew/endorsement', [EndorsementPositionController::class, 'index'])
+    ->name('crew.endorsement.index');
+    Route::get('crew/endorsement/positions/{position}', [EndorsementPositionController::class, 'show'])
+    ->name('crew.endorsement.position.show');
+
+    Route::get('/crew/profile', [CrewProfileController::class, 'index'])
+    ->name('crew.profile.index');
+    Route::get('crew/profile/create', [CrewProfileController::class, 'create'])
+    ->name('crew.profile.create');
+    Route::get('crew/profile/edit', [CrewProfileController::class, 'edit'])
+    ->name('crew.profile.edit');
 });
 
 Route::view('/theme', 'theme.index');

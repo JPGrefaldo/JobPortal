@@ -13,8 +13,14 @@ use App\Http\Controllers\API\Producer\ProjectJobController;
 use App\Http\Controllers\API\Producer\ProjectTypes;
 use App\Http\Controllers\API\SubmissionController;
 use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\Crew\CrewProfileController;
+use App\Http\Controllers\Crew\Endorsements\EndorsementPositionController;
+use App\Http\Controllers\Crew\Endorsements\EndorsementRequestController;
 use App\Http\Controllers\Crew\ThreadController as CrewThreadController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\Producer\MessageController as ProducerMessageController;
+use App\Http\Controllers\Producer\ProjectController as ProducerProjectController;
+use App\Http\Controllers\Producer\ProjectJobController as ProducerProjectJobController;
 use App\Http\Controllers\Producer\ThreadController;
 use App\Models\ProjectType;
 
@@ -31,6 +37,31 @@ use App\Models\ProjectType;
 | * Single, Route::middleware(AuthorizeRoles::parameterize(Role::CREW))
 | * Multiple, Route::middleware(AuthorizeRoles::parameterize(Role::CREW, Role::PRODUCER))
 */
+Route::post('crew/endorsement/positions/{position}', [EndorsementPositionController::class, 'store'])
+    ->name('crew.endorsement.position.store');
+
+Route::get('/producer/projects', [ProducerProjectController::class, 'index'])
+    ->name('producer.projects');
+Route::get('/producer/projects/create', [ProducerProjectController::class, 'create'])
+    ->name('producer.projects.create');
+Route::get('/producer/projects/edit/{project}', [ProducerProjectController::class, 'edit'])
+    ->name('producer.projects.edit');
+
+Route::post('/producer/jobs', [ProducerProjectJobController::class, 'store'])
+    ->name('producer.jobs');
+Route::put('/producer/jobs/{job}', [ProducerProjectJobController::class, 'update'])
+    ->name('producer.job.update');
+
+// TODO: defer to common route for both crew and admin
+Route::post('/messages/{project}', [
+    ProducerMessageController::class,
+    'store',
+])->name('producer.messages.store');
+// TODO: defer to common route for both crew and admin
+Route::put('/messages/producer/projects/{project}/messages/{message}', [
+    ProducerMessageController::class,
+    'update',
+])->name('producer.messages.update');
 
 Route::middleware('auth:api')->group(function () {
 

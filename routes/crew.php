@@ -3,18 +3,10 @@
 use App\Http\Controllers\Crew\CrewPositionController;
 use App\Http\Controllers\Crew\CrewProfileController;
 use App\Http\Controllers\Crew\Endorsements\EndorsementEndorsedController;
-use App\Http\Controllers\Crew\Endorsements\EndorsementPositionController;
 use App\Http\Controllers\Crew\Endorsements\EndorsementRequestController;
 use App\Http\Controllers\Crew\MessageController;
 use App\Http\Controllers\Crew\ProjectJobController;
 
-Route::get('crew/endorsement', [EndorsementPositionController::class, 'index'])
-    ->name('crew.endorsement.index');
-
-Route::post('crew/endorsement/positions/{position}', [EndorsementPositionController::class, 'store'])
-    ->name('crew.endorsement.position.store');
-Route::get('crew/endorsement/positions/{position}', [EndorsementPositionController::class, 'show'])
-    ->name('crew.endorsement.position.show');
 
 // TODO: Delete?
 Route::get('crew/endorsement/positions/endorsed/{position}', [EndorsementEndorsedController::class, 'index'])
@@ -31,14 +23,8 @@ Route::post('/crew/messages', [MessageController::class, 'store'])
     ->name('crew.messages.store');
 
 
-Route::get('/crew/profile', [CrewProfileController::class, 'index'])
-    ->name('crew.profile.index');
-Route::get('crew/profile/create', [CrewProfileController::class, 'create'])
-    ->name('crew.profile.create');
 Route::post('', [CrewProfileController::class, 'store'])
     ->name('crew.profile.store');
-Route::get('crew/profile/edit', [CrewProfileController::class, 'edit'])
-    ->name('crew.profile.edit');
 Route::put('crew/profile/update', [CrewProfileController::class, 'update'])
     ->name('crew.profile.update');
 
