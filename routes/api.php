@@ -116,6 +116,18 @@ Route::middleware('auth:api')->group(function () {
                 'index',
             ])->name('producer.threads.index');
 
+            Route::prefix('{project}/messages/crew')->group(function() {
+                Route::post('save', [
+                    MessageController::class,
+                    'storeCrew',
+                ])->name('producer.message.crew.store');
+    
+                Route::post('update', [
+                    MessageController::class,
+                    'updateCrew',
+                ])->name('producer.message.crew.update');
+            });
+
             Route::get('/approved', [
                 ProjectController::class,
                 'approved',
@@ -177,10 +189,10 @@ Route::middleware('auth:api')->group(function () {
                 'index',
             ])->name('producer.project.type');
         });
-
+    
         Route::prefix('messages')->group(function () {
             Route::get('/', [
-                MessagesController::class,
+                MessageController::class,
                 'index'
             ])->name('producer.messages');
 
