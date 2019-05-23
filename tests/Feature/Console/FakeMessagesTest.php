@@ -29,7 +29,7 @@ class FakeMessagesTest extends TestCase
         $command->expectsOutput('Creating new 2 users with a producer and crew role respectively')
                 ->run();
         $users = User::all();
-        $this->assertCount(2, $users->toArray());
+        $this->assertCount(2, $users);
         $this->assertTrue($users[0]->hasRole(Role::PRODUCER));
         $this->assertTrue($users[1]->hasRole(Role::CREW));
         $this->assertArrayNotHasKey(3, $users->toArray());
@@ -43,7 +43,7 @@ class FakeMessagesTest extends TestCase
     {
         $this->runCommand();
         $users = User::all();
-        $this->assertCount(2, $users->toArray());
+        $this->assertCount(2, $users);
         $this->assertTrue($users[0]->hasRole(Role::PRODUCER));
         $this->assertTrue($users[1]->hasRole(Role::CREW));
         $this->assertArrayNotHasKey(3, $users->toArray());

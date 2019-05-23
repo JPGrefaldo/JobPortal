@@ -19,6 +19,7 @@ class FetchNewMessagesForNotification
                             ]);
                         }
                         ])->get();
+
         return $threads;
     }
 }
