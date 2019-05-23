@@ -46,10 +46,11 @@ class DeleteCrewPositionGearTest extends TestCase
         // Then we delete the entry we just created
         app(DeleteCrewPositionGear::class)->execute($crew, $position);
 
-        // Then assert entry is soft deleted
-        $this->assertDatabaseMissing('crew_gears', [
+        // Then assert crew_gear path empty
+        $this->assertDatabaseHas('crew_gears', [
             'crew_id'           => $crew->id,
             'crew_position_id'  => $crewPosition->id,
+            'path'              => '',
             'description'       => $data['gear'],
         ]);
     }
