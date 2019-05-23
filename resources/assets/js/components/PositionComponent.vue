@@ -1,14 +1,12 @@
 <template>
     <div>
-        <div class="py-2">
-            <label v-if="!selected" class="checkbox-control" @click.stop.prevent="toggleSelect">
+        <div class="flex justify-between w-full items-center py-2" @click.stop.prevent="toggleSelect">
+            <label class="checkbox-control">
                 <h3 class="position-title" v-text="position.name"></h3>
                 <input type="checkbox" v-model="filled"/>
                 <div class="control-indicator"></div>
             </label>
-            <label v-else class="checkbox-control" @click.stop.prevent="toggleSelect">
-                <h3 class="position-title" v-text="position.name"></h3>
-            </label>
+            <a href="#" class="text-grey no-underline">Edit</a>
         </div>
         <div v-if="selected">
             <div class="p-2 md:p-4 border-t-2 border-grey-lighter bg-white">
@@ -42,8 +40,8 @@
                         <div class="md:w-2/3">
                             <label :for="'resume' + position.id"
                                 class="btn-outline text-white inline-block cursor-pointer bg-green">{{form.resume ? "change" : "upload"}} file</label>
-                            <input type="file" :id="'resume' + position.id" @change="selectFile" name="resume" class="hidden"/>
-                            <button v-if="form.resume" @click="removeResume(form.id)" class="btn-outline text-green inline-block cursor-pointer">Remove</button>
+                            <input type="file" :id="'resume' + position.id" @change="selectFile" name="resume" class="hidden"/> 
+                            <button v-if="form.resume" @click="removeResume(position.id)" class="btn-outline text-green inline-block cursor-pointer">Remove</button>
                             <div v-if="form.resume" class="w-full pt-2">
                                 <i class="fas fa-file-pdf"></i>
                                 <span>
@@ -61,9 +59,9 @@
                         </div>
                         <div v-if="reel" class="md:w-2/3">
                             <a :href="reel" target="_blank" class="btn-outline text-white inline-block bg-green">View File</a>
-                            <button @click="removeReel(form.id)" class="btn-outline text-green inline-block">Remove</button>
+                            <button @click="removeReel(position.id)" class="btn-outline text-green inline-block">Remove</button>
                         </div>
-                        <div v-if="! reel" class="md:w-2/3">
+                        <div v-else class="md:w-2/3">
                             <input
                                 type="text"
                                 class="form-control bg-light w-64 mr-2 mb-2 md:mb-0"
@@ -140,6 +138,7 @@ import { Form, HasError, AlertError } from 'vform';
 import { mapGetters } from 'vuex';
 import InputErrors from './_partials/InputErrors';
 import objectToFormData from 'object-to-formdata';
+import { alert } from '../mixins';
 
      window.objectToFormData = objectToFormData
 
@@ -170,6 +169,8 @@ export default {
             }),
         };
     },
+
+    mixins: [alert],
 
     computed: {
         ...mapGetters({
@@ -205,6 +206,7 @@ export default {
             formData.append('bio', this.form.bio);
             formData.append('union_description', this.form.union_description);
             formData.append('resume', this.form.resume);
+            formData.append('gear_photos', this.form.gear_photos);
             formData.append('reel_link', this.form.reel_link);
             formData.append('gear', this.form.gear);
             formData.append('position', this.form.position);
@@ -213,18 +215,26 @@ export default {
                 axios
                 .post('/crew/positions/' + this.position.id + '/update', formData, config)
                 .then(({ data }) => {
-                    if (data === 'success') {
+                    if (data.message === 'success') {
                         this.filled = true;
                         this.getPositionData();
+                        this.displayCustomMessage(
+                            'Success', 
+                            'You have successfully updated ' + this.position.name + ' position'
+                        );
                     }
                 });
             } else {
                 axios
                 .post('/crew/positions/' + this.position.id, formData, config)
                 .then(({ data }) => {
-                    if (data === 'success') {
+                    if (data.message === 'success') {
                         this.filled = true;
                         this.getPositionData();
+                        this.displayCustomMessage(
+                            'Success', 
+                            'You have successfully applied to ' + this.position.name + ' position'
+                        );
                     }
                 });
             }
@@ -236,7 +246,7 @@ export default {
 
         leavePosition: function() {
             axios
-                .delete(`/crew/positions/${this.position.id}/delete`)
+                .delete(`/crew/positions/${this.position.id}`)
                 .then(({data}) => {
                     if(data == 'success'){
                         this.form.bio               = '';
@@ -250,6 +260,11 @@ export default {
                         this.position_exist         = false;
                         this.filled                 = false;
                         this.selected               = false;
+
+                        this.displayCustomMessage(
+                            'Success', 
+                            'You have successfully leaved ' + this.position.name + ' position'
+                        );
                     }
             })
         },
@@ -290,9 +305,13 @@ export default {
         removeResume: function(positionId){
             axios
                 .delete(`/crew/positions/${positionId}/resume`)
-                .then(({data}) => {
-                    if(data == 'success'){
+                .then(data => {
+                    if(data.data.message == 'success'){
                         this.getPositionData();
+                        this.displayCustomMessage(
+                            'Successfully removed', 
+                            'You have successfully removed resume, please upload a new one'
+                        );
                     }
             })
 
@@ -301,11 +320,16 @@ export default {
 
         removeReel: function(positionId){
             axios
-                .get(`/crew/positions/${positionId}/reel`)
-                .then(({data}) => {
-                    if(data == 'success'){
+                .delete(`/crew/positions/${positionId}/reel`)
+                .then(data => {
+                    if(data.data.message == 'success'){
                         this.getPositionData();
+                        this.displayCustomMessage(
+                            'Successfully removed', 
+                            'You have successfully removed your reel'
+                        );
                     }
+                    console.log(data)
                 })
 
             this.form.reel_file = null
@@ -313,7 +337,7 @@ export default {
     },
     mounted() {
         this.$store.dispatch('crew/checkPositionIfExist');
-        setTimeout(() => this.checkPositionIfExist(), 1000);
+        setTimeout(() => this.checkPositionIfExist(), 2000);
     }
 };
 </script>

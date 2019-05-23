@@ -51,18 +51,18 @@ export const actions = {
     },
 
     approve(context, id) {
-        axios.post(`/api/producer/projects/approve/submissions/${id}`)
+        axios.post(`/api/producer/projects/submissions/${id}/approve`)
     },
 
     reject(context, id) {
-        axios.post(`/api/producer/projects/reject/submissions/${id}`)
+        axios.post(`/api/producer/projects/submissions/${id}/reject`)
     },
 
     restore(context, id) {
-        axios.post(`/api/producer/projects/restore/submissions/${id}`)
+        axios.post(`/api/producer/projects/submissions/${id}/restore`)
     },
 
     swap(context, submissions) {
-        axios.post(`/api/producer/projects/swap/submissions/${submissions.toReject}/${submissions.toApprove}`)
+        axios.post(`/api/producer/projects/submissions/${submissions.toReject}/${submissions.toApprove}/swap`)
     }
 }

@@ -183,8 +183,8 @@ class SubmissionFeatureTest extends TestCase
 
         $this->actingAs($producer, 'api')
             ->postJson(route(
-            'producer.projects.submissions.reject',
-            ['job' => $projectJob]
+                'producer.projects.submissions.reject',
+                ['job' => $projectJob]
         ))
             ->assertSee('Submission is successfully rejected')
             ->assertStatus(Response::HTTP_OK);
@@ -204,7 +204,6 @@ class SubmissionFeatureTest extends TestCase
      */
     public function can_swap_submissions()
     {
-        $this->withoutExceptionHandling();
         $producer   = $this->createProducer();
         $projectJob = $this->createSubmission($producer);
         $project    = factory(Project::class)->create([
@@ -243,8 +242,8 @@ class SubmissionFeatureTest extends TestCase
 
         $this->actingAs($producer, 'api')
             ->postJson(route(
-            'producer.projects.swap.submissions',
-            $data
+                'producer.projects.swap.submissions',
+                $data
         ))
             ->assertSee('Submission successfully swapped.')
             ->assertStatus(Response::HTTP_OK);
@@ -252,7 +251,6 @@ class SubmissionFeatureTest extends TestCase
         $this->assertEquals(null, $submissionToReject->fresh()->approved_at);
         $this->assertEquals(null, $submissionToApprove->fresh()->rejected_at);
     }
-
 
     /**
      * @test
