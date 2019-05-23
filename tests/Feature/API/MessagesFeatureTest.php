@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\API;
 
-use App\Actions\Messenger\FetchNewMessages;
 use App\Http\Resources\MessageResource;
 use App\Models\Crew;
 use App\Models\Thread;
@@ -13,7 +12,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 
-
 class MessagesFeatureTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
@@ -22,9 +20,9 @@ class MessagesFeatureTest extends TestCase
      * @test
      * @covers App\Http\Controllers\MessageController::index
      */
-    public function indexAsCrew()
+    public function index_as_crew()
     {
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
         // given
         $user = $this->createCrew();
         $thread = factory(Thread::class)->create();
@@ -65,7 +63,7 @@ class MessagesFeatureTest extends TestCase
      * @test
      * @covers App\Http\Controllers\MessageController::index
      */
-    public function indexAsProducer()
+    public function index_as_producer()
     {
         // given
         $user = $this->createProducer();
@@ -149,7 +147,7 @@ class MessagesFeatureTest extends TestCase
         ]);
 
         // And participants
-        $thread->addParticipant([$crew->id, $producer->id]);
+        $thread->addParticipant([$producer->id, $crew->id]);
 
         // And when a new reply in the thread is added (message)
         $replyFromCrew = [

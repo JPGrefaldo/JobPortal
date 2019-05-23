@@ -23,7 +23,7 @@ class FetchNewMessages
     /**
      * @param $threads
      * @param $user
-     * @return bool
+     * @return mixed
      */
     private function formatData($threads, $user)
     {

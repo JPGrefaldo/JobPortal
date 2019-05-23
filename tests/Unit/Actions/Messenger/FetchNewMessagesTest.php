@@ -3,9 +3,7 @@
 namespace Tests\Unit\Actions\Messenger;
 
 use App\Actions\Messenger\FetchNewMessages;
-use App\Models\Message;
 use App\Models\Thread;
-use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
@@ -25,7 +23,7 @@ class FetchNewMessagesTest extends TestCase
 
         // Then we map through the thread's message(s)
         $threads->map(function ($thread) {
-            $thread->messages->map(function ($message) use($thread) {
+            $thread->messages->map(function ($message) use ($thread) {
                 $this->assertArrayHas([
                     'thread_id' => $thread->id,
                     'user_id'   => 1,

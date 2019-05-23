@@ -27,8 +27,8 @@ class FetchNewMessagesForNotificationTest extends TestCase
 
         $threads = app(FetchNewMessagesForNotification::class)->execute($producer);
 
-        $threads->map(function($thread) {
-            $thread->messages->map(function($message) {
+        $threads->map(function ($thread) {
+            $thread->messages->map(function ($message) {
                 $this->assertArrayHas(
                     [
                         'thread_id' => 1,

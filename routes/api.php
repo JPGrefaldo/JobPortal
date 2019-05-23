@@ -138,17 +138,17 @@ Route::middleware('auth:api')->group(function () {
                 ])->name('fetch.submissions.by.approved');
             });
 
-            Route::prefix('submissions')->group(function() {
+            Route::prefix('submissions')->group(function () {
                 Route::post('{submission}/approve', [
                     SubmissionController::class,
                     'approve',
                 ])->name('producer.projects.approve.submissions');
-    
+
                 Route::post('{submission}/reject', [
                     SubmissionController::class,
                     'reject',
                 ])->name('producer.projects.submissions.reject');
-    
+
                 Route::post('{submission}/restore', [
                     SubmissionController::class,
                     'restore',
