@@ -4,10 +4,10 @@ namespace Tests\Feature\API;
 
 use App\Http\Resources\MessageResource;
 use App\Models\Crew;
+use App\Models\Message;
+use App\Models\Participant;
 use App\Models\Thread;
 use App\Models\User;
-use Cmgmyr\Messenger\Models\Message;
-use Cmgmyr\Messenger\Models\Participant;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;

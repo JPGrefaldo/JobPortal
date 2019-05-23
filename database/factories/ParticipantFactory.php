@@ -1,9 +1,9 @@
 <?php
 
 use App\Models\User;
-use Cmgmyr\Messenger\Models\Participant;
-use Cmgmyr\Messenger\Models\Thread;
 use Faker\Generator as Faker;
+use App\Models\Participant;
+use App\Models\Thread;
 
 $factory->define(Participant::class, function (Faker $faker) {
     return [

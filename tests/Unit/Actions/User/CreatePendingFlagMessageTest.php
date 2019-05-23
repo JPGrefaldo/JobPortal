@@ -4,10 +4,10 @@ namespace Tests\Actions\User;
 
 use App\Actions\User\CreatePendingFlagMessage;
 use App\Mail\PendingMessageFlagged;
-use Cmgmyr\Messenger\Models\Message;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
+use App\Models\Message;
 
 class CreatePendingFlagMessageTest extends TestCase
 {
