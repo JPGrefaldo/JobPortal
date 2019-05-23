@@ -2,15 +2,15 @@
 
 namespace App\Console\Commands;
 
-use App\Models\User;
-use App\Models\Thread;
 use App\Models\Message;
 use App\Models\Participant;
 use App\Models\Project;
-use Carbon\Carbon;
-use Illuminate\Console\Command;
 use App\Models\ProjectThread;
 use App\Models\Role;
+use App\Models\Thread;
+use App\Models\User;
+use Carbon\Carbon;
+use Illuminate\Console\Command;
 
 class FakeMessages extends Command
 {
@@ -19,7 +19,7 @@ class FakeMessages extends Command
      *
      * @var string
      */
-    protected $signature = 'fake:messages 
+    protected $signature = 'fake:messages
                                          {--sender=   : USER ID - with a producer role that can be login to show the receiver message}
                                          {--receiver= : USER ID - With a crew role that can be login to show the sender message}';
 
@@ -28,7 +28,7 @@ class FakeMessages extends Command
      *
      * @var string
      */
-    protected $description = 'It will seed a message inluding a thread and participant. 
+    protected $description = 'It will seed a message inluding a thread and participant.
                               This is to test that the thread title is not always the sender\'s name';
 
     /**
@@ -59,12 +59,12 @@ class FakeMessages extends Command
             $receiver = User::find($user['receiver']);
         }
 
-        if(! $sender->hasRole(Role::PRODUCER)) {
+        if (! $sender->hasRole(Role::PRODUCER)) {
             $this->error("The sender's role is {$sender->getRoleNames()}, not a Producer");
             return;
         }
 
-        if(! $receiver->hasRole(Role::CREW)) {
+        if (! $receiver->hasRole(Role::CREW)) {
             $this->error("The receiver's role is {$receiver->getRoleNames()}, not a Crew");
             return;
         }
@@ -107,10 +107,11 @@ class FakeMessages extends Command
         $this->info('Done seeding message!');
     }
 
-    private function createUser($role='producer')
+    private function createUser($role = 'producer')
     {
         $user = factory(User::class)->create();
-        $role === 'producer' ? $user->assignRole(Role::PRODUCER):$user->assignRole(Role::CREW);
+        $role === 'producer' ? $user->assignRole(Role::PRODUCER) : $user->assignRole(Role::CREW);
+
         return $user;
     }
 }

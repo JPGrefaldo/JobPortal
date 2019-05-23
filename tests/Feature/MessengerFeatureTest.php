@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Notifications;
+namespace Tests\Feature;
 
 use App\Models\Role;
 use App\Models\Thread;
@@ -60,35 +60,16 @@ class MessengerFeatureTest extends TestCase
     {
         $crew = $this->createCrew();
 
-        $thread = factory(Thread::class)->create([
-            'subject' => 'Thread Test Subject',
-        ]);
-
-        $thread->addParticipant(
-            [
-                'user_id' => $crew->id,
-            ]
-        );
-
         $data = [
-            'thread'  => $thread->id,
             'sender'  => $crew->id,
             'message' => 'Test Message',
         ];
 
-        $this->actingAs($crew, 'api')
-            ->get(route(
-                'messages.index',
-                [
-                    'thread' => $thread->id,
-                ]
-            ));
-
-        $response = $this->actingAs($crew)
+        $response = $this->actingAs($crew, 'api')
             ->postJson(route('messages.store', $data));
 
         $response->assertJson([
-            'message' => 'You are not allowed to message the producer',
+            'message' => 'You are not allowed to initiate a conversation with any producer.',
         ]);
     }
 

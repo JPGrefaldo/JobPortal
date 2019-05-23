@@ -2,12 +2,9 @@
 
 namespace App\Actions\Messenger;
 
-use Carbon\Carbon;
-use Cmgmyr\Messenger\Models\Message;
-use Cmgmyr\Messenger\Models\Thread;
 use App\Models\User;
 
-class FetchNewMessages
+class FetchThreadsWithNewMessages
 {
     /**
      * @param User $user

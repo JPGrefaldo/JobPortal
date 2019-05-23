@@ -2,24 +2,24 @@
 
 namespace Tests\Unit\Actions\Messenger;
 
-use App\Actions\Messenger\FetchNewMessages;
+use App\Actions\Messenger\FetchThreadsWithNewMessages;
 use App\Models\Thread;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 
-class FetchNewMessagesTest extends TestCase
+class FetchThreadsWithNewMessagesTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
 
     /**
      * @test
-     * @covers \App\Actions\Messenger\FetchNewMessages::execute
+     * @covers \App\Actions\Messenger\FetchThreadsWithNewMessages::execute
      */
     public function get_the_threads_that_has_new_messages()
     {
-        // Given and When please refer to seedThreadAndMessages()
-        $threads = $this->seedThreadAndMessages();
+        // Given and When please refer to seedConversation()
+        $threads = $this->seedConversation();
 
         // Then we map through the thread's message(s)
         $threads->map(function ($thread) {
@@ -33,7 +33,7 @@ class FetchNewMessagesTest extends TestCase
         });
     }
 
-    private function seedThreadAndMessages()
+    private function seedConversation()
     {
         $crew     = $this->createCrew();
         $producer = $this->createProducer();
@@ -56,7 +56,7 @@ class FetchNewMessagesTest extends TestCase
         $crew->messages()->create($replyFromCrew);
 
         // Then get all new thread with new messages
-        $threads = app(FetchNewMessages::class)->execute($producer);
+        $threads = app(FetchThreadsWithNewMessages::class)->execute($producer);
 
         // Then return the threads with their messages
         return $threads;

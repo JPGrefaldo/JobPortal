@@ -16,9 +16,9 @@ use Tests\TestCase;
 class FakeMessagesTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
-    
+
     const CMD = 'fake:messages';
-    
+
     /**
      * @test
      * @covers \App\Console\Commands\FakeMessages::handle
@@ -28,9 +28,8 @@ class FakeMessagesTest extends TestCase
         $command = $this->artisan(self::CMD);
         $command->expectsOutput('Creating new 2 users with a producer and crew role respectively')
                 ->run();
-        
         $users = User::all();
-        $this->assertCount(2, $users->toArray());
+        $this->assertCount(2, $users);
         $this->assertTrue($users[0]->hasRole(Role::PRODUCER));
         $this->assertTrue($users[1]->hasRole(Role::CREW));
         $this->assertArrayNotHasKey(3, $users->toArray());
@@ -43,9 +42,8 @@ class FakeMessagesTest extends TestCase
     public function should_get_existing_users_when_sender_and_receiver_options_is_present()
     {
         $this->runCommand();
-        
         $users = User::all();
-        $this->assertCount(2, $users->toArray());
+        $this->assertCount(2, $users);
         $this->assertTrue($users[0]->hasRole(Role::PRODUCER));
         $this->assertTrue($users[1]->hasRole(Role::CREW));
         $this->assertArrayNotHasKey(3, $users->toArray());
@@ -99,7 +97,6 @@ class FakeMessagesTest extends TestCase
         $this->assertCount(0, Message::all());
 
         $this->runCommand();
-        
         $this->assertCount(2, Message::all());
     }
 
@@ -112,7 +109,6 @@ class FakeMessagesTest extends TestCase
         $this->assertCount(0, Participant::all());
 
         $this->runCommand();
-        
         $this->assertCount(2, Participant::all());
     }
 
