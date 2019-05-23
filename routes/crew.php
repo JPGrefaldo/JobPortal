@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Crew\CrewPositionController;
+use App\Http\Controllers\Crew\CrewPositionGearController;
 use App\Http\Controllers\Crew\CrewPositionReelController;
 use App\Http\Controllers\Crew\CrewPositionResumeController;
 use App\Http\Controllers\Crew\CrewProfileController;
@@ -10,7 +11,6 @@ use App\Http\Controllers\Crew\Endorsements\EndorsementRequestController;
 use App\Http\Controllers\Crew\MessageController;
 use App\Http\Controllers\Crew\ProjectJobController;
 use App\Http\Controllers\SubmissionController;
-use App\Http\Controllers\Crew\CrewPositionGearController;
 
 Route::get('crew/endorsement', [EndorsementPositionController::class, 'index'])
     ->name('crew.endorsement.index');

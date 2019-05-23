@@ -22,7 +22,7 @@ class DeleteCrewPositionGear
 
         if ($crewGear) {
             Storage::disk('s3')->delete($crewGear->path);
-            
+
             $crewGear->update([
                 'path' => '',
             ]);
