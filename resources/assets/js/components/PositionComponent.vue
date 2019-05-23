@@ -71,7 +71,7 @@
                             />
                             <has-error :form="form" field="reel_link"></has-error>
                             or
-                            <label :for="'reel_file' + position.id" class="btn-outline text-green inline-block"
+                            <label :for="'reel_file' + position.id" class="btn-outline text-white inline-block bg-green"
                                 :class="{ 'input__error': form.errors.has('reel_file') }"
                                 >Upload file</label
                             >
@@ -87,9 +87,6 @@
                         </div>
                         <div class="md:w-2/3">
                             <div class="display">
-                                <label :for="'gear_photos' + position.id" class="btn-outline text-white inline-block bg-green" :class="{ 'input__error': form.errors.has('gear_photos') }">Upload gear photos</label>
-                                <input type="file" :id="'gear_photos' + position.id" @change="selectFile" name="gear_photos" class="hidden" />
-                                <button v-if="form.gear_photos" class="btn-outline text-green inline-block cursor-pointer">Remove</button>
                                 <label class="label toggle">
                                     <input
                                         type="checkbox"
@@ -97,10 +94,10 @@
                                         v-model="has_gear"
                                     />
                                     <span
-                                            class="border rounded-full border-grey flex items-center cursor-pointer my-4 w-12"
-                                            v-bind:class="[has_gear ? 'switch-on' : 'switch-off']"
+                                        class="border rounded-full border-grey flex items-center cursor-pointer my-4 w-12"
+                                        v-bind:class="[has_gear ? 'switch-on' : 'switch-off']"
                                     >
-                                    <span class="rounded-full border w-6 h-6 border-grey shadow-inner bg-white shadow"></span>
+                                        <span class="rounded-full border w-6 h-6 border-grey shadow-inner bg-white shadow"></span>
                                     </span>
                                 </label>
                             </div>
@@ -121,6 +118,10 @@
                                     v-model="form.gear"
                                 ></textarea>
                             </div>
+                            <label :for="'gear_photos' + position.id"
+                            class="btn-outline text-white inline-block cursor-pointer bg-green">{{form.gear_photos ? "change" : "upload"}} file</label>
+                            <input type="file" :id="'gear_photos' + position.id" @change="selectFile" name="gear_photos" class="hidden" />
+                            <button v-if="form.gear_photos" @click="removeGearPhotos(position.id)" class="btn-outline text-green inline-block cursor-pointer">Remove</button>
                         </div>
                     </div>
                 </div>
@@ -213,7 +214,7 @@ export default {
 
             if (this.position_exist) {
                 axios
-                .post('/crew/positions/' + this.position.id + '/update', formData, config)
+                .post('/crew/positions/' + this.position.id, formData, config)
                 .then(({ data }) => {
                     if (data.message === 'success') {
                         this.filled = true;
@@ -275,9 +276,9 @@ export default {
                 bio              : data.details,
                 union_description: data.union_description ? data.union_description: '',
                 resume           : data.resume ? data.resume : null,
-                gear_photos      : data.gear_photos ? data.gear_photos : null,
                 reel             : data.reel ? data.reel : false,
                 gear             : data.gear ? data.gear.description : '',
+                gear_photos      : data.gear ? data.gear.path : null,
             });
 
             this.reel = data.reel ? data.reel.path : null;
@@ -285,7 +286,7 @@ export default {
 
         getPositionData: function() {
             axios
-                .get(`/crew/positions/${this.position.id}/show`)
+                .get(`/crew/positions/${this.position.id}`)
                 .then(response => {
                     this.filled = true
                     this.fillData(response.data)
@@ -302,37 +303,65 @@ export default {
             }
         },
 
-        removeResume: function(positionId){
+        removeResume: function(positionId) {
             axios
                 .delete(`/crew/positions/${positionId}/resume`)
                 .then(data => {
-                    if(data.data.message == 'success'){
+                    if(data.data.message == 'success') {
                         this.getPositionData();
                         this.displayCustomMessage(
                             'Successfully removed', 
                             'You have successfully removed resume, please upload a new one'
                         );
+
+                        this.form.resume = null
+                    } else {
+                        this.displayError(
+                            `You don't have a resume to delete.`
+                        )
                     }
             })
-
-            this.form.resume = null
         },
 
         removeReel: function(positionId){
             axios
                 .delete(`/crew/positions/${positionId}/reel`)
-                .then(data => {
-                    if(data.data.message == 'success'){
+                .then(response => {
+                    if(response.data.message == 'success'){
                         this.getPositionData();
                         this.displayCustomMessage(
                             'Successfully removed', 
                             'You have successfully removed your reel'
                         );
-                    }
-                    console.log(data)
-                })
 
-            this.form.reel_file = null
+                        this.form.reel_file = null
+                        this.form.reel = ''
+                    } else {
+                        this.displayError(
+                            `You don't have reels to delete.`
+                        )
+                    }
+                })
+        },
+
+        removeGearPhotos: function(positionId) {
+            axios
+                .delete(`/crew/positions/${positionId}/gear`)
+                .then(response => {
+                    if(response.data.message == 'success') {
+                        this.getPositionData();
+                        this.displayCustomMessage(
+                            'Successfully removed',
+                            'You have successfully removed the gear photos'
+                        );
+                    } else {
+                        this.displayError(
+                            `You don't have gears to delete.`
+                        );
+                    }
+
+                    this.form.gear_photos = null
+                })
         }
     },
     mounted() {

@@ -5,6 +5,7 @@ namespace App\Actions\Crew;
 use App\Models\Crew;
 use App\Models\CrewPosition;
 use App\Models\Position;
+use Illuminate\Support\Facades\Storage;
 
 class DeleteCrewPositionGear
 {
@@ -16,13 +17,18 @@ class DeleteCrewPositionGear
     public function execute(Crew $crew, Position $position)
     {
         $crewPosition = CrewPosition::byCrewAndPosition($crew, $position)->first();
+        $crewGear     = $crew->gears()->where('crew_position_id', $crewPosition->id)->first();
 
-        if ($crewPosition->gear == null) {
-            return;
+        if (!$crewGear) {
+            return false;
         }
 
-        return response()->json([
-            'message' => $crewPosition->gear->delete() ? 'success' : 'failed',
+        Storage::disk('s3')->delete($crewGear->path);
+
+        $crewGear->update([
+            'path' => '',
         ]);
+
+        return true;
     }
 }

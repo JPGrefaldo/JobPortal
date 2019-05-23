@@ -9,6 +9,7 @@ use App\Models\CrewPosition;
 use App\Models\Position;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 
@@ -23,6 +24,8 @@ class DeleteCrewPositionResumeTest extends TestCase
     public function execute()
     {
         // Given
+        Storage::fake('s3');
+
         $user = $this->createUser();
         $crew = factory(Crew::class)->create([
             'user_id' => $user->id,

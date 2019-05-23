@@ -9,6 +9,7 @@ use App\Models\CrewPosition;
 use App\Models\Position;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 
@@ -23,6 +24,8 @@ class DeleteCrewPositionGearTest extends TestCase
     public function execute()
     {
         // Given
+        Storage::fake('s3');
+
         $user = $this->createUser();
         $crew = factory(Crew::class)->create([
             'user_id' => $user->id,
@@ -46,10 +49,11 @@ class DeleteCrewPositionGearTest extends TestCase
         // Then we delete the entry we just created
         app(DeleteCrewPositionGear::class)->execute($crew, $position);
 
-        // Then assert entry is soft deleted
-        $this->assertDatabaseMissing('crew_gears', [
+        // Then assert crew_gear path empty
+        $this->assertDatabaseHas('crew_gears', [
             'crew_id'           => $crew->id,
             'crew_position_id'  => $crewPosition->id,
+            'path'              => '',
             'description'       => $data['gear'],
         ]);
     }
