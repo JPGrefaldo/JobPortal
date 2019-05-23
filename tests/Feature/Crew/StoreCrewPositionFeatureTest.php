@@ -37,7 +37,7 @@ class StoreCrewPositionFeatureTest extends TestCase
 
         // when
         $response = $this->actingAs($user)
-            ->postJson(route('crew-position.store', $position->id), $data);
+            ->postJson(route('crew-position.store', $position), $data);
 
         // then
         $response->assertSuccessful();

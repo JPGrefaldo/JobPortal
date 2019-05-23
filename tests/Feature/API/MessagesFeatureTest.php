@@ -22,9 +22,8 @@ class MessagesFeatureTest extends TestCase
      * @test
      * @covers App\Http\Controllers\MessageController::index
      */
-    public function indexAsCrew()
+    public function index_as_crew()
     {
-        $this->withoutExceptionHandling();
         // given
         $user = $this->createCrew();
         $thread = factory(Thread::class)->create();
@@ -65,7 +64,7 @@ class MessagesFeatureTest extends TestCase
      * @test
      * @covers App\Http\Controllers\MessageController::index
      */
-    public function indexAsProducer()
+    public function index_as_producer()
     {
         // given
         $user = $this->createProducer();
