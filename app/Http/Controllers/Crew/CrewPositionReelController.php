@@ -17,10 +17,10 @@ class CrewPositionReelController extends Controller
     {
         $crew = auth()->user()->crew;
 
-        $action = app(DeleteCrewPositionReel::class)->execute($crew, $position);
+        $result = app(DeleteCrewPositionReel::class)->execute($crew, $position);
 
         return response()->json([
-            'message' => $action ? 'success' : 'failed',
+            'message' => $result ? 'success' : 'failed',
         ]);
     }
 }

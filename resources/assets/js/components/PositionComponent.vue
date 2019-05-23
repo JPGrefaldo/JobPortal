@@ -338,7 +338,7 @@ export default {
                         this.form.reel = ''
                     } else {
                         this.displayError(
-                            `You don't have reel to delete.`
+                            `You don't have reels to delete.`
                         )
                     }
                 })
