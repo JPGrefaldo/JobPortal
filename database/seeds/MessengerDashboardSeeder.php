@@ -3,7 +3,7 @@
 use App\Models\Project;
 use App\Models\Thread;
 use App\Models\User;
-use Cmgmyr\Messenger\Models\Message;
+use App\Models\Message;
 use Illuminate\Database\Seeder;
 
 class MessengerDashboardSeeder extends Seeder

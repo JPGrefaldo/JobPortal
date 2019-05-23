@@ -111,15 +111,15 @@ class ThreadFeatureTest extends TestCase
         $thread = $this->threadParticipants($currentUser);
 
         $this->actingAs($currentUser, 'api')
-            ->get(route(
-                'messages.index',
+            ->getJson(route(
+                'messenger.threads.messages.index',
                 [
                     'thread' => $thread->id,
                 ]
             ));
 
         return $this->actingAs($currentUser)
-            ->postJson(route('threads.search.participants', [
+            ->postJson(route('messenger.threads.search.participants', [
                 'thread'  => $thread->id,
                 'keyword' => $keyword,
             ]));

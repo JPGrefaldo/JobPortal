@@ -12,12 +12,15 @@ class ThreadResource extends JsonResource
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    public function toArray($request)
+    public function toArray($threads)
     {
+        $user = auth()->user();
+
         return [
-            'id'         => $this->id,
-            'subject'    => $this->subject,
-            'updated_at' => $this->updated_at,
+            'id'                    => $this->id,
+            'subject'               => $this->creator()->id === $user->id ? $this->participantsString($user->id, ['first_name', 'last_name']) : $this->creator()->full_name,
+            'unreadMessagesCount'   => $this->userUnreadMessagesCount($user->id),
+            'updated_at'            => $this->updated_at,
         ];
     }
 }

@@ -5,7 +5,7 @@ namespace App\Actions\User;
 use App\Mail\PendingMessageFlagged;
 use App\Models\PendingFlagMessage;
 use Carbon\Carbon;
-use Cmgmyr\Messenger\Models\Message;
+use App\Models\Message;
 use Illuminate\Support\Facades\Mail;
 
 class CreatePendingFlagMessage

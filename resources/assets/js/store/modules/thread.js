@@ -2,6 +2,7 @@ import * as types from '../mutation-types';
 
 export const state = {
     list: [],
+    participant: {},
     participants: [],
     thread: {},
 };
@@ -9,6 +10,10 @@ export const state = {
 export const getters = {
     list(state) {
         return state.list;
+    },
+
+    participant(state) {
+        return state.participant;
     },
 
     participants(state) {
@@ -21,6 +26,10 @@ export const getters = {
 };
 
 export const mutations = {
+    [types.PARTICIPANT](state, payload) {
+        state.participant = payload;
+    },
+
     [types.PARTICIPANTS](state, payload) {
         state.participants = payload;
     },

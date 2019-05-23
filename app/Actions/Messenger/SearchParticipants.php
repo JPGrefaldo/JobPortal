@@ -3,6 +3,8 @@
 namespace App\Actions\Messenger;
 
 use App\Http\Resources\ParticipantResource;
+use App\Models\Thread;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class SearchParticipants
 {
@@ -11,7 +13,7 @@ class SearchParticipants
      * @param $keyword
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function execute($thread, $keyword)
+    public function execute(Thread $thread, $keyword): AnonymousResourceCollection
     {
         $user = auth()->user()->id;
 
