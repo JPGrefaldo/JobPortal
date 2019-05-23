@@ -4,10 +4,10 @@ namespace Tests\Unit\Actions\Producer;
 
 use App\Actions\Admin\MessageCrew;
 use App\Models\Crew;
+use App\Models\Message;
+use App\Models\Participant;
 use App\Models\Project;
 use App\Models\Thread;
-use Cmgmyr\Messenger\Models\Message;
-use Cmgmyr\Messenger\Models\Participant;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
