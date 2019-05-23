@@ -6,12 +6,12 @@ use App\Http\Controllers\API\Crew\DepartmentController;
 use App\Http\Controllers\API\Crew\PositionController;
 use App\Http\Controllers\API\Crew\ProjectController as CrewProjectController;
 use App\Http\Controllers\API\MessageController;
-use App\Http\Controllers\API\SiteController;
 use App\Http\Controllers\API\ParticipantController;
 use App\Http\Controllers\API\Producer\MessageTemplateController;
 use App\Http\Controllers\API\Producer\ProjectController;
 use App\Http\Controllers\API\Producer\ProjectJobController;
 use App\Http\Controllers\API\Producer\ProjectTypes;
+use App\Http\Controllers\API\SiteController;
 use App\Http\Controllers\API\SubmissionController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\Crew\ThreadController as CrewThreadController;
@@ -58,15 +58,15 @@ Route::middleware('auth:api')->group(function () {
         'index',
     ])->name('sites.index');
 
-    Route::prefix('messenger')->middleware('role:Producer|Crew')->group(function() {
-        Route::prefix('project')->group(function() {
+    Route::prefix('messenger')->middleware('role:Producer|Crew')->group(function () {
+        Route::prefix('project')->group(function () {
             Route::post('{project}/messages', [
                 MessageController::class,
                 'store',
             ])->name('messenger.project.messages.store');
         });
 
-        Route::prefix('threads')->group(function() {
+        Route::prefix('threads')->group(function () {
             Route::get('{thread}/messages', [
                 MessageController::class,
                 'index',
@@ -116,12 +116,12 @@ Route::middleware('auth:api')->group(function () {
                 'index',
             ])->name('producer.threads.index');
 
-            Route::prefix('{project}/messages/crew')->group(function() {
+            Route::prefix('{project}/messages/crew')->group(function () {
                 Route::post('save', [
                     MessageController::class,
                     'storeCrew',
                 ])->name('producer.message.crew.store');
-    
+
                 Route::post('update', [
                     MessageController::class,
                     'updateCrew',
@@ -192,7 +192,7 @@ Route::middleware('auth:api')->group(function () {
                 'index',
             ])->name('producer.project.type');
         });
-    
+
         Route::prefix('messages')->group(function () {
             Route::get('/', [
                 MessageController::class,

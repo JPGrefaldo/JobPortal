@@ -5,12 +5,12 @@ namespace Tests\Unit\Actions\Producer;
 use App\Actions\Producer\StoreMessageCrew;
 use App\Models\Crew;
 use App\Models\Message;
-use App\Models\Thread;
 use App\Models\Project;
+use App\Models\Thread;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
-use App\Models\User;
 
 class StoreMessageCrewTest extends TestCase
 {
@@ -113,7 +113,7 @@ class StoreMessageCrewTest extends TestCase
         $data          = new \stdClass;
         $data->subject = $producer->fullName;
         $data->message = 'Some message';
-        
+
         return $data;
     }
 }
