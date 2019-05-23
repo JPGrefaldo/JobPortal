@@ -1,9 +1,9 @@
 <?php
 
+use App\Models\Message;
 use App\Models\Thread;
 use App\Models\User;
 use Faker\Generator as Faker;
-use App\Models\Message;
 
 $factory->define(Message::class, function (Faker $faker) {
     return [
