@@ -25,7 +25,7 @@ class DeleteCrewPositionResumeTest extends TestCase
     {
         // Given
         Storage::fake('s3');
-        
+
         $user = $this->createUser();
         $crew = factory(Crew::class)->create([
             'user_id' => $user->id,
