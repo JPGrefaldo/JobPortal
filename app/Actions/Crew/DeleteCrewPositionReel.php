@@ -17,19 +17,16 @@ class DeleteCrewPositionReel
     public function execute(Crew $crew, Position $position)
     {
         $crewPosition = CrewPosition::byCrewAndPosition($crew, $position)->first();
+        $crewReel     = $crew->reels()->where('crew_position_id', $crewPosition->id)->first();
 
-        $crewReel = $crew->reels()->where('crew_position_id', $crewPosition->id)->first();
-
-        if ($crewReel) {
-            Storage::disk('s3')->delete($crewReel->path);
-
-            return response()->json([
-                'message' => $crewReel->delete() ? 'success' : 'failed',
-            ]);
-        } else {
-            return response()->json([
-                'message' => 'failed',
-            ]);
+        if (!$crewReel) {
+            return false;
         }
+
+        Storage::disk('s3')->delete($crewReel->path);
+
+        $crewReel->delete();
+
+        return true;
     }
 }

@@ -17,6 +17,10 @@ class CrewPositionGearController extends Controller
     {
         $crew = auth()->user()->crew;
 
-        return app(DeleteCrewPositionGear::class)->execute($crew, $position);
+        $action = app(DeleteCrewPositionGear::class)->execute($crew, $position);
+
+        return response()->json([
+            'message' => $action ? 'success' : 'failed',
+        ]);
     }
 }

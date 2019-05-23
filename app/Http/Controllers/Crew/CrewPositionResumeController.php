@@ -17,6 +17,10 @@ class CrewPositionResumeController extends Controller
     {
         $crew = auth()->user()->crew;
 
-        return app(DeleteCrewPositionResume::class)->execute($crew, $position);
+        $action = app(DeleteCrewPositionResume::class)->execute($crew, $position);
+
+        return response()->json([
+            'message' => $action ? 'success' : 'failed',
+        ]);
     }
 }

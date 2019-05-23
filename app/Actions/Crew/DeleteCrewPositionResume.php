@@ -17,19 +17,16 @@ class DeleteCrewPositionResume
     public function execute(Crew $crew, Position $position)
     {
         $crewPosition = CrewPosition::byCrewAndPosition($crew, $position)->first();
+        $crewResume   = $crew->resumes()->where('crew_position_id', $crewPosition->id)->first();
 
-        $crewResume = $crew->resumes()->where('crew_position_id', $crewPosition->id)->first();
-
-        if ($crewResume) {
-            Storage::disk('s3')->delete($crewResume->path);
-
-            return response()->json([
-                'message' => $crewResume->delete() ? 'success' : 'failed',
-            ]);
-        } else {
-            return response()->json([
-                'message' => 'failed',
-            ]);
+        if (!$crewResume) {
+            return false;
         }
+
+        Storage::disk('s3')->delete($crewResume->path);
+
+        $crewResume->delete();
+
+        return true;
     }
 }

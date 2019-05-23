@@ -286,7 +286,7 @@ export default {
 
         getPositionData: function() {
             axios
-                .get(`/crew/positions/${this.position.id}/show`)
+                .get(`/crew/positions/${this.position.id}`)
                 .then(response => {
                     this.filled = true
                     this.fillData(response.data)
@@ -316,7 +316,9 @@ export default {
 
                         this.form.resume = null
                     } else {
-                        this.displayError('Resume delete failed')
+                        this.displayError(
+                            `You don't have a resume to delete.`
+                        )
                     }
             })
         },
@@ -335,7 +337,9 @@ export default {
                         this.form.reel_file = null
                         this.form.reel = ''
                     } else {
-                        this.displayError('Reel delete failed')
+                        this.displayError(
+                            `You don't have reel to delete.`
+                        )
                     }
                 })
         },
@@ -352,12 +356,12 @@ export default {
                         );
                     } else {
                         this.displayError(
-                            'Please upload gear photo (Optional)'
+                            `You don't have gears to delete.`
                         );
                     }
-                })
 
-            this.form.gear_photos = null
+                    this.form.gear_photos = null
+                })
         }
     },
     mounted() {

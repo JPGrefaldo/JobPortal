@@ -53,7 +53,7 @@ Route::post('/crew/photos', [CrewProfileController::class, 'storePhoto']);
 
 Route::get('/crew/positions/list', [CrewPositionController::class, 'getPositionList'])
     ->name('crew-positions-list');
-Route::get('/crew/positions/{position}/show', [CrewPositionController::class, 'show'])
+Route::get('/crew/positions/{position}', [CrewPositionController::class, 'show'])
     ->name('crew-positions.show');
 Route::post('/crew/positions/{position}', [CrewPositionController::class, 'store'])
     ->name('crew-position.store');
