@@ -1,7 +1,7 @@
 <?php
 
+use App\Models\Message;
 use App\Models\PendingFlagMessage;
-use Cmgmyr\Messenger\Models\Message;
 use Faker\Generator as Faker;
 
 $factory->define(PendingFlagMessage::class, function (Faker $faker) {

@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Crew;
 
+use App\Models\Message;
 use App\Models\Thread;
-use Cmgmyr\Messenger\Models\Message;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
@@ -22,7 +22,7 @@ class MessengerFeatureTest extends TestCase
         $producer = $this->createProducer();
         $thread = factory(Thread::class)->create();
         $thread->addParticipant($producer->id);
-        $producerMessage = factory(Message::class)->create([
+        factory(Message::class)->create([
             'user_id' => $producer->id,
         ]);
         $thread->addParticipant($crew->id);

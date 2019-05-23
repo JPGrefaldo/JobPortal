@@ -3,9 +3,9 @@
 namespace Tests\Feature\Producer\Messages;
 
 use App\Models\Crew;
+use App\Models\Message;
 use App\Models\Project;
 use App\Models\Thread;
-use Cmgmyr\Messenger\Models\Message;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
