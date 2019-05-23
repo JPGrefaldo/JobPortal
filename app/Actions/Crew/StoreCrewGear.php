@@ -13,6 +13,11 @@ class StoreCrewGear
      */
     public function execute(Crew $crew, array $data): void
     {
+        $crew->gears()->updateOrCreate(
+            ['crew_position_id' => $data['crew_position_id'],],
+            ['description' => $data['gear'],]
+        );
+
         if (! isset($data['gear_photos']) || empty($data['gear_photos'])) {
             return;
         }

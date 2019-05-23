@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Crew\CrewPositionController;
+use App\Http\Controllers\Crew\CrewPositionReelController;
+use App\Http\Controllers\Crew\CrewPositionResumeController;
 use App\Http\Controllers\Crew\CrewProfileController;
 use App\Http\Controllers\Crew\Endorsements\EndorsementEndorsedController;
 use App\Http\Controllers\Crew\Endorsements\EndorsementPositionController;
@@ -53,7 +55,13 @@ Route::get('/crew/positions/list', [CrewPositionController::class, 'getPositionL
 Route::get('/crew/positions/{position}/show', [CrewPositionController::class, 'getPositionData']);
 Route::post('/crew/positions/{position}', [CrewPositionController::class, 'store'])
     ->name('crew-position.store');
-Route::delete('/crew/positions/{position}/resume', [CrewPositionController::class, 'removeResume']);
-Route::delete('/crew/positions/{position}/delete', [CrewPositionController::class, 'destroy'])
+Route::put('/crew/positions/{position}', [CrewPositionController::class, 'update'])
+    ->name('crew-position.update');
+Route::delete('/crew/positions/{position}/resume', [CrewPositionResumeController::class, 'destroy'])
+    ->name('crew-position.delete-resume');
+Route::delete('/crew/positions/{position}/reel', [CrewPositionReelController::class, 'destroy'])
+    ->name('crew-position.delete-reel');
+Route::delete('/crew/positions/{position}/gear', [CrewPositionReelController::class, 'destroy'])
+    ->name('crew-position.delete-gear');
+Route::delete('/crew/positions/{position}', [CrewPositionController::class, 'destroy'])
     ->name('crew-position.delete');
-Route::get('/crew/positions/{position}/reel', [CrewPositionController::class, 'removeReel']);

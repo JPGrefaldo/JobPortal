@@ -50,7 +50,7 @@ class CrewSubmissionFeatureTest extends TestCase
         factory(CrewResume::class)->create(['crew_id' => $crew->id]);
 
         $response = $this->actingAs($crew)
-            ->postJson(route('crew.jobs.store', $job->id));
+            ->postJson(route('crew.jobs.store', $job));
 
         $response->assertStatus(200)
             ->assertJson([

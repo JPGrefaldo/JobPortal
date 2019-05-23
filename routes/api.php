@@ -160,24 +160,27 @@ Route::middleware('auth:api')->group(function () {
                 ])->name('fetch.submissions.by.approved');
             });
 
-            Route::post('/submissions/{submission}/approve', [
-                SubmissionController::class,
-                'approve',
-            ])->name('producer.projects.approve.submissions');
+            Route::prefix('submissions')->group(function () {
+                Route::post('{submission}/approve', [
+                    SubmissionController::class,
+                    'approve',
+                ])->name('producer.projects.approve.submissions');
 
-            Route::post('swap/submissions/{submissionToReject}/{submissionToApprove}', [
-                SubmissionController::class,
-                'swap',
-            ])->name('producer.projects.swap.submissions');
-            Route::post('/submissions/{submission}/reject', [
-                SubmissionController::class,
-                'reject',
-            ])->name('producer.projects.submissions.reject');
+                Route::post('{submission}/reject', [
+                    SubmissionController::class,
+                    'reject',
+                ])->name('producer.projects.submissions.reject');
 
-            Route::post('/submissions/{submission}/restore', [
-                SubmissionController::class,
-                'restore',
-            ])->name('producer.projects.submissions.restore');
+                Route::post('{submission}/restore', [
+                    SubmissionController::class,
+                    'restore',
+                ])->name('producer.projects.submissions.restore');
+
+                Route::post('{submissionToReject}/{submissionToApprove}/swap', [
+                    SubmissionController::class,
+                    'swap',
+                ])->name('producer.projects.swap.submissions');
+            });
 
             Route::get('/pending', [
                 ProjectController::class,
