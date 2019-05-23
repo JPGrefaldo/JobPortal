@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Actions\Messenger\StoreMessage;
 use App\Http\Resources\MessageResource;
-use App\Models\ProjectThread;
 use App\Models\Role;
 use App\Models\Thread;
 use Illuminate\Http\Request;
@@ -19,7 +18,7 @@ class MessageController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Thread $thread)
-    {   
+    {
         $user = auth()->user();
         $messages = $thread->messages()->with('user')->where('flagged_at', null)->get();
 
