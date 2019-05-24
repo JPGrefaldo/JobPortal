@@ -27,11 +27,12 @@ class MessageController extends Controller
     {
         $user = auth()->user();
     
-        if (! $thread->hasParticipant($user->id)) {
+        if (! $thread->hasParticipsant($user->id)) {
             return response()->json([], Response::HTTP_FORBIDDEN);
         }
 
         $messages = $thread->messages()->with('user')->where('flagged_at', null)->get();
+        dump($messages);
         return MessageResource::collection($messages);
     }
 
