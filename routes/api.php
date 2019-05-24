@@ -58,31 +58,25 @@ Route::middleware('auth:api')->group(function () {
         'index',
     ])->name('sites.index');
 
-    Route::prefix('messenger')->middleware('role:Producer|Crew')->group(function () {
-        Route::prefix('project')->group(function () {
-            Route::post('{project}/messages', [
-                MessageController::class,
-                'store',
-            ])->name('messenger.project.messages.store');
-        });
+    Route::post('/messenger/projects/{project}/messages', [
+        MessageController::class,
+        'store',
+    ])->middleware('role:Producer')->name('messenger.project.messages.store');
 
-        Route::prefix('threads')->group(function () {
-            Route::get('{thread}/messages', [
-                MessageController::class,
-                'index',
-            ])->name('messenger.threads.messages.index');
+    Route::get('/messenger/threads/{thread}/messages', [
+        MessageController::class,
+        'index',
+    ])->middleware('role:Producer')->name('messenger.threads.messages.index');
 
-            Route::put('{thread}/messages', [
-                MessageController::class,
-                'update',
-            ])->name('messenger.threads.messages.update');
+    Route::put('/messenger/threads/{thread}/messages', [
+        MessageController::class,
+        'update',
+    ])->middleware('role:Producer')->name('messenger.threads.messages.update');
 
-            Route::post('{thread}/participants', [
-                ParticipantController::class,
-                'search',
-            ])->name('messenger.threads.search.participants');
-        });
-    });
+    Route::post('/messenger/threads/{thread}/search', [
+        ParticipantController::class,
+        'search',
+    ])->middleware('role:Producer')->name('threads.index.search');
 
     Route::get('/crew/projects/{project}/threads', [
         CrewThreadController::class,
