@@ -73,6 +73,7 @@ export default {
         },
 
         sendMessage() {
+            console.log(this.participant.hash_id)
             if (this.saveTemplate) {
                 this.saveMessageTemplate(this.message)
             }
@@ -80,7 +81,7 @@ export default {
             let params = {
                 message: this.message,
                 thread: this.thread.id,
-                recipient: this.participant
+                recipient: this.participant.hash_id
             };
             this.$store.dispatch('message/saveReply', params);
         },
