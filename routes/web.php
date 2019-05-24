@@ -104,7 +104,14 @@ Route::middleware('auth')->group(function () {
 
         Route::get('subscription', [AccountSubscriptionController::class, 'index'])
             ->name('account.subscription');
-        Route::post('subscription', [AccountSubscriptionController::class, 'store']);
+        Route::post('subscription', [AccountSubscriptionController::class, 'store'])
+            ->name('account.subscription.subscribe');
+        Route::get('unsubscribe', [AccountSubscriptionController::class, 'destroy'])
+            ->name('account.subscription.unsubscribe');
+        Route::get('resume', [AccountSubscriptionController::class, 'update'])
+            ->name('account.subscription.resume');
+        Route::get('user/invoice/{invoice}', [AccountSubscriptionController::class, 'show'])
+            ->name('account.subscription.invoice');
 
         Route::get('password', [AccountPasswordController::class, 'index'])
             ->name('account.password');
