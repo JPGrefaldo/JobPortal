@@ -28,7 +28,7 @@ class StoreMessageCrewTest extends TestCase
     {
         // given
         $producer   = $this->createProducer();
-        $crew       = factory(Crew::class)->create();
+        $crew       = $this->createCrew()->crew;
         $project    = factory(Project::class)->create([
             'user_id' => $producer->id,
         ]);
@@ -83,18 +83,19 @@ class StoreMessageCrewTest extends TestCase
         $producerUser = $this->createProducer();
         $crewUser = $this->createUser();
         $project = factory(Project::class)->create();
-        $thread = factory(Thread::class)->create([
+        $thread = $project->threads()->create([
             'subject' => 'asdf',
         ]);
 
         $thread->addParticipant([$producerUser->id, $crewUser->id]);
 
-        $message = factory(Message::class)->create([
+        $message = [
+            'body'      => 'Some message',
             'thread_id' => $thread,
             'user_id'   => $producerUser->id,
-        ]);
+        ];
 
-        $thread->messages()->save($message);
+        $thread->messages()->create($message);
 
         $project->threads()->attach($thread);
 
