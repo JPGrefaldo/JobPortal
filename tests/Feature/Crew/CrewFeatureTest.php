@@ -238,7 +238,7 @@ class CrewFeatureTest extends TestCase
                     'id'  => SocialLinkTypeID::TUMBLR,
                 ],
                 'vimeo'            => [
-                    'url' => 'https://vimeo.com/mackevision',
+                    'url' => 'https://vimeo.com/337361057',
                     'id'  => SocialLinkTypeID::VIMEO,
                 ],
                 'instagram'        => [

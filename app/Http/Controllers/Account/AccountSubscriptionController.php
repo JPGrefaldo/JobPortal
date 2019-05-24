@@ -39,18 +39,31 @@ class AccountSubscriptionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if (! $request->has('stripeToken')) {
+            return back()->withErrors(['Invalid credit card information']);
+        }
+
+        Auth::user()->newSubscription('default', config('services.stripe.plan'))
+            ->create($request->get('stripeToken'), [
+                'email' => Auth::user()->email,
+                'name'  => Auth::user()->full_name,
+            ]);
+
+        return back()->with('infoMessage', 'Subscribed');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $invoiceId
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function show($id)
+    public function show($invoiceId)
     {
-        //
+        return Auth::user()->downloadInvoice($invoiceId, [
+            'vendor'  => config('app.name'),
+            'product' => 'Monthly Subscription',
+        ]);
     }
 
     /**
@@ -71,9 +84,11 @@ class AccountSubscriptionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update()
     {
-        //
+        Auth::user()->subscription()->resume();
+
+        return back()->with('infoMessage', 'Subscription Resumed');
     }
 
     /**
@@ -82,8 +97,10 @@ class AccountSubscriptionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy()
     {
-        //
+        Auth::user()->subscription()->cancel();
+
+        return redirect(route('account.subscription'))->with('infoMessage', 'Unsubscribed');
     }
 }
