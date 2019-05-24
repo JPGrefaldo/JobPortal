@@ -5,7 +5,6 @@ use App\Http\Controllers\API\Admin\ProjectJobSubmissionController;
 use App\Http\Controllers\API\Crew\DepartmentController;
 use App\Http\Controllers\API\Crew\PositionController;
 use App\Http\Controllers\API\Crew\ProjectController as CrewProjectController;
-use App\Http\Controllers\API\MessageController;
 use App\Http\Controllers\API\ParticipantController;
 use App\Http\Controllers\API\Producer\MessageTemplateController;
 use App\Http\Controllers\API\Producer\ProjectController;
@@ -17,6 +16,7 @@ use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\Crew\ThreadController as CrewThreadController;
 use App\Http\Controllers\Producer\ThreadController;
 use App\Models\ProjectType;
+use App\Http\Controllers\API\MessageController;
 
 /*
 |--------------------------------------------------------------------------
