@@ -45,6 +45,13 @@
                         </div>
                         <div class="md:w-2/3">
                             <file-pond></file-pond>
+                            @if (isset($user->crew->photo_path))
+                                <div class="w-full pt-2">
+                                    <p class="text-sm text-grey">
+                                        {{ basename($user->crew->photo_path) }}
+                                    </p>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -55,8 +62,12 @@
                             <h3 class="section-title mb-2 md:mb-0">General resume</h3>
                         </div>
                         <div class="md:w-2/3">
-                            <label for="resume" class="btn-outline text-green inline-block" >Upload file</label>
-
+                            <label for="resume" class="btn-outline text-green inline-block mb-4">
+                                {{ isset($resume->path) ? 'Update file' : 'Upload file' }}
+                            </label>
+                            <p class="text-sm text-grey">
+                                {{ basename($resume->path) }}
+                            </p>
                             <input id="resume"
                                    type="file"
                                    name="resume"
@@ -71,7 +82,9 @@
                             <h3 class="section-title mt-2 mb-2 md:mb-0">General reel</h3>
                         </div>
                         <div class="md:w-2/3">
-                            <label for="reel_file" class="btn-outline text-green inline-block" >Upload file</label>
+                            <label for="reel_file" class="btn-outline text-green inline-block mb-4">
+                                {{ isset($reel->path) ? 'Update file' : 'Upload file' }}
+                            </label>
 
                             <input id="reel_file"
                                    type="file"
