@@ -19,17 +19,23 @@ export const mutations = {
 export const actions = {
     fetch(context, thread) {
         axios
-            .get('api/threads/' + thread + '/messages')
+            .get('api/messenger/threads/' + thread + '/messages')
             .then(response => context.commit(types.MESSAGES, response.data.data));
     },
 
-    send(context, params) {
-        axios.post('api/threads/' + params.thread + '/messages', params).then(response => {
+    save(context, params) {
+        axios.post('api/messenger/project/' + params.project + '/messages', params).then(response => {
             //TODO: Update the message list
         });
     },
 
-    save(context, message) {
+    saveReply(context, params) {
+        axios.put('api/messenger/threads/' + params.thread + '/messages', params).then(response => {
+            //TODO: Update the message list
+        });
+    },
+
+    saveAsTemplate(context, message) {
         return axios.post('/api/producer/messages/templates', message)
     }
 };

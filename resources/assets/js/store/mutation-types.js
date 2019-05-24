@@ -9,6 +9,7 @@ export const JOBS                       = 'JOBS';
 
 export const MESSAGES                   = 'MESSAGES';
 
+export const PARTICIPANT                = 'PARTICIPANT';
 export const PARTICIPANTS               = 'PARTICIPANTS';
 
 export const POSITION                   = 'POSITION';
