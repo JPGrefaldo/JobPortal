@@ -29,8 +29,8 @@ class EditCrewTest extends TestCase
         app(EditCrew::class)->execute($models['crew'], $data);
 
         $this->assertDatabaseHas('crews', [
-            'user_id'    => $models['user']->id,
-            'bio'        => 'updated bio',
+            'user_id' => $models['user']->id,
+            'bio'     => 'updated bio',
         ]);
     }
 }

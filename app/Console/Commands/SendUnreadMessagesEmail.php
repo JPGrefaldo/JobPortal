@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Actions\Messenger\FetchNewMessages;
+use App\Actions\Messenger\FetchNewMessagesForNotification;
 use App\Models\User;
 use App\Notifications\UnreadMessagesInThread;
 use Illuminate\Console\Command;
@@ -43,7 +43,7 @@ class SendUnreadMessagesEmail extends Command
         $users = User::all();
 
         $users->map(function ($user) {
-            $messages = app(FetchNewMessages::class)->execute($user);
+            $messages = app(FetchNewMessagesForNotification::class)->execute($user);
 
             $user->notify(new UnreadMessagesInThread($messages, $user));
         });

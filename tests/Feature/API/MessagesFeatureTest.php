@@ -4,11 +4,13 @@ namespace Tests\Feature\API;
 
 use App\Http\Resources\MessageResource;
 use App\Models\Crew;
+use App\Models\Message;
+use App\Models\Participant;
+use App\Models\Project;
 use App\Models\Thread;
 use App\Models\User;
-use Cmgmyr\Messenger\Models\Message;
-use Cmgmyr\Messenger\Models\Participant;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Carbon;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 
@@ -20,7 +22,7 @@ class MessagesFeatureTest extends TestCase
      * @test
      * @covers App\Http\Controllers\MessageController::index
      */
-    public function indexAsCrew()
+    public function index_as_crew()
     {
         // given
         $user = $this->createCrew();
@@ -62,7 +64,7 @@ class MessagesFeatureTest extends TestCase
      * @test
      * @covers App\Http\Controllers\MessageController::index
      */
-    public function indexAsProducer()
+    public function index_as_producer()
     {
         // given
         $user = $this->createProducer();
@@ -105,11 +107,9 @@ class MessagesFeatureTest extends TestCase
      */
     public function crew_cant_see_messages_if_not_participant_of_thread()
     {
-        // $this->withoutExceptionHandling();
-
         // given
-        $user = $this->createCrew();
-        $thread = factory(Thread::class)->create();
+        $user   = $this->createCrew();
+        $thread = $this->seedConversation();
 
         // when
         $response = $this->actingAs($user, 'api')
@@ -117,19 +117,6 @@ class MessagesFeatureTest extends TestCase
 
         // then
         $response->assertForbidden();
-
-        // given
-        factory(Participant::class)->create([
-            'thread_id' => $thread->id,
-            'user_id'   => $user->id,
-        ]);
-
-        // when
-        $response = $this->actingAs($user, 'api')
-            ->getJson(route('messages.index', $thread));
-
-        // then
-        $response->assertSuccessful();
     }
 
     /**
@@ -138,11 +125,9 @@ class MessagesFeatureTest extends TestCase
      */
     public function producer_cant_see_messages_if_not_participant_of_thread()
     {
-        // $this->withoutExceptionHandling();
-
         // given
         $user = $this->createProducer();
-        $thread = factory(Thread::class)->create();
+        $thread = $this->seedConversation();
 
         // when
         $response = $this->actingAs($user, 'api')
@@ -150,18 +135,38 @@ class MessagesFeatureTest extends TestCase
 
         // then
         $response->assertForbidden();
+    }
 
-        // given
-        factory(Participant::class)->create([
-            'thread_id' => $thread->id,
-            'user_id'   => $user->id,
+    private function seedConversation()
+    {
+        $crew     = $this->createCrew();
+        $producer = $this->createProducer();
+
+        $project = factory(Project::class)->create([
+            'user_id' => $producer->id,
         ]);
 
-        // when
-        $response = $this->actingAs($user, 'api')
-            ->getJson(route('messages.index', $thread));
+        // Given we have a thread
+        $thread = $project->threads()->create([
+            'subject' => 'Thread Test Subject',
+        ]);
 
-        // then
-        $response->assertSuccessful();
+        // Sender
+        Participant::create([
+            'thread_id' => $thread->id,
+            'user_id'   => $producer->id,
+            'last_read' => new Carbon(),
+        ]);
+
+        // Participant
+        $thread->addParticipant($crew->id);
+
+        // And when a new reply in the thread is added (message)
+        $crew->messages()->create([
+            'thread_id' => $thread->id,
+            'body'      => 'Test Reply Message',
+        ]);
+
+        return $thread;
     }
 }

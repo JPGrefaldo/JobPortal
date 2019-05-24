@@ -20,7 +20,7 @@
                 ></div>
                 <div class="p-2 flex-1">
                     <div class="mb-1 truncate w-32">{{ thread.subject }}</div>
-                    <p class="text-xs truncate w-32">last message</p>
+                    <p class="text-xs truncate w-32">{{thread.unreadMessagesCount}} unread messages</p>
                 </div>
             </button>
         </div>
