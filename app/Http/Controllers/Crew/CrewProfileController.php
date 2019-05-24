@@ -8,9 +8,9 @@ use App\Actions\Crew\UpdateCrew;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateCrewRequest;
 use App\Http\Requests\CreatePhotoRequest;
+use App\Models\SocialLinkType;
 use App\Models\User;
 use App\Services\DepartmentsServices;
-use App\Services\SocialLinksServices;
 use Auth;
 
 class CrewProfileController extends Controller
@@ -57,7 +57,10 @@ class CrewProfileController extends Controller
      */
     public function getAllSocialLinkTypes($user)
     {
-        $socialLinkTypes =  app(SocialLinksServices::class)->getAllSocialLinkTypeWithCrew($user);
+        $socialLinkTypes = SocialLinkType::with(['crew' => function ($q) use ($user) {
+            $q->where('crew_id', $user->crew->id)->get();
+        }])->get();
+
         return $socialLinkTypes;
     }
 

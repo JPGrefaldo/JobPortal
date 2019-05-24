@@ -106,7 +106,7 @@ class UpdateCrewTest extends TestCase
         $this->assertDatabaseHas('crew_socials', [
             'crew_id'             => $this->models['crew']->id,
             'social_link_type_id' => SocialLinkTypeID::VIMEO,
-            'url'                 => 'https://vimeo.com/new-mackevision',
+            'url'                 => 'https://player.vimeo.com/video/327999826',
         ]);
 
         $this->assertDatabaseHas('crew_socials', [

@@ -118,4 +118,13 @@ class StrUtils
 
         return $value;
     }
+
+    /**
+     * @param $url
+     * @return string
+     */
+    public static function stripHTTPS($url)
+    {
+        return preg_replace('#(http(s)?://)?(www\.)?#', '', $url);
+    }
 }
