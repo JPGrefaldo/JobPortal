@@ -52,6 +52,7 @@ export default {
     computed: {
         ...mapGetters({
             thread: 'thread/thread',
+            participant: 'thread/participant',
         }),
     },
 
@@ -79,13 +80,14 @@ export default {
             let params = {
                 message: this.message,
                 thread: this.thread.id,
+                recipient: this.participant
             };
-            this.$store.dispatch('message/send', params);
+            this.$store.dispatch('message/saveReply', params);
         },
 
         saveMessageTemplate(message) {
             this.$store
-                .dispatch('message/save', {message})
+                .dispatch('message/saveAsTemplate', {message})
                 .then(response => {
                     this.displaySuccess(response)
                 })
