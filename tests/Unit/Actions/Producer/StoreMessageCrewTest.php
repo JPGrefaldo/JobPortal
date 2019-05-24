@@ -5,12 +5,12 @@ namespace Tests\Unit\Actions\Producer;
 use App\Actions\Producer\StoreMessageCrew;
 use App\Models\Crew;
 use App\Models\Message;
-use App\Models\Thread;
 use App\Models\Project;
+use App\Models\Thread;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
-use App\Models\User;
 
 class StoreMessageCrewTest extends TestCase
 {
@@ -28,7 +28,7 @@ class StoreMessageCrewTest extends TestCase
     {
         // given
         $producer   = $this->createProducer();
-        $crew       = factory(Crew::class)->create();
+        $crew       = $this->createCrew()->crew;
         $project    = factory(Project::class)->create([
             'user_id' => $producer->id,
         ]);
@@ -83,18 +83,19 @@ class StoreMessageCrewTest extends TestCase
         $producerUser = $this->createProducer();
         $crewUser = $this->createUser();
         $project = factory(Project::class)->create();
-        $thread = factory(Thread::class)->create([
+        $thread = $project->threads()->create([
             'subject' => 'asdf',
         ]);
 
         $thread->addParticipant([$producerUser->id, $crewUser->id]);
 
-        $message = factory(Message::class)->create([
+        $message = [
+            'body'      => 'Some message',
             'thread_id' => $thread,
             'user_id'   => $producerUser->id,
-        ]);
+        ];
 
-        $thread->messages()->save($message);
+        $thread->messages()->create($message);
 
         $project->threads()->attach($thread);
 
@@ -113,7 +114,6 @@ class StoreMessageCrewTest extends TestCase
         $data          = new \stdClass;
         $data->subject = $producer->fullName;
         $data->message = 'Some message';
-        
         return $data;
     }
 }

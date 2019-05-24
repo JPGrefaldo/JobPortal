@@ -46,11 +46,9 @@ class StoreCrewPositionRequest extends FormRequest
             'resume'            => 'required|file|mimes:pdf,doc,docx',
             'reel_link'         => ['nullable', 'max:50', 'string', new Reel()],
             'reel_file'         => 'nullable|file|mimes:mp4,avi,wmv|max:20000',
-            'gear'              => 'nullable|string|max:50|min:8',
             'union_description' => $union_rule,
             'gear'              => $gear_rule,
             'gear_photos'       => 'nullable|image|mimes:jpeg,png',
-            'union_description' => 'nullable|string|max:50|min:8',
         ];
     }
 }

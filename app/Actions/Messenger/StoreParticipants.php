@@ -15,7 +15,7 @@ class StoreParticipants
             'user_id'   => $user->id,
             'last_read' => new Carbon(),
         ]);
-        
+
         // Participant
         $thread->addParticipant($recipient);
     }

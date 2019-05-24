@@ -5,6 +5,7 @@ namespace App\Actions\Crew;
 use App\Models\Crew;
 use App\Models\CrewPosition;
 use App\Models\Position;
+use Illuminate\Support\Facades\Storage;
 
 class DeleteCrewPositionResume
 {
@@ -16,13 +17,16 @@ class DeleteCrewPositionResume
     public function execute(Crew $crew, Position $position)
     {
         $crewPosition = CrewPosition::byCrewAndPosition($crew, $position)->first();
+        $crewResume   = $crew->resumes()->where('crew_position_id', $crewPosition->id)->first();
 
-        if ($crewPosition->resume == null) {
-            return;
+        if (!$crewResume) {
+            return false;
         }
 
-        return response()->json([
-            'message' => $crewPosition->resume->delete() ? 'success' : 'failed',
-        ]);
+        Storage::disk('s3')->delete($crewResume->path);
+
+        $crewResume->delete();
+
+        return true;
     }
 }

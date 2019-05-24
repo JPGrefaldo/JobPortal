@@ -119,7 +119,7 @@ class ThreadFeatureTest extends TestCase
             ));
 
         return $this->actingAs($currentUser)
-            ->postJson(route('messenger.threads.search.participants', [
+            ->postJson(route('threads.index.search', [
                 'thread'  => $thread->id,
                 'keyword' => $keyword,
             ]));

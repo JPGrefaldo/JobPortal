@@ -6,12 +6,12 @@ use App\Http\Controllers\API\Crew\DepartmentController;
 use App\Http\Controllers\API\Crew\PositionController;
 use App\Http\Controllers\API\Crew\ProjectController as CrewProjectController;
 use App\Http\Controllers\API\MessageController;
-use App\Http\Controllers\API\SiteController;
 use App\Http\Controllers\API\ParticipantController;
 use App\Http\Controllers\API\Producer\MessageTemplateController;
 use App\Http\Controllers\API\Producer\ProjectController;
 use App\Http\Controllers\API\Producer\ProjectJobController;
 use App\Http\Controllers\API\Producer\ProjectTypes;
+use App\Http\Controllers\API\SiteController;
 use App\Http\Controllers\API\SubmissionController;
 use App\Http\Controllers\API\ThreadController;
 use App\Http\Controllers\API\UserController;
@@ -57,31 +57,25 @@ Route::middleware('auth:api')->group(function () {
         'index',
     ])->name('sites.index');
 
-    Route::prefix('messenger')->middleware('role:Producer|Crew')->group(function() {
-        Route::prefix('project')->group(function() {
-            Route::post('{project}/messages', [
-                MessageController::class,
-                'store',
-            ])->name('messenger.project.messages.store');
-        });
+    Route::post('/messenger/projects/{project}/messages', [
+        MessageController::class,
+        'store',
+    ])->middleware('role:Producer|Crew')->name('messenger.project.messages.store');
 
-        Route::prefix('threads')->group(function() {
-            Route::get('{thread}/messages', [
-                MessageController::class,
-                'index',
-            ])->name('messenger.threads.messages.index');
+    Route::get('/messenger/threads/{thread}/messages', [
+        MessageController::class,
+        'index',
+    ])->middleware('role:Producer|Crew')->name('messenger.threads.messages.index');
 
-            Route::put('{thread}/messages', [
-                MessageController::class,
-                'update',
-            ])->name('messenger.threads.messages.update');
+    Route::put('/messenger/threads/{thread}/messages', [
+        MessageController::class,
+        'update',
+    ])->middleware('role:Producer|Crew')->name('messenger.threads.messages.update');
 
-            Route::post('{thread}/participants', [
-                ParticipantController::class,
-                'search',
-            ])->name('messenger.threads.search.participants');
-        });
-    });
+    Route::post('/messenger/threads/{thread}/search', [
+        ParticipantController::class,
+        'search',
+    ])->middleware('role:Producer|Crew')->name('threads.index.search');
 
     Route::get('/crew/projects/{project}/threads', [
         ThreadController::class,
@@ -115,12 +109,11 @@ Route::middleware('auth:api')->group(function () {
                 'index',
             ])->name('producer.threads.index');
 
-            Route::prefix('{project}/messages/crew')->group(function() {
+            Route::prefix('{project}/messages/crew')->group(function () {
                 Route::post('save', [
                     MessageController::class,
                     'storeCrew',
                 ])->name('producer.message.crew.store');
-    
                 Route::post('update', [
                     MessageController::class,
                     'updateCrew',
@@ -159,24 +152,27 @@ Route::middleware('auth:api')->group(function () {
                 ])->name('fetch.submissions.by.approved');
             });
 
-            Route::post('/submissions/{submission}/approve', [
-                SubmissionController::class,
-                'approve',
-            ])->name('producer.projects.approve.submissions');
+            Route::prefix('submissions')->group(function () {
+                Route::post('{submission}/approve', [
+                    SubmissionController::class,
+                    'approve',
+                ])->name('producer.projects.approve.submissions');
 
-            Route::post('swap/submissions/{submissionToReject}/{submissionToApprove}', [
-                SubmissionController::class,
-                'swap',
-            ])->name('producer.projects.swap.submissions');
-            Route::post('/submissions/{submission}/reject', [
-                SubmissionController::class,
-                'reject',
-            ])->name('producer.projects.submissions.reject');
+                Route::post('{submission}/reject', [
+                    SubmissionController::class,
+                    'reject',
+                ])->name('producer.projects.submissions.reject');
 
-            Route::post('/submissions/{submission}/restore', [
-                SubmissionController::class,
-                'restore',
-            ])->name('producer.projects.submissions.restore');
+                Route::post('{submission}/restore', [
+                    SubmissionController::class,
+                    'restore',
+                ])->name('producer.projects.submissions.restore');
+
+                Route::post('{submissionToReject}/{submissionToApprove}/swap', [
+                    SubmissionController::class,
+                    'swap',
+                ])->name('producer.projects.swap.submissions');
+            });
 
             Route::get('/pending', [
                 ProjectController::class,

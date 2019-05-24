@@ -2,12 +2,12 @@
 
 namespace Tests\Feature;
 
+use App\Models\Project;
 use App\Models\Role;
 use App\Models\Thread;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
-use App\Models\Project;
 use Carbon\Carbon;
 
 class MessengerFeatureTest extends TestCase
@@ -45,9 +45,9 @@ class MessengerFeatureTest extends TestCase
         $response = $this->actingAs($producer, 'api')
             ->putJson(
                 route(
-                    'messenger.threads.messages.update', 
+                    'messenger.threads.messages.update',
                     ['thread' => $thread->id]
-                ), 
+                ),
                 $data
             );
 
@@ -74,12 +74,12 @@ class MessengerFeatureTest extends TestCase
         $response = $this->actingAs($admin, 'api')
             ->postJson(
                 route(
-                    'messenger.project.messages.store', 
+                    'messenger.project.messages.store',
                     ['project' => $project->id]
-                ), 
+                ),
                 $data
             );
-        
+
         $response->assertJson([
             'message' => 'User does not have the right roles.',
         ]);
@@ -87,9 +87,9 @@ class MessengerFeatureTest extends TestCase
         $response = $this->actingAs($admin, 'api')
             ->putJson(
                 route(
-                    'messenger.threads.messages.update', 
+                    'messenger.threads.messages.update',
                     ['thread' => $thread->id]
-                ), 
+                ),
                 $data
             );
 
@@ -108,7 +108,7 @@ class MessengerFeatureTest extends TestCase
     {
         $crew    = $this->createCrew();
         $project = factory(Project::class)->create();
-        
+
         $data = [
             'subject'   => 'Some subject',
             'message'   => 'Some message',
@@ -118,9 +118,9 @@ class MessengerFeatureTest extends TestCase
         $response = $this->actingAs($crew, 'api')
             ->postJson(
                 route(
-                    'messenger.project.messages.store', 
+                    'messenger.project.messages.store',
                     ['project' => $project->id]
-                ), 
+                ),
                 $data
             );
 

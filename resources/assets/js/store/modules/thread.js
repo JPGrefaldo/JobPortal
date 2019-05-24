@@ -50,7 +50,7 @@ export const actions = {
 
     searchParticipants(context, params) {
         axios
-            .post(`/api/threads/${params.thread}/participants`, { keyword: params.keyword })
+            .post(`/api/threads/${params.thread}/search`, { keyword: params.keyword })
             .then(response => {
                 if (response.data.data) {
                     context.commit(types.PARTICIPANTS, response.data.data);

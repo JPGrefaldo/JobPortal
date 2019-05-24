@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Models;
 
-use App\Models\PendingFlagMessage;
 use App\Models\Message;
+use App\Models\PendingFlagMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

@@ -5,6 +5,7 @@ namespace App\Actions\Crew;
 use App\Models\Crew;
 use App\Models\CrewPosition;
 use App\Models\Position;
+use Illuminate\Support\Facades\Storage;
 
 class DeleteCrewPositionReel
 {
@@ -16,13 +17,16 @@ class DeleteCrewPositionReel
     public function execute(Crew $crew, Position $position)
     {
         $crewPosition = CrewPosition::byCrewAndPosition($crew, $position)->first();
+        $crewReel     = $crew->reels()->where('crew_position_id', $crewPosition->id)->first();
 
-        if ($crewPosition->reel == null) {
-            return;
+        if (!$crewReel) {
+            return false;
         }
 
-        return response()->json([
-            'message' => $crewPosition->reel->delete() ? 'success' : 'failed',
-        ]);
+        Storage::disk('s3')->delete($crewReel->path);
+
+        $crewReel->delete();
+
+        return true;
     }
 }

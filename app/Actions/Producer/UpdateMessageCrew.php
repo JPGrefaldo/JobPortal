@@ -22,7 +22,6 @@ class UpdateMessageCrew
 
         foreach ($recipients as $recipient) {
             $thread = Thread::getByProjectAndParticipant($project, $recipient);
-            
             app(StoreParticipants::class)->execute($thread, $user, $recipient);
             app(StoreMessage::class)->execute($thread, $user, $message);
         }

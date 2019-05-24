@@ -8,13 +8,13 @@ use App\Actions\Messenger\StoreThread;
 use App\Actions\Messenger\UpdateParticipants;
 use App\Actions\Producer\StoreMessageCrew;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Producer\Message\StoreMessageCrewRequest;
 use App\Http\Resources\MessageResource;
 use App\Models\Project;
 use App\Models\Role;
 use App\Models\Thread;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Http\Requests\Producer\Message\StoreMessageCrewRequest;
 
 class MessageController extends Controller
 {
@@ -45,7 +45,6 @@ class MessageController extends Controller
     public function store(Project $project, Request $request)
     {
         $user = auth()->user();
-      
         if ($user->hasRole(Role::CREW)) {
             return response()->json([
                 'message' => 'You are not allowed to initiate a conversation with any producer.',
@@ -54,11 +53,11 @@ class MessageController extends Controller
 
         $thread  = app(StoreThread::class)->execute($project, $request->subject);
         $message = app(StoreMessage::class)->execute($thread, $user, $request->message);
-        
+
         app(StoreParticipants::class)->execute($thread, $user, $request->recipient);
 
         return response()->json(
-            compact('message'), 
+            compact('message'),
             Response::HTTP_CREATED
         );
     }
@@ -77,7 +76,7 @@ class MessageController extends Controller
         app(StoreMessageCrew::class)->execute($project, $user, $request);
 
         return response()->json(
-            ['message' => "Successfully save the crews' message"], 
+            ['message' => "Successfully save the crews' message"],
             Response::HTTP_CREATED
         );
     }
@@ -97,7 +96,7 @@ class MessageController extends Controller
         app(UpdateParticipants::class)->execute($thread, $user, $request->recipient);
 
         return response()->json(
-            compact('message'), 
+            compact('message'),
             Response::HTTP_OK
         );
     }

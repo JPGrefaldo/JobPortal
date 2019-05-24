@@ -2,9 +2,9 @@
 
 namespace Tests\Feature;
 
-use App\Models\Thread;
 use App\Models\Message;
 use App\Models\Participant;
+use App\Models\Thread;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;

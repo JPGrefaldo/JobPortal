@@ -73,12 +73,17 @@ class CrewPositionController extends Controller
      * @param \App\Models\Position $position
      * @return \App\Models\CrewPosition|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model
      */
-    public function getPositionData(Position $position)
+    public function show(Position $position)
     {
         $crew = auth()->user()->crew;
 
         $crewPosition = CrewPosition::byCrewAndPosition($crew, $position)
-            ->with(['resume', 'gear', 'reel'])->firstOrFail();
+            ->with([
+                'resume',
+                'gear',
+                'reel',
+            ])
+            ->firstOrFail();
 
         return $crewPosition;
     }
@@ -91,16 +96,5 @@ class CrewPositionController extends Controller
         $crew = auth()->user()->crew;
 
         return $crew->crewPositions->pluck('position_id');
-    }
-
-    /**
-     * @param \App\Models\CrewPosition $crewPosition
-     * @return string
-     */
-    public function removeGear(Position $position)
-    {
-        $crew = auth()->user()->crew;
-
-        return app(DeleteCrewPositionGear::class)->execute($crew, $position);
     }
 }

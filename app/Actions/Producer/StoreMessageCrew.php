@@ -3,8 +3,8 @@
 namespace App\Actions\Producer;
 
 use App\Actions\Messenger\StoreMessage;
-use App\Actions\Messenger\StoreThread;
 use App\Actions\Messenger\StoreParticipants;
+use App\Actions\Messenger\StoreThread;
 use App\Models\Project;
 use App\Models\User;
 
@@ -22,7 +22,6 @@ class StoreMessageCrew
 
         foreach ($recipients as $recipient) {
             $thread = app(StoreThread::class)->execute($project, $data->subject);
-            
             app(StoreParticipants::class)->execute($thread, $user, $recipient);
             app(StoreMessage::class)->execute($thread, $user, $message);
         }

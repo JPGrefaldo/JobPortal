@@ -9,8 +9,8 @@ use App\Models\Participant;
 use App\Models\Project;
 use App\Models\Thread;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Carbon;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 
@@ -22,7 +22,7 @@ class MessagesFeatureTest extends TestCase
      * @test
      * @covers App\Http\Controllers\MessageController::index
      */
-    public function indexAsCrew()
+    public function index_as_crew()
     {
         // given
         $user = $this->createCrew();
@@ -64,7 +64,7 @@ class MessagesFeatureTest extends TestCase
      * @test
      * @covers App\Http\Controllers\MessageController::index
      */
-    public function indexAsProducer()
+    public function index_as_producer()
     {
         // given
         $user = $this->createProducer();
