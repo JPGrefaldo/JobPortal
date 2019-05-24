@@ -12,7 +12,7 @@ class StoreMessage
      * @param $thread_id
      * @param $user_id
      * @param string $body
-     * @return \Cmgmyr\Messenger\Models\Message
+     * @return \App\Models\Message
      */
     public function execute(Thread $thread, User $user, $body): Message
     {
