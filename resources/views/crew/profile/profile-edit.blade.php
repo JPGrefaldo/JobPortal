@@ -63,10 +63,10 @@
                         </div>
                         <div class="md:w-2/3">
                             <label for="resume" class="btn-outline text-green inline-block mb-4">
-                                {{ isset($resume->path) ? 'Update file' : 'Upload file' }}
+                                {{ isset($resume) ? 'Update file' : 'Upload file' }}
                             </label>
                             <p class="text-sm text-grey">
-                                {{ basename($resume->path) }}
+                                {{ basename($resume) }}
                             </p>
                             <input id="resume"
                                    type="file"
