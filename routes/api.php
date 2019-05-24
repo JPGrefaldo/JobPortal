@@ -61,22 +61,22 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/messenger/projects/{project}/messages', [
         MessageController::class,
         'store',
-    ])->middleware('role:Producer')->name('messenger.project.messages.store');
+    ])->middleware('role:Producer|Crew')->name('messenger.project.messages.store');
 
     Route::get('/messenger/threads/{thread}/messages', [
         MessageController::class,
         'index',
-    ])->middleware('role:Producer')->name('messenger.threads.messages.index');
+    ])->middleware('role:Producer|Crew')->name('messenger.threads.messages.index');
 
     Route::put('/messenger/threads/{thread}/messages', [
         MessageController::class,
         'update',
-    ])->middleware('role:Producer')->name('messenger.threads.messages.update');
+    ])->middleware('role:Producer|Crew')->name('messenger.threads.messages.update');
 
     Route::post('/messenger/threads/{thread}/search', [
         ParticipantController::class,
         'search',
-    ])->middleware('role:Producer')->name('threads.index.search');
+    ])->middleware('role:Producer|Crew')->name('threads.index.search');
 
     Route::get('/crew/projects/{project}/threads', [
         CrewThreadController::class,
