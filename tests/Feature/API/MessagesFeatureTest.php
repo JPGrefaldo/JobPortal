@@ -46,7 +46,7 @@ class MessagesFeatureTest extends TestCase
 
         // when
         $response = $this->actingAs($user, 'api')
-            ->getJson(route('messages.index', $thread));
+            ->getJson(route('messenger.threads.messages.index', $thread));
 
         // then
         $response->assertSuccessful();
@@ -87,7 +87,7 @@ class MessagesFeatureTest extends TestCase
 
         // when
         $response = $this->actingAs($user, 'api')
-            ->getJson(route('messages.index', $thread));
+            ->getJson(route('messenger.threads.messages.index', $thread));
 
         // then
         $response->assertSuccessful();
@@ -113,7 +113,7 @@ class MessagesFeatureTest extends TestCase
 
         // when
         $response = $this->actingAs($user, 'api')
-            ->getJson(route('messages.index', $thread));
+            ->getJson(route('messenger.threads.messages.index', $thread));
 
         // then
         $response->assertForbidden();
@@ -131,7 +131,7 @@ class MessagesFeatureTest extends TestCase
 
         // when
         $response = $this->actingAs($user, 'api')
-            ->getJson(route('messages.index', $thread));
+            ->getJson(route('messenger.threads.messages.index', $thread));
 
         // then
         $response->assertForbidden();

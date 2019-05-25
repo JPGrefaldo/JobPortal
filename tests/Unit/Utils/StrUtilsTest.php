@@ -180,4 +180,32 @@ class StrUtilsTest extends TestCase
             StrUtils::formatName("D'angelo Jean-luc Jean-claude mcdermott MCDERMOTT")
         );
     }
+
+    /**
+     * @test
+     * @covers \App\Utils\StrUtils::stripHTTPS
+     */
+    public function strip_http()
+    {
+        $this->assertSame(
+            'url.com/test',
+            StrUtils::stripHTTPS('https://url.com/test')
+        );
+
+
+        $this->assertSame(
+            'url.com/test',
+            StrUtils::stripHTTPS('http://url.com/test')
+        );
+
+        $this->assertSame(
+            'url.com/test',
+            StrUtils::stripHTTPS('url.com/test')
+        );
+
+        $this->assertSame(
+            '',
+            StrUtils::stripHTTPS('')
+        );
+    }
 }

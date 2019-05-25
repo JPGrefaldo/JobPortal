@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Producer\MessageController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\Producer\ProjectController;
 use App\Http\Controllers\Producer\ProjectJobController;
 

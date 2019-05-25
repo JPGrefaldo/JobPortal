@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
 use App\Actions\Messenger\StoreMessage;
 use App\Actions\Messenger\StoreParticipants;
 use App\Actions\Messenger\StoreThread;
 use App\Actions\Messenger\UpdateParticipants;
 use App\Actions\Producer\StoreMessageCrew;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Producer\Message\StoreMessageCrewRequest;
 use App\Http\Resources\MessageResource;
 use App\Models\Project;
@@ -17,6 +18,7 @@ use Illuminate\Http\Response;
 
 class MessageController extends Controller
 {
+    protected $userIsParticipant = false;
     /**
      * Display a listing of the resource.
      *
@@ -25,12 +27,12 @@ class MessageController extends Controller
     public function index(Thread $thread)
     {
         $user = auth()->user();
+        $messages = $thread->messages()->with('user')->where('flagged_at', null)->get();
 
         if (! $thread->hasParticipant($user->id)) {
             return response()->json([], Response::HTTP_FORBIDDEN);
         }
 
-        $messages = $thread->messages()->with('user')->where('flagged_at', null)->get();
         return MessageResource::collection($messages);
     }
 
@@ -75,7 +77,7 @@ class MessageController extends Controller
         app(StoreMessageCrew::class)->execute($project, $user, $request);
 
         return response()->json(
-            ['message' => "Successfully messaged crews."],
+            ['message' => "Successfully save the crews' message"],
             Response::HTTP_CREATED
         );
     }

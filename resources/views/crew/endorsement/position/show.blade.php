@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <div class="container">
+    <div class="container mx-auto">
         @include('_parts.pages.page-title', ['pageTitle' => $position->name])
 
         <div class="-md:flex-wrap-reverse md:flex -md:flex">

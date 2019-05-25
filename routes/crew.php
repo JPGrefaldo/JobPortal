@@ -8,9 +8,9 @@ use App\Http\Controllers\Crew\CrewProfileController;
 use App\Http\Controllers\Crew\Endorsements\EndorsementEndorsedController;
 use App\Http\Controllers\Crew\Endorsements\EndorsementPositionController;
 use App\Http\Controllers\Crew\Endorsements\EndorsementRequestController;
-use App\Http\Controllers\Crew\MessageController;
 use App\Http\Controllers\Crew\ProjectJobController;
 use App\Http\Controllers\SubmissionController;
+use App\Http\Controllers\MessageController;
 
 Route::get('crew/endorsement', [EndorsementPositionController::class, 'index'])
     ->name('crew.endorsement.index');
