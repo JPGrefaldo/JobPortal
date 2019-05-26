@@ -73,7 +73,6 @@ export default {
         },
 
         sendMessage() {
-            console.log(this.participant.hash_id)
             if (this.saveTemplate) {
                 this.saveMessageTemplate(this.message)
             }
