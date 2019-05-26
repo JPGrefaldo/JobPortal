@@ -2,7 +2,9 @@
 
 namespace App\Rules;
 
-use App\Services\SocialLinksServices;
+use App\Actions\Social\CleanVimeoLinkAction;
+use App\Actions\Social\IsVimeoPlayerUrlAction;
+use App\Actions\Social\IsVimeoUrlAction;
 use Illuminate\Contracts\Validation\Rule;
 
 class Vimeo implements Rule
@@ -31,7 +33,9 @@ class Vimeo implements Rule
             return false;
         }
 
-        return (SocialLinksServices::cleanVimeo($value) !== '');
+        return (app(IsVimeoPlayerUrlAction::class)->execute($value) ||
+            app(IsVimeoUrlAction::class)->execute($value)
+        );
     }
 
     /**

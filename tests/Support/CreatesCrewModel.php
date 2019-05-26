@@ -145,7 +145,7 @@ trait CreatesCrewModel
                     'id'  => SocialLinkTypeID::TUMBLR,
                 ],
                 'vimeo'            => [
-                    'url' => 'https://vimeo.com/new-mackevision',
+                    'url' => 'https://vimeo.com/327999826',
                     'id'  => SocialLinkTypeID::VIMEO,
                 ],
                 'instagram'        => [
@@ -196,7 +196,7 @@ trait CreatesCrewModel
                     'id'  => SocialLinkTypeID::TUMBLR,
                 ],
                 'vimeo'            => [
-                    'url' => 'https://vimeo.com/mackevision',
+                    'url' => 'https://vimeo.com/337361057',
                     'id'  => SocialLinkTypeID::VIMEO,
                 ],
                 'instagram'        => [
