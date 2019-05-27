@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Admin\Web;
+namespace Tests\Feature\API\Admin;
 
 use App\Models\Project;
 use Carbon\Carbon;
@@ -9,24 +9,23 @@ use Tests\Support\Data\ProjectTypeID;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 
-class ApproveProjectFeatureTest extends TestCase
+class ProjectFeatureTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Admin\ProjectsController::index
+     * @covers \App\Http\Controllers\API\Admin\ProjectsController::unapproved
      */
     public function should_only_return_the_unapproved_project()
     {
         factory(Project::class)->create($this->getApprovedProject());
         factory(Project::class)->create($this->getUnapprovedProject());
 
-        $user = $this->createAdmin();
-
-        $response = $this->actingAs($user, 'api')
+        $admin    = $this->createAdmin();
+        $response = $this->actingAs($admin, 'api')
             ->get(route('admin.pending-projects'))
-            ->assertSee('Successfully fetched all projects.')
+            ->assertSee('Successfully fetched all unapproved projects.')
             ->assertSuccessful();
 
         $response->assertJsonFragment(
@@ -44,38 +43,18 @@ class ApproveProjectFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Admin\ProjectController
-     */
-    public function only_admin_can_see_unapproved_projects_page()
-    {
-        $this->actingAs($this->createAdmin())
-            ->get(route('admin.projects'))
-            ->assertSuccessful();
-
-        $this->actingAs($this->createCrew())
-            ->get(route('admin.projects'))
-            ->assertForbidden();
-
-        $this->actingAs($this->createProducer())
-            ->get(route('admin.projects'))
-            ->assertForbidden();
-    }
-
-    /**
-     * @test
-     * @covers \App\Http\Controllers\Admin\ProjectController::approve
+     * @covers \App\Http\Controllers\API\Admin\ProjectController::approve
      */
     public function can_approve_project()
     {
-        $admin = $this->createAdmin();
-
+        $admin   = $this->createAdmin();
         $project = factory(Project::class)->create($this->getUnapprovedProject());
 
         $this->assertEquals(Project::PENDING, $project->status);
 
-        $this->actingAs($admin)
-            ->put(route('admin.projects.approve', $project))
-            ->assertOk();
+        $this->actingAs($admin, 'api')
+            ->putJson(route('admin.projects.approve', $project))
+            ->assertSuccessful();
 
         $this->assertEquals(Project::APPROVED, $project->refresh()->status);
         $this->assertNull($project->refresh()->unapproved_at);
@@ -83,14 +62,15 @@ class ApproveProjectFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Admin\ProjectController::approve
+     * @covers \App\Http\Controllers\API\Admin\ProjectController::approve
      */
     public function can_unapprove_projects()
     {
+        $admin   = $this->createAdmin();
         $project = factory(Project::class)->create($this->getUnapprovedProject());
 
-        $this->actingAs($this->createAdmin())
-            ->put(route('admin.projects.unapprove', $project))
+        $this->actingAs($admin, 'api')
+            ->putJson(route('admin.projects.unapprove', $project))
             ->assertSee('Project unapproved successfully.')
             ->assertSuccessful();
 

@@ -1,16 +1,16 @@
 <?php
 
-use App\Http\Controllers\Api\Admin\FlaggedMessageController;
+use App\Http\Controllers\API\Admin\FlaggedMessageController;
+use App\Http\Controllers\API\Admin\ProjectController as AdminProjectController;
 use App\Http\Controllers\API\Admin\ProjectJobSubmissionController;
-use App\Http\Controllers\API\DepartmentController;
 use App\Http\Controllers\API\Crew\PositionController;
-use App\Http\Controllers\API\Crew\ProjectController as CrewProjectController;
-use App\Http\Controllers\API\ParticipantController;
+use App\Http\Controllers\API\DepartmentController;
 use App\Http\Controllers\API\MessageController;
+use App\Http\Controllers\API\ParticipantController;
 use App\Http\Controllers\API\Producer\MessageTemplateController;
-use App\Http\Controllers\API\Producer\ProjectController;
 use App\Http\Controllers\API\Producer\ProjectJobController;
 use App\Http\Controllers\API\Producer\ProjectTypes;
+use App\Http\Controllers\API\ProjectController;
 use App\Http\Controllers\API\SiteController;
 use App\Http\Controllers\API\SubmissionController;
 use App\Http\Controllers\API\ThreadController;
@@ -74,6 +74,22 @@ Route::put('/messages/producer/projects/{project}/messages/{message}', [
 ])->name('producer.messages.update');
 
 Route::middleware('auth:api')->group(function () {
+
+    Route::put('/admin/projects/{project}/approve', [
+        AdminProjectController::class, 
+        'approve'
+    ])->middleware('role:Admin')->name('admin.projects.approve');
+
+    Route::put('/admin/projects/{project}/unapprove', [
+        AdminProjectController::class, 
+        'unapprove'
+    ])->middleware('role:Admin')->name('admin.projects.unapprove');
+
+    Route::get('/admin/projects/pending', [
+        AdminProjectController::class, 
+        'unapproved'
+    ])->middleware('role:Admin')->name('admin.pending-projects');
+
     Route::get('/admin/flag-messages', [
         FlaggedMessageController::class,
         'index',
