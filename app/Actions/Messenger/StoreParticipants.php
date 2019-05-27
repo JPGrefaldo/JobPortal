@@ -12,7 +12,7 @@ class StoreParticipants
     {
         // Sender
         $thread->participants()->create([
-            'user_id'   => $user->id,
+            'user_id'   => $user->hash_id,
             'last_read' => new Carbon(),
         ]);
 
