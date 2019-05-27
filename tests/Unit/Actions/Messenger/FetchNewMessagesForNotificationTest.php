@@ -5,8 +5,9 @@ namespace Tests\Unit\Actions\Messenger;
 use App\Actions\Messenger\FetchNewMessagesForNotification;
 use App\Models\Message;
 use App\Models\Thread;
-use Carbon\Carbon;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Carbon;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 
@@ -16,7 +17,7 @@ class FetchNewMessagesForNotificationTest extends TestCase
 
     /**
      * @test
-     * @covers App\Actions\Messenger\FetchNewMessages::dataFormat
+     * @covers App\Actions\Messenger\FetchNewMessages::execute
      */
     public function get_thread_messages_that_are_added_less_than_30_minutes_ago()
     {
@@ -44,7 +45,12 @@ class FetchNewMessagesForNotificationTest extends TestCase
         });
     }
 
-    private function seedThreadMessagesAndReplies($crew, $producer)
+    /**
+     * @param User $crew
+     * @param User $producer
+     * @return void
+     */
+    private function seedThreadMessagesAndReplies(User $crew, User $producer)
     {
         // Given we have a thread
         $thread = factory(Thread::class)->create([
@@ -66,14 +72,15 @@ class FetchNewMessagesForNotificationTest extends TestCase
             'body'      => 'Test Message',
         ];
 
-        $producer->messages()->create($message);
+        $thread->messages()->create($message);
 
         // And given we have two replies from the crew
         // a new one and old reply which is posted 31 mins. ago
         $replyFromCrew = [
-            'thread_id' => $thread->id,
-            'user_id'   => $crew->id,
-            'body'      => 'Test Reply Message',
+            'thread_id'  => $thread->id,
+            'user_id'    => $crew->id,
+            'body'       => 'Test Reply Message',
+            'created_at' => Carbon::now()
         ];
 
         $oldReplyFromCrew = [
@@ -83,7 +90,6 @@ class FetchNewMessagesForNotificationTest extends TestCase
             'created_at' => Carbon::now()->subMinutes(31),
         ];
 
-        $crew->messages()->create($replyFromCrew);
-        Message::create($oldReplyFromCrew);
+        Message::insert([$oldReplyFromCrew, $replyFromCrew]);
     }
 }

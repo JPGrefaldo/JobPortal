@@ -12,16 +12,15 @@ use App\Http\Controllers\API\Producer\ProjectJobController;
 use App\Http\Controllers\API\Producer\ProjectTypes;
 use App\Http\Controllers\API\SiteController;
 use App\Http\Controllers\API\SubmissionController;
+use App\Http\Controllers\API\ThreadController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\Crew\CrewPositionController;
 use App\Http\Controllers\Crew\Endorsements\EndorsementEndorsedController;
 use App\Http\Controllers\Crew\Endorsements\EndorsementPositionController;
 use App\Http\Controllers\Crew\Endorsements\EndorsementRequestController;
-use App\Http\Controllers\Crew\ThreadController as CrewThreadController;
 use App\Http\Controllers\Producer\MessageController as ProducerMessageController;
 use App\Http\Controllers\Producer\ProjectController as ProducerProjectController;
 use App\Http\Controllers\Producer\ProjectJobController as ProducerProjectJobController;
-use App\Http\Controllers\Producer\ThreadController;
 use App\Models\ProjectType;
 use App\Http\Controllers\API\MessageController;
 
@@ -119,11 +118,6 @@ Route::middleware('auth:api')->group(function () {
         'index',
     ])->name('sites.index');
 
-    Route::get('/crew/projects/{project}/threads', [
-        CrewThreadController::class,
-        'index',
-    ])->name('crew.threads.index');
-
     Route::post('submissions/{job}', [
         ProjectJobSubmissionController::class,
         'store',
@@ -149,122 +143,125 @@ Route::middleware('auth:api')->group(function () {
         'search',
     ])->middleware('role:Producer|Crew')->name('threads.index.search');
 
+    Route::get('/crew/projects/{project}/threads', [
+        ThreadController::class,
+        'index',
+    ])->name('crew.threads.index');
+
     Route::prefix('producer')->middleware('role:Producer')->group(function () {
 
-            Route::get('projects/submissions/{job}', [
-                ProjectJobSubmissionController::class,
-                'index',
-            ])->name('project.job.submissions.index');
+        Route::get('projects/submissions/{job}', [
+            ProjectJobSubmissionController::class,
+            'index',
+        ])->name('project.job.submissions.index');
 
-            Route::get('/projects', [
-                ProjectController::class,
-                'index',
-            ])->name('producer.projects.index');
+        Route::get('/projects', [
+            ProjectController::class,
+            'index',
+        ])->name('producer.projects.index');
 
-            Route::post('/projects', [
-                ProjectController::class,
-                'store',
-            ])->name('producer.project.store');
+        Route::post('/projects', [
+            ProjectController::class,
+            'store',
+        ])->name('producer.project.store');
 
-            Route::put('projects/{project}', [
-                ProjectController::class,
-                'update',
-            ])->name('producer.projects.update');
+        Route::put('projects/{project}', [
+            ProjectController::class,
+            'update',
+        ])->name('producer.projects.update');
 
-            Route::get('projects/{project}/threads', [
-                ThreadController::class,
-                'index',
-            ])->name('producer.threads.index');
+        Route::get('projects/{project}/threads', [
+            ThreadController::class,
+            'index',
+        ])->name('producer.threads.index');
 
-            Route::post('projects/{project}/messages/crew/save', [
-                MessageController::class,
-                'storeCrew',
-            ])->name('producer.message.crew.store');
+        Route::post('projects/{project}/messages/crew/save', [
+            MessageController::class,
+            'storeCrew',
+        ])->name('producer.message.crew.store');
 
-            Route::post('projects/{project}/messages/crew/update', [
-                MessageController::class,
-                'updateCrew',
-            ])->name('producer.message.crew.update');
+        Route::post('projects/{project}/messages/crew/update', [
+            MessageController::class,
+            'updateCrew',
+        ])->name('producer.message.crew.update');
 
 
-            Route::get('projects/approved', [
-                ProjectController::class,
-                'approved',
-            ])->name('producer.projects.approved');
+        Route::get('projects/approved', [
+            ProjectController::class,
+            'approved',
+        ])->name('producer.projects.approved');
 
-            
-            Route::get('projects/jobs', [
-                ProjectJobController::class,
-                'index',
-            ])->name('producer.project.jobs');
+        
+        Route::get('projects/jobs', [
+            ProjectJobController::class,
+            'index',
+        ])->name('producer.project.jobs');
 
-            Route::post('projects/jobs', [
-                ProjectJobController::class,
-                'store',
-            ])->name('producer.project.jobs.store');
+        Route::post('projects/jobs', [
+            ProjectJobController::class,
+            'store',
+        ])->name('producer.project.jobs.store');
 
-            Route::put('projects/jobs/{projectJob}', [
-                ProjectJobController::class,
-                'update',
-            ])->name('producer.project.jobs.update');
+        Route::put('projects/jobs/{projectJob}', [
+            ProjectJobController::class,
+            'update',
+        ])->name('producer.project.jobs.update');
 
-            Route::delete('projects/jobs/{projectJob}', [
-                ProjectJobController::class,
-                'destroy',
-            ])->name('producer.project.jobs.destroy');
+        Route::delete('projects/jobs/{projectJob}', [
+            ProjectJobController::class,
+            'destroy',
+        ])->name('producer.project.jobs.destroy');
 
-            Route::get('projects/jobs/{projectJob}/submissions/all-approved', [
-                SubmissionController::class,
-                'fetchByApprovedDate',
-            ])->name('fetch.submissions.by.approved');
-           
-            Route::post('projects/submissions/{submission}/approve', [
-                SubmissionController::class,
-                'approve',
-            ])->name('producer.projects.approve.submissions');
-
-            Route::post('projects/submissions/{submission}/reject', [
-                SubmissionController::class,
-                'reject',
-            ])->name('producer.projects.submissions.reject');
-
-            Route::post('projects/submissions/{submission}/restore', [
-                SubmissionController::class,
-                'restore',
-            ])->name('producer.projects.submissions.restore');
-
-            Route::post('projects/submissions/{submissionToReject}/{submissionToApprove}/swap', [
-                SubmissionController::class,
-                'swap',
-            ])->name('producer.projects.swap.submissions');
-           
-
-            Route::get('projects/pending', [
-                ProjectController::class,
-                'pending',
-            ])->name('producer.projects.pending');
-
-            Route::get('projects/type', [
-                ProjectTypes::class,
-                'index',
-            ])->name('producer.project.type');
-
-            Route::get('/messages', [
-                MessageController::class,
-                'index'
-            ])->name('producer.messages');
-
-           
-            Route::get('messages/templates', [
-                MessageTemplateController::class,
-                'index',
-            ])->name('producer.messages.templates');
-
-            Route::post('messages/templates', [
-                MessageTemplateController::class,
-                'store',
-            ])->name('producer.messages.templates');
-           
+        Route::get('projects/jobs/{projectJob}/submissions/all-approved', [
+            SubmissionController::class,
+            'fetchByApprovedDate',
+        ])->name('fetch.submissions.by.approved');
        
+        Route::post('projects/submissions/{submission}/approve', [
+            SubmissionController::class,
+            'approve',
+        ])->name('producer.projects.approve.submissions');
+
+        Route::post('projects/submissions/{submission}/reject', [
+            SubmissionController::class,
+            'reject',
+        ])->name('producer.projects.submissions.reject');
+
+        Route::post('projects/submissions/{submission}/restore', [
+            SubmissionController::class,
+            'restore',
+        ])->name('producer.projects.submissions.restore');
+
+        Route::post('projects/submissions/{submissionToReject}/{submissionToApprove}/swap', [
+            SubmissionController::class,
+            'swap',
+        ])->name('producer.projects.swap.submissions');
+       
+
+        Route::get('projects/pending', [
+            ProjectController::class,
+            'pending',
+        ])->name('producer.projects.pending');
+
+        Route::get('projects/type', [
+            ProjectTypes::class,
+            'index',
+        ])->name('producer.project.type');
+
+        Route::get('/messages', [
+            MessageController::class,
+            'index'
+        ])->name('producer.messages');
+
+       
+        Route::get('messages/templates', [
+            MessageTemplateController::class,
+            'index',
+        ])->name('producer.messages.templates');
+
+        Route::post('messages/templates', [
+            MessageTemplateController::class,
+            'store',
+        ])->name('producer.messages.templates');  
     });
 });

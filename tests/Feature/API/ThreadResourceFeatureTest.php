@@ -1,10 +1,8 @@
 <?php
 
-namespace Tests\Feature\API\Crew;
+namespace Tests\Feature\API;
 
 use App\Http\Resources\ThreadResource;
-use App\Models\Crew;
-use App\Models\CrewProject;
 use App\Models\Project;
 use App\Models\ProjectThread;
 use App\Models\Thread;
@@ -23,35 +21,26 @@ class ThreadResourceFeatureTest extends TestCase
     public function index()
     {
         // given
-        $user = $this->createCrew();
-        $crew = factory(Crew::class)->create();
-        $project = factory(Project::class)->create();
-        $crewProject = factory(CrewProject::class)->create([
-            'crew_id'    => $crew->id,
-            'project_id' => $project->id,
+        $user    = $this->createProducer();
+        $project = factory(Project::class)->create([
+            'user_id' => $user->id,
         ]);
-        $threads = factory(Thread::class, 3)->create();
 
+        $threads = factory(Thread::class, 3)->create();
         foreach ($threads as $thread) {
             $projectThreads = factory(ProjectThread::class)->create([
                 'project_id' => $project->id,
                 'thread_id'  => $thread->id,
             ]);
         }
-
         // when
         $response = $this->actingAs($user, 'api')
-            ->getJson(route('crew.threads.index', $project));
-
+            ->getJson(route('producer.threads.index', $project));
         // then
         $response->assertSuccessful();
-
         $json = $response->json();
-
         $resource = ThreadResource::collection($threads);
-
         $resourceResponse = $resource->response()->getData(true);
-
         $this->assertEquals(
             $resourceResponse['data'],
             $json['data']

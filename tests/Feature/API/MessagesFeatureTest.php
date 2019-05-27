@@ -105,7 +105,7 @@ class MessagesFeatureTest extends TestCase
      * @test
      * @covers App\Http\Middleware::handle
      */
-    public function crew_cant_see_messages_if_not_participant_of_thread()
+    public function crew_cant_see_messages_if_not_participant_of_a_thread()
     {
         // given
         $user   = $this->createCrew();
@@ -162,9 +162,9 @@ class MessagesFeatureTest extends TestCase
         $thread->addParticipant($crew->id);
 
         // And when a new reply in the thread is added (message)
-        $crew->messages()->create([
-            'thread_id' => $thread->id,
-            'body'      => 'Test Reply Message',
+        $thread->messages()->create([
+            'user_id'   => $producer->id,
+            'body'      => 'Test Reply Message'
         ]);
 
         return $thread;

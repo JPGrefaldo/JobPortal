@@ -14,7 +14,7 @@ class UpdateParticipants
 
         // Sender
         $participant = $thread->participants()->firstOrCreate([
-            'user_id' => $user->id
+            'user_id' => $user->hash_id
         ]);
         $participant->last_read = new Carbon;
         $participant->save();
