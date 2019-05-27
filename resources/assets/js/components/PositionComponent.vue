@@ -43,9 +43,9 @@
                             <input type="file" :id="'resume' + position.id" @change="selectFile" name="resume" class="hidden"/> 
                             <button v-if="form.resume" @click="removeResume(position.id)" class="btn-outline text-green inline-block cursor-pointer">Remove</button>
                             <div v-if="form.resume" class="w-full pt-2">
-                                <i class="fas fa-file-pdf"></i>
+                                <i class="fas fa-file-pdf text-grey"></i>
                                 <span>
-                                    <a target="_blank" :href="form.resume.file_link">Resume</a>
+                                    <a target="_blank" :href="form.resume.file_link" class="text-sm text-grey">{{ basename(resume.path) }}</a>     
                                 </span>
                             </div>
                             <has-error :form="form" field="resume"></has-error>
@@ -60,6 +60,9 @@
                         <div v-if="reel" class="md:w-2/3">
                             <a :href="reel" target="_blank" class="btn-outline text-white inline-block bg-green">View File</a>
                             <button @click="removeReel(position.id)" class="btn-outline text-green inline-block">Remove</button>
+                            <p class="text-sm text-grey mt-4">
+                                {{ reel }}
+                            </p>
                         </div>
                         <div v-else class="md:w-2/3">
                             <input
@@ -119,9 +122,12 @@
                                 ></textarea>
                             </div>
                             <label :for="'gear_photos' + position.id"
-                            class="btn-outline text-white inline-block cursor-pointer bg-green">{{form.gear_photos ? "change" : "upload"}} file</label>
+                            class="btn-outline text-white inline-block cursor-pointer bg-green md:mb-4">{{form.gear_photos ? "change" : "upload"}} file</label>
                             <input type="file" :id="'gear_photos' + position.id" @change="selectFile" name="gear_photos" class="hidden" />
                             <button v-if="form.gear_photos" @click="removeGearPhotos(position.id)" class="btn-outline text-green inline-block cursor-pointer">Remove</button>
+                            <p class="text-sm text-grey">
+                                {{ basename(gear_photo) }}
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -158,6 +164,8 @@ export default {
             positionData  : [],
             position_exist: false,
             reel          : null,
+            resume        : null,
+            gear_photo    : null,
             form          : new Form({
                 bio              : '',
                 union_description: '',
@@ -281,7 +289,9 @@ export default {
                 gear_photos      : data.gear ? data.gear.path : null,
             });
 
-            this.reel = data.reel ? data.reel.path : null;
+            this.reel       = data.reel ? data.reel.path : null;
+            this.resume     = data.resume ? data.resume : null;
+            this.gear_photo = data.gear ? data.gear.path : null;
         },
 
         getPositionData: function() {
@@ -315,6 +325,7 @@ export default {
                         );
 
                         this.form.resume = null
+                        this.resume = null
                     } else {
                         this.displayError(
                             `You don't have a resume to delete.`
@@ -362,6 +373,10 @@ export default {
 
                     this.form.gear_photos = null
                 })
+        },
+
+        basename: function(str) {
+            return str.substr(str.lastIndexOf('/') + 1);
         }
     },
     mounted() {

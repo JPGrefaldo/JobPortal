@@ -21,7 +21,7 @@ class DepartmentsFeatureTest extends TestCase
         $admin = $this->createAdmin();
         $departments = Department::all();
 
-        $response = $this->actingAs($admin)
+        $response = $this->actingAs($admin, 'api')
             ->getJson(route('admin.departments'));
 
         $response->assertJson($departments->toArray());
@@ -39,7 +39,7 @@ class DepartmentsFeatureTest extends TestCase
             'description' => 'Some Description',
         ];
 
-        $response = $this->actingAs($user)
+        $response = $this->actingAs($user, 'api')
             ->post(route('admin.departments', $data));
 
         $response->assertSuccessful();
@@ -62,7 +62,7 @@ class DepartmentsFeatureTest extends TestCase
             'description' => '',
         ];
 
-        $response = $this->actingAs($user)
+        $response = $this->actingAs($user, 'api')
             ->post(route('admin.departments', $data));
 
         $response->assertSuccessful();
@@ -85,7 +85,7 @@ class DepartmentsFeatureTest extends TestCase
             'description' => 'Some description',
         ];
 
-        $response = $this->actingAs($user)
+        $response = $this->actingAs($user, 'api')
             ->post(route('admin.departments', $data));
 
         $response->assertSuccessful();
@@ -109,7 +109,7 @@ class DepartmentsFeatureTest extends TestCase
             'description' => '',
         ];
 
-        $response = $this->actingAs($user)
+        $response = $this->actingAs($user, 'api')
             ->post(route('admin.departments', $data));
 
         $response->assertSessionHasErrors([
@@ -131,7 +131,7 @@ class DepartmentsFeatureTest extends TestCase
             'description' => '',
         ];
 
-        $response = $this->actingAs($user)
+        $response = $this->actingAs($user, 'api')
             ->post(route('admin.departments', $data));
 
         $response->assertSessionHasErrors([
@@ -152,7 +152,7 @@ class DepartmentsFeatureTest extends TestCase
             'description' => 'New Description',
         ];
 
-        $response = $this->actingAs($user)
+        $response = $this->actingAs($user, 'api')
             ->put(route('admin.departments.update', ['department' => $department->id]), $data);
 
         $response->assertSuccessful();
@@ -180,7 +180,7 @@ class DepartmentsFeatureTest extends TestCase
             'description' => '',
         ];
 
-        $response = $this->actingAs($user)
+        $response = $this->actingAs($user, 'api')
             ->put(route('admin.departments.update', ['department' => $department->id]), $data);
 
         $response->assertSuccessful();
@@ -208,7 +208,7 @@ class DepartmentsFeatureTest extends TestCase
             'description' => '',
         ];
 
-        $response = $this->actingAs($user)
+        $response = $this->actingAs($user, 'api')
             ->put(route('admin.departments.update', ['department' => $department->id]), $data);
 
         $response->assertSuccessful();
@@ -236,7 +236,7 @@ class DepartmentsFeatureTest extends TestCase
         ];
         $department = factory(Department::class)->create($data);
 
-        $response = $this->actingAs($user)
+        $response = $this->actingAs($user, 'api')
             ->put(route('admin.departments.update', ['department' => $department->id]), $data);
 
         $response->assertSuccessful();
@@ -264,7 +264,7 @@ class DepartmentsFeatureTest extends TestCase
             'description' => '',
         ];
 
-        $response = $this->actingAs($user)
+        $response = $this->actingAs($user, 'api')
             ->put(route('admin.departments.update', ['department' => $department->id]), $data);
 
         $response->assertSessionHasErrors([
@@ -287,7 +287,7 @@ class DepartmentsFeatureTest extends TestCase
             'description' => '',
         ];
 
-        $response = $this->actingAs($user)
+        $response = $this->actingAs($user, 'api')
             ->put(route('admin.departments.update', ['department' => $department->id]), $data);
 
         $response->assertSessionHasErrors([
