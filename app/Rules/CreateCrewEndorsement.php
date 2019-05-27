@@ -27,7 +27,7 @@ class CreateCrewEndorsement implements Rule
      */
     public function passes($attribute, $value)
     {
-        $crewCheck      = User::with('crew')->where('email', $value)->first();
+        $crewCheck = User::with('crew')->where('email', $value)->first();
         if (isset($crewCheck)) {
             $endorserCheck  = EndorsementEndorser::where('user_id', $crewCheck->id)->first();
         }
