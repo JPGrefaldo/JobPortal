@@ -19,7 +19,6 @@ use App\Http\Controllers\Crew\CrewPositionController;
 use App\Http\Controllers\Crew\Endorsements\EndorsementEndorsedController;
 use App\Http\Controllers\Crew\Endorsements\EndorsementPositionController;
 use App\Http\Controllers\Crew\Endorsements\EndorsementRequestController;
-use App\Models\ProjectType;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +33,12 @@ use App\Models\ProjectType;
 | * Single, Route::middleware(AuthorizeRoles::parameterize(Role::CREW))
 | * Multiple, Route::middleware(AuthorizeRoles::parameterize(Role::CREW, Role::PRODUCER))
 */
+Route::post('/crew/positions/{position}', [CrewPositionController::class, 'store'])
+    ->name('crew-position.store');
+Route::delete('/crew/positions/{position}/delete', [CrewPositionController::class, 'destroy'])
+    ->name('crew-position.delete');
+Route::delete('/crew/positions/{position}/resume', [CrewPositionController::class, 'removeResume']);
+
 Route::post('crew/endorsement/positions/{position}', [EndorsementPositionController::class, 'store'])
     ->name('crew.endorsement.position.store');
 
@@ -44,11 +49,12 @@ Route::get('crew/endorsement/positions/endorsed/{position}', [EndorsementEndorse
 Route::delete('crew/endorsement/positions/request/{endorsementRequest}', [EndorsementRequestController::class, 'destroy'])
     ->name('crew.endorsement.request.destroy');
 
-Route::post('/crew/positions/{position}', [CrewPositionController::class, 'store'])
-    ->name('crew-position.store');
-Route::delete('/crew/positions/{position}/resume', [CrewPositionController::class, 'removeResume']);
-Route::delete('/crew/positions/{position}/delete', [CrewPositionController::class, 'destroy'])
-    ->name('crew-position.delete');
+// TODO: defer to common route for both crew and admin
+Route::post('/messages/{project}', [ProducerMessageController::class, 'store'])
+    ->name('producer.messages.store');
+// TODO: defer to common route for both crew and admin
+Route::put('/messages/producer/projects/{project}/messages/{message}', [ProducerMessageController::class, 'update'])
+    ->name('producer.messages.update');
 
 Route::get('/producer/projects', [ProducerProjectController::class, 'index'])
     ->name('producer.projects');
@@ -62,48 +68,26 @@ Route::post('/producer/jobs', [ProducerProjectJobController::class, 'store'])
 Route::put('/producer/jobs/{job}', [ProducerProjectJobController::class, 'update'])
     ->name('producer.job.update');
 
-// TODO: defer to common route for both crew and admin
-Route::post('/messages/{project}', [
-    ProducerMessageController::class,
-    'store',
-])->name('producer.messages.store');
-// TODO: defer to common route for both crew and admin
-Route::put('/messages/producer/projects/{project}/messages/{message}', [
-    ProducerMessageController::class,
-    'update',
-])->name('producer.messages.update');
-
 Route::middleware('auth:api')->group(function () {
-
     Route::put('/admin/projects/{project}/approve', [
-        AdminProjectController::class, 
-        'approve'
+        AdminProjectController::class,
+        'approve',
     ])->middleware('role:Admin')->name('admin.projects.approve');
 
     Route::put('/admin/projects/{project}/unapprove', [
-        AdminProjectController::class, 
-        'unapprove'
+        AdminProjectController::class,
+        'unapprove',
     ])->middleware('role:Admin')->name('admin.projects.unapprove');
 
     Route::get('/admin/projects/pending', [
-        AdminProjectController::class, 
-        'unapproved'
+        AdminProjectController::class,
+        'unapproved',
     ])->middleware('role:Admin')->name('admin.pending-projects');
 
-    Route::get('/admin/flag-messages', [
-        FlaggedMessageController::class,
+    Route::get('/crew/projects', [
+        CrewProjectController::class,
         'index',
-    ])->middleware('role:Admin')->name('admin.messages.flagged');
-
-    Route::get('submissions/{job}', [
-        ProjectJobSubmissionController::class,
-        'index',
-    ])->middleware('role:Admin')->name('admin.project.job.submissions.index');
-
-    Route::get('/user', [
-        UserController::class,
-        'show',
-    ]);
+    ])->name('crew.projects.index');
 
     Route::get('/crew/departments', [
         DepartmentController::class,
@@ -116,25 +100,10 @@ Route::middleware('auth:api')->group(function () {
     Route::put('/admin/departments/{department}', [DepartmentController::class, 'update'])
         ->name('admin.departments.update');
 
-    Route::get('/crew/projects', [
-        CrewProjectController::class,
+    Route::get('/admin/flag-messages', [
+        FlaggedMessageController::class,
         'index',
-    ])->name('crew.projects.index');
-
-    Route::get('/crew/positions', [
-        PositionController::class,
-        'index',
-    ])->name('crew.positions.index');
-
-    Route::get('/sites', [
-        SiteController::class,
-        'index',
-    ])->name('sites.index');
-
-    Route::post('submissions/{job}', [
-        ProjectJobSubmissionController::class,
-        'store',
-    ])->middleware('role:Crew')->name('project.job.submissions.store');
+    ])->middleware('role:Admin')->name('admin.messages.flagged');
 
     Route::post('/messenger/projects/{project}/messages', [
         MessageController::class,
@@ -156,17 +125,61 @@ Route::middleware('auth:api')->group(function () {
         'search',
     ])->middleware('role:Producer|Crew')->name('threads.index.search');
 
+    Route::get('/crew/positions', [
+        PositionController::class,
+        'index',
+    ])->name('crew.positions.index');
+
+    Route::get('submissions/{job}', [
+        ProjectJobSubmissionController::class,
+        'index',
+    ])->middleware('role:Admin')->name('admin.project.job.submissions.index');
+
+    Route::post('submissions/{job}', [
+        ProjectJobSubmissionController::class,
+        'store',
+    ])->middleware('role:Crew')->name('project.job.submissions.store');
+
+    Route::get('/sites', [
+        SiteController::class,
+        'index',
+    ])->name('sites.index');
+
     Route::get('/crew/projects/{project}/threads', [
         ThreadController::class,
         'index',
     ])->name('crew.threads.index');
 
-    Route::prefix('producer')->middleware('role:Producer')->group(function () {
+    Route::get('/user', [
+        UserController::class,
+        'show',
+    ]);
 
-        Route::get('projects/submissions/{job}', [
-            ProjectJobSubmissionController::class,
+    Route::prefix('producer')->middleware('role:Producer')->group(function () {
+        Route::get('/messages', [
+            MessageController::class,
             'index',
-        ])->name('project.job.submissions.index');
+        ])->name('producer.messages');
+
+        Route::post('projects/{project}/messages/crew/update', [
+            MessageController::class,
+            'updateCrew',
+        ])->name('producer.message.crew.update');
+
+        Route::post('projects/{project}/messages/crew/save', [
+            MessageController::class,
+            'storeCrew',
+        ])->name('producer.message.crew.store');
+
+        Route::get('messages/templates', [
+            MessageTemplateController::class,
+            'index',
+        ])->name('producer.messages.templates');
+
+        Route::post('messages/templates', [
+            MessageTemplateController::class,
+            'store',
+        ])->name('producer.messages.templates');
 
         Route::get('/projects', [
             ProjectController::class,
@@ -183,28 +196,16 @@ Route::middleware('auth:api')->group(function () {
             'update',
         ])->name('producer.projects.update');
 
-        Route::get('projects/{project}/threads', [
-            ThreadController::class,
-            'index',
-        ])->name('producer.threads.index');
-
-        Route::post('projects/{project}/messages/crew/save', [
-            MessageController::class,
-            'storeCrew',
-        ])->name('producer.message.crew.store');
-
-        Route::post('projects/{project}/messages/crew/update', [
-            MessageController::class,
-            'updateCrew',
-        ])->name('producer.message.crew.update');
-
-
         Route::get('projects/approved', [
             ProjectController::class,
             'approved',
         ])->name('producer.projects.approved');
 
-        
+        Route::get('projects/pending', [
+            ProjectController::class,
+            'pending',
+        ])->name('producer.projects.pending');
+
         Route::get('projects/jobs', [
             ProjectJobController::class,
             'index',
@@ -224,6 +225,16 @@ Route::middleware('auth:api')->group(function () {
             ProjectJobController::class,
             'destroy',
         ])->name('producer.project.jobs.destroy');
+
+        Route::get('projects/submissions/{job}', [
+            ProjectJobSubmissionController::class,
+            'index',
+        ])->name('project.job.submissions.index');
+
+        Route::get('projects/type', [
+            ProjectTypes::class,
+            'index',
+        ])->name('producer.project.type');
 
         Route::get('projects/jobs/{projectJob}/submissions/all-approved', [
             SubmissionController::class,
@@ -250,31 +261,9 @@ Route::middleware('auth:api')->group(function () {
             'swap',
         ])->name('producer.projects.swap.submissions');
        
-
-        Route::get('projects/pending', [
-            ProjectController::class,
-            'pending',
-        ])->name('producer.projects.pending');
-
-        Route::get('projects/type', [
-            ProjectTypes::class,
+        Route::get('projects/{project}/threads', [
+            ThreadController::class,
             'index',
-        ])->name('producer.project.type');
-
-        Route::get('/messages', [
-            MessageController::class,
-            'index'
-        ])->name('producer.messages');
-
-       
-        Route::get('messages/templates', [
-            MessageTemplateController::class,
-            'index',
-        ])->name('producer.messages.templates');
-
-        Route::post('messages/templates', [
-            MessageTemplateController::class,
-            'store',
-        ])->name('producer.messages.templates');  
+        ])->name('producer.threads.index');
     });
 });

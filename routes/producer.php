@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\MessageController;
 use App\Http\Controllers\Producer\ProjectController;
 
 Route::post('/producer/projects', [ProjectController::class, 'store'])
