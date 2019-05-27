@@ -28,7 +28,7 @@ class EndorsementRequestFeatureTest extends TestCase
 
         $this->actingAs($user);
 
-        $response = $this->delete(route('crew.endorsement.request.destroy', ['request' => $request->id]));
+        $response = $this->delete(route('crew.endorsement.request.destroy', $request->id));
 
         $response->assertSuccessful();
 

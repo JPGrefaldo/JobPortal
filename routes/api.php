@@ -19,7 +19,6 @@ use App\Http\Controllers\Crew\CrewPositionController;
 use App\Http\Controllers\Crew\Endorsements\EndorsementEndorsedController;
 use App\Http\Controllers\Crew\Endorsements\EndorsementPositionController;
 use App\Http\Controllers\Crew\Endorsements\EndorsementRequestController;
-use App\Models\ProjectType;
 
 /*
 |--------------------------------------------------------------------------

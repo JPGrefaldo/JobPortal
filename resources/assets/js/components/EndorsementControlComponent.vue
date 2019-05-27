@@ -1,6 +1,6 @@
 <template>
     <div class="my-6">
-        <div v-for="(endorsement, index) in endorsements" class="flex items-center mb-2">
+        <div v-for="(endorsement, index) in endorsements" :key="endorsement.id" class="flex items-center mb-2">
             <div class="mr-2 pr-2 border-r-2">
                 <a href="#" @click.prevent="deleteEndorsement(endorsement, index)">Delete</a>
             </div>
@@ -42,7 +42,7 @@ export default {
             }).then(result => {
                 if (result.value) {
                     axios
-                        .delete('/crew/endorsement/positions/request/' + endorsement.id)
+                        .delete('/api/crew/endorsement/positions/request/' + endorsement.endorsement_request_id)
                         .then(response => {
                             this.endorsements.splice(index, 1);
                             this.$swal({
