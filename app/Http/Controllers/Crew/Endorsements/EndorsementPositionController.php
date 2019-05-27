@@ -8,7 +8,7 @@ use App\Http\Middleware\UserHasPosition;
 use App\Models\Position;
 use App\View\Endorsements\EndorsementIndexModel;
 use App\View\Endorsements\EndorsementPositionShowModel;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreCrewEndorsementRequest;
 
 class EndorsementPositionController extends Controller
 {
@@ -35,18 +35,15 @@ class EndorsementPositionController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Position $position, Request $request)
+    public function store(Position $position, StoreCrewEndorsementRequest $request)
     {
-        $validatedData = $request->validate([
-            'email'   => 'required|email',
-            'message' => 'required',
-        ]);
+        $data = $request->validated();
 
         app(CreateEndorsementRequest::class)->execute(
             auth()->user(),
             $position,
-            $validatedData['email'],
-            $validatedData['message']
+            $data['email'],
+            $data['message']
         );
 
         return response('');

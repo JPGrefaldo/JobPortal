@@ -37,6 +37,34 @@ class EndorsementEndorsedFeatureTest extends TestCase
 
     /**
      * @test
+     * @covers  \App\Http\Controllers\Crew\Endorsements\EndorsementEndorsedController::index
+     */
+    public function request_email_should_be_a_valid_crew()
+    {
+        $user1 = $this->createCrew();
+
+        list($user, $position, $request) = $this->createEndorsement(Carbon::now());
+
+        $this->actingAs($user);
+
+        $this->post(route('crew.endorsement.position.store', $position), [
+            'email'   => $request->email,
+            'message' => $request->message,
+        ])->assertSessionHasErrors([
+            'email'
+        ]);
+
+        $this->post(route('crew.endorsement.position.store', $position), [
+            'email'   => $user1->email,
+            'message' => $request->message,
+        ])->assertSessionDoesntHaveErrors([
+            'email',
+            'message'
+        ])->assertSuccessful();
+    }
+
+    /**
+     * @test
      * @covers \App\Http\Controllers\Crew\Endorsements\EndorsementEndorsedController::index
      */
     public function index_no_approved()
@@ -75,6 +103,9 @@ class EndorsementEndorsedFeatureTest extends TestCase
             'crew_position_id'       => $crewPosition->id,
             'approved_at'            => $approved_at,
         ]);
+
+        $request->email = $endorser->email;
+
         return [
             $user,
             $position,
