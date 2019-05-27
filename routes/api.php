@@ -1,22 +1,21 @@
 <?php
 
-use App\Http\Controllers\Api\Admin\FlaggedMessageController;
+use App\Http\Controllers\API\Admin\FlaggedMessageController;
 use App\Http\Controllers\API\Admin\ProjectJobSubmissionController;
 use App\Http\Controllers\API\Crew\DepartmentController;
 use App\Http\Controllers\API\Crew\PositionController;
-use App\Http\Controllers\API\Crew\ProjectController as CrewProjectController;
+use App\Http\Controllers\API\MessageController;
 use App\Http\Controllers\API\ParticipantController;
+use App\Http\Controllers\API\Admin\ProjectController as AdminProjectController;
 use App\Http\Controllers\API\Producer\MessageTemplateController;
-use App\Http\Controllers\API\Producer\ProjectController;
 use App\Http\Controllers\API\Producer\ProjectJobController;
 use App\Http\Controllers\API\Producer\ProjectTypes;
+use App\Http\Controllers\API\ProjectController;
 use App\Http\Controllers\API\SiteController;
 use App\Http\Controllers\API\SubmissionController;
+use App\Http\Controllers\API\ThreadController;
 use App\Http\Controllers\API\UserController;
-use App\Http\Controllers\Crew\ThreadController as CrewThreadController;
-use App\Http\Controllers\Producer\ThreadController;
 use App\Models\ProjectType;
-use App\Http\Controllers\API\MessageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +32,29 @@ use App\Http\Controllers\API\MessageController;
 */
 
 Route::middleware('auth:api')->group(function () {
+
+    Route::put('/admin/projects/{project}/approve', [
+        AdminProjectController::class, 
+        'approve'
+    ])->middleware('role:Admin')->name('admin.projects.approve');
+
+    Route::put('/admin/projects/{project}/unapprove', [
+        AdminProjectController::class, 
+        'unapprove'
+    ])->middleware('role:Admin')->name('admin.projects.unapprove');
+
+    Route::get('/admin/projects/pending', [
+        AdminProjectController::class, 
+        'unapproved'
+    ])->middleware('role:Admin')->name('admin.pending-projects');
+
+    Route::get('/admin/flag-messages', [
+        FlaggedMessageController::class,
+        'index',
+    ])->middleware('role:Admin')->name('admin.messages.flagged');
+
+
+
     Route::get('/user', [
         UserController::class,
         'show',
@@ -42,11 +64,6 @@ Route::middleware('auth:api')->group(function () {
         DepartmentController::class,
         'index',
     ])->name('crew.departments.index');
-
-    Route::get('/crew/projects', [
-        CrewProjectController::class,
-        'index',
-    ])->name('crew.projects.index');
 
     Route::get('/crew/positions', [
         PositionController::class,
@@ -79,7 +96,7 @@ Route::middleware('auth:api')->group(function () {
     ])->middleware('role:Producer|Crew')->name('threads.index.search');
 
     Route::get('/crew/projects/{project}/threads', [
-        CrewThreadController::class,
+        ThreadController::class,
         'index',
     ])->name('crew.threads.index');
 
@@ -115,7 +132,6 @@ Route::middleware('auth:api')->group(function () {
                     MessageController::class,
                     'storeCrew',
                 ])->name('producer.message.crew.store');
-
                 Route::post('update', [
                     MessageController::class,
                     'updateCrew',
@@ -186,7 +202,7 @@ Route::middleware('auth:api')->group(function () {
                 'index',
             ])->name('producer.project.type');
         });
-
+    
         Route::prefix('messages')->group(function () {
             Route::get('/', [
                 MessageController::class,
@@ -217,10 +233,6 @@ Route::middleware('auth:api')->group(function () {
         ])->name('producer.project.type');
     });
 
-    Route::get('/admin/flag-messages', [
-        FlaggedMessageController::class,
-        'index',
-    ])->middleware('role:Admin')->name('admin.messages.flagged');
 
     Route::prefix('submissions')->group(function () {
         Route::get('/{job}', [
