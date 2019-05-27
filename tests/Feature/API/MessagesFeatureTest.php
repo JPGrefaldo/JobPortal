@@ -25,27 +25,30 @@ class MessagesFeatureTest extends TestCase
     public function index_as_crew()
     {
         // given
-        $user = $this->createCrew();
-        $thread = factory(Thread::class)->create();
+        $crew     = $this->createCrew();
+        $producer = $this->createProducer();
+        $thread   = $producer->threads()->create([
+            'subject' => $producer->full_name
+        ]);
 
         factory(Participant::class)->create([
             'thread_id' => $thread->id,
-            'user_id'   => $user->id,
+            'user_id'   => $crew->id,
         ]);
 
         $messages = factory(Message::class, 3)->create([
             'thread_id' => $thread->id,
-            'user_id'   => $user->id,
+            'user_id'   => $crew->id,
         ]);
 
-        $this->assertCount(1, User::all());
+        $this->assertCount(2, User::all());
         $this->assertCount(1, Crew::all());
         $this->assertCount(1, Thread::all());
-        $this->assertCount(1, Participant::all());
+        $this->assertCount(2, Participant::all());
         $this->assertCount(3, Message::all());
 
         // when
-        $response = $this->actingAs($user, 'api')
+        $response = $this->actingAs($crew, 'api')
             ->getJson(route('messenger.threads.messages.index', $thread));
 
         // then
@@ -67,17 +70,14 @@ class MessagesFeatureTest extends TestCase
     public function index_as_producer()
     {
         // given
-        $user = $this->createProducer();
-        $thread = factory(Thread::class)->create();
-
-        factory(Participant::class)->create([
-            'thread_id' => $thread->id,
-            'user_id'   => $user->id,
+        $producer = $this->createProducer();
+        $thread   = $producer->threads()->create([
+            'subject' => $producer->full_name
         ]);
 
         $messages = factory(Message::class, 3)->create([
             'thread_id' => $thread->id,
-            'user_id'   => $user->id,
+            'user_id'   => $producer->id,
         ]);
 
         $this->assertCount(1, User::all());
@@ -86,7 +86,7 @@ class MessagesFeatureTest extends TestCase
         $this->assertCount(3, Message::all());
 
         // when
-        $response = $this->actingAs($user, 'api')
+        $response = $this->actingAs($producer, 'api')
             ->getJson(route('messenger.threads.messages.index', $thread));
 
         // then
