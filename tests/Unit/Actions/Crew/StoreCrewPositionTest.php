@@ -7,8 +7,8 @@ use App\Models\Crew;
 use App\Models\CrewPosition;
 use App\Models\Position;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 use Tests\Support\SeedDatabaseAfterRefresh;
+use Tests\TestCase;
 
 class StoreCrewPositionTest extends TestCase
 {

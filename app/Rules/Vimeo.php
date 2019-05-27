@@ -2,7 +2,6 @@
 
 namespace App\Rules;
 
-use App\Actions\Social\CleanVimeoLinkAction;
 use App\Actions\Social\IsVimeoPlayerUrlAction;
 use App\Actions\Social\IsVimeoUrlAction;
 use Illuminate\Contracts\Validation\Rule;

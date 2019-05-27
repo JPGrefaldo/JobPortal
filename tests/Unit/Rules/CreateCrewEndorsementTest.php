@@ -2,11 +2,11 @@
 
 namespace Tests\Unit\Rules;
 
+use App\Models\EndorsementEndorser;
+use App\Rules\CreateCrewEndorsement;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
-use App\Rules\CreateCrewEndorsement;
-use App\Models\EndorsementEndorser;
 
 class CreateCrewEndorsementTest extends TestCase
 {
@@ -51,7 +51,7 @@ class CreateCrewEndorsementTest extends TestCase
 
         return $this->app['validator']->make(
             [
-                'email' => $email,
+                'email'   => $email,
                 'message' => 'Some test message',
             ],
             [

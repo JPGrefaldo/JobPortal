@@ -2,11 +2,9 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
-use App\Models\Crew;
 use App\Models\User;
-use App\Models\EndorsementEndorser;
 use App\Rules\CreateCrewEndorsement;
+use Illuminate\Foundation\Http\FormRequest;
 
 class StoreCrewEndorsementRequest extends FormRequest
 {

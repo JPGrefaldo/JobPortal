@@ -54,7 +54,7 @@ class CrewSubmissionFeatureTest extends TestCase
 
         $response->assertStatus(200)
             ->assertJson([
-                'message' => 'success'
+                'message' => 'success',
             ]);
 
         $this->assertDatabaseHas('submissions', [

@@ -84,10 +84,10 @@ class SubmissionFeatureTest extends TestCase
                 $this->assertEquals(
                     3,
                     Submission::where(
-                    [
-                        'crew_id'    => $submission->crew_id,
-                        'project_id' => $project->id,
-                    ]
+                        [
+                            'crew_id'    => $submission->crew_id,
+                            'project_id' => $project->id,
+                        ]
                     )->count()
                 );
             });

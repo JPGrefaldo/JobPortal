@@ -13,8 +13,8 @@ class FetchThreadsWithNewMessages
     public function execute(User $user)
     {
         return $user->threads()
-                    ->with('messages')
-                    ->latest('updated_at')
-                    ->get();
+            ->with('messages')
+            ->latest('updated_at')
+            ->get();
     }
 }

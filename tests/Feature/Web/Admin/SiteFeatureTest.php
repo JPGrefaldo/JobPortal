@@ -24,7 +24,7 @@ class SiteFeatureTest extends TestCase
         $response = $this->actingAs($admin, 'api')->getJson(route('sites.index'));
 
         $response->assertJsonFragment([
-            'sites' => $sites->toArray()
+            'sites' => $sites->toArray(),
         ]);
     }
 }

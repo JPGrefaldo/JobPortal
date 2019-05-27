@@ -118,7 +118,7 @@ class CrewPositionFeatureTest extends TestCase
     public function crew_position_union_is_required_on_position_that_has_union()
     {
         $position = factory(Position::class)->create([
-            'has_union' => true
+            'has_union' => true,
         ]);
 
         $data = $this->getStoreData([
@@ -136,7 +136,7 @@ class CrewPositionFeatureTest extends TestCase
     public function crew_position_gear_is_required_on_position_that_has_gear()
     {
         $position = factory(Position::class)->create([
-            'has_gear' => true
+            'has_gear' => true,
         ]);
 
         $data = $this->getStoreData([

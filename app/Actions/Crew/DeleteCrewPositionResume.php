@@ -19,7 +19,7 @@ class DeleteCrewPositionResume
         $crewPosition = CrewPosition::byCrewAndPosition($crew, $position)->first();
         $crewResume   = $crew->resumes()->where('crew_position_id', $crewPosition->id)->first();
 
-        if (!$crewResume) {
+        if (! $crewResume) {
             return false;
         }
 

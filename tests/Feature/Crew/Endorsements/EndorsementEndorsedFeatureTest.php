@@ -51,7 +51,7 @@ class EndorsementEndorsedFeatureTest extends TestCase
             'email'   => $request->email,
             'message' => $request->message,
         ])->assertSessionHasErrors([
-            'email'
+            'email',
         ]);
 
         $this->post(route('crew.endorsement.position.store', $position), [
@@ -59,7 +59,7 @@ class EndorsementEndorsedFeatureTest extends TestCase
             'message' => $request->message,
         ])->assertSessionDoesntHaveErrors([
             'email',
-            'message'
+            'message',
         ])->assertSuccessful();
     }
 

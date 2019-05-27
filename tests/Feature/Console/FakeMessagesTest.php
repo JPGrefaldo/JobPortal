@@ -27,7 +27,7 @@ class FakeMessagesTest extends TestCase
     {
         $command = $this->artisan(self::CMD);
         $command->expectsOutput('Creating new 2 users with a producer and crew role respectively')
-                ->run();
+            ->run();
         $users = User::all();
         $this->assertCount(2, $users);
         $this->assertTrue($users[0]->hasRole(Role::PRODUCER));
@@ -123,7 +123,7 @@ class FakeMessagesTest extends TestCase
 
         $command = $this->artisan(self::CMD." --sender={$user->id} --receiver={$user2->id}");
         $command->expectsOutput("The sender's role is {$user->getRoleNames()}, not a Producer")
-                ->run();
+            ->run();
     }
 
     /**
@@ -137,7 +137,7 @@ class FakeMessagesTest extends TestCase
 
         $command = $this->artisan(self::CMD." --sender={$user->id} --receiver={$user2->id}");
         $command->expectsOutput("The receiver's role is {$user2->getRoleNames()}, not a Crew")
-                ->run();
+            ->run();
     }
 
     private function runCommand()
@@ -147,7 +147,7 @@ class FakeMessagesTest extends TestCase
 
         $command = $this->artisan(self::CMD." --sender={$sender->id} --receiver={$receiver->id}");
         $command->expectsOutput('Done seeding message!')
-                ->run();
+            ->run();
     }
 
     private function createParticipant($role='producer')

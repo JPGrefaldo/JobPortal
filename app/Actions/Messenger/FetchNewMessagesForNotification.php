@@ -12,13 +12,12 @@ class FetchNewMessagesForNotification
         $time = Carbon::now()->subMinutes(30)->toDateTimeString();
 
         $threads = $user->threads()
-                        ->with(['messages' => function ($q) use ($time, $user) {
-                            $q->where([
-                                ['created_at', '>', $time],
-                                ['user_id', '!=', $user->id]
-                            ]);
-                        }
-                        ])->get();
+            ->with(['messages' => function ($q) use ($time, $user) {
+                $q->where([
+                    ['created_at', '>', $time],
+                    ['user_id', '!=', $user->id],
+                ]);
+            }])->get();
 
         return $threads;
     }

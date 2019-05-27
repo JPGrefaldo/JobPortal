@@ -12,10 +12,10 @@ class ThreadController extends Controller
     {
         $user    = auth()->user();
         $threads = $user->projects()
-                        ->find($project->id)
-                        ->threads()
-                        ->latest('updated_at')
-                        ->get();
+            ->find($project->id)
+            ->threads()
+            ->latest('updated_at')
+            ->get();
 
         return ThreadResource::collection($threads);
     }

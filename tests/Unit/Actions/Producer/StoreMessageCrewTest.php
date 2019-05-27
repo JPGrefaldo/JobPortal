@@ -3,7 +3,6 @@
 namespace Tests\Unit\Actions\Producer;
 
 use App\Actions\Producer\StoreMessageCrew;
-use App\Models\Crew;
 use App\Models\Message;
 use App\Models\Project;
 use App\Models\Thread;

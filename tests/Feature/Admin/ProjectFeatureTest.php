@@ -2,10 +2,7 @@
 
 namespace Tests\Feature\Admin;
 
-use App\Models\Project;
-use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\Support\Data\ProjectTypeID;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 

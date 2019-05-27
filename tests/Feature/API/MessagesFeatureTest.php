@@ -28,7 +28,7 @@ class MessagesFeatureTest extends TestCase
         $crew     = $this->createCrew();
         $producer = $this->createProducer();
         $thread   = $producer->threads()->create([
-            'subject' => $producer->full_name
+            'subject' => $producer->full_name,
         ]);
 
         factory(Participant::class)->create([
@@ -72,7 +72,7 @@ class MessagesFeatureTest extends TestCase
         // given
         $producer = $this->createProducer();
         $thread   = $producer->threads()->create([
-            'subject' => $producer->full_name
+            'subject' => $producer->full_name,
         ]);
 
         $messages = factory(Message::class, 3)->create([
@@ -164,7 +164,7 @@ class MessagesFeatureTest extends TestCase
         // And when a new reply in the thread is added (message)
         $thread->messages()->create([
             'user_id'   => $producer->id,
-            'body'      => 'Test Reply Message'
+            'body'      => 'Test Reply Message',
         ]);
 
         return $thread;

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Account;
 
-use App\Actions\Manager\StoreManager;
 use App\Actions\Manager\DeleteManager;
+use App\Actions\Manager\StoreManager;
 use App\Actions\Manager\UpdateManager;
 use App\Actions\User\IsUserRegistered;
 use App\Http\Controllers\Controller;

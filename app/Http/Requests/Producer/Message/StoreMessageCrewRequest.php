@@ -26,7 +26,7 @@ class StoreMessageCrewRequest extends FormRequest
         return [
             'subject'       => 'required|string',
             'message'       => 'required|string',
-            'recipients'    => 'required'
+            'recipients'    => 'required',
         ];
     }
 }

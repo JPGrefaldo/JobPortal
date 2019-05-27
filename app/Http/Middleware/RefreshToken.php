@@ -23,7 +23,7 @@ class RefreshToken
             if (! $user = JWTAuth::parseToken()->authenticate()) {
                 return response()->json([
                     'code'     => 101,
-                    'response' => null
+                    'response' => null,
                 ]);
             }
         } catch (TokenExpiredException $e) {
@@ -34,7 +34,7 @@ class RefreshToken
             } catch (JWTException $e) {
                 return response()->json([
                     'code'     => 103,
-                    'response' => null
+                    'response' => null,
                 ]);
             }
         } catch (JWTException $e) {

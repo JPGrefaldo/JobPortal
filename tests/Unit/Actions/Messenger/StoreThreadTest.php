@@ -3,8 +3,8 @@
 namespace Tests\Unit\Actions\Messenger;
 
 use App\Actions\Messenger\StoreThread;
-use App\Models\Thread;
 use App\Models\Project;
+use App\Models\Thread;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;

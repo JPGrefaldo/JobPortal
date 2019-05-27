@@ -80,7 +80,7 @@ class FetchNewMessagesForNotificationTest extends TestCase
             'thread_id'  => $thread->id,
             'user_id'    => $crew->id,
             'body'       => 'Test Reply Message',
-            'created_at' => Carbon::now()
+            'created_at' => Carbon::now(),
         ];
 
         $oldReplyFromCrew = [

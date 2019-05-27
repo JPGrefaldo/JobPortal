@@ -19,7 +19,7 @@ class DeleteCrewPositionGear
         $crewPosition = CrewPosition::byCrewAndPosition($crew, $position)->first();
         $crewGear     = $crew->gears()->where('crew_position_id', $crewPosition->id)->first();
 
-        if (!$crewGear) {
+        if (! $crewGear) {
             return false;
         }
 

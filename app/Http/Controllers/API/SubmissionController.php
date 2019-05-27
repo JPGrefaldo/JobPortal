@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Actions\Submissions\StoreSubmission;
 use App\Actions\Submissions\SetSubmissionStatus;
+use App\Actions\Submissions\StoreSubmission;
 use App\Http\Controllers\Controller;
 use App\Models\ProjectJob;
 use App\Models\Submission;
@@ -28,8 +28,8 @@ class SubmissionController extends Controller
         $submissions = $projectJob->submissions()
             ->whereNotNull('approved_at')
             ->with(['crew' => function ($q) {
-                                    $q->with('user');
-                                }])
+                $q->with('user');
+            }])
             ->get();
 
         return response()->json(

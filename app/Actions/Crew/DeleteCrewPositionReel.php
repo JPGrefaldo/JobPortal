@@ -19,7 +19,7 @@ class DeleteCrewPositionReel
         $crewPosition = CrewPosition::byCrewAndPosition($crew, $position)->first();
         $crewReel     = $crew->reels()->where('crew_position_id', $crewPosition->id)->first();
 
-        if (!$crewReel) {
+        if (! $crewReel) {
             return false;
         }
 

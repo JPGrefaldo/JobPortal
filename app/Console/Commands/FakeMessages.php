@@ -74,30 +74,30 @@ class FakeMessages extends Command
         ]);
 
         $thread = Thread::create([
-            'subject' => 'This is a test subject'
+            'subject' => 'This is a test subject',
         ]);
 
         ProjectThread::create([
             'project_id' => $project->id,
-            'thread_id'  => $thread->id
+            'thread_id'  => $thread->id,
         ]);
 
         Message::create([
             'thread_id' => $thread->id,
-            'user_id' => $sender->id,
-            'body' => 'This is a test message',
+            'user_id'   => $sender->id,
+            'body'      => 'This is a test message',
         ]);
 
         Message::create([
             'thread_id' => $thread->id,
-            'user_id' => $receiver->id,
-            'body' => 'This is a Reply message',
+            'user_id'   => $receiver->id,
+            'body'      => 'This is a Reply message',
         ]);
 
         // Sender
         Participant::create([
             'thread_id' => $thread->id,
-            'user_id' => $sender->id,
+            'user_id'   => $sender->id,
             'last_read' => new Carbon(),
         ]);
 

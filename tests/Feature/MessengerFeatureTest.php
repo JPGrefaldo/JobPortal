@@ -8,7 +8,6 @@ use App\Models\Thread;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
-use Carbon\Carbon;
 
 class MessengerFeatureTest extends TestCase
 {
@@ -39,7 +38,7 @@ class MessengerFeatureTest extends TestCase
 
         $data = [
             'message'   => 'Some Reply message',
-            'recipient'=>  $producer->id
+            'recipient' => $producer->id,
         ];
 
         $response = $this->actingAs($producer, 'api')
@@ -112,7 +111,7 @@ class MessengerFeatureTest extends TestCase
         $data = [
             'subject'   => 'Some subject',
             'message'   => 'Some message',
-            'recepient'=>  [2,3]
+            'recepient' => [2,3],
         ];
 
         $response = $this->actingAs($crew, 'api')
@@ -134,17 +133,17 @@ class MessengerFeatureTest extends TestCase
         $recipient  = $this->createCrew();
 
         $project    = factory(Project::class)->create([
-            'user_id' => $producer->id
+            'user_id' => $producer->id,
         ]);
 
         $data = [
             'subject'   => 'Some subject',
             'message'   => 'Some message',
-            'recipient'=>  $recipient->id
+            'recipient' => $recipient->id,
         ];
 
         $response = $this->actingAs($producer, 'api')
-                        ->postJson(route('messenger.project.messages.store', $project), $data);
+            ->postJson(route('messenger.project.messages.store', $project), $data);
         return $response;
     }
 }
