@@ -49,7 +49,7 @@ export default {
     methods: {
         isSender: function(message) {
             let user = JSON.parse(localStorage.getItem('user'));
-            if (message.user_id !== user.id) {
+            if (message.user_id !== user.hash_id) {
                 this.$store.commit('thread/PARTICIPANT', message.user_id)
                 return false
             }

@@ -13,12 +13,6 @@ Route::put('/admin/users/ban/{user}', [AdminUserController::class, 'updateBan'])
 Route::get('/admin/sites', [SiteController::class, 'index'])
     ->name('admin.sites');
 
-Route::get('/admin/departments', [DepartmentController::class, 'index'])
-    ->name('admin.departments');
-Route::post('/admin/departments', [DepartmentController::class, 'store']);
-Route::put('/admin/departments/{department}', [DepartmentController::class, 'update'])
-    ->name('admin.departments.update');
-
 
 Route::get('/admin/positions', [PositionController::class, 'index'])
     ->name('admin.positions');
