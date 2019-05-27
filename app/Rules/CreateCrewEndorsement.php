@@ -9,13 +9,13 @@ use Illuminate\Contracts\Validation\Rule;
 class CreateCrewEndorsement implements Rule
 {
     /**
-     * Create a new rule instance.
-     *
      * @return void
      */
-    public function __construct()
+    public function setUp(): void
     {
-        //
+        parent::setUp();
+
+        $this->message = '';
     }
 
     /**
@@ -28,15 +28,26 @@ class CreateCrewEndorsement implements Rule
     public function passes($attribute, $value)
     {
         $crewCheck      = User::with('crew')->where('email', $value)->first();
-        $endorserCheck  = EndorsementEndorser::where('email', $value)->first();
+        if (isset($crewCheck)) {
+            $endorserCheck  = EndorsementEndorser::where('user_id', $crewCheck->id)->first();
+        }
         $ownEndorsement = $value == auth()->user()->email;
 
-        // dd($ownEndorsement);
-
-        if (isset($crewCheck) && !isset($endorserCheck) || isset($crewCheck) && !isset($ownEndorsement))
+        if (isset($crewCheck) && !isset($endorserCheck) && !$ownEndorsement) {
             return true;
-        else
+        } elseif (isset($crewCheck) && $ownEndorsement) {
+            $this->message = "You cannot send endosement request to your own email";
+
             return false;
+        } elseif (isset($crewCheck) && isset($endorserCheck)) {
+            $this->message = "You already sent endorsement request to that email";
+
+            return false;
+        } else {
+            $this->message = "Email doesn't exist";
+
+            return false;
+        }
     }
 
     /**
@@ -46,6 +57,6 @@ class CreateCrewEndorsement implements Rule
      */
     public function message()
     {
-        return "The email doesn't exist or You already sent endorsement request to that email";
+        return $this->message;
     }
 }

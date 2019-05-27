@@ -8,7 +8,7 @@ use App\Models\User;
 use App\Models\EndorsementEndorser;
 use App\Rules\CreateCrewEndorsement;
 
-class StoreCrewEndorsement extends FormRequest
+class StoreCrewEndorsementRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
