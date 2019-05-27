@@ -45,7 +45,6 @@ class MessageController extends Controller
     public function store(Project $project, Request $request)
     {
         $user = auth()->user();
-
         if ($user->hasRole(Role::CREW)) {
             return response()->json([
                 'message' => 'You are not allowed to initiate a conversation with any producer.',

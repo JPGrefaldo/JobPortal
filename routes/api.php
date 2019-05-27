@@ -1,12 +1,12 @@
 <?php
 
 use App\Http\Controllers\API\Admin\FlaggedMessageController;
+use App\Http\Controllers\API\Admin\ProjectController as AdminProjectController;
 use App\Http\Controllers\API\Admin\ProjectJobSubmissionController;
-use App\Http\Controllers\API\DepartmentController;
 use App\Http\Controllers\API\Crew\PositionController;
+use App\Http\Controllers\API\DepartmentController;
 use App\Http\Controllers\API\MessageController;
 use App\Http\Controllers\API\ParticipantController;
-use App\Http\Controllers\API\Admin\ProjectController as AdminProjectController;
 use App\Http\Controllers\API\Producer\MessageTemplateController;
 use App\Http\Controllers\API\Producer\ProjectJobController;
 use App\Http\Controllers\API\Producer\ProjectTypes;

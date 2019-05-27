@@ -16,6 +16,7 @@ class ThreadController extends Controller
                         ->threads()
                         ->latest('updated_at')
                         ->get();
-         return ThreadResource::collection($threads);
+
+        return ThreadResource::collection($threads);
     }
 }

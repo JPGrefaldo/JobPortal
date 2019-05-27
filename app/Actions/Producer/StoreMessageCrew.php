@@ -22,7 +22,6 @@ class StoreMessageCrew
 
         foreach ($recipients as $recipient) {
             $thread = app(StoreThread::class)->execute($project, $data->subject);
-
             app(StoreParticipants::class)->execute($thread, $user, $recipient);
             app(StoreMessage::class)->execute($thread, $user, $message);
         }
