@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Api\Admin\FlaggedMessageController;
 use App\Http\Controllers\API\Admin\ProjectJobSubmissionController;
-use App\Http\Controllers\API\Crew\DepartmentController;
+use App\Http\Controllers\API\DepartmentController;
 use App\Http\Controllers\API\Crew\PositionController;
 use App\Http\Controllers\API\Crew\ProjectController as CrewProjectController;
 use App\Http\Controllers\API\ParticipantController;
@@ -42,6 +42,12 @@ Route::middleware('auth:api')->group(function () {
         DepartmentController::class,
         'index',
     ])->name('crew.departments.index');
+
+    Route::get('/admin/departments', [DepartmentController::class, 'index'])
+        ->name('admin.departments');
+    Route::post('/admin/departments', [DepartmentController::class, 'store']);
+    Route::put('/admin/departments/{department}', [DepartmentController::class, 'update'])
+        ->name('admin.departments.update');
 
     Route::get('/crew/projects', [
         CrewProjectController::class,
