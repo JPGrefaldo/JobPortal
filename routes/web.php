@@ -19,7 +19,6 @@ use App\Http\Controllers\Manager\ManagerConfirmationController;
 use App\Http\Controllers\PendingFlagMessageController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\StaticPageController;
-use App\Http\Controllers\User\UserSettingsController;
 use App\Http\Controllers\VerifyEmailController;
 
 /*
@@ -104,7 +103,14 @@ Route::middleware('auth')->group(function () {
 
         Route::get('subscription', [AccountSubscriptionController::class, 'index'])
             ->name('account.subscription');
-        Route::post('subscription', [AccountSubscriptionController::class, 'store']);
+        Route::post('subscription', [AccountSubscriptionController::class, 'store'])
+            ->name('account.subscription.subscribe');
+        Route::get('unsubscribe', [AccountSubscriptionController::class, 'destroy'])
+            ->name('account.subscription.unsubscribe');
+        Route::get('resume', [AccountSubscriptionController::class, 'update'])
+            ->name('account.subscription.resume');
+        Route::get('user/invoice/{invoice}', [AccountSubscriptionController::class, 'show'])
+            ->name('account.subscription.invoice');
 
         Route::get('password', [AccountPasswordController::class, 'index'])
             ->name('account.password');
@@ -126,9 +132,9 @@ Route::middleware('auth')->group(function () {
             ->name('account.close');
         Route::put('close', [AccountCloseController::class, 'destroy']);
 
-        Route::put('settings/name', [UserSettingsController::class, 'updateName']);
-        Route::put('settings/notifications', [UserSettingsController::class, 'updateNotifications']);
-        Route::put('settings/password', [UserSettingsController::class, 'updatePassword']);
+        // Route::put('settings/name', [UserSettingsController::class, 'updateName']);
+        // Route::put('settings/notifications', [UserSettingsController::class, 'updateNotifications']);
+        // Route::put('settings/password', [UserSettingsController::class, 'updatePassword']);
 
         Route::get('change/crew', [AccountChangeController::class, 'crew'])
             ->name('account.change-to.crew')

@@ -23,7 +23,15 @@
             @include('account._parts.cards.account-contact')
         @break
         @case('subscription')
-            @include('account._parts.cards.account-subscription')
+            @if (! Auth::user()->subscribed())
+                @include('account._parts.cards.subscription.account-subscribe')
+            @else
+                @if (! Auth::user()->subscription()->onGracePeriod())
+                    @include('account._parts.cards.subscription.account-unsubscribe')
+                @else
+                    @include('account._parts.cards.subscription.account-grace-period')
+                @endif
+            @endif
         @break
         @case('password')
             @include('account._parts.cards.account-password')
