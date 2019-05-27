@@ -53,7 +53,7 @@ class FetchThreadsWithNewMessagesTest extends TestCase
             'body'      => 'Test Reply Message',
         ];
 
-        $crew->messages()->create($replyFromCrew);
+        $thread->messages()->create($replyFromCrew);
 
         // Then get all new thread with new messages
         $threads = app(FetchThreadsWithNewMessages::class)->execute($producer);

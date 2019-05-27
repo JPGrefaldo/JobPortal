@@ -32,7 +32,7 @@ class FakeMessagesTest extends TestCase
         $this->assertCount(2, $users);
         $this->assertTrue($users[0]->hasRole(Role::PRODUCER));
         $this->assertTrue($users[1]->hasRole(Role::CREW));
-        $this->assertArrayNotHasKey(3, $users->toArray());
+        $this->assertArrayNotHasKey(3, $users);
     }
 
     /**
@@ -46,7 +46,7 @@ class FakeMessagesTest extends TestCase
         $this->assertCount(2, $users);
         $this->assertTrue($users[0]->hasRole(Role::PRODUCER));
         $this->assertTrue($users[1]->hasRole(Role::CREW));
-        $this->assertArrayNotHasKey(3, $users->toArray());
+        $this->assertArrayNotHasKey(3, $users);
     }
 
     /**

@@ -80,11 +80,13 @@ class CrewMessagingFeatureTest extends TestCase
 
         $sentTimes = 0;
         foreach ($threads as $thread) {
-            $recipient = User::find($thread->participantsUserIds());
+            $record = $thread->participantsUserIds()[0];
+            
+            $recipient = User::where('hash_id', $record)->get();
             $this->assertCount(1, $recipient);
 
             foreach ($recipient as $user) {
-                $thread->userUnreadMessages($user->id)->map(function ($message) {
+                $thread->userUnreadMessages($user->hash_id)->map(function ($message) {
                     $this->assertEquals('Some message', $message->body);
                 });
             }

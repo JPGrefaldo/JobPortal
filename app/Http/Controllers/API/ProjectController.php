@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\API\Producer;
+namespace App\Http\Controllers\API;
 
 use App\Actions\Producer\Project\StoreProject;
 use App\Actions\Producer\Project\CreateRemoteProject;

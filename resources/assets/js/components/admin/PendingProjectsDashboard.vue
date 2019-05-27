@@ -122,7 +122,7 @@ export default {
             this.selectedProject = projectId
         },
         onClickApproveProject: function() {
-            axios.put(`/admin/projects/${this.projects[this.selectedProject].id}/approve`)
+            axios.put(`/api/admin/projects/${this.projects[this.selectedProject].id}/approve`)
                 .then(response => {
                     this.displaySuccess(response)
                     this.selectedProject = null
@@ -130,7 +130,7 @@ export default {
                 })
         },
         onClickDisapproveProject: function() {
-            axios.put(`/admin/projects/${this.projects[this.selectedProject].id}/unapprove`)
+            axios.put(`/api/admin/projects/${this.projects[this.selectedProject].id}/unapprove`)
                 .then(response => {
                     this.displaySuccess(response)
                     this.selectedProject = null

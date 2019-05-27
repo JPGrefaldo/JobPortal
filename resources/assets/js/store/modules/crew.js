@@ -100,7 +100,7 @@ export const mutations = {
 export const actions = {
     fetchByDepartments(context) {
         axios.get('/api/crew/departments').then(response => {
-            context.commit(types.DEPARTMENTS, response.data.departments);
+            context.commit(types.DEPARTMENTS, response.data);
         });
     },
 

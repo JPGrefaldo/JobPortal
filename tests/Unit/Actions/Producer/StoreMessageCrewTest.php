@@ -114,7 +114,6 @@ class StoreMessageCrewTest extends TestCase
         $data          = new \stdClass;
         $data->subject = $producer->fullName;
         $data->message = 'Some message';
-
         return $data;
     }
 }
