@@ -59,7 +59,7 @@ class StoreCrewSocialsTest extends TestCase
         $this->assertDatabaseHas('crew_socials', [
             'crew_id'             => $models['crew']->id,
             'social_link_type_id' => SocialLinkTypeID::VIMEO,
-            'url'                 => 'https://vimeo.com/new-mackevision',
+            'url'                 => 'https://player.vimeo.com/video/327999826',
         ]);
 
         $this->assertDatabaseHas('crew_socials', [
@@ -105,7 +105,7 @@ class StoreCrewSocialsTest extends TestCase
                     'id'  => SocialLinkTypeID::TUMBLR,
                 ],
                 'vimeo'            => [
-                    'url' => 'https://vimeo.com/mackevision',
+                    'url' => 'https://player.vimeo.com/video/327999826',
                     'id'  => SocialLinkTypeID::VIMEO,
                 ],
                 'instagram'        => [
@@ -156,7 +156,7 @@ class StoreCrewSocialsTest extends TestCase
         $this->assertDatabaseHas('crew_socials', [
             'crew_id'             => $crew->id,
             'social_link_type_id' => SocialLinkTypeID::VIMEO,
-            'url'                 => 'https://vimeo.com/mackevision',
+            'url'                 => 'https://player.vimeo.com/video/327999826',
         ]);
 
         $this->assertDatabaseHas('crew_socials', [

@@ -12,5 +12,6 @@
 @import "components/pills.css";
 @import "components/screens.css";
 @import "components/utilities.css";
+@import "components/stripe.css";
 
 @tailwind utilities;

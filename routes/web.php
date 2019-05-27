@@ -21,7 +21,6 @@ use App\Http\Controllers\PendingFlagMessageController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\StaticPageController;
 use App\Http\Controllers\SubmissionController;
-use App\Http\Controllers\User\UserSettingsController;
 use App\Http\Controllers\VerifyEmailController;
 
 /*
@@ -130,9 +129,17 @@ Route::middleware('auth')->group(function () {
         ->name('account.contact');
     Route::post('/account/contact', [AccountContactController::class, 'store']);
 
-    Route::get('/account/subscription', [AccountSubscriptionController::class, 'index'])
+    Route::get('subscription', [AccountSubscriptionController::class, 'index'])
         ->name('account.subscription');
-    Route::post('/account/subscription', [AccountSubscriptionController::class, 'store']);
+    Route::post('subscription', [AccountSubscriptionController::class, 'store'])
+        ->name('account.subscription.subscribe');
+    Route::get('unsubscribe', [AccountSubscriptionController::class, 'destroy'])
+        ->name('account.subscription.unsubscribe');
+    Route::get('resume', [AccountSubscriptionController::class, 'update'])
+        ->name('account.subscription.resume');
+    Route::get('user/invoice/{invoice}', [AccountSubscriptionController::class, 'show'])
+        ->name('account.subscription.invoice');
+
 
     Route::get('/account/password', [AccountPasswordController::class, 'index'])
         ->name('account.password');
@@ -154,9 +161,17 @@ Route::middleware('auth')->group(function () {
         ->name('account.close');
     Route::put('/account/close', [AccountCloseController::class, 'destroy']);
 
-    Route::put('/account/settings/name', [UserSettingsController::class, 'updateName']);
-    Route::put('/account/settings/notifications', [UserSettingsController::class, 'updateNotifications']);
-    Route::put('/account/settings/password', [UserSettingsController::class, 'updatePassword']);
+    // Route::put('settings/name', [UserSettingsController::class, 'updateName']);
+    // Route::put('settings/notifications', [UserSettingsController::class, 'updateNotifications']);
+    // Route::put('settings/password', [UserSettingsController::class, 'updatePassword']);
+
+        Route::get('change/crew', [AccountChangeController::class, 'crew'])
+            ->name('account.change-to.crew')
+            ->middleware('role:Producer');
+
+        Route::get('change/producer', [AccountChangeController::class, 'producer'])
+            ->name('account.change-to.producer')
+            ->middleware('role:Crew');
 
     Route::post('/pending-flag-messages', [PendingFlagMessageController::class, 'store'])
         ->name('pending-flag-messages.store');

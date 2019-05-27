@@ -14,7 +14,7 @@ class VimeoTest extends TestCase
     public function valid()
     {
         $result = $this->app['validator']->make(
-            ['vimeo' => 'https://vimeo.com/mackevision'],
+            ['vimeo' => 'https://vimeo.com/328301821'],
             [
                 'vimeo' => [
                     'required',

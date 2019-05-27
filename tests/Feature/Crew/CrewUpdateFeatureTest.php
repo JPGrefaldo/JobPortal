@@ -205,7 +205,7 @@ class CrewUpdateFeatureTest extends TestCase
                     'id'  => SocialLinkTypeID::TUMBLR,
                 ],
                 'vimeo'            => [
-                    'url' => 'https://vimeo.com/mackevision',
+                    'url' => 'https://vimeo.com/337361057',
                     'id'  => SocialLinkTypeID::VIMEO,
                 ],
                 'instagram'        => [
@@ -245,11 +245,11 @@ class CrewUpdateFeatureTest extends TestCase
     public function getUpdateData($customData = [])
     {
         $data = [
-            'bio'     => 'updated bio',
-            'photo'   => UploadedFile::fake()->image('new-photo.png'),
-            'resume'  => UploadedFile::fake()->create('new-resume.pdf'),
-            'reel'    => 'https://www.youtube.com/embed/WI5AF1DCQlc',
-            'socials' => [
+            'bio'      => 'updated bio',
+            'photo'    => UploadedFile::fake()->image('new-photo.png'),
+            'resume'   => UploadedFile::fake()->create('new-resume.pdf'),
+            'reel_link'=> 'https://www.youtube.com/embed/WI5AF1DCQlc',
+            'socials'  => [
                 'facebook'         => [
                     'url' => 'https://www.facebook.com/new-castingcallsamerica/',
                     'id'  => SocialLinkTypeID::FACEBOOK,
@@ -271,7 +271,7 @@ class CrewUpdateFeatureTest extends TestCase
                     'id'  => SocialLinkTypeID::TUMBLR,
                 ],
                 'vimeo'            => [
-                    'url' => 'https://vimeo.com/new-mackevision',
+                    'url' => 'https://vimeo.com/327999826',
                     'id'  => SocialLinkTypeID::VIMEO,
                 ],
                 'instagram'        => [
