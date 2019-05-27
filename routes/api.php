@@ -6,6 +6,7 @@ use App\Http\Controllers\API\DepartmentController;
 use App\Http\Controllers\API\Crew\PositionController;
 use App\Http\Controllers\API\Crew\ProjectController as CrewProjectController;
 use App\Http\Controllers\API\ParticipantController;
+use App\Http\Controllers\API\MessageController;
 use App\Http\Controllers\API\Producer\MessageTemplateController;
 use App\Http\Controllers\API\Producer\ProjectController;
 use App\Http\Controllers\API\Producer\ProjectJobController;
@@ -18,11 +19,7 @@ use App\Http\Controllers\Crew\CrewPositionController;
 use App\Http\Controllers\Crew\Endorsements\EndorsementEndorsedController;
 use App\Http\Controllers\Crew\Endorsements\EndorsementPositionController;
 use App\Http\Controllers\Crew\Endorsements\EndorsementRequestController;
-use App\Http\Controllers\Producer\MessageController as ProducerMessageController;
-use App\Http\Controllers\Producer\ProjectController as ProducerProjectController;
-use App\Http\Controllers\Producer\ProjectJobController as ProducerProjectJobController;
 use App\Models\ProjectType;
-use App\Http\Controllers\API\MessageController;
 
 /*
 |--------------------------------------------------------------------------

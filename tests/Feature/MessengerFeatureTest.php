@@ -8,6 +8,7 @@ use App\Models\Thread;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
+use Carbon\Carbon;
 
 class MessengerFeatureTest extends TestCase
 {
