@@ -150,10 +150,15 @@ class CrewProfileController extends Controller
             'crew',
         ]);
 
+        $resume = $user->crew->resumes->where('general', true)->first();
+        $reel = $user->crew->reels->where('general', true)->first();
+
         return view('crew.profile.profile-edit', [
             'user'            => $user,
             'socialLinkTypes' => $this->getAllSocialLinkTypes($user),
             'departments'     => $this->getDepartments(),
+            'resume'          => isset($resume) ? $resume->path : null,
+            'reel'            => isset($reel) ? $reel->path : null,
         ]);
     }
 
