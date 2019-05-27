@@ -12,9 +12,9 @@ use App\Http\Controllers\API\Producer\ProjectJobController;
 use App\Http\Controllers\API\Producer\ProjectTypes;
 use App\Http\Controllers\API\SiteController;
 use App\Http\Controllers\API\SubmissionController;
+use App\Http\Controllers\API\ThreadController;
 use App\Http\Controllers\API\UserController;
-use App\Http\Controllers\Crew\ThreadController as CrewThreadController;
-use App\Http\Controllers\Producer\ThreadController;
+
 use App\Models\ProjectType;
 use App\Http\Controllers\API\MessageController;
 
@@ -85,7 +85,7 @@ Route::middleware('auth:api')->group(function () {
     ])->middleware('role:Producer|Crew')->name('threads.index.search');
 
     Route::get('/crew/projects/{project}/threads', [
-        CrewThreadController::class,
+        ThreadController::class,
         'index',
     ])->name('crew.threads.index');
 
