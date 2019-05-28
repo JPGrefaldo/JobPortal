@@ -19,7 +19,6 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\Manager\ManagerConfirmationController;
 use App\Http\Controllers\PendingFlagMessageController;
-use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\StaticPageController;
 use App\Http\Controllers\SubmissionController;
 use App\Http\Controllers\VerifyEmailController;
