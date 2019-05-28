@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\API\Admin;
 
+use App\Actions\Admin\DenyProject;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProjectResource;
 use App\Models\Project;
 use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Request;
 
 class ProjectController extends Controller
 {
@@ -43,6 +45,27 @@ class ProjectController extends Controller
             [
                 'message'  => 'Successfully fetched all unapproved projects.',
                 'projects' => $projects,
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    public function deny(Project $project, Request $request)
+    {
+        if (empty($request->reason)) {
+            return response()->json(
+                [
+                    'message'   => 'A reason is required why the project is denied.',
+                ],
+                Response::HTTP_UNPROCESSABLE_ENTITY
+            );
+        }
+
+        app(DenyProject::class)->execute($project, $request->reason);
+
+        return response()->json(
+            [
+                'message'   => 'Successfully denied a project.',
             ],
             Response::HTTP_OK
         );
