@@ -69,20 +69,19 @@ Route::put('/producer/jobs/{job}', [ProducerProjectJobController::class, 'update
     ->name('producer.job.update');
 
 Route::middleware('auth:api')->group(function () {
-    
-    Route::prefix('admin')->middleware('role:Admin')->group(function() {
+    Route::prefix('admin')->middleware('role:Admin')->group(function () {
         Route::get('/departments', [
-            DepartmentController::class, 
+            DepartmentController::class,
             'index'
         ])->name('admin.departments');
 
         Route::post('/departments', [
-            DepartmentController::class, 
+            DepartmentController::class,
             'store'
         ])->name('admin.departments.store');
 
         Route::put('/departments/{department}', [
-            DepartmentController::class, 
+            DepartmentController::class,
             'update'
         ])->name('admin.departments.update');
 
@@ -95,7 +94,7 @@ Route::middleware('auth:api')->group(function () {
             AdminProjectController::class,
             'approve',
         ])->name('admin.projects.approve');
-    
+
         Route::put('/projects/{project}/unapprove', [
             AdminProjectController::class,
             'unapprove',
@@ -105,7 +104,7 @@ Route::middleware('auth:api')->group(function () {
             AdminProjectController::class,
             'deny',
         ])->name('admin.projects.deny');
-    
+
         Route::get('/projects/pending', [
             AdminProjectController::class,
             'unapproved',
@@ -116,8 +115,8 @@ Route::middleware('auth:api')->group(function () {
             'index',
         ])->name('admin.project.job.submissions.index');
     });
-    
-    
+
+
 
     Route::get('/crew/projects', [
         CrewProjectController::class,
@@ -259,7 +258,7 @@ Route::middleware('auth:api')->group(function () {
             SubmissionController::class,
             'fetchByApprovedDate',
         ])->name('fetch.submissions.by.approved');
-       
+
         Route::post('projects/submissions/{submission}/approve', [
             SubmissionController::class,
             'approve',
@@ -279,7 +278,7 @@ Route::middleware('auth:api')->group(function () {
             SubmissionController::class,
             'swap',
         ])->name('producer.projects.swap.submissions');
-       
+
         Route::get('projects/{project}/threads', [
             ThreadController::class,
             'index',

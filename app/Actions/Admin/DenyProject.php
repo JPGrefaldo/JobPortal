@@ -7,7 +7,6 @@ use App\Models\Project;
 
 class DenyProject
 {
-    
     public function execute(Project $project, String $reason): void
     {
         $project->delete();

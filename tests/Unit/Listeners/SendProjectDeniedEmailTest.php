@@ -12,7 +12,7 @@ use Tests\TestCase;
 class SendProjectDeniedEmailTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
-    
+
     /**
      * @test
      * @covers \App\Listeners\SendProjectDeniedEmail::handle
@@ -35,7 +35,7 @@ class SendProjectDeniedEmailTest extends TestCase
 
         Mail::assertSent(
             ProjectDeniedEmail::class,
-            function($mail) use($producer){
+            function ($mail) use ($producer) {
                 return $mail->hasTo($producer->email);
             }
         );

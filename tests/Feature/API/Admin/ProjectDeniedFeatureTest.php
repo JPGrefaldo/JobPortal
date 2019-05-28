@@ -8,7 +8,6 @@ use Illuminate\Http\Response;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 
-
 class ProjectDeniedFeatureTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
@@ -35,9 +34,11 @@ class ProjectDeniedFeatureTest extends TestCase
         $this->assertNotNull($project->fresh()->deleted_at);
         $this->assertCount(1, $project->deniedReason()->get());
 
-        $this->assertArrayHas([
+        $this->assertArrayHas(
+            [
                 'body' => 'Some reason'
-            ], $project->deniedReason()->first()->toArray()
+            ],
+            $project->deniedReason()->first()->toArray()
         );
     }
 
