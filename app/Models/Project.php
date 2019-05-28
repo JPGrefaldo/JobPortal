@@ -85,6 +85,14 @@ class Project extends Model
         return $this->belongsToMany(Thread::class);
     }
 
+     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function deniedReason()
+    {
+        return $this->hasOne(ProjectDeniedReason::class);
+    }
+
     /**
      * @return bool
      */
