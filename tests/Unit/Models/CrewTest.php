@@ -11,6 +11,7 @@ use App\Models\CrewSocial;
 use App\Models\Position;
 use App\Models\Project;
 use App\Models\User;
+use App\Utils\UrlUtils;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
@@ -103,20 +104,24 @@ class CrewTest extends TestCase
      * @test
      * @covers \App\Models\Crew::getGeneralReelLink
     */
-    public function getGeneralReelLink()
+    public function get_reel_link_when_there_one()
     {
-        //given
-        $this->assertNull($this->crew->getGeneralReelLink());
-
-        // when
         factory(CrewReel::class)->create([
             'crew_id' => $this->crew->id,
             'path'    => 'https://www.youtube.com/embed/WI5AF1DCQlc',
             'general' => true,
         ]);
 
-        //then
         $this->assertEquals('https://www.youtube.com/embed/WI5AF1DCQlc', $this->crew->getGeneralReelLink());
+    }
+
+    /**
+     * @test
+     * @covers \App\Models\Crew::getGeneralReelLink
+     */
+    public function get_reel_link_when_there_is_not_one()
+    {
+        $this->assertEquals('', $this->crew->getGeneralReelLink());
     }
 
     /**
@@ -235,14 +240,12 @@ class CrewTest extends TestCase
             ->image('photo.png');
 
         $crew->photo_path =
-            $crew->hash_id . '/' .
+            $crew->user->hash_id . '/' .
             'photos' . '/' .
             $photo->hashName();
 
         $this->assertEquals(
-            config('filesystems.disks.s3.url') . '/' .
-            config('filesystems.disks.s3.bucket') . '/' .
-            $crew->hash_id . '/' .
+            UrlUtils::getS3Url($crew->user).
             'photos' . '/' .
             $photo->hashName(),
             $crew->photo_url

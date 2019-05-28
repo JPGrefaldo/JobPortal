@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Utils\UrlUtils;
 use Illuminate\Database\Eloquent\Model;
 
 class CrewResume extends Model
@@ -42,8 +43,8 @@ class CrewResume extends Model
     /**
      * @return string
      */
-    public function getFileLinkAttribute()
+    public function getPathAttribute()
     {
-        return config('filesystems.disks.s3.url') . '/' . $this->path;
+        return UrlUtils::getS3Url() . $this->attributes['path'];
     }
 }

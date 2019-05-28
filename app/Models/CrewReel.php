@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Utils\UrlUtils;
 use Illuminate\Database\Eloquent\Model;
 
 class CrewReel extends Model
@@ -22,6 +23,7 @@ class CrewReel extends Model
         'url'              => 'string',
         'general'          => 'boolean',
         'crew_position_id' => 'integer',
+        'path'             => 'string',
     ];
 
     /**
@@ -46,5 +48,17 @@ class CrewReel extends Model
     public function setGeneralAttribute($value)
     {
         $this->attributes['general'] = (is_null($value) ? '' : $value);
+    }
+
+    /**
+    * @return string
+    */
+    public function getPathAttribute()
+    {
+        if (strpos($this->attributes['path'], 'https') !== false) {
+            return $this->attributes['path'];
+        }
+
+        return UrlUtils::getS3Url() . $this->attributes['path'];
     }
 }
