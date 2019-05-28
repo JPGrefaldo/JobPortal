@@ -19,7 +19,7 @@ class ProjectDeniedFeatureTest extends TestCase
     public function can_deny_a_project()
     {
         $admin      = $this->createAdmin();
-        $project    = $this->seedProject();
+        $project    = factory(Project::class)->create();
         $data       = [
             'reason' => 'Some reason'
         ];
@@ -28,7 +28,7 @@ class ProjectDeniedFeatureTest extends TestCase
 
         $this->actingAs($admin, 'api')
              ->postJson(route('admin.projects.deny', $project), $data)
-             ->assertSee('Successfully denied a project.')
+             ->assertSee('Successfully denied the project.')
              ->assertSuccessful();
 
         $this->assertNotNull($project->fresh()->deleted_at);
@@ -49,12 +49,13 @@ class ProjectDeniedFeatureTest extends TestCase
     public function cannot_deny_a_project_without_a_reason()
     {
         $admin      = $this->createAdmin();
-        $project    = $this->seedProject();
+        $project    = factory(Project::class)->create();
         $data       = [];
 
         $this->actingAs($admin, 'api')
              ->postJson(route('admin.projects.deny', $project), $data)
-             ->assertSee('A reason is required why the project is denied.')
+             ->assertSee('The given data was invalid.')
+             ->assertSee('The body field is required.')
              ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
@@ -66,7 +67,7 @@ class ProjectDeniedFeatureTest extends TestCase
     {
         $crew       = $this->createCrew();
         $producer   = $this->createProducer();
-        $project    = $this->seedProject();
+        $project    = factory(Project::class)->create();
         $data       = [];
 
         $this->actingAs($crew, 'api')
@@ -76,15 +77,5 @@ class ProjectDeniedFeatureTest extends TestCase
         $this->actingAs($producer, 'api')
             ->postJson(route('admin.projects.deny', $project), $data)
             ->assertForbidden();
-    }
-
-    private function seedProject()
-    {
-        $producer = $this->createProducer();
-        $project  = factory(Project::class)->create([
-            'user_id' => $producer->id
-        ]);
-
-        return $project;
     }
 }
