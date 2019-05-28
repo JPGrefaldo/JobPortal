@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Events\ProjectDenied;
+use App\Listeners\SendProjectDeniedEmail;
 use App\Listeners\SendUserConfirmationEmail;
 use App\Models\Manager;
 use App\Models\Project;
@@ -11,6 +13,7 @@ use App\Observers\ProjectJobObserver;
 use App\Observers\ProjectObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -23,6 +26,10 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendUserConfirmationEmail::class,
         ],
+
+        ProjectDenied::class => [
+            SendProjectDeniedEmail::class
+        ]
     ];
 
     /**
