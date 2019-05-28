@@ -19,7 +19,7 @@ class ProjectFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Producer\ProjectController::index
+     * @covers \App\Http\Controllers\API\ProjectController::index
      */
     public function can_fetch_all_projects()
     {
@@ -56,7 +56,7 @@ class ProjectFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Producer\ProjectController::pending
+     * @covers \App\Http\Controllers\API\ProjectController::pending
      */
     public function can_fetch_all_pending_projects()
     {
@@ -94,7 +94,7 @@ class ProjectFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Producer\ProjectController::pending
+     * @covers \App\Http\Controllers\API\ProjectController::pending
      */
     public function can_fetch_all_pending_projects_count_using_query_string()
     {
@@ -125,7 +125,7 @@ class ProjectFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Producer\ProjectController::approved
+     * @covers \App\Http\Controllers\API\ProjectController::approved
      */
     public function can_fetch_all_approved_projects()
     {
@@ -164,7 +164,7 @@ class ProjectFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Producer\ProjectController::approved
+     * @covers \App\Http\Controllers\API\ProjectController::approved
      */
     public function can_fetch_all_approved_projects_count_using_query_string()
     {
@@ -195,7 +195,7 @@ class ProjectFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Producer\ProjectController::store
+     * @covers \App\Http\Controllers\API\ProjectController::store
      */
     public function can_create_a_project()
     {
@@ -242,7 +242,7 @@ class ProjectFeatureTest extends TestCase
 
     /**
     * @test
-    * @covers \App\Http\Controllers\Producer\ProjectController::update
+    * @covers \App\Http\Controllers\API\ProjectController::update
     */
     public function can_edit_a_project()
     {
@@ -295,7 +295,7 @@ class ProjectFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Producer\ProjectController::store
+     * @covers \App\Http\Controllers\API\ProjectController::store
      */
     public function cannot_crate_projects_the_unauthorized_role()
     {
@@ -316,7 +316,7 @@ class ProjectFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Producer\ProjectController::store
+     * @covers \App\Http\Controllers\API\ProjectController::store
      */
     public function cannot_create_a_project_when_required_fields_are_empty()
     {
@@ -349,7 +349,7 @@ class ProjectFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Producer\ProjectController::store
+     * @covers \App\Http\Controllers\API\ProjectController::store
      */
     public function cannot_create_a_project_when_data_is_invalid()
     {
@@ -389,7 +389,7 @@ class ProjectFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Producer\ProjectController::update
+     * @covers \App\Http\Controllers\API\ProjectController::update
      */
     public function cannot_edit_a_project_the_unauthorized_role()
     {
@@ -412,7 +412,7 @@ class ProjectFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Producer\ProjectController::index
+     * @covers \App\Http\Controllers\API\ProjectController::index
      */
     public function should_include_jobs_and_remotes()
     {
@@ -456,7 +456,7 @@ class ProjectFeatureTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Http\Controllers\Producer\ProjectController::store
+     * @covers \App\Http\Controllers\API\ProjectController::store
      */
     public function should_still_create_a_project_without_location()
     {
