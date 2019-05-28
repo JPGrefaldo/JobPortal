@@ -2,12 +2,14 @@
 
 namespace App\Actions\Endorsement;
 
+use App\Mail\EndorsementRequestEmail;
 use App\Models\CrewPosition;
 use App\Models\Endorsement;
 use App\Models\EndorsementRequest;
 use App\Models\Position;
 use App\Models\User;
 use App\Utils\StrUtils;
+use Mail;
 
 class CreateEndorsementRequest
 {
@@ -32,10 +34,22 @@ class CreateEndorsementRequest
             'message'                 => $message,
         ]);
 
-        return Endorsement::create([
+        $endorsement = Endorsement::create([
             'crew_position_id'       => $crewPosition->id,
             'endorsement_request_id' => $request->id,
             'approved_at'            => null,
         ]);
+
+        $data = Endorsement::with([
+            'request',
+            'request.endorser',
+            'request.endorser.user',
+        ])->whereCrewPositionId($endorsement->crew_position_id)->first();
+
+        Mail::to($email)->send(
+            new EndorsementRequestEmail($data)
+        );
+
+        return $endorsement;
     }
 }

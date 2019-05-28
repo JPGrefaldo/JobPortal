@@ -32,10 +32,8 @@ class CreateCrewEndorsement implements Rule
             $endorserCheck  = EndorsementEndorser::where('user_id', $crewCheck->id)->first();
         }
         $ownEndorsement = $value == auth()->user()->email;
-
-        if (isset($crewCheck) && ! isset($endorserCheck) && ! $ownEndorsement) {
-            return true;
-        } elseif (isset($crewCheck) && $ownEndorsement) {
+    
+        if ($ownEndorsement) {
             $this->message = "You cannot send endosement request to your own email";
 
             return false;
@@ -44,9 +42,7 @@ class CreateCrewEndorsement implements Rule
 
             return false;
         } else {
-            $this->message = "Email doesn't exist";
-
-            return false;
+            return true;
         }
     }
 
