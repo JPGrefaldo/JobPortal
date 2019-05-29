@@ -39,21 +39,37 @@ export default {
        },
 
       applyJob: function(jobId){
-        axios
-          .post(`/crew/jobs/${jobId}`)
-          .then(({data}) => {
-              if(data.message == 'success'){
-                  this.applied = true
-              }
-         }).catch( error => {
-            if(error.response.status == 401){
-              this.displayError("Please sign-in")
-            }
+        this.$swal({
+          title: 'Add Notes',
+          html:`
+          <div class="md:flex py-2">
+            <textarea class="w-full form-control h-24" placeholder="Submission notes"></textarea>
+          </div>
+          `,
+          showCloseButton: true,
+          confirmButtonText: 'Save and Apply',
+        })
+        .then(result => {
+          if (result.value) {
+            axios
+              .post(`/crew/jobs/${jobId}`)
+              .then(({data}) => {
+                  if(data.message == 'success'){
+                      this.applied = true
+                  }
+            }).catch( error => {
+                if(error.response.status == 401){
+                  this.displayError("Please sign-in")
+                }
 
-            if(error.response.status == 400){
-                this.displayError("Please upload a general resume")
-            }
-         })
+                if(error.response.status == 400){
+                    this.displayError("Please upload a general resume")
+                }
+            })
+          }
+        })
+
+        
       }
     },
     mounted(){
