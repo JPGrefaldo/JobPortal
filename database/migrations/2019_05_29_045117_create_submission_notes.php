@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
-class CreateProjectDeniedReasons extends Migration
+class CreateSubmissionNotes extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,15 @@ class CreateProjectDeniedReasons extends Migration
      */
     public function up()
     {
-        Schema::create('project_denied_reasons', function (Blueprint $table) {
+        Schema::create('submission_notes', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('project_id');
+            $table->integer('submission_id');
             $table->text('body');
             $table->timestamps();
 
-            $table->foreign('project_id')
+            $table->foreign('submission_id')
                 ->references('id')
-                ->on('projects')
+                ->on('submissions')
                 ->onDelete('cascade');
         });
     }
@@ -33,6 +33,6 @@ class CreateProjectDeniedReasons extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('project_denied_reasons');
+        Schema::dropIfExists('submission_notes');
     }
 }
