@@ -118,17 +118,32 @@ Route::middleware('auth:api')->group(function () {
         ])->name('admin.project.job.submissions.index');
     });
 
+    Route::prefix('crew')->middleware('role:Crew')->group(function () {
+        Route::get('/departments', [
+            DepartmentController::class,
+            'index',
+        ])->name('crew.departments.index');
 
+        Route::get('/positions', [
+            PositionController::class,
+            'index',
+        ])->name('crew.positions.index');
 
-    Route::get('/crew/projects', [
-        CrewProjectController::class,
-        'index',
-    ])->name('crew.projects.index');
+        Route::get('/projects', [
+            CrewProjectController::class,
+            'index',
+        ])->name('crew.projects.index');
 
-    Route::get('/crew/departments', [
-        DepartmentController::class,
-        'index',
-    ])->name('crew.departments.index');
+        Route::get('/projects/{project}/threads', [
+            ThreadController::class,
+            'index',
+        ])->name('crew.threads.index');
+
+        Route::post('/projectJob/{job}/submission', [
+            SubmissionController::class,
+            'store',
+        ])->name('crew.submissions.store');
+    });
 
     Route::post('/messenger/projects/{project}/messages', [
         MessageController::class,
@@ -150,25 +165,12 @@ Route::middleware('auth:api')->group(function () {
         'search',
     ])->middleware('role:Producer|Crew')->name('threads.index.search');
 
-    Route::get('/crew/positions', [
-        PositionController::class,
-        'index',
-    ])->name('crew.positions.index');
-
-    Route::post('submissions/{job}', [
-        ProjectJobSubmissionController::class,
-        'store',
-    ])->middleware('role:Crew')->name('project.job.submissions.store');
 
     Route::get('/sites', [
         SiteController::class,
         'index',
     ])->name('sites.index');
 
-    Route::get('/crew/projects/{project}/threads', [
-        ThreadController::class,
-        'index',
-    ])->name('crew.threads.index');
 
     Route::get('/user', [
         UserController::class,

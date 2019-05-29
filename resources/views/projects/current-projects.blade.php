@@ -1,11 +1,21 @@
-@extends('layouts.page-1-col')
+@extends('layouts.page-2-col')
+
 @section('page-content')
-    <div class="container">
-        <div class="w-full pb-8 border-b-2 mb-8 border-grey-light flex justify-between items-center">
-            <h1 class="font-header text-blue-dark text-2xl font-semibold">Current Projects</h1>
+    @include('_parts.pages.page-title', ['pageTitle' => 'Current Projects'])
+
+    <div class="w-1/4 float-left pr-8 py-md hidden md:block">
+        <h4 class="text-grey mb-4">PROJECT TIPS</h4>
+        <p>Complete projects have a better chance of being selected and show up higher in search results. </p>
+        <div class="py-lg">
+            <h4 class="text-grey mb-4">HOW IT WORKS VIDEO</h4>
+            <a href="#" class="pb-66 h-none rounded relative block" style="background: url(/images/th2.jpg); background-size:cover;">
+                <span class="btn-play w-10 h-10"></span>
+            </a>
         </div>
-        <div class="w-3/4 mx-auto">
-            <project-card v-for="project in {{$projects}}" :key="project.id" :project="project"/>
+        <div>
+            <h4 class="text-grey leading-loose">Need help?<br> <a href="#" class="text-green">Contact support</a></h4>
         </div>
     </div>
+
+    <cca-crew-current-projects :projects="{{$projects}}"></cca-crew-current-projects>
 @endsection
