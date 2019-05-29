@@ -216,4 +216,12 @@ class Crew extends Model
     {
         $this->attributes['submission_count'] = $value;
     }
+
+    /**
+     * @return bool
+     */
+    public function hasSubscription(): bool
+    {
+        return $this->user()->where('stripe_id', true)->count() > 0;
+    }
 }

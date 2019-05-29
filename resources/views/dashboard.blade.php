@@ -7,7 +7,10 @@
         <div class="px-6 py-4 mb-2 mt-4 mb-8">
             @if(Auth::user()->hasRole(\App\Models\Role::CREW))
                 <div class="uppercase tracking-wide text-c2 mb-4">
+                    @if (!(Auth::user()->crew->hasSubscription()))
                     Crew
+                    <a href="{{ route('account.subscription') }}" class="float-right">Subscribe</a>
+                    @endif
                 </div>
                 <div class="flex border px-4 py-2 text-lg border-b-0">
                     <div class="pl-2">
