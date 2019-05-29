@@ -39,11 +39,14 @@ class EndorsementPositionController extends Controller
     {
         $data = $request->validated();
 
+        $data['request_owner'] = auth()->user()->id;
+
         app(CreateEndorsementRequest::class)->execute(
             auth()->user(),
             $position,
             $data['email'],
-            $data['message']
+            $data['message'],
+            $data['request_owner']
         );
 
         return response('');

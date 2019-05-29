@@ -23,4 +23,22 @@
             </div>
         </div>
 
+        <div class="bg-white shadow-md rounded mb-8 border border-grey-light">
+            <div class="p-8">
+                <h3 class="text-blue-dark font-semibold text-lg mb-1 font-header">
+                    {{ Str::plural('Pending Endorsement', $pending_endorsements->count()) }}
+                </h3>
+            </div>
+            <div class="bg-grey-lighter pb-2 px-2 border-t border-grey-light rounded-b flex flex-wrap">
+                @if ($pending_endorsements->count())
+                    @foreach ($pending_endorsements as $pending_endorsement)
+                        @include('crew.endorsement.__parts.pending-endorsements', [
+                            'endorsement_position' => $pending_endorsement->request->endorsement->crewPosition->position->name,
+                            'from'                 => $pending_endorsement->owner->email
+                        ])
+                    @endforeach
+                @endif
+            </div>
+        </div>
+
 @endsection
