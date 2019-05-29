@@ -6926,11 +6926,6 @@ toidentifier@1.0.0:
   resolved "https://registry.yarnpkg.com/toidentifier/-/toidentifier-1.0.0.tgz#7e1be3470f1e77948bc43d94a3c8f4d7752ba553"
   integrity sha512-yaOH/Pk/VEhBWWTlhI+qXxDFXlejDGcQipMlyxda9nthulaxLZUNcUqFxokp0vcYnvteJln5FNQDRrxj3YcbVw==
 
-tooltipster@^4.2.6:
-  version "4.2.6"
-  resolved "https://registry.yarnpkg.com/tooltipster/-/tooltipster-4.2.6.tgz#fbf7a3f5b40bd83e81574e28d9667cf82667bc79"
-  integrity sha1-+/ej9bQL2D6BV04o2WZ8+CZnvHk=
-
 trim-right@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/trim-right/-/trim-right-1.0.1.tgz#cb2e1203067e0c8de1f614094b9fe45704ea6003"
