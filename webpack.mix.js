@@ -53,11 +53,6 @@ mix.postCss(
 ).sourceMaps()
     .version();
 
-mix.styles(
-    'node_modules/@fortawesome/fontawesome-free/css/all.min.css',
-    'public/nova-api/styles/fontawesome.css'
-);
-
 /** Other **/
 
 // mix.browserSync('http://localhost:8000');
