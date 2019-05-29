@@ -5,9 +5,11 @@ namespace App\Http\Controllers\API;
 use App\Actions\Submissions\SetSubmissionStatus;
 use App\Actions\Submissions\StoreSubmission;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SubmissionRequest;
 use App\Models\ProjectJob;
 use App\Models\Submission;
 use Illuminate\Http\Response;
+
 
 class SubmissionController extends Controller
 {
@@ -41,16 +43,16 @@ class SubmissionController extends Controller
         );
     }
 
-    public function store(ProjectJob $job)
+    public function store(ProjectJob $job, SubmissionRequest $request)
     {
         $crew = auth()->user()->crew;
 
-        $job = app(StoreSubmission::class)->execute($crew, $job);
+        $submission = app(StoreSubmission::class)->execute($crew, $job, $request->note);
 
         return response()->json(
             [
                 'message'       => 'Submission successfully added',
-                'submissions'   => $job->submissions,
+                'submission'   => $submission,
             ],
             Response::HTTP_CREATED
         );

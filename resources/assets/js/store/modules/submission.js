@@ -50,6 +50,10 @@ export const actions = {
              })
     },
 
+    store(context, params) {
+        return axios.post(`/api/crew/projectJob/${params.jobId}/submission`, {note: params.note})
+    },
+
     approve(context, id) {
         axios.post(`/api/producer/projects/submissions/${id}/approve`)
     },

@@ -4,21 +4,27 @@ namespace App\Actions\Submissions;
 
 use App\Models\Crew;
 use App\Models\ProjectJob;
+use App\Models\Submission;
 
 class StoreSubmission
 {
     /**
      * @param \App\Models\Crew $crew
      * @param \App\Models\ProjectJob $job
-     * @return \App\Models\ProjectJob
+     * 
+     * @return \App\Models\Submission
      */
-    public function execute(Crew $crew, ProjectJob $job): ProjectJob
+    public function execute(Crew $crew, ProjectJob $job, String $note): Submission
     {
-        $job->submissions()->create([
+        $submission = $job->submissions()->create([
             'crew_id'     => $crew->id,
             'project_id'  => $job->project_id,
         ]);
 
-        return $job;
+        $submission->note()->create([
+            'body' => $note
+        ]);
+
+        return $submission;
     }
 }
