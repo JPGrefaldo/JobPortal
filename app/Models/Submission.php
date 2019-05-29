@@ -13,7 +13,7 @@ class Submission extends Model
      */
     public function job()
     {
-        return $this->belongsTo(Submission::class);
+        return $this->belongsTo(ProjectJob::class);
     }
 
     /**
@@ -22,5 +22,13 @@ class Submission extends Model
     public function crew()
     {
         return $this->belongsTo(Crew::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function note()
+    {
+        return $this->hasOne(SubmissionNote::class);
     }
 }
