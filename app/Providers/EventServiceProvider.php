@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Events\ProjectDenied;
+use App\Listeners\SendProjectDeniedEmail;
 use App\Listeners\SendUserConfirmationEmail;
 use App\Models\Manager;
 use App\Models\Project;
@@ -23,6 +25,10 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendUserConfirmationEmail::class,
         ],
+
+        ProjectDenied::class => [
+            SendProjectDeniedEmail::class
+        ]
     ];
 
     /**

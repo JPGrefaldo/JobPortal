@@ -157,8 +157,8 @@ class CrewProfileController extends Controller
             'user'            => $user,
             'socialLinkTypes' => $this->getAllSocialLinkTypes($user),
             'departments'     => $this->getDepartments(),
-            'resume'          => isset($resume) ? $resume->path : null,
-            'reel'            => isset($reel) ? $reel->path : null,
+            'resume'          => isset($resume) ? $resume->link : null,
+            'reel'            => isset($reel) ? $reel->link : null,
         ]);
     }
 

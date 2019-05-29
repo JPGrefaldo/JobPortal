@@ -66,7 +66,7 @@
                                 {{ isset($resume) ? 'Update file' : 'Upload file' }}
                             </label>
                             <p class="text-sm text-grey">
-                                {{ basename($resume) }}
+                                <a href="{{ $resume }}" target="_blank">{{ basename($resume) }}</a>
                             </p>
                             <input id="resume"
                                    type="file"

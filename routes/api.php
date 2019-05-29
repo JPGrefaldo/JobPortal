@@ -71,20 +71,54 @@ Route::put('/producer/jobs/{job}', [ProjectJobController::class, 'update'])
     ->name('producer.job.update');
 
 Route::middleware('auth:api')->group(function () {
-    Route::put('/admin/projects/{project}/approve', [
-        AdminProjectController::class,
-        'approve',
-    ])->middleware('role:Admin')->name('admin.projects.approve');
+    Route::prefix('admin')->middleware('role:Admin')->group(function () {
+        Route::get('/departments', [
+            DepartmentController::class,
+            'index'
+        ])->name('admin.departments');
 
-    Route::put('/admin/projects/{project}/unapprove', [
-        AdminProjectController::class,
-        'unapprove',
-    ])->middleware('role:Admin')->name('admin.projects.unapprove');
+        Route::post('/departments', [
+            DepartmentController::class,
+            'store'
+        ])->name('admin.departments.store');
 
-    Route::get('/admin/projects/pending', [
-        AdminProjectController::class,
-        'unapproved',
-    ])->middleware('role:Admin')->name('admin.pending-projects');
+        Route::put('/departments/{department}', [
+            DepartmentController::class,
+            'update'
+        ])->name('admin.departments.update');
+
+        Route::get('/flag-messages', [
+            FlaggedMessageController::class,
+            'index',
+        ])->name('admin.messages.flagged');
+
+        Route::put('/projects/{project}/approve', [
+            AdminProjectController::class,
+            'approve',
+        ])->name('admin.projects.approve');
+
+        Route::put('/projects/{project}/unapprove', [
+            AdminProjectController::class,
+            'unapprove',
+        ])->name('admin.projects.unapprove');
+
+        Route::post('/projects/{project}/deny', [
+            AdminProjectController::class,
+            'deny',
+        ])->name('admin.projects.deny');
+
+        Route::get('/projects/pending', [
+            AdminProjectController::class,
+            'unapproved',
+        ])->name('admin.pending-projects');
+
+        Route::get('submissions/{job}', [
+            ProjectJobSubmissionController::class,
+            'index',
+        ])->name('admin.project.job.submissions.index');
+    });
+
+
 
     Route::get('/crew/projects', [
         CrewProjectController::class,
@@ -95,17 +129,6 @@ Route::middleware('auth:api')->group(function () {
         DepartmentController::class,
         'index',
     ])->name('crew.departments.index');
-
-    Route::get('/admin/departments', [DepartmentController::class, 'index'])
-        ->name('admin.departments');
-    Route::post('/admin/departments', [DepartmentController::class, 'store']);
-    Route::put('/admin/departments/{department}', [DepartmentController::class, 'update'])
-        ->name('admin.departments.update');
-
-    Route::get('/admin/flag-messages', [
-        FlaggedMessageController::class,
-        'index',
-    ])->middleware('role:Admin')->name('admin.messages.flagged');
 
     Route::post('/messenger/projects/{project}/messages', [
         MessageController::class,
@@ -131,11 +154,6 @@ Route::middleware('auth:api')->group(function () {
         PositionController::class,
         'index',
     ])->name('crew.positions.index');
-
-    Route::get('submissions/{job}', [
-        ProjectJobSubmissionController::class,
-        'index',
-    ])->middleware('role:Admin')->name('admin.project.job.submissions.index');
 
     Route::post('submissions/{job}', [
         ProjectJobSubmissionController::class,
@@ -242,7 +260,7 @@ Route::middleware('auth:api')->group(function () {
             SubmissionController::class,
             'fetchByApprovedDate',
         ])->name('fetch.submissions.by.approved');
-       
+
         Route::post('projects/submissions/{submission}/approve', [
             SubmissionController::class,
             'approve',
@@ -262,7 +280,7 @@ Route::middleware('auth:api')->group(function () {
             SubmissionController::class,
             'swap',
         ])->name('producer.projects.swap.submissions');
-       
+
         Route::get('projects/{project}/threads', [
             ThreadController::class,
             'index',

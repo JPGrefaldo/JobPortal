@@ -86,6 +86,14 @@ class Project extends Model
     }
 
     /**
+    * @return \Illuminate\Database\Eloquent\Relations\HasOne
+    */
+    public function deniedReason()
+    {
+        return $this->hasOne(ProjectDeniedReason::class);
+    }
+
+    /**
      * @return bool
      */
     public function approve()
