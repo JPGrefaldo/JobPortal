@@ -48,19 +48,11 @@
                     </p>
                 </div>
                 <div class="pb-2 md:flex">
-                   @if(isset($user->crew->reel))
-                    @if($user->crew->reel->type == 'file')
-                        <a href="/storage/{{$user->crew->reel->url }}" target="_blank"
-                           class="border md:w-1/2 flex overflow-hidden rounded md:mr-2 mb-2 md:mb-0">
-                            <div class="w-24 relative"
-                                 style="background: url(/images/th2.jpg); background-size: cover;">
-                                <span class="btn-play w-10 h-10"></span>
-                            </div>
-                            <span class='uppercase text-green font-semibold p-4 text-sm tracking-wide'>VIEW POSITION WORK REEL</span>
-                        </a>
-                    @else
-                        <a href="{{$user->crew->reel->url }}" target="_blank"
-                           class="border md:w-1/2 flex overflow-hidden rounded md:mr-2 mb-2 md:mb-0">
+                    @if ($reelPath)
+                        <a href="{{ $reelPath }}"
+                            class="border md:w-1/2 flex overflow-hidden rounded md:mr-2 mb-2 md:mb-0"
+                           target="_blank"
+                        >
                             <div class="w-24 relative"
                                  style="background: url(/images/th2.jpg); background-size: cover;">
                                 <span class="btn-play w-10 h-10"></span>
@@ -68,31 +60,16 @@
                             <span class='uppercase text-green font-semibold p-4 text-sm tracking-wide'>VIEW POSITION WORK REEL</span>
                         </a>
                     @endif
-                @else
-                    <a href="#" class="border md:w-1/2 flex overflow-hidden rounded md:mr-2 mb-2 md:mb-0">
-                        <div class="w-24 relative"
-                             style="background: url(/images/th2.jpg); background-size: cover;">
-                            <span class="btn-play w-10 h-10"></span>
-                        </div>
-                        <span class='uppercase text-green font-semibold p-4 text-sm tracking-wide'>VIEW POSITION WORK REEL</span>
-                    </a>
-                @endif
 
-                @if (isset($resume_url))
-                    <a href="https://s3-us-west-2.amazonaws.com/test.crewcalls.info{{$resume_url}}"
-                       target="_blank"
-                       class="border md:w-1/2 flex items-center overflow-hidden rounded md:ml-2">
-                        <i class="far fa-file-alt px-6 text-lg"></i>
-                        <span class='uppercase text-green font-semibold px-0 py-6 text-sm tracking-wide'>VIEW POSITION RESUME</span>
-                    </a>
-                @else
-                    <a href="#"
-                       target="_blank"
-                       class="border md:w-1/2 flex items-center overflow-hidden rounded md:ml-2">
-                        <i class="far fa-file-alt px-6 text-lg"></i>
-                        <span class='uppercase text-green font-semibold px-0 py-6 text-sm tracking-wide'>VIEW POSITION RESUME</span>
-                    </a>
-                @endif
+                    @if ($resume_url)
+                        <a href="{{ $resume_url }}"
+                           class="border md:w-1/2 flex items-center overflow-hidden rounded md:ml-2"
+                           target="_blank"
+                        >
+                            <i class="far fa-file-alt px-6 text-lg"></i>
+                            <span class='uppercase text-green font-semibold px-0 py-6 text-sm tracking-wide'>VIEW POSITION RESUME</span>
+                        </a>
+                    @endif
                 </div>
             </div>
         </div>

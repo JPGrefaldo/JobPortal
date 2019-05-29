@@ -27,7 +27,6 @@ class CrewDepartmentPositionFeatureTest extends TestCase
         $position = factory(Position::class)->create();
 
         $data = [
-            'position_id'       => $position->id,
             'resume'            => UploadedFile::fake()->create('resume.pdf'),
             'bio'               => 'This is the bio',
             'gear'              => 'This is the gear',

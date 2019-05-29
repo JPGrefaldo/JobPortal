@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Utils\UrlUtils;
 use Illuminate\Database\Eloquent\Model;
 
 class CrewGear extends Model
@@ -51,6 +52,6 @@ class CrewGear extends Model
      */
     public function getFileLinkAttribute()
     {
-        return config('filesystems.disks.s3.url') . '/' . $this->path;
+        return UrlUtils::getS3Url() . $this->path;
     }
 }

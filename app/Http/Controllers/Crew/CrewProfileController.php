@@ -8,6 +8,8 @@ use App\Actions\Crew\UpdateCrew;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateCrewRequest;
 use App\Http\Requests\CreatePhotoRequest;
+use App\Models\CrewReel;
+use App\Models\CrewResume;
 use App\Models\SocialLinkType;
 use App\Models\User;
 use App\Services\DepartmentsServices;
@@ -24,19 +26,17 @@ class CrewProfileController extends Controller
     {
         $user = Auth::user()->load([
             'crew',
+            'crew.reels',
+            'crew.resumes',
         ]);
-
-        $resume_url = '';
-        if (isset($user->crew->resumes->where('general', 1)->first()->url)) {
-            $resume_url = $user->crew->resumes->where('general', 1)->first()->url;
-        }
 
         return view('crew.profile.profile-index', [
             'user'            => $user,
             'socialLinkTypes' => $this->getAllSocialLinkTypes($user),
             'departments'     => $this->getDepartments(),
             'crewPositions'   => $this->getCrewPositions($user),
-            'resume_url'      => $resume_url,
+            'resume_url'      => $user->crew->getGeneralResumeLink(),
+            'reelPath'        => $user->crew->getGeneralReelLink(),
         ]);
     }
 

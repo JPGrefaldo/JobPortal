@@ -13,12 +13,12 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\UserSignupController;
 use App\Http\Controllers\Crew\CrewProfileController;
+use App\Http\Controllers\Crew\CrewProjectController;
 use App\Http\Controllers\Crew\Endorsements\EndorsementPositionController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\Manager\ManagerConfirmationController;
 use App\Http\Controllers\PendingFlagMessageController;
-use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\StaticPageController;
 use App\Http\Controllers\SubmissionController;
 use App\Http\Controllers\VerifyEmailController;
@@ -54,7 +54,7 @@ Route::post('logout', [LoginController::class, 'logout'])
 Route::get('confirm/{user}/{subordinate}', [ManagerConfirmationController::class, 'index'])
     ->name('manager.confirm');
 
-Route::get('current-projects', [ProjectController::class, 'showCurrentProjects'])
+Route::get('current-projects', [CrewProjectController::class, 'showCurrentProjects'])
     ->name('projects.current-projects');
 
 Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])
@@ -72,8 +72,8 @@ Route::get('terms-and-conditions', [StaticPageController::class, 'showTermsAndCo
 
 Route::get('signup', [UserSignupController::class, 'show'])
     ->name('signup');
-Route::post('signup', [UserSignupController::class, 'signup']);
-
+Route::post('signup', [UserSignupController::class, 'signup'])
+    ->name('signup');
 Route::get('verify/email/{code}', [VerifyEmailController::class, 'verify'])
     ->name('verify.email');
 /*
