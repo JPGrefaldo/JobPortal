@@ -1,7 +1,9 @@
 @include('_parts.header.header')
 
 <body class="bg-white">
-    <header class="w-full pb-lg float-left relative has-deco-bottom deco-white overflow-hidden" style="background: url(images/cover-vid.png) no-repeat center; background-size: cover;">
+    <header class="w-full pb-lg float-left relative has-deco-bottom deco-white overflow-hidden"
+            style="background: url(/images/cover-vid.png) no-repeat center; background-size: cover;"
+    >
         <video playsinline autoplay muted loop poster="images/cover-vid.png" class="bg-video">
             <source src="images/bg.mp4" type="video/mp4">
         </video>
@@ -59,13 +61,13 @@
             </div>
         </nav>
 
-        <div class="px-3 container md:py-lg z-10 relative header-content">
-            <div class="md:w-2/3 md:py-lg">
+        <div class="max-w-screen-xl flex justify-center items-center py-md md:py-lg px-3 z-10 relative header-content">
+            <div class="flex-1 text-center object-center md:w-2/3 md:py-lg">
                 <h1 class="text-xl md:text-3xl text-header uppercase text-white pt-lg fade-up">CONNECTING
                     <br> PRODUCERS
                     <span class="font-thin">WITH</span>
                     <br> AMERICA’S TOP CREWS</h1>
-                <p class="text-md text-white max-w-sm pt-6 pb-6 block fade-up-1">Reach out to our extensive database of production crew and staff – view sort and manage crew profiles and
+                <p class="text-md text-white pt-6 pb-6 block fade-up-1">Reach out to our extensive database of production crew and staff – view sort and manage crew profiles and
                     responses.</p>
                 <div class="w-full block pt-6 fade-up-2">
                     <a href="#" class="btn-white mr-2 text-black mb-2 md:mb-0">FIND CREW</a>
