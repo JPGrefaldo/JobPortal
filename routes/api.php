@@ -16,9 +16,11 @@ use App\Http\Controllers\API\SubmissionController;
 use App\Http\Controllers\API\ThreadController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\Crew\CrewPositionController;
+use App\Http\Controllers\Crew\CrewProjectController;
 use App\Http\Controllers\Crew\Endorsements\EndorsementEndorsedController;
 use App\Http\Controllers\Crew\Endorsements\EndorsementPositionController;
 use App\Http\Controllers\Crew\Endorsements\EndorsementRequestController;
+use App\Http\Controllers\Producer\ProjectController as ProducerProjectController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,10 +52,10 @@ Route::delete('crew/endorsement/positions/request/{endorsementRequest}', [Endors
     ->name('crew.endorsement.request.destroy');
 
 // TODO: defer to common route for both crew and admin
-Route::post('/messages/{project}', [ProducerMessageController::class, 'store'])
+Route::post('/messages/{project}', [MessageController::class, 'store'])
     ->name('producer.messages.store');
 // TODO: defer to common route for both crew and admin
-Route::put('/messages/producer/projects/{project}/messages/{message}', [ProducerMessageController::class, 'update'])
+Route::put('/messages/producer/projects/{project}/messages/{message}', [MessageController::class, 'update'])
     ->name('producer.messages.update');
 
 Route::get('/producer/projects', [ProducerProjectController::class, 'index'])
@@ -63,9 +65,9 @@ Route::get('/producer/projects/create', [ProducerProjectController::class, 'crea
 Route::get('/producer/projects/edit/{project}', [ProducerProjectController::class, 'edit'])
     ->name('producer.projects.edit');
 
-Route::post('/producer/jobs', [ProducerProjectJobController::class, 'store'])
+Route::post('/producer/jobs', [ProjectJobController::class, 'store'])
     ->name('producer.jobs');
-Route::put('/producer/jobs/{job}', [ProducerProjectJobController::class, 'update'])
+Route::put('/producer/jobs/{job}', [ProjectJobController::class, 'update'])
     ->name('producer.job.update');
 
 Route::middleware('auth:api')->group(function () {

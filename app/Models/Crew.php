@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Utils\UrlUtils;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
@@ -52,7 +53,7 @@ class Crew extends Model
             return '';
         }
 
-        return config('filesystems.disks.s3.url') . '/' . config('filesystems.disks.s3.bucket') . '/' . $this->photo_path;
+        return UrlUtils::getS3Url() . $this->photo_path;
     }
 
     /**
@@ -71,16 +72,26 @@ class Crew extends Model
         return $this->hasMany(CrewReel::class);
     }
 
+    /**
+     * @return bool
+     */
     public function hasGeneralReel(): bool
     {
         return $this->reels()->where('general', true)->count() > 0;
     }
 
+    /**
+     * @return bool
+     */
     public function hasGeneralResume(): bool
     {
         return $this->resumes()->whereGeneral(true)->count() > 0;
     }
 
+    /**
+     * @param $job
+     * @return bool
+     */
     public function hasAppliedTo($job): bool
     {
         return $this->submissions()->where('project_job_id', $job->id)->count() > 0;
@@ -93,11 +104,17 @@ class Crew extends Model
     {
         $reelPath = optional($this->reels()->whereGeneral(true)->first())->path;
 
-        if (\Str::contains($reelPath, $this->user->hash_id)) {
-            return null;
-        }
+        return ($reelPath) ?? '';
+    }
 
-        return $reelPath;
+    /**
+     * @return string
+     */
+    public function getGeneralResumeLink()
+    {
+        $resumePath = optional($this->resumes()->whereGeneral(true)->first())->path;
+
+        return ($resumePath) ?? '';
     }
 
     /**
