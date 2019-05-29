@@ -28,7 +28,10 @@ class CrewProjectController extends Controller
 
     public function showCurrentProjects()
     {
-        $projects = Project::has('jobs')->with(['jobs', 'jobs.position', 'jobs.pay_type'])->get();
+        $projects = Project::has('jobs')->with(['jobs' => function($q) {
+                        $q->withCount('submissions')->get();
+                    }, 'jobs.position', 'jobs.pay_type'])
+                    ->get();
 
         return view('projects.current-projects', compact('projects'));
     }
