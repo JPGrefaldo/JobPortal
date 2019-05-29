@@ -102,7 +102,7 @@ class Crew extends Model
      */
     public function getGeneralReelLink()
     {
-        $reelPath = optional($this->reels()->whereGeneral(true)->first())->path;
+        $reelPath = optional($this->reels()->whereGeneral(true)->first())->link;
 
         return ($reelPath) ?? '';
     }
@@ -112,7 +112,7 @@ class Crew extends Model
      */
     public function getGeneralResumeLink()
     {
-        $resumePath = optional($this->resumes()->whereGeneral(true)->first())->path;
+        $resumePath = optional($this->resumes()->whereGeneral(true)->first())->link;
 
         return ($resumePath) ?? '';
     }
