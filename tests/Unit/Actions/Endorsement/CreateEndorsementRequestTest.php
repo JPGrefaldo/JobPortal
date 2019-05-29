@@ -9,6 +9,8 @@ use App\Models\Position;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\EndorsementRequestEmail;
 
 class CreateEndorsementRequestTest extends TestCase
 {
@@ -22,6 +24,8 @@ class CreateEndorsementRequestTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
+
+        Mail::fake();
 
         $this->service = app(CreateEndorsementRequest::class);
     }
@@ -56,6 +60,14 @@ class CreateEndorsementRequestTest extends TestCase
         ]);
 
         $this->assertEquals($crewPosition->id, $endorsement->crew_position_id);
+
+        Mail::assertSent(
+            EndorsementRequestEmail::class,
+            function ($mail) use ($email) {
+                return
+                    $mail->hasTo($email);
+            }
+        );
     }
 
     /**
@@ -88,6 +100,10 @@ class CreateEndorsementRequestTest extends TestCase
         ]);
 
         $this->assertEquals($crewPosition->id, $endorsement->crew_position_id);
+
+        Mail::assertSent(
+            EndorsementRequestEmail::class
+        );
     }
 
     /**
@@ -100,7 +116,7 @@ class CreateEndorsementRequestTest extends TestCase
         $crew = $user->crew;
         $position = Position::inRandomOrder()->get()->first();
 
-        $crewPosition = factory(CrewPosition::class)->create([
+        factory(CrewPosition::class)->create([
             'crew_id'     => $crew->id,
             'position_id' => $position,
         ]);
@@ -108,9 +124,9 @@ class CreateEndorsementRequestTest extends TestCase
         $email = 'test@test.com';
         $message = 'Endorse me please!';
 
-        $endorsement = $this->service->execute($user, $position, $email, $message);
-        $endorsement2 = $this->service->execute($user, $position, $email, $message);
-        $endorsement3 = $this->service->execute($user, $position, $email, $message);
+        $this->service->execute($user, $position, $email, $message);
+        $this->service->execute($user, $position, $email, $message);
+        $this->service->execute($user, $position, $email, $message);
 
         $this->assertDatabaseHas('endorsement_endorsers', [
             'user_id' => null,
@@ -118,5 +134,9 @@ class CreateEndorsementRequestTest extends TestCase
         ]);
 
         $this->assertEquals(1, EndorsementEndorser::whereEmail($email)->get()->count());
+
+        Mail::assertSent(
+            EndorsementRequestEmail::class
+        );
     }
 }

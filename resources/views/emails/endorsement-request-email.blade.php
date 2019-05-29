@@ -2,14 +2,14 @@
 @component('mail::message')
 # Endorsement request from a friend.
 
-Hi {{ $endorsement->name }}
+Hi
 
-Can you endorse me for [{{ $endorsement->request->position->name }}]({{ route('crew.endorsement.position.show', $endorsement) }}) on CrewCallsAmerica.com?
+Can you endorse me for [{{ $endorsement->request->position }}]({{ route('crew.endorsement.position.show', $endorsement) }}) on CrewCallsAmerica.com?
 This will help me get future jobs on the site.
 
-@component('mail::button', ['url' => route('endorsements.create', $endorsement->request)])
+{{-- @component('mail::button', ['url' => route('endorsements.create', $endorsement->request)])
 Sure Bud, I'll endorse you.
-@endcomponent
+@endcomponent --}}
 
 Thanks,<br>
 {{ config('app.name') }}
