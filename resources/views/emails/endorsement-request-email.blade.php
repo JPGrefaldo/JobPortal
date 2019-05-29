@@ -2,7 +2,7 @@
 @component('mail::message')
 # Endorsement request from a friend.
 
-Hi {{ $endorsement->request->endorser->user->nickname }}
+Hi
 
 Can you endorse me for [{{ $endorsement->request->position }}]({{ route('crew.endorsement.position.show', $endorsement) }}) on CrewCallsAmerica.com?
 This will help me get future jobs on the site.
