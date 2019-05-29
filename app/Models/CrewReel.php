@@ -17,6 +17,13 @@ class CrewReel extends Model
     /**
      * @var array
      */
+    protected $appends = [
+        'link',
+    ];
+
+    /**
+     * @var array
+     */
     protected $casts = [
         'id'               => 'integer',
         'crew_id'          => 'integer',
@@ -51,9 +58,9 @@ class CrewReel extends Model
     }
 
     /**
-    * @return string
-    */
-    public function getPathAttribute()
+     * @return string
+     */
+    public function getLinkAttribute()
     {
         if (strpos($this->attributes['path'], 'https') !== false) {
             return $this->attributes['path'];

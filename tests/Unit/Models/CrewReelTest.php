@@ -39,9 +39,9 @@ class CrewReelTest extends TestCase
 
     /**
      * @test
-     * @covers \App\Models\CrewReel::getPathAttribute
+     * @covers \App\Models\CrewReel::getLinkAttribute
      */
-    public function path_with_url()
+    public function link_with_url()
     {
         $url = 'https://www.youtube.com/watch?v=2-_rLbU6zJo';
 
@@ -51,15 +51,15 @@ class CrewReelTest extends TestCase
 
         $this->assertEquals(
             $url,
-            $reel->path
+            $reel->link
         );
     }
 
     /**
      * @test
-     * @covers \App\Models\CrewReel::getPathAttribute
+     * @covers \App\Models\CrewReel::getLinkAttribute
      */
-    public function path_with_s3()
+    public function link_with_s3()
     {
         $url = '123345/reel/test.mp4';
 
@@ -69,7 +69,7 @@ class CrewReelTest extends TestCase
 
         $this->assertEquals(
             UrlUtils::getS3Url() . $url,
-            $reel->path
+            $reel->link
         );
     }
 }

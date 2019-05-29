@@ -11,7 +11,7 @@ class CrewResume extends Model
      * @var array
      */
     protected $appends = [
-        'file_link',
+        'link',
     ];
 
     /**
@@ -43,7 +43,7 @@ class CrewResume extends Model
     /**
      * @return string
      */
-    public function getPathAttribute()
+    public function getLinkAttribute()
     {
         return UrlUtils::getS3Url() . $this->attributes['path'];
     }
