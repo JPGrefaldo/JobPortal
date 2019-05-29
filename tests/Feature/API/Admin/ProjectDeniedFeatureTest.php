@@ -55,7 +55,7 @@ class ProjectDeniedFeatureTest extends TestCase
         $this->actingAs($admin, 'api')
              ->postJson(route('admin.projects.deny', $project), $data)
              ->assertSee('The given data was invalid.')
-             ->assertSee('The body field is required.')
+             ->assertSee('The reason field is required.')
              ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
