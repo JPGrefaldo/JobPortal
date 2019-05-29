@@ -39,33 +39,42 @@ export default {
        },
 
       applyJob: function(jobId){
+        let content = `
+          <div class="md:flex py-2">
+            <textarea class="w-full form-control h-24" placeholder="Submission notes" id="note"></textarea>
+          </div>
+          `
+
         this.$swal({
           title: 'Add Notes',
-          html:`
-          <div class="md:flex py-2">
-            <textarea class="w-full form-control h-24" placeholder="Submission notes"></textarea>
-          </div>
-          `,
+          html: content,
           showCloseButton: true,
-          confirmButtonText: 'Save and Apply',
+          confirmButtonText: 'Save and Apply'
         })
         .then(result => {
           if (result.value) {
-            axios
-              .post(`/crew/jobs/${jobId}`)
-              .then(({data}) => {
-                  if(data.message == 'success'){
-                      this.applied = true
-                  }
-            }).catch( error => {
-                if(error.response.status == 401){
-                  this.displayError("Please sign-in")
-                }
+            const content = this.$swal.getContent()
+            const $       = content.querySelector.bind(content)
+            const note    = $('textarea[id=note]').value
+            const params  = {jobId:jobId, note:note}
 
-                if(error.response.status == 400){
-                    this.displayError("Please upload a general resume")
-                }
-            })
+            this.$store.dispatch('submission/store', params)
+
+            // axios
+            //   .post(`/crew/jobs/${jobId}`)
+            //   .then(({data}) => {
+            //       if(data.message == 'success'){
+            //           this.applied = true
+            //       }
+            // }).catch( error => {
+            //     if(error.response.status == 401){
+            //       this.displayError("Please sign-in")
+            //     }
+
+            //     if(error.response.status == 400){
+            //         this.displayError("Please upload a general resume")
+            //     }
+            // })
           }
         })
 
