@@ -181,9 +181,7 @@ return [
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         App\Providers\NovaServiceProvider::class,
-        App\Providers\TelescopeServiceProvider::class,
         App\Providers\ViewServiceProvider::class,
-
         App\Providers\MacrosServiceProvider::class,
     ],
 
