@@ -105,7 +105,7 @@ class SubmissionFeatureTest extends TestCase
      */
     public function can_store_submissions()
     {
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
 
         $crew     = $this->createCrew();
         $producer = $this->createProducer();

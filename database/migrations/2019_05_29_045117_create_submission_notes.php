@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateSubmissionNotes extends Migration
 {
@@ -15,7 +15,7 @@ class CreateSubmissionNotes extends Migration
     {
         Schema::create('submission_notes', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('submission_id');
+            $table->unsignedInteger('submission_id');
             $table->text('body');
             $table->timestamps();
 
