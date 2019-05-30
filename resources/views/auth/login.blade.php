@@ -1,8 +1,6 @@
 @extends('layouts.default_layout')
 
 @section('content')
-
-@section('content')
     @component('_parts.components.single-card-button-page')
         @slot('cardContent')
             <h2 class="font-header text-blue-dark text-lg text-center font-semibold">Sign in</h2>

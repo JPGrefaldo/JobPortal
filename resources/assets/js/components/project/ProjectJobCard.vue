@@ -29,31 +29,55 @@ export default {
     },
     methods: {
       checkSubmission: function(){
-        axios
-          .get(`crew/jobs/${this.job.id}`)
-          .then(({data}) => {
-              if(data.submitted){
-                  this.applied = true
-              }
-           });
+        this.$store
+            .dispatch('submission/check', this.job.id)
+            .then(({data}) => {
+                if(data.submitted){
+                    this.applied = true
+                }
+            });
        },
 
       applyJob: function(jobId){
-        axios
-          .post(`/crew/jobs/${jobId}`)
-          .then(({data}) => {
-              if(data.message == 'success'){
-                  this.applied = true
-              }
-         }).catch( error => {
-            if(error.response.status == 401){
-              this.displayError("Please sign-in")
-            }
+        let content = `
+          <div class="md:flex py-2">
+            <textarea class="w-full form-control h-24" placeholder="Submission notes" id="note"></textarea>
+          </div>
+          `
 
-            if(error.response.status == 400){
-                this.displayError("Please upload a general resume")
-            }
-         })
+        this.$swal({
+          title: 'Add Notes',
+          html: content,
+          showCloseButton: true,
+          confirmButtonText: 'Save and Apply'
+        })
+        .then(result => {
+          if (result.value) {
+            const content = this.$swal.getContent()
+            const $       = content.querySelector.bind(content)
+            const note    = $('textarea[id=note]').value
+            const params  = {jobId:jobId, note:note}
+
+            this.$store
+                .dispatch('submission/store', params)
+                .then(response => {
+                  if (response.data.message = 'Submission successfully added') {
+                    this.applied = true
+                  }
+                })
+                .catch(error => {
+                  if (error.response.status === 401) {
+                    this.displayError("Please sign-in")
+                  }
+
+                  if (error.response.status === 422) {
+                    this.displayError("Please upload a general resume")
+                  }
+                })
+          }
+        })
+
+        
       }
     },
     mounted(){

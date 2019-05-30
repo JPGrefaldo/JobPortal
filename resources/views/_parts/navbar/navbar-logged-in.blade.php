@@ -12,7 +12,7 @@
         </li>
         <li class="{{ Route::is('findProject') ? 'border-b-2 border-red border-solid' : '' }}">
             <a class="block py-6 px-4 tracking-wide font-bold leading-none uppercase text-sm text-blue-dark hover:text-green"
-               href="{{route('projects.current-projects')}}">find projects</a>
+               href="{{ route('projects.current-projects') }}">find projects</a>
         </li>
         <li class="{{ Route::is('messages') ? 'border-b-2 border-red border-solid' : '' }}">
             <a href="{{ route('messages') }}"
@@ -36,11 +36,13 @@
                         <a href="/my-profile/{{ Auth::user()->id }}" class="block text-blue-dark hover:text-green">View
                             profile</a>
                     </li>
+                    @if(! Route::is('account.subscription'))
+                        <li class="py-2 px-4">
+                            <a href="{{ route('account.subscription') }}" class="block text-blue-dark hover:text-green">Subscription</a>
+                        </li>
+                    @endif
                     <li class="py-2 px-4">
-                        <a href="#" class="block text-blue-dark hover:text-green">Subscription</a>
-                    </li>
-                    <li class="py-2 px-4">
-                        <a href="/my-account" class="block text-blue-dark hover:text-green">Settings</a>
+                        <a href="{{ route('account.name') }}" class="block text-blue-dark hover:text-green">Account Settings</a>
                     </li>
 
                     <li class="py-2 px-4 border-t mt-2 border-grey-light">
@@ -75,9 +77,11 @@
                                     profile</a>
                             </li>
                         @endif
-                        <li class="py-2 px-4">
-                            <a href="#" class="block text-blue-dark hover:text-green">Subscription</a>
-                        </li>
+                        @if(! Route::is('account.subscription'))
+                            <li class="py-2 px-4">
+                                <a href="{{ route('account.subscription') }}" class="block text-blue-dark hover:text-green">Subscription</a>
+                            </li>
+                        @endif
                         <li class="py-2 px-4">
                             <a href="{{ route('account.name') }}" class="block text-blue-dark hover:text-green">Account Settings</a>
                         </li>
@@ -123,9 +127,11 @@
                     <a href="{{ route('crew.profile.edit') }}" class="block text-white">Edit profile</a>
                 </li>
             @endif
-            <li class="py-1 px-4">
-                <a href="#" class="block text-white">Subscription</a>
-            </li>
+            @if(! Route::is('account.subscription'))
+                <li class="py-1 px-4">
+                    <a href="{{ route('account.subscription') }}" class="block text-white">Subscription</a>
+                </li>
+            @endif
             <li class="py-1 px-4">
                 <a href="{{ route('account.name') }}" class="block text-white">Account Settings</a>
             </li>
