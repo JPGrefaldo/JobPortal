@@ -13,6 +13,9 @@ class SubmissionRequest extends FormRequest
      */
     public function authorize()
     {
+        $crew = auth()->user()->crew;
+        abort_unless($crew->hasGeneralResume(), 422, 'Please upload General Resume');
+
         return true;
     }
 
