@@ -234,7 +234,7 @@
                             <li class="py-2">
                                 <i class="far fa-file-alt text-green text-center w-8 mr-2 text-lg"></i>Work history</li>
                             <li class="py-2">
-                                <img src="images/icon-video.svg" alt="" class="mr-2" />
+                                <img src="images/icon-video.svg" class="far pl-1 mr-2">
                                 </i>Gear & equipment</li>
                             <li class="py-2">
                                 <i class="far fa-play-circle text-green text-center w-8 mr-2 text-lg"></i>Work samples</li>
@@ -288,7 +288,9 @@
                             <ul class="text-center">
                                 <li class="w-8 h-8 bg-yellow-imdb rounded-full responsive p-1 inline-block -mr-2">
                                     <a href="#">
-                                        <img src="images/imdb.svg" alt="imdb">
+                                        <i class="fab">
+                                            <img src="images/imdb.svg" alt="imdb">
+                                        </i>
                                     </a>
                                 </li>
                                 <li class="w-8 h-8 bg-blue-linkedin rounded-full responsive p-1 items-center justify-center inline-block">
@@ -316,7 +318,9 @@
                             <ul class="text-center">
                                 <li class="w-8 h-8 bg-yellow-imdb rounded-full responsive p-1 inline-block -mr-2">
                                     <a href="#">
-                                        <img src="images/imdb.svg" alt="imdb">
+                                        <i class="fab">
+                                            <img src="images/imdb.svg" alt="imdb">
+                                        </i>
                                     </a>
                                 </li>
                                 <li class="w-8 h-8 bg-blue-linkedin rounded-full responsive p-1 items-center justify-center inline-block">
@@ -344,7 +348,9 @@
                             <ul class="text-center">
                                 <li class="w-8 h-8 bg-yellow-imdb rounded-full responsive p-1 inline-block -mr-2">
                                     <a href="#">
-                                        <img src="images/imdb.svg" alt="imdb">
+                                        <i class="fab">
+                                            <img src="images/imdb.svg" alt="imdb">
+                                        </i>
                                     </a>
                                 </li>
                                 <li class="w-8 h-8 bg-blue-linkedin rounded-full responsive p-1 items-center justify-center inline-block">
