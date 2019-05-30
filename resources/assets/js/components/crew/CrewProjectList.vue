@@ -1,7 +1,7 @@
 <template>
-<main class="md:w-3/4 float-left">
+<div class="md:w-3/4 float-left">
      <project-card v-for="project in projects" :key="project.id" :project="project"/>
-</main>
+</div>
 </template>
 
 <script>
