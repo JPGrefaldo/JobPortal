@@ -48,11 +48,12 @@ class CreateEndorsementRequestTest extends TestCase
         $email = 'test@test.com';
         $message = 'Endorse me please!';
 
-        $endorsement = $this->service->execute($user, $position, $email, $message);
+        $endorsement = $this->service->execute($user, $position, $email, $message, $user->id);
 
         $this->assertDatabaseHas('endorsement_endorsers', [
-            'user_id' => null,
-            'email'   => $email,
+            'user_id'       => null,
+            'email'         => $email,
+            'request_owner' => $user->id,
         ]);
 
         $this->assertDatabaseHas('endorsement_requests', [
@@ -88,11 +89,12 @@ class CreateEndorsementRequestTest extends TestCase
 
         $message = 'Endorse me please!';
 
-        $endorsement = $this->service->execute($user, $position, $endorser->email, $message);
+        $endorsement = $this->service->execute($user, $position, $endorser->email, $message, $user->id);
 
         $this->assertDatabaseHas('endorsement_endorsers', [
-            'user_id' => $endorser->id,
-            'email'   => null,
+            'user_id'       => $endorser->id,
+            'email'         => null,
+            'request_owner' => $user->id,
         ]);
 
         $this->assertDatabaseHas('endorsement_requests', [
@@ -124,13 +126,14 @@ class CreateEndorsementRequestTest extends TestCase
         $email = 'test@test.com';
         $message = 'Endorse me please!';
 
-        $this->service->execute($user, $position, $email, $message);
-        $this->service->execute($user, $position, $email, $message);
-        $this->service->execute($user, $position, $email, $message);
+        $this->service->execute($user, $position, $email, $message, $user->id);
+        $this->service->execute($user, $position, $email, $message, $user->id);
+        $this->service->execute($user, $position, $email, $message, $user->id);
 
         $this->assertDatabaseHas('endorsement_endorsers', [
-            'user_id' => null,
-            'email'   => $email,
+            'user_id'       => null,
+            'email'         => $email,
+            'request_owner' => $user->id,
         ]);
 
         $this->assertEquals(1, EndorsementEndorser::whereEmail($email)->get()->count());

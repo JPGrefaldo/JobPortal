@@ -55,15 +55,6 @@ class EndorsementIndexModel extends ViewModel
             'owner',
             'user.crew.crewPositions',
         ])->get();
-
-        // dd(
-        //     $this->pending_endorsements->with([
-        //         'request',
-        //         'user',
-        //         'user.crew',
-        //         'user.crew.crewPositions',
-        //     ])->first()->request->endorsement->crewPosition->position->name
-        // );
     }
 
     private function loadUser()

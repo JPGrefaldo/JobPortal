@@ -9,6 +9,7 @@ use App\Http\Requests\StoreCrewEndorsementRequest;
 use App\Models\Position;
 use App\View\Endorsements\EndorsementIndexModel;
 use App\View\Endorsements\EndorsementPositionShowModel;
+use App\Models\EndorsementEndorser;
 
 class EndorsementPositionController extends Controller
 {
@@ -61,5 +62,12 @@ class EndorsementPositionController extends Controller
     public function show(Position $position)
     {
         return view('crew.endorsement.position.show', (new EndorsementPositionShowModel(auth()->user(), $position)));
+    }
+
+    public function destroy(EndorsementEndorser $endorsementEndorser)
+    {
+        $endorsementEndorser->delete();
+
+        return redirect(route('crew.endorsement.index'));
     }
 }

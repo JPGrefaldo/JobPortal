@@ -34,7 +34,8 @@
                     @foreach ($pending_endorsements as $pending_endorsement)
                         @include('crew.endorsement.__parts.pending-endorsements', [
                             'endorsement_position' => $pending_endorsement->request->endorsement->crewPosition->position->name,
-                            'from'                 => $pending_endorsement->owner->email
+                            'from'                 => $pending_endorsement->owner->email,
+                            'id'                   => $pending_endorsement->id,
                         ])
                     @endforeach
                 @endif

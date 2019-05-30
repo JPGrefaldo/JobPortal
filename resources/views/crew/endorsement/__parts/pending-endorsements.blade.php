@@ -11,9 +11,11 @@
         </div>
 
         <div class="flex mb-2 pt-2 mt-2 border-t-2 border-grey-lighter justify-end">
-            <a href="" class="btn-red">
-                <span>Delete</span>
-            </a><!-- Delete button -->
+            <form action="{{ route('crew.endorsement.delete', $id) }}" method="POST">
+                @method('DELETE')
+                @csrf
+                <button type="submit" class="btn-red">Delete</button>
+            </form>
         </div>
     </div>
 </div>
