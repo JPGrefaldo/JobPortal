@@ -25,6 +25,17 @@ class SubmissionController extends Controller
         );
     }
 
+    public function check(ProjectJob $job)
+    {
+        $crew = auth()->user()->crew;
+
+        abort_unless($crew->hasAppliedTo($job), 404);
+
+        return response()->json([
+            'submitted' => 'true',
+        ]);
+    }
+
     public function fetchByApprovedDate(ProjectJob $projectJob)
     {
         $submissions = $projectJob->submissions()
