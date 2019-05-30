@@ -75,11 +75,17 @@
                 <input name="phone" class="w-full form-control @include('_parts.errors.input-error', ['input_element' => 'phone'])" value="{{ old('phone') }}" type="text" placeholder="(555) 555-5555">
                 @include('_parts.errors.input-error-message-inline', ['input_element' => 'phone'])
             </div>
-            <div class="py-2" id="div-receive-sms">
-                <div class="float-right">@include('_parts.components.tooltip', ['tooltipText' => 'You will receive SMS alerts to your phone'])</div>
+            <div class="py-2 flex" id="div-receive-sms">
                 <label class="block">
-                    <input name="receive_sms" id="receive_sms" value="1" class="mr-1" type="checkbox" @if(old('receive_sms', 0) == 1) checked @endif> Receive text alerts
+                    <div class="flex items-center">
+                        <label class="switch">
+                            <input type="checkbox" name="receive_sms" id="receive_sms" value="1" class="mr-1" type="checkbox" @if(old('receive_sms', 0) == 1) checked @endif>
+                            <span class="form-slider"></span>
+                        </label> 
+                        <span class="ml-2">Recieve test alerts</span>
+                    </div>
                 </label>
+                <div class="ml-auto">@include('_parts.components.tooltip', ['tooltipText' => 'You will receive SMS alerts to your phone'])</div>
             </div>
             <div class="py-4">
                 <p class="text-sm text-center">By joining, you agree with our <a href="{{ route('termsandconditions') }}" class="text-red underline hover:text-green">Terms and Conditions</a></p>
