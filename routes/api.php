@@ -139,10 +139,15 @@ Route::middleware('auth:api')->group(function () {
             'index',
         ])->name('crew.threads.index');
 
-        Route::post('/projectJob/{job}/submission', [
+        Route::post('/submission/{job}', [
             SubmissionController::class,
             'store',
         ])->name('crew.submissions.store');
+
+        Route::get('/submission/{job}/check', [
+            SubmissionController::class,
+            'check',
+        ])->name('crew.submission.check');
     });
 
     Route::post('/messenger/projects/{project}/messages', [
