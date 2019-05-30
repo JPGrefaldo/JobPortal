@@ -1,5 +1,5 @@
 <div class="max-w-screen-xl flex justify-center items-center">
-    <div class="w-full md:w-1/2 xl:w-1/4 float-left mb-3 md:mb-0 px-4">
+    <div class="w-full md:w-1/2 xl:w-1/3 float-left mb-3 md:mb-0 px-4">
         <div class="bg-white shadow-md rounded">
             {{ $cardTitle ?? '' }}
             <form method="post" action="{{ $cardRoute }}">
