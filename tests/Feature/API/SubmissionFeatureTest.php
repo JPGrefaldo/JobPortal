@@ -10,6 +10,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
+use App\Models\CrewResume;
 
 class SubmissionFeatureTest extends TestCase
 {
@@ -124,6 +125,8 @@ class SubmissionFeatureTest extends TestCase
             'project_job_id'  => $projectJob->id,
             'note'           => 'Some note'
         ];
+
+        factory(CrewResume::class)->create(['crew_id' => $crew->id]);
 
         $response = $this->actingAs($crew, 'api')
             ->postJson(
@@ -264,6 +267,44 @@ class SubmissionFeatureTest extends TestCase
 
     /**
      * @test
+     * @covers \App\Http\Controllers\API\SubmissionController::store
+     */
+    public function cannot_store_submissions_without_resume()
+    {
+        // $this->withoutExceptionHandling();
+
+        $crew     = $this->createCrew();
+        $producer = $this->createProducer();
+
+        $project  = factory(Project::class)->create([
+            'user_id' => $producer->id,
+        ]);
+
+        $projectJob = factory(ProjectJob::class)->create([
+            'project_id' => $project->id,
+        ]);
+
+        $data = [
+            'crew_id'         => $crew->id,
+            'project_id'      => $project->id,
+            'project_job_id'  => $projectJob->id,
+            'note'           => 'Some note'
+        ];
+
+        $this->actingAs($crew, 'api')
+            ->postJson(
+                route(
+                    'crew.submissions.store',
+                    ['job' => $projectJob]
+                ),
+                $data
+            )
+            ->assertSee('Please upload General Resume')
+            ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+    }
+
+    /**
+     * @test
      * @covers \App\Http\Controllers\API\SubmissionController::index
      */
     public function cannot_fetch_submmissions_as_crew()
@@ -385,6 +426,7 @@ class SubmissionFeatureTest extends TestCase
         ]);
 
         $crew = $this->createCrew();
+        factory(CrewResume::class)->create(['crew_id' => $crew->id]);
 
         factory(Submission::class)->create([
             'crew_id'         => $crew->id,
