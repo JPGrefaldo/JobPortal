@@ -9,7 +9,7 @@
     <ul class="hidden lg:flex items-center">
         <li class="{{ Route::is('producer.projects.create') ? 'border-b-2 border-red border-solid' : '' }}">
             <a class="block py-6 px-4 font-header tracking-wide block font-bold leading-none uppercase text-sm text-blue-dark hover:text-green"
-                href="#">post a project</a>
+                href="{{ route('producer.projects.create') }}">post a project</a>
         </li>
         <li class="{{ Route::is('findProject') ? 'border-b-2 border-red border-solid' : '' }}">
             <a class="block py-6 px-4 font-header tracking-wide font-bold leading-none uppercase text-sm text-blue-dark hover:text-green"
@@ -44,15 +44,15 @@
             <ul>
                 <li class="py-2">
                     <a class="block py-1 px-4 font-header tracking-wide block font-bold leading-none uppercase text-sm text-white hover:text-green"
-                        href="#">post a project</a>
+                        href="{{ route('producer.projects.create') }}">post a project</a>
                 </li>
                 <li class="py-2">
                     <a class="block py-1 px-4 font-header tracking-wide font-bold leading-none uppercase text-sm text-white hover:text-green"
-                        href="#">find a project</a>
+                        href="{{ route('projects.current-projects') }}">find a project</a>
                 </li>
                 <li class="py-2">
                     <a class="block py-1 px-4 font-header tracking-wide font-bold leading-none uppercase text-sm text-white hover:text-green"
-                        href="#">about</a>
+                        href="{{ route('about') }}">about</a>
                 </li>
             </ul>
         </div>
@@ -60,11 +60,11 @@
             <ul>
                 <li class="py-2">
                     <a class="block py-1 px-4 font-header tracking-wide block font-bold leading-none uppercase text-sm text-white hover:text-green"
-                        href="sign-in.php">SIGN in</a>
+                        href="{{ route('login') }}">SIGN in</a>
                 </li>
                 <li class="py-2">
                     <a class="block py-1 px-4 font-header tracking-wide font-bold leading-none uppercase text-sm text-white hover:text-green"
-                        href="sign-in.php">sign up</a>
+                        href="{{ route('signup') }}">sign up</a>
                 </li>
             </ul>
         </div>

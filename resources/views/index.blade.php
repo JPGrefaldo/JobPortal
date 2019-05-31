@@ -19,11 +19,11 @@
                 <ul class="hidden lg:flex items-center relative z-10">
                         <li>
                             <a class="block py-6 px-4 font-header tracking-wide block font-bold leading-none uppercase text-sm text-white hover:text-green"
-                                href="/my-projects/post">post a project</a>
+                                href="{{ route('producer.projects.create') }}">post a project</a>
                         </li>
                         <li>
                             <a class="block py-6 px-4 font-header tracking-wide font-bold leading-none uppercase text-sm text-white hover:text-green"
-                                href="{{route('projects.current-projects')}}">find a project</a>
+                                href="{{ route('projects.current-projects') }}">find a project</a>
                         </li>
                         <li>
                             <a class="block py-6 px-4 font-header tracking-wide font-bold leading-none uppercase text-sm text-white hover:text-green"
@@ -71,7 +71,7 @@
                     responses.</p>
                 <div class="w-full block pt-6 fade-up-2">
                     <a href="#" class="btn-white mr-2 text-black mb-2 md:mb-0">FIND CREW</a>
-                    <a href="#" class="btn-white-outline">Join as CREW</a>
+                    <a href="{{ route('signup') }}" class="btn-white-outline">Join as CREW</a>
                 </div>
             </div>
         </div>
@@ -201,7 +201,7 @@
                             <li class="py-2">Manage all your projects from one online dashbaord</li>
                             <li class="py-2">Post rush calls</li>
                         </ul>
-                        <a href="#" class="mt-6 py-4 px-8 font-header rounded-full bg-white uppercase text-sm leading-none tracking-wide font-bold text-blue inline-block">see all features</a>
+                        <a href="{{ route('about.producers') }}" class="mt-6 py-4 px-8 font-header rounded-full bg-white uppercase text-sm leading-none tracking-wide font-bold text-blue inline-block">see all features</a>
                     </div>
                 </div>
                 <div class="w-full md:w-1/2 md:pl-6">
@@ -214,7 +214,7 @@
                             <li class="py-2">Manage all your projects from one online dashbaord</li>
                             <li class="py-2">Post rush calls</li>
                         </ul>
-                        <a href="#" class="mt-6 py-4 px-8 font-header rounded-full bg-white uppercase text-sm leading-none tracking-wide font-bold text-green inline-block">see all features</a>
+                        <a href="{{ route('about.producers') }}" class="mt-6 py-4 px-8 font-header rounded-full bg-white uppercase text-sm leading-none tracking-wide font-bold text-green inline-block">see all features</a>
                     </div>
                 </div>
             </div>
@@ -253,7 +253,7 @@
                 </div>
                 <div class="w-full block">
                     <a href="#" class="btn-green mr-2 mb-2 md:mb-0">FIND CREW</a>
-                    <a href="#" class="btn-green-outline">Join as CREW</a>
+                    <a href="{{ route('signup') }}" class="btn-green-outline">Join as CREW</a>
                 </div>
             </div>
         </div>
@@ -411,7 +411,7 @@
             <h2 class="text-white text-lg md:text-2xl">Let’s get started.</h2>
             <div class="py-6 md:py-md w-full block">
                 <a href="#" class="btn-white mb-2 md:mb-0 mr-2">FIND CREW</a>
-                <a href="#" class="btn-white-outline">Join as CREW</a>
+                <a href="{{ route('signup') }}" class="btn-white-outline">Join as CREW</a>
             </div>
             <p class="text-white md:text-md max-w-md m-auto">After you post your job or profile, our custome engineered matching engine will automatically notify you of the
                 best matches, so you can start your project as quickly as possible.</p>
@@ -436,15 +436,15 @@
             <ul>
                 <li class="py-2">
                     <a class="block py-1 px-4 font-header tracking-wide block font-bold leading-none uppercase text-sm text-white hover:text-green"
-                        href="#">post a project</a>
+                        href="{{ route('producer.projects') }}">post a project</a>
                 </li>
                 <li class="py-2">
                     <a class="block py-1 px-4 font-header tracking-wide font-bold leading-none uppercase text-sm text-white hover:text-green"
-                        href="#">find a project</a>
+                        href="{{ route('projects.current-projects') }}">find a project</a>
                 </li>
                 <li class="py-2">
                     <a class="block py-1 px-4 font-header tracking-wide font-bold leading-none uppercase text-sm text-white hover:text-green"
-                        href="#">about</a>
+                        href="{{ route('about') }}">about</a>
                 </li>
             </ul>
         </div>
@@ -452,11 +452,11 @@
             <ul>
                 <li class="py-2">
                     <a class="block py-1 px-4 font-header tracking-wide block font-bold leading-none uppercase text-sm text-white hover:text-green"
-                        href="sign-in.php">SIGN in</a>
+                        href="{{ route('login') }}">SIGN in</a>
                 </li>
                 <li class="py-2">
                     <a class="block py-1 px-4 font-header tracking-wide font-bold leading-none uppercase text-sm text-white hover:text-green"
-                        href="sign-in.php">sign up</a>
+                        href="{{ route('signup') }}">sign up</a>
                 </li>
             </ul>
         </div>
