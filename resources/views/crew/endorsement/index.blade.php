@@ -18,6 +18,7 @@
                         @include('crew.endorsement.__parts.endorsement-positions', [
                             'approvedEndorsements'   => isset($endorsements[$position->id]['approved']) ? $endorsements[$position->id]['approved'] : 0,
                             'unapprovedEndorsements' => isset($endorsements[$position->id]['unapproved']) ? $endorsements[$position->id]['unapproved'] : 0,
+                            'endorsement_score'      => $crewPositions->where('position_id', $position->id)->first()->score,
                         ])
                     @endforeach
                 @endif
