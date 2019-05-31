@@ -22,6 +22,10 @@ class UserSignupController extends Controller
      */
     public function show()
     {
+        if(auth()->check()){
+            return redirect()->route('dashboard');
+        }
+
         return view('auth.signup');
     }
 

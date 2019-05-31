@@ -33,7 +33,7 @@
             <div class="dropdown shadow-md bg-white absolute py-3 font-body">
                 <ul class="text-left">
                     <li class="py-2 px-4">
-                        <a href="/my-profile/{{ Auth::user()->id }}" class="block text-blue-dark hover:text-green">View
+                        <a href="{{ route('crew.profile.index') }}" class="block text-blue-dark hover:text-green">View
                             profile</a>
                     </li>
                     @if(! Route::is('account.subscription'))
@@ -136,7 +136,10 @@
                 <a href="{{ route('account.name') }}" class="block text-white">Account Settings</a>
             </li>
             <li class="py-1 px-4">
-                <a href="#" class="block text-white">Sign out</a>
+                <cca-logout-link csrf="{{ csrf_token() }}"
+                    classes="block text-white">
+                    {{ __('Sign Out') }}
+                </cca-logout-link>
             </li>
         </ul>
     </div>
@@ -144,15 +147,15 @@
         <ul>
             <li class="py-2">
                 <a class="block py-1 px-4 font-header tracking-wide block font-bold leading-none uppercase text-sm text-white hover:text-green"
-                   href="#">my projects</a>
+                   href="{{ route('producer.projects') }}">my projects</a>
             </li>
             <li class="py-2">
                 <a class="block py-1 px-4 font-header tracking-wide font-bold leading-none uppercase text-sm text-white hover:text-green"
-                   href="#">find projects</a>
+                   href="{{ route('projects.current-projects') }}">find projects</a>
             </li>
             <li class="py-2">
                 <a class="block py-1 px-4 font-header tracking-wide font-bold leading-none uppercase text-sm text-white hover:text-green"
-                   href="#">messages</a>
+                   href="{{ route('messages') }}">messages</a>
             </li>
             <li class="py-2">
                 <a class="block py-1 px-4 font-header tracking-wide font-bold leading-none uppercase text-sm text-white hover:text-green"
