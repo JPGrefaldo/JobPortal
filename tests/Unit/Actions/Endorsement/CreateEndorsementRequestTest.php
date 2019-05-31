@@ -53,7 +53,7 @@ class CreateEndorsementRequestTest extends TestCase
         $this->assertDatabaseHas('endorsement_endorsers', [
             'user_id'       => null,
             'email'         => $email,
-            'request_owner' => $user->id,
+            'request_owner_id' => $user->id,
         ]);
 
         $this->assertDatabaseHas('endorsement_requests', [
@@ -94,7 +94,7 @@ class CreateEndorsementRequestTest extends TestCase
         $this->assertDatabaseHas('endorsement_endorsers', [
             'user_id'       => $endorser->id,
             'email'         => null,
-            'request_owner' => $user->id,
+            'request_owner_id' => $user->id,
         ]);
 
         $this->assertDatabaseHas('endorsement_requests', [
@@ -133,7 +133,7 @@ class CreateEndorsementRequestTest extends TestCase
         $this->assertDatabaseHas('endorsement_endorsers', [
             'user_id'       => null,
             'email'         => $email,
-            'request_owner' => $user->id,
+            'request_owner_id' => $user->id,
         ]);
 
         $this->assertEquals(1, EndorsementEndorser::whereEmail($email)->get()->count());

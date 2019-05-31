@@ -32,7 +32,7 @@ class CreateCrewEndorsement implements Rule
         $user = User::where('email', $value)->first();
 
         if (isset($user)) {
-            $existingEndorementRequest = EndorsementEndorser::where('request_owner', auth()->user()->id)->where('user_id', $user->id)->get();
+            $existingEndorementRequest = EndorsementEndorser::where('request_owner_id', auth()->user()->id)->where('user_id', $user->id)->get();
         } else {
             $existingEndorementRequest = EndorsementEndorser::where('email', $value)->where('user_id', $user)->get();
         }

@@ -19,10 +19,10 @@ class EndorsementEndorser extends Model
      * @var array
      */
     protected $casts = [
-        'id'            => 'integer',
-        'user_id'       => 'integer',
-        'email'         => 'string',
-        'request_owner' => 'integer',
+        'id'               => 'integer',
+        'user_id'          => 'integer',
+        'email'            => 'string',
+        'request_owner_id' => 'integer',
     ];
 
     /**
@@ -55,6 +55,6 @@ class EndorsementEndorser extends Model
 
     public function owner()
     {
-        return $this->belongsTo(User::class, 'request_owner', 'id');
+        return $this->belongsTo(User::class, 'request_owner_id', 'id');
     }
 }

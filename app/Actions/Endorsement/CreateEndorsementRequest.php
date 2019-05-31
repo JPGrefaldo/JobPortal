@@ -16,10 +16,10 @@ class CreateEndorsementRequest
      * @param Position $position
      * @param string $email
      * @param string $message
-     * @param string $request_owner
+     * @param string $request_owner_id
      * @return Endorsement
      */
-    public function execute(User $user, Position $position, $email, $message, $request_owner) : Endorsement
+    public function execute(User $user, Position $position, $email, $message, $request_owner_id) : Endorsement
     {
         $crewPosition = CrewPosition::where('crew_id', $user->crew->id)
             ->where('position_id', $position->id)
@@ -34,7 +34,7 @@ class CreateEndorsementRequest
         ]);
 
         $request->endorser->update([
-            'request_owner' => $request_owner,
+            'request_owner_id' => $request_owner_id,
         ]);
 
         return Endorsement::create([

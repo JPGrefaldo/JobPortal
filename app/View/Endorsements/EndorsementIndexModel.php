@@ -115,9 +115,4 @@ class EndorsementIndexModel extends ViewModel
 
         $this->positions = $this->positions->sortBy('name');
     }
-
-    public function getPendingEndorsementRequest()
-    {
-
-    }
 }

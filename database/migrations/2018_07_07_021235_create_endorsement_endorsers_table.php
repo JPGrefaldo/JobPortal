@@ -17,7 +17,7 @@ class CreateEndorsementEndorsersTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('user_id')
                 ->nullable();
-            $table->unsignedInteger('request_owner')
+            $table->unsignedInteger('request_owner_id')
                 ->nullable();
             $table->string('email')
                 ->nullable();
