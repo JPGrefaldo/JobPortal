@@ -15,6 +15,8 @@ Route::put('crew/profile/update', [CrewProfileController::class, 'update'])
     ->name('crew.profile.update');
 Route::post('/crew/photos', [CrewProfileController::class, 'storePhoto']);
 
+Route::get('crew/positions/list', [CrewPositionController::class, 'getPositionList'])
+    ->name('crew-positions-list');
 Route::post('/crew/positions/{position}', [CrewPositionController::class, 'store'])
     ->name('crew-position.store');
 Route::get('/crew/positions/{position}', [CrewPositionController::class, 'show'])
@@ -23,8 +25,6 @@ Route::put('/crew/positions/{position}', [CrewPositionController::class, 'update
     ->name('crew-position.update');
 Route::delete('/crew/positions/{position}', [CrewPositionController::class, 'destroy'])
     ->name('crew-position.delete');
-Route::get('/crew/positions/list', [CrewPositionController::class, 'getPositionList'])
-    ->name('crew-positions-list');
 
 Route::delete('/crew/positions/{position}/gear', [CrewPositionGearController::class, 'destroy'])
     ->name('crew-position.delete-gear');
