@@ -16,6 +16,16 @@
             <h4 class="text-grey leading-loose">Need help?<br> <a href="#" class="text-green">Contact support</a></h4>
         </div>
     </div>
-
     <cca-crew-current-projects :projects="{{$projects}}"></cca-crew-current-projects>
+    @if(!$projects->count())
+    <div class="md:w-3/4 float-left">
+        <div class="bg-white shadow-md rounded mb-8 border border-grey-light">
+            <div class="p-8">
+                <div class="w-full mb-6 flex justify-between">
+                    <h3 class="text-blue-dark font-semibold text-lg mb-1 font-header">Sorry, No Project Available</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
 @endsection

@@ -185,8 +185,8 @@ input:checked+.form-slider:before {
 .form-slider:after {
     content: "YES";
     position: absolute;
-    left: 8px;
-    top: 8px;
+    left: 15%;
+    top: 20%;
     color: #fff;
     font-size: 12px;
     font-weight: 600;
