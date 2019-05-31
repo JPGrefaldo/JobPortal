@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Services\Producer;
+namespace Tests\Unit\Actions\Services\Producer;
 
 use App\Models\Project;
 use App\Models\RemoteProject;
