@@ -43,10 +43,12 @@
                             <input type="file" :id="'resume' + position.id" @change="selectFile" name="resume" class="hidden"/> 
                             <button v-if="form.resume" @click="removeResume(position.id)" class="btn-outline text-green inline-block cursor-pointer">Remove</button>
                             <div v-if="form.resume" class="w-full pt-2">
-                                <i class="fas fa-file-pdf text-grey"></i>
-                                <span>
-                                    <a target="_blank" :href="form.resume.file_link" class="text-sm text-grey">{{ basename(resume.path) }}</a>     
-                                </span>
+                                <div v-if="position_exist">
+                                    <i class="fas fa-file-pdf text-grey"></i>
+                                    <span>
+                                        <a target="_blank" :href="form.resume.file_link" class="text-sm text-grey" v-if="resume.path">{{ basename(resume.path) }}</a>
+                                    </span>
+                                </div>
                             </div>
                             <has-error :form="form" field="resume"></has-error>
                         </div>
@@ -125,7 +127,7 @@
                             class="btn-outline text-white inline-block cursor-pointer bg-green md:mb-4">{{form.gear_photos ? "change" : "upload"}} file</label>
                             <input type="file" :id="'gear_photos' + position.id" @change="selectFile" name="gear_photos" class="hidden" />
                             <button v-if="form.gear_photos" @click="removeGearPhotos(position.id)" class="btn-outline text-green inline-block cursor-pointer">Remove</button>
-                            <p class="text-sm text-grey">
+                            <p class="text-sm text-grey" v-if="gear_photo">
                                 {{ basename(gear_photo) }}
                             </p>
                         </div>
@@ -376,6 +378,10 @@ export default {
         },
 
         basename: function(str) {
+            if (str == '') {
+                return;
+            }
+
             return str.substr(str.lastIndexOf('/') + 1);
         }
     },
