@@ -14,6 +14,7 @@ Route::post('', [CrewProfileController::class, 'store'])
 Route::put('crew/profile/update', [CrewProfileController::class, 'update'])
     ->name('crew.profile.update');
 Route::post('/crew/photos', [CrewProfileController::class, 'storePhoto']);
+Route::delete('/crew/photos/{crew}', [CrewProfileController::class, 'destroyPhoto']);
 
 Route::get('crew/positions/list', [CrewPositionController::class, 'getPositionList'])
     ->name('crew-positions-list');

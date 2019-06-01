@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Crew;
 
+use App\Actions\Crew\DeleteCrewProfilePhoto;
 use App\Actions\Crew\StoreCrew;
 use App\Actions\Crew\StoreCrewPhoto;
 use App\Actions\Crew\UpdateCrew;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateCrewRequest;
 use App\Http\Requests\CreatePhotoRequest;
+use App\Models\Crew;
 use App\Models\CrewReel;
 use App\Models\CrewResume;
 use App\Models\SocialLinkType;
@@ -114,6 +116,15 @@ class CrewProfileController extends Controller
         app(StoreCrewPhoto::class)->execute($crew, $data);
 
         return response('');
+    }
+
+    /**
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function destroyPhoto(Crew $crew)
+    {
+        app(DeleteCrewProfilePhoto::class)->execute($crew);
     }
 
     /**

@@ -19,6 +19,7 @@
                             <div class="flex h-none bg-grey-light items-center justify-center text-center border border-grey-light w-full pb-full rounded relative"
                                  style="background: url('{{ $user->crew->photo_url }}'); background-size: cover;">
                             </div>
+                            <delete-crew-profile-photo :crew="{{ $user->crew }}"></delete-crew-profile-photo>
                         @else
                             <div class="flex h-none bg-grey-light items-center justify-center text-center border border-grey-light w-full pb-full rounded relative background-missing-avatar" >
                                 <span class="text-center uppercase text-sm font-semibold text-white px-2 pos-center w-full">
