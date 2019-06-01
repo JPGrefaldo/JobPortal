@@ -27,17 +27,21 @@ class CreateCrewEndorsement implements Rule
      */
     public function passes($attribute, $value)
     {
-        $crewCheck = User::with('crew')->where('email', $value)->first();
-        if (isset($crewCheck)) {
-            $endorserCheck  = EndorsementEndorser::where('user_id', $crewCheck->id)->first();
-        }
         $ownEndorsement = $value == auth()->user()->email;
-    
+
+        $user = User::where('email', $value)->first();
+
+        if (isset($user)) {
+            $existingEndorementRequest = EndorsementEndorser::where('request_owner_id', auth()->user()->id)->where('user_id', $user->id)->get();
+        } else {
+            $existingEndorementRequest = EndorsementEndorser::where('email', $value)->where('user_id', $user)->get();
+        }
+        
         if ($ownEndorsement) {
             $this->message = "You cannot send endosement request to your own email";
 
             return false;
-        } elseif (isset($crewCheck) && isset($endorserCheck)) {
+        } if ($existingEndorementRequest->count() > 0) {
             $this->message = "You already sent endorsement request to that email";
 
             return false;

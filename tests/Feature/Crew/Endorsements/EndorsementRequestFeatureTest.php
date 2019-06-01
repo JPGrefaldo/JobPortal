@@ -37,6 +37,25 @@ class EndorsementRequestFeatureTest extends TestCase
     }
 
     /**
+     * @test
+     */
+    public function deletePendingEndorsement()
+    {
+        list($user1, $postition, $request) = $this->createEndorsement(Carbon::now());
+
+        $this->actingAs($user1);
+
+        $this->delete(route('crew.endorsement.delete', $request->id))
+            ->assertRedirect(route('crew.endorsement.index'));
+
+        $request->refresh();
+
+        $this->assertDatabaseMissing('endorsement_endorsers', [
+            'id' => $request->id,
+        ]);
+    }
+
+    /**
      * @return array
      */
     private function createEndorsement($approved_at = null): array
