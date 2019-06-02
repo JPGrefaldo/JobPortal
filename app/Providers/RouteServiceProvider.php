@@ -79,7 +79,7 @@ class RouteServiceProvider extends ServiceProvider
             // 'namespace' => $this->namespace,
             'middleware' => 'api',
         ], function () {
-            require base_path('routes/api.php');
+            require base_path('routes/api/index.php');
         });
     }
 }
