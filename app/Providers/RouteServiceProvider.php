@@ -25,8 +25,6 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
-
         parent::boot();
 
         Route::bind('user', function ($value) {
