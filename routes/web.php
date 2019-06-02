@@ -146,7 +146,7 @@ Route::middleware('auth')->group(function () {
         ->name('account.subscription.resume');
     Route::get('unsubscribe', [AccountSubscriptionController::class, 'destroy'])
         ->name('account.subscription.unsubscribe');
-    
+
     Route::get('/crew/profile', [CrewProfileController::class, 'index'])
         ->name('crew.profile.index');
     Route::get('crew/profile/create', [CrewProfileController::class, 'create'])
@@ -155,7 +155,7 @@ Route::middleware('auth')->group(function () {
         ->name('crew.profile.show');
     Route::get('crew/profile/edit', [CrewProfileController::class, 'edit'])
         ->name('crew.profile.edit');
-  
+
     Route::get('dashboard', [DashboardController::class, 'index'])
         ->name('dashboard');
 
