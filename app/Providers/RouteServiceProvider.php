@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\User;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 use Vinkla\Hashids\Facades\Hashids;
 
@@ -40,13 +41,11 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function map()
+    public function map(Router $router)
     {
         $this->mapApiRoutes();
 
-        $this->mapWebRoutes();
-
-        //
+        $this->mapWebRoutes($router);
     }
 
     /**
@@ -56,11 +55,14 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function mapWebRoutes()
+    protected function mapWebRoutes(Router $router)
     {
-        Route::middleware('web')
-            ->namespace($this->namespace)
-            ->group(base_path('routes/web.php'));
+        $router->group([
+            // 'namespace' => $this->namespace,
+            'middleware' => 'web',
+        ], function () {
+            require base_path('routes/web.php');
+        });
     }
 
     /**
