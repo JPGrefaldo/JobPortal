@@ -61,7 +61,7 @@ class RouteServiceProvider extends ServiceProvider
             // 'namespace' => $this->namespace,
             'middleware' => 'web',
         ], function () {
-            require base_path('routes/web.php');
+            require base_path('routes/web/index.php');
         });
     }
 
