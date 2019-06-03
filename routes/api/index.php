@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Controllers\API\Admin\FlaggedMessageController;
-use App\Http\Controllers\API\Admin\ProjectController as AdminProjectController;
 use App\Http\Controllers\API\Admin\ProjectJobSubmissionController;
 use App\Http\Controllers\API\Crew\PositionController;
 use App\Http\Controllers\API\DepartmentController;
@@ -46,55 +44,7 @@ Route::get('/producer/projects/create', [ProducerProjectController::class, 'crea
 Route::get('/producer/projects/edit/{project}', [ProducerProjectController::class, 'edit'])
     ->name('producer.projects.edit');
 
-
 Route::middleware('auth:api')->group(function () {
-    Route::prefix('admin')->middleware('role:Admin')->group(function () {
-        Route::get('/departments', [
-            DepartmentController::class,
-            'index'
-        ])->name('admin.departments');
-
-        Route::post('/departments', [
-            DepartmentController::class,
-            'store'
-        ])->name('admin.departments.store');
-
-        Route::put('/departments/{department}', [
-            DepartmentController::class,
-            'update'
-        ])->name('admin.departments.update');
-
-        Route::get('/flag-messages', [
-            FlaggedMessageController::class,
-            'index',
-        ])->name('admin.messages.flagged');
-
-        Route::put('/projects/{project}/approve', [
-            AdminProjectController::class,
-            'approve',
-        ])->name('admin.projects.approve');
-
-        Route::put('/projects/{project}/unapprove', [
-            AdminProjectController::class,
-            'unapprove',
-        ])->name('admin.projects.unapprove');
-
-        Route::post('/projects/{project}/deny', [
-            AdminProjectController::class,
-            'deny',
-        ])->name('admin.projects.deny');
-
-        Route::get('/projects/pending', [
-            AdminProjectController::class,
-            'unapproved',
-        ])->name('admin.pending-projects');
-
-        Route::get('submissions/{job}', [
-            ProjectJobSubmissionController::class,
-            'index',
-        ])->name('admin.project.job.submissions.index');
-    });
-
     Route::prefix('crew')->middleware('role:Crew')->group(function () {
         Route::get('/departments', [
             DepartmentController::class,
