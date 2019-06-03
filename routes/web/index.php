@@ -86,10 +86,6 @@ Route::get('verify/email/{code}', [VerifyEmailController::class, 'verify'])
 |
 */
 Route::middleware('auth')->group(function () {
-    Route::middleware('role:Admin')
-        // ->namespace('App\Http\Controllers\Admin')
-        ->group(base_path('routes/admin.php'));
-
     Route::middleware('role:Crew')
         // ->namespace('App\Http\Controllers\Crew')
         ->group(base_path('routes/crew.php'));
