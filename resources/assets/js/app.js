@@ -55,6 +55,7 @@ Vue.component('cca-producer-projects-edit', require('./components/project/Projec
 Vue.component('cca-producer-my-projects', require('./components/producer/Projects').default);
 Vue.component('cca-project-job-submissions', require('./components/project/ProjectJobSubmissions').default);
 Vue.component('cca-crew-current-projects', require('./components/crew/CrewProjectList').default);
+Vue.component('cca-crew-projects', require('./components/crew/CrewProjectDashboard').default);
 Vue.component('file-pond', require('./components/FilePondComponent').default);
 
 new Vue({
