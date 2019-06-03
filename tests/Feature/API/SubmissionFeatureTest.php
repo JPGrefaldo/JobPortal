@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\API;
 
+use App\Models\CrewResume;
 use App\Models\Project;
 use App\Models\ProjectJob;
 use App\Models\Submission;
@@ -10,7 +11,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
-use App\Models\CrewResume;
 
 class SubmissionFeatureTest extends TestCase
 {
