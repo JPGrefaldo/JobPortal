@@ -8,6 +8,7 @@ use App\Actions\Crew\UpdateCrew;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateCrewRequest;
 use App\Http\Requests\CreatePhotoRequest;
+use App\Models\Crew;
 use App\Models\CrewReel;
 use App\Models\CrewResume;
 use App\Models\SocialLinkType;
