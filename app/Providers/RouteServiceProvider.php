@@ -25,8 +25,6 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
-
         parent::boot();
 
         Route::bind('user', function ($value) {
@@ -47,8 +45,6 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapApiRoutes();
 
         $this->mapWebRoutes();
-
-        //
     }
 
     /**
@@ -60,9 +56,13 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapWebRoutes()
     {
-        Route::middleware('web')
-            ->namespace($this->namespace)
-            ->group(base_path('routes/web.php'));
+        Route::middleware('web')->group(base_path('routes/web/index.php'));
+
+        Route::middleware('web')->group(function () {
+            Route::middleware('role:Admin')->group(base_path('routes/web/admin.php'));
+            Route::middleware('role:Crew')->group(base_path('routes/web/crew.php'));
+            Route::middleware('role:Producer')->group(base_path('routes/web/producer.php'));
+        });
     }
 
     /**
@@ -74,9 +74,12 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapApiRoutes()
     {
-        Route::prefix('api')
-            ->middleware('api')
-            ->namespace($this->namespace)
-            ->group(base_path('routes/api.php'));
+        Route::prefix('api')->middleware('api')->group(base_path('routes/api/index.php'));
+
+        Route::prefix('api')->middleware('api')->group(function () {
+            Route::prefix('admin')->middleware('role:Admin')->group(base_path('routes/api/admin.php'));
+            Route::prefix('crew')->middleware('role:Crew')->group(base_path('routes/api/crew.php'));
+            Route::prefix('producer')->middleware('role:Producer')->group(base_path('routes/api/producer.php'));
+        });
     }
 }
