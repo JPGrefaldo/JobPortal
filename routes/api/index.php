@@ -38,6 +38,7 @@ Route::post('/messages/{project}', [MessageController::class, 'store'])
 Route::put('/messages/producer/projects/{project}/messages/{message}', [MessageController::class, 'update'])
     ->name('producer.messages.update');
 
+// web
 Route::get('/producer/projects', [ProducerProjectController::class, 'index'])
     ->name('producer.projects');
 Route::get('/producer/projects/create', [ProducerProjectController::class, 'create'])
@@ -45,10 +46,6 @@ Route::get('/producer/projects/create', [ProducerProjectController::class, 'crea
 Route::get('/producer/projects/edit/{project}', [ProducerProjectController::class, 'edit'])
     ->name('producer.projects.edit');
 
-Route::post('/producer/jobs', [ProjectJobController::class, 'store'])
-    ->name('producer.jobs');
-Route::put('/producer/jobs/{job}', [ProjectJobController::class, 'update'])
-    ->name('producer.job.update');
 
 Route::middleware('auth:api')->group(function () {
     Route::prefix('admin')->middleware('role:Admin')->group(function () {
