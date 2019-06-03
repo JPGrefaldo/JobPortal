@@ -5,6 +5,9 @@ namespace App\Http\Requests;
 use App\Models\Position;
 use App\Rules\Reel;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\CrewPosition;
+use App\Models\CrewResume;
+use App\Models\CrewReel;
 
 class StoreCrewPositionRequest extends FormRequest
 {
@@ -26,6 +29,34 @@ class StoreCrewPositionRequest extends FormRequest
     public function rules()
     {
         $position = Position::find($this->position_id);
+        $crewPosition = CrewPosition::where('crew_id', auth()->user()->crew->id)->where('position_id', $this->position)->first();
+
+        if (isset($crewPosition)) {
+            $crew_resume = CrewResume::where('crew_position_id', $crewPosition->id)->first();
+            $crew_reel   = CrewReel::where('crew_position_id', $crewPosition->id)->first();
+        }
+
+        if (isset($crew_resume)) {
+            if ($this->resume != "null") {
+                $resume_rule = 'file|mimes:pdf,doc,docx';
+            } else {
+                $resume_rule = 'nullable';
+            }
+        } else {
+            $resume_rule = 'required|file|mimes:pdf,doc,docx';
+        }
+
+        if (isset($crew_reel)) {
+            $reel_link_rule = ['nullable', 'max:50', 'string', new Reel()];
+        } else {
+            $reel_link_rule = ['required', 'max:50', 'string', new Reel()];
+        }
+
+        if ($this->gear_photos != "null") {
+            $gear_photos_rule = 'nullable|image|mimes:jpeg,png';
+        } else {
+            $gear_photos_rule = 'nullable';
+        }
 
         if ($position['has_union']) {
             $union_rule = 'required|string|max:50|min:8';
@@ -41,12 +72,12 @@ class StoreCrewPositionRequest extends FormRequest
 
         return [
             'bio'               => 'required|string|min:10',
-            'resume'            => 'required|file|mimes:pdf,doc,docx',
-            'reel_link'         => ['nullable', 'max:50', 'string', new Reel()],
+            'resume'            => $resume_rule,
+            'reel_link'         => $reel_link_rule,
             'reel_file'         => 'nullable|file|mimes:mp4,avi,wmv|max:20000',
             'union_description' => $union_rule,
             'gear'              => $gear_rule,
-            'gear_photos'       => 'nullable|image|mimes:jpeg,png',
+            'gear_photos'       => $gear_photos_rule,
         ];
     }
 }

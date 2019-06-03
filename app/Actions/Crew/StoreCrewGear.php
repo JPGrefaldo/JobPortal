@@ -18,7 +18,7 @@ class StoreCrewGear
             ['description' => $data['gear'],]
         );
 
-        if (! isset($data['gear_photos']) || empty($data['gear_photos'])) {
+        if (! isset($data['gear_photos']) || $data['gear_photos'] == "null") {
             return;
         }
 
