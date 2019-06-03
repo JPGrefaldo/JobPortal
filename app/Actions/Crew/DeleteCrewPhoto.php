@@ -5,7 +5,7 @@ namespace App\Actions\Crew;
 use App\Models\Crew;
 use Illuminate\Support\Facades\Storage;
 
-class DeleteCrewProfilePhoto
+class DeleteCrewPhoto
 {
     /**
      * @param \App\Models\Crew $crew
@@ -13,6 +13,8 @@ class DeleteCrewProfilePhoto
      */
     public function execute(Crew $crew)
     {
+        Storage::disk('s3')->delete($crew->photo_path);
+        
         $crew->update([
         	'photo_path' => ''
         ]);

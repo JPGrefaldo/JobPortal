@@ -7,6 +7,7 @@ use App\Http\Controllers\Crew\CrewPositionGearController;
 use App\Http\Controllers\Crew\CrewPositionReelController;
 use App\Http\Controllers\Crew\CrewPositionResumeController;
 use App\Http\Controllers\Crew\CrewProfileController;
+use App\Http\Controllers\Crew\CrewPhotoController;
 use App\Http\Controllers\SubmissionController;
 
 Route::post('', [CrewProfileController::class, 'store'])
@@ -14,9 +15,10 @@ Route::post('', [CrewProfileController::class, 'store'])
 Route::put('crew/profile/update', [CrewProfileController::class, 'update'])
     ->name('crew.profile.update');
 Route::post('/crew/photos', [CrewProfileController::class, 'storePhoto']);
-Route::delete('/crew/photos/{crew}', [CrewProfileController::class, 'destroyPhoto']);
 
-Route::get('crew/positions/list', [CrewPositionController::class, 'getPositionList'])
+Route::delete('/crew/photos/{crew}', [CrewPhotoController::class, 'destroy']);
+
+Route::get('crew/positions/list', [CrewPositionController::class, 'getPositionList'])   
     ->name('crew-positions-list');
 Route::post('/crew/positions/{position}', [CrewPositionController::class, 'store'])
     ->name('crew-position.store');
