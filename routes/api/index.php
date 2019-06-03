@@ -1,8 +1,6 @@
 <?php
 
 use App\Http\Controllers\API\Admin\ProjectJobSubmissionController;
-use App\Http\Controllers\API\Crew\PositionController;
-use App\Http\Controllers\API\DepartmentController;
 use App\Http\Controllers\API\MessageController;
 use App\Http\Controllers\API\ParticipantController;
 use App\Http\Controllers\API\Producer\MessageTemplateController;
@@ -13,7 +11,6 @@ use App\Http\Controllers\API\SiteController;
 use App\Http\Controllers\API\SubmissionController;
 use App\Http\Controllers\API\ThreadController;
 use App\Http\Controllers\API\UserController;
-use App\Http\Controllers\Crew\CrewProjectController;
 use App\Http\Controllers\Producer\ProjectController as ProducerProjectController;
 
 /*
@@ -45,38 +42,6 @@ Route::get('/producer/projects/edit/{project}', [ProducerProjectController::clas
     ->name('producer.projects.edit');
 
 Route::middleware('auth:api')->group(function () {
-    Route::prefix('crew')->middleware('role:Crew')->group(function () {
-        Route::get('/departments', [
-            DepartmentController::class,
-            'index',
-        ])->name('crew.departments.index');
-
-        Route::get('/positions', [
-            PositionController::class,
-            'index',
-        ])->name('crew.positions.index');
-
-        Route::get('/projects', [
-            CrewProjectController::class,
-            'index',
-        ])->name('crew.projects.index');
-
-        Route::get('/projects/{project}/threads', [
-            ThreadController::class,
-            'index',
-        ])->name('crew.threads.index');
-
-        Route::post('/submission/{job}', [
-            SubmissionController::class,
-            'store',
-        ])->name('crew.submissions.store');
-
-        Route::get('/submission/{job}/check', [
-            SubmissionController::class,
-            'check',
-        ])->name('crew.submission.check');
-    });
-
     Route::post('/messenger/projects/{project}/messages', [
         MessageController::class,
         'store',
