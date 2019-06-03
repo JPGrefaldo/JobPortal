@@ -86,15 +86,15 @@ Route::get('verify/email/{code}', [VerifyEmailController::class, 'verify'])
 */
 Route::middleware('auth')->group(function () {
     Route::middleware('role:Admin')
-        ->namespace('App\Http\Controllers\Admin')
+        // ->namespace('App\Http\Controllers\Admin')
         ->group(base_path('routes/admin.php'));
 
     Route::middleware('role:Crew')
-        ->namespace('App\Http\Controllers\Crew')
+        // ->namespace('App\Http\Controllers\Crew')
         ->group(base_path('routes/crew.php'));
 
     Route::middleware('role:Producer')
-        ->namespace('App\Http\Controllers\Producer')
+        // ->namespace('App\Http\Controllers\Producer')
         ->group(base_path('routes/producer.php'));
 
     Route::get('/account/change/producer', [AccountChangeController::class, 'producer'])
