@@ -4,6 +4,7 @@ namespace App\View\Endorsements;
 
 use App\Models\User;
 use Spatie\ViewModels\ViewModel;
+use App\Models\EndorsementEndorser;
 
 class EndorsementIndexModel extends ViewModel
 {
@@ -11,10 +12,13 @@ class EndorsementIndexModel extends ViewModel
      * @var User
      */
     public $user;
+
     /**
      * @var \Illuminate\Support\Collection
      */
     public $endorsements;
+
+    public $pending_endorsements;
 
     /**
      * @var \Illuminate\Database\Eloquent\Relations\HasMany
@@ -45,6 +49,12 @@ class EndorsementIndexModel extends ViewModel
         $this->getPositions();
 
         $this->endorsements = $this->buildEndorsementCollection();
+
+        $this->pending_endorsements = EndorsementEndorser::where('user_id', auth()->user()->id)->with([
+            'request',
+            'owner',
+            'user.crew.crewPositions',
+        ])->get();
     }
 
     private function loadUser()

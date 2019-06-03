@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Faker;
+namespace Tests\Unit\Utils;
 
 use App\Faker\PhoneProvider;
 use App\Utils\StrUtils;

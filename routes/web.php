@@ -161,6 +161,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('crew/endorsement', [EndorsementPositionController::class, 'index'])
         ->name('crew.endorsement.index');
+    Route::delete('crew/endorsement/{endorsementEndorser}', [EndorsementPositionController::class, 'destroy'])
+        ->name('crew.endorsement.delete');
     Route::get('crew/endorsement/positions/{position}', [EndorsementPositionController::class, 'show'])
         ->name('crew.endorsement.position.show');
 

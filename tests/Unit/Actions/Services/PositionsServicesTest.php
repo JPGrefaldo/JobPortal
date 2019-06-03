@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Services;
+namespace Tests\Unit\Actions\Services;
 
 use App\Models\Position;
 use App\Services\PositionsServices;

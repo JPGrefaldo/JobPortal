@@ -10,7 +10,6 @@ use App\Models\CrewResume;
 use App\Models\CrewSocial;
 use App\Models\Position;
 use App\Models\Project;
-use App\Models\User;
 use App\Utils\UrlUtils;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
@@ -203,7 +202,7 @@ class CrewTest extends TestCase
         $randomPosition  = factory(Position::class)->create();
 
         // when
-        $crewPosition = factory(CrewPosition::class)
+        factory(CrewPosition::class)
             ->create([
                 'crew_id'     => $this->crew->id,
                 'position_id' => $appliedPosition->id,

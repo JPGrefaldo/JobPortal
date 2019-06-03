@@ -9,6 +9,7 @@ use App\Http\Requests\StoreCrewEndorsementRequest;
 use App\Models\Position;
 use App\View\Endorsements\EndorsementIndexModel;
 use App\View\Endorsements\EndorsementPositionShowModel;
+use App\Models\EndorsementEndorser;
 
 class EndorsementPositionController extends Controller
 {
@@ -39,11 +40,14 @@ class EndorsementPositionController extends Controller
     {
         $data = $request->validated();
 
+        $data['request_owner_id'] = auth()->user()->id;
+
         app(CreateEndorsementRequest::class)->execute(
             auth()->user(),
             $position,
             $data['email'],
-            $data['message']
+            $data['message'],
+            $data['request_owner_id']
         );
 
         return response('');
@@ -58,5 +62,12 @@ class EndorsementPositionController extends Controller
     public function show(Position $position)
     {
         return view('crew.endorsement.position.show', (new EndorsementPositionShowModel(auth()->user(), $position)));
+    }
+
+    public function destroy(EndorsementEndorser $endorsementEndorser)
+    {
+        $endorsementEndorser->delete();
+
+        return redirect(route('crew.endorsement.index'));
     }
 }
