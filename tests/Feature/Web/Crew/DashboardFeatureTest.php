@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Web\Crew;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
@@ -16,13 +16,13 @@ class DashboardFeatureTest extends TestCase
      */
     public function see_dashboard()
     {
-        $user = $this->createProducer();
+        $user = $this->createCrew();
 
         $response = $this->actingAs($user)->get(route('dashboard'));
 
-        $response->assertSee('Producer');
+        $response->assertSee('View Profile');
+        $response->assertSee('Edit Profile');
 
-        $response->assertDontSee('View Profile');
-        $response->assertDontSee('Edit Profile');
+        $response->assertDontSee('Producer');
     }
 }

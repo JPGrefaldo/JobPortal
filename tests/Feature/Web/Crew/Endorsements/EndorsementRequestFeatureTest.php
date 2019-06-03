@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Web\Crew\Endorsement;
 
 use App\Models\CrewPosition;
 use App\Models\Endorsement;

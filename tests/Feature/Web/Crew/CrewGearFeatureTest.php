@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Crews;
+namespace Tests\Feature\Web\Crew;
 
 use App\Models\Position;
 use Illuminate\Foundation\Testing\RefreshDatabase;

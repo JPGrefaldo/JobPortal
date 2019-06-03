@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Web\Auth;
 
 use App\Mail\ConfirmUserAccount;
 use App\Models\Role;
