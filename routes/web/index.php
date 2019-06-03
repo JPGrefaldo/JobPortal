@@ -86,18 +86,6 @@ Route::get('verify/email/{code}', [VerifyEmailController::class, 'verify'])
 |
 */
 Route::middleware('auth')->group(function () {
-    Route::middleware('role:Admin')
-        ->namespace('App\Http\Controllers\Admin')
-        ->group(base_path('routes/admin.php'));
-
-    Route::middleware('role:Crew')
-        ->namespace('App\Http\Controllers\Crew')
-        ->group(base_path('routes/crew.php'));
-
-    Route::middleware('role:Producer')
-        ->namespace('App\Http\Controllers\Producer')
-        ->group(base_path('routes/producer.php'));
-
     Route::get('/account/change/producer', [AccountChangeController::class, 'producer'])
         ->name('account.change-to.producer')
         ->middleware('role:Crew');
@@ -171,7 +159,6 @@ Route::middleware('auth')->group(function () {
         ->name('manager.resend-confirmation');
 
     Route::get('/messages', [MessageDashboardController::class, 'index'])->name('messages');
-
 
     Route::put('/pending-flag-messages/{pendingFlagMessage}', [PendingFlagMessageController::class, 'update'])
         ->name('pending-flag-messages.update');
