@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use App\Models\User;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
-use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 use Vinkla\Hashids\Facades\Hashids;
 
@@ -41,11 +40,11 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function map(Router $router)
+    public function map()
     {
-        $this->mapApiRoutes($router);
+        $this->mapApiRoutes();
 
-        $this->mapWebRoutes($router);
+        $this->mapWebRoutes();
     }
 
     /**
@@ -55,14 +54,9 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function mapWebRoutes(Router $router)
+    protected function mapWebRoutes()
     {
-        $router->group([
-            // 'namespace' => $this->namespace,
-            'middleware' => 'web',
-        ], function () {
-            require base_path('routes/web/index.php');
-        });
+        Route::middleware('web')->group(base_path('routes/web/index.php'));
     }
 
     /**
@@ -72,14 +66,8 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function mapApiRoutes(Router $router)
+    protected function mapApiRoutes()
     {
-        $router->group([
-            'prefix' => 'api',
-            // 'namespace' => $this->namespace,
-            'middleware' => 'api',
-        ], function () {
-            require base_path('routes/api/index.php');
-        });
+        Route::prefix('api')->middleware('api')->group(base_path('routes/api/index.php'));
     }
 }
