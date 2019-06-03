@@ -18,6 +18,7 @@ use App\Http\Controllers\Crew\Endorsements\EndorsementPositionController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\Manager\ManagerConfirmationController;
+use App\Http\Controllers\MessageDashboardController;
 use App\Http\Controllers\PendingFlagMessageController;
 use App\Http\Controllers\StaticPageController;
 use App\Http\Controllers\SubmissionController;
@@ -169,7 +170,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/account/manager/{manager}/resend-confirmation', [ManagerConfirmationController::class, 'resend'])
         ->name('manager.resend-confirmation');
 
-    Route::get('/messages', ['as' => 'messages', 'uses' => 'MessageDashboardController@index']);
+    Route::get('/messages', [MessageDashboardController::class, 'index'])->name('messages');
 
     Route::put('/pending-flag-messages/{pendingFlagMessage}', [PendingFlagMessageController::class, 'update'])
         ->name('pending-flag-messages.update');
