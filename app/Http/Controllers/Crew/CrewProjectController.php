@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Crew;
 
+use App\Actions\Crew\FetchJobByPosition;
 use App\Http\Controllers\Controller;
 use App\Models\Crew;
 use App\Models\Project;
@@ -36,13 +37,11 @@ class CrewProjectController extends Controller
         return view('projects.current-projects', compact('projects'));
     }
 
-    public function temp()
+    public function jobs()
     {
-        $projects = Project::has('jobs')->with(['jobs' => function($q) {
-            $q->withCount('submissions')->get();
-        }, 'jobs.position', 'jobs.pay_type'])
-        ->get();
+        $crew = auth()->user()->crew;
+        $jobs = app(FetchJobByPosition::class)->execute($crew);
 
-        return view('crew.projects', compact('projects'));
+        return view('crew.projects', compact('jobs'));
     }
 }

@@ -197,4 +197,4 @@ Route::post(
     '\Laravel\Cashier\Http\Controllers\WebhookController@handleWebhook'
 );
 
-Route::get('/crew-projects', [CrewProjectController::class, 'temp']);
+Route::get('/crew-projects', [CrewProjectController::class, 'jobs']);
