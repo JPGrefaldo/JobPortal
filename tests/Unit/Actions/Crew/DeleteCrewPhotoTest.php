@@ -45,13 +45,13 @@ class DeleteCrewPhotoTest extends TestCase
         app(StoreCrewPhoto::class)->execute($this->models['crew'], $data);
 
         //Then we assert the entry exists on s3
-        Storage::drive('s3')->assertExists($this->models['user']->hash_id . '/photos/' . $data['photo']->hashName());
+        Storage::drive('s3')->assertExists($this->models['crew']->photo_path);
 
         // Then we delete the entry we just created
-        app(DeleteCrewPhoto::class)->execute($this->models['crew'],);
+        app(DeleteCrewPhoto::class)->execute($this->models['crew']);
 
         // Then assert photo is deleted from s3
-        Storage::drive('s3')->assertMissing($this->models['user']->hash_id . '/photos/' . $data['photo']->hashName());
+         Storage::drive('s3')->assertMissing($this->models['crew']->photo_path);
 
         // Then assert photo_path missing
         $this->assertDatabaseHas('crews', [
