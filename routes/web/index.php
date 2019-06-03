@@ -86,10 +86,6 @@ Route::get('verify/email/{code}', [VerifyEmailController::class, 'verify'])
 |
 */
 Route::middleware('auth')->group(function () {
-    Route::middleware('role:Producer')
-        // ->namespace('App\Http\Controllers\Producer')
-        ->group(base_path('routes/producer.php'));
-
     Route::get('/account/change/producer', [AccountChangeController::class, 'producer'])
         ->name('account.change-to.producer')
         ->middleware('role:Crew');
