@@ -1,6 +1,6 @@
 <?php
 
-namespace Test\Feature\Manager;
+namespace Tests\Feature\Web\Manager;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;

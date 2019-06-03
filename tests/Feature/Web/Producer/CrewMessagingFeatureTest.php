@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Producer;
+namespace Tests\Feature\Web\Producer;
 
 use App\Models\Crew;
 use App\Models\Project;

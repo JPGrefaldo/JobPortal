@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Admin;
+namespace Tests\Feature\API\Admin;
 
 use App\Models\PendingFlagMessage;
 use Carbon\Carbon;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Crew;
+namespace Tests\Feature\Web\Crew;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
