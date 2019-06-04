@@ -63,4 +63,12 @@ class ProjectJob extends Model
     {
         return $this->hasMany(Submission::class, 'project_job_id');
     }
+
+    /**
+    * @return \Illuminate\Database\Eloquent\Relations\HasMany
+    */
+    public function crewIgnoredJobs()
+    {
+        return $this->hasMany(CrewIgnoredJobs::class, 'project_job_id');
+    }
 }
