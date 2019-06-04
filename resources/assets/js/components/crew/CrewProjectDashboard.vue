@@ -12,11 +12,29 @@
                                     {{ job.position.name }}
                                     <span class="badge"><strong>{{ job.persons_needed }}</strong> needed</span>
                                 </h3>
+                                <small class="font-bold font-header text-blue-darker block">
+                                    {{ job.project.title }}
+                                </small>
+                                <small class="text-blue-darker block mb-3">
+                                    {{ job.project.location }}
+                                </small>
 
                                 <div class="badge mt-3 text-black">
+
+                                      <div class="md:flex py-2">
+                                        <div class="md:w-1/3 pr-24">
+                                            <span class="font-bold font-header text-blue-darkr block md:text-right">
+                                                Rush Call
+                                            </span>
+                                        </div>
+                                        <div class="md:w-2/3">
+                                            {{ booleanForHumans(job.rush_call) }}
+                                        </div>
+                                    </div>
+
                                     <div class="md:flex py-2">
                                         <div class="md:w-1/3 pr-24">
-                                            <span class="font-bold font-header text-blue-darkr block md:text-right mb-3">
+                                            <span class="font-bold font-header text-blue-darkr block md:text-right mb-2">
                                                 PAY
                                             </span>
                                         </div>
@@ -27,7 +45,7 @@
 
                                     <div class="md:flex py-2">
                                         <div class="md:w-1/3 pr-24">
-                                            <span class="font-bold font-header text-blue-darkr block md:text-right mb-3">
+                                            <span class="font-bold font-header text-blue-darkr block md:text-right mb-2">
                                                 UNION
                                             </span>
                                         </div>
@@ -38,14 +56,27 @@
 
                                     <div class="md:flex py-2">
                                         <div class="md:w-1/3 pr-24">
-                                            <span class="font-bold font-header text-blue-darkr block md:text-right mb-3">
-                                                EQUIPMENT
+                                            <span class="font-bold font-header text-blue-darkr block md:text-right mb-2">
+                                                Gear Provided
                                             </span>
                                         </div>
                                         <div class="md:w-2/3">
-                                            provided by production
+                                            {{ job.gear_provided }}
                                         </div>
                                     </div>
+
+                                    <div class="md:flex py-2">
+                                        <div class="md:w-1/3 pr-24">
+                                            <span class="font-bold font-header text-blue-darkr block md:text-right mb-2">
+                                                Gear Needed
+                                            </span>
+                                        </div>
+                                        <div class="md:w-2/3">
+                                            {{ job.gear_needed }}
+                                        </div>
+                                    </div>
+
+
                                 </div>
       
                                 <div class="pt-4">
