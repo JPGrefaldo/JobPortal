@@ -14,7 +14,7 @@ class FlagMessageFeatureTest extends TestCase
      * @test
      * @covers \App\Http\Controllers\PendingFlagMessageController::update
      */
-    public function approvePendingFlagMessage()
+    public function approve_pending_flag_message()
     {
         // given
         $admin = $this->createAdmin();
@@ -36,7 +36,7 @@ class FlagMessageFeatureTest extends TestCase
      * @test
      * @covers \App\Http\Controllers\PendingFlagMessageController::update
      */
-    public function disapprovePendingFlagMessage()
+    public function disapprove_pending_flag_message()
     {
         // given
         $admin = $this->createAdmin();

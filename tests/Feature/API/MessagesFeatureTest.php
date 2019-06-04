@@ -109,7 +109,7 @@ class MessagesFeatureTest extends TestCase
     {
         // given
         $user   = $this->createCrew();
-        $thread = $this->seedConversation();
+        $thread = $this->seed_conversation();
 
         // when
         $response = $this->actingAs($user, 'api')
@@ -127,7 +127,7 @@ class MessagesFeatureTest extends TestCase
     {
         // given
         $user = $this->createProducer();
-        $thread = $this->seedConversation();
+        $thread = $this->seed_conversation();
 
         // when
         $response = $this->actingAs($user, 'api')
@@ -137,7 +137,7 @@ class MessagesFeatureTest extends TestCase
         $response->assertForbidden();
     }
 
-    private function seedConversation()
+    private function seed_conversation()
     {
         $crew     = $this->createCrew();
         $producer = $this->createProducer();

@@ -108,7 +108,7 @@ class StoreMessageCrewTest extends TestCase
         );
     }
 
-    protected function getData($producer)
+    protected function get_data($producer)
     {
         $data          = new \stdClass;
         $data->subject = $producer->fullName;

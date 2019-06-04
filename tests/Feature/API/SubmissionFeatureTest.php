@@ -156,7 +156,7 @@ class SubmissionFeatureTest extends TestCase
     public function can_approve_submissions()
     {
         $producer   = $this->createProducer();
-        $projectJob = $this->seedSubmission($producer);
+        $projectJob = $this->seed_submission($producer);
 
         $this->actingAs($producer, 'api')
             ->postJson(route(
@@ -174,7 +174,7 @@ class SubmissionFeatureTest extends TestCase
     public function can_reject_submissions()
     {
         $producer   = $this->createProducer();
-        $projectJob = $this->seedSubmission($producer);
+        $projectJob = $this->seed_submission($producer);
 
         $this->actingAs($producer, 'api')
             ->postJson(route(
@@ -192,7 +192,7 @@ class SubmissionFeatureTest extends TestCase
     public function can_restore_submissions()
     {
         $producer   = $this->createProducer();
-        $projectJob = $this->seedSubmission($producer);
+        $projectJob = $this->seed_submission($producer);
 
         $this->actingAs($producer, 'api')
             ->postJson(route(
@@ -218,7 +218,7 @@ class SubmissionFeatureTest extends TestCase
     public function can_swap_submissions()
     {
         $producer   = $this->createProducer();
-        $projectJob = $this->seedSubmission($producer);
+        $projectJob = $this->seed_submission($producer);
         $project    = factory(Project::class)->create([
             'user_id' => $producer->id,
         ]);
@@ -310,7 +310,7 @@ class SubmissionFeatureTest extends TestCase
     public function cannot_fetch_submmissions_as_crew()
     {
         $crew       = $this->createCrew();
-        $projectJob = $this->createProjectAndJob();
+        $projectJob = $this->create_project_and_job();
 
         $this->actingAs($crew, 'api')
             ->get(route(
@@ -328,7 +328,7 @@ class SubmissionFeatureTest extends TestCase
     public function cannot_store_a_submission_without_crew_role()
     {
         $user       = $this->createUser();
-        $projectJob = $this->createProjectAndJob();
+        $projectJob = $this->create_project_and_job();
         $data       = [];
 
         $this->actingAs($user, 'api')
@@ -350,7 +350,7 @@ class SubmissionFeatureTest extends TestCase
     public function cannot_approve_submissions_the_non_producer_role()
     {
         $producer   = $this->createProducer();
-        $projectJob = $this->seedSubmission($producer);
+        $projectJob = $this->seed_submission($producer);
         $user       = $this->createUser();
 
         $this->actingAs($user, 'api')
@@ -369,7 +369,7 @@ class SubmissionFeatureTest extends TestCase
     public function cannot_reject_submissions_the_non_producer_role()
     {
         $producer   = $this->createProducer();
-        $projectJob = $this->seedSubmission($producer);
+        $projectJob = $this->seed_submission($producer);
         $user       = $this->createUser();
 
         $this->actingAs($user, 'api')
@@ -388,7 +388,7 @@ class SubmissionFeatureTest extends TestCase
     public function cannot_restore_submissions_the_non_producer_role()
     {
         $producer   = $this->createProducer();
-        $projectJob = $this->seedSubmission($producer);
+        $projectJob = $this->seed_submission($producer);
         $user       = $this->createUser();
 
         $this->actingAs($user, 'api')
@@ -400,7 +400,7 @@ class SubmissionFeatureTest extends TestCase
             ->assertForbidden();
     }
 
-    protected function createProjectAndJob()
+    protected function create_project_and_job()
     {
         $producer = $this->createProducer();
 
@@ -415,7 +415,7 @@ class SubmissionFeatureTest extends TestCase
         return $projectJob;
     }
 
-    private function seedSubmission($producer)
+    private function seed_submission($producer)
     {
         $project  = factory(Project::class)->create([
             'user_id' => $producer->id,

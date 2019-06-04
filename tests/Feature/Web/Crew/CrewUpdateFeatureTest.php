@@ -21,7 +21,7 @@ class CrewUpdateFeatureTest extends TestCase
         Storage::fake('s3');
 
         $user = $this->createCrew();
-        $data = $this->getCreateData();
+        $data = $this->get_create_data();
 
         $this->user = $user;
 
@@ -35,7 +35,7 @@ class CrewUpdateFeatureTest extends TestCase
      */
     public function update()
     {
-        $data = $this->getUpdateData();
+        $data = $this->get_update_data();
 
         // when
         $response = $this->actingAs($this->user)
@@ -52,7 +52,7 @@ class CrewUpdateFeatureTest extends TestCase
     public function crew_photo_can_be_unpersisted()
     {
         // given
-        $data = $this->getUpdateData(['photo' => '']);
+        $data = $this->get_update_data(['photo' => '']);
 
         // when
         $response = $this->actingAs($this->user)
@@ -68,7 +68,7 @@ class CrewUpdateFeatureTest extends TestCase
      */
     public function socials_can_be_deleted()
     {
-        $data = $this->getUpdateData([
+        $data = $this->get_update_data([
             'socials.youtube.url'          => '',
             'socials.personal_website.url' => '',
         ]);
@@ -86,7 +86,7 @@ class CrewUpdateFeatureTest extends TestCase
     public function youtube_is_formatted_before_updated()
     {
         // given
-        $data = $this->getUpdateData([
+        $data = $this->get_update_data([
             'reel'                => 'https://www.youtube.com/watch?v=2-_rLbU6zJo',
             'socials.youtube.url' => 'https://www.youtube.com/watch?v=G8S81CEBdNs',
         ]);
@@ -106,7 +106,7 @@ class CrewUpdateFeatureTest extends TestCase
     public function vimeo_is_formatted_before_updated()
     {
         // given
-        $data = $this->getUpdateData(['reel' => 'https://vimeo.com/230046783']);
+        $data = $this->get_update_data(['reel' => 'https://vimeo.com/230046783']);
 
         // when
         $response = $this->actingAs($this->user)
@@ -122,7 +122,7 @@ class CrewUpdateFeatureTest extends TestCase
      */
     public function update_invalid_data()
     {
-        $data = $this->getUpdateData([
+        $data = $this->get_update_data([
             'photo'                        => UploadedFile::fake()->create('image.php'),
             'resume'                       => UploadedFile::fake()->create('resume.php'),
             'reel_link'                    => 'https://some-invalid-reel.com',
@@ -163,7 +163,7 @@ class CrewUpdateFeatureTest extends TestCase
     public function update_unauthorized()
     {
         $randomUser = $this->createUser();
-        $data = $this->getUpdateData();
+        $data = $this->get_update_data();
 
         $response = $this->actingAs($randomUser)
             ->put(route('crew.profile.update', $this->user->crew), $data);
@@ -176,7 +176,7 @@ class CrewUpdateFeatureTest extends TestCase
      *
      * @return array
      */
-    public function getCreateData($customData = [])
+    public function get_create_data($customData = [])
     {
         $data = [
             'bio'     => 'some bio',
@@ -219,7 +219,7 @@ class CrewUpdateFeatureTest extends TestCase
             ],
         ];
 
-        return $this->customizeData($data, $customData);
+        return $this->customize_data($data, $customData);
     }
 
     /**
@@ -228,7 +228,7 @@ class CrewUpdateFeatureTest extends TestCase
      *
      * @return mixed
      */
-    protected function customizeData($data, $customData)
+    protected function customize_data($data, $customData)
     {
         foreach ($customData as $key => $value) {
             Arr::set($data, $key, $value);
@@ -242,7 +242,7 @@ class CrewUpdateFeatureTest extends TestCase
      *
      * @return array
      */
-    public function getUpdateData($customData = [])
+    public function get_update_data($customData = [])
     {
         $data = [
             'bio'      => 'updated bio',
@@ -285,6 +285,6 @@ class CrewUpdateFeatureTest extends TestCase
             ],
         ];
 
-        return $this->customizeData($data, $customData);
+        return $this->customize_data($data, $customData);
     }
 }

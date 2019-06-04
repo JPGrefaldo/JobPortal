@@ -19,8 +19,8 @@ class ProjectFeatureTest extends TestCase
      */
     public function should_only_return_the_unapproved_project()
     {
-        factory(Project::class)->create($this->getApprovedProject());
-        factory(Project::class)->create($this->getUnapprovedProject());
+        factory(Project::class)->create($this->get_approved_project());
+        factory(Project::class)->create($this->get_unapproved_project());
 
         $admin    = $this->createAdmin();
         $response = $this->actingAs($admin, 'api')
@@ -48,7 +48,7 @@ class ProjectFeatureTest extends TestCase
     public function can_approve_project()
     {
         $admin   = $this->createAdmin();
-        $project = factory(Project::class)->create($this->getUnapprovedProject());
+        $project = factory(Project::class)->create($this->get_unapproved_project());
 
         $this->assertEquals(Project::PENDING, $project->status);
 
@@ -67,7 +67,7 @@ class ProjectFeatureTest extends TestCase
     public function can_unapprove_projects()
     {
         $admin   = $this->createAdmin();
-        $project = factory(Project::class)->create($this->getUnapprovedProject());
+        $project = factory(Project::class)->create($this->get_unapproved_project());
 
         $this->actingAs($admin, 'api')
             ->putJson(route('admin.projects.unapprove', $project))
@@ -78,7 +78,7 @@ class ProjectFeatureTest extends TestCase
         $this->assertNull($project->refresh()->approved_at);
     }
 
-    protected function getApprovedProject()
+    protected function get_approved_project()
     {
         return [
             'user_id'                => $this->createProducer(),
@@ -89,7 +89,7 @@ class ProjectFeatureTest extends TestCase
         ];
     }
 
-    protected function getUnapprovedProject()
+    protected function get_unapproved_project()
     {
         return [
             'user_id'                => $this->createProducer(),

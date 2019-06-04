@@ -22,7 +22,7 @@ class UpdateProjectTest extends TestCase
     public function update()
     {
         $user        = $this->createProducer();
-        $project     = $this->createProject($user);
+        $project     = $this->create_project($user);
         $remoteSites = factory(Site::class, 2)->create();
         $data        = [
             'title'                  => 'Updated Title',
@@ -72,7 +72,7 @@ class UpdateProjectTest extends TestCase
     public function update_no_location()
     {
         $user    = $this->createProducer();
-        $project = $this->createProject($user);
+        $project = $this->create_project($user);
         $data    = [
             'title'                  => 'Updated Title',
             'production_name'        => 'Updated Production Name',
@@ -109,7 +109,7 @@ class UpdateProjectTest extends TestCase
     public function update_remotes_does_not_include_current_site()
     {
         $user        = $this->createProducer();
-        $project     = $this->createProject($user);
+        $project     = $this->create_project($user);
         $remoteSites = factory(Site::class, 2)->create();
         $data        = [
             'title'                  => 'Updated Title',
@@ -160,7 +160,7 @@ class UpdateProjectTest extends TestCase
     public function update_with_existing_remotes()
     {
         $user          = $this->createProducer();
-        $project       = $this->createProject($user);
+        $project       = $this->create_project($user);
         $remoteProject = factory(RemoteProject::class)->create(['project_id' => $project->id]);
         $remoteSites   = factory(Site::class, 2)->create();
         $data          = [
@@ -213,7 +213,7 @@ class UpdateProjectTest extends TestCase
     public function update_remove_all_existing_remotes()
     {
         $user           = $this->createProducer();
-        $project        = $this->createProject($user);
+        $project        = $this->create_project($user);
         $remoteProjects = factory(RemoteProject::class, 2)->create(['project_id' => $project->id]);
         $data           = [
             'title'                  => 'Updated Title',
@@ -253,7 +253,7 @@ class UpdateProjectTest extends TestCase
     public function update_invalid_required()
     {
         $user    = $this->createProducer();
-        $project = $this->createProject($user);
+        $project = $this->create_project($user);
         $data    = [
             'title'                  => '',
             'production_name'        => '',
@@ -283,7 +283,7 @@ class UpdateProjectTest extends TestCase
     public function update_invalid_data()
     {
         $user    = $this->createProducer();
-        $project = $this->createProject($user);
+        $project = $this->create_project($user);
         $data    = [
             'title'                  => 'as',
             'production_name'        => 'as',
@@ -363,7 +363,7 @@ class UpdateProjectTest extends TestCase
      *
      * @return \App\Models\Project
      */
-    private function createProject(User $user, $attributes = [])
+    private function create_project(User $user, $attributes = [])
     {
         $attributes['user_id'] = $user->id;
         $attributes['site_id'] = $this->getCurrentSite()->id;

@@ -17,7 +17,7 @@ class PendingFlagMessageFeatureTest extends TestCase
      * @test
      * @covers \App\Http\Controllers\PendingFlagMessageController::store
      */
-    public function crewFlagProducerMessage()
+    public function crew_flag_producer_message()
     {
         // given
         $crew = $this->createCrew();
@@ -57,7 +57,7 @@ class PendingFlagMessageFeatureTest extends TestCase
      * @test
      * @covers \App\Http\Controllers\PendingFlagMessageController::store
      */
-    public function producerFlagCrewMessage()
+    public function producer_flag_crew_message()
     {
         // given
         $producer = $this->createProducer();

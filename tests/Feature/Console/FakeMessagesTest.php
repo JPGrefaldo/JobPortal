@@ -41,7 +41,7 @@ class FakeMessagesTest extends TestCase
      */
     public function should_get_existing_users_when_sender_and_receiver_options_is_present()
     {
-        $this->runCommand();
+        $this->run_command();
         $users = User::all();
         $this->assertCount(2, $users);
         $this->assertTrue($users[0]->hasRole(Role::PRODUCER));
@@ -57,7 +57,7 @@ class FakeMessagesTest extends TestCase
     {
         $this->assertCount(0, Project::all());
 
-        $this->runCommand();
+        $this->run_command();
 
         $this->assertCount(1, Project::all());
     }
@@ -70,7 +70,7 @@ class FakeMessagesTest extends TestCase
     {
         $this->assertCount(0, Thread::all());
 
-        $this->runCommand();
+        $this->run_command();
 
         $this->assertCount(1, Thread::all());
     }
@@ -83,7 +83,7 @@ class FakeMessagesTest extends TestCase
     {
         $this->assertCount(0, ProjectThread::all());
 
-        $this->runCommand();
+        $this->run_command();
 
         $this->assertCount(1, ProjectThread::all());
     }
@@ -96,7 +96,7 @@ class FakeMessagesTest extends TestCase
     {
         $this->assertCount(0, Message::all());
 
-        $this->runCommand();
+        $this->run_command();
         $this->assertCount(2, Message::all());
     }
 
@@ -108,7 +108,7 @@ class FakeMessagesTest extends TestCase
     {
         $this->assertCount(0, Participant::all());
 
-        $this->runCommand();
+        $this->run_command();
         $this->assertCount(2, Participant::all());
     }
 
@@ -140,7 +140,7 @@ class FakeMessagesTest extends TestCase
             ->run();
     }
 
-    private function runCommand()
+    private function run_command()
     {
         $sender   = $this->createParticipant();
         $receiver = $this->createParticipant('crew');

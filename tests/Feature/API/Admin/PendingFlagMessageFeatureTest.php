@@ -12,7 +12,7 @@ class PendingFlagMessageFeatureTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
 
-    private function getPendingFlaggedMessage()
+    private function get_pending_flagged_message()
     {
         return [
             'approved_at'    => null,
@@ -21,7 +21,7 @@ class PendingFlagMessageFeatureTest extends TestCase
         ];
     }
 
-    private function getApprovedFlagMessage()
+    private function get_approved_flag_message()
     {
         return [
             'approved_at'    => Carbon::now(),
@@ -30,7 +30,7 @@ class PendingFlagMessageFeatureTest extends TestCase
         ];
     }
 
-    private function getDisapprovedFlagMessage()
+    private function get_disapproved_flag_message()
     {
         return [
             'approved_at'    => null,
@@ -46,7 +46,7 @@ class PendingFlagMessageFeatureTest extends TestCase
     public function admin_can_see_pending_flag_messages()
     {
         $pendingFlagMessage = factory(PendingFlagMessage::class)->create(
-            $this->getPendingFlaggedMessage()
+            $this->get_pending_flagged_message()
         );
 
         $admin = $this->createAdmin();
@@ -119,7 +119,7 @@ class PendingFlagMessageFeatureTest extends TestCase
      */
     public function admin_can_approve_pending_flag_message()
     {
-        $pendingFlagMessage = factory(PendingFlagMessage::class)->create($this->getPendingFlaggedMessage());
+        $pendingFlagMessage = factory(PendingFlagMessage::class)->create($this->get_pending_flagged_message());
 
         $this->assertEquals(PendingFlagMessage::UNAPPROVED, $pendingFlagMessage->status);
 
@@ -140,7 +140,7 @@ class PendingFlagMessageFeatureTest extends TestCase
      */
     public function admin_can_disapprove_pending_flag_message()
     {
-        $pendingFlagMessage = factory(PendingFlagMessage::class)->create($this->getPendingFlaggedMessage());
+        $pendingFlagMessage = factory(PendingFlagMessage::class)->create($this->get_pending_flagged_message());
 
         $this->assertEquals(PendingFlagMessage::UNAPPROVED, $pendingFlagMessage->status);
 

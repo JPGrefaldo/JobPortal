@@ -20,7 +20,7 @@ class MessengerFeatureTest extends TestCase
     public function can_store_a_message()
     {
         $producer  = $this->createProducer();
-        $response  = $this->mockStoreMessage($producer);
+        $response  = $this->mock_store_message($producer);
 
         $response->assertJsonFragment(['body'    => 'Some message']);
         $response->assertJsonFragment(['subject' => 'Some subject']);
@@ -33,7 +33,7 @@ class MessengerFeatureTest extends TestCase
     public function can_reply_a_message()
     {
         $producer  = $this->createProducer();
-        $response  = $this->mockStoreMessage($producer);
+        $response  = $this->mock_store_message($producer);
         $thread    = Thread::find(1);
 
         $data = [
@@ -128,7 +128,7 @@ class MessengerFeatureTest extends TestCase
         ]);
     }
 
-    private function mockStoreMessage($producer)
+    private function mock_store_message($producer)
     {
         $recipient  = $this->createCrew();
 

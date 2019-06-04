@@ -86,7 +86,7 @@ class CrewPositionTest extends TestCase
      * @test
      * @covers \App\Models\CrewPosition::scopeByCrewAndPosition
      */
-    public function scopeByCrewAndPosition()
+    public function scope_by_crew_and_position()
     {
         $this->assertEquals(
             $this->crewPosition->id,

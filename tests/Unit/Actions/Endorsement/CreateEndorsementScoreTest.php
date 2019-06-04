@@ -43,7 +43,7 @@ class CreateEndorsementScoreTest extends TestCase
 
         $this->crew = $this->createCrew()->crew;
         $this->position = $this->getRandomPosition();
-        $this->crewPosition = $this->createCrewPosition($this->crew);
+        $this->crewPosition = $this->create_crew_position($this->crew);
         $this->service = app(CreateEndorsementScore::class);
     }
 
@@ -54,8 +54,8 @@ class CreateEndorsementScoreTest extends TestCase
     public function random_mix_of_sweetened_and_not()
     {
         $totalEndorsements = 10;
-        $endorsementCount = $this->generateEndorsements($totalEndorsements, rand(0, 1));
-        $score = $this->calculateScore($endorsementCount, $totalEndorsements);
+        $endorsementCount = $this->generate_endorsements($totalEndorsements, rand(0, 1));
+        $score = $this->calculate_score($endorsementCount, $totalEndorsements);
 
         $this->assertEquals(
             $score,
@@ -75,9 +75,9 @@ class CreateEndorsementScoreTest extends TestCase
     public function sweetened()
     {
         $totalEndorsements = 4;
-        $endorsementCount = $this->generateEndorsements($totalEndorsements, 1);
+        $endorsementCount = $this->generate_endorsements($totalEndorsements, 1);
 
-        $score = $this->calculateScore($endorsementCount, $totalEndorsements);
+        $score = $this->calculate_score($endorsementCount, $totalEndorsements);
 
         $this->assertEquals(
             $score,
@@ -97,9 +97,9 @@ class CreateEndorsementScoreTest extends TestCase
     public function non_sweetened()
     {
         $totalEndorsements = 4;
-        $endorsementCount = $this->generateEndorsements($totalEndorsements, 0);
+        $endorsementCount = $this->generate_endorsements($totalEndorsements, 0);
 
-        $score = $this->calculateScore($endorsementCount, $totalEndorsements);
+        $score = $this->calculate_score($endorsementCount, $totalEndorsements);
 
         $this->assertEquals(
             $score,
@@ -122,7 +122,7 @@ class CreateEndorsementScoreTest extends TestCase
         $totalEndorsements = 0;
 
         $this->assertEquals(
-            $this->calculateScore($endorsementCount, $totalEndorsements),
+            $this->calculate_score($endorsementCount, $totalEndorsements),
             $this->service->execute($this->crewPosition)
         );
 
@@ -135,7 +135,7 @@ class CreateEndorsementScoreTest extends TestCase
     /**
      * @param Crew $crew
      */
-    private function createEndorsement($crew)
+    private function create_endorsement($crew)
     {
         $request = factory(EndorsementRequest::class)->create([
             'endorsement_endorser_id' => EndorsementEndorser::create([
@@ -155,7 +155,7 @@ class CreateEndorsementScoreTest extends TestCase
      * @param $position
      * @param $total
      */
-    private function createTotalEndorsements($position, $total)
+    private function create_total_endorsements($position, $total)
     {
         for ($i = 1; $i <= $total; $i++) {
             $request     = factory(EndorsementRequest::class)->create();
@@ -170,7 +170,7 @@ class CreateEndorsementScoreTest extends TestCase
      * @param Crew $crew
      * @return \App\Models\CrewEndorsementScoreSweetener
      */
-    private function createSweetener($crew)
+    private function create_sweetener($crew)
     {
         $randomSweetener = [
             0 => 10,
@@ -190,7 +190,7 @@ class CreateEndorsementScoreTest extends TestCase
      * @param Crew $crew
      * @return mixed
      */
-    private function createCrewPosition($crew)
+    private function create_crew_position($crew)
     {
         return factory(CrewPosition::class)->create([
             'crew_id'     => $crew->id,
@@ -203,7 +203,7 @@ class CreateEndorsementScoreTest extends TestCase
      * @param int $totalEndorsements
      * @return float|int
      */
-    private function calculateScore(int $endorsementCount, int $totalEndorsements)
+    private function calculate_score(int $endorsementCount, int $totalEndorsements)
     {
         return ($endorsementCount + 1) / ($totalEndorsements + 1);
     }
@@ -212,22 +212,22 @@ class CreateEndorsementScoreTest extends TestCase
      * @param int $totalEndorsements
      * @return int
      */
-    private function generateEndorsements(int $totalEndorsements, $doSweetener): int
+    private function generate_endorsements(int $totalEndorsements, $doSweetener): int
     {
         $endorsementCount = 0;
         $endorser = [];
         for ($i = 1; $i <= $totalEndorsements; $i++) {
             $endorser[$i] = $this->createCrew()->crew;
-            $position     = $this->createCrewPosition($endorser[$i]);
-            $this->createEndorsement($endorser[$i]);
+            $position     = $this->create_crew_position($endorser[$i]);
+            $this->create_endorsement($endorser[$i]);
 
             if ($doSweetener == 1) {
-                $sweetener        = $this->createSweetener($endorser[$i]);
+                $sweetener        = $this->create_sweetener($endorser[$i]);
                 $endorsementCount += $sweetener->sweetener;
             }
 
             $total = rand(5, 25);
-            $this->createTotalEndorsements($position, $total);
+            $this->create_total_endorsements($position, $total);
             $endorsementCount += $total;
         }
 

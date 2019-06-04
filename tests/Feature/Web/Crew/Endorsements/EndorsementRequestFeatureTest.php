@@ -24,7 +24,7 @@ class EndorsementRequestFeatureTest extends TestCase
     public function destroy()
     {
         $this->disableExceptionHandling();
-        list($user, $postition, $request) = $this->createEndorsement(Carbon::now());
+        list($user, $postition, $request) = $this->create_endorsement(Carbon::now());
 
         $this->actingAs($user);
 
@@ -39,9 +39,9 @@ class EndorsementRequestFeatureTest extends TestCase
     /**
      * @test
      */
-    public function deletePendingEndorsement()
+    public function delete_pending_endorsement()
     {
-        list($user1, $postition, $request) = $this->createEndorsement(Carbon::now());
+        list($user1, $postition, $request) = $this->create_endorsement(Carbon::now());
 
         $this->actingAs($user1);
 
@@ -58,7 +58,7 @@ class EndorsementRequestFeatureTest extends TestCase
     /**
      * @return array
      */
-    private function createEndorsement($approved_at = null): array
+    private function create_endorsement($approved_at = null): array
     {
         $endorser = factory(EndorsementEndorser::class)->create();
 

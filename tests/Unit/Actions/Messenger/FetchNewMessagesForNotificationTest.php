@@ -24,7 +24,7 @@ class FetchNewMessagesForNotificationTest extends TestCase
         $crew     = $this->createCrew();
         $producer = $this->createProducer();
 
-        $this->seedThreadMessagesAndReplies($crew, $producer);
+        $this->seed_thread_messages_and_replies($crew, $producer);
 
         $threads = app(FetchNewMessagesForNotification::class)->execute($producer);
 
@@ -50,7 +50,7 @@ class FetchNewMessagesForNotificationTest extends TestCase
      * @param User $producer
      * @return void
      */
-    private function seedThreadMessagesAndReplies(User $crew, User $producer)
+    private function seed_thread_messages_and_replies(User $crew, User $producer)
     {
         // Given we have a thread
         $thread = factory(Thread::class)->create([

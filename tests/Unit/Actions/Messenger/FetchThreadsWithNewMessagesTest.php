@@ -18,8 +18,8 @@ class FetchThreadsWithNewMessagesTest extends TestCase
      */
     public function get_the_threads_that_has_new_messages()
     {
-        // Given and When please refer to seedConversation()
-        $threads = $this->seedConversation();
+        // Given and When please refer to seed_conversation()
+        $threads = $this->seed_conversation();
 
         // Then we map through the thread's message(s)
         $threads->map(function ($thread) {
@@ -33,7 +33,7 @@ class FetchThreadsWithNewMessagesTest extends TestCase
         });
     }
 
-    private function seedConversation()
+    private function seed_conversation()
     {
         $crew     = $this->createCrew();
         $producer = $this->createProducer();

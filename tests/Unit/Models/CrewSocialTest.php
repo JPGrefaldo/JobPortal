@@ -29,7 +29,7 @@ class CrewSocialTest extends TestCase
      * @test
      * @covers \App\Models\CrewSocial::socialLinkType
      */
-    public function socialLinkType()
+    public function social_link_type()
     {
         $socialLinkType = factory(SocialLinkType::class)->create();
         $crewSocial = factory(CrewSocial::class)->create([
