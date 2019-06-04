@@ -4,7 +4,7 @@ namespace App\Actions\Crew;
 
 use App\Models\Crew;
 use App\Models\ProjectJob;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 
 class FetchJobByPosition
 {
@@ -14,10 +14,12 @@ class FetchJobByPosition
      * @param Crew $crew
      * @return Collection
      */
-    public function execute(Crew $crew): Collection
+    public function execute(Crew $crew)
     {
-        return ProjectJob::whereIn('position_id', $this->getPositionIds($crew))
-                        ->with('pay_type', 'position')
+        return ProjectJob::whereDoesntHave('crewIgnoredJobs')
+                        ->whereDoesntHave('submissions')
+                        ->whereIn('position_id', $this->getPositionIds($crew))
+                        ->with('pay_type', 'position', 'project')
                         ->withCount('submissions')
                         ->get();
     }
