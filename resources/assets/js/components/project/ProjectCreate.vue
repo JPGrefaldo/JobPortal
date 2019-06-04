@@ -1,7 +1,7 @@
 <template>
-    <main class="md:w-3/4 float-left">
+    <div class="md:w-3/4 float-left">
         <project-form :mode="'create'"></project-form>
-    </main>
+    </div>
 </template>
 
 <script>

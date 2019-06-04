@@ -1,5 +1,5 @@
 <template>
-    <main class="float-left w-full py-md md:py-lg px-3">
+    <div class="py-md md:py-lg px-3">
         <div class="container">
 
             <project-side-nav :projects="projects"></project-side-nav>
@@ -58,7 +58,7 @@
             </div>
 
         </div>
-    </main>
+    </div>
 </template>
 
 <script>
