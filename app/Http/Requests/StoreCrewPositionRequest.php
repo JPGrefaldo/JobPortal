@@ -28,8 +28,8 @@ class StoreCrewPositionRequest extends FormRequest
      */
     public function rules()
     {
-        $position = Position::find($this->position_id);
-        $crewPosition = CrewPosition::where('crew_id', auth()->user()->crew->id)->where('position_id', $this->position)->first();
+        $position     = $this->position;
+        $crewPosition = CrewPosition::byCrewAndPosition(auth()->user()->crew, $position)->first();
 
         if (isset($crewPosition)) {
             $crew_resume = CrewResume::where('crew_position_id', $crewPosition->id)->first();
