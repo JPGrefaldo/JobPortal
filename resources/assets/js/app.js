@@ -57,6 +57,7 @@ Vue.component('cca-project-job-submissions', require('./components/project/Proje
 Vue.component('cca-crew-current-projects', require('./components/crew/CrewProjectList').default);
 Vue.component('cca-crew-projects', require('./components/crew/CrewProjectDashboard').default);
 Vue.component('file-pond', require('./components/FilePondComponent').default);
+Vue.component('cca-delete-crew-profile-photo', require('./components/DeleteCrewProfilePhotoComponent').default);
 
 new Vue({
     el: '#nav-container',
