@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Account;
 
 use App\Actions\User\CloseUserAccount;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class AccountCloseController extends Controller
@@ -11,7 +12,7 @@ class AccountCloseController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
@@ -23,7 +24,7 @@ class AccountCloseController extends Controller
 
     /**
      * @param CloseUserAccount $closeUserAccount
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy(CloseUserAccount $closeUserAccount)
     {

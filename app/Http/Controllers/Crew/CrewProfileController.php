@@ -8,20 +8,20 @@ use App\Actions\Crew\UpdateCrew;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateCrewRequest;
 use App\Http\Requests\CreatePhotoRequest;
-use App\Models\Crew;
-use App\Models\CrewReel;
-use App\Models\CrewResume;
 use App\Models\SocialLinkType;
 use App\Models\User;
 use App\Services\DepartmentsServices;
 use Auth;
+use Exception;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Response;
 
 class CrewProfileController extends Controller
 {
     /**
      * shows the logged in user's crew profile
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
@@ -42,16 +42,6 @@ class CrewProfileController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return redirect(route('crew.profile.edit'));
-    }
-
-    /**
      * Get all the social link type via service.
      *
      * @return App\Models\SocialLinkType
@@ -66,7 +56,7 @@ class CrewProfileController extends Controller
     }
 
     /**
-     * @return \App\Services\DepartmentsServices[]|\Illuminate\Database\Eloquent\Collection
+     * @return DepartmentsServices[]|Collection
      */
     public function getDepartments()
     {
@@ -80,16 +70,26 @@ class CrewProfileController extends Controller
      */
     public function getCrewPositions($user)
     {
-        $positions =  $user->crew->positions;
+        $positions = $user->crew->positions;
         return $positions;
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function create()
+    {
+        return redirect(route('crew.profile.edit'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param CreateCrewRequest $request
-     * @return \Illuminate\Http\Response
-     * @throws \Exception
+     * @return Response
+     * @throws Exception
      */
     public function store(CreateCrewRequest $request)
     {
@@ -104,8 +104,8 @@ class CrewProfileController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \App\Http\Requests\CreatePhotoRequest $request
-     * @return \Illuminate\Http\Response
+     * @param CreatePhotoRequest $request
+     * @return Response
      */
     public function storePhoto(CreatePhotoRequest $request)
     {
@@ -121,8 +121,8 @@ class CrewProfileController extends Controller
      * Display the specified resource.
      * Shows another crew's profile that is not of the logged in user
      *
-     * @param \App\Models\User $user
-     * @return \Illuminate\Http\Response
+     * @param User $user
+     * @return Response
      */
     public function show(User $user)
     {
@@ -143,7 +143,7 @@ class CrewProfileController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit()
     {
@@ -167,8 +167,8 @@ class CrewProfileController extends Controller
      * Update the specified resource in storage.
      *
      * @param CreateCrewRequest $request
-     * @return \Illuminate\Http\Response
-     * @throws \Exception
+     * @return Response
+     * @throws Exception
      */
     public function update(CreateCrewRequest $request)
     {
@@ -183,8 +183,8 @@ class CrewProfileController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function destroy($id)
     {

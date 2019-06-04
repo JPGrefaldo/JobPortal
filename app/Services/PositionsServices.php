@@ -11,7 +11,7 @@ class PositionsServices
     /**
      * @param array $data
      *
-     * @return \App\Models\Position
+     * @return Position
      */
     public function create(array $data)
     {
@@ -21,18 +21,19 @@ class PositionsServices
     }
 
     /**
-     * @param array $data
-     * @param \App\Models\Position $position
+     * Format and set default values
      *
-     * @return \App\Models\Position
+     * @param array $data
+     *
+     * @return array
      */
-    public function update(array $data, Position $position)
+    public function prepareData(array $data)
     {
-        $data = $this->prepareData($this->filterData($data));
+        $data['name'] = Str::title($data['name']);
+        $data['has_gear'] = Arr::get($data, 'has_gear', 0);
+        $data['has_union'] = Arr::get($data, 'has_union', 0);
 
-        $position->update($data);
-
-        return $position;
+        return $data;
     }
 
     /**
@@ -52,18 +53,17 @@ class PositionsServices
     }
 
     /**
-     * Format and set default values
-     *
      * @param array $data
+     * @param Position $position
      *
-     * @return array
+     * @return Position
      */
-    public function prepareData(array $data)
+    public function update(array $data, Position $position)
     {
-        $data['name'] = Str::title($data['name']);
-        $data['has_gear'] = Arr::get($data, 'has_gear', 0);
-        $data['has_union'] = Arr::get($data, 'has_union', 0);
+        $data = $this->prepareData($this->filterData($data));
 
-        return $data;
+        $position->update($data);
+
+        return $position;
     }
 }

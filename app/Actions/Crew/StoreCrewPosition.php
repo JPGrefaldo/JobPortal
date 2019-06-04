@@ -5,14 +5,15 @@ namespace App\Actions\Crew;
 use App\Models\Crew;
 use App\Models\CrewPosition;
 use App\Models\Position;
+use Exception;
 
 class StoreCrewPosition
 {
     /**
-     * @param \App\Models\Crew $crew
-     * @param \App\Models\Position $position
+     * @param Crew $crew
+     * @param Position $position
      * @param array $data
-     * @throws \Exception
+     * @throws Exception
      */
     public function execute(Crew $crew, Position $position, array $data): void
     {

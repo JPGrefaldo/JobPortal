@@ -25,9 +25,9 @@ class MessagesFeatureTest extends TestCase
     public function index_as_crew()
     {
         // given
-        $crew     = $this->createCrew();
+        $crew = $this->createCrew();
         $producer = $this->createProducer();
-        $thread   = $producer->threads()->create([
+        $thread = $producer->threads()->create([
             'subject' => $producer->full_name,
         ]);
 
@@ -71,7 +71,7 @@ class MessagesFeatureTest extends TestCase
     {
         // given
         $producer = $this->createProducer();
-        $thread   = $producer->threads()->create([
+        $thread = $producer->threads()->create([
             'subject' => $producer->full_name,
         ]);
 
@@ -108,7 +108,7 @@ class MessagesFeatureTest extends TestCase
     public function crew_cant_see_messages_if_not_participant_of_a_thread()
     {
         // given
-        $user   = $this->createCrew();
+        $user = $this->createCrew();
         $thread = $this->seedConversation();
 
         // when
@@ -139,7 +139,7 @@ class MessagesFeatureTest extends TestCase
 
     private function seedConversation()
     {
-        $crew     = $this->createCrew();
+        $crew = $this->createCrew();
         $producer = $this->createProducer();
 
         $project = factory(Project::class)->create([
@@ -163,8 +163,8 @@ class MessagesFeatureTest extends TestCase
 
         // And when a new reply in the thread is added (message)
         $thread->messages()->create([
-            'user_id'   => $producer->id,
-            'body'      => 'Test Reply Message',
+            'user_id' => $producer->id,
+            'body'    => 'Test Reply Message',
         ]);
 
         return $thread;

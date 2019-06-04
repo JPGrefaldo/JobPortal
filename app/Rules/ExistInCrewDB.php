@@ -4,11 +4,13 @@ namespace App\Rules;
 
 use App\Actions\Crew\GetCrewPositionByPosition;
 use App\Models\Position;
+use Exception;
 use Illuminate\Contracts\Validation\ImplicitRule;
 
 class ExistInCrewDB implements ImplicitRule
 {
     private $crewPosition;
+
     /**
      * Create a new rule instance.
      *
@@ -19,11 +21,22 @@ class ExistInCrewDB implements ImplicitRule
         $this->crewPosition = $this->getCrewPosition(request()->position_id);
     }
 
+    private function getCrewPosition($position)
+    {
+        $position = Position::find($position);
+
+        try {
+            return app(GetCrewPositionByPosition::class)->execute(auth()->user(), $position);
+        } catch (Exception $ex) {
+            return false;
+        }
+    }
+
     /**
      * Determine if the validation rule passes.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
+     * @param string $attribute
+     * @param mixed $value
      * @return bool
      */
     public function passes($attribute, $value)
@@ -43,17 +56,5 @@ class ExistInCrewDB implements ImplicitRule
     public function message()
     {
         return ':attribute is required';
-    }
-
-
-    private function getCrewPosition($position)
-    {
-        $position = Position::find($position);
-
-        try {
-            return app(GetCrewPositionByPosition::class)->execute(auth()->user(), $position);
-        } catch (\Exception $ex) {
-            return false;
-        }
     }
 }

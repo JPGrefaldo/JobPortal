@@ -6,6 +6,7 @@ use App\Actions\Endorsement\GetEndorsements;
 use App\Models\Position;
 use App\Models\User;
 use App\View\InitialJS;
+use Illuminate\Support\Collection;
 use Spatie\ViewModels\ViewModel;
 
 class EndorsementPositionShowModel extends ViewModel
@@ -21,16 +22,16 @@ class EndorsementPositionShowModel extends ViewModel
     public $position;
 
     /**
-     * @var \Illuminate\Support\Collection
+     * @var Collection
      */
     public $approvedEndorsements;
 
     /**
-     * @var \Illuminate\Support\Collection
+     * @var Collection
      */
     public $pendingEndorsements;
     /**
-     * @var \Illuminate\Support\Collection
+     * @var Collection
      */
     public $initJS;
 

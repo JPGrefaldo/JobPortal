@@ -23,7 +23,7 @@ class CrewDepartmentPositionFeatureTest extends TestCase
     public function store()
     {
         Storage::fake('s3');
-        $crew     = $this->createCrew();
+        $crew = $this->createCrew();
         $position = factory(Position::class)->create();
 
         $data = [

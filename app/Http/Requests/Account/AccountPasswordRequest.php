@@ -25,8 +25,8 @@ class AccountPasswordRequest extends FormRequest
     public function rules()
     {
         return [
-            'current_password'  => UserRules::currentPassword(),
-            'password'          => UserRules::confirmedPassword(),
+            'current_password' => UserRules::currentPassword(),
+            'password'         => UserRules::confirmedPassword(),
         ];
     }
 }

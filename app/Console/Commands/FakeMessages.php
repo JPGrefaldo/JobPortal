@@ -52,10 +52,10 @@ class FakeMessages extends Command
 
         if (empty($user['sender']) || empty($user['receiver'])) {
             $this->info('Creating new 2 users with a producer and crew role respectively');
-            $sender   = $this->createUser();
+            $sender = $this->createUser();
             $receiver = $this->createUser('crew');
         } else {
-            $sender   = User::find($user['sender']);
+            $sender = User::find($user['sender']);
             $receiver = User::find($user['receiver']);
         }
 

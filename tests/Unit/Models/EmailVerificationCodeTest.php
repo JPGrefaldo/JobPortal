@@ -3,7 +3,6 @@
 namespace Tests\Unit\Models;
 
 use App\Models\EmailVerificationCode;
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

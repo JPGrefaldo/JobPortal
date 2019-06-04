@@ -14,14 +14,14 @@ class StoreThreadTest extends TestCase
     use RefreshDatabase, SeedDatabaseAfterRefresh;
 
     /**
-    * @test
-    * @covers App\Actions\Messenger\StoreThread::execute
-    */
+     * @test
+     * @covers App\Actions\Messenger\StoreThread::execute
+     */
     public function can_store_a_thread()
     {
-        $subject  = 'Some test subject';
-        $project  = factory(Project::class)->create();
-        
+        $subject = 'Some test subject';
+        $project = factory(Project::class)->create();
+
         app(StoreThread::class)->execute($project, $subject);
 
         $this->assertCount(1, Thread::all());

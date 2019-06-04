@@ -11,7 +11,7 @@ class DenyProject
     {
         $project->delete();
         $project->deniedReason()->create([
-            'body' => $reason
+            'body' => $reason,
         ]);
 
         event(new ProjectDenied($project));

@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Collection;
 class FetchSubmissions
 {
     /**
-     * @param \App\Models\ProjectJob $job
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @param ProjectJob $job
+     * @return Collection
      */
     public function execute(ProjectJob $job): Collection
     {

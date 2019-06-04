@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 class StoreCrewPhoto
 {
     /**
-     * @param \App\Models\Crew $crew
+     * @param Crew $crew
      * @param array $data
      */
     public function execute(Crew $crew, array $data): void
@@ -29,7 +29,7 @@ class StoreCrewPhoto
     }
 
     /**
-     * @param \App\Models\Crew $crew
+     * @param Crew $crew
      */
     private function deleteOldPhoto(Crew $crew): void
     {

@@ -21,7 +21,7 @@ class ProjectObserverTest extends TestCase
     {
         Mail::fake();
 
-        $admin    = $this->createAdmin();
+        $admin = $this->createAdmin();
         $producer = $this->createProducer();
 
         factory(Project::class)->create([
@@ -44,9 +44,9 @@ class ProjectObserverTest extends TestCase
     {
         Mail::fake();
 
-        $crew     = $this->createCrew();
+        $crew = $this->createCrew();
         $producer = $this->createProducer();
-        $user     = $this->createUser();
+        $user = $this->createUser();
 
         factory(Project::class)->create([
             'user_id' => $producer->id,

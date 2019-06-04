@@ -6,6 +6,7 @@ use App\Actions\Admin\StoreProjectJobsSubmission;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Producer\ProjectJobsSubmissionsRequest;
 use App\Models\ProjectJob;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -13,7 +14,7 @@ class ProjectJobSubmissionController extends Controller
 {
     /**
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function index(Request $request)
     {
@@ -30,7 +31,7 @@ class ProjectJobSubmissionController extends Controller
 
     /**
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function store(ProjectJobsSubmissionsRequest $request)
     {

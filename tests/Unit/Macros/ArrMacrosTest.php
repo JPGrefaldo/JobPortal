@@ -83,7 +83,7 @@ class ArrMacrosTest extends TestCase
         ];
 
         $this->assertEquals([
-            'one' => [
+            'one'   => [
                 'one_1' => [
                     'one_1_1' => [
                         'one' => 1,

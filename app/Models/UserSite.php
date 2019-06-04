@@ -2,22 +2,21 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class UserSite extends Pivot
 {
+    /**
+     * @var bool
+     */
+    public $incrementing = true;
     /**
      * The protected attributes
      *
      * @var array
      */
     protected $guarded = ['id'];
-
-    /**
-     * @var bool
-     */
-    public $incrementing = true;
-
     /**
      * @var string
      */
@@ -35,7 +34,7 @@ class UserSite extends Pivot
     /**
      * Users many to many relationship
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
     public function users()
     {

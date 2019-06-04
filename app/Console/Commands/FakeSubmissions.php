@@ -46,8 +46,8 @@ class FakeSubmissions extends Command
      */
     public function handle()
     {
-        $options    = $this->options();
-        $userCount  = $options['users'];
+        $options = $this->options();
+        $userCount = $options['users'];
 
         $producer = factory(User::class)->create();
         $producer->assignRole(Role::PRODUCER);
@@ -57,7 +57,7 @@ class FakeSubmissions extends Command
         ]);
 
         if ($options['new']) {
-            $this->info('Creating submissions with '.$userCount.' new users with crew role');
+            $this->info('Creating submissions with ' . $userCount . ' new users with crew role');
             $users = $this->createUsers($userCount);
         } else {
             $this->info('Creating submissions from existing users with crew role');
@@ -70,8 +70,8 @@ class FakeSubmissions extends Command
         }
 
         $projectJobs = $options['multiple']
-                     ? $this->createProjectJob($project, 3)
-                     : $this->createProjectJob($project);
+            ? $this->createProjectJob($project, 3)
+            : $this->createProjectJob($project);
 
         $users->map(function ($user) use ($options, $project, $projectJobs) {
             $projectJobs->map(function ($job) use ($user, $project) {
@@ -84,7 +84,7 @@ class FakeSubmissions extends Command
 
     private function createUsers($userCount)
     {
-        $users = factory(User::class, (int)$userCount)->create();
+        $users = factory(User::class, (int) $userCount)->create();
 
         $users->map(function ($user) {
             $user->assignRole(Role::CREW);
@@ -99,21 +99,21 @@ class FakeSubmissions extends Command
         return User::role(Role::CREW)->get();
     }
 
-    private function createSubmission($user, $project, $projectJob)
-    {
-        factory(Submission::class)->create(
-            [
-                'crew_id'          => $user->crew->id,
-                'project_id'       => $project->id,
-                'project_job_id'   => $projectJob->id,
-            ]
-        );
-    }
-
-    private function createProjectJob($project, $count=1)
+    private function createProjectJob($project, $count = 1)
     {
         return factory(ProjectJob::class, $count)->create([
             'project_id' => $project->id,
         ]);
+    }
+
+    private function createSubmission($user, $project, $projectJob)
+    {
+        factory(Submission::class)->create(
+            [
+                'crew_id'        => $user->crew->id,
+                'project_id'     => $project->id,
+                'project_job_id' => $projectJob->id,
+            ]
+        );
     }
 }

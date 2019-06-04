@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
@@ -13,8 +14,8 @@ class RefreshToken
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param Request $request
+     * @param Closure $next
      * @return mixed
      */
     public function handle($request, Closure $next)
@@ -29,7 +30,7 @@ class RefreshToken
         } catch (TokenExpiredException $e) {
             try {
                 $refreshed = JWTAuth::refresh(true, true);
-                $user      = JWTAuth::setToken($refreshed)->toUser();
+                $user = JWTAuth::setToken($refreshed)->toUser();
                 header('Authorization: Bearer ' . $refreshed);
             } catch (JWTException $e) {
                 return response()->json([
@@ -38,11 +39,11 @@ class RefreshToken
                 ]);
             }
         } catch (JWTException $e) {
-            return  $next($request);
+            return $next($request);
         }
 
         Auth::login($user, false);
 
-        return  $next($request);
+        return $next($request);
     }
 }

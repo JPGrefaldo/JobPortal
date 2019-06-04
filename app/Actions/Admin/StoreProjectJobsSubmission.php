@@ -8,8 +8,8 @@ use App\Models\Submission;
 class StoreProjectJobsSubmission
 {
     /**
-     * @param \App\Http\Requests\Producer\ProjectJobsSubmissionsRequest $request
-     * @return \App\Models\Submission
+     * @param ProjectJobsSubmissionsRequest $request
+     * @return Submission
      */
     public function execute(ProjectJobsSubmissionsRequest $request): Submission
     {

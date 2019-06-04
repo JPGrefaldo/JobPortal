@@ -6,10 +6,12 @@ use App\Actions\Endorsement\CreateEndorsementRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Middleware\UserHasPosition;
 use App\Http\Requests\StoreCrewEndorsementRequest;
+use App\Models\EndorsementEndorser;
 use App\Models\Position;
 use App\View\Endorsements\EndorsementIndexModel;
 use App\View\Endorsements\EndorsementPositionShowModel;
-use App\Models\EndorsementEndorser;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class EndorsementPositionController extends Controller
 {
@@ -22,7 +24,7 @@ class EndorsementPositionController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
@@ -33,8 +35,8 @@ class EndorsementPositionController extends Controller
      * Store a newly created resource in storage.
      *
      * @param Position $position
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(Position $position, StoreCrewEndorsementRequest $request)
     {
@@ -56,8 +58,8 @@ class EndorsementPositionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  Position $position
-     * @return \Illuminate\Http\Response
+     * @param Position $position
+     * @return Response
      */
     public function show(Position $position)
     {

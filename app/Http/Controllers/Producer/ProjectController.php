@@ -11,6 +11,7 @@ use App\Models\ProjectType;
 use App\Models\Site;
 use App\Services\Producer\ProjectsServices;
 use App\Utils\UrlUtils;
+use Exception;
 
 class ProjectController extends Controller
 {
@@ -23,8 +24,35 @@ class ProjectController extends Controller
     {
         return view('producer.projects.create', $this->loadViewData());
     }
+
+    private function loadViewData($project = null)
+    {
+        $user = auth()->user();
+        $projectTypes = ProjectType::all();
+        $departments = Department::with('positions')->has('positions')->get();
+        $hostname = UrlUtils::getHostNameFromBaseUrl(request()->getHttpHost());
+        $sites = Site::where('hostname', '!=', $hostname)->get();
+
+        if ($project === null) {
+            return compact(
+                'user',
+                'projectTypes',
+                'departments',
+                'sites'
+            );
+        }
+
+        return compact(
+            'user',
+            'projectTypes',
+            'departments',
+            'project',
+            'sites'
+        );
+    }
+
     /**
-     * @param \App\Http\Requests\Producer\CreateProjectRequest $request
+     * @param CreateProjectRequest $request
      */
     public function store(CreateProjectRequest $request)
     {
@@ -53,10 +81,10 @@ class ProjectController extends Controller
     }
 
     /**
-     * @param \App\Http\Requests\Producer\UpdateProjectRequest $request
-     * @param \App\Models\Project $project
+     * @param UpdateProjectRequest $request
+     * @param Project $project
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function update(UpdateProjectRequest $request, Project $project)
     {
@@ -66,32 +94,6 @@ class ProjectController extends Controller
             $input,
             $project,
             session('site')
-        );
-    }
-
-    private function loadViewData($project = null)
-    {
-        $user = auth()->user();
-        $projectTypes = ProjectType::all();
-        $departments = Department::with('positions')->has('positions')->get();
-        $hostname = UrlUtils::getHostNameFromBaseUrl(request()->getHttpHost());
-        $sites = Site::where('hostname', '!=', $hostname)->get();
-
-        if ($project === null) {
-            return compact(
-                'user',
-                'projectTypes',
-                'departments',
-                'sites'
-            );
-        }
-
-        return compact(
-            'user',
-            'projectTypes',
-            'departments',
-            'project',
-            'sites'
         );
     }
 }

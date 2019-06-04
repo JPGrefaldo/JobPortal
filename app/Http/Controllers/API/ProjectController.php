@@ -22,10 +22,10 @@ class ProjectController extends Controller
 
         return response()->json(
             [
-                'message'   => 'Successfully fetched all projects.',
-                'projects'  => $projects->load([
+                'message'  => 'Successfully fetched all projects.',
+                'projects' => $projects->load([
                     'remotes',
-                    'jobs'  => function ($query) {
+                    'jobs' => function ($query) {
                         $query->with('position', 'pay_type');
                     },
                 ]),
@@ -59,6 +59,13 @@ class ProjectController extends Controller
             ],
             Response::HTTP_CREATED
         );
+    }
+
+    private function getHostSiteID()
+    {
+        $hostname = UrlUtils::getHostNameFromBaseUrl(request()->getHttpHost());
+        $site = Site::where('hostname', $hostname)->first()->pluck('id');
+        return $site[0];
     }
 
     public function update(Project $project, CreateProjectRequest $request)
@@ -100,8 +107,8 @@ class ProjectController extends Controller
         if ($request->query('count')) {
             return response()->json(
                 [
-                    'message'   => 'Successfully fetched all pending projects count.',
-                    'count'     => Project::getPending()->count(),
+                    'message' => 'Successfully fetched all pending projects count.',
+                    'count'   => Project::getPending()->count(),
                 ],
                 Response::HTTP_OK
             );
@@ -109,8 +116,8 @@ class ProjectController extends Controller
 
         return response()->json(
             [
-                'message'   => 'Successfully fetched all pending projects.',
-                'projects'  => Project::getPending()->load(
+                'message'  => 'Successfully fetched all pending projects.',
+                'projects' => Project::getPending()->load(
                     [
                         'remotes',
                         'jobs' => function ($query) {
@@ -128,8 +135,8 @@ class ProjectController extends Controller
         if ($request->query('count')) {
             return response()->json(
                 [
-                    'message'   => 'Successfully fetched all approved projects count.',
-                    'count'     => Project::getApproved()->count(),
+                    'message' => 'Successfully fetched all approved projects count.',
+                    'count'   => Project::getApproved()->count(),
                 ],
                 Response::HTTP_OK
             );
@@ -137,8 +144,8 @@ class ProjectController extends Controller
 
         return response()->json(
             [
-                'message'   => 'Successfully fetched all approved projects.',
-                'projects'  => Project::getApproved()->load(
+                'message'  => 'Successfully fetched all approved projects.',
+                'projects' => Project::getApproved()->load(
                     [
                         'remotes',
                         'jobs' => function ($query) {
@@ -149,12 +156,5 @@ class ProjectController extends Controller
             ],
             Response::HTTP_OK
         );
-    }
-
-    private function getHostSiteID()
-    {
-        $hostname = UrlUtils::getHostNameFromBaseUrl(request()->getHttpHost());
-        $site = Site::where('hostname', $hostname)->first()->pluck('id');
-        return $site[0];
     }
 }

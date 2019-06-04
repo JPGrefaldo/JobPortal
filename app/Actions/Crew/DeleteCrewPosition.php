@@ -9,8 +9,8 @@ use App\Models\Position;
 class DeleteCrewPosition
 {
     /**
-     * @param \App\Models\Crew $crew
-     * @param \App\Models\Position $position
+     * @param Crew $crew
+     * @param Position $position
      * @return array
      */
     public function execute(Crew $crew, Position $position)

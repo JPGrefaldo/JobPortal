@@ -10,6 +10,7 @@ use Tests\TestCase;
 class FlagMessageFeatureTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
+
     /**
      * @test
      * @covers \App\Http\Controllers\PendingFlagMessageController::update

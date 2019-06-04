@@ -16,7 +16,7 @@ class FakeSubmissionsFeatureTest extends TestCase
 {
     use RefreshDatabase, SeedDatabaseAfterRefresh;
 
-    private const CMD     = 'fake:submissions';
+    private const CMD = 'fake:submissions';
     private const CMD_NEW = 'fake:submissions --new';
 
     /**
@@ -39,7 +39,7 @@ class FakeSubmissionsFeatureTest extends TestCase
      */
     public function can_create_submissions_with_new_users_using_custom_count()
     {
-        $command = $this->artisan(self::CMD_NEW.' --users=5');
+        $command = $this->artisan(self::CMD_NEW . ' --users=5');
         $command->expectsOutput('Creating submissions with 5 new users with crew role')
             ->expectsOutput('Done creating submissions')
             ->run();
@@ -96,7 +96,7 @@ class FakeSubmissionsFeatureTest extends TestCase
             ->expectsOutput('Done creating submissions')
             ->run();
 
-        $user  = User::role(Role::PRODUCER)->first();
+        $user = User::role(Role::PRODUCER)->first();
 
         $this->assertNotEmpty($user->toArray());
         $this->assertCount(11, User::all());
@@ -149,7 +149,7 @@ class FakeSubmissionsFeatureTest extends TestCase
             ->expectsOutput('Done creating submissions')
             ->run();
 
-        $producer    = User::role(Role::PRODUCER)->first();
+        $producer = User::role(Role::PRODUCER)->first();
         $submissions = Submission::all();
 
         $submissions->map(function ($submission) use ($producer) {

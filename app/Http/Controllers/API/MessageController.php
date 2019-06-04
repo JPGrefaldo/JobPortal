@@ -19,10 +19,11 @@ use Illuminate\Http\Response;
 class MessageController extends Controller
 {
     protected $userIsParticipant = false;
+
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(Thread $thread)
     {
@@ -39,8 +40,8 @@ class MessageController extends Controller
     /**
      * Store a new project thread and its message and participant(recipient).
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(Project $project, Request $request)
     {
@@ -51,7 +52,7 @@ class MessageController extends Controller
             ]);
         }
 
-        $thread  = app(StoreThread::class)->execute($project, $request->subject);
+        $thread = app(StoreThread::class)->execute($project, $request->subject);
         $message = app(StoreMessage::class)->execute($thread, $user, $request->message);
 
         app(StoreParticipants::class)->execute($thread, $user, $request->recipient);
@@ -65,9 +66,9 @@ class MessageController extends Controller
     /**
      * Store a new project, thread and its message and participants(recepients).
      *
-     * @param  \App\Models\Project $project
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param Project $project
+     * @param Request $request
+     * @return Response
      */
     public function storeCrew(Project $project, StoreMessageCrewRequest $request)
     {
@@ -84,13 +85,13 @@ class MessageController extends Controller
     /**
      * Update thread participants and store message replies
      *
-     * @param \App\Models\Thread $thread
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param Thread $thread
+     * @param Request $request
+     * @return Response
      */
     public function update(Thread $thread, Request $request)
     {
-        $user    = auth()->user();
+        $user = auth()->user();
         $message = app(StoreMessage::class)->execute($thread, $user, $request->message);
 
         app(UpdateParticipants::class)->execute($thread, $user, $request->recipient);

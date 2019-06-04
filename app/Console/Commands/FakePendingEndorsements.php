@@ -10,6 +10,8 @@ use App\Models\Position;
 use App\Models\Role;
 use App\Models\User;
 use App\Utils\StrUtils;
+use Exception;
+use Faker\Factory;
 use Illuminate\Console\Command;
 
 class FakePendingEndorsements extends Command
@@ -47,11 +49,11 @@ class FakePendingEndorsements extends Command
      * Execute the console command.
      *
      * @return mixed
-     * @throws \Exception
+     * @throws Exception
      */
     public function handle()
     {
-        $faker = \Faker\Factory::create();
+        $faker = Factory::create();
 
         $total = (int) $this->argument('number');
         $bar = $this->output->createProgressBar($total + 1);
@@ -59,7 +61,7 @@ class FakePendingEndorsements extends Command
         $user = User::findOrFail((int) $this->argument('user'));
 
         if (! $user->hasRole(Role::CREW)) {
-            throw new \Exception('User is not Crew');
+            throw new Exception('User is not Crew');
         }
 
         $positions = $this->getPositions();
@@ -90,7 +92,7 @@ class FakePendingEndorsements extends Command
                         'union_description' => 'None',
                     ]);
                 } else {
-                    throw new \Exception("User does not have position ($position->id)");
+                    throw new Exception("User does not have position ($position->id)");
                 }
             } else {
                 $crewPosition = $crewPosition->first();

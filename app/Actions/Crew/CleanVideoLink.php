@@ -6,13 +6,14 @@ use App\Actions\Social\CleanVimeoLinkAction;
 use App\Actions\Social\IsVimeoPlayerUrlAction;
 use App\Actions\Social\IsVimeoUrlAction;
 use App\Utils\StrUtils;
+use Exception;
 
 class CleanVideoLink
 {
     /**
      * @param $link
      * @return string
-     * @throws \Exception
+     * @throws Exception
      */
     public function execute($link): string
     {
@@ -25,7 +26,7 @@ class CleanVideoLink
         }
 
         if (empty($link)) {
-            throw new \Exception("Invalid video link ($link)");
+            throw new Exception("Invalid video link ($link)");
         }
 
         return $link;

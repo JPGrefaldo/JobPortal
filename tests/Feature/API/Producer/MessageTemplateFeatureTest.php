@@ -19,7 +19,7 @@ class MessageTemplateFeatureTest extends TestCase
     public function can_fetch_message_templates()
     {
         $this->withoutExceptionHandling();
-        
+
         $user = $this->createProducer();
 
         factory(MessageTemplate::class, 5)->create([

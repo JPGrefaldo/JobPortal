@@ -21,6 +21,27 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     }
 
     /**
+     * Get the tools that should be listed in the Nova sidebar.
+     *
+     * @return array
+     */
+    public function tools()
+    {
+        return [
+        ];
+    }
+
+    /**
+     * Register any application services.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        //
+    }
+
+    /**
      * Register the Nova routes.
      *
      * @return void
@@ -57,27 +78,6 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         return [
             new Help,
         ];
-    }
-
-    /**
-     * Get the tools that should be listed in the Nova sidebar.
-     *
-     * @return array
-     */
-    public function tools()
-    {
-        return [
-        ];
-    }
-
-    /**
-     * Register any application services.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        //
     }
 
     /**

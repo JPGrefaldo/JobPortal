@@ -17,8 +17,8 @@ class CrewPositionEndorsementScore extends Model
      * @var array
      */
     protected $casts = [
-        'id'                => 'integer',
-        'crew_position_id'  => 'integer',
-        'score'             => 'integer',
+        'id'               => 'integer',
+        'crew_position_id' => 'integer',
+        'score'            => 'integer',
     ];
 }

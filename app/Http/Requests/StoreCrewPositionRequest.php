@@ -32,7 +32,7 @@ class StoreCrewPositionRequest extends FormRequest
         } else {
             $union_rule = 'nullable|string|max:50|min:8';
         }
-        
+
         if ($position['has_gear']) {
             $gear_rule = 'required|string|max:50|min:8';
         } else {

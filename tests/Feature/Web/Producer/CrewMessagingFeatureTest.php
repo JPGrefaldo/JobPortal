@@ -81,7 +81,7 @@ class CrewMessagingFeatureTest extends TestCase
         $sentTimes = 0;
         foreach ($threads as $thread) {
             $record = $thread->participantsUserIds()[0];
-            
+
             $recipient = User::where('hash_id', $record)->get();
             $this->assertCount(1, $recipient);
 
@@ -107,9 +107,9 @@ class CrewMessagingFeatureTest extends TestCase
     private function sendMessages()
     {
         $producer = $this->createProducer();
-        $crews    = factory(Crew::class, 3)->create();
+        $crews = factory(Crew::class, 3)->create();
 
-        $project  = factory(Project::class)->create([
+        $project = factory(Project::class)->create([
             'user_id' => $producer->id,
         ]);
 

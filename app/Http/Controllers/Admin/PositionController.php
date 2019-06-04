@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\PositionsRequest;
 use App\Models\Position;
 use App\Services\PositionsServices;
-use Illuminate\Http\Request;
 
 class PositionController extends Controller
 {
@@ -16,7 +15,7 @@ class PositionController extends Controller
     }
 
     /**
-     * @param \App\Http\Requests\Admin\PositionsRequest $request
+     * @param PositionsRequest $request
      */
     public function store(PositionsRequest $request)
     {
@@ -26,8 +25,8 @@ class PositionController extends Controller
     }
 
     /**
-     * @param \App\Http\Requests\Admin\PositionsRequest $request
-     * @param \App\Models\Position $position
+     * @param PositionsRequest $request
+     * @param Position $position
      *
      */
     public function update(PositionsRequest $request, Position $position)

@@ -12,7 +12,7 @@ class DepartmentsServices
     /**
      * @param array $data
      *
-     * @return \App\Models\Department
+     * @return Department
      */
     public function create(array $data)
     {
@@ -23,17 +23,15 @@ class DepartmentsServices
 
     /**
      * @param array $data
-     * @param \App\Models\Department $department
      *
-     * @return \App\Models\Department
+     * @return array
      */
-    public function update(array $data, Department $department)
+    public function formatData(array $data)
     {
-        $data = $this->formatData($this->filterData($data));
+        $data['name'] = Str::title($data['name']);
+        $data['description'] = StrUtils::convertNull($data['description']);
 
-        $department->update($data);
-
-        return $department;
+        return $data;
     }
 
     /**
@@ -51,15 +49,17 @@ class DepartmentsServices
 
     /**
      * @param array $data
+     * @param Department $department
      *
-     * @return array
+     * @return Department
      */
-    public function formatData(array $data)
+    public function update(array $data, Department $department)
     {
-        $data['name'] = Str::title($data['name']);
-        $data['description'] = StrUtils::convertNull($data['description']);
+        $data = $this->formatData($this->filterData($data));
 
-        return $data;
+        $department->update($data);
+
+        return $department;
     }
 
     public function getAllWithPositions()

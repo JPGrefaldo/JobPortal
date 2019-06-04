@@ -19,10 +19,10 @@ class MessengerFeatureTest extends TestCase
      */
     public function can_store_a_message()
     {
-        $producer  = $this->createProducer();
-        $response  = $this->mockStoreMessage($producer);
+        $producer = $this->createProducer();
+        $response = $this->mockStoreMessage($producer);
 
-        $response->assertJsonFragment(['body'    => 'Some message']);
+        $response->assertJsonFragment(['body' => 'Some message']);
         $response->assertJsonFragment(['subject' => 'Some subject']);
     }
 
@@ -32,9 +32,9 @@ class MessengerFeatureTest extends TestCase
      */
     public function can_reply_a_message()
     {
-        $producer  = $this->createProducer();
-        $response  = $this->mockStoreMessage($producer);
-        $thread    = Thread::find(1);
+        $producer = $this->createProducer();
+        $response = $this->mockStoreMessage($producer);
+        $thread = Thread::find(1);
 
         $data = [
             'message'   => 'Some Reply message',
@@ -63,10 +63,10 @@ class MessengerFeatureTest extends TestCase
      */
     public function admin_is_not_allowed_to_participate_in_the_threads()
     {
-        $data    = [];
-        $admin   = $this->createAdmin();
+        $data = [];
+        $admin = $this->createAdmin();
         $project = factory(Project::class)->create();
-        $thread  = $project->threads()->create([
+        $thread = $project->threads()->create([
             'subject' => 'Thread Test Subject',
         ]);
 
@@ -105,13 +105,13 @@ class MessengerFeatureTest extends TestCase
      */
     public function crew_are_not_allowed_to_initiate_a_message_with_the_producer()
     {
-        $crew    = $this->createCrew();
+        $crew = $this->createCrew();
         $project = factory(Project::class)->create();
 
         $data = [
             'subject'   => 'Some subject',
             'message'   => 'Some message',
-            'recepient' => [2,3],
+            'recepient' => [2, 3],
         ];
 
         $response = $this->actingAs($crew, 'api')
@@ -130,9 +130,9 @@ class MessengerFeatureTest extends TestCase
 
     private function mockStoreMessage($producer)
     {
-        $recipient  = $this->createCrew();
+        $recipient = $this->createCrew();
 
-        $project    = factory(Project::class)->create([
+        $project = factory(Project::class)->create([
             'user_id' => $producer->id,
         ]);
 

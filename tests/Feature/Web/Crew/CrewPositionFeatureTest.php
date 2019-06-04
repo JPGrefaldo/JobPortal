@@ -182,11 +182,11 @@ class CrewPositionFeatureTest extends TestCase
     }
 
     /**
-    * @param $data
-    * @param $customData
-    *
-    * @return mixed
-    */
+     * @param $data
+     * @param $customData
+     *
+     * @return mixed
+     */
     protected function customizeData($data, $customData)
     {
         foreach ($customData as $key => $value) {

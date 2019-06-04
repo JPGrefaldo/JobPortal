@@ -54,6 +54,19 @@ class UserRules
      * @param bool $unique
      * @return array
      */
+    public static function confirmedEmail($id = null, $unique = true)
+    {
+        return array_merge(self::email($id, $unique), [
+            'confirmed',
+        ]);
+    }
+
+    /**
+     * @param null|int $id
+     *
+     * @param bool $unique
+     * @return array
+     */
     public static function email($id = null, $unique = true)
     {
         $defaults = [
@@ -74,19 +87,6 @@ class UserRules
     }
 
     /**
-     * @param null|int $id
-     *
-     * @param bool $unique
-     * @return array
-     */
-    public static function confirmedEmail($id = null, $unique = true)
-    {
-        return array_merge(self::email($id, $unique), [
-            'confirmed',
-        ]);
-    }
-
-    /**
      * @return array
      */
     public static function phone()
@@ -101,6 +101,16 @@ class UserRules
     /**
      * @return array
      */
+    public static function confirmedPassword()
+    {
+        return array_merge(self::password(), [
+            'confirmed',
+        ]);
+    }
+
+    /**
+     * @return array
+     */
     public static function password()
     {
         return [
@@ -108,16 +118,6 @@ class UserRules
             'string',
             'min:6',
         ];
-    }
-
-    /**
-     * @return array
-     */
-    public static function confirmedPassword()
-    {
-        return array_merge(self::password(), [
-            'confirmed',
-        ]);
     }
 
     /**

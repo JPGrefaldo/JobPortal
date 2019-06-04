@@ -18,7 +18,7 @@ class CrewGearFeatureTest extends TestCase
      */
     public function create_position_requires_gear()
     {
-        $crew     = $this->createCrew();
+        $crew = $this->createCrew();
         $position = factory(Position::class)->create([
             'has_gear' => 1,
         ]);
@@ -53,7 +53,7 @@ class CrewGearFeatureTest extends TestCase
      */
     public function create_position_dont_require_gear()
     {
-        $crew     = $this->createCrew();
+        $crew = $this->createCrew();
         $position = factory(Position::class)->create();
 
         $data = [

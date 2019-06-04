@@ -25,8 +25,8 @@ class AccountContactRequest extends FormRequest
     public function rules()
     {
         return [
-            'email'                      => UserRules::confirmedEmail(null, false),
-            'phone'                      => UserRules::phone(),
+            'email' => UserRules::confirmedEmail(null, false),
+            'phone' => UserRules::phone(),
         ];
     }
 }

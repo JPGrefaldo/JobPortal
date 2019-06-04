@@ -150,8 +150,8 @@ class FakeProjectsTest extends TestCase
             ->run();
 
         $this->assertDatabaseHas('projects', [
-            'user_id'      => $user->id,
-            'approved_at'  => null,
+            'user_id'     => $user->id,
+            'approved_at' => null,
         ]);
     }
 
@@ -173,7 +173,7 @@ class FakeProjectsTest extends TestCase
             ->run();
 
         $this->assertDatabaseHas('projects', [
-            'user_id'      => $user->id,
+            'user_id' => $user->id,
         ]);
 
         $this->assertEmpty(ProjectJob::count());

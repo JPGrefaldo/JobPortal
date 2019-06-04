@@ -3,14 +3,14 @@
 namespace Tests\Unit\Actions\Endorsement;
 
 use App\Actions\Endorsement\CreateEndorsementRequest;
+use App\Mail\EndorsementRequestEmail;
 use App\Models\CrewPosition;
 use App\Models\EndorsementEndorser;
 use App\Models\Position;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\EndorsementRequestEmail;
 
 class CreateEndorsementRequestTest extends TestCase
 {
@@ -51,8 +51,8 @@ class CreateEndorsementRequestTest extends TestCase
         $endorsement = $this->service->execute($user, $position, $email, $message, $user->id);
 
         $this->assertDatabaseHas('endorsement_endorsers', [
-            'user_id'       => null,
-            'email'         => $email,
+            'user_id'          => null,
+            'email'            => $email,
             'request_owner_id' => $user->id,
         ]);
 
@@ -92,8 +92,8 @@ class CreateEndorsementRequestTest extends TestCase
         $endorsement = $this->service->execute($user, $position, $endorser->email, $message, $user->id);
 
         $this->assertDatabaseHas('endorsement_endorsers', [
-            'user_id'       => $endorser->id,
-            'email'         => null,
+            'user_id'          => $endorser->id,
+            'email'            => null,
             'request_owner_id' => $user->id,
         ]);
 
@@ -131,8 +131,8 @@ class CreateEndorsementRequestTest extends TestCase
         $this->service->execute($user, $position, $email, $message, $user->id);
 
         $this->assertDatabaseHas('endorsement_endorsers', [
-            'user_id'       => null,
-            'email'         => $email,
+            'user_id'          => null,
+            'email'            => $email,
             'request_owner_id' => $user->id,
         ]);
 

@@ -3,13 +3,14 @@
 namespace App\Actions\Social;
 
 use App\Utils\StrUtils;
+use Exception;
 
 class CleanVimeoLinkAction
 {
     /**
      * @param $url
      * @return string
-     * @throws \Exception
+     * @throws Exception
      */
     public function execute($url): string
     {
@@ -28,6 +29,6 @@ class CleanVimeoLinkAction
             return 'https://player.vimeo.com/video/' . $matches[1];
         }
 
-        throw new \Exception("Invalid link ($url)");
+        throw new Exception("Invalid link ($url)");
     }
 }

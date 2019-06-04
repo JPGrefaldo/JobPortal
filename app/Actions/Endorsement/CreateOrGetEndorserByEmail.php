@@ -4,6 +4,7 @@ namespace App\Actions\Endorsement;
 
 use App\Models\EndorsementEndorser;
 use App\Models\User;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class CreateOrGetEndorserByEmail
 {
@@ -29,7 +30,7 @@ class CreateOrGetEndorserByEmail
     {
         try {
             return app(GetEndorserUserID::class)->execute($email);
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $exception) {
+        } catch (ModelNotFoundException $exception) {
             return null;
         }
     }

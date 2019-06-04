@@ -48,8 +48,8 @@ class CrewPositionTest extends TestCase
     public function score()
     {
         CrewPositionEndorsementScore::create([
-            'crew_position_id'  => $this->crewPosition->id,
-            'score'             => 25,
+            'crew_position_id' => $this->crewPosition->id,
+            'score'            => 25,
         ]);
 
         $this->assertEquals(

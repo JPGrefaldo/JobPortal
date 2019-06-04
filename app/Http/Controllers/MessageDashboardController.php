@@ -8,7 +8,7 @@ class MessageDashboardController extends Controller
     {
         $user = auth()->user();
         $roles = $user->roles->pluck('name');
-        
+
         return view('messages-dashboard', compact('user', 'roles'));
     }
 }

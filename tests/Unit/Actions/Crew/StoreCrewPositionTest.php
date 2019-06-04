@@ -55,10 +55,10 @@ class StoreCrewPositionTest extends TestCase
         ]);
 
         $this->assertDatabaseHas('crew_reels', [
-            'crew_id'           => $crew->id,
-            'path'              => $data['reel_link'],
-            'general'           => false,
-            'crew_position_id'  => $crewPosition->id,
+            'crew_id'          => $crew->id,
+            'path'             => $data['reel_link'],
+            'general'          => false,
+            'crew_position_id' => $crewPosition->id,
         ]);
     }
 }

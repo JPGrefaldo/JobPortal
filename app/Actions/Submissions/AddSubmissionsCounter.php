@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Collection;
 class AddSubmissionsCounter
 {
     /**
-     * @param \App\Models\Project $project
-     * @param \Illuminate\Database\Eloquent\Collection $submissions
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @param Project $project
+     * @param Collection $submissions
+     * @return Collection
      */
     public function execute(Project $project, Collection $submissions): Collection
     {

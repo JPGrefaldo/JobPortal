@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Models\Project;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -11,7 +12,7 @@ class ProjectDenied
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
-     * @var \App\Models\Project
+     * @var Project
      */
     public $project;
 
@@ -22,6 +23,6 @@ class ProjectDenied
      */
     public function __construct($project)
     {
-        $this->project  = $project;
+        $this->project = $project;
     }
 }

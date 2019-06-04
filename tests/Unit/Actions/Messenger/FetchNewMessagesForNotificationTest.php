@@ -21,7 +21,7 @@ class FetchNewMessagesForNotificationTest extends TestCase
      */
     public function get_thread_messages_that_are_added_less_than_30_minutes_ago()
     {
-        $crew     = $this->createCrew();
+        $crew = $this->createCrew();
         $producer = $this->createProducer();
 
         $this->seedThreadMessagesAndReplies($crew, $producer);

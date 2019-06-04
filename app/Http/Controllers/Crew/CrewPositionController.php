@@ -11,13 +11,16 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCrewPositionRequest;
 use App\Models\CrewPosition;
 use App\Models\Position;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\JsonResponse;
 
 class CrewPositionController extends Controller
 {
     /**
-     * @param \App\Models\Position $position
-     * @param \App\Http\Requests\StoreCrewPositionRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param Position $position
+     * @param StoreCrewPositionRequest $request
+     * @return JsonResponse
      */
     public function store(Position $position, StoreCrewPositionRequest $request)
     {
@@ -33,9 +36,9 @@ class CrewPositionController extends Controller
     }
 
     /**
-     * @param \App\Models\Position $position
-     * @param \App\Http\Requests\StoreCrewPositionRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param Position $position
+     * @param StoreCrewPositionRequest $request
+     * @return JsonResponse
      */
     public function update(Position $position, StoreCrewPositionRequest $request)
     {
@@ -55,7 +58,7 @@ class CrewPositionController extends Controller
     }
 
     /**
-     * @param \App\Models\Position $position
+     * @param Position $position
      * @return string
      */
     public function destroy(Position $position)
@@ -70,8 +73,8 @@ class CrewPositionController extends Controller
     }
 
     /**
-     * @param \App\Models\Position $position
-     * @return \App\Models\CrewPosition|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model
+     * @param Position $position
+     * @return CrewPosition|Builder|Model
      */
     public function show(Position $position)
     {

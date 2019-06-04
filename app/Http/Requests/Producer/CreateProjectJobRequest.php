@@ -37,16 +37,16 @@ class CreateProjectJobRequest extends FormRequest
     public function rules()
     {
         return [
-            'persons_needed'       => 'sometimes|required|numeric|min:1',
-            'gear_provided'        => 'sometimes|nullable|string',
-            'gear_needed'          => 'sometimes|nullable|string',
-            'pay_rate'             => 'nullable|numeric',
-            'pay_rate_type_id'     => 'required_if:pay_rate,1,1000',
-            'pay_type_id'          => 'numeric',
-            'dates_needed'         => 'required|string',
-            'notes'                => 'required|string|min:3',
-            'position_id'          => 'required|numeric|exists:positions,id',
-            'project_id'           => 'required',
+            'persons_needed'   => 'sometimes|required|numeric|min:1',
+            'gear_provided'    => 'sometimes|nullable|string',
+            'gear_needed'      => 'sometimes|nullable|string',
+            'pay_rate'         => 'nullable|numeric',
+            'pay_rate_type_id' => 'required_if:pay_rate,1,1000',
+            'pay_type_id'      => 'numeric',
+            'dates_needed'     => 'required|string',
+            'notes'            => 'required|string|min:3',
+            'position_id'      => 'required|numeric|exists:positions,id',
+            'project_id'       => 'required',
         ];
     }
 }

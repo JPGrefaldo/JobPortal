@@ -8,8 +8,8 @@ use App\Models\ProjectJob;
 class StoreProjectJob
 {
     /**
-     * @param \App\Http\Requests\Producer\CreateProjectJobRequest $request
-     * @return \App\Models\ProjectJob
+     * @param CreateProjectJobRequest $request
+     * @return ProjectJob
      */
     public function execute(CreateProjectJobRequest $request): ProjectJob
     {

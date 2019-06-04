@@ -15,7 +15,7 @@ class PostCreateUser
     ];
 
     /**
-     * @param \App\Models\User $user
+     * @param User $user
      */
     public function execute(User $user): void
     {

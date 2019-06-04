@@ -3,13 +3,14 @@
 namespace App\Actions\Crew;
 
 use App\Models\Crew;
+use Exception;
 
 class UpdateCrew
 {
     /**
-     * @param \App\Models\Crew $crew
+     * @param Crew $crew
      * @param array $data
-     * @throws \Exception
+     * @throws Exception
      */
     public function execute(Crew $crew, array $data): void
     {

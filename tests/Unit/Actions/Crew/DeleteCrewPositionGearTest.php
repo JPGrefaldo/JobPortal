@@ -51,10 +51,10 @@ class DeleteCrewPositionGearTest extends TestCase
 
         // Then assert crew_gear path empty
         $this->assertDatabaseHas('crew_gears', [
-            'crew_id'           => $crew->id,
-            'crew_position_id'  => $crewPosition->id,
-            'path'              => '',
-            'description'       => $data['gear'],
+            'crew_id'          => $crew->id,
+            'crew_position_id' => $crewPosition->id,
+            'path'             => '',
+            'description'      => $data['gear'],
         ]);
     }
 }

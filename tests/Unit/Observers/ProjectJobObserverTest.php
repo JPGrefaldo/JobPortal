@@ -25,14 +25,14 @@ class ProjectJobObserverTest extends TestCase
         $crew = $this->createCrew();
 
         factory(CrewPosition::class)->create([
-            'crew_id'       => 1,
-            'position_id'   => 1,
+            'crew_id'     => 1,
+            'position_id' => 1,
         ]);
 
         factory(ProjectJob::class)->create([
-            'position_id'   => 1,
-            'project_id'    => 1,
-            'rush_call'     => 1,
+            'position_id' => 1,
+            'project_id'  => 1,
+            'rush_call'   => 1,
         ]);
 
         Mail::assertSent(
@@ -54,14 +54,14 @@ class ProjectJobObserverTest extends TestCase
         $crew = $this->createCrew();
 
         factory(CrewPosition::class)->create([
-            'crew_id'       => 1,
-            'position_id'   => 1,
+            'crew_id'     => 1,
+            'position_id' => 1,
         ]);
 
         factory(ProjectJob::class)->create([
-            'position_id'   => 2,
-            'project_id'    => 1,
-            'rush_call'     => 1,
+            'position_id' => 2,
+            'project_id'  => 1,
+            'rush_call'   => 1,
         ]);
 
         Mail::assertNothingSent(
@@ -83,14 +83,14 @@ class ProjectJobObserverTest extends TestCase
         $crew = $this->createCrew();
 
         factory(CrewPosition::class)->create([
-            'crew_id'       => 1,
-            'position_id'   => 1,
+            'crew_id'     => 1,
+            'position_id' => 1,
         ]);
 
         factory(ProjectJob::class)->create([
-            'position_id'   => 1,
-            'project_id'    => 1,
-            'rush_call'     => 1,
+            'position_id' => 1,
+            'project_id'  => 1,
+            'rush_call'   => 1,
         ]);
 
         Mail::assertSent(
@@ -111,14 +111,14 @@ class ProjectJobObserverTest extends TestCase
         $crew = $this->createCrew();
 
         factory(CrewPosition::class)->create([
-            'crew_id'       => 1,
-            'position_id'   => 1,
+            'crew_id'     => 1,
+            'position_id' => 1,
         ]);
 
         factory(ProjectJob::class)->create([
-            'position_id'   => 1,
-            'project_id'    => 1,
-            'rush_call'     => 0,
+            'position_id' => 1,
+            'project_id'  => 1,
+            'rush_call'   => 0,
         ]);
 
         Mail::assertNothingSent(
@@ -128,7 +128,7 @@ class ProjectJobObserverTest extends TestCase
             }
         );
     }
-    
+
 
     /**
      * @test
@@ -138,9 +138,9 @@ class ProjectJobObserverTest extends TestCase
     {
         Mail::fake();
 
-        $admin    = $this->createAdmin();
+        $admin = $this->createAdmin();
         $producer = $this->createProducer();
-        $user     = $this->createUser();
+        $user = $this->createUser();
 
         factory(ProjectJob::class)->create([
             'project_id' => 1,

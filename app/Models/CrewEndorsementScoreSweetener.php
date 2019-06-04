@@ -15,8 +15,8 @@ class CrewEndorsementScoreSweetener extends Model
      * @var array
      */
     protected $casts = [
-        'id'            => 'integer',
-        'crew_id'       => 'integer',
-        'sweetener'     => 'integer',
+        'id'        => 'integer',
+        'crew_id'   => 'integer',
+        'sweetener' => 'integer',
     ];
 }

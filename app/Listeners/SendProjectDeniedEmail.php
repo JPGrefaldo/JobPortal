@@ -21,7 +21,7 @@ class SendProjectDeniedEmail
     /**
      * Handle the event.
      *
-     * @param  ProjectDenied  $event
+     * @param ProjectDenied $event
      * @return void
      */
     public function handle(ProjectDenied $event)

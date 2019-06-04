@@ -51,7 +51,7 @@ class CrewTest extends TestCase
     public function positions()
     {
         factory(Position::class, 10)->create();
-        $first  = rand(1, 10);
+        $first = rand(1, 10);
         $second = rand(1, 10);
 
         factory(CrewPosition::class)->create([
@@ -102,7 +102,7 @@ class CrewTest extends TestCase
     /**
      * @test
      * @covers \App\Models\Crew::getGeneralReelLink
-    */
+     */
     public function get_reel_link_when_there_one()
     {
         factory(CrewReel::class)->create([
@@ -169,7 +169,7 @@ class CrewTest extends TestCase
     public function applyFor()
     {
         // given
-        $position     = factory(Position::class)->create();
+        $position = factory(Position::class)->create();
         $crewPosition = factory(CrewPosition::class)->make()->toArray();
 
         // when
@@ -199,7 +199,7 @@ class CrewTest extends TestCase
     {
         // given
         $appliedPosition = factory(Position::class)->create();
-        $randomPosition  = factory(Position::class)->create();
+        $randomPosition = factory(Position::class)->create();
 
         // when
         factory(CrewPosition::class)
@@ -234,7 +234,7 @@ class CrewTest extends TestCase
      */
     public function get_photo_url_attribute()
     {
-        $crew  = factory(Crew::class)->create();
+        $crew = factory(Crew::class)->create();
         $photo = UploadedFile::fake()
             ->image('photo.png');
 
@@ -244,7 +244,7 @@ class CrewTest extends TestCase
             $photo->hashName();
 
         $this->assertEquals(
-            UrlUtils::getS3Url($crew->user).
+            UrlUtils::getS3Url($crew->user) .
             'photos' . '/' .
             $photo->hashName(),
             $crew->photo_url

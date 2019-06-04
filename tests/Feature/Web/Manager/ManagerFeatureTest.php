@@ -164,7 +164,7 @@ class ManagerFeatureTest extends TestCase
         ]);
 
         $this->assertDatabaseHas('managers', [
-            'manager_id'     => $manager->id,
+            'manager_id' => $manager->id,
         ]);
 
         $this->actingAs($subordinate)
@@ -173,7 +173,7 @@ class ManagerFeatureTest extends TestCase
             ]))->assertSuccessful();
 
         $this->assertDatabaseMissing('managers', [
-            'manager_id'     => $manager->id,
+            'manager_id' => $manager->id,
         ]);
     }
 }

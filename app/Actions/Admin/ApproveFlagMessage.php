@@ -8,7 +8,7 @@ use Illuminate\Support\Carbon;
 class ApproveFlagMessage
 {
     /**
-     * @param \App\Models\PendingFlagMessage $pendingFlagMessage
+     * @param PendingFlagMessage $pendingFlagMessage
      */
     public function execute(PendingFlagMessage $pendingFlagMessage): void
     {

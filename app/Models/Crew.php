@@ -4,6 +4,10 @@ namespace App\Models;
 
 use App\Utils\UrlUtils;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Support\Carbon;
 
 class Crew extends Model
@@ -19,17 +23,17 @@ class Crew extends Model
      * @var array
      */
     protected $casts = [
-        'id'                => 'integer',
-        'user_id'           => 'integer',
-        'bio'               => 'string',
-        'photo'             => 'string',
-        'submission_count'  => 'integer',
+        'id'               => 'integer',
+        'user_id'          => 'integer',
+        'bio'              => 'string',
+        'photo'            => 'string',
+        'submission_count' => 'integer',
     ];
 
     /**
      * Users many to many relationship
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function user()
     {
@@ -37,7 +41,7 @@ class Crew extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function crewPositions()
     {
@@ -57,27 +61,19 @@ class Crew extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function positions()
-    {
-        return $this->belongsToMany(Position::class)->withTimestamps()->withPivot('details');
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function reels()
-    {
-        return $this->hasMany(CrewReel::class);
-    }
-
-    /**
      * @return bool
      */
     public function hasGeneralReel(): bool
     {
         return $this->reels()->where('general', true)->count() > 0;
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function reels()
+    {
+        return $this->hasMany(CrewReel::class);
     }
 
     /**
@@ -89,12 +85,28 @@ class Crew extends Model
     }
 
     /**
+     * @return HasMany
+     */
+    public function resumes()
+    {
+        return $this->hasMany(CrewResume::class);
+    }
+
+    /**
      * @param $job
      * @return bool
      */
     public function hasAppliedTo($job): bool
     {
         return $this->submissions()->where('project_job_id', $job->id)->count() > 0;
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function submissions()
+    {
+        return $this->hasMany(Submission::class);
     }
 
     /**
@@ -118,15 +130,7 @@ class Crew extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function resumes()
-    {
-        return $this->hasMany(CrewResume::class);
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function gears()
     {
@@ -134,7 +138,7 @@ class Crew extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function socials()
     {
@@ -151,6 +155,14 @@ class Crew extends Model
             'details'           => $attributes['details'],
             'union_description' => $attributes['union_description'],
         ]);
+    }
+
+    /**
+     * @return BelongsToMany
+     */
+    public function positions()
+    {
+        return $this->belongsToMany(Position::class)->withTimestamps()->withPivot('details');
     }
 
     /**
@@ -183,7 +195,7 @@ class Crew extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     * @return HasManyThrough
      */
     public function endorsements()
     {
@@ -191,7 +203,7 @@ class Crew extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
     public function projects()
     {
@@ -199,17 +211,9 @@ class Crew extends Model
     }
 
     /**
-    * @return \Illuminate\Database\Eloquent\Relations\HasMany
-    */
-    public function submissions()
-    {
-        return $this->hasMany(Submission::class);
-    }
-
-    /**
      * Set the crew submissions count
      *
-     * @param  integer  $value
+     * @param integer $value
      * @return void
      */
     public function setSubmissionCountAttribute($value)

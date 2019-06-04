@@ -8,6 +8,7 @@ use Illuminate\Foundation\Http\FormRequest;
 class ProducerStoreMessageRequest extends FormRequest
 {
     protected $project;
+
     /**
      * Determine if the user is authorized to make this request.
      *

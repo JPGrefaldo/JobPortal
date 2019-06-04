@@ -11,8 +11,8 @@ class StubProject
     /**
      * @param int $user
      * @param int $site
-     * @param \App\Http\Requests\Producer\CreateProjectRequest $request
-     * @return \App\Models\Project
+     * @param CreateProjectRequest $request
+     * @return Project
      */
     public function create(int $user, int $site, CreateProjectRequest $request): Project
     {
@@ -22,22 +22,6 @@ class StubProject
         $data['site_id'] = $site;
 
         return Project::create($data);
-    }
-
-    /**
-     * @param \App\Models\Project $project
-     * @param \App\Http\Requests\Producer\CreateProjectRequest $request
-     * @return \App\Models\Project
-     */
-    public function update(Project $project, CreateProjectRequest $request): Project
-    {
-        $data           = $this->filter($request->toArray());
-        $data['status'] = 0;
-
-        $project->fill($data);
-        $project->save();
-
-        return $project;
     }
 
     /**
@@ -57,5 +41,21 @@ class StubProject
                 'location',
             ]
         );
+    }
+
+    /**
+     * @param Project $project
+     * @param CreateProjectRequest $request
+     * @return Project
+     */
+    public function update(Project $project, CreateProjectRequest $request): Project
+    {
+        $data = $this->filter($request->toArray());
+        $data['status'] = 0;
+
+        $project->fill($data);
+        $project->save();
+
+        return $project;
     }
 }

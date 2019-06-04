@@ -10,6 +10,7 @@ class FakeMessengerDashboardTest extends TestCase
 {
     use RefreshDatabase,
         SeedDatabaseAfterRefresh;
+
     /**
      * @test
      * @covers \App\Console\Commands\FakeMessengerDashboard::handle

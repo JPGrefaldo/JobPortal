@@ -3,6 +3,7 @@
 namespace App\Actions\User;
 
 use App\Models\User;
+use Hash;
 
 class ChangeUserPassword
 {
@@ -13,7 +14,7 @@ class ChangeUserPassword
     public function execute(User $user, $password): void
     {
         $user->update([
-            'password' => \Hash::make($password),
+            'password' => Hash::make($password),
         ]);
     }
 }

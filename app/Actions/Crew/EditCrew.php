@@ -7,7 +7,7 @@ use App\Models\Crew;
 class EditCrew
 {
     /**
-     * @param \App\Models\Crew $crew
+     * @param Crew $crew
      * @param array $data
      */
     public function execute(Crew $crew, array $data): void
@@ -17,7 +17,7 @@ class EditCrew
         }
 
         $crew->refresh()->update([
-            'bio'        => $data['bio'],
+            'bio' => $data['bio'],
         ]);
     }
 }

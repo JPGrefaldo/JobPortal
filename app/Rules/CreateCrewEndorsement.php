@@ -21,8 +21,8 @@ class CreateCrewEndorsement implements Rule
     /**
      * Determine if the validation rule passes.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
+     * @param string $attribute
+     * @param mixed $value
      * @return bool
      */
     public function passes($attribute, $value)
@@ -36,12 +36,13 @@ class CreateCrewEndorsement implements Rule
         } else {
             $existingEndorementRequest = EndorsementEndorser::where('email', $value)->where('user_id', $user)->get();
         }
-        
+
         if ($ownEndorsement) {
             $this->message = "You cannot send endosement request to your own email";
 
             return false;
-        } if ($existingEndorementRequest->count() > 0) {
+        }
+        if ($existingEndorementRequest->count() > 0) {
             $this->message = "You already sent endorsement request to that email";
 
             return false;

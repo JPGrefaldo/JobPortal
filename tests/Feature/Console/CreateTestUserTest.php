@@ -118,7 +118,7 @@ class CreateTestUserTest extends TestCase
     /**
      * @test
      * @covers \App\Console\Commands\CreateTestUser::handle
-    */
+     */
     public function create_user_with_multiple_roles()
     {
         $command = $this->artisan(self::CMD, [
@@ -135,7 +135,7 @@ class CreateTestUserTest extends TestCase
             ->whereHas('sites', function ($query) {
                 $query->where('hostname', self::HOST_NAME);
             })->first();
-        
+
         $user->load('roles', 'notificationSettings');
 
         $this->assertArrayHas([
@@ -153,6 +153,7 @@ class CreateTestUserTest extends TestCase
 
         $command->assertExitCode(0);
     }
+
     /**
      * @test
      * @covers \App\Console\Commands\CreateTestUser::handle

@@ -4,14 +4,17 @@ namespace App\Http\Controllers\Crew;
 
 use App\Actions\Crew\DeleteCrewPositionResume;
 use App\Http\Controllers\Controller;
+use App\Models\CrewPosition;
 use App\Models\Position;
+use Exception;
+use Illuminate\Http\JsonResponse;
 
 class CrewPositionResumeController extends Controller
 {
     /**
-     * @param \App\Models\CrewPosition
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
+     * @param CrewPosition
+     * @return JsonResponse
+     * @throws Exception
      */
     public function destroy(Position $position)
     {

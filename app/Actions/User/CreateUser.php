@@ -11,7 +11,7 @@ class CreateUser
 {
     /**
      * @param array $data
-     * @return \App\Models\User
+     * @return User
      */
     public function execute(array $data)
     {

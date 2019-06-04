@@ -3,13 +3,14 @@
 namespace App\Actions\Crew;
 
 use App\Models\User;
+use Exception;
 
 class StoreCrew
 {
     /**
-     * @param \App\Models\User $user
+     * @param User $user
      * @param array $data
-     * @throws \Exception
+     * @throws Exception
      */
     public function execute(User $user, array $data): void
     {

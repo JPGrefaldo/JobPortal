@@ -56,7 +56,7 @@ class ProjectController extends Controller
 
         return response()->json(
             [
-                'message'   => 'Successfully denied the project.',
+                'message' => 'Successfully denied the project.',
             ],
             Response::HTTP_OK
         );

@@ -3,13 +3,15 @@
 namespace App\Models;
 
 use Cmgmyr\Messenger\Models\Thread as VendorThread;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 class Thread extends VendorThread
 {
     /**
      * @param $project
      * @param $participant
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|object|null
+     * @return Builder|Model|object|null
      */
     public static function getByProjectAndParticipant(Project $project, User $participant)
     {

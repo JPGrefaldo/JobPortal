@@ -10,7 +10,7 @@ class CreateUserEmailVerificationCode
 {
     /**
      * @param User $user
-     * @return \App\Models\EmailVerificationCode
+     * @return EmailVerificationCode
      */
     public function execute(User $user): EmailVerificationCode
     {

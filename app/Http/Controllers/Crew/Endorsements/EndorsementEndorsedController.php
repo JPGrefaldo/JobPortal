@@ -5,12 +5,13 @@ namespace App\Http\Controllers\Crew\Endorsements;
 use App\Actions\Endorsement\GetEndorsements;
 use App\Http\Controllers\Controller;
 use App\Models\Position;
+use Illuminate\Http\JsonResponse;
 
 class EndorsementEndorsedController extends Controller
 {
     /**
      * @param Position $position
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function index(Position $position)
     {

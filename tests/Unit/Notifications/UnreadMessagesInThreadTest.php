@@ -25,11 +25,11 @@ class UnreadMessagesInThreadTest extends TestCase
         ];
 
         Notification::fake();
-        
+
         Notification::assertNothingSent();
-        
+
         $producer->notify(new UnreadMessagesInThread($message, $producer));
-        
+
         Notification::assertSentTo([$producer], UnreadMessagesInThread::class);
     }
 }

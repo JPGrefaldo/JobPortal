@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 class StoreCrewGear
 {
     /**
-     * @param \App\Models\Crew $crew
+     * @param Crew $crew
      * @param array $data
      */
     public function execute(Crew $crew, array $data): void

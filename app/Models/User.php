@@ -4,7 +4,11 @@ namespace App\Models;
 
 use App\Models\Traits\LogsActivityOnlyDirty;
 use App\Utils\StrUtils;
+use Avatar;
 use Cmgmyr\Messenger\Traits\Messagable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Cashier\Billable;
@@ -72,19 +76,9 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
-     * sites many to many relationship
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function sites()
-    {
-        return $this->belongsToMany(Site::class, 'user_sites');
-    }
-
-    /**
      * user_notification_settings relationship
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return HasOne
      */
     public function notificationSettings()
     {
@@ -94,7 +88,7 @@ class User extends Authenticatable implements JWTSubject
     /**
      * email_verification_tokens relationship
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return HasOne
      */
     public function emailVerificationCode()
     {
@@ -104,7 +98,7 @@ class User extends Authenticatable implements JWTSubject
     /**
      * user_banned relationship
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return HasOne
      */
     public function banned()
     {
@@ -112,7 +106,7 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return HasOne
      */
     public function crew()
     {
@@ -120,7 +114,7 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function projects()
     {
@@ -128,7 +122,7 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function messageTemplates()
     {
@@ -183,6 +177,16 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
+     * sites many to many relationship
+     *
+     * @return BelongsToMany
+     */
+    public function sites()
+    {
+        return $this->belongsToMany(Site::class, 'user_sites');
+    }
+
+    /**
      * @return string
      */
     public function getFormattedPhoneNumberAttribute()
@@ -212,8 +216,8 @@ class User extends Authenticatable implements JWTSubject
     public function getNicknameOrFullNameAttribute()
     {
         return (isset($this->nickname) && $this->nickname) ?
-                $this->nickname :
-                $this->full_name;
+            $this->nickname :
+            $this->full_name;
     }
 
     /**
@@ -229,13 +233,13 @@ class User extends Authenticatable implements JWTSubject
      */
     public function getAvatarAttribute()
     {
-        if ($this->hasRole(\App\Models\Role::CREW)) {
+        if ($this->hasRole(Role::CREW)) {
             if (isset($this->crew->photo_path) && ! empty($this->crew->photo_path)) {
                 return $this->crew->photo_url;
             }
         }
 
-        return \Avatar::create($this->full_name)->toBase64();
+        return Avatar::create($this->full_name)->toBase64();
     }
 
     /**

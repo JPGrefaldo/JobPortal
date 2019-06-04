@@ -86,7 +86,7 @@ class DepartmentsServicesTest extends TestCase
     public function update()
     {
         $department = factory(Department::class)->create();
-        $data       = [
+        $data = [
             'name'        => 'New Name',
             'description' => 'New Description',
         ];

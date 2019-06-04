@@ -18,25 +18,25 @@ class ProjectDeniedFeatureTest extends TestCase
      */
     public function can_deny_a_project()
     {
-        $admin      = $this->createAdmin();
-        $project    = factory(Project::class)->create();
-        $data       = [
-            'reason' => 'Some reason'
+        $admin = $this->createAdmin();
+        $project = factory(Project::class)->create();
+        $data = [
+            'reason' => 'Some reason',
         ];
 
         $this->assertNull($project->deleted_at);
 
         $this->actingAs($admin, 'api')
-             ->postJson(route('admin.projects.deny', $project), $data)
-             ->assertSee('Successfully denied the project.')
-             ->assertSuccessful();
+            ->postJson(route('admin.projects.deny', $project), $data)
+            ->assertSee('Successfully denied the project.')
+            ->assertSuccessful();
 
         $this->assertNotNull($project->fresh()->deleted_at);
         $this->assertCount(1, $project->deniedReason()->get());
 
         $this->assertArrayHas(
             [
-                'body' => 'Some reason'
+                'body' => 'Some reason',
             ],
             $project->deniedReason()->first()->toArray()
         );
@@ -48,15 +48,15 @@ class ProjectDeniedFeatureTest extends TestCase
      */
     public function cannot_deny_a_project_without_a_reason()
     {
-        $admin      = $this->createAdmin();
-        $project    = factory(Project::class)->create();
-        $data       = [];
+        $admin = $this->createAdmin();
+        $project = factory(Project::class)->create();
+        $data = [];
 
         $this->actingAs($admin, 'api')
-             ->postJson(route('admin.projects.deny', $project), $data)
-             ->assertSee('The given data was invalid.')
-             ->assertSee('The reason field is required.')
-             ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+            ->postJson(route('admin.projects.deny', $project), $data)
+            ->assertSee('The given data was invalid.')
+            ->assertSee('The reason field is required.')
+            ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     /**
@@ -65,10 +65,10 @@ class ProjectDeniedFeatureTest extends TestCase
      */
     public function only_admin_can_deny_a_project()
     {
-        $crew       = $this->createCrew();
-        $producer   = $this->createProducer();
-        $project    = factory(Project::class)->create();
-        $data       = [];
+        $crew = $this->createCrew();
+        $producer = $this->createProducer();
+        $project = factory(Project::class)->create();
+        $data = [];
 
         $this->actingAs($crew, 'api')
             ->postJson(route('admin.projects.deny', $project), $data)

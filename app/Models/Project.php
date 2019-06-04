@@ -4,14 +4,19 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Collection;
 
 class Project extends Model
 {
     use SoftDeletes;
 
-    const PENDING    = 0;
-    const APPROVED   = 1;
+    const PENDING = 0;
+    const APPROVED = 1;
     const UNAPPROVED = 2;
 
     /**
@@ -38,7 +43,7 @@ class Project extends Model
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function type()
     {
@@ -46,7 +51,7 @@ class Project extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function remotes()
     {
@@ -54,7 +59,7 @@ class Project extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function jobs()
     {
@@ -62,7 +67,7 @@ class Project extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
     public function contributors()
     {
@@ -70,7 +75,7 @@ class Project extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function owner()
     {
@@ -78,7 +83,7 @@ class Project extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
     public function threads()
     {
@@ -86,8 +91,8 @@ class Project extends Model
     }
 
     /**
-    * @return \Illuminate\Database\Eloquent\Relations\HasOne
-    */
+     * @return HasOne
+     */
     public function deniedReason()
     {
         return $this->hasOne(ProjectDeniedReason::class);
@@ -122,7 +127,7 @@ class Project extends Model
 
     /**
      * @param array $siteIds
-     * @return array|\Illuminate\Support\Collection
+     * @return array|Collection
      */
     public function getSitesByIds(array $siteIds)
     {

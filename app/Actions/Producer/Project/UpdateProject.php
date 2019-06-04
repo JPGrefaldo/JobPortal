@@ -8,9 +8,9 @@ use App\Models\Project;
 class UpdateProject
 {
     /**
-     * @param \App\Models\Project $project
-     * @param \App\Http\Requests\Producer\CreateProjectRequest $request
-     * @return \App\Models\Project
+     * @param Project $project
+     * @param CreateProjectRequest $request
+     * @return Project
      */
     public function execute(Project $project, CreateProjectRequest $request): Project
     {
