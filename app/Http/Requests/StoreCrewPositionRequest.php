@@ -36,7 +36,7 @@ class StoreCrewPositionRequest extends FormRequest
             $crew_reel   = CrewReel::where('crew_position_id', $crewPosition->id)->first();
         }
 
-        // Since nullable file upload rules are not working, These conditions are added to work
+        // Since nullable file upload rules are not working, These conditions are added for resume, gear_photos, reel_link to work
         // example: when resume is equals to 'null', the resume will be nullable
 
         // resume is required if it doesn't exist on crew_resumes table
