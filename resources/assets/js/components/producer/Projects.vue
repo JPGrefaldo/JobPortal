@@ -1,5 +1,5 @@
 <template>
-    <main class="float-left w-full py-md md:py-lg px-3">
+    <div class="xl:w-1/2 w-full pb-8 border-b-2 mb-8 border-grey-light md:flex justify-between items-center less-than-large-padding-rl-1">
         <div class="container">
 
             <project-side-nav :projects="projects"></project-side-nav>
@@ -58,7 +58,7 @@
             </div>
 
         </div>
-    </main>
+    </div>
 </template>
 
 <script>

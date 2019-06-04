@@ -3,7 +3,7 @@
 <body class="bg-grey-lighter font-body">
     @include('_parts.navbar.navbar-logged-in')
 
-    <main class="float-left w-full py-lg">
+    <div class="float-left w-full py-lg">
         <div class="container">
             <div class="w-full pb-8 border-b-2 mb-8 border-grey-light flex justify-between items-center">
                 <h1 class="font-header text-blue-dark text-2xl font-semibold">My projects</h1>
@@ -168,6 +168,6 @@
 
             </div>
         </div>
-    </main>
+    </div>
 
     @include('_parts.footer.footer')
