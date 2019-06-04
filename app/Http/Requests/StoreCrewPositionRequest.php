@@ -36,7 +36,12 @@ class StoreCrewPositionRequest extends FormRequest
             $crew_reel   = CrewReel::where('crew_position_id', $crewPosition->id)->first();
         }
 
+        // Since nullable file upload rules are not working, These conditions are added to work
+        // example: when resume is equals to 'null', the resume will be nullable
+
+        // resume is required if it doesn't exist on crew_resumes table
         if (isset($crew_resume)) {
+            // If there's no resume upload validation rule will be null
             if ($this->resume != "null") {
                 $resume_rule = 'file|mimes:pdf,doc,docx';
             } else {
@@ -46,24 +51,28 @@ class StoreCrewPositionRequest extends FormRequest
             $resume_rule = 'required|file|mimes:pdf,doc,docx';
         }
 
-        if (isset($crew_reel)) {
-            $reel_link_rule = ['nullable', 'max:50', 'string', new Reel()];
-        } else {
-            $reel_link_rule = ['required', 'max:50', 'string', new Reel()];
-        }
-
+        // If there's no gear_photos upload validation rule will be null
         if ($this->gear_photos != "null") {
             $gear_photos_rule = 'nullable|image|mimes:jpeg,png';
         } else {
             $gear_photos_rule = 'nullable';
         }
 
+        // reel_link is required if it doesn't exist on crew_reels table
+        if (isset($crew_reel)) {
+            $reel_link_rule = ['nullable', 'max:50', 'string', new Reel()];
+        } else {
+            $reel_link_rule = ['required', 'max:50', 'string', new Reel()];
+        }
+
+        // Union is required if position has union
         if ($position['has_union']) {
             $union_rule = 'required|string|max:50|min:8';
         } else {
             $union_rule = 'nullable|string|max:50|min:8';
         }
         
+        // Gear is required if position has gear
         if ($position['has_gear']) {
             $gear_rule = 'required|string|max:50|min:8';
         } else {
