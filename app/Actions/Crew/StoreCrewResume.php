@@ -13,7 +13,7 @@ class StoreCrewResume
      */
     public function execute(Crew $crew, array $data): void
     {
-        if (! isset($data['resume']) || empty($data['resume'])) {
+        if (! isset($data['resume']) || $data['resume'] == "null") {
             return;
         }
 

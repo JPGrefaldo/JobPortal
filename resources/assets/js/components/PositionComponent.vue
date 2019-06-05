@@ -41,12 +41,12 @@
                             <label :for="'resume' + position.id"
                                 class="btn-outline text-white inline-block cursor-pointer bg-green">{{form.resume ? "change" : "upload"}} file</label>
                             <input type="file" :id="'resume' + position.id" @change="selectFile" name="resume" class="hidden"/> 
-                            <button v-if="form.resume" @click="removeResume(position.id)" class="btn-outline text-green inline-block cursor-pointer">Remove</button>
-                            <div v-if="form.resume" class="w-full pt-2">
+                            <button v-if="resume" @click="removeResume(position.id)" class="btn-outline text-green inline-block cursor-pointer">Remove</button>
+                            <div v-if="resume" class="w-full pt-2">
                                 <div v-if="position_exist">
                                     <i class="fas fa-file-pdf text-grey"></i>
                                     <span>
-                                        <a target="_blank" :href="form.resume.file_link" class="text-sm text-grey" v-if="resume.path">{{ basename(resume.path) }}</a>
+                                        <a target="_blank" :href="resume.file_link" class="text-sm text-grey" v-if="resume.path">{{ basename(resume.path) }}</a>
                                     </span>
                                 </div>
                             </div>
@@ -162,8 +162,6 @@ export default {
             has_gear      : false,
             selected      : false,
             filled        : false,
-            positionData  : {},
-            positionData  : [],
             position_exist: false,
             reel          : null,
             resume        : null,
@@ -176,7 +174,6 @@ export default {
                 gear_photos      : null,
                 reel_file        : null,
                 gear             : '',
-                position         : this.position.id,
             }),
         };
     },
@@ -214,13 +211,23 @@ export default {
 
             let formData = new FormData();
 
+            if (typeof this.form.resume != "undefined") {
+                formData.append('resume', this.form.resume);
+            } else {
+                formData.append('resume', null);
+            }
+
+            if (typeof this.form.gear_photos != "undefined") {
+                formData.append('gear_photos', this.form.gear_photos);
+            } else {
+                formData.append('gear_photos', null);
+            }
+
             formData.append('bio', this.form.bio);
             formData.append('union_description', this.form.union_description);
-            formData.append('resume', this.form.resume);
-            formData.append('gear_photos', this.form.gear_photos);
             formData.append('reel_link', this.form.reel_link);
             formData.append('gear', this.form.gear);
-            formData.append('position', this.form.position);
+            formData.append('position', this.position.id);
 
             if (this.position_exist) {
                 axios
@@ -285,10 +292,8 @@ export default {
                 id               : data.id,
                 bio              : data.details,
                 union_description: data.union_description ? data.union_description: '',
-                resume           : data.resume ? data.resume : null,
-                reel             : data.reel ? data.reel : false,
-                gear             : data.gear ? data.gear.description : '',
-                gear_photos      : data.gear ? data.gear.path : null,
+                reel_link        : data.reel ? data.reel.path                     : '',
+                gear             : data.gear ? data.gear.description              : '',
             });
 
             this.reel       = data.reel ? data.reel.path : null;

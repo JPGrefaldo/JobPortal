@@ -9,6 +9,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
+use App\Models\CrewPosition;
 
 class CrewDepartmentPositionFeatureTest extends TestCase
 {
@@ -22,6 +23,8 @@ class CrewDepartmentPositionFeatureTest extends TestCase
      */
     public function store()
     {
+        // $this->withoutExceptionHandling();
+
         Storage::fake('s3');
         $crew = $this->createCrew();
         $position = factory(Position::class)->create();
@@ -35,7 +38,7 @@ class CrewDepartmentPositionFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($crew)
-            ->postJson(route('crew-position.store', $position), $data);
+            ->post(route('crew-position.store', $position), $data);
 
         $response->assertSuccessful();
 

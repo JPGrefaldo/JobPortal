@@ -5,6 +5,13 @@ namespace App\Http\Requests;
 use App\Models\Position;
 use App\Rules\Reel;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\CrewPosition;
+use App\Models\CrewResume;
+use App\Models\CrewReel;
+use App\Models\Rules\CrewResumeRules;
+use App\Models\Rules\CrewReelRules;
+use App\Models\Rules\CrewPositionRules;
+use App\Models\Rules\CrewGearRules;
 
 class StoreCrewPositionRequest extends FormRequest
 {
@@ -25,28 +32,20 @@ class StoreCrewPositionRequest extends FormRequest
      */
     public function rules()
     {
-        $position = Position::find($this->position_id);
-
-        if ($position['has_union']) {
-            $union_rule = 'required|string|max:50|min:8';
+        if (is_string($this->position)) {
+            $position = Position::find($this->position);
         } else {
-            $union_rule = 'nullable|string|max:50|min:8';
-        }
-
-        if ($position['has_gear']) {
-            $gear_rule = 'required|string|max:50|min:8';
-        } else {
-            $gear_rule = 'nullable|string|max:50|min:8';
+            $position = $this->position;
         }
 
         return [
             'bio'               => 'required|string|min:10',
-            'resume'            => 'required|file|mimes:pdf,doc,docx',
-            'reel_link'         => ['nullable', 'max:50', 'string', new Reel()],
+            'resume'            => CrewResumeRules::resume($position, $this->resume),
+            'reel_link'         => CrewReelRules::reel_link($position),
             'reel_file'         => 'nullable|file|mimes:mp4,avi,wmv|max:20000',
-            'union_description' => $union_rule,
-            'gear'              => $gear_rule,
-            'gear_photos'       => 'nullable|image|mimes:jpeg,png',
+            'union_description' => CrewPositionRules::position_description($position),
+            'gear'              => CrewGearRules::gear($position),
+            'gear_photos'       => CrewGearRules::gear_photos($this->gear_photos),
         ];
     }
 }

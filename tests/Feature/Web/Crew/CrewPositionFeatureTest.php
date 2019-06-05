@@ -28,8 +28,10 @@ class CrewPositionFeatureTest extends TestCase
      */
     public function store()
     {
-        $data = $this->getStoreData();
+        $this->withoutExceptionHandling();
+
         $position = factory(Position::class)->create();
+        $data = $this->getStoreData();
 
         $this->actingAs($this->user)
             ->post(route('crew-position.store', $position), $data)
