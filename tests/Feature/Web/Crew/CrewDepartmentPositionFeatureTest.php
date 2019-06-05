@@ -23,7 +23,7 @@ class CrewDepartmentPositionFeatureTest extends TestCase
      */
     public function store()
     {
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
 
         Storage::fake('s3');
         $crew = $this->createCrew();
@@ -38,7 +38,7 @@ class CrewDepartmentPositionFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($crew)
-            ->post(route('crew-position.store', $position->id), $data);
+            ->post(route('crew-position.store', $position), $data);
 
         $response->assertSuccessful();
 
