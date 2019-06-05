@@ -32,7 +32,11 @@ class StoreCrewPositionRequest extends FormRequest
      */
     public function rules()
     {
-        $position = $this->position;
+        if (is_string($this->position)) {
+            $position = Position::find($this->position);
+        } else {
+            $position = $this->position;
+        }
 
         return [
             'bio'               => 'required|string|min:10',

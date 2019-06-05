@@ -16,7 +16,7 @@ class CrewResumeRules
         }
 
         if (isset($crew_resume)) {
-            if ($resume !== "null") {
+            if ($resume !== null) {
                 return [
                     'nullable',
                     'file',

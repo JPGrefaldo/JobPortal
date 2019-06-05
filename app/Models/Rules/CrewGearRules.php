@@ -6,10 +6,20 @@ class CrewGearRules
 {
     public static function gear($position)
     {
-        if ($position['has_gear']) {
-            return 'required|string|max:50|min:8';
+        if ($position->has_gear) {
+            return [
+                'required',
+                'string',
+                'max:50',
+                'min:8'
+            ];
         } else {
-            return 'nullable|string|max:50|min:8';
+            return [
+                'nullable',
+                'string',
+                'max:50',
+                'min:8'
+            ];
         }
     }
 
