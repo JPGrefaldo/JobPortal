@@ -3,15 +3,11 @@
 namespace App\Http\Requests;
 
 use App\Models\Position;
-use App\Rules\Reel;
-use Illuminate\Foundation\Http\FormRequest;
-use App\Models\CrewPosition;
-use App\Models\CrewResume;
-use App\Models\CrewReel;
-use App\Models\Rules\CrewResumeRules;
-use App\Models\Rules\CrewReelRules;
-use App\Models\Rules\CrewPositionRules;
 use App\Models\Rules\CrewGearRules;
+use App\Models\Rules\CrewPositionRules;
+use App\Models\Rules\CrewReelRules;
+use App\Models\Rules\CrewResumeRules;
+use Illuminate\Foundation\Http\FormRequest;
 
 class StoreCrewPositionRequest extends FormRequest
 {
