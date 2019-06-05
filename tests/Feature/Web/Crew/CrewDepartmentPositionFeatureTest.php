@@ -37,10 +37,9 @@ class CrewDepartmentPositionFeatureTest extends TestCase
             'reel_link'         => 'https://www.youtube.com/embed/G8S81CEBdNs',
         ];
 
-        $response = $this->actingAs($crew)
-            ->post(route('crew-position.store', $position), $data);
-
-        $response->assertSuccessful();
+        $this->actingAs($crew)
+            ->post(route('crew-position.store', $position), $data)
+            ->assertSuccessful();
 
         $this->assertDatabaseHas('crew_position', [
             'crew_id'           => $crew->id,
