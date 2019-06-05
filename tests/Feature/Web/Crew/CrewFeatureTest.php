@@ -54,7 +54,7 @@ class CrewFeatureTest extends TestCase
      */
     public function store()
     {
-        $data = $this->get_store_data();
+        $data = $this->getStoreData();
 
         $response = $this->actingAs($this->user)
             ->post(route('crew.profile.store'), $data);
@@ -100,7 +100,7 @@ class CrewFeatureTest extends TestCase
         // given
         // $this->withoutExceptionHandling();
 
-        $data = $this->get_store_data([
+        $data = $this->getStoreData([
             'resume'                       => '',
             'reel'                         => '',
             'socials.facebook.url'         => '',
@@ -129,7 +129,7 @@ class CrewFeatureTest extends TestCase
     {
         // $this->withoutExceptionHandling();
 
-        $data = $this->get_store_data([
+        $data = $this->getStoreData([
             'photo'                        => UploadedFile::fake()->create('image.php'),
             'resume'                       => UploadedFile::fake()->create('resume.php'),
             'reel_file'                    => UploadedFile::fake()->create('video.php'),
@@ -172,7 +172,7 @@ class CrewFeatureTest extends TestCase
     public function create_youtube_cleaned()
     {
         // given
-        $data = $this->get_store_data([
+        $data = $this->getStoreData([
             'reel'                => 'https://www.youtube.com/watch?v=2-_rLbU6zJo',
             'socials.youtube.url' => 'https://www.youtube.com/watch?v=G8S81CEBdNs',
         ]);
@@ -192,7 +192,7 @@ class CrewFeatureTest extends TestCase
     public function create_vimeo_reel_cleaned()
     {
         // given
-        $data = $this->get_store_data([
+        $data = $this->getStoreData([
             'reel' => 'https://vimeo.com/230046783',
         ]);
 
@@ -209,7 +209,7 @@ class CrewFeatureTest extends TestCase
      *
      * @return array
      */
-    public function get_store_data($customData = [])
+    public function getStoreData($customData = [])
     {
         $data = [
             'bio'     => 'some bio',
@@ -252,7 +252,7 @@ class CrewFeatureTest extends TestCase
             ],
         ];
 
-        return $this->customize_data($data, $customData);
+        return $this->customizeData($data, $customData);
     }
 
     /**
@@ -261,7 +261,7 @@ class CrewFeatureTest extends TestCase
      *
      * @return mixed
      */
-    protected function customize_data($data, $customData)
+    protected function customizeData($data, $customData)
     {
         foreach ($customData as $key => $value) {
             Arr::set($data, $key, $value);

@@ -31,7 +31,7 @@ class GetApprovedEndorsementsByCrewPositionTest extends TestCase
      */
     public function exectue()
     {
-        $testData = $this->create_endorsement(\Carbon\Carbon::now());
+        $testData = $this->createEndorsement(\Carbon\Carbon::now());
 
         $ret = $this->service->execute($testData['crew_position']);
 
@@ -44,7 +44,7 @@ class GetApprovedEndorsementsByCrewPositionTest extends TestCase
      */
     public function no_approved()
     {
-        $testData = $this->create_endorsement();
+        $testData = $this->createEndorsement();
 
         $ret = $this->service->execute($testData['crew_position']);
 
@@ -54,7 +54,7 @@ class GetApprovedEndorsementsByCrewPositionTest extends TestCase
     /**
      * @return array
      */
-    private function create_endorsement($approved_at = null): array
+    private function createEndorsement($approved_at = null): array
     {
         $endorser = factory(EndorsementEndorser::class)->create();
 

@@ -28,7 +28,7 @@ class CrewPositionFeatureTest extends TestCase
      */
     public function store()
     {
-        $data = $this->get_store_data();
+        $data = $this->getStoreData();
         $position = factory(Position::class)->create();
 
         $this->actingAs($this->user)
@@ -42,11 +42,11 @@ class CrewPositionFeatureTest extends TestCase
     public function crew_position_bio_is_required()
     {
         $position = factory(Position::class)->create();
-        $data1 = $this->get_store_data([
+        $data1 = $this->getStoreData([
             'bio' => '',
         ]);
 
-        $data2 = $this->get_store_data([
+        $data2 = $this->getStoreData([
             'bio' => 'Less 10',
         ]);
 
@@ -65,11 +65,11 @@ class CrewPositionFeatureTest extends TestCase
     public function crew_position_resume_is_valid_and_required()
     {
         $position = factory(Position::class)->create();
-        $data1 = $this->get_store_data([
+        $data1 = $this->getStoreData([
             'resume' => null,
         ]);
 
-        $data2 = $this->get_store_data([
+        $data2 = $this->getStoreData([
             'resume' => UploadedFile::fake()->create('resume.png'),
         ]);
 
@@ -88,7 +88,7 @@ class CrewPositionFeatureTest extends TestCase
     public function crew_position_reel_link_is_valid()
     {
         $position = factory(Position::class)->create();
-        $data = $this->get_store_data([
+        $data = $this->getStoreData([
             'reel_link' => 'https://www.inavlid.com/invalid-link',
         ]);
 
@@ -103,7 +103,7 @@ class CrewPositionFeatureTest extends TestCase
     public function crew_position_gear_photo_must_be_an_image()
     {
         $position = factory(Position::class)->create();
-        $data = $this->get_store_data([
+        $data = $this->getStoreData([
             'gear_photos' => UploadedFile::fake()->create('file.pdf'),
         ]);
 
@@ -121,7 +121,7 @@ class CrewPositionFeatureTest extends TestCase
             'has_union' => true,
         ]);
 
-        $data = $this->get_store_data([
+        $data = $this->getStoreData([
             'union_description' => UploadedFile::fake()->create('file.pdf'),
         ]);
 
@@ -139,7 +139,7 @@ class CrewPositionFeatureTest extends TestCase
             'has_gear' => true,
         ]);
 
-        $data = $this->get_store_data([
+        $data = $this->getStoreData([
             'gear' => UploadedFile::fake()->create('resume.pdf'),
         ]);
 
@@ -155,7 +155,7 @@ class CrewPositionFeatureTest extends TestCase
     {
         $position = factory(Position::class)->create();
 
-        $data = $this->get_store_data();
+        $data = $this->getStoreData();
 
         $this->actingAs($this->user)
             ->post(route('crew-position.store', $position), $data)
@@ -168,7 +168,7 @@ class CrewPositionFeatureTest extends TestCase
             ->assertSuccessful();
     }
 
-    public function get_store_data($customData = [])
+    public function getStoreData($customData = [])
     {
         $data = [
             'resume'            => UploadedFile::fake()->create('resume.pdf'),
@@ -178,7 +178,7 @@ class CrewPositionFeatureTest extends TestCase
             'reel_link'         => 'https://www.youtube.com/embed/G8S81CEBdNs',
         ];
 
-        return $this->customize_data($data, $customData);
+        return $this->customizeData($data, $customData);
     }
 
     /**
@@ -187,7 +187,7 @@ class CrewPositionFeatureTest extends TestCase
     *
     * @return mixed
     */
-    protected function customize_data($data, $customData)
+    protected function customizeData($data, $customData)
     {
         foreach ($customData as $key => $value) {
             Arr::set($data, $key, $value);

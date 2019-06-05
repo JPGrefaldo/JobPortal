@@ -37,7 +37,7 @@ class GetEndorsementsTest extends TestCase
      */
     public function execute()
     {
-        list($user, $position) = $this->create_endorsement(Carbon::now());
+        list($user, $position) = $this->createEndorsement(Carbon::now());
 
         $endorsements = $this->service->execute($user, $position, true);
 
@@ -50,7 +50,7 @@ class GetEndorsementsTest extends TestCase
      */
     public function execute_no_approved()
     {
-        list($user, $position) = $this->create_endorsement();
+        list($user, $position) = $this->createEndorsement();
 
         $endorsements = $this->service->execute($user, $position, true);
 
@@ -63,7 +63,7 @@ class GetEndorsementsTest extends TestCase
      */
     public function execute_get_not_approved()
     {
-        list($user, $position) = $this->create_endorsement();
+        list($user, $position) = $this->createEndorsement();
 
         $endorsements = $this->service->execute($user, $position);
 
@@ -73,7 +73,7 @@ class GetEndorsementsTest extends TestCase
     /**
      * @return array
      */
-    private function create_endorsement($approved_at = null): array
+    private function createEndorsement($approved_at = null): array
     {
         $endorser = factory(EndorsementEndorser::class)->create();
 

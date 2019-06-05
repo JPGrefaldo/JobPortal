@@ -24,7 +24,7 @@ class SignupFeatureTest extends TestCase
     {
         Mail::fake();
 
-        $user = $this->make_fake_user()->toArray();
+        $user = $this->makeFakeUser()->toArray();
 
         $data = array_merge($user, [
             'phone'                 => '1234567890',
@@ -54,8 +54,8 @@ class SignupFeatureTest extends TestCase
             'user_id' => $user->id,
         ]);
 
-        $this->has_crew_role($user);
-        $this->has_crew($user);
+        $this->hasCrewRole($user);
+        $this->hasCrew($user);
     }
 
     /**
@@ -66,7 +66,7 @@ class SignupFeatureTest extends TestCase
     {
         Mail::fake();
 
-        $user = $this->make_fake_user()->toArray();
+        $user = $this->makeFakeUser()->toArray();
 
         $data = array_merge($user, [
             'phone'                 => '1234567890',
@@ -96,7 +96,7 @@ class SignupFeatureTest extends TestCase
             'user_id' => $user->id,
         ]);
 
-        $this->has_producer_role($user);
+        $this->hasProducerRole($user);
     }
 
     /**
@@ -107,7 +107,7 @@ class SignupFeatureTest extends TestCase
     {
         Mail::fake();
 
-        $user = $this->make_fake_user()->toArray();
+        $user = $this->makeFakeUser()->toArray();
 
         $data = array_merge($user, [
             'phone'                 => '1234567890',
@@ -137,9 +137,9 @@ class SignupFeatureTest extends TestCase
             'user_id' => $user->id,
         ]);
 
-        $this->has_crew_role($user);
-        $this->has_crew($user);
-        $this->has_producer_role($user);
+        $this->hasCrewRole($user);
+        $this->hasCrew($user);
+        $this->hasProducerRole($user);
     }
 
     /**
@@ -150,7 +150,7 @@ class SignupFeatureTest extends TestCase
     {
         Mail::fake();
 
-        $user = $this->make_fake_user()->toArray();
+        $user = $this->makeFakeUser()->toArray();
 
         $data = array_merge($user, [
             'first_name'            => 'john',
@@ -190,7 +190,7 @@ class SignupFeatureTest extends TestCase
     {
         Mail::fake();
 
-        $user = $this->make_fake_user()->toArray();
+        $user = $this->makeFakeUser()->toArray();
 
         $data = array_merge($user, [
             'phone'                 => '1234567890',
@@ -218,7 +218,7 @@ class SignupFeatureTest extends TestCase
     {
         Mail::fake();
 
-        $user = $this->make_fake_user()->toArray();
+        $user = $this->makeFakeUser()->toArray();
 
         $data = array_merge($user, [
             'phone'                 => '1234567890',
@@ -248,7 +248,7 @@ class SignupFeatureTest extends TestCase
      */
     public function invalid_data()
     {
-        $data = array_merge($this->make_fake_user()->toArray(), [
+        $data = array_merge($this->makeFakeUser()->toArray(), [
             'email'       => 'invalid_email',
             'password'    => 'password',
             'phone'       => '+345344545446',
@@ -274,7 +274,7 @@ class SignupFeatureTest extends TestCase
     {
         $this->createUser(['email' => 'duplicate@gmail.com']);
 
-        $data = array_merge($this->make_fake_user()->toArray(), [
+        $data = array_merge($this->makeFakeUser()->toArray(), [
             'email'              => 'duplicate@gmail.com',
             'email_confirmation' => 'duplicate@gmail.com',
             'password'           => 'password',
@@ -344,7 +344,7 @@ class SignupFeatureTest extends TestCase
         );
     }
 
-    private function make_fake_user()
+    private function makeFakeUser()
     {
         return factory(User::class)->make([
             'email' => $this->faker->freeEmail,
@@ -354,7 +354,7 @@ class SignupFeatureTest extends TestCase
     /**
      * @param $user
      */
-    public function has_crew_role($user)
+    public function hasCrewRole($user)
     {
         $user->hasRole(Role::CREW);
     }
@@ -362,7 +362,7 @@ class SignupFeatureTest extends TestCase
     /**
      * @param $user
      */
-    public function has_crew($user)
+    public function hasCrew($user)
     {
         $this->assertDatabaseHas('crews', [
             'user_id' => $user->id,
@@ -372,7 +372,7 @@ class SignupFeatureTest extends TestCase
     /**
      * @param $user
      */
-    public function has_producer_role($user)
+    public function hasProducerRole($user)
     {
         $user->hasRole(Role::PRODUCER);
     }

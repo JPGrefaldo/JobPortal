@@ -23,7 +23,7 @@ class EndorsementEndorsedFeatureTest extends TestCase
      */
     public function index()
     {
-        list($user, $position, $request) = $this->create_endorsement(Carbon::now());
+        list($user, $position, $request) = $this->createEndorsement(Carbon::now());
 
         $this->actingAs($user);
 
@@ -41,7 +41,7 @@ class EndorsementEndorsedFeatureTest extends TestCase
      */
     public function index_no_approved()
     {
-        list($user, $position) = $this->create_endorsement();
+        list($user, $position) = $this->createEndorsement();
 
         $this->actingAs($user);
 
@@ -54,7 +54,7 @@ class EndorsementEndorsedFeatureTest extends TestCase
     /**
      * @return array
      */
-    private function create_endorsement($approved_at = null): array
+    private function createEndorsement($approved_at = null): array
     {
         $endorser = factory(EndorsementEndorser::class)->create();
 

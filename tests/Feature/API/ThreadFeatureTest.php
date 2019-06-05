@@ -108,7 +108,7 @@ class ThreadFeatureTest extends TestCase
             $currentUser = $this->createProducer();
         }
 
-        $thread = $this->thread_participants($currentUser);
+        $thread = $this->threadParticipants($currentUser);
 
         $this->actingAs($currentUser, 'api')
             ->getJson(route(
@@ -125,7 +125,7 @@ class ThreadFeatureTest extends TestCase
             ]));
     }
 
-    private function thread_participants($currentUser)
+    private function threadParticipants($currentUser)
     {
         $thread = factory(Thread::class)->create([
             'subject' => 'Thread Test Subject',

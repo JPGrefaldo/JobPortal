@@ -21,7 +21,7 @@ class CrewMessagingFeatureTest extends TestCase
      */
     public function can_send_a_message_to_multiple_crews_who_applied()
     {
-        $this->send_messages();
+        $this->sendMessages();
     }
 
     /**
@@ -32,7 +32,7 @@ class CrewMessagingFeatureTest extends TestCase
     {
         $crew = $this->createCrew();
         $project = factory(Project::class)->create();
-        $data = $this->get_data();
+        $data = $this->getData();
 
         $this->actingAs($crew, 'api')
             ->postJson(route('producer.message.crew.store', $project), $data)
@@ -72,7 +72,7 @@ class CrewMessagingFeatureTest extends TestCase
      */
     public function crew_should_receive_the_message_individually()
     {
-        $this->send_messages();
+        $this->sendMessages();
 
         $threads = Thread::all();
 
@@ -96,7 +96,7 @@ class CrewMessagingFeatureTest extends TestCase
         $this->assertEquals(3, $sentTimes);
     }
 
-    private function get_data()
+    private function getData()
     {
         return [
             'subject' => 'Some subject',
@@ -104,7 +104,7 @@ class CrewMessagingFeatureTest extends TestCase
         ];
     }
 
-    private function send_messages()
+    private function sendMessages()
     {
         $producer = $this->createProducer();
         $crews    = factory(Crew::class, 3)->create();
@@ -115,7 +115,7 @@ class CrewMessagingFeatureTest extends TestCase
 
         $project->contributors()->attach($crews);
 
-        $data = $this->get_data();
+        $data = $this->getData();
         $data['recipients'] = $crews->map(function ($crew) {
             return $crew->user->id;
         });

@@ -62,7 +62,7 @@ class ProjectJobFeatureTest extends TestCase
     public function can_create_a_job()
     {
         $user    = $this->createProducer();
-        $project = $this->create_project($user);
+        $project = $this->createProject($user);
         $data    = [
             'persons_needed'       => '2',
             'gear_provided'        => 'Some Gear Provided',
@@ -110,7 +110,7 @@ class ProjectJobFeatureTest extends TestCase
     public function can_create_a_job_with_non_pay_rate()
     {
         $user    = $this->createProducer();
-        $project = $this->create_project($user);
+        $project = $this->createProject($user);
         $data    = [
             'persons_needed'       => 2,
             'gear_provided'        => 'Some Gear Provided',
@@ -154,7 +154,7 @@ class ProjectJobFeatureTest extends TestCase
     public function can_create_a_job_with_no_gear_and_no_persons_needed()
     {
         $user    = $this->createProducer();
-        $project = $this->create_project($user);
+        $project = $this->createProject($user);
         $data    = [
             'pay_rate'             => '20',
             'pay_rate_type_id'     => PayTypeID::PER_HOUR,
@@ -185,7 +185,7 @@ class ProjectJobFeatureTest extends TestCase
     public function can_create_a_job_with_multiple_dates()
     {
         $user    = $this->createProducer();
-        $project = $this->create_project($user);
+        $project = $this->createProject($user);
 
         $dates = [
             '2019-01-01',
@@ -201,7 +201,7 @@ class ProjectJobFeatureTest extends TestCase
             'gear_needed'          => 'Some Gear Needed',
             'pay_rate'             => '16',
             'pay_type_id'          => PayTypeID::PER_HOUR,
-            'dates_needed'         => $this->frontend_json_string($dates),
+            'dates_needed'         => $this->frontendJsonString($dates),
             'notes'                => 'Some Note',
             'travel_expenses_paid' => '1',
             'rush_call'            => '1',
@@ -221,7 +221,7 @@ class ProjectJobFeatureTest extends TestCase
             ->assertStatus(Response::HTTP_CREATED);
 
         $response->assertJsonFragment([
-            'dates_needed' => $this->frontend_json_string($dates),
+            'dates_needed' => $this->frontendJsonString($dates),
         ]);
     }
 
@@ -232,7 +232,7 @@ class ProjectJobFeatureTest extends TestCase
     public function can_edit_a_job()
     {
         $user    = $this->createProducer();
-        $project = $this->create_project($user);
+        $project = $this->createProject($user);
 
         $projectJob = factory(ProjectJob::class)->create(['project_id' => $project->id]);
 
@@ -285,7 +285,7 @@ class ProjectJobFeatureTest extends TestCase
     public function can_delete_a_job()
     {
         $user    = $this->createProducer();
-        $project = $this->create_project($user);
+        $project = $this->createProject($user);
 
         $projectJob = factory(ProjectJob::class)->create(['project_id' => $project->id]);
 
@@ -307,7 +307,7 @@ class ProjectJobFeatureTest extends TestCase
             'dates_needed'         => '',
             'notes'                => '',
             'position_id'          => '',
-            'project_id'           => $this->create_project($user)->id,
+            'project_id'           => $this->createProject($user)->id,
         ];
 
         $this->actingAs($user)
@@ -344,7 +344,7 @@ class ProjectJobFeatureTest extends TestCase
             'dates_needed'         => false,
             'notes'                => false,
             'position_id'          => 999,
-            'project_id'           => $this->create_project($user)->id,
+            'project_id'           => $this->createProject($user)->id,
         ];
 
         $this->actingAs($user)
@@ -438,7 +438,7 @@ class ProjectJobFeatureTest extends TestCase
     public function should_accept_pay_rate_type_id_when_no_pay_type_id()
     {
         $user = $this->createProducer();
-        $project = $this->create_project($user);
+        $project = $this->createProject($user);
 
         $data    = [
             'persons_needed'       => '2',
@@ -473,7 +473,7 @@ class ProjectJobFeatureTest extends TestCase
     *
     * @return \App\Models\Project
     */
-    private function create_project(User $user)
+    private function createProject(User $user)
     {
         $attributes['user_id'] = $user->id;
         $attributes['site_id'] = $this->getCurrentSite()->id;
@@ -481,7 +481,7 @@ class ProjectJobFeatureTest extends TestCase
         return factory(Project::class)->create($attributes);
     }
 
-    private function frontend_json_string($data)
+    private function frontendJsonString($data)
     {
         return json_encode($data);
     }
