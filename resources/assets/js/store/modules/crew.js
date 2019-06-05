@@ -3,6 +3,7 @@ import * as types from '../mutation-types';
 export const state = {
     department: {},
     departments: [],
+    ignoredJobs: [],
     position: {},
     positions: [],
     selectedPosition: '',
@@ -20,6 +21,10 @@ export const getters = {
 
     departments(state) {
         return state.departments;
+    },
+
+    ignoredJobs(state) {
+        return state.ignoredJobs;
     },
 
     position(state) {
@@ -62,6 +67,10 @@ export const mutations = {
 
     [types.DEPARTMENTS](state, payload) {
         state.departments = payload;
+    },
+
+    [types.IGNORED_JOBS](state, payload) {
+        state.ignoredJobs = payload;
     },
 
     [types.POSITION](state, payload) {
@@ -114,6 +123,13 @@ export const actions = {
         axios.get('/api/crew/sites').then(response => {
             context.commit(types.SITES, response.data.sites);
         });
+    },
+
+    fetchIgnoredJobs(context) {
+        axios.get('/api/crew/ignored/jobs')
+             .then(response => {
+                 context.commit(types.IGNORED_JOBS, response.data.jobs);
+             })
     },
 
     checkExistingCrewPosition(context) {

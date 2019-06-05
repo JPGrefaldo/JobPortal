@@ -24,6 +24,7 @@ export const PROJECTS                   = 'PROJECTS';
 export const PROJECT_TYPES              = 'PROJECT_TYPES';
 
 export const CREW_POSITION_LIST         = 'CREW_POSITION_LIST';
+export const IGNORED_JOBS               = 'IGNORED_JOBS';
 
 export const SELECTED_POSITION          = 'SELECTED_POSITION';
 
