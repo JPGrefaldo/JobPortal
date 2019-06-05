@@ -31,6 +31,9 @@ Route::get('/departments', [
     'index',
 ])->name('crew.departments.index');
 
+Route::get('/ignored/jobs', [PositionController::class, 'ignored_jobs'])
+    ->name('crew.ignored.jobs');
+
 Route::get('/positions', [
     PositionController::class,
     'index',
