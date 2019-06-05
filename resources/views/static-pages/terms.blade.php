@@ -1,4 +1,4 @@
-@extends('layouts.page-1-col')
+@extends('layouts.page-2-col')
 
 @section('page-content')
     @component('static-pages._parts.card')

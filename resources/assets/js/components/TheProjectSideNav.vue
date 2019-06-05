@@ -5,46 +5,6 @@
             <a class="btn-green-outline" href="/producer/projects/create">Add new project</a>
         </div>
 
-        <div class="md:hidden w-full md:w-1/4 float-left md:mb-3">
-            <div class="has-menu relative">
-                <div class="flex justify-between justify-center items-center rounded-lg w-full float-left mb-4 py-3 px-3 border border-grey-light bg-white cursor-pointer text-sm">
-                    All projects
-                    <span class="btn-toggle float-right"></span>
-                </div>
-                <div class="menu w-full shadow-md bg-white absolute py-3 font-body border text-sm border-grey-light">
-                    <ul class="text-left">
-                        <li class="py-2 px-4">
-                            <a class="block text-blue-dark hover:text-green" href="#">View profile</a>
-                        </li>
-                        <li class="py-2 px-4">
-                            <a class="block text-blue-dark hover:text-green" href="#">Subscription</a>
-                        </li>
-                        <li class="py-2 px-4">
-                            <a class="block text-blue-dark hover:text-green" href="#">Settings</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <ul class="hidden md:block font-header text-right px-md py-6">
-                <li class="block py-4">
-                    <a class="text-blue-dark font-semibold py-2 hover:text-green" href="#">Active projects</a>
-                </li>
-                <li class="block py-4">
-                    <a class="text-blue-dark font-semibold py-2 hover:text-green" href="#">Inactive projects</a>
-                </li>
-                <li class="block py-4">
-                    <a class="text-blue-dark font-semibold py-2 border-b-2 border-red hover:text-green" href="#">Add
-                        manager</a>
-                </li>
-                <li class="block py-4">
-                    <a class="text-blue-dark font-semibold py-2 hover:text-green" href="#">Pending projects</a>
-                </li>
-                <li class="block py-4">
-                    <a class="text-blue-dark font-semibold py-2 hover:text-green" href="#">Close account</a>
-                </li>
-            </ul>
-        </div>
-
         <aside class="hidden md:block w-1/4 float-left pr-4">
             <ul class="font-header text-left py-6">
                 <li class="block py-4">
