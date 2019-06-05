@@ -47,6 +47,8 @@ Route::post('/crew/messages', [MessageController::class, 'store'])
 Route::get('crew/projects/job/{projectJob}', [ProjectJobController::class, 'show'])
     ->name('crew.project.job');
 
+Route::get('crew/jobs', [CrewPositionController::class, 'jobs'])
+    ->name('crew.jobs');
 Route::post('crew/jobs/{job}', [SubmissionController::class, 'store'])
     ->name('crew.jobs.store');
 Route::get('crew/jobs/{job}', [SubmissionController::class, 'checkSubmission'])

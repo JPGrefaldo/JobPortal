@@ -9,7 +9,7 @@ use App\Models\ProjectJob;
 use App\Models\Project;
 use App\Models\Role;
 use App\Models\CrewPosition;
-use App\Models\CrewIgnoredJobs;
+use App\Models\CrewIgnoredJob;
 use App\Models\Submission;
 
 class FakeCrewPositionAndJobs extends Command
@@ -153,7 +153,7 @@ class FakeCrewPositionAndJobs extends Command
 
     private function createIgnoredJobs($crewId, $jobId)
     {
-        factory(CrewIgnoredJobs::class)->create([
+        factory(CrewIgnoredJob::class)->create([
             'crew_id'     => $crewId,
             'project_job_id' => $jobId
         ]);

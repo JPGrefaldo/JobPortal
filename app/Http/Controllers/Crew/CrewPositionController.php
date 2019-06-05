@@ -6,21 +6,19 @@ use App\Actions\Crew\DeleteCrewPosition;
 use App\Actions\Crew\DeleteCrewPositionGear;
 use App\Actions\Crew\DeleteCrewPositionReel;
 use App\Actions\Crew\DeleteCrewPositionResume;
+use App\Actions\Crew\FetchJobByPosition;
 use App\Actions\Crew\StoreCrewPosition;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCrewPositionRequest;
 use App\Models\CrewPosition;
 use App\Models\Position;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\JsonResponse;
 
 class CrewPositionController extends Controller
 {
     /**
-     * @param Position $position
-     * @param StoreCrewPositionRequest $request
-     * @return JsonResponse
+     * @param \App\Models\Position $position
+     * @param \App\Http\Requests\StoreCrewPositionRequest $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Position $position, StoreCrewPositionRequest $request)
     {
@@ -36,9 +34,9 @@ class CrewPositionController extends Controller
     }
 
     /**
-     * @param Position $position
-     * @param StoreCrewPositionRequest $request
-     * @return JsonResponse
+     * @param \App\Models\Position $position
+     * @param \App\Http\Requests\StoreCrewPositionRequest $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Position $position, StoreCrewPositionRequest $request)
     {
@@ -58,7 +56,7 @@ class CrewPositionController extends Controller
     }
 
     /**
-     * @param Position $position
+     * @param \App\Models\Position $position
      * @return string
      */
     public function destroy(Position $position)
@@ -73,8 +71,8 @@ class CrewPositionController extends Controller
     }
 
     /**
-     * @param Position $position
-     * @return CrewPosition|Builder|Model
+     * @param \App\Models\Position $position
+     * @return \App\Models\CrewPosition|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model
      */
     public function show(Position $position)
     {
@@ -99,5 +97,13 @@ class CrewPositionController extends Controller
         $crew = auth()->user()->crew;
 
         return $crew->crewPositions->pluck('position_id');
+    }
+
+    public function jobs()
+    {
+        $crew = auth()->user()->crew;
+        $jobs = app(FetchJobByPosition::class)->execute($crew, 'open');
+
+        return view('crew.projects', compact('jobs'));
     }
 }

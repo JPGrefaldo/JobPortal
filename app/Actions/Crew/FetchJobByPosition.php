@@ -14,11 +14,27 @@ class FetchJobByPosition
      * @param Crew $crew
      * @return Collection
      */
-    public function execute(Crew $crew)
+    public function execute(Crew $crew, $jobType)
     {
-        return ProjectJob::whereDoesntHave('crewIgnoredJobs')
+        if ($jobType === 'open')    return $this->fetch_open_jobs($crew);
+        if ($jobType === 'ignored') return $this->fetch_ignored_jobs($crew);
+    }
+
+
+    public function fetch_open_jobs($crew)
+    {
+        return ProjectJob::whereIn('position_id', $this->getPositionIds($crew))
+                        ->whereDoesntHave('crew_ignored_jobs')
                         ->whereDoesntHave('submissions')
-                        ->whereIn('position_id', $this->getPositionIds($crew))
+                        ->with('pay_type', 'position', 'project')
+                        ->withCount('submissions')
+                        ->get();
+    }
+
+    public function fetch_ignored_jobs($crew)
+    {
+        return ProjectJob::whereIn('position_id', $this->getPositionIds($crew))
+                        ->whereHas('crew_ignored_jobs')
                         ->with('pay_type', 'position', 'project')
                         ->withCount('submissions')
                         ->get();
