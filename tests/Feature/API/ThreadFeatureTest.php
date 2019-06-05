@@ -13,9 +13,9 @@ class ThreadFeatureTest extends TestCase
     use RefreshDatabase, SeedDatabaseAfterRefresh;
 
     /**
-    * @test
-    * @covers App\Http\Controllers\API\ParticipantController::search
-    */
+     * @test
+     * @covers App\Http\Controllers\API\ParticipantController::search
+     */
     public function search_participating_user_in_current_thread()
     {
         $response = $this->search('J');

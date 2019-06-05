@@ -21,17 +21,17 @@ class SendProjectDeniedEmailTest extends TestCase
     {
         Mail::fake();
 
-        $admin      = $this->createAdmin();
-        $producer   = $this->createProducer();
-        $project    = factory(Project::class)->create([
-            'user_id' => $producer->id
+        $admin = $this->createAdmin();
+        $producer = $this->createProducer();
+        $project = factory(Project::class)->create([
+            'user_id' => $producer->id,
         ]);
-        $data       = [
-            'reason' => 'Some reason'
+        $data = [
+            'reason' => 'Some reason',
         ];
 
         $this->actingAs($admin, 'api')
-             ->postJson(route('admin.projects.deny', $project), $data);
+            ->postJson(route('admin.projects.deny', $project), $data);
 
         Mail::assertSent(
             ProjectDeniedEmail::class,

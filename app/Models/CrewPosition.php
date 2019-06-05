@@ -2,6 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -10,17 +14,15 @@ class CrewPosition extends Pivot
     use SoftDeletes;
 
     /**
+     * @var bool
+     */
+    public $incrementing = true;
+    /**
      * The protected attributes
      *
      * @var array
      */
     protected $guarded = ['id'];
-
-    /**
-     * @var bool
-     */
-    public $incrementing = true;
-
     /**
      * @var array
      */
@@ -33,7 +35,7 @@ class CrewPosition extends Pivot
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function crew()
     {
@@ -41,7 +43,7 @@ class CrewPosition extends Pivot
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function position()
     {
@@ -49,7 +51,7 @@ class CrewPosition extends Pivot
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function endorsements()
     {
@@ -71,10 +73,10 @@ class CrewPosition extends Pivot
     }
 
     /**
-     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param Builder $query
      * @param Crew $crew
      * @param Position $position
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
     public function scopeByCrewAndPosition($query, $crew, $position)
     {
@@ -99,7 +101,7 @@ class CrewPosition extends Pivot
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return HasOne
      */
     public function reel()
     {
@@ -107,7 +109,7 @@ class CrewPosition extends Pivot
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return HasOne
      */
     public function gear()
     {
@@ -115,7 +117,7 @@ class CrewPosition extends Pivot
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return HasOne
      */
     public function resume()
     {

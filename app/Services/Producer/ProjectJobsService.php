@@ -10,7 +10,7 @@ class ProjectJobsService
     /**
      * @param array $input
      *
-     * @return \App\Models\ProjectJob
+     * @return ProjectJob
      */
     public function create(array $input)
     {
@@ -19,23 +19,6 @@ class ProjectJobsService
         $data['pay_type_id'] = $this->getPayTypeId($data['pay_rate'], $input);
 
         return ProjectJob::create($data);
-    }
-
-    /**
-     * @param array                  $input
-     * @param \App\Models\ProjectJob $job
-     *
-     * @return \App\Models\ProjectJob
-     */
-    public function update(array $input, ProjectJob $job)
-    {
-        $data = $this->filterUpdateData($input);
-
-        $data['pay_type_id'] = $this->getPayTypeId($data['pay_rate'], $input);
-
-        $job->update($data);
-
-        return $job;
     }
 
     /**
@@ -60,6 +43,36 @@ class ProjectJobsService
     }
 
     /**
+     * @param string|int $rate
+     * @param array $input
+     *
+     * @return string|int
+     */
+    public function getPayTypeId($rate, array $input)
+    {
+        return (floatval($rate) > 0)
+            ? $input['pay_rate_type_id']
+            : $input['pay_type_id'];
+    }
+
+    /**
+     * @param array $input
+     * @param ProjectJob $job
+     *
+     * @return ProjectJob
+     */
+    public function update(array $input, ProjectJob $job)
+    {
+        $data = $this->filterUpdateData($input);
+
+        $data['pay_type_id'] = $this->getPayTypeId($data['pay_rate'], $input);
+
+        $job->update($data);
+
+        return $job;
+    }
+
+    /**
      * @param $input
      *
      * @return array
@@ -76,18 +89,5 @@ class ProjectJobsService
             'travel_expenses_paid',
             'rush_call',
         ]);
-    }
-
-    /**
-     * @param string|int $rate
-     * @param array      $input
-     *
-     * @return string|int
-     */
-    public function getPayTypeId($rate, array $input)
-    {
-        return (floatval($rate) > 0)
-            ? $input['pay_rate_type_id']
-            : $input['pay_type_id'];
     }
 }

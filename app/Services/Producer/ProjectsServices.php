@@ -6,16 +6,17 @@ use App\Models\Project;
 use App\Models\RemoteProject;
 use App\Models\Site;
 use App\Models\User;
+use Exception;
 use Illuminate\Support\Arr;
 
 class ProjectsServices
 {
     /**
-     * @param array            $input
-     * @param \App\Models\User $user
-     * @param \App\Models\Site $site
+     * @param array $input
+     * @param User $user
+     * @param Site $site
      *
-     * @return \App\Models\Project
+     * @return Project
      */
     public function create(array $input, User $user, Site $site)
     {
@@ -28,9 +29,42 @@ class ProjectsServices
     }
 
     /**
-     * @param array               $remoteSites
-     * @param \App\Models\Project $project
-     * @param \App\Models\Site    $site
+     * @param array $input
+     * @param User $user
+     *
+     * @return Project
+     */
+    public function createProject(array $input, User $user, Site $site)
+    {
+        $data = $this->prepareData($input);
+
+        $data['user_id'] = $user->id;
+        $data['site_id'] = $site->id;
+
+        return Project::create($data);
+    }
+
+    /**
+     * @param array $input
+     *
+     * @return array
+     */
+    public function prepareData(array $input)
+    {
+        return Arr::only($input, [
+            'title',
+            'production_name',
+            'production_name_public',
+            'project_type_id',
+            'description',
+            'location',
+        ]);
+    }
+
+    /**
+     * @param array $remoteSites
+     * @param Project $project
+     * @param Site $site
      */
     public function createRemoteProjects(array $remoteSites, Project $project, Site $site)
     {
@@ -49,24 +83,8 @@ class ProjectsServices
     }
 
     /**
-     * @param array            $input
-     * @param \App\Models\User $user
-     *
-     * @return \App\Models\Project
-     */
-    public function createProject(array $input, User $user, Site $site)
-    {
-        $data = $this->prepareData($input);
-
-        $data['user_id'] = $user->id;
-        $data['site_id'] = $site->id;
-
-        return Project::create($data);
-    }
-
-    /**
-     * @param array               $jobInput
-     * @param \App\Models\Project $project
+     * @param array $jobInput
+     * @param Project $project
      */
     public function createJobs(array $jobInput, Project $project)
     {
@@ -80,12 +98,12 @@ class ProjectsServices
     }
 
     /**
-     * @param array               $input
-     * @param \App\Models\Project $project
-     * @param \App\Models\Site    $site
+     * @param array $input
+     * @param Project $project
+     * @param Site $site
      *
-     * @return \App\Models\Project
-     * @throws \Exception
+     * @return Project
+     * @throws Exception
      */
     public function update(array $input, Project $project, Site $site)
     {
@@ -97,10 +115,10 @@ class ProjectsServices
     }
 
     /**
-     * @param array               $input
-     * @param \App\Models\Project $project
+     * @param array $input
+     * @param Project $project
      *
-     * @return \App\Models\Project
+     * @return Project
      */
     public function updateProject(array $input, Project $project)
     {
@@ -110,33 +128,16 @@ class ProjectsServices
     }
 
     /**
-     * @param array               $remoteSites
-     * @param \App\Models\Project $project
-     * @param \App\Models\Site    $site
+     * @param array $remoteSites
+     * @param Project $project
+     * @param Site $site
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function updateRemoteProjects(array $remoteSites, Project $project, Site $site)
     {
         RemoteProject::where('project_id', $project->id)->delete();
 
         $this->createRemoteProjects($remoteSites, $project, $site);
-    }
-
-    /**
-     * @param array $input
-     *
-     * @return array
-     */
-    public function prepareData(array $input)
-    {
-        return Arr::only($input, [
-            'title',
-            'production_name',
-            'production_name_public',
-            'project_type_id',
-            'description',
-            'location',
-        ]);
     }
 }

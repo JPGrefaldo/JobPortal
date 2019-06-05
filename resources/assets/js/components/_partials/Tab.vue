@@ -1,5 +1,5 @@
 <template>
-    <div v-show="isActive">
+    <div v-show="isActive" class="p-8 bg-grey-light">
         <slot></slot>
     </div>
 </template>
@@ -7,13 +7,19 @@
 <script>
 export default {
     props: {
-        name: { required: true },
-        selected: { default: false },
+        name: {
+            type: String,
+            required: true,
+        },
+        active: {
+            type: String
+        }
     },
 
     data() {
         return {
             isActive: false,
+            selectedTab: this.active
         };
     },
 
@@ -24,7 +30,10 @@ export default {
     },
 
     mounted() {
-        this.isActive = this.selected;
+        if (location.hash) {
+            this.selectedTab = location.hash
+        }
+        this.isActive = this.selectedTab == this.href;
     },
 };
 </script>

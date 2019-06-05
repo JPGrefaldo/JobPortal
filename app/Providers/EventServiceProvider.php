@@ -27,8 +27,8 @@ class EventServiceProvider extends ServiceProvider
         ],
 
         ProjectDenied::class => [
-            SendProjectDeniedEmail::class
-        ]
+            SendProjectDeniedEmail::class,
+        ],
     ];
 
     /**

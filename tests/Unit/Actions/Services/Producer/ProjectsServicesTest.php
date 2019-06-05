@@ -41,8 +41,8 @@ class ProjectsServicesTest extends TestCase
             'description'            => 'Some Description',
             'location'               => 'Some Location',
         ];
-        $user  = $this->createUser();
-        $site  = $this->getCurrentSite();
+        $user = $this->createUser();
+        $site = $this->getCurrentSite();
 
         $project = $this->service->createProject($input, $user, $site);
 
@@ -74,8 +74,8 @@ class ProjectsServicesTest extends TestCase
             'location'               => 'Some Location',
             'status'                 => 1, // status will not be updated
         ];
-        $user  = $this->createUser();
-        $site  = $this->getCurrentSite();
+        $user = $this->createUser();
+        $site = $this->getCurrentSite();
 
         $project = $this->service->createProject($input, $user, $site);
 
@@ -98,8 +98,8 @@ class ProjectsServicesTest extends TestCase
      */
     public function create_remote_projects()
     {
-        $site        = $this->getCurrentSite();
-        $project     = factory(Project::class)->create(['site_id' => $site->id]);
+        $site = $this->getCurrentSite();
+        $project = factory(Project::class)->create(['site_id' => $site->id]);
         $remoteSites = [
             factory(Site::class)->create()->id,
             factory(Site::class)->create()->id,
@@ -129,9 +129,9 @@ class ProjectsServicesTest extends TestCase
      */
     public function create_remote_projects_remove_current_site()
     {
-        $site          = $this->getCurrentSite();
-        $project       = factory(Project::class)->create(['site_id' => $site->id]);
-        $remoteSites   = [$site->id];
+        $site = $this->getCurrentSite();
+        $project = factory(Project::class)->create(['site_id' => $site->id]);
+        $remoteSites = [$site->id];
         $remoteSites[] = factory(Site::class)->create()->id;
         $remoteSites[] = factory(Site::class)->create()->id;
 
@@ -160,7 +160,7 @@ class ProjectsServicesTest extends TestCase
     public function update_project()
     {
         $project = factory(Project::class)->create();
-        $input   = [
+        $input = [
             'title'                  => 'Updated Title',
             'production_name'        => 'Updated Production Name',
             'production_name_public' => 1,
@@ -187,8 +187,8 @@ class ProjectsServicesTest extends TestCase
      */
     public function update_remote_projects_no_existing_remotes()
     {
-        $site        = $this->getCurrentSite();
-        $project     = factory(Project::class)->create(['site_id' => $site->id]);
+        $site = $this->getCurrentSite();
+        $project = factory(Project::class)->create(['site_id' => $site->id]);
         $remoteSites = [
             factory(Site::class)->create()->id,
             factory(Site::class)->create()->id,
@@ -209,8 +209,8 @@ class ProjectsServicesTest extends TestCase
      */
     public function update_remote_projects_does_not_include_current_site()
     {
-        $site        = $this->getCurrentSite();
-        $project     = factory(Project::class)->create(['site_id' => $site->id]);
+        $site = $this->getCurrentSite();
+        $project = factory(Project::class)->create(['site_id' => $site->id]);
         $remoteSites = [
             $site->id,
             factory(Site::class)->create()->id,
@@ -232,10 +232,10 @@ class ProjectsServicesTest extends TestCase
      */
     public function update_remote_projects_with_existing_remotes()
     {
-        $site          = $this->getCurrentSite();
-        $project       = factory(Project::class)->create(['site_id' => $site->id]);
+        $site = $this->getCurrentSite();
+        $project = factory(Project::class)->create(['site_id' => $site->id]);
         $remoteProject = factory(RemoteProject::class)->create(['project_id' => $project->id]);
-        $remoteSites   = [
+        $remoteSites = [
             $remoteProject->site_id,
             factory(Site::class)->create()->id,
             factory(Site::class)->create()->id,
@@ -257,10 +257,10 @@ class ProjectsServicesTest extends TestCase
      */
     public function update_remote_projects_delete_all_existing_remotes()
     {
-        $site          = $this->getCurrentSite();
-        $project       = factory(Project::class)->create(['site_id' => $site->id]);
+        $site = $this->getCurrentSite();
+        $project = factory(Project::class)->create(['site_id' => $site->id]);
         $remoteProject = factory(RemoteProject::class)->create(['project_id' => $project->id]);
-        $remoteSites   = [];
+        $remoteSites = [];
 
         $this->service->updateRemoteProjects($remoteSites, $project, $site);
 

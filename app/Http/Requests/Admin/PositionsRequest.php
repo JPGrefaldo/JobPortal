@@ -24,11 +24,11 @@ class PositionsRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'              => ['required', 'string', 'max:255'],
-            'department_id'     => ['required', 'numeric', 'exists:departments,id'],
-            'position_type_id'  => ['required', 'numeric', 'exists:position_types,id'],
-            'has_gear'          => ['bool'],
-            'has_union'         => ['bool'],
+            'name'             => ['required', 'string', 'max:255'],
+            'department_id'    => ['required', 'numeric', 'exists:departments,id'],
+            'position_type_id' => ['required', 'numeric', 'exists:position_types,id'],
+            'has_gear'         => ['bool'],
+            'has_union'        => ['bool'],
         ];
     }
 }

@@ -20,8 +20,8 @@ class Email implements Rule
     /**
      * Determine if the validation rule passes.
      *
-     * @param  string $attribute
-     * @param  mixed $value
+     * @param string $attribute
+     * @param mixed $value
      * @return bool
      */
     public function passes($attribute, $value)
@@ -44,16 +44,6 @@ class Email implements Rule
     }
 
     /**
-     * Check if mx record checking is possible
-     *
-     * @return bool
-     */
-    public function canValidateMXRecord()
-    {
-        return function_exists('getmxrr');
-    }
-
-    /**
      * Validate if the domain has an MX record
      * This isn't perfect as some domains do not have an MX record but still accept email (though they shouldn't)
      *
@@ -71,6 +61,16 @@ class Email implements Rule
             $mxhosts = [];
             return ((getmxrr($domain, $mxhosts) == true) && ! empty($mxhosts));
         });
+    }
+
+    /**
+     * Check if mx record checking is possible
+     *
+     * @return bool
+     */
+    public function canValidateMXRecord()
+    {
+        return function_exists('getmxrr');
     }
 
     /**

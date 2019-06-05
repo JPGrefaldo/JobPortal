@@ -7,16 +7,6 @@ use Illuminate\Support\Str;
 class StrUtils
 {
     /**
-     * @param $string
-     *
-     * @return string
-     */
-    public static function stripNonNumeric($string)
-    {
-        return preg_replace("/[^0-9]/", "", $string);
-    }
-
-    /**
      * @param int $length
      * @return bool|string
      */
@@ -77,6 +67,16 @@ class StrUtils
             "($1) $2-$3",
             self::stripNonNumeric($value)
         );
+    }
+
+    /**
+     * @param $string
+     *
+     * @return string
+     */
+    public static function stripNonNumeric($string)
+    {
+        return preg_replace("/[^0-9]/", "", $string);
     }
 
     /**

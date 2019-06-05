@@ -4,14 +4,15 @@ namespace App\Actions\Endorsement;
 
 use App\Models\CrewPosition;
 use App\Models\Endorsement;
+use Illuminate\Database\Eloquent\Collection;
 
 class GetApprovedEndorsementsByCrewPosition
 {
     /**
-     * @param \App\Models\CrewPosition $crewPosition
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @param CrewPosition $crewPosition
+     * @return Collection
      */
-    public function execute(CrewPosition $crewPosition): \Illuminate\Database\Eloquent\Collection
+    public function execute(CrewPosition $crewPosition): Collection
     {
         return Endorsement::whereCrewPositionId($crewPosition->id)
             ->approved()

@@ -19,7 +19,7 @@ class CreateEndorsementRequest
      * @param string $request_owner_id
      * @return Endorsement
      */
-    public function execute(User $user, Position $position, $email, $message, $request_owner_id) : Endorsement
+    public function execute(User $user, Position $position, $email, $message, $request_owner_id): Endorsement
     {
         $crewPosition = CrewPosition::where('crew_id', $user->crew->id)
             ->where('position_id', $position->id)

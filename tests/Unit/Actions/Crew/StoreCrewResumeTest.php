@@ -63,7 +63,7 @@ class StoreCrewResumeTest extends TestCase
         $resume = $models['crew']->refresh()->resumes->where('general', true)->first();
 
         $data = [
-            'resume'  => UploadedFile::fake()->create('resume.pdf'),
+            'resume' => UploadedFile::fake()->create('resume.pdf'),
         ];
 
         app(StoreCrewResume::class)->execute($models['crew'], $data);

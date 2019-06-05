@@ -19,6 +19,7 @@ class StoreMessageCrewTest extends TestCase
     {
         parent::setup();
     }
+
     /**
      * @test
      * @covers \App\Actions\Producer\StoreMessageCrew::execute
@@ -26,16 +27,16 @@ class StoreMessageCrewTest extends TestCase
     public function executes()
     {
         // given
-        $producer   = $this->createProducer();
-        $crew       = $this->createCrew()->crew;
-        $project    = factory(Project::class)->create([
+        $producer = $this->createProducer();
+        $crew = $this->createCrew()->crew;
+        $project = factory(Project::class)->create([
             'user_id' => $producer->id,
         ]);
 
-        $data               = new \stdClass;
-        $data->subject      = $producer->fullName;
-        $data->message      = 'Some message';
-        $data->recipients   = [$crew->user->id];
+        $data = new \stdClass;
+        $data->subject = $producer->fullName;
+        $data->message = 'Some message';
+        $data->recipients = [$crew->user->id];
 
         // when
         app(StoreMessageCrew::class)->execute($project, $producer, $data);
@@ -43,7 +44,7 @@ class StoreMessageCrewTest extends TestCase
         $this->assertCount(1, Thread::all());
         $this->assertCount(1, Message::all());
 
-        $thread       = Thread::first();
+        $thread = Thread::first();
         $participants = User::whereNotIn('id', $thread->participantsUserIds($producer->id))->get();
         $this->assertCount(1, $participants);
 
@@ -65,8 +66,8 @@ class StoreMessageCrewTest extends TestCase
 
         $this->assertArrayHas(
             [
-                'first_name'  => $crew->user->first_name,
-                'last_name'   => $crew->user->last_name,
+                'first_name' => $crew->user->first_name,
+                'last_name'  => $crew->user->last_name,
             ],
             $participants[0]->toArray()
         );
@@ -110,7 +111,7 @@ class StoreMessageCrewTest extends TestCase
 
     protected function getData($producer)
     {
-        $data          = new \stdClass;
+        $data = new \stdClass;
         $data->subject = $producer->fullName;
         $data->message = 'Some message';
         return $data;

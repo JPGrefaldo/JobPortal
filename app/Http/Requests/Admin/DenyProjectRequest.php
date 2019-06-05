@@ -24,7 +24,7 @@ class DenyProjectRequest extends FormRequest
     public function rules()
     {
         return [
-            'reason' => 'required|string|min:6'
+            'reason' => 'required|string|min:6',
         ];
     }
 }

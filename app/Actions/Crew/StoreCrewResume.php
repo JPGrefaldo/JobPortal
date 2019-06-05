@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 class StoreCrewResume
 {
     /**
-     * @param \App\Models\Crew $crew
+     * @param Crew $crew
      * @param array $data
      */
     public function execute(Crew $crew, array $data): void
@@ -39,7 +39,7 @@ class StoreCrewResume
             ];
 
             $values['crew_position_id'] = $data['crew_position_id'];
-            $values['general']          = false;
+            $values['general'] = false;
         }
 
         $crew->resumes()->updateOrCreate($attributes, $values);

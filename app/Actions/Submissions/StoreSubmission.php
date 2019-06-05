@@ -9,20 +9,20 @@ use App\Models\Submission;
 class StoreSubmission
 {
     /**
-     * @param \App\Models\Crew $crew
-     * @param \App\Models\ProjectJob $job
-     * 
-     * @return \App\Models\Submission
+     * @param Crew $crew
+     * @param ProjectJob $job
+     *
+     * @return Submission
      */
     public function execute(Crew $crew, ProjectJob $job, String $note): Submission
     {
         $submission = $job->submissions()->create([
-            'crew_id'     => $crew->id,
-            'project_id'  => $job->project_id,
+            'crew_id'    => $crew->id,
+            'project_id' => $job->project_id,
         ]);
 
         $submission->note()->create([
-            'body' => $note
+            'body' => $note,
         ]);
 
         return $submission;

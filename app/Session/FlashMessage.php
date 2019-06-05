@@ -7,12 +7,12 @@ use Illuminate\Session\Store;
 class FlashMessage
 {
     /**
-     * @var \Illuminate\Session\Store
+     * @var Store
      */
     protected $session;
 
     /**
-     * @param \Illuminate\Session\Store $session
+     * @param Store $session
      */
     public function __construct(Store $session)
     {
@@ -26,6 +26,18 @@ class FlashMessage
     public function error($message, $title = '')
     {
         $this->flash($message, $title, "error");
+    }
+
+    /**
+     * @param string $title
+     * @param string $message
+     * @param string $type
+     */
+    private function flash($message, $title, $type)
+    {
+        $this->session->flash('flash_message', $message);
+        $this->session->flash('flash_title', $title);
+        $this->session->flash('flash_type', $type);
     }
 
     /**
@@ -53,17 +65,5 @@ class FlashMessage
     public function warning($message, $title = '')
     {
         $this->flash($message, $title, "warning");
-    }
-
-    /**
-     * @param string $title
-     * @param string $message
-     * @param string $type
-     */
-    private function flash($message, $title, $type)
-    {
-        $this->session->flash('flash_message', $message);
-        $this->session->flash('flash_title', $title);
-        $this->session->flash('flash_type', $type);
     }
 }

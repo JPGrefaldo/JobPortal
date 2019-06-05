@@ -15,7 +15,7 @@ class DepartmentController extends Controller
     }
 
     /**
-     * @param \App\Http\Requests\Admin\DepartmentsRequest $request
+     * @param DepartmentsRequest $request
      */
     public function store(DepartmentsRequest $request)
     {
@@ -25,8 +25,8 @@ class DepartmentController extends Controller
     }
 
     /**
-     * @param \App\Http\Requests\Admin\DepartmentsRequest $request
-     * @param \App\Models\Department $department
+     * @param DepartmentsRequest $request
+     * @param Department $department
      */
     public function update(DepartmentsRequest $request, Department $department)
     {

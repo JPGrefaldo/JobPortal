@@ -81,8 +81,8 @@ class ProjectFeatureTest extends TestCase
         $response->assertJsonCount(2);
 
         $response->assertJsonFragment([
-            'status'                 => 0,
-            'project_type_id'        => ProjectTypeID::TV,
+            'status'          => 0,
+            'project_type_id' => ProjectTypeID::TV,
         ]);
 
         $response->assertJsonMissing([
@@ -152,13 +152,13 @@ class ProjectFeatureTest extends TestCase
         $response->assertJsonCount(2);
 
         $response->assertJsonFragment([
-            'project_type_id'        => ProjectTypeID::TV,
-            'status'                 => 1,
+            'project_type_id' => ProjectTypeID::TV,
+            'status'          => 1,
         ]);
 
         $response->assertJsonMissing([
-            'project_type_id'        => ProjectTypeID::MOVIE,
-            'status'                 => 0,
+            'project_type_id' => ProjectTypeID::MOVIE,
+            'status'          => 0,
         ]);
     }
 
@@ -241,12 +241,12 @@ class ProjectFeatureTest extends TestCase
     }
 
     /**
-    * @test
-    * @covers \App\Http\Controllers\API\ProjectController::update
-    */
+     * @test
+     * @covers \App\Http\Controllers\API\ProjectController::update
+     */
     public function can_edit_a_project()
     {
-        $user    = $this->createProducer();
+        $user = $this->createProducer();
         $project = $this->createProject($user);
 
         $data = [
@@ -416,9 +416,9 @@ class ProjectFeatureTest extends TestCase
      */
     public function should_include_jobs_and_remotes()
     {
-        $user    = $this->createProducer();
+        $user = $this->createProducer();
         $project = $this->createProject($user);
-        $job     = [
+        $job = [
             'persons_needed'       => '2',
             'gear_provided'        => 'Some Gear Provided',
             'gear_needed'          => 'Some Gear Needed',
@@ -431,7 +431,7 @@ class ProjectFeatureTest extends TestCase
             'position_id'          => PositionID::CAMERA_OPERATOR,
             'project_id'           => $project->id,
         ];
-        $sites   = collect(1, 2, 3);
+        $sites = collect(1, 2, 3);
 
         $project->jobs()->create($job);
 

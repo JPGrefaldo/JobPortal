@@ -17,19 +17,19 @@ class ManagerConfirmationController extends Controller
         $subordinate = User::where('hash_id', $subordinate)->first();
 
         $manager = Manager::where([
-            'manager_id'    => $user->id,
-            'subordinate_id'=> $subordinate->id,
+            'manager_id'     => $user->id,
+            'subordinate_id' => $subordinate->id,
         ])->first();
 
         if ($manager->status == 1) {
-            return redirect(route('login'))->withError('confirmed', 'You already accepted '.$subordinate->fullname.'\'s request');
+            return redirect(route('login'))->withError('confirmed', 'You already accepted ' . $subordinate->fullname . '\'s request');
         }
 
         $manager->update([
             'status' => 1,
         ]);
 
-        return redirect(route('login'))->with('infoMessage', 'You are now '.$subordinate->fullname.'\'s manager');
+        return redirect(route('login'))->with('infoMessage', 'You are now ' . $subordinate->fullname . '\'s manager');
     }
 
     public function resend($manager)
@@ -38,8 +38,8 @@ class ManagerConfirmationController extends Controller
         $subordinate = Auth::user();
 
         if (Manager::where([
-            'manager_id'=> $manager->id,
-            'subordinate_id'=> $subordinate->id,
+            'manager_id'     => $manager->id,
+            'subordinate_id' => $subordinate->id,
         ])
             ->where('status', 0)
             ->first()

@@ -12,12 +12,12 @@ class UpdateMessageCrew
 {
     /**
      * @param $data
-     * @param \App\Models\Project $project
-     * @param \App\Models\User $user
+     * @param Project $project
+     * @param User $user
      */
     public function execute(Project $project, User $user, $data): void
     {
-        $message    = $data->message;
+        $message = $data->message;
         $recipients = User::whereIn('id', $data->recipients)->get();
 
         foreach ($recipients as $recipient) {

@@ -17,9 +17,9 @@ class SubmissionController extends Controller
     {
         return response()->json(
             [
-                'message'       => 'Sucessfully fetched job\'s submissions',
-                'job'           => $job,
-                'submissions'   => $job->submissions,
+                'message'     => 'Sucessfully fetched job\'s submissions',
+                'job'         => $job,
+                'submissions' => $job->submissions,
             ],
             Response::HTTP_OK
         );
@@ -47,8 +47,8 @@ class SubmissionController extends Controller
 
         return response()->json(
             [
-                'message'       => 'Sucessfully fetched job\'s submissions',
-                'submissions'   => $submissions,
+                'message'     => 'Sucessfully fetched job\'s submissions',
+                'submissions' => $submissions,
             ],
             Response::HTTP_OK
         );
@@ -62,8 +62,8 @@ class SubmissionController extends Controller
 
         return response()->json(
             [
-                'message'       => 'Submission successfully added',
-                'submission'   => $submission,
+                'message'    => 'Submission successfully added',
+                'submission' => $submission,
             ],
             Response::HTTP_CREATED
         );

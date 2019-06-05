@@ -2,16 +2,21 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class LoginController extends AbstractLoginController
 {
     /**
+     * Where to redirect users after login.
+     *
      * @var string
      */
-    private $error = '';
+    protected $redirectTo = '/dashboard/';
 
     /*
     |--------------------------------------------------------------------------
@@ -23,13 +28,10 @@ class LoginController extends AbstractLoginController
     | to conveniently provide its functionality to your applications.
     |
     */
-
     /**
-     * Where to redirect users after login.
-     *
      * @var string
      */
-    protected $redirectTo = '/dashboard/';
+    private $error = '';
 
     /**
      * Create a new controller instance.
@@ -44,10 +46,10 @@ class LoginController extends AbstractLoginController
     /**
      * Handle a login request to the application.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Http\JsonResponse
+     * @param Request $request
+     * @return RedirectResponse|Response|JsonResponse
      *
-     * @throws \Illuminate\Validation\ValidationException
+     * @throws ValidationException
      */
     public function login(Request $request)
     {
@@ -72,19 +74,6 @@ class LoginController extends AbstractLoginController
         $this->incrementLoginAttempts($request);
 
         return $this->sendFailedLoginResponse($request);
-    }
-
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    protected function sendLoginResponse(Request $request)
-    {
-        $apiToken = JWTAuth::fromUser($this->guard()->user());
-
-        session()->put('api-token', $apiToken);
-
-        return parent::sendLoginResponse($request);
     }
 
     /**
@@ -114,10 +103,23 @@ class LoginController extends AbstractLoginController
     }
 
     /**
+     * @param Request $request
+     * @return Response
+     */
+    protected function sendLoginResponse(Request $request)
+    {
+        $apiToken = JWTAuth::fromUser($this->guard()->user());
+
+        session()->put('api-token', $apiToken);
+
+        return parent::sendLoginResponse($request);
+    }
+
+    /**
      * Get the failed login response instance.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param string  $error
+     * @param Request $request
+     * @param string $error
      *
      * @return void
      */

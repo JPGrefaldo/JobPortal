@@ -10,14 +10,14 @@ use Illuminate\Support\Facades\Storage;
 class DeleteCrewPositionGear
 {
     /**
-     * @param \App\Models\Crew $crew
-     * @param \App\Models\Position $position
+     * @param Crew $crew
+     * @param Position $position
      * @return array
      */
     public function execute(Crew $crew, Position $position)
     {
         $crewPosition = CrewPosition::byCrewAndPosition($crew, $position)->first();
-        $crewGear     = $crew->gears()->where('crew_position_id', $crewPosition->id)->first();
+        $crewGear = $crew->gears()->where('crew_position_id', $crewPosition->id)->first();
 
         if (! $crewGear) {
             return false;

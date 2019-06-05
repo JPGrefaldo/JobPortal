@@ -10,7 +10,7 @@ class ThreadController extends Controller
 {
     public function index(Project $project)
     {
-        $user    = auth()->user();
+        $user = auth()->user();
         $threads = $user->projects()
             ->find($project->id)
             ->threads()

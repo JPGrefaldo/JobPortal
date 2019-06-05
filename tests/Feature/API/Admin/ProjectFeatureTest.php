@@ -22,7 +22,7 @@ class ProjectFeatureTest extends TestCase
         factory(Project::class)->create($this->getApprovedProject());
         factory(Project::class)->create($this->getUnapprovedProject());
 
-        $admin    = $this->createAdmin();
+        $admin = $this->createAdmin();
         $response = $this->actingAs($admin, 'api')
             ->get(route('admin.pending-projects'))
             ->assertSee('Successfully fetched all unapproved projects.')
@@ -47,7 +47,7 @@ class ProjectFeatureTest extends TestCase
      */
     public function can_approve_project()
     {
-        $admin   = $this->createAdmin();
+        $admin = $this->createAdmin();
         $project = factory(Project::class)->create($this->getUnapprovedProject());
 
         $this->assertEquals(Project::PENDING, $project->status);
@@ -66,7 +66,7 @@ class ProjectFeatureTest extends TestCase
      */
     public function can_unapprove_projects()
     {
-        $admin   = $this->createAdmin();
+        $admin = $this->createAdmin();
         $project = factory(Project::class)->create($this->getUnapprovedProject());
 
         $this->actingAs($admin, 'api')

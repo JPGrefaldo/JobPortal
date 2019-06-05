@@ -11,7 +11,7 @@ class GetCrewPositionByPosition
     /**
      * @param User $user
      * @param Position $position
-     * @return \App\Models\CrewPosition
+     * @return CrewPosition
      */
     public function execute(User $user, Position $position): CrewPosition
     {

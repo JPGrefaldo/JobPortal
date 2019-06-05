@@ -29,6 +29,7 @@ class UpdateCrewTest extends TestCase
 
         $this->models = $this->createCompleteCrew();
     }
+
     /**
      * @test
      * @covers \App\Actions\Crew\UpdateCrew::execute
@@ -64,7 +65,7 @@ class UpdateCrewTest extends TestCase
         // given
         $data = $this->getUpdateCrewData([
             'socials' => [
-                'youtube' => [
+                'youtube'          => [
                     'url' => '',
                 ],
                 'personal_website' => [
@@ -124,8 +125,8 @@ class UpdateCrewTest extends TestCase
     {
         // given
         $data = $this->getUpdateCrewData([
-            'reel_link'           => 'https://www.youtube.com/watch?v=2-_rLbU6zJo',
-            'socials'             => [
+            'reel_link' => 'https://www.youtube.com/watch?v=2-_rLbU6zJo',
+            'socials'   => [
                 'youtube' => [
                     'url' => 'https://www.youtube.com/watch?v=G8S81CEBdNs',
                 ],

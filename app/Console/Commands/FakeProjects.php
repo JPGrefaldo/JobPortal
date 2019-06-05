@@ -9,10 +9,17 @@ use App\Models\ProjectJob;
 use App\Models\ProjectType;
 use App\Models\Role;
 use App\Models\User;
+use Exception;
+use Faker\Factory;
+use Faker\Generator;
 use Illuminate\Console\Command;
 
 class FakeProjects extends Command
 {
+    /**
+     * @var Generator
+     */
+    public $faker;
     /**
      * The name and signature of the console command.
      *
@@ -25,17 +32,12 @@ class FakeProjects extends Command
                             {status=1 }
                             {jobs=random : Number of jobs per project (0 for no jobs) }
                            ';
-
     /**
      * The console command description.
      *
      * @var string
      */
     protected $description = 'Fake Projects';
-    /**
-     * @var \Faker\Generator
-     */
-    public $faker;
 
     /**
      * Create a new command instance.
@@ -46,38 +48,38 @@ class FakeProjects extends Command
     {
         parent::__construct();
 
-        $this->faker = \Faker\Factory::create();
+        $this->faker = Factory::create();
     }
 
     /**
      * Execute the console command.
      *
      * @return mixed
-     * @throws \Exception
+     * @throws Exception
      */
     public function handle()
     {
         $user = User::findOrFail((int) $this->argument('user'));
 
         if (! $user->hasRole(Role::PRODUCER)) {
-            $this->error('User is '.$user->getRoleNames().' not a Producer');
+            $this->error('User is ' . $user->getRoleNames() . ' not a Producer');
             return;
         }
 
-        $number     = $this->getNumber();
-        $approved   = (bool) $this->argument('approved');
-        $status     = (int) $this->argument('status');
-        $jobs       = (bool) $this->argument('jobs');
+        $number = $this->getNumber();
+        $approved = (bool) $this->argument('approved');
+        $status = (int) $this->argument('status');
+        $jobs = (bool) $this->argument('jobs');
 
         $projectTypeCount = ProjectType::count();
 
         for ($i = 1; $i <= $number; $i++) {
             $projects[] = factory(Project::class)->create([
-                'project_type_id'        => rand(1, $projectTypeCount),
-                'user_id'                => $user->id,
-                'site_id'                => 1,
-                'status'                 => $status,
-                'approved_at'            => ($approved) ? now() : null,
+                'project_type_id' => rand(1, $projectTypeCount),
+                'user_id'         => $user->id,
+                'site_id'         => 1,
+                'status'          => $status,
+                'approved_at'     => ($approved) ? now() : null,
             ]);
         }
 
@@ -116,15 +118,15 @@ class FakeProjects extends Command
             if ($jobs == 'random') {
                 $jobCount = rand(1, 10);
             } else {
-                $jobCount = (int)$jobs;
+                $jobCount = (int) $jobs;
             }
 
             for ($i = 1; $i <= $jobCount; $i++) {
                 $job = factory(ProjectJob::class)->create([
-                    'status'               => $status,
-                    'project_id'           => $project->id,
-                    'position_id'          => $positions->random()->id,
-                    'pay_type_id'          => $paytype->random()->id,
+                    'status'      => $status,
+                    'project_id'  => $project->id,
+                    'position_id' => $positions->random()->id,
+                    'pay_type_id' => $paytype->random()->id,
                 ]);
             }
         }

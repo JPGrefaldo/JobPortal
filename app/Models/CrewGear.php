@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Utils\UrlUtils;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class CrewGear extends Model
 {
@@ -32,7 +33,7 @@ class CrewGear extends Model
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function crew()
     {

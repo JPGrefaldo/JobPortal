@@ -4,7 +4,6 @@ use App\Http\Controllers\API\MessageController;
 use App\Http\Controllers\API\ParticipantController;
 use App\Http\Controllers\API\SiteController;
 use App\Http\Controllers\API\UserController;
-use App\Http\Controllers\Producer\ProjectController as ProducerProjectController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,12 +26,6 @@ Route::put('/messages/producer/projects/{project}/messages/{message}', [MessageC
     ->name('producer.messages.update');
 
 // web
-Route::get('/producer/projects', [ProducerProjectController::class, 'index'])
-    ->name('producer.projects');
-Route::get('/producer/projects/create', [ProducerProjectController::class, 'create'])
-    ->name('producer.projects.create');
-Route::get('/producer/projects/edit/{project}', [ProducerProjectController::class, 'edit'])
-    ->name('producer.projects.edit');
 
 Route::middleware('auth:api')->group(function () {
     Route::post('/messenger/projects/{project}/messages', [

@@ -6,16 +6,17 @@ use App\Actions\Crew\GetCrewPositionByPosition;
 use App\Models\Endorsement;
 use App\Models\Position;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 
 class GetEndorsements
 {
     /**
-     * @param \App\Models\User $user
-     * @param \App\Models\Position $position
+     * @param User $user
+     * @param Position $position
      * @param bool $approved
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return Collection
      */
-    public function execute(User $user, Position $position, bool $approved = false): \Illuminate\Database\Eloquent\Collection
+    public function execute(User $user, Position $position, bool $approved = false): Collection
     {
         $crewPosition = app(GetCrewPositionByPosition::class)->execute($user, $position);
 

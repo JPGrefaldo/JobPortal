@@ -8,7 +8,7 @@ class GetEndorserUserID
 {
     /**
      * @param $email
-     * @return \App\Models\User
+     * @return User
      */
     public function execute($email): User
     {

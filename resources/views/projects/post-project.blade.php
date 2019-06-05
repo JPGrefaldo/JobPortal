@@ -3,7 +3,7 @@
 <body class="bg-grey-lighter font-body">
     @include('_parts.navbar.navbar-logged-in')
 
-    <main class="float-left w-full py-md md:py-lg px-3">
+    <div class="float-left w-full py-md md:py-lg px-3">
         <div class="container">
             <div class="w-full pb-md md:pb-lg">
                 <h1 class="font-header text-blue-dark text-xl md:text-2xl font-semibold">Post a project</h1>
@@ -277,6 +277,6 @@
 
             </div>
         </div>
-    </main>
+    </div>
 
     @include('_parts.footer.footer')

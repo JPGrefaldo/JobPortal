@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\EndorsementRequest;
 use Carbon\Carbon;
 use Exception;
-use Illuminate\Support\Facades\Auth;
 
 class EndorsementRequestController extends Controller
 {

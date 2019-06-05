@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\User;
 use Cmgmyr\Messenger\Models\Participant as VendorParticipant;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class ThreadParticipant extends VendorParticipant
 {
@@ -13,7 +14,7 @@ class ThreadParticipant extends VendorParticipant
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
     public function users()
     {

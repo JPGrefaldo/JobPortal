@@ -3,6 +3,7 @@
 namespace App\Actions\Crew;
 
 use App\Models\Crew;
+use Exception;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -10,9 +11,9 @@ use Illuminate\Support\Str;
 class StoreCrewReel
 {
     /**
-     * @param \App\Models\Crew $crew
+     * @param Crew $crew
      * @param array $data
-     * @throws \Exception
+     * @throws Exception
      */
     public function execute(Crew $crew, array $data): void
     {
@@ -49,7 +50,7 @@ class StoreCrewReel
             ];
 
             $values['crew_position_id'] = $data['crew_position_id'];
-            $values['general']          = false;
+            $values['general'] = false;
         }
 
         $crew->reels()->updateOrCreate($attributes, $values);

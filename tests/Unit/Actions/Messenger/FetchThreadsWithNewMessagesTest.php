@@ -35,7 +35,7 @@ class FetchThreadsWithNewMessagesTest extends TestCase
 
     private function seedConversation()
     {
-        $crew     = $this->createCrew();
+        $crew = $this->createCrew();
         $producer = $this->createProducer();
 
         // Given we have a thread

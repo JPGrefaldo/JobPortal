@@ -61,7 +61,7 @@ class StoreCrewReelTest extends TestCase
 
         app(StoreCrewReel::class)->execute($this->models['crew'], $data);
 
-        $expectedPath = $this->models['crew']->user->hash_id . '/reels/'. $data['reel_file']->hashName();
+        $expectedPath = $this->models['crew']->user->hash_id . '/reels/' . $data['reel_file']->hashName();
 
         Storage::disk('s3')->assertExists($expectedPath);
 
@@ -103,7 +103,7 @@ class StoreCrewReelTest extends TestCase
 
         app(StoreCrewReel::class)->execute($this->models['crew'], $data);
 
-        $expectedPath = $this->models['crew']->user->hash_id . '/reels/'. $data['reel_file']->hashName();
+        $expectedPath = $this->models['crew']->user->hash_id . '/reels/' . $data['reel_file']->hashName();
 
         Storage::disk('s3')->assertExists($expectedPath);
 
@@ -166,7 +166,7 @@ class StoreCrewReelTest extends TestCase
 
         Storage::disk('s3')->assertMissing($reelPath);
 
-        $expectedPath = $this->models['crew']->user->hash_id . '/reels/'. $data['reel_file']->hashName();
+        $expectedPath = $this->models['crew']->user->hash_id . '/reels/' . $data['reel_file']->hashName();
 
         Storage::disk('s3')->assertExists($expectedPath);
 
@@ -241,7 +241,7 @@ class StoreCrewReelTest extends TestCase
         app(StoreCrewReel::class)->execute($this->models['crew'], $data);
 
         // then
-        $expectedPath = $this->models['crew']->user->hash_id . '/reels/'. $data['reel_file']->hashName();
+        $expectedPath = $this->models['crew']->user->hash_id . '/reels/' . $data['reel_file']->hashName();
 
         Storage::disk('s3')->assertExists($expectedPath);
 

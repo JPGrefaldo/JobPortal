@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Account;
 use App\Actions\User\ChangeUserPassword;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Account\AccountPasswordRequest;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class AccountPasswordController extends Controller
@@ -12,7 +14,7 @@ class AccountPasswordController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
@@ -25,7 +27,7 @@ class AccountPasswordController extends Controller
     /**
      * @param AccountPasswordRequest $request
      * @param ChangeUserPassword $changeUserPassword
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function store(AccountPasswordRequest $request, ChangeUserPassword $changeUserPassword)
     {

@@ -21,10 +21,10 @@ class UpdateProjectTest extends TestCase
      */
     public function update()
     {
-        $user        = $this->createProducer();
-        $project     = $this->createProject($user);
+        $user = $this->createProducer();
+        $project = $this->createProject($user);
         $remoteSites = factory(Site::class, 2)->create();
-        $data        = [
+        $data = [
             'title'                  => 'Updated Title',
             'production_name'        => 'Updated Production Name',
             'production_name_public' => 1,
@@ -71,9 +71,9 @@ class UpdateProjectTest extends TestCase
      */
     public function update_no_location()
     {
-        $user    = $this->createProducer();
+        $user = $this->createProducer();
         $project = $this->createProject($user);
-        $data    = [
+        $data = [
             'title'                  => 'Updated Title',
             'production_name'        => 'Updated Production Name',
             'production_name_public' => 1,
@@ -108,10 +108,10 @@ class UpdateProjectTest extends TestCase
      */
     public function update_remotes_does_not_include_current_site()
     {
-        $user        = $this->createProducer();
-        $project     = $this->createProject($user);
+        $user = $this->createProducer();
+        $project = $this->createProject($user);
         $remoteSites = factory(Site::class, 2)->create();
-        $data        = [
+        $data = [
             'title'                  => 'Updated Title',
             'production_name'        => 'Updated Production Name',
             'production_name_public' => 1,
@@ -159,11 +159,11 @@ class UpdateProjectTest extends TestCase
      */
     public function update_with_existing_remotes()
     {
-        $user          = $this->createProducer();
-        $project       = $this->createProject($user);
+        $user = $this->createProducer();
+        $project = $this->createProject($user);
         $remoteProject = factory(RemoteProject::class)->create(['project_id' => $project->id]);
-        $remoteSites   = factory(Site::class, 2)->create();
-        $data          = [
+        $remoteSites = factory(Site::class, 2)->create();
+        $data = [
             'title'                  => 'Updated Title',
             'production_name'        => 'Updated Production Name',
             'production_name_public' => 1,
@@ -212,10 +212,10 @@ class UpdateProjectTest extends TestCase
      */
     public function update_remove_all_existing_remotes()
     {
-        $user           = $this->createProducer();
-        $project        = $this->createProject($user);
+        $user = $this->createProducer();
+        $project = $this->createProject($user);
         $remoteProjects = factory(RemoteProject::class, 2)->create(['project_id' => $project->id]);
-        $data           = [
+        $data = [
             'title'                  => 'Updated Title',
             'production_name'        => 'Updated Production Name',
             'production_name_public' => 1,
@@ -252,9 +252,9 @@ class UpdateProjectTest extends TestCase
      */
     public function update_invalid_required()
     {
-        $user    = $this->createProducer();
+        $user = $this->createProducer();
         $project = $this->createProject($user);
-        $data    = [
+        $data = [
             'title'                  => '',
             'production_name'        => '',
             'production_name_public' => '',
@@ -282,9 +282,9 @@ class UpdateProjectTest extends TestCase
      */
     public function update_invalid_data()
     {
-        $user    = $this->createProducer();
+        $user = $this->createProducer();
         $project = $this->createProject($user);
-        $data    = [
+        $data = [
             'title'                  => 'as',
             'production_name'        => 'as',
             'production_name_public' => 'asdasdas',
@@ -316,9 +316,9 @@ class UpdateProjectTest extends TestCase
      */
     public function update_unauthorized()
     {
-        $user    = $this->createUser();
+        $user = $this->createUser();
         $project = factory(Project::class)->create();
-        $data    = [];
+        $data = [];
 
         $response = $this->actingAs($user)
             ->put(route('producer.project.update', ['job' => $project->id]), $data);
@@ -332,9 +332,9 @@ class UpdateProjectTest extends TestCase
      */
     public function update_unauthorized_user()
     {
-        $user    = $this->createProducer();
+        $user = $this->createProducer();
         $project = factory(Project::class)->create();
-        $data    = [];
+        $data = [];
 
         $response = $this->actingAs($user)
             ->put(route('producer.project.update', ['job' => $project->id]), $data);

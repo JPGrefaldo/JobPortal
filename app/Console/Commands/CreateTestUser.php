@@ -8,6 +8,7 @@ use App\Models\Role;
 use App\Models\Site;
 use App\Models\User;
 use App\Utils\UrlUtils;
+use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Hash;
 
@@ -44,12 +45,12 @@ class CreateTestUser extends Command
      * Execute the console command.
      *
      * @return mixed
-     * @throws \Exception
+     * @throws Exception
      */
     public function handle()
     {
         $email = $this->argument('email');
-        $role  = $this->options();
+        $role = $this->options();
 
         $roles = ['admin', 'crew', 'producer'];
 
@@ -64,9 +65,9 @@ class CreateTestUser extends Command
         }
 
         $user = factory(User::class)->create([
-            'email'      => $email,
-            'password'   => Hash::make('test123'),
-            'phone'      => '555-555-5555',
+            'email'    => $email,
+            'password' => Hash::make('test123'),
+            'phone'    => '555-555-5555',
         ]);
 
         foreach ($roles as $index) {

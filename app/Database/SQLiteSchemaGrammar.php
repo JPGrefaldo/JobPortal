@@ -16,8 +16,8 @@ class SQLiteSchemaGrammar extends BaseSQLiteGrammar
     /**
      * Make all strings in migration case insensitive on search
      *
-     * @param \Illuminate\Database\Schema\Blueprint $blueprint
-     * @param \Illuminate\Support\Fluent            $column
+     * @param Blueprint $blueprint
+     * @param Fluent $column
      *
      * @return string|null
      */

@@ -11,7 +11,7 @@ class SearchParticipants
     /**
      * @param $thread
      * @param $keyword
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return AnonymousResourceCollection
      */
     public function execute(Thread $thread, $keyword): AnonymousResourceCollection
     {
@@ -19,9 +19,9 @@ class SearchParticipants
 
         $users = $thread->users()
             ->where('user_id', '!=', $user)
-            ->where('first_name', 'like', '%'.ucfirst(strtolower($keyword)).'%')
-            ->orWhere('last_name', 'like', '%'.ucfirst(strtolower($keyword)).'%')
-            ->orWhere('nickname', 'like', '%'.ucfirst(strtolower($keyword)).'%')
+            ->where('first_name', 'like', '%' . ucfirst(strtolower($keyword)) . '%')
+            ->orWhere('last_name', 'like', '%' . ucfirst(strtolower($keyword)) . '%')
+            ->orWhere('nickname', 'like', '%' . ucfirst(strtolower($keyword)) . '%')
             ->get();
 
         return ParticipantResource::collection($users);

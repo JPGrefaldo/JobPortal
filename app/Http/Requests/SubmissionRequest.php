@@ -27,7 +27,7 @@ class SubmissionRequest extends FormRequest
     public function rules()
     {
         return [
-            'note' => 'required|string|min:6'
+            'note' => 'required|string|min:6',
         ];
     }
 }

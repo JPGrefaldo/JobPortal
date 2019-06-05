@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class PendingFlagMessage extends Model
 {
     const UNAPPROVED = 0;
-    const APPROVED   = 1;
+    const APPROVED = 1;
 
     /**
      * The protected attributes
@@ -25,7 +26,7 @@ class PendingFlagMessage extends Model
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function message()
     {

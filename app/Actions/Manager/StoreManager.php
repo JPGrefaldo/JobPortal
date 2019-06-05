@@ -9,7 +9,7 @@ class StoreManager
     /**
      * @param string $managerId
      * @param string $subordinateId
-     * @return \App\Models\Manager
+     * @return Manager
      */
     public function execute($managerId, $subordinateId): Manager
     {

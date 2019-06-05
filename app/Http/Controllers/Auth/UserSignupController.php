@@ -12,17 +12,22 @@ use App\Actions\User\PostCreateUser;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserSignupRequest;
 use App\Models\Role;
+use Exception;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Arr;
+use Illuminate\View\View;
 
 class UserSignupController extends Controller
 {
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Factory|View
      */
     public function show()
     {
-        if(auth()->check()){
+        if (auth()->check()) {
             return redirect()->route('dashboard');
         }
 
@@ -32,10 +37,10 @@ class UserSignupController extends Controller
     /**
      * Handle post request to signup
      *
-     * @param \App\Http\Requests\UserSignupRequest $request
+     * @param UserSignupRequest $request
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     * @throws \Exception
+     * @return RedirectResponse|Redirector
+     * @throws Exception
      */
     public function signup(UserSignupRequest $request)
     {

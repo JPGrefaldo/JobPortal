@@ -3,14 +3,15 @@
 namespace App\Actions\Crew;
 
 use App\Models\Crew;
+use Exception;
 use Tests\Support\Data\SocialLinkTypeID;
 
 class StoreCrewSocials
 {
     /**
-     * @param \App\Models\Crew $crew
+     * @param Crew $crew
      * @param array $data
-     * @throws \Exception
+     * @throws Exception
      */
     public function execute(Crew $crew, array $data): void
     {

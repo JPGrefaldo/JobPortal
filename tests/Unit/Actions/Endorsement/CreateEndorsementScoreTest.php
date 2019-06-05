@@ -147,7 +147,7 @@ class CreateEndorsementScoreTest extends TestCase
             'crew_position_id'       => $this->crewPosition->id,
         ]);
         $score = factory(CrewPositionEndorsementScore::class)->create([
-            'crew_position_id'       => $crew->crewPositions()->first(),
+            'crew_position_id' => $crew->crewPositions()->first(),
         ]);
     }
 
@@ -158,7 +158,7 @@ class CreateEndorsementScoreTest extends TestCase
     private function createTotalEndorsements($position, $total)
     {
         for ($i = 1; $i <= $total; $i++) {
-            $request     = factory(EndorsementRequest::class)->create();
+            $request = factory(EndorsementRequest::class)->create();
             $endorsement = factory(Endorsement::class)->create([
                 'endorsement_request_id' => $request->id,
                 'crew_position_id'       => $position->id,
@@ -218,11 +218,11 @@ class CreateEndorsementScoreTest extends TestCase
         $endorser = [];
         for ($i = 1; $i <= $totalEndorsements; $i++) {
             $endorser[$i] = $this->createCrew()->crew;
-            $position     = $this->createCrewPosition($endorser[$i]);
+            $position = $this->createCrewPosition($endorser[$i]);
             $this->createEndorsement($endorser[$i]);
 
             if ($doSweetener == 1) {
-                $sweetener        = $this->createSweetener($endorser[$i]);
+                $sweetener = $this->createSweetener($endorser[$i]);
                 $endorsementCount += $sweetener->sweetener;
             }
 

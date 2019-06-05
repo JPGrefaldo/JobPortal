@@ -118,10 +118,10 @@ class FakeMessagesTest extends TestCase
      */
     public function should_not_create_when_sender_is_a_crew()
     {
-        $user  = $this->createParticipant('crew');
+        $user = $this->createParticipant('crew');
         $user2 = $this->createParticipant('crew');
 
-        $command = $this->artisan(self::CMD." --sender={$user->id} --receiver={$user2->id}");
+        $command = $this->artisan(self::CMD . " --sender={$user->id} --receiver={$user2->id}");
         $command->expectsOutput("The sender's role is {$user->getRoleNames()}, not a Producer")
             ->run();
     }
@@ -132,28 +132,28 @@ class FakeMessagesTest extends TestCase
      */
     public function should_not_create_when_receiver_is_a_producer()
     {
-        $user  = $this->createParticipant();
+        $user = $this->createParticipant();
         $user2 = $this->createParticipant();
 
-        $command = $this->artisan(self::CMD." --sender={$user->id} --receiver={$user2->id}");
+        $command = $this->artisan(self::CMD . " --sender={$user->id} --receiver={$user2->id}");
         $command->expectsOutput("The receiver's role is {$user2->getRoleNames()}, not a Crew")
             ->run();
     }
 
     private function runCommand()
     {
-        $sender   = $this->createParticipant();
+        $sender = $this->createParticipant();
         $receiver = $this->createParticipant('crew');
 
-        $command = $this->artisan(self::CMD." --sender={$sender->id} --receiver={$receiver->id}");
+        $command = $this->artisan(self::CMD . " --sender={$sender->id} --receiver={$receiver->id}");
         $command->expectsOutput('Done seeding message!')
             ->run();
     }
 
-    private function createParticipant($role='producer')
+    private function createParticipant($role = 'producer')
     {
         $user = factory(User::class)->create();
-        $role === 'producer' ? $user->assignRole(Role::PRODUCER):$user->assignRole(Role::CREW);
+        $role === 'producer' ? $user->assignRole(Role::PRODUCER) : $user->assignRole(Role::CREW);
         return $user;
     }
 }

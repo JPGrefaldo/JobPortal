@@ -15,7 +15,7 @@ class CreateEndorsementScore
      *      Every endorsement equals 1+# of endorsements of endorsers / total # of endorsers +1
      *      If user has a sweetener add it to the number of endorsements of endorsers
      *
-     * @param \App\Models\CrewPosition $crewPosition
+     * @param CrewPosition $crewPosition
      * @return float
      */
     public function execute(CrewPosition $crewPosition): float
@@ -29,6 +29,25 @@ class CreateEndorsementScore
         ]);
 
         return $score;
+    }
+
+    /**
+     * @param CrewPosition $crewPosition
+     * @return float|int
+     */
+    public function calculateScore(CrewPosition $crewPosition)
+    {
+        $endorsements = Endorsement::whereCrewPositionId($crewPosition->id)
+            ->approved()
+            ->with([
+                'endorser',
+                'endorser.user',
+                'endorser.user.crew',
+            ])
+            ->get();
+
+        return ($this->getEndorsersEndorsementCount($endorsements, $crewPosition) + 1) /
+            ($endorsements->count() + 1);
     }
 
     /**
@@ -68,24 +87,5 @@ class CreateEndorsementScore
         }
 
         return 0;
-    }
-
-    /**
-     * @param \App\Models\CrewPosition $crewPosition
-     * @return float|int
-     */
-    public function calculateScore(CrewPosition $crewPosition)
-    {
-        $endorsements = Endorsement::whereCrewPositionId($crewPosition->id)
-            ->approved()
-            ->with([
-                'endorser',
-                'endorser.user',
-                'endorser.user.crew',
-            ])
-            ->get();
-
-        return ($this->getEndorsersEndorsementCount($endorsements, $crewPosition) + 1) /
-            ($endorsements->count() + 1);
     }
 }

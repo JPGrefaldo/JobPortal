@@ -15,17 +15,17 @@ class SocialLinkTypeTest extends TestCase
     {
         $this->assertEquals(
             'imdb',
-            with(new SocialLinkType(['name'=>'IMDB']))->slug
+            with(new SocialLinkType(['name' => 'IMDB']))->slug
         );
 
         $this->assertEquals(
             'google_plus',
-            with(new SocialLinkType(['name'=>'Google Plus']))->slug
+            with(new SocialLinkType(['name' => 'Google Plus']))->slug
         );
 
         $this->assertEquals(
             'facebook',
-            with(new SocialLinkType(['name'=>'Facebook']))->slug
+            with(new SocialLinkType(['name' => 'Facebook']))->slug
         );
     }
 }

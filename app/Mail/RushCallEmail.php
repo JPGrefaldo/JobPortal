@@ -21,8 +21,8 @@ class RushCallEmail extends Mailable
      */
     public function __construct($crew, $projectJob)
     {
-        $this->crew         = $crew;
-        $this->projectJob   = $projectJob;
+        $this->crew = $crew;
+        $this->projectJob = $projectJob;
     }
 
     /**

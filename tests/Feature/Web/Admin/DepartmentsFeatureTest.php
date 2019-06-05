@@ -145,9 +145,9 @@ class DepartmentsFeatureTest extends TestCase
      */
     public function update()
     {
-        $user       = $this->createAdmin();
+        $user = $this->createAdmin();
         $department = factory(Department::class)->create();
-        $data       = [
+        $data = [
             'name'        => 'New Name',
             'description' => 'New Description',
         ];
@@ -173,9 +173,9 @@ class DepartmentsFeatureTest extends TestCase
      */
     public function update_no_description()
     {
-        $user       = $this->createAdmin();
+        $user = $this->createAdmin();
         $department = factory(Department::class)->create();
-        $data       = [
+        $data = [
             'name'        => 'New Name',
             'description' => '',
         ];
@@ -201,9 +201,9 @@ class DepartmentsFeatureTest extends TestCase
      */
     public function update_formatted_name()
     {
-        $user       = $this->createAdmin();
+        $user = $this->createAdmin();
         $department = factory(Department::class)->create();
-        $data       = [
+        $data = [
             'name'        => 'new name',
             'description' => '',
         ];
@@ -229,8 +229,8 @@ class DepartmentsFeatureTest extends TestCase
      */
     public function update_same()
     {
-        $user       = $this->createAdmin();
-        $data       = [
+        $user = $this->createAdmin();
+        $data = [
             'name'        => 'Same Name',
             'description' => 'Same Description',
         ];
@@ -257,9 +257,9 @@ class DepartmentsFeatureTest extends TestCase
      */
     public function update_invalid_data()
     {
-        $user       = $this->createAdmin();
+        $user = $this->createAdmin();
         $department = factory(Department::class)->create();
-        $data       = [
+        $data = [
             'name'        => '',
             'description' => '',
         ];
@@ -280,9 +280,9 @@ class DepartmentsFeatureTest extends TestCase
     {
         factory(Department::class)->create(['name' => 'Lighting']);
 
-        $user       = $this->createAdmin();
+        $user = $this->createAdmin();
         $department = factory(Department::class)->create();
-        $data       = [
+        $data = [
             'name'        => 'lighting',
             'description' => '',
         ];

@@ -6,6 +6,7 @@ use App\Models\CrewPosition;
 use App\Models\Position;
 use App\Models\Role;
 use App\Models\User;
+use Exception;
 use Illuminate\Console\Command;
 
 class FakeCrewPosition extends Command
@@ -41,14 +42,14 @@ class FakeCrewPosition extends Command
      * Execute the console command.
      *
      * @return mixed
-     * @throws \Exception
+     * @throws Exception
      */
     public function handle()
     {
         $user = User::findOrFail((int) $this->argument('user'));
 
         if (! $user->hasRole(Role::CREW)) {
-            $this->error('User is '.$user->getRoleNames().' not a Crew');
+            $this->error('User is ' . $user->getRoleNames() . ' not a Crew');
             return;
         }
 

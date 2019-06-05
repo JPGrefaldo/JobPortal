@@ -28,6 +28,7 @@ class ProducerMessageTest extends TestCase
         });
         $this->recipients = $recipients->toArray();
     }
+
     /**
      * @test
      * @covers \App\Rules\Facebook::passes

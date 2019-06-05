@@ -50,8 +50,8 @@ class DeleteCrewPositionReelTest extends TestCase
 
         // Then assert entry is soft deleted
         $this->assertDatabaseMissing('crew_reels', [
-            'crew_id'           => $crew->id,
-            'crew_position_id'  => $crewPosition->id,
+            'crew_id'          => $crew->id,
+            'crew_position_id' => $crewPosition->id,
         ]);
     }
 }

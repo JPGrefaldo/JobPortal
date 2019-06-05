@@ -11,7 +11,7 @@ class AddUserToSite
     /**
      * @param User $user
      * @param Site $site
-     * @return \App\Models\UserSite
+     * @return UserSite
      */
     public function execute(User $user, Site $site)
     {

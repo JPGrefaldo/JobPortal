@@ -46,7 +46,7 @@ class CrewReelTest extends TestCase
         $url = 'https://www.youtube.com/watch?v=2-_rLbU6zJo';
 
         $reel = factory(CrewReel::class)->create([
-            'path'  => $url,
+            'path' => $url,
         ]);
 
         $this->assertEquals(
@@ -64,7 +64,7 @@ class CrewReelTest extends TestCase
         $url = '123345/reel/test.mp4';
 
         $reel = factory(CrewReel::class)->create([
-            'path'  => $url,
+            'path' => $url,
         ]);
 
         $this->assertEquals(

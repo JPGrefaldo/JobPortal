@@ -18,7 +18,7 @@ class UpdateParticipants
         ]);
         $participant->last_read = new Carbon;
         $participant->save();
-        
+
         // Participant
         $thread->addParticipant($recipient);
 

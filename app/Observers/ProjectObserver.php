@@ -6,13 +6,14 @@ use App\Mail\ProjectApprovalRequestEmail;
 use App\Models\Project;
 use App\Models\Role;
 use App\Models\User;
+use Mail;
 
 class ProjectObserver
 {
     /**
      * Handle the project "created" event.
      *
-     * @param  \App\Models\Project  $project
+     * @param Project $project
      * @return void
      */
     public function created(Project $project)
@@ -20,10 +21,22 @@ class ProjectObserver
         $this->sendEmail($project);
     }
 
+    private function sendEmail(Project $project, $isUpdating = false)
+    {
+        $admin = User::role(Role::ADMIN)->first();
+        $message = $isUpdating ? 'is recently updated.' : 'is added.';
+
+        if ($admin instanceof User) {
+            Mail::to($admin->email)->send(
+                new ProjectApprovalRequestEmail($admin, $message, $project)
+            );
+        }
+    }
+
     /**
      * Handle the project "updated" event.
      *
-     * @param  \App\Models\Project  $project
+     * @param Project $project
      * @return void
      */
     public function updated(Project $project)
@@ -35,7 +48,7 @@ class ProjectObserver
     /**
      * Handle the project "deleted" event.
      *
-     * @param  \App\Models\Project  $project
+     * @param Project $project
      * @return void
      */
     public function deleted(Project $project)
@@ -46,7 +59,7 @@ class ProjectObserver
     /**
      * Handle the project "restored" event.
      *
-     * @param  \App\Models\Project  $project
+     * @param Project $project
      * @return void
      */
     public function restored(Project $project)
@@ -57,23 +70,11 @@ class ProjectObserver
     /**
      * Handle the project "force deleted" event.
      *
-     * @param  \App\Models\Project  $project
+     * @param Project $project
      * @return void
      */
     public function forceDeleted(Project $project)
     {
         //
-    }
-
-    private function sendEmail(Project $project, $isUpdating = false)
-    {
-        $admin   = User::role(Role::ADMIN)->first();
-        $message = $isUpdating ? 'is recently updated.' : 'is added.';
-
-        if ($admin instanceof User) {
-            \Mail::to($admin->email)->send(
-                new ProjectApprovalRequestEmail($admin, $message, $project)
-            );
-        }
     }
 }

@@ -3,13 +3,14 @@
 namespace App\Actions\Manager;
 
 use App\Models\Manager;
+use Exception;
 
 class DeleteManager
 {
     /**
      * @param int $managerId
      * @param int $subordinateId
-     * @throws \Exception
+     * @throws Exception
      */
     public function execute(int $managerId, int $subordinateId): void
     {

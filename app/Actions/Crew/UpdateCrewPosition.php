@@ -9,8 +9,8 @@ use App\Models\Position;
 class UpdateCrewPosition
 {
     /**
-     * @param \App\Models\Crew $crew
-     * @param \App\Models\Position $position
+     * @param Crew $crew
+     * @param Position $position
      * @param array $data
      */
     public function execute(Crew $crew, Position $position, array $data): void

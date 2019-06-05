@@ -20,6 +20,18 @@ class StorePendingFlagMessageRequest extends FormRequest
             && $this->requesterIsRecipient($message);
     }
 
+    private function requesterDoesntOwn($message)
+    {
+        return auth()->user()->id !== $message->user->id;
+    }
+
+    private function requesterIsRecipient($message)
+    {
+        $recipients = $message->recipients;
+
+        return auth()->user()->id === $recipients->first()->user->id;
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -31,17 +43,5 @@ class StorePendingFlagMessageRequest extends FormRequest
             'message_id' => 'required|exists:messages,id',
             'reason'     => 'required|string',
         ];
-    }
-
-    private function requesterDoesntOwn($message)
-    {
-        return auth()->user()->id !== $message->user->id;
-    }
-
-    private function requesterIsRecipient($message)
-    {
-        $recipients = $message->recipients;
-
-        return auth()->user()->id === $recipients->first()->user->id;
     }
 }

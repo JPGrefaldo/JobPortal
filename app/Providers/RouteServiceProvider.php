@@ -48,24 +48,6 @@ class RouteServiceProvider extends ServiceProvider
     }
 
     /**
-     * Define the "web" routes for the application.
-     *
-     * These routes all receive session state, CSRF protection, etc.
-     *
-     * @return void
-     */
-    protected function mapWebRoutes()
-    {
-        Route::middleware('web')->group(base_path('routes/web/index.php'));
-
-        Route::middleware('web')->group(function () {
-            Route::middleware('role:Admin')->group(base_path('routes/web/admin.php'));
-            Route::middleware('role:Crew')->group(base_path('routes/web/crew.php'));
-            Route::middleware('role:Producer')->group(base_path('routes/web/producer.php'));
-        });
-    }
-
-    /**
      * Define the "api" routes for the application.
      *
      * These routes are typically stateless.
@@ -80,6 +62,24 @@ class RouteServiceProvider extends ServiceProvider
             Route::prefix('admin')->middleware('role:Admin')->group(base_path('routes/api/admin.php'));
             Route::prefix('crew')->middleware('role:Crew')->group(base_path('routes/api/crew.php'));
             Route::prefix('producer')->middleware('role:Producer')->group(base_path('routes/api/producer.php'));
+        });
+    }
+
+    /**
+     * Define the "web" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return void
+     */
+    protected function mapWebRoutes()
+    {
+        Route::middleware('web')->group(base_path('routes/web/index.php'));
+
+        Route::middleware('web')->group(function () {
+            Route::middleware('role:Admin')->group(base_path('routes/web/admin.php'));
+            Route::middleware('role:Crew')->group(base_path('routes/web/crew.php'));
+            Route::middleware('role:Producer')->group(base_path('routes/web/producer.php'));
         });
     }
 }

@@ -2,9 +2,11 @@
 
 namespace App\View\Endorsements;
 
-use App\Models\User;
-use Spatie\ViewModels\ViewModel;
 use App\Models\EndorsementEndorser;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
+use Spatie\ViewModels\ViewModel;
 
 class EndorsementIndexModel extends ViewModel
 {
@@ -14,14 +16,14 @@ class EndorsementIndexModel extends ViewModel
     public $user;
 
     /**
-     * @var \Illuminate\Support\Collection
+     * @var Collection
      */
     public $endorsements;
 
     public $pending_endorsements;
 
     /**
-     * @var \Illuminate\Database\Eloquent\Relations\HasMany
+     * @var HasMany
      */
     public $crewPositions;
 
@@ -31,7 +33,7 @@ class EndorsementIndexModel extends ViewModel
     public $total_endorsements;
 
     /**
-     * @var \Illuminate\Support\Collection
+     * @var Collection
      */
     public $positions;
 
@@ -67,8 +69,23 @@ class EndorsementIndexModel extends ViewModel
         ]);
     }
 
+    public function getPositions()
+    {
+        $this->positions = collect([]);
+
+        if (! $this->crewPositions->count()) {
+            return;
+        }
+
+        foreach ($this->crewPositions as $crewPosition) {
+            $this->positions->push($crewPosition->position);
+        }
+
+        $this->positions = $this->positions->sortBy('name');
+    }
+
     /**
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     private function buildEndorsementCollection()
     {
@@ -99,20 +116,5 @@ class EndorsementIndexModel extends ViewModel
         }
 
         return collect($ret);
-    }
-
-    public function getPositions()
-    {
-        $this->positions = collect([]);
-
-        if (! $this->crewPositions->count()) {
-            return;
-        }
-
-        foreach ($this->crewPositions as $crewPosition) {
-            $this->positions->push($crewPosition->position);
-        }
-
-        $this->positions = $this->positions->sortBy('name');
     }
 }

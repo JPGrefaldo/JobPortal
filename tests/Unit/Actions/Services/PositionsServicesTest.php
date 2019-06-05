@@ -33,11 +33,11 @@ class PositionsServicesTest extends TestCase
     public function create()
     {
         $data = [
-            'name'              => 'Some Position',
-            'department_id'     => DepartmentID::PRODUCTION,
-            'position_type_id'  => PositionTypeID::PRE_PRODUCTION,
-            'has_gear'          => 1,
-            'has_union'         => 1,
+            'name'             => 'Some Position',
+            'department_id'    => DepartmentID::PRODUCTION,
+            'position_type_id' => PositionTypeID::PRE_PRODUCTION,
+            'has_gear'         => 1,
+            'has_union'        => 1,
         ];
 
         $position = $this->service->create($data);
@@ -48,11 +48,11 @@ class PositionsServicesTest extends TestCase
 
         $this->assertArrayHas(
             [
-                'name'              => 'Some Position',
-                'department_id'     => DepartmentID::PRODUCTION,
-                'position_type_id'  => PositionTypeID::PRE_PRODUCTION,
-                'has_gear'          => true,
-                'has_union'         => true,
+                'name'             => 'Some Position',
+                'department_id'    => DepartmentID::PRODUCTION,
+                'position_type_id' => PositionTypeID::PRE_PRODUCTION,
+                'has_gear'         => true,
+                'has_union'        => true,
             ],
             $position->toArray()
         );
@@ -106,7 +106,7 @@ class PositionsServicesTest extends TestCase
     public function update()
     {
         $position = factory(Position::class)->create();
-        $data     = [
+        $data = [
             'name'          => 'Updated Position',
             'department_id' => DepartmentID::PRODUCTION,
             'has_gear'      => 1,

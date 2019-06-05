@@ -19,21 +19,21 @@ class SubmissionFeatureTest extends TestCase
      */
     public function show()
     {
-        $crew     = $this->createCrew();
+        $crew = $this->createCrew();
         $producer = $this->createProducer();
 
-        $project  = factory(Project::class)->create([
+        $project = factory(Project::class)->create([
             'user_id' => $producer->id,
         ]);
 
         $projectJob = factory(ProjectJob::class)->create([
             'project_id' => $project->id,
         ]);
-        
+
         factory(Submission::class)->create([
-            'crew_id'         => $crew->id,
-            'project_id'      => $project->id,
-            'project_job_id'  => $projectJob->id,
+            'crew_id'        => $crew->id,
+            'project_id'     => $project->id,
+            'project_job_id' => $projectJob->id,
         ]);
 
         $response = $this->actingAs($producer)
@@ -47,7 +47,7 @@ class SubmissionFeatureTest extends TestCase
                 )
             )
             ->assertSuccessful();
-        
+
         $response->assertSee('Submission');
     }
 
@@ -59,7 +59,7 @@ class SubmissionFeatureTest extends TestCase
     {
         $producer = $this->createProducer();
 
-        $project  = factory(Project::class)->create([
+        $project = factory(Project::class)->create([
             'user_id' => $producer->id,
         ]);
 
@@ -71,9 +71,9 @@ class SubmissionFeatureTest extends TestCase
 
         $projectJobs->map(function ($projectJob) use ($crew, $project) {
             factory(Submission::class)->create([
-                'crew_id'         => $crew->id,
-                'project_id'      => $project->id,
-                'project_job_id'  => $projectJob->id,
+                'crew_id'        => $crew->id,
+                'project_id'     => $project->id,
+                'project_job_id' => $projectJob->id,
             ]);
         });
 

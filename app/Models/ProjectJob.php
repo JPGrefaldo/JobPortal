@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ProjectJob extends Model
 {
@@ -33,7 +35,7 @@ class ProjectJob extends Model
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function project()
     {
@@ -41,7 +43,7 @@ class ProjectJob extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function position()
     {
@@ -49,7 +51,7 @@ class ProjectJob extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function pay_type()
     {
@@ -57,10 +59,18 @@ class ProjectJob extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function submissions()
     {
         return $this->hasMany(Submission::class, 'project_job_id');
+    }
+
+    /**
+    * @return \Illuminate\Database\Eloquent\Relations\HasMany
+    */
+    public function crewIgnoredJobs()
+    {
+        return $this->hasMany(CrewIgnoredJobs::class, 'project_job_id');
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Utils;
 
+use App\Models\User;
+
 class UrlUtils
 {
     /**
@@ -19,7 +21,7 @@ class UrlUtils
     }
 
     /**
-     * @param \App\Models\User|null $user
+     * @param User|null $user
      * @return string
      */
     public static function getS3Url($user = null): string

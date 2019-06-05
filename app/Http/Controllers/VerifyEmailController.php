@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\EmailVerificationCode;
 use App\Session\FlashMessage;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 
 class VerifyEmailController extends Controller
 {
@@ -14,7 +16,7 @@ class VerifyEmailController extends Controller
      * @param Request $request
      * @param string $code
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return RedirectResponse|Redirector
      */
     public function verify(Request $request, $code)
     {

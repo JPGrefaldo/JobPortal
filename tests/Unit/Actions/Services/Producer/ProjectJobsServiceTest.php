@@ -34,7 +34,7 @@ class ProjectJobsServiceTest extends TestCase
     public function create()
     {
         $project = factory(Project::class)->create();
-        $input   = [
+        $input = [
             'persons_needed'       => '2',
             'gear_provided'        => 'Some Gear Provided',
             'gear_needed'          => 'Some Gear Needed',
@@ -73,7 +73,7 @@ class ProjectJobsServiceTest extends TestCase
     public function create_with_invalid_input()
     {
         $project = factory(Project::class)->create();
-        $input   = [
+        $input = [
             'persons_needed'       => '2',
             'gear_provided'        => 'Some Gear Provided',
             'gear_needed'          => 'Some Gear Needed',
@@ -113,7 +113,7 @@ class ProjectJobsServiceTest extends TestCase
     public function create_non_pay_rate()
     {
         $project = factory(Project::class)->create();
-        $input   = [
+        $input = [
             'persons_needed'       => '2',
             'gear_provided'        => 'Some Gear Provided',
             'gear_needed'          => 'Some Gear Needed',
@@ -154,7 +154,7 @@ class ProjectJobsServiceTest extends TestCase
     public function create_has_no_gear_and_no_persons_needed()
     {
         $project = factory(Project::class)->create();
-        $input   = [
+        $input = [
             'pay_rate'             => '20',
             'pay_rate_type_id'     => PayTypeID::PER_HOUR,
             'dates_needed'         => '6/15/2018 - 6/25/2018',
@@ -199,7 +199,7 @@ class ProjectJobsServiceTest extends TestCase
             'travel_expenses_paid' => '1',
             'rush_call'            => '0',
         ];
-        $job   = factory(ProjectJob::class)->create();
+        $job = factory(ProjectJob::class)->create();
 
         $this->service->update($input, $job);
 
@@ -235,7 +235,7 @@ class ProjectJobsServiceTest extends TestCase
             'status'               => '1',
             'position_id'          => PositionID::FIRST_ASSISTANT_DIRECTOR,
         ];
-        $job   = factory(ProjectJob::class)->create([
+        $job = factory(ProjectJob::class)->create([
             'position_id' => PositionID::CAMERA_OPERATOR,
         ]);
 
@@ -273,7 +273,7 @@ class ProjectJobsServiceTest extends TestCase
             'travel_expenses_paid' => '1',
             'rush_call'            => '0',
         ];
-        $job   = factory(ProjectJob::class)->create();
+        $job = factory(ProjectJob::class)->create();
 
         $this->service->update($input, $job);
 

@@ -20,26 +20,6 @@ class StubRemoteProject
 
     /**
      * @param int $project
-     * @param $sites
-     */
-    public function update(int $project, $sites): void
-    {
-        $data = $this->format($project, $sites);
-
-        $this->delete($project);
-        RemoteProject::insert($data);
-    }
-
-    /**
-     * @param int $project
-     */
-    public function delete(int $project)
-    {
-        RemoteProject::where('project_id', $project)->delete();
-    }
-
-    /**
-     * @param int $project
      * @param array $sites
      * @return array
      */
@@ -57,5 +37,25 @@ class StubRemoteProject
         }
 
         return $data;
+    }
+
+    /**
+     * @param int $project
+     * @param $sites
+     */
+    public function update(int $project, $sites): void
+    {
+        $data = $this->format($project, $sites);
+
+        $this->delete($project);
+        RemoteProject::insert($data);
+    }
+
+    /**
+     * @param int $project
+     */
+    public function delete(int $project)
+    {
+        RemoteProject::where('project_id', $project)->delete();
     }
 }

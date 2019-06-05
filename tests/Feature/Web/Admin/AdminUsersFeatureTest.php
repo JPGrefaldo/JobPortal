@@ -1,6 +1,7 @@
 <?php
 
-namespace Tests\Feature\Web\Admin;;
+namespace Tests\Feature\Web\Admin;
+;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
@@ -17,8 +18,8 @@ class AdminUsersFeatureTest extends TestCase
     public function ban()
     {
         $admin = $this->createAdmin();
-        $user  = $this->createUser();
-        $data  = [
+        $user = $this->createUser();
+        $data = [
             'reason' => 'some reason',
         ];
 
@@ -64,8 +65,8 @@ class AdminUsersFeatureTest extends TestCase
     public function ban_invalid_data()
     {
         $admin = $this->createAdmin();
-        $user  = $this->createUser();
-        $data  = [
+        $user = $this->createUser();
+        $data = [
             'reason' => '',
         ];
 

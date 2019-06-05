@@ -9,7 +9,7 @@
                     @click="selectTab(tab)"
                     class="no-underline border-b-2 border-transparent uppercase tracking-wide font-bold text-xs py-3 mr-8"
                     :class="{
-                        'text-teal-dark': tab.isActive,
+                        'text-green': tab.isActive,
                         'text-grey-dark': tab.isActive == false,
                     }"
                     >{{ tab.name }}</a

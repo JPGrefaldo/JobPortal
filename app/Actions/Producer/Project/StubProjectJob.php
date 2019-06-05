@@ -9,8 +9,8 @@ use Illuminate\Support\Arr;
 class StubProjectJob
 {
     /**
-     * @param \App\Http\Requests\Producer\CreateProjectJobRequest $request
-     * @return \App\Models\ProjectJob
+     * @param CreateProjectJobRequest $request
+     * @return ProjectJob
      */
     public function create(CreateProjectJobRequest $request): ProjectJob
     {
@@ -21,18 +21,20 @@ class StubProjectJob
     }
 
     /**
-     * @param \App\Models\ProjectJob $projectJob
-     * @param \App\Http\Requests\Producer\CreateProjectJobRequest $request
-     * @return \App\Models\ProjectJob
+     * @param array $data
+     * @return array
      */
-    public function update(ProjectJob $projectJob, CreateProjectJobRequest $request): ProjectJob
+    private function adjustPayType(array $data): array
     {
-        $data = $this->adjustPayType($request->all());
-        $data = $this->filter($data);
+        if (! isset($data['pay_rate'])) {
+            $data['pay_rate'] = 0;
+        }
 
-        $projectJob->update($data);
+        if (isset($data['pay_rate_type_id'])) {
+            $data['pay_type_id'] = $data['pay_rate_type_id'];
+        }
 
-        return $projectJob;
+        return $data;
     }
 
     /**
@@ -60,19 +62,17 @@ class StubProjectJob
     }
 
     /**
-     * @param array $data
-     * @return array
+     * @param ProjectJob $projectJob
+     * @param CreateProjectJobRequest $request
+     * @return ProjectJob
      */
-    private function adjustPayType(array $data): array
+    public function update(ProjectJob $projectJob, CreateProjectJobRequest $request): ProjectJob
     {
-        if (! isset($data['pay_rate'])) {
-            $data['pay_rate'] = 0;
-        }
+        $data = $this->adjustPayType($request->all());
+        $data = $this->filter($data);
 
-        if (isset($data['pay_rate_type_id'])) {
-            $data['pay_type_id'] = $data['pay_rate_type_id'];
-        }
+        $projectJob->update($data);
 
-        return $data;
+        return $projectJob;
     }
 }

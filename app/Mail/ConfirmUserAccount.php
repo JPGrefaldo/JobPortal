@@ -13,14 +13,14 @@ class ConfirmUserAccount extends Mailable
     use Queueable, SerializesModels;
 
     /**
-     * @var \App\Models\User
+     * @var User
      */
     public $user;
 
     /**
      * Create a new message instance.
      *
-     * @param \App\Models\User $user
+     * @param User $user
      */
     public function __construct(User $user)
     {
