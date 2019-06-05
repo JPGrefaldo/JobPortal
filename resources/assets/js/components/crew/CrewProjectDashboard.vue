@@ -3,110 +3,22 @@
         <button class="btn btn-green float-right mt-2 py-3">Subscribe</button>
         <tabs>
             <tab :key="1" :name="'Open'" :active="'#open'">
-                <div class="px-2">
-                    <div class="flex flex-wrap -mx-2">
-
-                        <div class="w-1/4 px-2" v-for="job in jobs" :key="job.id">
-                            <div class="mt-4 bg-white rounded p-8 shadow">
-                                <h3 class="text-blue-dark font-semibold text-md mb-1 font-header"> 
-                                    {{ job.position.name }}
-                                    <span class="badge"><strong>{{ job.persons_needed }}</strong> needed</span>
-                                </h3>
-                                <small class="font-bold font-header text-blue-darker block">
-                                    {{ job.project.title }}
-                                </small>
-                                <small class="text-blue-darker block mb-3">
-                                    {{ job.project.location }}
-                                </small>
-
-                                <div class="badge mt-3 text-black">
-
-                                      <div class="md:flex py-2">
-                                        <div class="md:w-1/3 pr-24">
-                                            <span class="font-bold font-header text-blue-darkr block md:text-right">
-                                                Rush Call
-                                            </span>
-                                        </div>
-                                        <div class="md:w-2/3">
-                                            {{ booleanForHumans(job.rush_call) }}
-                                        </div>
-                                    </div>
-
-                                    <div class="md:flex py-2">
-                                        <div class="md:w-1/3 pr-24">
-                                            <span class="font-bold font-header text-blue-darkr block md:text-right mb-2">
-                                                PAY
-                                            </span>
-                                        </div>
-                                        <div class="md:w-2/3">
-                                            {{ pay(job.pay_rate, job.pay_type.name) }}
-                                        </div>
-                                    </div>
-
-                                    <div class="md:flex py-2">
-                                        <div class="md:w-1/3 pr-24">
-                                            <span class="font-bold font-header text-blue-darkr block md:text-right mb-2">
-                                                UNION
-                                            </span>
-                                        </div>
-                                        <div class="md:w-2/3">
-                                            (but accepting non-union submissions)
-                                        </div>
-                                    </div>
-
-                                    <div class="md:flex py-2">
-                                        <div class="md:w-1/3 pr-24">
-                                            <span class="font-bold font-header text-blue-darkr block md:text-right mb-2">
-                                                Gear Provided
-                                            </span>
-                                        </div>
-                                        <div class="md:w-2/3">
-                                            {{ job.gear_provided }}
-                                        </div>
-                                    </div>
-
-                                    <div class="md:flex py-2">
-                                        <div class="md:w-1/3 pr-24">
-                                            <span class="font-bold font-header text-blue-darkr block md:text-right mb-2">
-                                                Gear Needed
-                                            </span>
-                                        </div>
-                                        <div class="md:w-2/3">
-                                            {{ job.gear_needed }}
-                                        </div>
-                                    </div>
-
-
-                                </div>
-      
-                                <div class="pt-4">
-                                    <label class="text-blue-dark">Job Details</label>
-                                    <p class="text-justify">
-                                        {{ job.notes }}
-                                    </p>
-                                </div>
-
-                                <div class="clearfix">
-                                    <div class="float-right mt-4">
-                                        <button class="btn-blue font-bold py-2">Ignore</button>
-                                        <button class="btn-green font-bold py-2">Apply</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <project-job-card v-if="jobs" :jobs="jobs" :mode="'open'"></project-job-card>
+                <h1 v-else>No open jobs available yet.</h1>
             </tab>
             <tab :key="2" :name="'Applied'"><h1>Applied</h1></tab>
-            <tab :key="3" :name="'Ignored'"><h1>Ignored</h1></tab>
+            <tab :key="3" :name="'Ignored'">
+                <project-job-card v-if="ignoredJobs" :jobs="ignoredJobs" :mode="'ignored'"></project-job-card>
+                <h1 v-else>You don't have ignored job.</h1>
+            </tab>
         </tabs>
     </div>
 </template>
 <script>
-    import {format} from '../../mixins'
+    import {mapGetters} from 'vuex'
     import Tab from '../_partials/Tab.vue'
     import Tabs from '../_partials/Tabs.vue'
-    import ProjectCard from '../project/ProjectCard.vue'
+    import ProjectJobSmallInfoCard from '../_partials/Card/ProjectJobSmallInfoCard.vue'
 
     export default {
         props: {
@@ -115,8 +27,6 @@
                 required: true
             }
         },
-
-        mixins: [format],
 
         data() {
             return {
@@ -127,15 +37,17 @@
         components: {
             tab: Tab,
             tabs: Tabs,
-            'project-card': ProjectCard
-        },
-
-        created: function() {
-
+            'project-job-card': ProjectJobSmallInfoCard
         },
 
         computed: {
+            ...mapGetters({
+                ignoredJobs: 'crew/ignoredJobs'
+            })
+        },
 
+        created: function() {
+            this.$store.dispatch('crew/fetchIgnoredJobs');
         }
     }
 </script>
