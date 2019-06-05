@@ -45,7 +45,7 @@ class UserTest extends TestCase
      * @test
      * @covers \App\Models\User::notificationSettings
      */
-    public function notificationSettings()
+    public function notification_settings()
     {
         $userNotificationSetting = factory(UserNotificationSetting::class)
             ->create(['user_id' => $this->user->id]);
@@ -60,7 +60,7 @@ class UserTest extends TestCase
      * @test
      * @covers \App\Models\User::emailVerificationCode
      */
-    public function emailVerificationCode()
+    public function email_verification_code()
     {
         $emailVerificationCode = factory(EmailVerificationCode::class)
             ->create(['user_id' => $this->user->id]);
@@ -100,7 +100,7 @@ class UserTest extends TestCase
      * @test
      * @covers \App\Models\User::isConfirmed
      */
-    public function isConfirmed()
+    public function is_confirmed()
     {
         $this->assertTrue($this->user->isConfirmed());
     }
@@ -109,7 +109,7 @@ class UserTest extends TestCase
      * @test
      * @covers \App\Models\User::isActive
      */
-    public function isActive()
+    public function is_active()
     {
         $this->assertTrue($this->user->isActive());
     }
@@ -142,7 +142,7 @@ class UserTest extends TestCase
      * @test
      * @covers \App\Models\User::hasSite
      */
-    public function hasSite()
+    public function has_site()
     {
         $site = factory(Site::class)->create();
         $randomSite = factory(Site::class)->create();
@@ -157,7 +157,7 @@ class UserTest extends TestCase
      * @test
      * @covers \App\Models\User::getFormattedPhoneNumberAttribute
      */
-    public function getFormattedPhoneNumberAttribute()
+    public function get_formatted_phone_number_attribute()
     {
         $this->user->update(['phone' => '1234567891']);
 
@@ -174,7 +174,7 @@ class UserTest extends TestCase
      * @test
      * @covers \App\Models\User::getNicknameOrFullNameAttribute
      */
-    public function getNicknameOrFullNameAttribute_with_nickname()
+    public function get_nickname_or_full_name_attribute_with_nickname()
     {
         $this->user->update([
             'nickname' => 'The Rock',
@@ -187,7 +187,7 @@ class UserTest extends TestCase
      * @test
      * @covers \App\Models\User::getNicknameOrFullNameAttribute
      */
-    public function getNicknameOrFullNameAttribute_without_nickname()
+    public function get_nickname_or_full_name_attribute_without_nickname()
     {
         $this->user->update([
             'nickname' => '',
@@ -200,7 +200,7 @@ class UserTest extends TestCase
      * @test
      * @covers \App\Models\User::getNameAttribute
      */
-    public function getNameAttribute_with_nickname()
+    public function get_name_attribute_with_nickname()
     {
         $this->user->update([
             'nickname' => 'The Rock',
@@ -213,7 +213,7 @@ class UserTest extends TestCase
      * @test
      * @covers \App\Models\User::getNameAttribute
      */
-    public function getNameAttribute_without_nickname()
+    public function get_name_attribute_without_nickname()
     {
         $this->user->update([
             'nickname' => '',

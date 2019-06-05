@@ -84,7 +84,7 @@ class CrewTest extends TestCase
      * @test
      * @covers \App\Models\Crew::hasGeneralReel
      */
-    public function hasGeneralReel()
+    public function has_general_reel()
     {
         // given
         $this->assertFalse($this->crew->hasGeneralReel());
@@ -166,7 +166,7 @@ class CrewTest extends TestCase
      * @test
      * @covers \App\Models\Crew::applyFor
      */
-    public function applyFor()
+    public function apply_for()
     {
         // given
         $position = factory(Position::class)->create();
@@ -195,7 +195,7 @@ class CrewTest extends TestCase
      * @test
      * @covers \App\Models\Crew::hasPosition
      */
-    public function hasPosition()
+    public function has_position()
     {
         // given
         $appliedPosition = factory(Position::class)->create();

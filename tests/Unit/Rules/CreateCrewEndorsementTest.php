@@ -35,7 +35,7 @@ class CreateCrewEndorsementTest extends TestCase
      * @test
      * @covers \App\Rules\CreateCrewEndorsement::passes
      */
-    public function invalidOwnEmail()
+    public function invalid_own_email()
     {
         factory(EndorsementEndorser::class)->create([
             'email' => $this->user1->email,

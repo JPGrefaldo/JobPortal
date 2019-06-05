@@ -39,7 +39,7 @@ class EndorsementRequestFeatureTest extends TestCase
     /**
      * @test
      */
-    public function deletePendingEndorsement()
+    public function delete_pending_endorsement()
     {
         list($user1, $postition, $request) = $this->createEndorsement(Carbon::now());
 
