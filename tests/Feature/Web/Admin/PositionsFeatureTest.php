@@ -195,7 +195,7 @@ class PositionsFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-            ->put(route('admin.positions.update', ['position' => $position->id]), $data);
+            ->put(route('admin.positions.update', $position), $data);
 
         $response->assertSuccessful();
 
@@ -227,7 +227,7 @@ class PositionsFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-            ->put(route('admin.positions.update', ['position' => $position->id]), $data);
+            ->put(route('admin.positions.update', $position), $data);
 
         $response->assertSuccessful();
 
@@ -261,7 +261,7 @@ class PositionsFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-            ->put(route('admin.positions.update', ['position' => $position->id]), $data);
+            ->put(route('admin.positions.update', $position), $data);
 
         $response->assertSuccessful();
 
@@ -296,7 +296,7 @@ class PositionsFeatureTest extends TestCase
         $position = factory(Position::class)->create($data);
 
         $response = $this->actingAs($user)
-            ->put(route('admin.positions.update', ['position' => $position->id]), $data);
+            ->put(route('admin.positions.update', $position), $data);
 
         $response->assertSuccessful();
 
@@ -329,7 +329,7 @@ class PositionsFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-            ->put(route('admin.positions.update', ['position' => $position->id]), $data);
+            ->put(route('admin.positions.update', $position), $data);
 
         $response->assertSessionHasErrors(
             [
@@ -381,7 +381,7 @@ class PositionsFeatureTest extends TestCase
         $position = factory(Position::class)->create($data);
 
         $response = $this->actingAs($user)
-            ->put(route('admin.positions.update', ['position' => $position->id]), $data);
+            ->put(route('admin.positions.update', $position), $data);
 
         $response->assertForbidden();
     }

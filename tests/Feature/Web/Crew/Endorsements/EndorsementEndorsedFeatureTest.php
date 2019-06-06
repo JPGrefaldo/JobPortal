@@ -27,7 +27,7 @@ class EndorsementEndorsedFeatureTest extends TestCase
 
         $this->actingAs($user);
 
-        $response = $this->getJson(route('crew.endorsement.endorsed', ['position' => $position->id]));
+        $response = $this->getJson(route('crew.endorsement.endorsed', $position));
 
         $response->assertStatus(200)
             ->assertJsonFragment([
@@ -45,7 +45,7 @@ class EndorsementEndorsedFeatureTest extends TestCase
 
         $this->actingAs($user);
 
-        $response = $this->json('GET', route('crew.endorsement.endorsed', ['position' => $position->id]));
+        $response = $this->json('GET', route('crew.endorsement.endorsed', $position));
 
         $response->assertStatus(200)
             ->assertExactJson([]);
