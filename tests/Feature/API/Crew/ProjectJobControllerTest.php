@@ -12,14 +12,49 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
 
-class PositionControllerTest extends TestCase
+class ProjectJobControllerTest extends TestCase
 {
     use RefreshDatabase,
         SeedDatabaseAfterRefresh;
 
     /**
      * @test
-     * @covers App\Http\Controllers\API\Crew/PositionController::ignored_jobs
+     * @covers App\Http\Controllers\API\Crew/ProjectJobController::ignore
+     */
+    public function can_ignore_a_job()
+    {
+        $crew   = $this->createCrew();
+        $job    = $this->seedOpenJob($crew);
+
+        $this->actingAs($crew, 'api')
+            ->postJson(route('crew.ignore.jobs', $job))
+            ->assertSee('Successfully ignored the job')
+            ->assertSuccessful();
+
+        $this->assertCount(1, CrewIgnoredJob::all());
+    }
+
+    /**
+     * @test
+     * @covers App\Http\Controllers\API\Crew/ProjectJobController::unignore
+     */
+    public function can_unignore_a_job()
+    {
+        $crew   = $this->createCrew();
+        $job    = $this->seedIgnoredJob($crew);
+
+        $this->actingAs($crew, 'api')
+            ->postJson(route('crew.unignore.jobs', $job))
+            ->assertSee('Successfully unignored the job')
+            ->assertSuccessful();
+
+        $this->assertCount(0, CrewIgnoredJob::all());
+    }
+
+
+    /**
+     * @test
+     * @covers App\Http\Controllers\API\Crew/ProjectJobController::ignored
      */
     public function can_fetched_ignored_jobs()
     {
@@ -38,7 +73,7 @@ class PositionControllerTest extends TestCase
 
     /**
      * @test
-     * @covers App\Http\Controllers\API\Crew/PositionController::ignored_jobs
+     * @covers App\Http\Controllers\API\Crew/ProjectJobController::ignored
      */
     public function should_only_return_ignored_jobs()
     {
@@ -61,7 +96,7 @@ class PositionControllerTest extends TestCase
 
      /**
      * @test
-     * @covers App\Http\Controllers\API\Crew/PositionController::ignored_jobs
+     * @covers App\Http\Controllers\API\Crew/ProjectJobController::ignored
      */
     public function should_only_return_ignored_jobs_matched_to_crew_position()
     {
