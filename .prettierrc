@@ -1,7 +1,21 @@
 {
-    "printWidth": 100,
-    "semi": false,
-    "singleQuote": true,
+    "printWidth": 1000,
     "tabWidth": 4,
-    "trailingComma": "es5"
+    "useTabs": false,
+    "singleQuote": true,
+    "trailingComma": "es5",
+    "bracketSpacing": true,
+    "jsxBracketSameLine": false,
+    "semi": true,
+    "requirePragma": false,
+    "proseWrap": "preserve",
+    "arrowParens": "avoid",
+    "overrides": [
+        {
+            "files": "resources/css/**/*.css",
+            "options": {
+                "tabWidth": 2
+            }
+        }
+    ]
 }
