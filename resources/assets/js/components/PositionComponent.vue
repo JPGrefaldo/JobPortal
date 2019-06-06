@@ -2,7 +2,7 @@
     <div>
         <div class="flex justify-between w-full items-center py-2" @click.stop.prevent="toggleSelect">
             <label class="checkbox-control">
-                <h3 class="position-title" v-text="position.name"></h3>
+                <h3 class="text-md text-grey-200 font-semibold sm-only:text-sm" v-text="position.name"></h3>
                 <input type="checkbox" v-model="filled"/>
                 <div class="control-indicator"></div>
             </label>

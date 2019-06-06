@@ -153,7 +153,7 @@ class DepartmentsFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user, 'api')
-            ->put(route('admin.departments.update', ['department' => $department->id]), $data);
+            ->put(route('admin.departments.update', $department), $data);
 
         $response->assertSuccessful();
 
@@ -181,7 +181,7 @@ class DepartmentsFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user, 'api')
-            ->put(route('admin.departments.update', ['department' => $department->id]), $data);
+            ->put(route('admin.departments.update', $department), $data);
 
         $response->assertSuccessful();
 
@@ -209,7 +209,7 @@ class DepartmentsFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user, 'api')
-            ->put(route('admin.departments.update', ['department' => $department->id]), $data);
+            ->put(route('admin.departments.update', $department), $data);
 
         $response->assertSuccessful();
 
@@ -237,7 +237,7 @@ class DepartmentsFeatureTest extends TestCase
         $department = factory(Department::class)->create($data);
 
         $response = $this->actingAs($user, 'api')
-            ->put(route('admin.departments.update', ['department' => $department->id]), $data);
+            ->put(route('admin.departments.update', $department), $data);
 
         $response->assertSuccessful();
 
@@ -265,7 +265,7 @@ class DepartmentsFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user, 'api')
-            ->put(route('admin.departments.update', ['department' => $department->id]), $data);
+            ->put(route('admin.departments.update', $department), $data);
 
         $response->assertSessionHasErrors([
             'name' => 'The name field is required.',
@@ -288,7 +288,7 @@ class DepartmentsFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($user, 'api')
-            ->put(route('admin.departments.update', ['department' => $department->id]), $data);
+            ->put(route('admin.departments.update', $department), $data);
 
         $response->assertSessionHasErrors([
             'name' => 'The name has already been taken.',

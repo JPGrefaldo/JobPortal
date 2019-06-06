@@ -450,6 +450,7 @@
         </div>
         <div class="py-6 px-3 border-t border-grey-dark">
             <ul>
+                @guest
                 <li class="py-2">
                     <a class="block py-1 px-4 font-header tracking-wide block font-bold leading-none uppercase text-sm text-white hover:text-green"
                         href="{{ route('login') }}">SIGN in</a>
@@ -458,6 +459,21 @@
                     <a class="block py-1 px-4 font-header tracking-wide font-bold leading-none uppercase text-sm text-white hover:text-green"
                         href="{{ route('signup') }}">sign up</a>
                 </li>
+                @else
+                <li>
+                    <a href="{{ route('dashboard') }}"
+                        class="block py-1 px-4 font-header tracking-wide block font-bold leading-none uppercase text-sm text-white hover:text-green">
+                        Dashboard
+                        <span class="caret"></span>
+                    </a>
+                </li>
+                <li>
+                    <cca-logout-link csrf="{{ csrf_token() }}"
+                                     class="block py-4 px-4 font-header font-bold leading-none uppercase text-sm text-white hover:border-green hover:text-green cursor-pointer">
+                        {{ __('Logout') }}
+                    </cca-logout-link>
+                </li>
+            @endguest
             </ul>
         </div>
     </nav>
