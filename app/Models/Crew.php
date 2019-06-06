@@ -220,4 +220,12 @@ class Crew extends Model
     {
         $this->attributes['submission_count'] = $value;
     }
+
+    /**
+    * @return \Illuminate\Database\Eloquent\Relations\HasMany
+    */
+    public function ignoredJobs()
+    {
+        return $this->hasMany(CrewIgnoredJob::class);
+    }
 }
