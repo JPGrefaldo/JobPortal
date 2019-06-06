@@ -134,13 +134,6 @@
                     </div>
                 </div>
             </div>
-            <ul>
-                <li v-for="message in messages" :key="message.id">
-                    <p class="text-sm text-red mt-4">
-                        {{ message }}
-                    </p>
-                </li>
-            </ul>
             <div class="pt-8 pb-4 text-right border-t-2 border-grey-lighter">
                 <button class="text-grey bold mr-4 hover:text-green focus:outline-none" @click="onClickLeavePosition()">Leave position</button>
                 <button class="btn-green focus:outline-none" @click="onClickSave">SAVE CHANGES</button>
@@ -267,6 +260,8 @@ export default {
                             return e;
                         }
                     });
+
+                    this.displayError(this.messages);
                 });
             } else {
                 axios
@@ -298,6 +293,8 @@ export default {
                             return e;
                         }
                     });
+
+                    this.displayError(this.messages);
                 });
             }
         },
@@ -377,10 +374,6 @@ export default {
 
                         this.form.resume = null
                         this.resume = null
-                    } else {
-                        this.displayError(
-                            `You don't have a resume to delete.`
-                        )
                     }
             })
         },
@@ -398,10 +391,6 @@ export default {
 
                         this.form.reel_file = null
                         this.form.reel = ''
-                    } else {
-                        this.displayError(
-                            `You don't have reels to delete.`
-                        )
                     }
                 })
         },
@@ -415,10 +404,6 @@ export default {
                         this.displayCustomMessage(
                             'Successfully removed',
                             'You have successfully removed the gear photos'
-                        );
-                    } else {
-                        this.displayError(
-                            `You don't have gears to delete.`
                         );
                     }
 

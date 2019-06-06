@@ -9,11 +9,25 @@ export default {
         },
 
         displayError: function(message) {
-            this.$swal({
-                title: '',
-                text: message,
-                type: 'error',
-            });
+            var err_message = '';
+
+            if (typeof message == "object") {
+                message.forEach(item => {
+                    err_message = item + ' ' + err_message;
+                });
+
+                this.$swal({
+                    title: '',
+                    text: err_message,
+                    type: 'error',
+                });
+            } else {
+                this.$swal({
+                    title: '',
+                    text: message,
+                    type: 'error',
+                });
+            }
         },
 
         displayDeleteNotification: function() {
