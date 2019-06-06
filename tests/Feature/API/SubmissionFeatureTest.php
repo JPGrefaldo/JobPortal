@@ -300,8 +300,7 @@ class SubmissionFeatureTest extends TestCase
                 $data
             )
             ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertSee('Please upload General Resume')
-            ;
+            ->assertSee('Please upload General Resume');
     }
 
     /**
