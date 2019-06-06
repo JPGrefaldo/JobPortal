@@ -462,8 +462,8 @@
                 @else
                 <li>
                     <a href="{{ route('dashboard') }}"
-                       class="block py-1 px-4 font-header tracking-wide block font-bold leading-none uppercase text-sm text-white hover:text-green">
-                        {{ Auth::user()->first_name }}
+                        class="block py-1 px-4 font-header tracking-wide block font-bold leading-none uppercase text-sm text-white hover:text-green">
+                        Dashboard
                         <span class="caret"></span>
                     </a>
                 </li>
