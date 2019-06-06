@@ -47,8 +47,8 @@ class SubmissionFeatureTest extends TestCase
                     ['job' => $projectJob]
                 )
             )
-            ->assertSee('Sucessfully fetched job\'s submissions')
-            ->assertSuccessful();
+            ->assertSuccessful()
+            ->assertSee('Sucessfully fetched job\'s submissions');
 
         $response->assertJsonFragment($projectJob->toArray());
         $response->assertJsonFragment($projectJob->submissions->toArray());
@@ -94,8 +94,8 @@ class SubmissionFeatureTest extends TestCase
                     ['job' => $projectJob]
                 )
             )
-            ->assertSee('Sucessfully fetched job\'s submissions')
-            ->assertSuccessful();
+            ->assertSuccessful()
+            ->assertSee('Sucessfully fetched job\'s submissions');
 
         $response->assertJsonFragment($projectJob->submissions->first()->toArray());
     }
@@ -136,8 +136,8 @@ class SubmissionFeatureTest extends TestCase
                 ),
                 $data
             )
-            ->assertSee('Submission successfully added')
-            ->assertStatus(Response::HTTP_CREATED);
+            ->assertStatus(Response::HTTP_CREATED)
+            ->assertSee('Submission successfully added');
 
         $response->assertJsonFragment([
             'crew_id'        => $crew->id,
@@ -163,8 +163,8 @@ class SubmissionFeatureTest extends TestCase
                 'producer.projects.approve.submissions',
                 ['job' => $projectJob->id]
             ))
-            ->assertSee('Submission is successfully approved')
-            ->assertStatus(Response::HTTP_OK);
+            ->assertStatus(Response::HTTP_OK)
+            ->assertSee('Submission is successfully approved');
     }
 
     /**
@@ -181,8 +181,8 @@ class SubmissionFeatureTest extends TestCase
                 'producer.projects.submissions.reject',
                 ['job' => $projectJob]
             ))
-            ->assertSee('Submission is successfully rejected')
-            ->assertStatus(Response::HTTP_OK);
+            ->assertStatus(Response::HTTP_OK)
+            ->assertSee('Submission is successfully rejected');
     }
 
     /**
@@ -199,16 +199,16 @@ class SubmissionFeatureTest extends TestCase
                 'producer.projects.submissions.reject',
                 ['job' => $projectJob]
             ))
-            ->assertSee('Submission is successfully rejected')
-            ->assertStatus(Response::HTTP_OK);
+            ->assertStatus(Response::HTTP_OK)
+            ->assertSee('Submission is successfully rejected');
 
         $this->actingAs($producer, 'api')
             ->postJson(route(
                 'producer.projects.submissions.restore',
                 ['job' => $projectJob]
             ))
-            ->assertSee('Submission is successfully restored')
-            ->assertStatus(Response::HTTP_OK);
+            ->assertStatus(Response::HTTP_OK)
+            ->assertSee('Submission is successfully restored');
     }
 
     /**
@@ -258,8 +258,8 @@ class SubmissionFeatureTest extends TestCase
                 'producer.projects.swap.submissions',
                 $data
             ))
-            ->assertSee('Submission successfully swapped.')
-            ->assertStatus(Response::HTTP_OK);
+            ->assertStatus(Response::HTTP_OK)
+            ->assertSee('Submission successfully swapped.');
 
         $this->assertEquals(null, $submissionToReject->fresh()->approved_at);
         $this->assertEquals(null, $submissionToApprove->fresh()->rejected_at);
@@ -299,8 +299,9 @@ class SubmissionFeatureTest extends TestCase
                 ),
                 $data
             )
+            ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
             ->assertSee('Please upload General Resume')
-            ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+            ;
     }
 
     /**
@@ -317,8 +318,8 @@ class SubmissionFeatureTest extends TestCase
                 'project.job.submissions.index',
                 ['job' => $projectJob]
             ))
-            ->assertSee('User does not have the right roles.')
-            ->assertForbidden();
+            ->assertForbidden()
+            ->assertSee('User does not have the right roles.');
     }
 
     /**
@@ -339,8 +340,8 @@ class SubmissionFeatureTest extends TestCase
                 ),
                 $data
             )
-            ->assertSee('User does not have the right roles.')
-            ->assertForbidden();
+            ->assertForbidden()
+            ->assertSee('User does not have the right roles.');
     }
 
     /**
@@ -358,8 +359,8 @@ class SubmissionFeatureTest extends TestCase
                 'producer.projects.approve.submissions',
                 ['job' => $projectJob->id]
             ))
-            ->assertSee('User does not have the right roles.')
-            ->assertForbidden();
+            ->assertForbidden()
+            ->assertSee('User does not have the right roles.');
     }
 
     /**
@@ -377,8 +378,8 @@ class SubmissionFeatureTest extends TestCase
                 'producer.projects.submissions.reject',
                 ['job' => $projectJob]
             ))
-            ->assertSee('User does not have the right roles.')
-            ->assertForbidden();
+            ->assertForbidden()
+            ->assertSee('User does not have the right roles.');
     }
 
     /**
@@ -396,8 +397,8 @@ class SubmissionFeatureTest extends TestCase
                 'producer.projects.submissions.restore',
                 ['job' => $projectJob->id]
             ))
-            ->assertSee('User does not have the right roles.')
-            ->assertForbidden();
+            ->assertForbidden()
+            ->assertSee('User does not have the right roles.');
     }
 
     protected function createProjectAndJob()
