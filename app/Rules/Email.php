@@ -70,7 +70,7 @@ class Email implements Rule
      */
     public function canValidateMXRecord()
     {
-        return function_exists('getmxrr');
+        return (function_exists('getmxrr') && ! app()->runningUnitTests());
     }
 
     /**
