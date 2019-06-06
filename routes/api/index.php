@@ -19,42 +19,22 @@ use App\Http\Controllers\API\UserController;
 | * Multiple, Route::middleware(AuthorizeRoles::parameterize(Role::CREW, Role::PRODUCER))
 */
 // TODO: defer to common route for both crew and admin
-Route::post('/messages/{project}', [MessageController::class, 'store'])
-    ->name('producer.messages.store');
+Route::post('/messages/{project}', [MessageController::class, 'store'])->name('producer.messages.store');
 // TODO: defer to common route for both crew and admin
-Route::put('/messages/producer/projects/{project}/messages/{message}', [MessageController::class, 'update'])
-    ->name('producer.messages.update');
+Route::put('/messages/producer/projects/{project}/messages/{message}', [MessageController::class, 'update'])->name('producer.messages.update');
 
 // web
 
 Route::middleware('auth:api')->group(function () {
-    Route::post('/messenger/projects/{project}/messages', [
-        MessageController::class,
-        'store',
-    ])->middleware('role:Producer|Crew')->name('messenger.project.messages.store');
+    Route::post('/messenger/projects/{project}/messages', [MessageController::class, 'store',])->middleware('role:Producer|Crew')->name('messenger.project.messages.store');
 
-    Route::get('/messenger/threads/{thread}/messages', [
-        MessageController::class,
-        'index',
-    ])->middleware('role:Producer|Crew')->name('messenger.threads.messages.index');
+    Route::get('/messenger/threads/{thread}/messages', [MessageController::class, 'index',])->middleware('role:Producer|Crew')->name('messenger.threads.messages.index');
 
-    Route::put('/messenger/threads/{thread}/messages', [
-        MessageController::class,
-        'update',
-    ])->middleware('role:Producer|Crew')->name('messenger.threads.messages.update');
+    Route::put('/messenger/threads/{thread}/messages', [MessageController::class, 'update',])->middleware('role:Producer|Crew')->name('messenger.threads.messages.update');
 
-    Route::post('/messenger/threads/{thread}/search', [
-        ParticipantController::class,
-        'search',
-    ])->middleware('role:Producer|Crew')->name('threads.index.search');
+    Route::post('/messenger/threads/{thread}/search', [ParticipantController::class, 'search',])->middleware('role:Producer|Crew')->name('threads.index.search');
 
-    Route::get('/sites', [
-        SiteController::class,
-        'index',
-    ])->name('sites.index');
+    Route::get('/sites', [SiteController::class, 'index',])->name('sites.index');
 
-    Route::get('/user', [
-        UserController::class,
-        'show',
-    ]);
+    Route::get('/user', [UserController::class, 'show',]);
 });
