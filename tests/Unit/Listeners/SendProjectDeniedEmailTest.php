@@ -31,7 +31,8 @@ class SendProjectDeniedEmailTest extends TestCase
         ];
 
         $this->actingAs($admin, 'api')
-            ->postJson(route('admin.projects.deny', $project), $data);
+            ->postJson(route('admin.projects.deny', $project), $data)
+            ->assertSuccessful();
 
         Mail::assertSent(
             ProjectDeniedEmail::class,

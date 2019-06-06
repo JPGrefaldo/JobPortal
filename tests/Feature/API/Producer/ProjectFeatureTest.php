@@ -273,8 +273,8 @@ class ProjectFeatureTest extends TestCase
                     'Accept' => 'application/json',
                 ]
             )
-            ->assertSee('Project successfully updated.')
-            ->assertSuccessful();
+            ->assertSuccessful()
+            ->assertSee('Project successfully updated.');
 
         $this->assertDatabaseHas('remote_projects', ['site_id' => SiteID::CREWCALLSAMERICA]);
         $this->assertDatabaseHas('remote_projects', ['site_id' => SiteID::CREWCALLSALASKA]);

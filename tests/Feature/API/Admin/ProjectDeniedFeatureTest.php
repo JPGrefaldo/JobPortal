@@ -28,8 +28,8 @@ class ProjectDeniedFeatureTest extends TestCase
 
         $this->actingAs($admin, 'api')
             ->postJson(route('admin.projects.deny', $project), $data)
-            ->assertSee('Successfully denied the project.')
-            ->assertSuccessful();
+            ->assertSuccessful()
+            ->assertSee('Successfully denied the project.');
 
         $this->assertNotNull($project->fresh()->deleted_at);
         $this->assertCount(1, $project->deniedReason()->get());

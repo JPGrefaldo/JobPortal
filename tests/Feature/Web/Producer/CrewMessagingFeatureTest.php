@@ -122,6 +122,7 @@ class CrewMessagingFeatureTest extends TestCase
 
         $this->actingAs($producer, 'api')
             ->postJson(route('producer.message.crew.store', $project), $data)
+            ->assertSuccessful()
             ->assertSee("Successfully save the crews' message");
     }
 }
