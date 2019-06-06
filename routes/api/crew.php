@@ -1,9 +1,9 @@
 <?php
 
-use App\Http\Controllers\API\Crew\PositionController;
 use App\Http\Controllers\API\DepartmentController;
 use App\Http\Controllers\API\SubmissionController;
 use App\Http\Controllers\API\ThreadController;
+use App\Http\Controllers\API\Crew\ProjectJobController;
 use App\Http\Controllers\Crew\CrewPositionController;
 use App\Http\Controllers\Crew\CrewProjectController;
 use App\Http\Controllers\Crew\Endorsements\EndorsementEndorsedController;
@@ -21,7 +21,10 @@ Route::delete('/endorsement/positions/request/{endorsementRequest}', [Endorsemen
 
 Route::get('/departments', [DepartmentController::class, 'index',])->name('crew.departments.index');
 
-Route::get('/ignored/jobs', [PositionController::class, 'ignored_jobs'])->name('crew.ignored.jobs');
+Route::get('/ignored/jobs', [ProjectJobController::class, 'ignored'])->name('crew.ignored.jobs');
+Route::post('/ignore/jobs/{job}', [ProjectJobController::class, 'ignore'])->name('crew.ignore.jobs');
+Route::post('/unignore/jobs/{job}', [ProjectJobController::class, 'unignore'])->name('crew.unignore.jobs');
+
 Route::get('/positions', [PositionController::class, 'index',])->name('crew.positions.index');
 
 Route::get('/projects', [CrewProjectController::class, 'index',])->name('crew.projects.index');
@@ -30,3 +33,4 @@ Route::get('/projects/{project}/threads', [ThreadController::class, 'index',])->
 
 Route::post('/submission/{job}', [SubmissionController::class, 'store',])->name('crew.submissions.store');
 Route::get('/submission/{job}/check', [SubmissionController::class, 'check',])->name('crew.submission.check');
+
