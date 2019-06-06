@@ -7,12 +7,16 @@
             <p>Score: {{ $endorsement_score }}</p>
         </div>
 
-        <div class="flex items-center">
+        <div class="flex items-center h-6">
+            <p class="text-grey-100 mr-2">Status:</p>
             @if ($approvedEndorsements > 0)
                 <span class="pill-blue pill-sm">{{ $approvedEndorsements }} Endorsed</span>
             @endif
             @if ($unapprovedEndorsements > 0)
                 <span class="pill-yellow pill-sm ml-1">{{ $unapprovedEndorsements }} Pending</span>
+            @endif
+            @if ($approvedEndorsements == 0 && $unapprovedEndorsements == 0)
+                <span class="pill-red pill-sm ml-1">None</span>
             @endif
         </div>
         <div class="flex mb-2 pt-2 mt-2 border-t-2 border-grey-lighter justify-end">
