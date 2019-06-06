@@ -44,7 +44,7 @@
                         <div class="md:w-1/3 pr-8">
                             <h3 class="section-title mb-2 md:mb-0">Profile Photo</h3>
                         </div>
-                        <div class="md:w-2/3">
+                        <div class="w-full md:w-2/3">
                             <file-pond></file-pond>
                             @if (isset($user->crew->photo_path))
                                 <div class="w-full pt-2">
@@ -94,7 +94,7 @@
                             or
                             <input type="text"
                                    name="reel_link"
-                                   class="form-control bg-light md:w-2/3 mr-2 mb-2 md:mb-0"
+                                   class="form-control bg-light md:w-2/3 mr-2 mb-2 md:mb-0 w-full"
                                    placeholder="Add link"
                                    value="{{ old('reel_link', (isset($user->crew) ? $user->crew->getGeneralReelLink() : '')) }}">
                         </div>

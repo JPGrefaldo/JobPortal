@@ -1,5 +1,5 @@
 <template>
-    <div class="card mb-6">
+    <div class="card mb-6 sm-only:p-2">
         <div class="pb-6">
             <h3
                 class="text-blue-dark font-semibold text-lg mb-1 font-header"
