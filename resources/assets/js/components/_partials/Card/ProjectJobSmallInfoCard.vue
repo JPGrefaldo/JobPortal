@@ -81,12 +81,7 @@
                         </p>
                     </div>
 
-                    <div class="clearfix" v-if="mode==='open'">
-                        <div class="float-right mt-4">
-                            <button class="btn-blue font-bold py-2">Ignore</button>
-                            <button class="btn-green font-bold py-2">Apply</button>
-                        </div>
-                    </div>
+                    <slot name="job" :job="job"></slot>
                 </div>
             </div>
         </div>
@@ -100,10 +95,6 @@
         props: {
             jobs: {
                 type: Array,
-                required: true
-            },
-            mode: {
-                type: String,
                 required: true
             }
         },
