@@ -38,7 +38,6 @@ class FetchUserTest extends TestCase
      */
     public function unauthorized_guest()
     {
-        $this->withoutExceptionHandling();
         $response = $this->getJson(self::URI);
 
         $response->assertStatus(401);
