@@ -38,7 +38,7 @@ class UpdateProjectTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-            ->put(route('producer.project.update', ['job' => $project->id]), $data);
+            ->put(route('producer.project.update', $project), $data);
 
         $response->assertSuccessful();
 
@@ -84,7 +84,7 @@ class UpdateProjectTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-            ->put(route('producer.project.update', ['job' => $project->id]), $data);
+            ->put(route('producer.project.update', $project), $data);
 
         $response->assertSuccessful();
 
@@ -126,7 +126,7 @@ class UpdateProjectTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-            ->put(route('producer.project.update', ['job' => $project->id]), $data);
+            ->put(route('producer.project.update', $project), $data);
 
         $response->assertSuccessful();
 
@@ -178,7 +178,7 @@ class UpdateProjectTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-            ->put(route('producer.project.update', ['job' => $project->id]), $data);
+            ->put(route('producer.project.update', $project), $data);
 
         $response->assertSuccessful();
 
@@ -226,7 +226,7 @@ class UpdateProjectTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-            ->put(route('producer.project.update', ['job' => $project->id]), $data);
+            ->put(route('producer.project.update', $project), $data);
 
         $response->assertSuccessful();
 
@@ -264,7 +264,7 @@ class UpdateProjectTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-            ->put(route('producer.project.update', ['job' => $project->id]), $data);
+            ->put(route('producer.project.update', $project), $data);
 
         $response->assertSessionHasErrors([
             'title',
@@ -298,7 +298,7 @@ class UpdateProjectTest extends TestCase
         ];
 
         $response = $this->actingAs($user)
-            ->put(route('producer.project.update', ['job' => $project->id]), $data);
+            ->put(route('producer.project.update', $project), $data);
 
         $response->assertSessionHasErrors([
             'title', // min 3 chars
@@ -321,7 +321,7 @@ class UpdateProjectTest extends TestCase
         $data = [];
 
         $response = $this->actingAs($user)
-            ->put(route('producer.project.update', ['job' => $project->id]), $data);
+            ->put(route('producer.project.update', $project), $data);
 
         $response->assertForbidden();
     }
@@ -337,7 +337,7 @@ class UpdateProjectTest extends TestCase
         $data = [];
 
         $response = $this->actingAs($user)
-            ->put(route('producer.project.update', ['job' => $project->id]), $data);
+            ->put(route('producer.project.update', $project), $data);
 
         $response->assertForbidden();
     }
