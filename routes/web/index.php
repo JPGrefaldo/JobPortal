@@ -60,6 +60,7 @@ Route::get('terms-and-conditions', [StaticPageController::class, 'showTermsAndCo
 
 Route::get('signup', [UserSignupController::class, 'show'])->name('signup');
 Route::post('signup', [UserSignupController::class, 'signup'])->name('signup');
+
 Route::get('verify/email/{code}', [VerifyEmailController::class, 'verify'])->name('verify.email');
 /*
 |--------------------------------------------------------------------------
@@ -70,18 +71,10 @@ Route::get('verify/email/{code}', [VerifyEmailController::class, 'verify'])->nam
 |
 */
 Route::middleware('auth')->group(function () {
-    Route::get('/account/change/producer', [AccountChangeController::class, 'producer'])
-        ->name('account.change-to.producer')
-        ->middleware('role:Crew');
-    Route::get('/account/change/crew', [AccountChangeController::class, 'crew'])
-        ->name('account.change-to.crew')
-        ->middleware('role:Producer');
-    Route::get('change/crew', [AccountChangeController::class, 'crew'])
-        ->name('account.change-to.crew')
-        ->middleware('role:Producer');
-    Route::get('change/producer', [AccountChangeController::class, 'producer'])
-        ->name('account.change-to.producer')
-        ->middleware('role:Crew');
+    Route::get('/account/change/producer', [AccountChangeController::class, 'producer'])->name('account.change-to.producer')->middleware('role:Crew');
+    Route::get('/account/change/crew', [AccountChangeController::class, 'crew'])->name('account.change-to.crew')->middleware('role:Producer');
+    Route::get('change/crew', [AccountChangeController::class, 'crew'])->name('account.change-to.crew')->middleware('role:Producer');
+    Route::get('change/producer', [AccountChangeController::class, 'producer'])->name('account.change-to.producer')->middleware('role:Crew');
 
     Route::get('/account/close', [AccountCloseController::class, 'index'])->name('account.close');
     Route::put('/account/close', [AccountCloseController::class, 'destroy']);
@@ -122,6 +115,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/account/manager/{manager}/resend-confirmation', [ManagerConfirmationController::class, 'resend'])->name('manager.resend-confirmation');
 
     Route::get('/messages', [MessageDashboardController::class, 'index'])->name('messages');
+
     Route::put('/pending-flag-messages/{pendingFlagMessage}', [PendingFlagMessageController::class, 'update'])->name('pending-flag-messages.update');
     Route::post('/pending-flag-messages', [PendingFlagMessageController::class, 'store'])->name('pending-flag-messages.store');
 
