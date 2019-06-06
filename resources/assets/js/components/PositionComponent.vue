@@ -134,6 +134,13 @@
                     </div>
                 </div>
             </div>
+            <ul>
+                <li v-for="message in messages" :key="message.id">
+                    <p class="text-sm text-red mt-4">
+                        {{ message }}
+                    </p>
+                </li>
+            </ul>
             <div class="pt-8 pb-4 text-right border-t-2 border-grey-lighter">
                 <button class="text-grey bold mr-4 hover:text-green focus:outline-none" @click="onClickLeavePosition()">Leave position</button>
                 <button class="btn-green focus:outline-none" @click="onClickSave">SAVE CHANGES</button>
@@ -159,6 +166,7 @@ export default {
     },
     data() {
         return {
+            messages       : null,
             has_gear      : false,
             selected      : false,
             filled        : false,
@@ -240,7 +248,25 @@ export default {
                             'Success', 
                             'You have successfully updated ' + this.position.name + ' position'
                         );
+                        this.messages = null;
                     }
+                })
+                .catch((error) => {
+                    var arr = [].concat.apply([], [
+                        error.response.data.errors.bio,
+                        error.response.data.errors.union_description,
+                        error.response.data.errors.resume,
+                        error.response.data.errors.reel_link,
+                        error.response.data.errors.gear_photos,
+                        error.response.data.errors.reel_file,
+                        error.response.data.errors.gear,
+                    ]);
+
+                    this.messages = arr.filter(function (e) {
+                        if (e) {
+                            return e;
+                        }
+                    });
                 });
             } else {
                 axios
@@ -253,7 +279,25 @@ export default {
                             'Success', 
                             'You have successfully applied to ' + this.position.name + ' position'
                         );
+                        this.messages = null;
                     }
+                })
+                .catch((error) => {
+                    var arr = [].concat.apply([], [
+                        error.response.data.errors.bio,
+                        error.response.data.errors.union_description,
+                        error.response.data.errors.resume,
+                        error.response.data.errors.reel_link,
+                        error.response.data.errors.gear_photos,
+                        error.response.data.errors.reel_file,
+                        error.response.data.errors.gear,
+                    ]);
+
+                    this.messages = arr.filter(function (e) {
+                        if (e) {
+                            return e;
+                        }
+                    });
                 });
             }
         },

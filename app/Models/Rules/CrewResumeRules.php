@@ -16,10 +16,9 @@ class CrewResumeRules
         }
 
         if (isset($crew_resume)) {
-            if ($resume !== null) {
+            if ($resume !== "null") {
                 return [
                     'nullable',
-                    'file',
                     'mimes:pdf,doc,docx'
                 ];
             } else {
@@ -28,7 +27,6 @@ class CrewResumeRules
         } else {
             return [
                 'required',
-                'file',
                 'mimes:pdf,doc,docx'
             ];
         }
