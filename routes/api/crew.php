@@ -1,9 +1,9 @@
 <?php
 
-use App\Http\Controllers\API\Crew\PositionController;
 use App\Http\Controllers\API\DepartmentController;
 use App\Http\Controllers\API\SubmissionController;
 use App\Http\Controllers\API\ThreadController;
+use App\Http\Controllers\API\Crew\ProjectJobController;
 use App\Http\Controllers\Crew\CrewPositionController;
 use App\Http\Controllers\Crew\CrewProjectController;
 use App\Http\Controllers\Crew\Endorsements\EndorsementEndorsedController;
@@ -31,8 +31,14 @@ Route::get('/departments', [
     'index',
 ])->name('crew.departments.index');
 
-Route::get('/ignored/jobs', [PositionController::class, 'ignored_jobs'])
+Route::get('/ignored/jobs', [ProjectJobController::class, 'ignored'])
     ->name('crew.ignored.jobs');
+
+Route::post('/ignore/jobs/{job}', [ProjectJobController::class, 'ignore'])
+    ->name('crew.ignore.jobs');
+
+Route::post('/unignore/jobs/{job}', [ProjectJobController::class, 'unignore'])
+    ->name('crew.unignore.jobs');
 
 Route::get('/positions', [
     PositionController::class,

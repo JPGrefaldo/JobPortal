@@ -185,4 +185,18 @@ export const actions = {
                 context.commit(types.CREW_POSITION_LIST, response.data);
             });
     },
+
+    ignoreJob(context, jobId) {
+        axios.post(`/api/crew/ignore/jobs/${jobId}`)
+             .then(() => {
+                 window.location.reload();
+             })
+    },
+
+    unignoreJob(context, jobId) {
+        axios.post(`/api/crew/unignore/jobs/${jobId}`)
+             .then(() => {
+                 window.location.reload();
+             })
+    }
 };
