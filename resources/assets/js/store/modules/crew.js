@@ -9,6 +9,7 @@ export const state = {
     selectedPosition: '',
     site: {},
     sites: [],
+    submissions: [],
     existingCrewPositions: [],
     crewPositionInfo: [],
     crewPositionList: [],
@@ -45,6 +46,10 @@ export const getters = {
 
     sites(state) {
         return state.sites;
+    },
+
+    submissions(state) {
+        return state.submissions;
     },
 
     existingCrewPositions(state) {
@@ -93,6 +98,10 @@ export const mutations = {
         state.sites = payload;
     },
 
+    [types.SUBMISSIONS](state, payload) {
+        state.submissions = payload;
+    },
+
     [types.EXISTING_CREW_POSITIONS](state, payload) {
         state.existingCrewPositions = payload;
     },
@@ -126,10 +135,17 @@ export const actions = {
     },
 
     fetchIgnoredJobs(context) {
-        axios.get('/api/crew/ignored/jobs')
+        axios.get('/api/crew/jobs/ignored')
              .then(response => {
                  context.commit(types.IGNORED_JOBS, response.data.jobs);
-             })
+             });
+    },
+
+    fetchSubmissions(context) {
+        axios.get('/api/crew/jobs/submissions')
+             .then(response => {
+                 context.commit(types.SUBMISSIONS, response.data.jobs);
+             });
     },
 
     checkExistingCrewPosition(context) {
@@ -187,16 +203,16 @@ export const actions = {
     },
 
     ignoreJob(context, jobId) {
-        axios.post(`/api/crew/ignore/jobs/${jobId}`)
+        axios.post(`/api/crew/jobs/${jobId}/ignore`)
              .then(() => {
                  window.location.reload();
-             })
+             });
     },
 
     unignoreJob(context, jobId) {
-        axios.post(`/api/crew/unignore/jobs/${jobId}`)
+        axios.post(`/api/crew/jobs/${jobId}/unignore`)
              .then(() => {
                  window.location.reload();
-             })
+             });
     }
 };

@@ -21,9 +21,10 @@ Route::delete('/endorsement/positions/request/{endorsementRequest}', [Endorsemen
 
 Route::get('/departments', [DepartmentController::class, 'index',])->name('crew.departments.index');
 
-Route::get('/ignored/jobs', [ProjectJobController::class, 'ignored'])->name('crew.ignored.jobs');
-Route::post('/ignore/jobs/{job}', [ProjectJobController::class, 'ignore'])->name('crew.ignore.jobs');
-Route::post('/unignore/jobs/{job}', [ProjectJobController::class, 'unignore'])->name('crew.unignore.jobs');
+Route::get('/jobs/ignored', [ProjectJobController::class, 'ignored'])->name('crew.ignored.jobs');
+Route::get('/jobs/submissions', [ProjectJobController::class, 'submissions'])->name('crew.submissions');
+Route::post('/jobs/{job}/ignore', [ProjectJobController::class, 'ignore'])->name('crew.ignore.jobs');
+Route::post('/jobs/{job}/unignore', [ProjectJobController::class, 'unignore'])->name('crew.unignore.jobs');
 
 Route::get('/positions', [PositionController::class, 'index',])->name('crew.positions.index');
 
