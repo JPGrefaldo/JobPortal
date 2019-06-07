@@ -4,6 +4,7 @@ namespace App\Actions\Crew;
 
 use App\Models\Crew;
 use App\Models\ProjectJob;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 
 class FetchJobByPosition
@@ -16,29 +17,50 @@ class FetchJobByPosition
      */
     public function execute(Crew $crew, $jobType)
     {
-        if ($jobType === 'open')    return $this->fetch_open_jobs($crew);
-        if ($jobType === 'ignored') return $this->fetch_ignored_jobs($crew);
+        if ($jobType === 'open') {
+            return $this->fetchOpenJobs($crew);
+        }
+        if ($jobType === 'ignored') {
+            return $this->fetchIgnoredJobs($crew);
+        }
+        if ($jobType === 'submission') {
+            return $this->fetchSubmissions($crew);
+        }
     }
 
-
-    public function fetch_open_jobs($crew)
+    public function fetchIgnoredJobs($crew)
     {
         return ProjectJob::whereIn('position_id', $this->getPositionIds($crew))
-                        ->whereDoesntHave('crew_ignored_jobs')
-                        ->whereDoesntHave('submissions')
-                        ->with('pay_type', 'position', 'project')
-                        ->withCount('submissions')
-                        ->get();
+            ->whereHas('crew_ignored_jobs')
+            ->with('pay_type', 'position', 'project')
+            ->withCount('submissions')
+            ->get();
     }
 
-    public function fetch_ignored_jobs($crew)
+
+    public function fetchOpenJobs($crew)
     {
         return ProjectJob::whereIn('position_id', $this->getPositionIds($crew))
-                        ->whereHas('crew_ignored_jobs')
-                        ->with('pay_type', 'position', 'project')
-                        ->withCount('submissions')
-                        ->get();
+            ->whereDoesntHave('crew_ignored_jobs')
+            ->whereDoesntHave('submissions')
+            ->with('pay_type', 'position', 'project')
+            ->withCount('submissions')
+            ->get();
     }
+
+    public function fetchSubmissions($crew)
+    {
+        $date = Carbon::now()->subDays(90)->toDateTimeString();
+
+        return ProjectJob::whereIn('position_id', $this->getPositionIds($crew))
+            ->whereHas('submissions', function ($q) use ($date) {
+                $q->where('created_at', '>=', $date);
+            })
+            ->with('pay_type', 'position', 'project')
+            ->withCount('submissions')
+            ->get();
+    }
+    
 
     /**
      * Get crew's position IDs
@@ -46,7 +68,7 @@ class FetchJobByPosition
      * @param Crew $crew
      * @return Array
      */
-    private function getPositionIds(Crew $crew): Array
+    private function getPositionIds(Crew $crew): array
     {
         $posIds = [];
         foreach ($crew->positions as $position) {
