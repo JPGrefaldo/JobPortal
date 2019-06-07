@@ -228,4 +228,9 @@ class Crew extends Model
     {
         return $this->hasMany(CrewIgnoredJob::class);
     }
+
+    public function unignoreJob($job)
+    {
+        return $this->ignoredJobs()->where('project_job_id',$job->id)->delete();
+    }
 }
