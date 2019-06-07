@@ -23,6 +23,7 @@ Route::put('/crew/positions/{position}', [CrewPositionController::class, 'update
 Route::delete('/crew/positions/{position}', [CrewPositionController::class, 'destroy'])->name('crew-position.delete');
 
 Route::delete('/crew/positions/{position}/gear', [CrewPositionGearController::class, 'destroy'])->name('crew-position.delete-gear');
+Route::delete('/crew/positions/{position}/gear-photo', [CrewPositionGearController::class, 'removePhoto'])->name('crew-position.delete-gear-photo');
 
 Route::delete('/crew/positions/{position}/reel', [CrewPositionReelController::class, 'destroy'])->name('crew-position.delete-reel');
 

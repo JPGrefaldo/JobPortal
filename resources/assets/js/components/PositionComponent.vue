@@ -126,7 +126,7 @@
                             <label :for="'gear_photos' + position.id"
                             class="btn-outline text-white inline-block cursor-pointer bg-green md:mb-4">{{form.gear_photos ? "change" : "upload"}} file</label>
                             <input type="file" :id="'gear_photos' + position.id" @change="selectFile" name="gear_photos" class="hidden" />
-                            <button v-if="form.gear_photos" @click="removeGearPhotos(position.id)" class="btn-outline text-green inline-block cursor-pointer">Remove</button>
+                            <button v-if="gear_photo" @click="removeGearPhotos(position.id)" class="btn-outline text-green inline-block cursor-pointer">Remove</button>
                             <p class="text-sm text-grey" v-if="gear_photo">
                                 {{ basename(gear_photo) }}
                             </p>
@@ -181,6 +181,17 @@ export default {
 
     mixins: [alert],
 
+    watch: {
+        has_gear: function () {
+            if (!this.has_gear) {
+                this.deleteConfirmation(
+                    "Remove gear description <br/> You won't be able to revert this!",
+                    `/crew/positions/${this.position.id}/gear`,
+                    'Gear is successfully removed',
+                );
+            }
+        }
+    },
     computed: {
         ...mapGetters({
             crewPositionList: 'crew/crewPositionList',
@@ -189,6 +200,32 @@ export default {
     },
 
     methods: {
+        deleteConfirmation: function(message, endpoint, success_message) {
+            this.$swal({
+                    title: 'Are you sure?',
+                    html:
+                        message,
+                    type: 'warning',
+                    showCancelButton: true,
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonColor: '#d33',
+                    confirmButtonText: 'Yes, remove gear',
+                })
+                .then (result => {
+                    if (result.value) {
+                        axios
+                            .delete(endpoint)
+                            .then (response => {
+                                this.displayCustomMessage(
+                                    'Success',
+                                    success_message,
+                                );
+                            });
+                    } else {
+                        this.has_gear = true;
+                    }
+                });
+        },
         toggleSelect: function() {
             this.selected = !this.selected;
             return false;
@@ -397,7 +434,7 @@ export default {
 
         removeGearPhotos: function(positionId) {
             axios
-                .delete(`/crew/positions/${positionId}/gear`)
+                .delete(`/crew/positions/${positionId}/gear-photo`)
                 .then(response => {
                     if(response.data.message == 'success') {
                         this.getPositionData();
