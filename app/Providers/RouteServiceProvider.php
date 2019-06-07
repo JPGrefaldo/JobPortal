@@ -74,12 +74,16 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapWebRoutes()
     {
-        Route::middleware('web')->group(base_path('routes/web/index.php'));
-
         Route::middleware('web')->group(function () {
-            Route::middleware('role:Admin')->group(base_path('routes/web/admin.php'));
-            Route::middleware('role:Crew')->group(base_path('routes/web/crew.php'));
-            Route::middleware('role:Producer')->group(base_path('routes/web/producer.php'));
+            require base_path('routes/web/public.php');
+
+            Route::middleware('auth')->group(function () {
+                require base_path('routes/web/index.php');
+
+                Route::middleware('role:Admin')->group(base_path('routes/web/admin.php'));
+                Route::middleware('role:Crew')->group(base_path('routes/web/crew.php'));
+                Route::middleware('role:Producer')->group(base_path('routes/web/producer.php'));
+            });
         });
     }
 }
