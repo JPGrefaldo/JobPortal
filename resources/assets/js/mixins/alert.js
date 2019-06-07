@@ -8,11 +8,11 @@ export default {
             });
         },
 
-        displayError: function(message) {
+        displayError: function(messages) {
             var err_message = '';
 
-            if (typeof message == "object") {
-                message.forEach(item => {
+            if (typeof messages == "object") {
+                messages.forEach(item => {
                     err_message = item + ' ' + err_message;
                 });
 
@@ -24,7 +24,7 @@ export default {
             } else {
                 this.$swal({
                     title: '',
-                    text: message,
+                    text: messages,
                     type: 'error',
                 });
             }
