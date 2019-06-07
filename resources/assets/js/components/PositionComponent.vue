@@ -348,6 +348,9 @@ export default {
                 .then(response => {
                     this.filled = true
                     this.fillData(response.data)
+
+                    console.log(response.data.position.has_gear)
+
                     if (response.data.gear != null) {
                         this.has_gear = true;
                     }
