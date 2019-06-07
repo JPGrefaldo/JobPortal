@@ -8,6 +8,7 @@ use App\Models\Position;
 use App\Models\Project;
 use App\Models\ProjectJob;
 use App\Models\Submission;
+use App\Models\UserSite;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
@@ -133,6 +134,30 @@ class ProjectJobControllerTest extends TestCase
      * @test
      * @covers App\Http\Controllers\API\Crew/ProjectJobController::ignored
      */
+    public function should_return_ignored_jobs_with_site()
+    {
+        $crew   = $this->createCrew();
+        UserSite::create([
+            'user_id'   => $crew->id,
+            'site_id'   => 1
+        ]);
+        $this->seedIgnoredJob($crew);
+
+        $response = $this->actingAs($crew, 'api')
+            ->get(route('crew.ignored.jobs'))
+            ->assertSee('Successfully fetched crew\'s ignored jobs')
+            ->assertSuccessful();
+
+        $this->assertEquals(
+            $crew->sites[0]->id,
+            $response->getData()->jobs[0]->project->site_id
+        );
+    }
+
+    /**
+     * @test
+     * @covers App\Http\Controllers\API\Crew/ProjectJobController::ignored
+     */
     public function should_only_return_ignored_jobs()
     {
         $crew           = $this->createCrew();
@@ -170,7 +195,7 @@ class ProjectJobControllerTest extends TestCase
     * @test
     * @covers App\Http\Controllers\API\Crew/ProjectJobController::ignored
     */
-    public function should_only_return_ignored_jobs_matched_to_crew_position()
+    public function should_not_return_jobs_that_are_not_matched_to_crew_position()
     {
         $crew       = $this->createCrew();
         $position   = factory(Position::class)->create([
@@ -215,7 +240,7 @@ class ProjectJobControllerTest extends TestCase
 
     private function seedOpenJob($crew)
     {
-        $project    = factory(Project::class)->create();
+        $project    = $this->createProject();
         $position   = $this->createCrewPosition($crew->id);
         $job        = $this->createProjectJob($project, $position);
 
@@ -224,7 +249,7 @@ class ProjectJobControllerTest extends TestCase
 
     private function seedIgnoredJob($crew)
     {
-        $project    = factory(Project::class)->create();
+        $project    = $this->createProject();
         $position   = $this->createCrewPosition($crew->id);
         $job        = $this->createProjectJob($project, $position);
 
@@ -240,7 +265,7 @@ class ProjectJobControllerTest extends TestCase
 
     private function seedNewSubmission($crew)
     {
-        $project    = factory(Project::class)->create();
+        $project    = $this->createProject();
         $position   = $this->createCrewPosition($crew->id);
         $job        = $this->createProjectJob($project, $position);
 
@@ -288,6 +313,13 @@ class ProjectJobControllerTest extends TestCase
         );
 
         return $position;
+    }
+
+    private function createProject()
+    {
+        return factory(Project::class)->create([
+            'site_id' => 1
+        ]);
     }
 
     private function createProjectJob($project, $position)

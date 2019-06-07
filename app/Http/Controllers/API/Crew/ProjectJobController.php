@@ -25,9 +25,7 @@ class ProjectJobController extends Controller
     public function unignore(ProjectJob $job)
     {
         $crew = auth()->user()->crew;
-        $crew->ignoredJobs()
-            ->where('project_job_id',$job->id)
-            ->delete();
+        $crew->unignoreJob($job);
 
         return response()->json([
             'message' => 'Successfully unignored the job'

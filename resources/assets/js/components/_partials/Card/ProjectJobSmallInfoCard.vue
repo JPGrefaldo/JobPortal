@@ -5,7 +5,9 @@
                 <div class="mt-4 bg-white rounded p-8 shadow">
                     <h3 class="text-blue-dark font-semibold text-md mb-1 font-header"> 
                         {{ job.position.name }}
+                        <br>
                         <span class="badge"><strong>{{ job.persons_needed }}</strong> needed</span>
+                        <span class="badge"><i class="fa fa-globe"></i> {{ locality(job.project) }}</span>
                     </h3>
                     <small class="font-bold font-header text-blue-darker block">
                         {{ job.project.title }}
