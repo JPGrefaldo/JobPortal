@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Actions\Crew;
 
+use App\Actions\Crew\DeleteCrewPositionGearPhoto;
 use App\Actions\Crew\StoreCrewPosition;
 use App\Models\Crew;
 use App\Models\CrewPosition;
@@ -11,7 +12,6 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
-use App\Actions\Crew\DeleteCrewPositionGearPhoto;
 
 class DeleteCrewPositionGearPhotoTest extends TestCase
 {
@@ -32,12 +32,14 @@ class DeleteCrewPositionGearPhotoTest extends TestCase
         ]);
         $position = factory(Position::class)->create();
 
+        $gearPhoto = UploadedFile::fake()->create('gear.png');
+
         $data = [
             'position_id'       => $position->id,
             'resume'            => UploadedFile::fake()->create('resume.pdf'),
             'bio'               => 'This is the bio',
             'gear'              => 'This is the gear',
-            'gear_photos'       => UploadedFile::fake()->create('gear.png'),
+            'gear_photos'       => $gearPhoto,
             'union_description' => 'Some union description',
             'reel_link'         => 'https://www.youtube.com/embed/G8S81CEBdNs',
         ];
@@ -49,6 +51,7 @@ class DeleteCrewPositionGearPhotoTest extends TestCase
         // Then we delete the entry we just created
         app(DeleteCrewPositionGearPhoto::class)->execute($crew, $position);
 
+        Storage::drive('s3')->assertMissing($gearPhoto);
         // Then assert crew_gear path empty
         $this->assertDatabaseHas('crew_gears', [
             'crew_id'          => $crew->id,
