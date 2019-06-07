@@ -8,10 +8,10 @@ use App\Models\Position;
 use App\Models\Project;
 use App\Models\ProjectJob;
 use App\Models\Submission;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
-use Carbon\Carbon;
 
 class ProjectJobControllerTest extends TestCase
 {
@@ -97,14 +97,14 @@ class ProjectJobControllerTest extends TestCase
             ]
         );
     }
-    
+
     /**
      * @test
      * @covers App\Http\Controllers\API\Crew/ProjectJobController::submissions
      */
     public function should_only_fetch_submissions_that_are_less_than_90_days()
     {
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
 
         $crew           = $this->createCrew();
         $newSubmission  = $this->seedNewSubmission($crew);
@@ -148,7 +148,7 @@ class ProjectJobControllerTest extends TestCase
             ->assertSee('Successfully fetched crew\'s ignored jobs')
             ->assertSuccessful();
 
-        
+
         $response->assertJson(
             [
                 'jobs' => [$jobIgnored->toArray()]
@@ -166,10 +166,10 @@ class ProjectJobControllerTest extends TestCase
         );
     }
 
-     /**
-     * @test
-     * @covers App\Http\Controllers\API\Crew/ProjectJobController::ignored
-     */
+    /**
+    * @test
+    * @covers App\Http\Controllers\API\Crew/ProjectJobController::ignored
+    */
     public function should_only_return_ignored_jobs_matched_to_crew_position()
     {
         $crew       = $this->createCrew();
@@ -199,8 +199,8 @@ class ProjectJobControllerTest extends TestCase
             ->get(route('crew.ignored.jobs'))
             ->assertSee('Successfully fetched crew\'s ignored jobs')
             ->assertSuccessful();
-        
-        
+
+
         $response->assertJson(
             [
                 'jobs' => [$jobIgnored->toArray()]
@@ -227,7 +227,7 @@ class ProjectJobControllerTest extends TestCase
         $project    = factory(Project::class)->create();
         $position   = $this->createCrewPosition($crew->id);
         $job        = $this->createProjectJob($project, $position);
-        
+
         factory(CrewIgnoredJob::class)->create(
             [
                 'crew_id'        => $crew->id,
