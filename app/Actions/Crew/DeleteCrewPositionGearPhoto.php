@@ -7,7 +7,7 @@ use App\Models\CrewPosition;
 use App\Models\Position;
 use Illuminate\Support\Facades\Storage;
 
-class DeleteCrewPositionGear
+class DeleteCrewPositionGearPhoto
 {
     /**
      * @param Crew $crew
@@ -25,7 +25,9 @@ class DeleteCrewPositionGear
 
         Storage::disk('s3')->delete($crewGear->path);
 
-        $crewGear->delete();
+        $crewGear->update([
+            'path' => null,
+        ]);
 
         return true;
     }

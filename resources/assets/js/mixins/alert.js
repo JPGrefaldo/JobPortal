@@ -48,6 +48,6 @@ export default {
                 text: message,
                 type: 'success',
             })
-        }
+        },
     },
 };
