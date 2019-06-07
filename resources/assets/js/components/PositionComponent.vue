@@ -159,7 +159,7 @@ export default {
     },
     data() {
         return {
-            messages       : null,
+            error_messages       : null,
             has_gear      : false,
             selected      : false,
             filled        : false,
@@ -241,7 +241,7 @@ export default {
                             'Success', 
                             'You have successfully updated ' + this.position.name + ' position'
                         );
-                        this.messages = null;
+                        this.error_messages = null;
                     }
                 })
                 .catch((error) => {
@@ -255,13 +255,13 @@ export default {
                         error.response.data.errors.gear,
                     ]);
 
-                    this.messages = arr.filter(function (e) {
+                    this.error_messages = arr.filter(function (e) {
                         if (e) {
                             return e;
                         }
                     });
 
-                    this.displayError(this.messages);
+                    this.displayError(this.error_messages);
                 });
             } else {
                 axios
@@ -274,7 +274,7 @@ export default {
                             'Success', 
                             'You have successfully applied to ' + this.position.name + ' position'
                         );
-                        this.messages = null;
+                        this.error_messages = null;
                     }
                 })
                 .catch((error) => {
@@ -288,13 +288,13 @@ export default {
                         error.response.data.errors.gear,
                     ]);
 
-                    this.messages = arr.filter(function (e) {
+                    this.error_messages = arr.filter(function (e) {
                         if (e) {
                             return e;
                         }
                     });
 
-                    this.displayError(this.messages);
+                    this.displayError(this.error_messages);
                 });
             }
         },
