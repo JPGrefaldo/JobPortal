@@ -16,7 +16,10 @@
                 <h1 v-else>No open jobs available yet.</h1>
 
             </tab>
-            <tab :key="2" :name="'Applied'"><h1>Applied</h1></tab>
+            <tab :key="2" :name="'Applied'">
+                <project-job-card v-if="submissions" :jobs="submissions"></project-job-card>
+                <h1 v-else>You haven't applied for a job yet.</h1>
+            </tab>
             <tab :key="3" :name="'Ignored'">
                 <project-job-card v-if="ignoredJobs" :jobs="ignoredJobs">
                     <template v-slot:job="{ job }">
@@ -54,6 +57,7 @@
 
         created: function() {
             this.$store.dispatch('crew/fetchIgnoredJobs');
+            this.$store.dispatch('crew/fetchSubmissions');
         },
 
         components: {
@@ -64,7 +68,8 @@
 
         computed: {
             ...mapGetters({
-                ignoredJobs: 'crew/ignoredJobs'
+                ignoredJobs: 'crew/ignoredJobs',
+                submissions: 'crew/submissions'
             })
         },
 
