@@ -122,9 +122,17 @@ class FakeCrewPositionAndJobs extends Command
 
     private function createProject($count)
     {
-        return factory(Project::class, $count)->create([
-            'site_id' => 1
+        $user = User::role(Role::CREW)->with('sites')->first();
+
+        $local = factory(Project::class, ceil($count / 2))->create([
+            'site_id' => (int)$user->sites[0]->id
         ]);
+
+        $nonLocal = factory(Project::class, ceil($count / 2))->create([
+            'site_id' => 2
+        ]);
+
+        return $local->merge($nonLocal);
     }
 
     private function createJob($params, $note)
