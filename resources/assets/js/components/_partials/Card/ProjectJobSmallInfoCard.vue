@@ -1,8 +1,8 @@
 <template>
-    <div class="px-2">
+    <div class="xl:px-2">
         <div class="flex flex-wrap -mx-2">
-             <div class="w-1/2 px-2" v-for="job in jobs" :key="job.id">
-                <div class="mt-4 bg-white rounded p-8 shadow">
+             <div class="w-full md:w-1/2 md:px-2" v-for="job in jobs" :key="job.id">
+                <div class="my-4 bg-white rounded p-4 md:p-8 shadow">
                     <h3 class="text-blue-dark font-semibold text-md mb-1 font-header"> 
                         {{ job.position.name }}
                         <span class="badge"><strong>{{ job.persons_needed }}</strong> needed</span>
@@ -17,7 +17,7 @@
                     <div class="badge mt-3 text-black w-full">
 
                             <div class="md:flex py-2">
-                            <div class="md:w-1/3 pr-24">
+                            <div class="md:w-1/3 pr-5">
                                 <span class="font-bold font-header text-blue-darkr block md:text-right">
                                     Rush Call
                                 </span>
@@ -28,7 +28,7 @@
                         </div>
 
                         <div class="md:flex py-2">
-                            <div class="md:w-1/3 pr-24">
+                            <div class="md:w-1/3 pr-5">
                                 <span class="font-bold font-header text-blue-darkr block md:text-right mb-2">
                                     PAY
                                 </span>
@@ -39,7 +39,7 @@
                         </div>
 
                         <div class="md:flex py-2">
-                            <div class="md:w-1/3 pr-24">
+                            <div class="md:w-1/3 pr-5">
                                 <span class="font-bold font-header text-blue-darkr block md:text-right mb-2">
                                     UNION
                                 </span>
@@ -50,7 +50,7 @@
                         </div>
 
                         <div class="md:flex py-2">
-                            <div class="md:w-1/3 pr-24">
+                            <div class="md:w-1/3 pr-5">
                                 <span class="font-bold font-header text-blue-darkr block md:text-right mb-2">
                                     Gear Provided
                                 </span>
@@ -61,7 +61,7 @@
                         </div>
 
                         <div class="md:flex py-2">
-                            <div class="md:w-1/3 pr-24">
+                            <div class="md:w-1/3 pr-5">
                                 <span class="font-bold font-header text-blue-darkr block md:text-right mb-2">
                                     Gear Needed
                                 </span>
