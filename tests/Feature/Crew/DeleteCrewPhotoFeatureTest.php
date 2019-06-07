@@ -2,9 +2,7 @@
 
 namespace Tests\Feature\Crew;
 
-use App\Models\Crew;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Tests\Support\SeedDatabaseAfterRefresh;
 use Tests\TestCase;
@@ -30,9 +28,8 @@ class DeleteCrewPhotoFeatureTest extends TestCase
     public function destroy()
     {
         // when
-       $this->actingAs($this->user)
+        $this->actingAs($this->user)
             ->delete(route('crew.photo.destroy', $this->user->id))
             ->assertSuccessful();
-
     }
 }

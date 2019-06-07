@@ -44,4 +44,16 @@ class ProjectJobController extends Controller
             ], Response::HTTP_OK
         );
     }
+
+    public function submissions()
+    {
+        $crew = auth()->user()->crew;
+        $jobs = app(FetchJobByPosition::class)->execute($crew, 'submission');
+
+        return response()->json([
+            'message'   => 'Successfully fetched crew\'s submissions',
+            'jobs'      => $jobs
+        ], Response::HTTP_OK
+    );
+    }
 }
