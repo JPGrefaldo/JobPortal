@@ -1,9 +1,5 @@
 export default {
     methods: {
-        pay: function(payRate, payType) {
-            return payRate == 0 || typeof(payRate) == 'undefined' ?  payType : `$${payRate}/${payType}`
-        },
-
         dateForDatabase: function(date) {
             return date.toISOString().slice(0, 10);
         },
@@ -14,6 +10,15 @@ export default {
 
         booleanForHumans: function(data) {
             return data ? 'YES' : 'NO'
+        },
+
+        locality: function(project){
+            let user = JSON.parse(localStorage.getItem('user'))
+            return user.sites[0].id === project.site_id ? 'LOCAL' : 'NON-LOCAL'
+        },
+
+        pay: function(payRate, payType) {
+            return payRate == 0 || typeof(payRate) == 'undefined' ?  payType : `$${payRate}/${payType}`
         },
 
         showDates(date) {
