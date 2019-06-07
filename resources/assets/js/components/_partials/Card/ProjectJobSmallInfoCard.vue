@@ -1,7 +1,7 @@
 <template>
     <div class="px-2">
         <div class="flex flex-wrap -mx-2">
-             <div class="w-1/4 px-2" v-for="job in jobs" :key="job.id">
+             <div class="w-1/2 px-2" v-for="job in jobs" :key="job.id">
                 <div class="mt-4 bg-white rounded p-8 shadow">
                     <h3 class="text-blue-dark font-semibold text-md mb-1 font-header"> 
                         {{ job.position.name }}
@@ -14,7 +14,7 @@
                         {{ job.project.location }}
                     </small>
 
-                    <div class="badge mt-3 text-black">
+                    <div class="badge mt-3 text-black w-full">
 
                             <div class="md:flex py-2">
                             <div class="md:w-1/3 pr-24">

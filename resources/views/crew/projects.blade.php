@@ -1,5 +1,6 @@
-@extends('layouts.default_layout')
+@extends('layouts.page-2-col')
 
-@section('content')
-    <cca-crew-projects class=" ml-6 mr-6" :jobs="{{$jobs}}"></cca-crew-projects>
+@section('page-content')
+    @include('_parts.pages.page-title', ['pageTitle' => 'Jobs'])
+    <cca-crew-projects class="container" :jobs="{{$jobs}}"></cca-crew-projects>
 @endsection
