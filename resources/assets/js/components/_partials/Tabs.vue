@@ -1,7 +1,7 @@
 <template>
     <div>
-        <nav class="bg-white px-8 pt-2 shadow-md">
-            <div class="-mb-px flex">
+        <nav class="bg-white px-8 pt-2 shadow-md flex flex-wrap">
+            <div class="-mb-px flex m-auto md:m-0">
                 <a
                     v-for="tab in tabs"
                     :key="tab.name"
@@ -15,6 +15,7 @@
                     >{{ tab.name }}</a
                 >
             </div>
+            <button class="btn btn-green mb-2 py-3 m-auto md:ml-auto md:mr-0">Subscribe</button>
         </nav>
 
         <div class="tabs-details">

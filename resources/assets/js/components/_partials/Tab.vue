@@ -1,5 +1,5 @@
 <template>
-    <div v-show="isActive" class="p-8 bg-grey-light">
+    <div v-show="isActive" class="xl:p-8 bg-grey-light">
         <slot></slot>
     </div>
 </template>

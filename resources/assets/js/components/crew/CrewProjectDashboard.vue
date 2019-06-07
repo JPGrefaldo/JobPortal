@@ -1,6 +1,5 @@
 <template>
     <div>
-        <button class="btn btn-green float-right mt-2 py-3">Subscribe</button>
         <tabs>
             <tab :key="1" :name="'Open'" :active="'#open'">
                 <project-job-card v-if="jobs" :jobs="jobs">
