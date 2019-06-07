@@ -8,12 +8,26 @@ export default {
             });
         },
 
-        displayError: function(message) {
-            this.$swal({
-                title: '',
-                text: message,
-                type: 'error',
-            });
+        displayError: function(messages) {
+            var err_message = '';
+
+            if (typeof messages == "object") {
+                messages.forEach(item => {
+                    err_message = item + ' ' + err_message;
+                });
+
+                this.$swal({
+                    title: '',
+                    text: err_message,
+                    type: 'error',
+                });
+            } else {
+                this.$swal({
+                    title: '',
+                    text: messages,
+                    type: 'error',
+                });
+            }
         },
 
         displayDeleteNotification: function() {

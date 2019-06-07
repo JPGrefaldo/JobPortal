@@ -159,6 +159,7 @@ export default {
     },
     data() {
         return {
+            error_messages       : null,
             has_gear      : false,
             selected      : false,
             filled        : false,
@@ -240,7 +241,27 @@ export default {
                             'Success', 
                             'You have successfully updated ' + this.position.name + ' position'
                         );
+                        this.error_messages = null;
                     }
+                })
+                .catch((error) => {
+                    var arr = [].concat.apply([], [
+                        error.response.data.errors.bio,
+                        error.response.data.errors.union_description,
+                        error.response.data.errors.resume,
+                        error.response.data.errors.reel_link,
+                        error.response.data.errors.gear_photos,
+                        error.response.data.errors.reel_file,
+                        error.response.data.errors.gear,
+                    ]);
+
+                    this.error_messages = arr.filter(function (e) {
+                        if (e) {
+                            return e;
+                        }
+                    });
+
+                    this.displayError(this.error_messages);
                 });
             } else {
                 axios
@@ -253,7 +274,27 @@ export default {
                             'Success', 
                             'You have successfully applied to ' + this.position.name + ' position'
                         );
+                        this.error_messages = null;
                     }
+                })
+                .catch((error) => {
+                    var arr = [].concat.apply([], [
+                        error.response.data.errors.bio,
+                        error.response.data.errors.union_description,
+                        error.response.data.errors.resume,
+                        error.response.data.errors.reel_link,
+                        error.response.data.errors.gear_photos,
+                        error.response.data.errors.reel_file,
+                        error.response.data.errors.gear,
+                    ]);
+
+                    this.error_messages = arr.filter(function (e) {
+                        if (e) {
+                            return e;
+                        }
+                    });
+
+                    this.displayError(this.error_messages);
                 });
             }
         },
@@ -333,10 +374,6 @@ export default {
 
                         this.form.resume = null
                         this.resume = null
-                    } else {
-                        this.displayError(
-                            `You don't have a resume to delete.`
-                        )
                     }
             })
         },
@@ -354,10 +391,6 @@ export default {
 
                         this.form.reel_file = null
                         this.form.reel = ''
-                    } else {
-                        this.displayError(
-                            `You don't have reels to delete.`
-                        )
                     }
                 })
         },
@@ -371,10 +404,6 @@ export default {
                         this.displayCustomMessage(
                             'Successfully removed',
                             'You have successfully removed the gear photos'
-                        );
-                    } else {
-                        this.displayError(
-                            `You don't have gears to delete.`
                         );
                     }
 
