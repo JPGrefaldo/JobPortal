@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\User;
+namespace Tests\Feature\Web\User;
 
 use App\Models\UserNotificationSetting;
 use Illuminate\Foundation\Testing\RefreshDatabase;

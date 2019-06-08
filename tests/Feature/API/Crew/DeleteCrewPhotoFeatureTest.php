@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Crew;
+namespace Tests\Feature\Api\Crew;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
