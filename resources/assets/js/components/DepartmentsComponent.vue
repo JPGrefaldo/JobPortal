@@ -8,10 +8,14 @@
 
 <script>
 import WorkPositionComponent from './WorkPositionComponent';
+import { mapGetters } from 'vuex';
 export default {
     components: { WorkPositionComponent },
     props: {
         departments: Array,
     },
+    mounted() {
+        this.$store.dispatch('crew/checkPositionIfExist');
+    }
 };
 </script>

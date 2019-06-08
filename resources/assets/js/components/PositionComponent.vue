@@ -150,7 +150,7 @@ import InputErrors from './_partials/InputErrors';
 import objectToFormData from 'object-to-formdata';
 import { alert } from '../mixins';
 
-     window.objectToFormData = objectToFormData
+window.objectToFormData = objectToFormData
 
 export default {
     name: 'PositionComponent',
@@ -192,6 +192,11 @@ export default {
                     `/crew/positions/${this.position.id}/gear`,
                     'Gear is successfully removed',
                 );
+            }
+        },
+        crewPositionList: function () {
+            if (this.crewPositionList != null) {
+                this.checkPositionIfExist();
             }
         }
     },
@@ -467,10 +472,6 @@ export default {
 
             return str.substr(str.lastIndexOf('/') + 1);
         }
-    },
-    mounted() {
-        this.$store.dispatch('crew/checkPositionIfExist');
-        setTimeout(() => this.checkPositionIfExist(), 2000);
     }
 };
 </script>

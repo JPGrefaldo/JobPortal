@@ -21,6 +21,6 @@ export default {
     components: { PositionComponent },
     props: {
         department: Object,
-    },
+    }
 };
 </script>
