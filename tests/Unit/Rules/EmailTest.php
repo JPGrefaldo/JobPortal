@@ -23,24 +23,4 @@ class EmailTest extends TestCase
             ],
         ])->passes());
     }
-
-    /**
-     * @test
-     * @covers \App\Rules\Email::passes
-     */
-    public function invalid_email()
-    {
-        $result = $this->app['validator']->make([
-            'email' => 'test@blhadsfsdfglkasdkljklasjfglkjasdkflgakldfgjklaefjgl.com',
-        ], [
-            'email' => [
-                'required',
-                'string',
-                new Email(),
-            ],
-        ]);
-
-        $this->assertFalse($result->passes());
-        $this->assertEquals('The email must be a valid email address.', $result->errors()->first());
-    }
 }
