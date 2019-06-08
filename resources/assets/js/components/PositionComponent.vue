@@ -31,6 +31,7 @@
                             v-model="form.union_description"
                         />
                     </div>
+                    <span v-if="union_required && form.union_description == ''" class="text-xs text-red">Required*</span>
                 </div>
                 <div class="border-t-2 border-grey-lighter py-4">
                     <div class="md:flex">
@@ -89,6 +90,7 @@
                     <div class="md:flex">
                         <div class="md:w-1/3 pr-8">
                             <h3 class="text-md font-header mt-2 mb-2 md:mb-0">Gear</h3>
+                            <span v-if="gear_required && form.gear == ''" class="text-xs text-red">Required*</span>
                         </div>
                         <div class="md:w-2/3">
                             <div class="display">
@@ -106,7 +108,6 @@
                                     </span>
                                 </label>
                             </div>
-
                         </div>
                     </div>
                     <div class="md:flex" v-if="has_gear">
@@ -159,11 +160,13 @@ export default {
     },
     data() {
         return {
-            error_messages       : null,
+            error_messages: null,
             has_gear      : false,
             selected      : false,
             filled        : false,
             position_exist: false,
+            union_required: false,
+            gear_required : false,
             reel          : null,
             resume        : null,
             gear_photo    : null,
@@ -385,6 +388,15 @@ export default {
                 .then(response => {
                     this.filled = true
                     this.fillData(response.data)
+
+                    if (response.data.position.has_gear) {
+                        this.gear_required = true;
+                    }
+
+                    if (response.data.position.has_union) {
+                        this.union_required = true;
+                    }
+
                     if (response.data.gear != null) {
                         this.has_gear = true;
                     }

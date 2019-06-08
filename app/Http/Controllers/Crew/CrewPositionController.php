@@ -83,6 +83,7 @@ class CrewPositionController extends Controller
                 'resume',
                 'gear',
                 'reel',
+                'position',
             ])
             ->firstOrFail();
 
