@@ -173,7 +173,7 @@ class SignupFeatureTest extends TestCase
      */
     public function signup_producer_no_receive_sms()
     {
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
         Mail::fake();
 
         $data = $this->makeFakeUser([Role::PRODUCER]);
@@ -183,7 +183,7 @@ class SignupFeatureTest extends TestCase
         Hash::shouldReceive('make')
             ->once()
             ->andReturn('hashed_password');
-        
+
         $response = $this->post(route('signup'), $data);
 
         unset($data['password_confirmation']);
