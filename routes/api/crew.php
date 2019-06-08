@@ -1,9 +1,10 @@
 <?php
 
+use App\Http\Controllers\API\Crew\PositionController;
+use App\Http\Controllers\API\Crew\ProjectJobController;
 use App\Http\Controllers\API\DepartmentController;
 use App\Http\Controllers\API\SubmissionController;
 use App\Http\Controllers\API\ThreadController;
-use App\Http\Controllers\API\Crew\ProjectJobController;
 use App\Http\Controllers\Crew\CrewPositionController;
 use App\Http\Controllers\Crew\CrewProjectController;
 use App\Http\Controllers\Crew\Endorsements\EndorsementEndorsedController;
@@ -34,4 +35,3 @@ Route::get('/projects/{project}/threads', [ThreadController::class, 'index',])->
 
 Route::post('/submission/{job}', [SubmissionController::class, 'store',])->name('crew.submissions.store');
 Route::get('/submission/{job}/check', [SubmissionController::class, 'check',])->name('crew.submission.check');
-
